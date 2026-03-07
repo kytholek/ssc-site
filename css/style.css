@@ -239,9 +239,16 @@ nav {
 
 /* Frequency grid */
 .freq-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px; margin-top: 48px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 20px; margin-top: 48px; margin-bottom: 64px;
 }
+.freq-card:nth-child(1) { grid-column: 1; } /* Theme */
+.freq-card:nth-child(2) { grid-column: 2 / 4; } /* Life Path */
+.freq-card:nth-child(3) { grid-column: 4; } /* Achievement */
+.freq-card:nth-child(4) { grid-column: 2 / 4; grid-row: 3; } /* Expression */
+.freq-card:nth-child(5) { grid-column: 1; grid-row: 3; } /* Soul */
+.freq-card:nth-child(6) { grid-column: 4; grid-row: 3; } /* Outer */
+.freq-card:nth-child(7) { grid-column: 1 / -1; grid-row: 2; } /* Life Calling */
 .freq-card {
   background: var(--deep); border: 1px solid var(--border-dim);
   border-radius: 8px; padding: 28px 24px;
@@ -759,6 +766,373 @@ footer {
   .btn-primary, .btn-secondary { text-align: center; }
 }
 
+
+
+/* ══════════════════════════════════════════════════════════
+   THE SYSTEM — Blog Post
+══════════════════════════════════════════════════════════ */
+
+/* Featured card special styling */
+.blog-card-banner-system {
+  background: linear-gradient(135deg, #05040a 0%, #0d0a1a 50%, #050810 100%);
+  position: relative;
+  overflow: hidden;
+}
+.blog-card-banner-system::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(74,148,148,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(123,79,166,0.12) 0%, transparent 60%);
+  animation: systemCardPulse 4s ease-in-out infinite;
+}
+@keyframes systemCardPulse {
+  0%,100% { opacity: 0.7; }
+  50%      { opacity: 1;   }
+}
+.system-glyph {
+  font-family: 'Cinzel', serif;
+  font-size: 28px !important;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, var(--teal), var(--gold), var(--amethyst));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+
+/* Post wrapper */
+.post-system-view {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+.post-system-view > .blog-post-back:first-child {
+  position: fixed;
+  top: 72px;
+  left: 24px;
+  z-index: 200;
+  background: rgba(5,4,10,0.85);
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border-dim);
+  backdrop-filter: blur(8px);
+}
+
+/* Intro section */
+.system-intro {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 100px 32px 60px;
+  text-align: center;
+}
+.system-post-title {
+  font-size: clamp(28px, 5vw, 52px) !important;
+  background: linear-gradient(135deg, var(--teal-light), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px !important;
+}
+.system-intro-body {
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Each number section */
+.system-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 80px 24px;
+}
+.system-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.system-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 300px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.system-num-display {
+  position: absolute;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(120px, 22vw, 260px);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  right: -2%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.04;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.system-section-inner {
+  position: relative;
+  z-index: 3;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.system-section-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: 0.75;
+}
+.system-section-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(18px, 3vw, 28px);
+  line-height: 1.3;
+  margin-bottom: 28px;
+}
+.system-section-body p {
+  font-size: 16px;
+  line-height: 1.9;
+  margin-bottom: 18px;
+}
+.system-section-body p:last-child { margin-bottom: 0; }
+.system-list {
+  margin: 20px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.system-list li {
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 8px 0 8px 20px;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.system-list li::before {
+  content: '◈';
+  position: absolute;
+  left: 0;
+  font-size: 9px;
+  top: 11px;
+}
+.system-quote {
+  border-left: 2px solid currentColor;
+  padding: 12px 0 12px 20px;
+  font-style: italic;
+  opacity: 0.75;
+  margin-top: 24px !important;
+  font-size: 15px !important;
+}
+
+/* ── Per-number color themes ── */
+
+/* 0 — Void — deep black, silver */
+.ss-0 {
+  background: #000005;
+  color: #9090b0;
+}
+.ss-0::before {
+  background: radial-gradient(ellipse at 50% 40%, rgba(80,70,140,0.18) 0%, transparent 65%);
+}
+.ss-0::after  { background: linear-gradient(to bottom, transparent 0%, #0a0805 100%); }
+.ss-0 .system-section-eyebrow { color: #6060a0; }
+.ss-0 .system-section-title   { color: #c0b8e8; }
+.ss-0 .system-section-body p  { color: #7070a0; }
+.ss-0 .system-quote            { color: #8080b8; border-color: #4040a0; }
+.ss-0 .system-num-display      { color: #8080ff; }
+.ss-0 .system-list li          { color: #7070a0; }
+.ss-0 .system-list li::before  { color: #6060a0; }
+
+/* 1 — Big Bang — white-gold explosion */
+.ss-1 {
+  background: #0a0805;
+  color: #c8b070;
+}
+.ss-1::before {
+  background:
+    
+    linear-gradient(to bottom, #000005 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,220,100,0.20) 0%, rgba(201,168,76,0.08) 40%, transparent 70%);
+}
+.ss-1::after  { background: linear-gradient(to bottom, transparent 0%, #010a10 100%); }
+.ss-1 .system-section-eyebrow { color: var(--gold-dim); }
+.ss-1 .system-section-title   { color: var(--gold-light); }
+.ss-1 .system-section-body p  { color: rgba(200,168,90,0.8); }
+.ss-1 .system-quote            { color: var(--gold); border-color: var(--gold-dim); }
+.ss-1 .system-num-display      { color: var(--gold); }
+.ss-1 .system-list li          { color: rgba(200,168,90,0.8); }
+.ss-1 .system-list li::before  { color: var(--gold); }
+
+/* 2 — Condensation — soft blue-teal magnetic */
+.ss-2 {
+  background: #010a10;
+  color: #70b0c8;
+}
+.ss-2::before {
+  background:
+    
+    linear-gradient(to bottom, #0a0805 0%, transparent 30%),
+    radial-gradient(ellipse at 30% 60%, rgba(74,148,148,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 30%, rgba(40,100,160,0.15) 0%, transparent 60%);
+}
+.ss-2::after  { background: linear-gradient(to bottom, transparent 0%, #0a0600 100%); }
+.ss-2 .system-section-eyebrow { color: var(--teal-dim); }
+.ss-2 .system-section-title   { color: var(--teal-light); }
+.ss-2 .system-section-body p  { color: rgba(100,180,200,0.82); }
+.ss-2 .system-quote            { color: var(--teal); border-color: var(--teal-dim); }
+.ss-2 .system-num-display      { color: var(--teal); }
+
+/* 3 — Creative Expression — warm amber-orange life */
+.ss-3 {
+  background: #0a0600;
+  color: #c08040;
+}
+.ss-3::before {
+  background:
+    
+    linear-gradient(to bottom, #010a10 0%, transparent 30%),
+    radial-gradient(ellipse at 40% 55%, rgba(200,120,40,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse at 65% 30%, rgba(180,80,20,0.10) 0%, transparent 50%);
+}
+.ss-3::after  { background: linear-gradient(to bottom, transparent 0%, #020a04 100%); }
+.ss-3 .system-section-eyebrow { color: #8b5c20; }
+.ss-3 .system-section-title   { color: #e8a060; }
+.ss-3 .system-section-body p  { color: rgba(190,130,70,0.85); }
+.ss-3 .system-quote            { color: #d09050; border-color: #8b5020; }
+.ss-3 .system-num-display      { color: #c87030; }
+
+/* 4 — Foundation — deep earth green */
+.ss-4 {
+  background: #020a04;
+  color: #609060;
+}
+.ss-4::before {
+  background:
+    
+    linear-gradient(to bottom, #0a0600 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 60%, rgba(40,120,50,0.22) 0%, transparent 65%),
+    radial-gradient(ellipse at 20% 30%, rgba(20,80,30,0.12) 0%, transparent 50%);
+}
+.ss-4::after  { background: linear-gradient(to bottom, transparent 0%, #050010 100%); }
+.ss-4 .system-section-eyebrow { color: #2a6030; }
+.ss-4 .system-section-title   { color: #80d080; }
+.ss-4 .system-section-body p  { color: rgba(80,160,90,0.85); }
+.ss-4 .system-quote            { color: #60b060; border-color: #2a6030; }
+.ss-4 .system-num-display      { color: #40a040; }
+
+/* 5 — Explorer — electric violet-indigo */
+.ss-5 {
+  background: #050010;
+  color: #9060d0;
+}
+.ss-5::before {
+  background:
+    
+    linear-gradient(to bottom, #020a04 0%, transparent 30%),
+    radial-gradient(ellipse at 60% 40%, rgba(140,60,220,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 70%, rgba(80,20,180,0.12) 0%, transparent 55%);
+}
+.ss-5::after  { background: linear-gradient(to bottom, transparent 0%, #0a0306 100%); }
+.ss-5 .system-section-eyebrow { color: #6030a0; }
+.ss-5 .system-section-title   { color: #c090ff; }
+.ss-5 .system-section-body p  { color: rgba(150,100,220,0.85); }
+.ss-5 .system-quote            { color: #a070e0; border-color: #6030a0; }
+.ss-5 .system-num-display      { color: #8040c0; }
+
+/* 6 — Community — warm rose-pink */
+.ss-6 {
+  background: #0a0306;
+  color: #c06080;
+}
+.ss-6::before {
+  background:
+    
+    linear-gradient(to bottom, #050010 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 50%, rgba(180,60,90,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 25% 40%, rgba(140,30,70,0.10) 0%, transparent 55%);
+}
+.ss-6::after  { background: linear-gradient(to bottom, transparent 0%, #010310 100%); }
+.ss-6 .system-section-eyebrow { color: #803050; }
+.ss-6 .system-section-title   { color: #f090a8; }
+.ss-6 .system-section-body p  { color: rgba(190,90,120,0.85); }
+.ss-6 .system-quote            { color: #d07090; border-color: #803050; }
+.ss-6 .system-num-display      { color: #a05070; }
+
+/* 7 — Wisdom Seeker — deep indigo-sapphire */
+.ss-7 {
+  background: #010310;
+  color: #5070c0;
+}
+.ss-7::before {
+  background:
+    
+    linear-gradient(to bottom, #0a0306 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 40%, rgba(40,60,180,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 65%, rgba(20,40,140,0.12) 0%, transparent 55%);
+}
+.ss-7::after  { background: linear-gradient(to bottom, transparent 0%, #080808 100%); }
+.ss-7 .system-section-eyebrow { color: #304090; }
+.ss-7 .system-section-title   { color: #8090e8; }
+.ss-7 .system-section-body p  { color: rgba(80,110,200,0.85); }
+.ss-7 .system-quote            { color: #6080d0; border-color: #304090; }
+.ss-7 .system-num-display      { color: #4060c0; }
+
+/* 8 — Power — mercury gold-silver */
+.ss-8 {
+  background: #080808;
+  color: #a0a0b0;
+}
+.ss-8::before {
+  background:
+    
+    linear-gradient(to bottom, #010310 0%, transparent 30%),
+    radial-gradient(ellipse at 40% 50%, rgba(180,160,80,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 65% 55%, rgba(80,80,180,0.12) 0%, transparent 55%);
+}
+.ss-8::after  { background: linear-gradient(to bottom, transparent 0%, #02000a 100%); }
+.ss-8 .system-section-eyebrow { color: #707080; }
+.ss-8 .system-section-title   { color: #d0c890; }
+.ss-8 .system-section-body p  { color: rgba(160,150,110,0.85); }
+.ss-8 .system-quote            { color: #b0a870; border-color: #707050; }
+.ss-8 .system-num-display      { color: #a09060; }
+
+/* 9 — Dispersion — cosmic white-violet */
+.ss-9 {
+  background: #02000a;
+  color: #a890d0;
+  padding-bottom: 120px;
+}
+.ss-9::before {
+  background:
+    
+    linear-gradient(to bottom, #080808 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 45%, rgba(160,120,220,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 60%, rgba(80,60,180,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 30%, rgba(200,180,255,0.08) 0%, transparent 50%);
+}
+.ss-9::after  { background: linear-gradient(to bottom, transparent 0%, #02000a 100%); }
+.ss-9 .system-section-eyebrow { color: #7060a0; }
+.ss-9 .system-section-title   { color: #d0b8f8; }
+.ss-9 .system-section-body p  { color: rgba(170,140,220,0.85); }
+.ss-9 .system-quote            { color: #b898e0; border-color: #7050b0; }
+.ss-9 .system-num-display      { color: #9070c0; }
+
+/* Transition bleed between sections */
+.system-section + .system-section {
+  border-top: none;
+}
 
 /* ══════════════════════════════════════════════════════════
    SIMULATION DESCENT LAYERS

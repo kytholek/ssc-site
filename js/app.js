@@ -136,8 +136,8 @@ function calculateReading() {
 function buildFreqChart(numbers) {
   // numbers: [lifePath, expression, calling, soul, outer, achieve, theme]
   // Positions:
-  //   soul        = -90°  top           → numbers[1]
-  //   expression  = 150°  bottom-left   → numbers[3]
+  //   expression  = -90°  top           → numbers[3]
+  //   soul        = 150°  bottom-left   → numbers[1]
   //   outer       = 30°   bottom-right  → numbers[4]
   //   lifePath    = 90°   bottom        → numbers[0]
   //   achievement = -150° top-left      → numbers[5]
@@ -280,12 +280,12 @@ function buildFreqChart(numbers) {
   ].join('');
 
   const outerNodes = [
-    aNode(soul.x,        soul.y,        numbers[1], 'Soul',        COLORS.soul,        22, 1.05),
+    aNode(soul.x,        soul.y,        numbers[3], 'Expression',  COLORS.soul,        22, 1.05),
     aNode(theme.x,       theme.y,       numbers[6], 'Theme',       COLORS.theme,       22, 1.15),
     aNode(outer.x,       outer.y,       numbers[4], 'Outer',       COLORS.outer,       22, 1.20),
     aNode(lifePath.x,    lifePath.y,    numbers[0], 'Life Path',   COLORS.lifePath,    22, 1.25),
     aNode(achievement.x, achievement.y, numbers[5], 'Achievement', COLORS.achievement, 22, 1.35),
-    aNode(expression.x,  expression.y,  numbers[3], 'Expression',  COLORS.expression,  22, 1.40),
+    aNode(expression.x,  expression.y,  numbers[1], 'Soul',        COLORS.expression,  22, 1.40),
   ].join('');
 
   return `
