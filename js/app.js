@@ -134,21 +134,22 @@ function calculateReading() {
 
 // ─── Frequency Chart (Star of David / Hexagram) ───────────────
 function buildFreqChart(numbers) {
-  // numbers order: [lifePath, expression, calling, soul, outer, achieve, theme]
-  // Node positions (angle from centre, r=180):
-  //   soul        = -90°  (top)          → numbers[3]
-  //   expression  = 150°  (bottom-left)  → numbers[1]
-  //   outer       = 30°   (bottom-right) → numbers[4]
-  //   lifePath    = 90°   (bottom)       → numbers[0]
-  //   achievement = -150° (top-left)     → numbers[5]
-  //   theme       = -30°  (top-right)    → numbers[6]
-  //   center                             → numbers[2] (Life Calling)
+  // numbers: [lifePath, expression, calling, soul, outer, achieve, theme]
+  // Positions:
+  //   soul        = -90°  top           → numbers[1]
+  //   expression  = 150°  bottom-left   → numbers[3]
+  //   outer       = 30°   bottom-right  → numbers[4]
+  //   lifePath    = 90°   bottom        → numbers[0]
+  //   achievement = -150° top-left      → numbers[5]
+  //   theme       = -30°  top-right     → numbers[6]
+  //   center                            → numbers[2]
 
   const W = 380, H = 380, cx = 190, cy = 190, r = 148;
 
   function pt(angle) {
     const rad = angle * Math.PI / 180;
-    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+    return { x: +(cx + r * Math.cos(rad)).toFixed(2),
+             y: +(cy + r * Math.sin(rad)).toFixed(2) };
   }
 
   const soul       = pt(-90);
@@ -158,110 +159,129 @@ function buildFreqChart(numbers) {
   const achievement= pt(-150);
   const theme      = pt(-30);
 
-  // Colour palette per frequency
+  const gold   = '#c9a84c';
+  const purple = '#7b4fa6';
+  const teal   = '#4a9494';
+
   const COLORS = {
-    soul:        { stroke: '#c9a84c', fill: '#1a1408', text: '#e8c96b', tri: 'rgba(201,168,76,0.08)'  },
-    expression:  { stroke: '#7b4fa6', fill: '#120b1a', text: '#a96ed4', tri: 'rgba(123,79,166,0.08)'  },
-    outer:       { stroke: '#4a9494', fill: '#081414', text: '#7ec8c8', tri: 'rgba(74,148,148,0.08)'  },
-    lifePath:    { stroke: '#c9a84c', fill: '#1a1408', text: '#e8c96b', tri: 'rgba(201,168,76,0.06)'  },
-    achievement: { stroke: '#7b4fa6', fill: '#120b1a', text: '#a96ed4', tri: 'rgba(123,79,166,0.06)'  },
-    theme:       { stroke: '#4a9494', fill: '#081414', text: '#7ec8c8', tri: 'rgba(74,148,148,0.06)'  },
+    soul:        { stroke: gold,   fill: '#1a1408', text: '#e8c96b' },
+    expression:  { stroke: purple, fill: '#120b1a', text: '#a96ed4' },
+    outer:       { stroke: teal,   fill: '#081414', text: '#7ec8c8' },
+    lifePath:    { stroke: gold,   fill: '#1a1408', text: '#e8c96b' },
+    achievement: { stroke: purple, fill: '#120b1a', text: '#a96ed4' },
+    theme:       { stroke: teal,   fill: '#081414', text: '#7ec8c8' },
   };
 
-  const goldGlow  = '#c9a84c';
-  const purpleGlow= '#7b4fa6';
-  const tealGlow  = '#4a9494';
+  // ── Animation helpers ──────────────────────────────────────
+  // Each element gets a class + inline animation-delay via a <style> block
 
-  function tri(a, b, c, fill, stroke) {
-    return `<polygon points="${a.x},${a.y} ${b.x},${b.y} ${c.x},${c.y}"
-      fill="${fill}" stroke="${stroke}" stroke-width="1" stroke-linejoin="round" opacity="0.85"/>`;
-  }
-
-  function line(a, b, color, opacity = 0.3, w = 1) {
+  // Animated line: draws from center outward using stroke-dasharray trick
+  function aLine(a, b, color, opacity, w, delay) {
+    const len = Math.hypot(b.x - a.x, b.y - a.y).toFixed(1);
     return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"
-      stroke="${color}" stroke-width="${w}" opacity="${opacity}" stroke-linecap="round"/>`;
+      stroke="${color}" stroke-width="${w}" opacity="${opacity}" stroke-linecap="round"
+      stroke-dasharray="${len}" stroke-dashoffset="${len}"
+      style="animation: sscDash 0.6s cubic-bezier(0.4,0,0.2,1) ${delay}s forwards"/>`;
   }
 
-  function node(x, y, num, label, color, r2 = 22) {
-    const isTop   = y < cy - 10;
-    const isBot   = y > cy + 10;
-    const isLeft  = x < cx - 10;
-    const isRight = x > cx + 10;
-    const labelDy = isTop ? -r2 - 22 : r2 + 14;
-    const roleDy  = isTop ? -r2 - 8  : r2 + 26;
+  // Triangle that scales from center
+  function aTri(a, b, c, fill, stroke, delay) {
+    return `<polygon points="${a.x},${a.y} ${b.x},${b.y} ${c.x},${c.y}"
+      fill="${fill}" stroke="${stroke}" stroke-width="1.2" stroke-linejoin="round"
+      transform-origin="${cx} ${cy}"
+      style="animation: sscScale 0.7s cubic-bezier(0.34,1.56,0.64,1) ${delay}s both"/>`;
+  }
 
-    return `
-      <!-- glow ring -->
+  // Node group: scales up from cx,cy
+  function aNode(x, y, num, label, color, r2, delay) {
+    const labelDy = y < cy - 10 ? -(r2 + 22) : r2 + 14;
+    return `<g transform-origin="${x} ${y}"
+        style="animation: sscNodePop 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s both">
       <circle cx="${x}" cy="${y}" r="${r2 + 7}" fill="${color.fill}" stroke="${color.stroke}"
         stroke-width="1" opacity="0.4"/>
-      <!-- main node -->
       <circle cx="${x}" cy="${y}" r="${r2}" fill="${color.fill}" stroke="${color.stroke}"
         stroke-width="1.5"/>
-      <!-- number -->
       <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central"
-        font-family="'Cinzel Decorative', serif" font-size="${num > 9 ? '13' : '16'}"
+        font-family="'Cinzel Decorative',serif" font-size="${num > 9 ? 13 : 16}"
         fill="${color.text}" font-weight="700">${num}</text>
-      <!-- label -->
       <text x="${x}" y="${y + labelDy}" text-anchor="middle"
-        font-family="'Cinzel', serif" font-size="8" fill="${color.text}"
+        font-family="'Cinzel',serif" font-size="8" fill="${color.text}"
         letter-spacing="0.12em" opacity="0.9">${label.toUpperCase()}</text>
-    `;
+    </g>`;
   }
 
-  function centerNode(num) {
-    return `
-      <!-- center glow -->
-      <circle cx="${cx}" cy="${cy}" r="38" fill="rgba(201,168,76,0.06)" stroke="${goldGlow}"
+  function aCenterNode(num, delay) {
+    return `<g transform-origin="${cx} ${cy}"
+        style="animation: sscNodePop 0.6s cubic-bezier(0.34,1.56,0.64,1) ${delay}s both">
+      <circle cx="${cx}" cy="${cy}" r="38" fill="rgba(201,168,76,0.06)" stroke="${gold}"
         stroke-width="1" opacity="0.5"/>
-      <circle cx="${cx}" cy="${cy}" r="28" fill="#100e04" stroke="${goldGlow}" stroke-width="1.5"/>
-      <text x="${cx}" y="${cy - 4}" text-anchor="middle"
-        font-family="'Cinzel Decorative', serif" font-size="${num > 9 ? '13' : '16'}"
+      <circle cx="${cx}" cy="${cy}" r="28" fill="#100e04" stroke="${gold}" stroke-width="1.5"/>
+      <text x="${cx}" y="${cy - 4}" text-anchor="middle" dominant-baseline="central"
+        font-family="'Cinzel Decorative',serif" font-size="${num > 9 ? 13 : 16}"
         fill="#e8c96b" font-weight="700">${num}</text>
-      <text x="${cx}" y="${cy + 11}" text-anchor="middle"
-        font-family="'Cinzel', serif" font-size="6.5" fill="#c9a84c"
+      <text x="${cx}" y="${cy + 16}" text-anchor="middle"
+        font-family="'Cinzel',serif" font-size="6.5" fill="${gold}"
         letter-spacing="0.14em" opacity="0.85">LIFE CALLING</text>
-    `;
+    </g>`;
   }
 
-  // Spoke lines from center to each outer node
+  // ── Timing (seconds) ──────────────────────────────────────
+  // 0.0  background circle fades in
+  // 0.1  center node pops
+  // 0.2  spokes draw out
+  // 0.5  triangle fills scale up
+  // 0.7  triangle edges draw
+  // 0.85 cross lines draw
+  // 1.0–1.6  outer nodes pop in staggered
+
+  const bgCircle = `<circle cx="${cx}" cy="${cy}" r="175"
+    fill="url(#bgGrad)" stroke="rgba(201,168,76,0.12)" stroke-width="1"
+    style="animation: sscFadeIn 0.4s ease 0s both"/>`;
+
+  const centerPulse = `<circle cx="${cx}" cy="${cy}" r="0" fill="none" stroke="${gold}" stroke-width="1.5" opacity="0.6"
+    style="animation: sscRipple 1.2s ease-out 0.15s both"/>`;
+
   const spokes = [soul, expression, outer, lifePath, achievement, theme]
-    .map(p => line({x:cx,y:cy}, p, goldGlow, 0.15, 0.8))
+    .map((p, i) => aLine({x:cx,y:cy}, p, gold, 0.18, 0.8, 0.2 + i*0.03))
     .join('');
 
-  // Cross-lines (connecting opposites)
-  const crossLines = [
-    line(soul, lifePath,       goldGlow,   0.22, 1.2),
-    line(expression, theme,    purpleGlow, 0.22, 1.2),
-    line(outer, achievement,   tealGlow,   0.22, 1.2),
-  ].join('');
+  const upFill   = aTri(soul, expression, outer,      'rgba(201,168,76,0.07)',  gold,   0.5);
+  const downFill = aTri(lifePath, achievement, theme, 'rgba(123,79,166,0.07)', purple, 0.55);
 
-  // Triangle fills
-  const upTri   = tri(soul, expression, outer,       'rgba(201,168,76,0.07)',  goldGlow);
-  const downTri = tri(lifePath, achievement, theme,  'rgba(123,79,166,0.07)', purpleGlow);
-
-  // Triangle outlines (edges)
   const upEdges = [
-    line(soul, expression,   goldGlow,   0.5, 1.2),
-    line(expression, outer,  goldGlow,   0.5, 1.2),
-    line(outer, soul,        goldGlow,   0.5, 1.2),
+    aLine(soul, expression,  gold,   0.55, 1.4, 0.70),
+    aLine(expression, outer, gold,   0.55, 1.4, 0.76),
+    aLine(outer, soul,       gold,   0.55, 1.4, 0.82),
   ].join('');
   const downEdges = [
-    line(lifePath, achievement,   purpleGlow, 0.5, 1.2),
-    line(achievement, theme,      purpleGlow, 0.5, 1.2),
-    line(theme, lifePath,         purpleGlow, 0.5, 1.2),
+    aLine(lifePath, achievement, purple, 0.55, 1.4, 0.72),
+    aLine(achievement, theme,    purple, 0.55, 1.4, 0.78),
+    aLine(theme, lifePath,       purple, 0.55, 1.4, 0.84),
   ].join('');
 
-  // All 6 outer nodes
-  const nodes = [
-    node(soul.x,        soul.y,        numbers[1], 'Expression',  COLORS.soul),
-    node(expression.x,  expression.y,  numbers[3], 'Soul',  COLORS.expression),
-    node(outer.x,       outer.y,       numbers[4], 'Outer',       COLORS.outer),
-    node(lifePath.x,    lifePath.y,    numbers[0], 'Life Path',   COLORS.lifePath),
-    node(achievement.x, achievement.y, numbers[5], 'Achievement', COLORS.achievement),
-    node(theme.x,       theme.y,       numbers[6], 'Theme',       COLORS.theme),
+  const crossLines = [
+    aLine(soul, lifePath,     gold,   0.25, 1.2, 0.88),
+    aLine(expression, theme,  purple, 0.25, 1.2, 0.92),
+    aLine(outer, achievement, teal,   0.25, 1.2, 0.96),
+  ].join('');
+
+  const outerNodes = [
+    aNode(soul.x,        soul.y,        numbers[1], 'Expression',        COLORS.soul,        22, 1.05),
+    aNode(theme.x,       theme.y,       numbers[6], 'Theme',       COLORS.theme,       22, 1.15),
+    aNode(outer.x,       outer.y,       numbers[4], 'Outer',       COLORS.outer,       22, 1.20),
+    aNode(lifePath.x,    lifePath.y,    numbers[0], 'Life Path',   COLORS.lifePath,    22, 1.25),
+    aNode(achievement.x, achievement.y, numbers[5], 'Achievement', COLORS.achievement, 22, 1.35),
+    aNode(expression.x,  expression.y,  numbers[3], 'Soul',  COLORS.expression,  22, 1.40),
   ].join('');
 
   return `
+    <style>
+      @keyframes sscFadeIn  { from { opacity:0 } to { opacity:1 } }
+      @keyframes sscScale   { from { transform:scale(0); opacity:0 } to { transform:scale(1); opacity:1 } }
+      @keyframes sscNodePop { from { transform:scale(0); opacity:0 } to { transform:scale(1); opacity:1 } }
+      @keyframes sscDash    { to   { stroke-dashoffset:0 } }
+      @keyframes sscRipple  { from { r:0; opacity:0.8 } to { r:160; opacity:0 } }
+    </style>
     <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"
       style="max-width:100%;overflow:visible"
       xmlns="http://www.w3.org/2000/svg">
@@ -271,34 +291,22 @@ function buildFreqChart(numbers) {
           <stop offset="0%"   stop-color="#1a1620" stop-opacity="1"/>
           <stop offset="100%" stop-color="#05040a" stop-opacity="1"/>
         </radialGradient>
-        <filter id="glow">
+        <filter id="sscGlow" x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="3" result="blur"/>
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
 
-      <!-- background -->
-      <circle cx="${cx}" cy="${cy}" r="175" fill="url(#bgGrad)" stroke="rgba(201,168,76,0.12)" stroke-width="1"/>
-
-      <!-- triangle fills -->
-      ${upTri}
-      ${downTri}
-
-      <!-- triangle edges -->
+      ${bgCircle}
+      ${centerPulse}
+      ${upFill}
+      ${downFill}
       ${upEdges}
       ${downEdges}
-
-      <!-- cross lines -->
       ${crossLines}
-
-      <!-- spokes -->
       ${spokes}
-
-      <!-- outer nodes -->
-      ${nodes}
-
-      <!-- center node -->
-      ${centerNode(numbers[2])}
+      ${outerNodes}
+      ${aCenterNode(numbers[2], 0.1)}
 
     </svg>`;
 }
