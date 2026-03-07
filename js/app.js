@@ -238,6 +238,20 @@ function buildFreqChart(numbers) {
     fill="url(#bgGrad)" stroke="rgba(201,168,76,0.12)" stroke-width="1"
     style="animation: sscFadeIn 0.4s ease 0s both"/>`;
 
+  // Pulsating glow layers — start after all nodes have appeared (~1.5s)
+  const pulseDelay = 1.6;
+  const glowLayers = `
+    <circle cx="${cx}" cy="${cy}" r="162" fill="none" stroke="${gold}" stroke-width="18"
+      opacity="0" filter="url(#sscGlow)"
+      style="animation: sscPulse1 3.2s ease-in-out ${pulseDelay}s infinite"/>
+    <circle cx="${cx}" cy="${cy}" r="148" fill="none" stroke="${purple}" stroke-width="12"
+      opacity="0" filter="url(#sscGlow)"
+      style="animation: sscPulse2 3.2s ease-in-out ${pulseDelay + 0.4}s infinite"/>
+    <circle cx="${cx}" cy="${cy}" r="175" fill="url(#pulseGrad)"
+      opacity="0"
+      style="animation: sscPulse3 3.2s ease-in-out ${pulseDelay + 0.8}s infinite"/>
+  `;
+
   const centerPulse = `<circle cx="${cx}" cy="${cy}" r="0" fill="none" stroke="${gold}" stroke-width="1.5" opacity="0.6"
     style="animation: sscRipple 1.2s ease-out 0.15s both"/>`;
 
@@ -266,12 +280,12 @@ function buildFreqChart(numbers) {
   ].join('');
 
   const outerNodes = [
-    aNode(soul.x,        soul.y,        numbers[1], 'Expression',        COLORS.soul,        22, 1.05),
+    aNode(soul.x,        soul.y,        numbers[1], 'Soul',        COLORS.soul,        22, 1.05),
     aNode(theme.x,       theme.y,       numbers[6], 'Theme',       COLORS.theme,       22, 1.15),
     aNode(outer.x,       outer.y,       numbers[4], 'Outer',       COLORS.outer,       22, 1.20),
     aNode(lifePath.x,    lifePath.y,    numbers[0], 'Life Path',   COLORS.lifePath,    22, 1.25),
     aNode(achievement.x, achievement.y, numbers[5], 'Achievement', COLORS.achievement, 22, 1.35),
-    aNode(expression.x,  expression.y,  numbers[3], 'Soul',  COLORS.expression,  22, 1.40),
+    aNode(expression.x,  expression.y,  numbers[3], 'Expression',  COLORS.expression,  22, 1.40),
   ].join('');
 
   return `
@@ -281,6 +295,9 @@ function buildFreqChart(numbers) {
       @keyframes sscNodePop { from { transform:scale(0); opacity:0 } to { transform:scale(1); opacity:1 } }
       @keyframes sscDash    { to   { stroke-dashoffset:0 } }
       @keyframes sscRipple  { from { r:0; opacity:0.8 } to { r:160; opacity:0 } }
+      @keyframes sscPulse1  { 0%,100% { r:162; opacity:0.10 } 50% { r:178; opacity:0.28 } }
+      @keyframes sscPulse2  { 0%,100% { r:148; opacity:0.08 } 50% { r:168; opacity:0.20 } }
+      @keyframes sscPulse3  { 0%,100% { opacity:0.06 } 50% { opacity:0.18 } }
     </style>
     <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"
       style="max-width:100%;overflow:visible"
@@ -291,6 +308,11 @@ function buildFreqChart(numbers) {
           <stop offset="0%"   stop-color="#1a1620" stop-opacity="1"/>
           <stop offset="100%" stop-color="#05040a" stop-opacity="1"/>
         </radialGradient>
+        <radialGradient id="pulseGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#7b4fa6" stop-opacity="0"/>
+          <stop offset="60%"  stop-color="#c9a84c" stop-opacity="0.04"/>
+          <stop offset="100%" stop-color="#4a9494" stop-opacity="0.10"/>
+        </radialGradient>
         <filter id="sscGlow" x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="3" result="blur"/>
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -298,6 +320,7 @@ function buildFreqChart(numbers) {
       </defs>
 
       ${bgCircle}
+      ${glowLayers}
       ${centerPulse}
       ${upFill}
       ${downFill}
