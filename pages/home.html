@@ -48,7 +48,7 @@
   </div>
   <div class="sim-content">
     <div class="section-eyebrow sim-eyebrow">The Seven Frequencies</div>
-    <h2 class="section-title">Your Complete Reading</h2>
+    <h2 class="section-title">Your Complete Blueprint</h2>
     <div class="freq-grid">
       <div class="freq-card holo-card"><div class="freq-number">01</div><div class="freq-name">Theme</div><p class="freq-desc">The recurring pattern woven through your life — the lesson that keeps returning until integrated.</p></div>
       <div class="freq-card holo-card"><div class="freq-number">02</div><div class="freq-name">Life Path</div><p class="freq-desc">The primary frequency of your journey — the core theme and direction your life is oriented toward.</p></div>
@@ -57,6 +57,28 @@
       <div class="freq-card holo-card"><div class="freq-number">05</div><div class="freq-name">Soul</div><p class="freq-desc">Your inner world — the private desires, values, and yearnings that motivate everything you do.</p></div>
       <div class="freq-card holo-card"><div class="freq-number">06</div><div class="freq-name">Outer</div><p class="freq-desc">The face you show the world — your personality, how you are perceived, and your social signature.</p></div>
       <div class="freq-card holo-card"><div class="freq-number">07</div><div class="freq-name">Life Calling</div><p class="freq-desc">Your unique mission — combining your Life Path and Expression into a single directive frequency.</p></div>
+      <svg class="toroidal-flow" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- From Achievement to Life Path to Life Calling -->
+        <path d="M350 50 L300 50 L200 150" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- From Theme to Life Path to Life Calling -->
+        <path d="M50 50 L100 50 L200 150" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- From Soul through Expression to Life Calling -->
+        <path d="M50 250 L150 250 L200 150" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- From Outer through Expression to Life Calling -->
+        <path d="M350 250 L250 250 L200 150" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- Swirl at center -->
+        <circle cx="200" cy="150" r="15" fill="none" stroke="var(--gold)" stroke-width="2" stroke-opacity="0.3" class="swirl" filter="url(#glow)" />
+        <circle cx="200" cy="150" r="8" fill="none" stroke="var(--teal)" stroke-width="2" stroke-opacity="0.3" class="swirl-inner" filter="url(#glow)" />
+      </svg>
     </div>
   </div>
 </section>
