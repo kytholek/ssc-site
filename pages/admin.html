@@ -7,7 +7,6 @@
 <!-- Hidden trigger in footer copyright (click 5×) -->
 <span id="admin-trigger" style="cursor:default;user-select:none">&#169;</span>
 
-<div id="admin-toast"></div>
 
 <div id="admin-overlay">
 
@@ -51,16 +50,24 @@
             <option value="philosophy">Philosophy</option>
             <option value="numbers">The Numbers</option>
             <option value="practice">Practice</option>
+            <option value="the-system">The System</option>
           </select>
           <input id="admin-date" type="text" placeholder="Month YYYY" style="width:130px" autocomplete="off">
         </div>
         <input id="admin-excerpt" type="text" placeholder="Short excerpt for the card (optional)…" autocomplete="off" style="width:100%;margin-bottom:12px">
+        <div style="position:relative;margin-bottom:12px">
+          <input id="admin-image" type="url" placeholder="Card image URL (optional) — paste any image link, e.g. https://i.imgur.com/abc123.jpg" autocomplete="off"
+            style="width:100%;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border-dim);border-radius:4px;color:var(--text);font-family:'EB Garamond',serif;font-size:15px;outline:none;transition:border-color .2s"
+            oninput="adminSystem.previewCardImage(this.value)">
+          <div id="admin-image-preview" style="display:none;margin-top:8px;border-radius:4px;overflow:hidden;height:80px;background-size:cover;background-position:center;border:1px solid var(--border-dim)"></div>
+        </div>
         <div id="admin-toolbar">
           <button title="Heading"    onclick="adminSystem.wrap('### ','','heading')"><b>H</b></button>
           <button title="Bold"       onclick="adminSystem.wrap('**','**')"><b>B</b></button>
           <button title="Italic"     onclick="adminSystem.wrap('*','*')"><em>I</em></button>
           <button title="Blockquote" onclick="adminSystem.wrap('> ','','quote')">&#8220;&#8221;</button>
           <button title="Paragraph break" onclick="adminSystem.insertBreak()">&#182;</button>
+          <button title="Insert image" onclick="adminSystem.insertImage()">&#128247;</button>
         </div>
         <textarea id="admin-body" placeholder="Write your post here. Use ### for headings, **bold**, *italic*, and > for blockquotes.&#10;&#10;A blank line starts a new paragraph."></textarea>
       </div>

@@ -57,10 +57,15 @@
 #admin-title { font-size: 18px; }
 
 #admin-category {
-  background: rgba(255,255,255,.04); border: 1px solid var(--border-dim);
+  background: var(--deep); border: 1px solid var(--border-dim);
   border-radius: 4px; color: var(--text); font-family: 'Cinzel', serif;
   font-size: 10px; letter-spacing: .1em; padding: 10px 14px;
   outline: none; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  color-scheme: dark;
+}
+#admin-category option {
+  background: var(--deep); color: var(--text);
 }
 
 #admin-toolbar {
