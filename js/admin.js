@@ -401,23 +401,6 @@ var adminSystem = (function () {
     });
   }
 
-  // ── Public API ─────────────────────────────────────────────
-  return {
-    open:       open,
-    close:      close,
-    login:      login,
-    switchTab:  switchTab,
-    wrap:       wrap,
-    insertBreak:insertBreak,
-    publish:    publish,
-    editPost:   editPost,
-    deletePost: deletePost,
-    clearForm:  clearForm,
-    buildPreview: buildPreview,
-    exportCode: exportCode,
-    boot:       boot,
-  };
-
   // ── Export code ──────────────────────────────────────────────
   function exportCode() {
     loadPosts();
@@ -489,11 +472,24 @@ var adminSystem = (function () {
     showToast('Code ready — copy and paste into your index.html');
   }
 
+
+  // ── Public API ─────────────────────────────────────────────
+  return {
+    open:       open,
+    close:      close,
+    login:      login,
+    switchTab:  switchTab,
+    wrap:       wrap,
+    insertBreak:insertBreak,
+    publish:    publish,
+    editPost:   editPost,
+    deletePost: deletePost,
+    clearForm:  clearForm,
+    buildPreview: buildPreview,
+    exportCode: exportCode,
+    boot:       boot,
+  };
+
 })(); // end adminSystem IIFE
 
-// ── Init admin after DOM ready ──────────────────────────────────
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function(){ adminSystem.boot(); });
-} else {
-  adminSystem.boot();
-}
+// Boot is called by index.html onAllLoaded() after all fragments are injected.
