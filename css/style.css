@@ -149,9 +149,9 @@ nav {
 
 .hero-sigil {
   width: 90px; height: 90px; margin: 0 auto 32px;
-  animation: rotateSlow 24s linear infinite;
 }
 .hero-sigil svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(201,168,76,.55)); }
+.hero-sigil-spin { animation: rotateSlow 24s linear infinite; }
 
 .hero-eyebrow {
   font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .45em;
@@ -1161,71 +1161,6 @@ footer {
 /* Transition bleed between sections */
 .system-section + .system-section {
   border-top: none;
-}
-
-/* ══════════════════════════════════════════════════════════
-   THE SYSTEM — Book Promo Card (inside post view)
-══════════════════════════════════════════════════════════ */
-.system-book-promo {
-  margin: 60px auto 20px;
-  max-width: 580px;
-  padding: 40px 36px;
-  border: 1px solid rgba(74,148,148,0.3);
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(74,148,148,0.06) 0%, rgba(123,79,166,0.06) 100%);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.system-book-promo::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(74,148,148,0.12) 0%, transparent 65%);
-  pointer-events: none;
-}
-.system-book-promo-eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 0.45em;
-  text-transform: uppercase;
-  color: var(--teal);
-  opacity: 0.8;
-  margin-bottom: 16px;
-}
-.system-book-promo-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(14px, 2vw, 18px);
-  color: var(--gold-light);
-  line-height: 1.4;
-  margin-bottom: 16px;
-}
-.system-book-promo-body {
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--text-dim);
-  margin-bottom: 28px;
-}
-.system-book-promo-btn {
-  display: inline-block;
-  padding: 12px 28px;
-  border: 1px solid var(--teal);
-  border-radius: 4px;
-  color: var(--teal-light);
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.2s;
-  background: rgba(74,148,148,0.06);
-  position: relative;
-  z-index: 1;
-}
-.system-book-promo-btn:hover {
-  background: rgba(74,148,148,0.15);
-  color: var(--teal-light);
-  border-color: var(--teal-light);
 }
 
 /* ══════════════════════════════════════════════════════════
