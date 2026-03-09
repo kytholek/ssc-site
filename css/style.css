@@ -1,7 +1,7 @@
-
-/* ═══════════════════════════════════════
+﻿
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ROOT VARIABLES & RESET
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 :root {
   --void: #05040a;
   --deep: #0d0b18;
@@ -39,7 +39,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Starfield background ── */
+/* â”€â”€ Starfield background â”€â”€ */
 body::before {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -67,15 +67,15 @@ body::after {
   background: radial-gradient(ellipse, rgba(123,79,166,.07) 0%, transparent 70%);
 }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PAGE SYSTEM
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .page { display: none; position: relative; z-index: 1; }
 .page.active { display: block; animation: fadeUp .4s ease both; }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAVIGATION
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   background: rgba(5,4,10,.94);
@@ -135,9 +135,9 @@ body { padding-top: 64px; }
 .nav-mobile .nav-link { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid var(--border-dim); border-radius: 0; }
 .nav-mobile .nav-cta { margin-top: 16px; text-align: center; }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HOME PAGE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Hero */
 .hero {
@@ -201,7 +201,7 @@ body { padding-top: 64px; }
   animation: float 3s ease-in-out infinite;
 }
 .scroll-indicator::after {
-  content: '↓'; font-size: 14px; color: var(--gold-dim);
+  content: 'â†“'; font-size: 14px; color: var(--gold-dim);
 }
 
 /* Divider */
@@ -324,7 +324,7 @@ body { padding-top: 64px; }
   margin: 60px auto; max-width: 700px;
 }
 .quote-block::before {
-  content: '⬡'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  content: 'â¬¡'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
   background: var(--void); padding: 0 16px;
   font-size: 22px; color: var(--gold);
 }
@@ -344,9 +344,9 @@ body { padding-top: 64px; }
   padding: 80px 24px;
 }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CALCULATOR PAGE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .calc-page-hero {
   text-align: center; padding: 60px 24px 40px;
 }
@@ -425,9 +425,9 @@ body { padding-top: 64px; }
   text-transform: uppercase; color: var(--text-muted);
 }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    BOOKS PAGE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .books-hero {
   text-align: center; padding: 60px 24px 50px;
 }
@@ -483,9 +483,9 @@ body { padding-top: 64px; }
   border-bottom: 1px solid var(--border-dim);
 }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ABOUT PAGE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .about-hero { text-align: center; padding: 60px 24px 40px; }
 .about-container { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
 
@@ -522,9 +522,9 @@ body { padding-top: 64px; }
 }
 .pillar-text { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PRIVACY PAGE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .privacy-hero { text-align: center; padding: 60px 24px 40px; }
 .privacy-container { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
 .privacy-updated {
@@ -557,7 +557,7 @@ body { padding-top: 64px; }
 }
 .privacy-section ul li:last-child { border-bottom: none; }
 .privacy-section ul li::before {
-  content: '◆'; position: absolute; left: 0; top: 9px;
+  content: 'â—†'; position: absolute; left: 0; top: 9px;
   color: var(--gold-dim); font-size: 6px;
 }
 .privacy-highlight {
@@ -567,9 +567,9 @@ body { padding-top: 64px; }
 }
 .privacy-highlight p { font-size: 16px; color: var(--text); margin: 0; }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FOOTER
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 footer {
   border-top: 1px solid var(--border-dim);
   background: rgba(5,4,10,.8);
@@ -619,9 +619,9 @@ footer {
 }
 .social-btn:hover { border-color: var(--border); background: rgba(201,168,76,.08); }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    UTILITIES & ANIMATIONS
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
@@ -636,9 +636,9 @@ footer {
 .text-amethyst { color: var(--amethyst-light); }
 .italic { font-style: italic; }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    BLOG PAGE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .blog-hero { text-align: center; padding: 60px 24px 50px; }
 .blog-container { max-width: 980px; margin: 0 auto; padding: 0 24px 80px; }
 
@@ -727,7 +727,7 @@ footer {
 }
 .blog-card:hover .blog-read-more { color: var(--gold); }
 
-/* ── Single post view ── */
+/* â”€â”€ Single post view â”€â”€ */
 .blog-post { display: none; max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
 .blog-post.active { display: block; animation: fadeUp .4s ease both; }
 .blog-post-back {
@@ -771,9 +771,9 @@ footer {
   .blog-featured .blog-card:first-child { grid-column: 1; }
 }
 
-/* ═══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RESPONSIVE
-═══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
@@ -798,9 +798,9 @@ footer {
 
 
 
-/* ══════════════════════════════════════════════════════════
-   THE SYSTEM — Blog Post
-══════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   THE SYSTEM â€” Blog Post
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Featured card special styling */
 .blog-card-banner-system {
@@ -951,7 +951,7 @@ footer {
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .system-list li::before {
-  content: '◈';
+  content: 'â—ˆ';
   position: absolute;
   left: 0;
   font-size: 9px;
@@ -966,9 +966,9 @@ footer {
   font-size: 15px !important;
 }
 
-/* ── Per-number color themes ── */
+/* â”€â”€ Per-number color themes â”€â”€ */
 
-/* 0 — Void — deep black, silver */
+/* 0 â€” Void â€” deep black, silver */
 .ss-0 {
   background: #000005;
   color: #9090b0;
@@ -985,7 +985,7 @@ footer {
 .ss-0 .system-list li          { color: #7070a0; }
 .ss-0 .system-list li::before  { color: #6060a0; }
 
-/* 1 — Big Bang — white-gold explosion */
+/* 1 â€” Big Bang â€” white-gold explosion */
 .ss-1 {
   background: #0a0805;
   color: #c8b070;
@@ -1005,7 +1005,7 @@ footer {
 .ss-1 .system-list li          { color: rgba(200,168,90,0.8); }
 .ss-1 .system-list li::before  { color: var(--gold); }
 
-/* 2 — Condensation — soft blue-teal magnetic */
+/* 2 â€” Condensation â€” soft blue-teal magnetic */
 .ss-2 {
   background: #010a10;
   color: #70b0c8;
@@ -1024,7 +1024,7 @@ footer {
 .ss-2 .system-quote            { color: var(--teal); border-color: var(--teal-dim); }
 .ss-2 .system-num-display      { color: var(--teal); }
 
-/* 3 — Creative Expression — warm amber-orange life */
+/* 3 â€” Creative Expression â€” warm amber-orange life */
 .ss-3 {
   background: #0a0600;
   color: #c08040;
@@ -1043,7 +1043,7 @@ footer {
 .ss-3 .system-quote            { color: #d09050; border-color: #8b5020; }
 .ss-3 .system-num-display      { color: #c87030; }
 
-/* 4 — Foundation — deep earth green */
+/* 4 â€” Foundation â€” deep earth green */
 .ss-4 {
   background: #020a04;
   color: #609060;
@@ -1062,7 +1062,7 @@ footer {
 .ss-4 .system-quote            { color: #60b060; border-color: #2a6030; }
 .ss-4 .system-num-display      { color: #40a040; }
 
-/* 5 — Explorer — electric violet-indigo */
+/* 5 â€” Explorer â€” electric violet-indigo */
 .ss-5 {
   background: #050010;
   color: #9060d0;
@@ -1081,7 +1081,7 @@ footer {
 .ss-5 .system-quote            { color: #a070e0; border-color: #6030a0; }
 .ss-5 .system-num-display      { color: #8040c0; }
 
-/* 6 — Community — warm rose-pink */
+/* 6 â€” Community â€” warm rose-pink */
 .ss-6 {
   background: #0a0306;
   color: #c06080;
@@ -1100,7 +1100,7 @@ footer {
 .ss-6 .system-quote            { color: #d07090; border-color: #803050; }
 .ss-6 .system-num-display      { color: #a05070; }
 
-/* 7 — Wisdom Seeker — deep indigo-sapphire */
+/* 7 â€” Wisdom Seeker â€” deep indigo-sapphire */
 .ss-7 {
   background: #010310;
   color: #5070c0;
@@ -1119,7 +1119,7 @@ footer {
 .ss-7 .system-quote            { color: #6080d0; border-color: #304090; }
 .ss-7 .system-num-display      { color: #4060c0; }
 
-/* 8 — Power — mercury gold-silver */
+/* 8 â€” Power â€” mercury gold-silver */
 .ss-8 {
   background: #080808;
   color: #a0a0b0;
@@ -1138,7 +1138,7 @@ footer {
 .ss-8 .system-quote            { color: #b0a870; border-color: #707050; }
 .ss-8 .system-num-display      { color: #a09060; }
 
-/* 9 — Dispersion — cosmic white-violet */
+/* 9 â€” Dispersion â€” cosmic white-violet */
 .ss-9 {
   background: #02000a;
   color: #a890d0;
@@ -1164,9 +1164,9 @@ footer {
   border-top: none;
 }
 
-/* ══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    SIMULATION DESCENT LAYERS
-══════════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .sim-layer {
   position: relative;
@@ -1177,16 +1177,16 @@ footer {
   justify-content: center;
 }
 
-/* Canvas — hidden until scrolled into view */
+/* Canvas â€” hidden until scrolled into view */
 .layer-canvas {
   position: absolute;
   inset: 0; width: 100%; height: 100%;
   pointer-events: none;
-  opacity: 1;          /* starts visible — JS fades lower sections in via scroll */
+  opacity: 1;          /* starts visible â€” JS fades lower sections in via scroll */
   will-change: opacity;
 }
 
-/* Added by JS after boot — enables smooth scroll fade for below-fold layers */
+/* Added by JS after boot â€” enables smooth scroll fade for below-fold layers */
 .layer-canvas.fade-ready {
   opacity: 0;
   transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1205,7 +1205,7 @@ footer {
   text-align: center;
 }
 
-/* ── Seamless top/bottom bleed into --void on every layer ── */
+/* â”€â”€ Seamless top/bottom bleed into --void on every layer â”€â”€ */
 .sim-layer::before,
 .sim-layer::after {
   content: '';
@@ -1243,14 +1243,14 @@ footer {
   letter-spacing: .28em; color: rgba(201,168,76,.52); text-transform: uppercase;
 }
 
-/* ════ LAYER 2 — Physical Substrate (warm amber-stone) ════ */
+/* â•â•â•â• LAYER 2 â€” Physical Substrate (warm amber-stone) â•â•â•â• */
 .sim-layer-2 { background: #05040a; }
 .sim-layer-2::after { background: linear-gradient(to top, #05040a 0%, transparent 100%); }
 .sim-layer-2 .sim-eyebrow { color: rgba(195,162,88,.7); letter-spacing: .4em; }
 .sim-layer-2 .section-title { color: #c4b47e; }
 .sim-layer-2 .section-body  { color: rgba(148,130,90,.78); }
 
-/* ════ LAYER 3 — Holographic Field (deep teal) ════ */
+/* â•â•â•â• LAYER 3 â€” Holographic Field (deep teal) â•â•â•â• */
 .sim-layer-3 { background: #01040c; }
 .sim-layer-3::before { background: linear-gradient(to bottom, #05040a 0%, transparent 100%); }
 .sim-layer-3::after  { background: linear-gradient(to top,   #01040c 0%, transparent 100%); }
@@ -1274,146 +1274,7 @@ footer {
 .holo-card .freq-name   { color: #96e2e4; }
 .holo-card .freq-desc   { color: rgba(120,215,218,.65); }
 
-/* ════ LAYER 4 — Source Code (matrix green) ════ */
-.sim-layer-4 { background: #000; }
-.sim-layer-4::before { background: linear-gradient(to bottom, #01040c 0%, transparent 100%); }
-.sim-layer-4::after  { background: linear-gradient(to top,   #000    0%, transparent 100%); }
-.sim-layer-4 .sim-eyebrow {
-  color: rgba(0,240,65,.65); letter-spacing: .5em;
-  text-shadow: 0 0 16px rgba(0,240,65,.3);
-}
-.sim-layer-4 .section-title {
-  color: #00ee40;
-  text-shadow: 0 0 30px rgba(0,235,65,.4), 0 0 90px rgba(0,235,65,.15);
-}
-.sim-layer-4 .section-body { color: rgba(0,195,52,.76); }
-
-/* Terminal step blocks */
-.steps-code { max-width: 620px; margin: 48px auto 0; text-align: left; }
-.step-code {
-  background: rgba(0,22,7,.75); padding: 22px 24px; border-radius: 3px;
-  border: 1px solid rgba(0,195,55,.2); margin-bottom: 14px;
-  display: flex; gap: 20px; align-items: flex-start;
-  backdrop-filter: blur(6px);
-}
-.step-code .step-title {
-  color: #00ee40; font-family: 'Cinzel', serif;
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 6px;
-}
-.step-code .step-body { color: rgba(0,195,52,.8); font-size: 16px; line-height: 1.65; }
-.code-num {
-  flex-shrink: 0; min-width: 40px; height: 40px; margin-top: 2px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,22,7,.9) !important; border-radius: 3px !important;
-  border: 1px solid rgba(0,195,55,.32) !important;
-  color: #00ee40 !important; font-family: 'Courier New', monospace !important;
-  font-size: 13px; box-shadow: 0 0 12px rgba(0,235,65,.15), inset 0 0 6px rgba(0,235,65,.06);
-}
-.code-quote {
-  border-color: rgba(0,195,55,.25) !important;
-  background: rgba(0,16,5,.7) !important;
-  max-width: 620px; margin: 44px auto !important;
-  backdrop-filter: blur(6px);
-}
-.code-quote .quote-text { color: rgba(0,220,62,.86) !important; }
-.code-quote .quote-attr { color: rgba(0,150,40,.68) !important; }
-
-/* ══════════════════════════════════════════════════════════
-   SIMULATION DESCENT LAYERS
-══════════════════════════════════════════════════════════ */
-
-.sim-layer {
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Canvas — hidden until scrolled into view */
-
-
-.sim-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1100px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 110px 24px;
-  text-align: center;
-}
-
-/* ── Seamless top/bottom bleed into --void on every layer ── */
-.sim-layer::before,
-.sim-layer::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  height: 220px;
-  z-index: 4;
-  pointer-events: none;
-}
-.sim-layer::before {
-  top: 0;
-  background: linear-gradient(to bottom, #05040a 0%, transparent 100%);
-}
-.sim-layer::after {
-  bottom: 0;
-  background: linear-gradient(to top, #05040a 0%, transparent 100%);
-}
-
-/* Layer badge */
-.layer-label {
-  position: absolute;
-  top: 32px; right: 32px;
-  z-index: 10;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
-  opacity: 0; transform: translateY(-6px);
-  transition: opacity 1.2s ease 0.4s, transform 1.2s ease 0.4s;
-}
-.layer-label.visible { opacity: 1; transform: translateY(0); }
-.layer-depth {
-  font-family: 'Cinzel', serif; font-size: 7px;
-  letter-spacing: .45em; color: rgba(201,168,76,.28); text-transform: uppercase;
-}
-.layer-name {
-  font-family: 'Cinzel', serif; font-size: 9px;
-  letter-spacing: .28em; color: rgba(201,168,76,.52); text-transform: uppercase;
-}
-
-/* ════ LAYER 2 — Physical Substrate (warm amber-stone) ════ */
-.sim-layer-2 { background: #05040a; }
-.sim-layer-2::after { background: linear-gradient(to top, #05040a 0%, transparent 100%); }
-.sim-layer-2 .sim-eyebrow { color: rgba(195,162,88,.7); letter-spacing: .4em; }
-.sim-layer-2 .section-title { color: #c4b47e; }
-.sim-layer-2 .section-body  { color: rgba(148,130,90,.78); }
-
-/* ════ LAYER 3 — Holographic Field (deep teal) ════ */
-.sim-layer-3 { background: #01040c; }
-.sim-layer-3::before { background: linear-gradient(to bottom, #05040a 0%, transparent 100%); }
-.sim-layer-3::after  { background: linear-gradient(to top,   #01040c 0%, transparent 100%); }
-.sim-layer-3 .sim-eyebrow { color: rgba(45,200,215,.88); letter-spacing: .4em; }
-.sim-layer-3 .section-title {
-  color: #cef2f4;
-  text-shadow: 0 0 60px rgba(0,185,210,.25), 0 0 120px rgba(0,145,190,.1);
-}
-.sim-layer-3 .section-body { color: rgba(80,200,210,.82); }
-
-.holo-card {
-  background: rgba(0,120,145,.07) !important;
-  border-color: rgba(0,195,215,.15) !important;
-  transition: border-color .5s ease, box-shadow .5s ease !important;
-}
-.holo-card:hover {
-  border-color: rgba(0,195,215,.4) !important;
-  box-shadow: 0 0 36px rgba(0,190,215,.1), inset 0 0 20px rgba(0,190,215,.04) !important;
-}
-.holo-card .freq-number { color: rgba(0,210,220,.85); }
-.holo-card .freq-name   { color: #96e2e4; }
-.holo-card .freq-desc   { color: rgba(120,215,218,.65); }
-
-/* ════ LAYER 4 — Source Code (matrix green) ════ */
+/* â•â•â•â• LAYER 4 â€” Source Code (matrix green) â•â•â•â• */
 .sim-layer-4 { background: #000; }
 .sim-layer-4::before { background: linear-gradient(to bottom, #01040c 0%, transparent 100%); }
 .sim-layer-4::after  { background: linear-gradient(to top,   #000    0%, transparent 100%); }
