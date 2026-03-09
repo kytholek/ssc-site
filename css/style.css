@@ -1170,11 +1170,9 @@ footer {
 
 .sim-layer {
   position: relative;
-  overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: visible;
+  display: block;
+  padding: 80px 0;
 }
 
 /* Canvas â€” hidden until scrolled into view */
@@ -1197,11 +1195,11 @@ footer {
 
 .sim-content {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   max-width: 1100px;
   width: 100%;
   margin: 0 auto;
-  padding: 110px 24px;
+  padding: 110px 24px 80px;
   text-align: center;
 }
 
