@@ -68,20 +68,75 @@
 
       var loaded = 0;
 
+      function loadBlogPosts() {
+        return new Promise(function(resolve) {
+          var blogPostIds = [
+            'post-decoding-matrix', 'post-system', 'post-simulation', 'post-lifepath',
+            'post-master', 'post-name', 'post-seven', 'post-pythagorean', 'post-shadow',
+            'post-calculate', 'post-angel-numbers', 'post-name-change', 'post-666',
+            'post-369', 'post-five-lenses', 'post-transformation-path', 'post-theme-number'
+          ];
+          
+          var pageBlog = document.getElementById('page-blog');
+          if (!pageBlog) {
+            console.warn('SSC: #page-blog not found');
+            resolve();
+            return;
+          }
+          
+          var postsLoaded = 0;
+          var totalPosts = blogPostIds.length;
+          var container = document.createElement('div');
+          
+          blogPostIds.forEach(function(postId) {
+            fetch('/blog/' + postId + '.html')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.text();
+              })
+              .then(function (html) {
+                container.innerHTML += html;
+                postsLoaded++;
+                console.log('SSC: Loaded ' + postId + ' (' + postsLoaded + '/' + totalPosts + ')');
+                if (postsLoaded === totalPosts) {
+                  pageBlog.appendChild(container);
+                  console.log('SSC: All blog posts loaded and injected');
+                  resolve();
+                }
+              })
+              .catch(function (err) {
+                console.warn('SSC blog loader: Failed to load ' + postId + ' — ' + err.message);
+                postsLoaded++;
+                if (postsLoaded === totalPosts) {
+                  pageBlog.appendChild(container);
+                  resolve();
+                }
+              });
+          });
+        });
+      }
+
       function onAllLoaded() {
-        // 1. Route to correct page
-        if (typeof initApp === 'function') initApp();
+        console.log('SSC: onAllLoaded() called — starting blog post loading...');
+        
+        // 0. Load blog posts, then init everything
+        loadBlogPosts().then(function() {
+          console.log('SSC: Blog posts loaded, initializing app...');
+          
+          // 1. Route to correct page
+          if (typeof initApp === 'function') initApp();
 
-        // 2. Boot canvas animations — MUST run after home.html is in the DOM
-        //    so canvas-solid / canvas-holo / canvas-matrix elements exist
-        if (typeof bootSimulation === 'function') {
-          bootSimulation();
-        }
+          // 2. Boot canvas animations — MUST run after home.html is in the DOM
+          //    so canvas-solid / canvas-holo / canvas-matrix elements exist
+          if (typeof bootSimulation === 'function') {
+            bootSimulation();
+          }
 
-        // 3. Boot admin CMS
-        if (typeof adminSystem !== 'undefined' && typeof adminSystem.boot === 'function') {
-          adminSystem.boot();
-        }
+          // 3. Boot admin CMS
+          if (typeof adminSystem !== 'undefined' && typeof adminSystem.boot === 'function') {
+            adminSystem.boot();
+          }
+        });
       }
 
       PAGES.forEach(function (page) {

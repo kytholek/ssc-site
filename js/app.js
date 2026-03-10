@@ -23,7 +23,7 @@ const SITE = {
   description : 'Discover your seven numerology frequencies — Life Path, Expression, Life Calling, Soul, Outer, Achievement & Theme.',
   ogImage     : 'https://simulationsourcecode.com/ssc-og.png',
   baseUrl     : 'https://simulationsourcecode.com',
-  blogPath    : 'blog/',   // path to individual post HTML files
+  blogPath    : '/blog/',   // path to individual post HTML files (absolute from root)
 };
 
 // Per-page meta for non-blog pages
@@ -100,17 +100,23 @@ function _getPostMeta(postEl, id) {
 // ────────────────────────────────────────────────────────────
 async function _loadPost(id) {
   // Return from cache if already loaded
-  if (_postCache[id]) return _postCache[id];
+  if (_postCache[id]) {
+    console.log(`[SSC] Returning cached post: ${id}`);
+    return _postCache[id];
+  }
 
   const url = SITE.blogPath + id + '.html';
+  console.log(`[SSC] Attempting to fetch post from: ${url}`);
+  
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     const html = await res.text();
+    console.log(`[SSC] Successfully fetched ${id}, HTML length: ${html.length}`, html.substring(0, 100));
     _postCache[id] = html;
     return html;
   } catch (err) {
-    console.error(`[SSC] Failed to load post: ${url}`, err);
+    console.error(`[SSC] Failed to load post from ${url}:`, err);
     return null;
   }
 }
@@ -217,18 +223,24 @@ function toggleMenu() {
 //  BLOG — open / close / filter
 // ────────────────────────────────────────────────────────────
 async function openPost(id, pushState = true) {
+  console.log(`[SSC] openPost() called with id: ${id}`);
+  
   // Show blog page if not already active
   const blogPage = document.getElementById('page-blog');
   if (blogPage && !blogPage.classList.contains('active')) {
+    console.log(`[SSC] Showing blog page...`);
     showPage('blog', false);
   }
 
   const listing   = document.getElementById('blog-listing');
   const container = _getPostContainer();
+  
+  console.log(`[SSC] Blog listing found: ${!!listing}, Post container found: ${!!container}`);
 
   // Show loading state
   if (listing)   listing.style.display   = 'none';
   container.style.display = 'block';
+  console.log(`[SSC] Container display set to: ${container.style.display}, page-blog display: ${blogPage?.style.display}`);
 
   // Clear previous post
   if (_currentPostId !== id) {
@@ -236,27 +248,41 @@ async function openPost(id, pushState = true) {
   }
 
   // Fetch (or hit cache)
+  console.log(`[SSC] Fetching post HTML...`);
   const html = await _loadPost(id);
+  console.log(`[SSC] Post fetch complete. HTML received: ${!!html}`);
 
   if (!html) {
+    console.error(`[SSC] No HTML returned for post: ${id}`);
     container.innerHTML = '<div class="blog-post-error"><p>Could not load this post. <button onclick="closePosts()">← Back to Blog</button></p></div>';
     return;
   }
 
   // Inject HTML if not already there
   if (_currentPostId !== id) {
+    console.log(`[SSC] Injecting HTML into container...`);
     container.innerHTML = html;
     _currentPostId = id;
+    
+    // Activate the blog post div
+    const postEl = container.querySelector(`#${id}`);
+    if (postEl) {
+      postEl.classList.add('active');
+      console.log(`[SSC] Added active class to post element`);
+    }
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Read meta from injected DOM
   const postEl = container.querySelector(`#${id}`);
+  console.log(`[SSC] Post element found in DOM: ${!!postEl}`);
+  
   const meta   = _getPostMeta(postEl, id);
   const canonicalUrl = SITE.baseUrl + '/?post=' + id;
 
   if (meta) {
+    console.log(`[SSC] Post meta found:`, meta);
     setMeta(meta.title, meta.description, meta.ogImage, canonicalUrl);
     _setArticleSchema(meta);
   }
