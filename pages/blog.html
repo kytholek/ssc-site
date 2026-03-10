@@ -11,106 +11,246 @@
     </div>
 
     <div class="blog-container">
+
+      <!-- ════════════════════════
+           FILTER BAR
+      ═════════════════════════ -->
       <div class="blog-filters a1">
         <button class="blog-filter active" onclick="filterBlog('all', this)">All Posts</button>
+        <button class="blog-filter" onclick="filterBlog('the-system', this)">The System</button>
         <button class="blog-filter" onclick="filterBlog('numerology', this)">Numerology</button>
         <button class="blog-filter" onclick="filterBlog('philosophy', this)">Philosophy</button>
         <button class="blog-filter" onclick="filterBlog('numbers', this)">The Numbers</button>
         <button class="blog-filter" onclick="filterBlog('practice', this)">Practice</button>
-        <button class="blog-filter" onclick="filterBlog('the-system', this)">The System</button>
       </div>
 
-      <div class="blog-featured a2" id="blog-featured-row"></div>
-      <div class="blog-card blog-card-system" onclick="openPost('post-decoding-matrix')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">✦</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
-          </div>
-          <div class="blog-card-title">Decoding the Matrix: The Architecture of Simulation Source Code</div>
-          <p class="blog-card-excerpt">What if numerology is not mysticism — but the source code of your simulation? A deep dive into the philosophical foundation, the 3×3 Codex, the nine frequencies of energy, and the seven-number blueprint encoded in your birth.</p>
-          <div class="blog-read-more">Read Article →</div>
-        </div>
+      <!-- ════════════════════════
+           SERIES HEADER
+      ═════════════════════════ -->
+      <div class="blog-series-header a2" id="system-series-header">
+        <div class="blog-series-eyebrow">&#10022;&nbsp; Reading Series</div>
+        <div class="blog-series-title">The System</div>
+        <p class="blog-series-desc">The book in article form. Read in order or drop into any chapter — each post traces a step in the full architecture of Simulation Source Code, from first principles through to your personal blueprint.</p>
       </div>
 
-        <div class="blog-card blog-card-system" onclick="openPost('post-system')" data-category="numbers">
-          <div class="blog-card-banner">
-            <div class="blog-card-glyph system-glyph">0→9</div>
+      <!-- ════════════════════════
+           THE SYSTEM — LARGE CARDS
+           Book order: Part I → II → III → IV
+      ═════════════════════════ -->
+      <div class="blog-system-series a2" id="blog-system-series">
+
+        <!-- 01 · Part I — The World as Hologram -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-simulation')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">&#10022;</div>
+            <div class="blog-series-num">01</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
-              <span class="blog-tag teal">The Numbers</span>
-              <span class="blog-date">March 2025</span>
-            </div>
-            <div class="blog-card-title">The Evolution of Energy</div>
-            <p class="blog-card-excerpt">From the Void of Zero to the Dispersal of Nine — the complete evolution of energy through the numerical frequencies, and what each stage means for the simulation you are living.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-
-        <div class="blog-card" onclick="openPost('post-simulation')" data-category="philosophy">
-          <div class="blog-card-banner">
-            <div class="blog-card-glyph">✦</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag gold">Philosophy</span>
-              <span class="blog-date">December 2024</span>
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part I</span>
             </div>
             <div class="blog-card-title">You Are Running on a Simulation — And Your Numbers Are the Source Code</div>
-            <p class="blog-card-excerpt">Modern physics increasingly suggests reality is information. If the universe is computational, then the numbers encoded in your birth and name are not symbolic — they are literal parameters of your simulation.</p>
+            <p class="blog-card-excerpt">The foundation of everything. Reality is not happening out there — it is constructed in here, from the inside out. If the universe is information, your birth and name are not random. They are parameters.</p>
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
 
+        <!-- 02 · Part II — Language of Light / Evolution of Energy -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-system')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">0→9</div>
+            <div class="blog-series-num">02</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part II</span>
+            </div>
+            <div class="blog-card-title">The Evolution of Energy: 0 Through 9</div>
+            <p class="blog-card-excerpt">Numbers are not symbols — they are the routes energy takes through creation. Each frequency a stage in the evolution from void to wisdom. Zero through nine, in sequence, with nothing skipped.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 03 · Part II — Electro-Magnetic-Aether (NEW) -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-electric-magnetic-aether')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">&#10021;</div>
+            <div class="blog-series-num">03</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part II</span>
+            </div>
+            <div class="blog-card-title">Electric, Magnetic &amp; Aether: The Three Natures of Number</div>
+            <p class="blog-card-excerpt">The nine frequencies are not all the same kind of thing. Four are Electric — active, outward, initiating. Four are Magnetic — receptive, inward, sustaining. Two are Aetheric — the void before and after the cycle. This distinction changes everything.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 04 · Part III — The Codex Architecture (NEW) -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-codex-architecture')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph" style="font-size:22px">3&#xD7;3</div>
+            <div class="blog-series-num">04</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part III</span>
+            </div>
+            <div class="blog-card-title">The Codex: Architecture of the Consciousness Matrix</div>
+            <p class="blog-card-excerpt">A 3&#xD7;3 map of how consciousness moves — three planes, three columns, one central pivot that everything passes through. Not a personality chart. A precise schematic of how awareness develops from pure perception to embodied wisdom and back again.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 05 · Part III — 666 / The Frame of Six -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-666')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">666</div>
+            <div class="blog-series-num">05</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part III</span>
+            </div>
+            <div class="blog-card-title">666 Is Not What You Think</div>
+            <p class="blog-card-excerpt">Around the edges of the Codex, a pattern emerges — every row reduces to 6. This is not omen or accident. It is the structural law that frames the entire matrix: integration is not optional, it is the condition for all sustainable growth.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 06 · Part III — 3-6-9 / Tesla / Triple Master Secret -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-369')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">3&#xB7;6&#xB7;9</div>
+            <div class="blog-series-num">06</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part III</span>
+            </div>
+            <div class="blog-card-title">The 3–6–9 Pattern: Why Tesla Was Right</div>
+            <p class="blog-card-excerpt">Every triple number reduces to 3, 6, or 9. Every column of the Codex sums to 3, 6, or 9. Tesla glimpsed the pattern from the outside. The Codex reveals the architecture underneath — and what these three positions mean for Mind, Body, and Spirit.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 07 · Part III — Path of Transformation -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-transformation-path')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">1→9</div>
+            <div class="blog-series-num">07</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part III</span>
+            </div>
+            <div class="blog-card-title">The Path of Transformation: 1→4→7→2→5→8→3→6→9</div>
+            <p class="blog-card-excerpt">The Codex encodes a specific nine-step sequence for how transformation actually moves through a person. Three phases, each building on the last. This is not a theory — it is the operational rhythm of becoming.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 08 · Part III — Five: The Vessel / Five Lenses -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-five-lenses')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">&#9678;</div>
+            <div class="blog-series-num">08</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part III</span>
+            </div>
+            <div class="blog-card-title">The Five Lenses of Self: Which One Are You Seeing Through?</div>
+            <p class="blog-card-excerpt">Five senses, five appendages — and five lenses of self. Ego, Mind, Soul, Spirit, Void. The lens you are identified with does not just colour experience; it constructs it. Learning to shift changes the entire simulation.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 09 · Part III–IV bridge — Decoding the Matrix (full overview) -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-decoding-matrix')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">&#10022;</div>
+            <div class="blog-series-num">09</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Parts III–IV</span>
+            </div>
+            <div class="blog-card-title">Decoding the Matrix: The Complete Architecture of Simulation Source Code</div>
+            <p class="blog-card-excerpt">The full picture — holographic reality, the Codex, the nine frequencies, and the seven-number personal blueprint assembled into one coherent framework. The overview article for the entire SSC system.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- 10 · Part IV — Angel Numbers -->
+        <div class="blog-card blog-card-system blog-card-system-full" onclick="openPost('post-angel-numbers')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">11:11</div>
+            <div class="blog-series-num">10</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">Part IV</span>
+            </div>
+            <div class="blog-card-title">Angel Numbers Are Being Read Wrong</div>
+            <p class="blog-card-excerpt">The Codex is alive and leaves you clues — but the internet has stripped angel numbers of their most important component: you. The message is always personal, always contextual. Only you can fully decode it.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+      </div><!-- /blog-system-series -->
+
+      <!-- ════════════════════════
+           MORE ARTICLES — SMALLER GRID
+      ═════════════════════════ -->
+      <div class="blog-more-header a3" id="blog-more-header">
+        <div class="blog-series-eyebrow">&#xB7;&nbsp; More Articles &nbsp;&#xB7;</div>
+      </div>
+
+      <div class="blog-grid a3" id="blog-grid">
+
+        <!-- Numerology -->
         <div class="blog-card" onclick="openPost('post-lifepath')" data-category="numerology">
-          <div class="blog-card-banner">
-            <div class="blog-card-glyph">①</div>
+          <div class="blog-card-banner" style="height:120px">
+            <div class="blog-card-glyph">&#9312;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
               <span class="blog-tag">Numerology</span>
-              <span class="blog-date">November 2024</span>
+              <span class="blog-card-date">Nov 2024</span>
             </div>
             <div class="blog-card-title">The Life Path Number: Your Primary Frequency</div>
-            <p class="blog-card-excerpt">Of all seven frequencies, Life Path is the most fundamental. It describes the core theme your simulation is designed to explore — not what you will do, but what you are here to learn.</p>
+            <p class="blog-card-excerpt">The most fundamental of the seven. The core theme your simulation is designed to explore — not what you will do, but what you are here to learn.</p>
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
-      </div>
 
-      <div class="blog-grid a3" id="blog-grid">
-        <div class="blog-card" onclick="openPost('post-master')" data-category="numbers">
+        <div class="blog-card" onclick="openPost('post-theme-number')" data-category="numerology">
           <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">⬡</div>
+            <div class="blog-card-glyph" style="font-size:34px">&#8734;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
-              <span class="blog-tag teal">The Numbers</span>
-              <span class="blog-date">October 2024</span>
+              <span class="blog-tag">Numerology</span>
+              <span class="blog-card-date">Mar 2026</span>
             </div>
-            <div class="blog-card-title">Master Numbers 11, 22 &amp; 33: Amplified Purpose</div>
-            <p class="blog-card-excerpt">When a number reduces to 11, 22, or 33, the rules change. These are master numbers — frequencies of amplified potential and amplified challenge.</p>
+            <div class="blog-card-title">Your Birth Year's Hidden Frequency: The Theme Number</div>
+            <p class="blog-card-excerpt">The least understood of the seven frequencies — it's not personal, it's atmospheric. That distinction changes how to read it entirely.</p>
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
-        <div class="blog-card" onclick="openPost('post-name')" data-category="practice">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">✍</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag rose">Practice</span>
-              <span class="blog-date">October 2024</span>
-            </div>
-            <div class="blog-card-title">Which Name Do You Use? Birth Name vs. Known Name in Numerology</div>
-            <p class="blog-card-excerpt">One of the most common questions in numerology: do you use the name on your birth certificate, or the name you actually go by? The answer matters more than you think.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
+
         <div class="blog-card" onclick="openPost('post-seven')" data-category="numerology">
           <div class="blog-card-banner" style="height:120px">
             <div class="blog-card-glyph" style="font-size:38px">7</div>
@@ -118,165 +258,110 @@
           <div class="blog-card-body">
             <div class="blog-card-meta">
               <span class="blog-tag">Numerology</span>
-              <span class="blog-date">September 2024</span>
+              <span class="blog-card-date">Sep 2024</span>
             </div>
             <div class="blog-card-title">Why Seven Frequencies? The Architecture of a Complete Reading</div>
-            <p class="blog-card-excerpt">Traditional numerology often focuses on three or four numbers. SSC works with seven. Each one reveals a different layer — and together they form a complete map.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-        <div class="blog-card" onclick="openPost('post-pythagorean')" data-category="numbers">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">△</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag teal">The Numbers</span>
-              <span class="blog-date">August 2024</span>
-            </div>
-            <div class="blog-card-title">Pythagorean vs. Chaldean Numerology: What's the Difference?</div>
-            <p class="blog-card-excerpt">Two major traditions assign different values to letters. Understanding why SSC uses the Pythagorean system — and what the Chaldean system offers — clarifies everything.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-        <div class="blog-card" onclick="openPost('post-shadow')" data-category="philosophy">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">◑</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag gold">Philosophy</span>
-              <span class="blog-date">July 2024</span>
-            </div>
-            <div class="blog-card-title">The Shadow Side of Your Numbers: What Numerology Doesn't Tell You</div>
-            <p class="blog-card-excerpt">Every number carries both gift and challenge. Authentic numerology doesn't flatten this into positivity — it honours the full spectrum of what each frequency means.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-        <div class="blog-card" onclick="openPost('post-calculate')" data-category="practice">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">🔢</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag rose">Practice</span>
-              <span class="blog-date">June 2024</span>
-            </div>
-            <div class="blog-card-title">How to Calculate Your Life Path Number by Hand</div>
-            <p class="blog-card-excerpt">A step-by-step walkthrough of the Pythagorean reduction method — so you understand exactly what the calculator is doing and why the process matters.</p>
+            <p class="blog-card-excerpt">Traditional numerology uses three or four numbers. SSC works with seven — each revealing a different layer of the complete map.</p>
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
 
-        <div class="blog-card" onclick="openPost('post-angel-numbers')" data-category="practice">
+        <!-- The Numbers -->
+        <div class="blog-card" onclick="openPost('post-master')" data-category="numbers">
           <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:34px">11:11</div>
+            <div class="blog-card-glyph" style="font-size:38px">&#11041;</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag teal">The Numbers</span>
+              <span class="blog-card-date">Oct 2024</span>
+            </div>
+            <div class="blog-card-title">Master Numbers 11, 22 &amp; 33: Amplified Purpose</div>
+            <p class="blog-card-excerpt">When a number does not reduce, the rules change. Frequencies of amplified potential — and amplified challenge.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <div class="blog-card" onclick="openPost('post-pythagorean')" data-category="numbers">
+          <div class="blog-card-banner" style="height:120px">
+            <div class="blog-card-glyph" style="font-size:38px">&#9651;</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag teal">The Numbers</span>
+              <span class="blog-card-date">Aug 2024</span>
+            </div>
+            <div class="blog-card-title">Pythagorean vs. Chaldean Numerology</div>
+            <p class="blog-card-excerpt">Two traditions, different letter values. Understanding the difference clarifies everything about which system to use and why.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- Philosophy -->
+        <div class="blog-card" onclick="openPost('post-shadow')" data-category="philosophy">
+          <div class="blog-card-banner" style="height:120px">
+            <div class="blog-card-glyph" style="font-size:38px">&#9681;</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">Philosophy</span>
+              <span class="blog-card-date">Jul 2024</span>
+            </div>
+            <div class="blog-card-title">The Shadow Side of Your Numbers</div>
+            <p class="blog-card-excerpt">Every frequency carries both gift and challenge. Authentic numerology honours the full spectrum — not just the flattering half.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <!-- Practice -->
+        <div class="blog-card" onclick="openPost('post-calculate')" data-category="practice">
+          <div class="blog-card-banner" style="height:120px">
+            <div class="blog-card-glyph" style="font-size:32px">&#128290;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
               <span class="blog-tag rose">Practice</span>
-              <span class="blog-card-date">March 2026</span>
+              <span class="blog-card-date">Jun 2024</span>
             </div>
-            <div class="blog-card-title">Angel Numbers Are Being Read Wrong</div>
-            <p class="blog-card-excerpt">The internet has given angel numbers a universal meaning. But the message is always personal — and stripping out the context strips out the most important part of the code.</p>
+            <div class="blog-card-title">How to Calculate Your Life Path by Hand</div>
+            <p class="blog-card-excerpt">Step-by-step Pythagorean reduction — so you understand exactly what the calculator is doing and why the process matters.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <div class="blog-card" onclick="openPost('post-name')" data-category="practice">
+          <div class="blog-card-banner" style="height:120px">
+            <div class="blog-card-glyph" style="font-size:38px">&#9997;</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag rose">Practice</span>
+              <span class="blog-card-date">Oct 2024</span>
+            </div>
+            <div class="blog-card-title">Which Name Do You Use?</div>
+            <p class="blog-card-excerpt">Birth name vs. known name — one of the most common questions, and the answer matters more than most people expect.</p>
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
 
         <div class="blog-card" onclick="openPost('post-name-change')" data-category="practice">
           <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:34px">✍</div>
+            <div class="blog-card-glyph" style="font-size:34px">&#10006;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
               <span class="blog-tag rose">Practice</span>
-              <span class="blog-card-date">March 2026</span>
+              <span class="blog-card-date">Mar 2026</span>
             </div>
-            <div class="blog-card-title">The Name-Changer Dilemma: Why You Can't Cheat the Simulation</div>
+            <div class="blog-card-title">The Name-Changer Dilemma</div>
             <p class="blog-card-excerpt">People change their names hoping to change their frequency. Here's why that rarely works — and what it would actually take if you tried.</p>
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
 
-        <div class="blog-card" onclick="openPost('post-666')" data-category="numbers">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:34px">666</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag teal">The Numbers</span>
-              <span class="blog-card-date">March 2026</span>
-            </div>
-            <div class="blog-card-title">666 Is Not What You Think</div>
-            <p class="blog-card-excerpt">One of the most feared number sequences in Western culture is actually a structural law encoded into the consciousness matrix. Here's what it actually means.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
+      </div><!-- /blog-grid -->
 
-        <div class="blog-card" onclick="openPost('post-369')" data-category="numbers">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:34px">3·6·9</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag teal">The Numbers</span>
-              <span class="blog-card-date">March 2026</span>
-            </div>
-            <div class="blog-card-title">The 3–6–9 Pattern: Why Tesla Was Right</div>
-            <p class="blog-card-excerpt">Tesla said 3, 6, and 9 were the key to the universe. The Codex shows exactly why — and what these three frequencies reveal about the structure of Mind, Body, and Spirit.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-
-        <div class="blog-card" onclick="openPost('post-five-lenses')" data-category="philosophy">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:34px">◎</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag gold">Philosophy</span>
-              <span class="blog-card-date">March 2026</span>
-            </div>
-            <div class="blog-card-title">The Five Lenses of Self: Which One Are You Seeing Through?</div>
-            <p class="blog-card-excerpt">Every experience looks completely different depending on which layer of self you are identified with. Ego, Mind, Soul, Spirit, and Void — five lenses, five entirely different realities.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-
-        <div class="blog-card blog-card-system" onclick="openPost('post-transformation-path')" data-category="the-system">
-          <div class="blog-card-banner blog-card-banner-system">
-            <div class="blog-card-glyph system-glyph">1→9</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag gold">The System</span>
-              <span class="blog-card-date">March 2026</span>
-            </div>
-            <div class="blog-card-title">The Path of Transformation: 1→4→7→2→5→8→3→6→9</div>
-            <p class="blog-card-excerpt">The Codex encodes a specific nine-step sequence for how transformation actually moves through a person. This is not a theory — it is the operational rhythm of becoming.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-
-        <div class="blog-card" onclick="openPost('post-theme-number')" data-category="numerology">
-          <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:34px">∞</div>
-          </div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="blog-tag">Numerology</span>
-              <span class="blog-card-date">March 2026</span>
-            </div>
-            <div class="blog-card-title">Your Birth Year's Hidden Frequency: The Theme Number Explained</div>
-            <p class="blog-card-excerpt">Of the seven frequencies in your blueprint, the Theme number is the least understood. It's not personal — it's atmospheric. And that distinction changes everything about how to read it.</p>
-            <div class="blog-read-more">Read Article →</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
+    </div><!-- /blog-container -->
   </div><!-- /blog-listing -->
 
   <!-- Post content is fetched and injected here by app.js -->

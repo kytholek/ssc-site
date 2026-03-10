@@ -10,7 +10,8 @@
 //       data-date="April 2026"
 //       data-og-image="blog/images/optional.png"   ← optional
 //  3. Add a card to pages/blog.html pointing to your slug
-//  4. Done. Routing, meta, URL, schema — all automatic.
+//  4. Add an entry to POST_SEQUENCE below (copy the pattern)
+//  5. Done. Routing, meta, URL, schema, prev/next, related — all automatic.
 // ════════════════════════════════════════════════════════════
 
 
@@ -23,10 +24,155 @@ const SITE = {
   description : 'Discover your seven numerology frequencies — Life Path, Expression, Life Calling, Soul, Outer, Achievement & Theme.',
   ogImage     : 'https://simulationsourcecode.com/ssc-og.png',
   baseUrl     : 'https://simulationsourcecode.com',
-  blogPath    : '/blog/',   // path to individual post HTML files (absolute from root)
+  blogPath    : 'blog/',
 };
 
-// Per-page meta for non-blog pages
+
+// ────────────────────────────────────────────────────────────
+//  POST SEQUENCE
+//  Defines display order for prev/next navigation and the
+//  pool for related article suggestions.
+//  Keep in the same order as the blog listing page.
+//  'series' marks posts belonging to The System reading series
+//  (preferred when picking related articles).
+// ────────────────────────────────────────────────────────────
+const POST_SEQUENCE = [
+  // ── The System series (book order) ──────────────────────
+  {
+    id      : 'post-simulation',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'You Are Running on a Simulation — And Your Numbers Are the Source Code',
+    excerpt : 'The foundation of everything. Reality is not happening out there — it is constructed in here, from the inside out.',
+  },
+  {
+    id      : 'post-system',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'The Evolution of Energy: 0 Through 9',
+    excerpt : 'Numbers are not symbols — they are the routes energy takes through creation. Each frequency a stage in the evolution from void to wisdom.',
+  },
+  {
+    id      : 'post-electric-magnetic-aether',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'Electric, Magnetic & Aether: The Three Natures of Number',
+    excerpt : 'Four Electric, four Magnetic, two Aetheric. The nine frequencies differ not just in quality but in fundamental nature.',
+  },
+  {
+    id      : 'post-codex-architecture',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'The Codex: Architecture of the Consciousness Matrix',
+    excerpt : 'A 3x3 map of how consciousness moves — three planes, three columns, one central pivot that everything passes through.',
+  },
+  {
+    id      : 'post-666',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : '666 Is Not What You Think',
+    excerpt : 'Around the edges of the Codex, every row reduces to 6. This is the structural law that frames the entire matrix.',
+  },
+  {
+    id      : 'post-369',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'The 3-6-9 Pattern: Why Tesla Was Right',
+    excerpt : 'Every triple number reduces to 3, 6, or 9. Every column of the Codex sums to 3, 6, or 9.',
+  },
+  {
+    id      : 'post-transformation-path',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'The Path of Transformation: 1 to 4 to 7 to 2 to 5 to 8 to 3 to 6 to 9',
+    excerpt : 'The Codex encodes a specific nine-step sequence for how transformation actually moves through a person.',
+  },
+  {
+    id      : 'post-five-lenses',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'The Five Lenses of Self: Which One Are You Seeing Through?',
+    excerpt : 'Ego, Mind, Soul, Spirit, Void — five lenses, five entirely different realities.',
+  },
+  {
+    id      : 'post-decoding-matrix',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'Decoding the Matrix: The Complete Architecture of Simulation Source Code',
+    excerpt : 'The full picture — holographic reality, the Codex, the nine frequencies, and the seven-number personal blueprint.',
+  },
+  {
+    id      : 'post-angel-numbers',
+    category: 'the-system',
+    series  : 'the-system',
+    title   : 'Angel Numbers Are Being Read Wrong',
+    excerpt : 'The message is always personal, always contextual. The internet has stripped out the most important component: you.',
+  },
+  // ── Numerology ──────────────────────────────────────────
+  {
+    id      : 'post-lifepath',
+    category: 'numerology',
+    title   : 'The Life Path Number: Your Primary Frequency',
+    excerpt : 'The most fundamental of the seven. The core theme your simulation is designed to explore.',
+  },
+  {
+    id      : 'post-theme-number',
+    category: 'numerology',
+    title   : "Your Birth Year's Hidden Frequency: The Theme Number",
+    excerpt : "The least understood of the seven frequencies — it's not personal, it's atmospheric.",
+  },
+  {
+    id      : 'post-seven',
+    category: 'numerology',
+    title   : 'Why Seven Frequencies? The Architecture of a Complete Reading',
+    excerpt : 'SSC works with seven frequencies — each revealing a different layer of the complete map.',
+  },
+  // ── The Numbers ─────────────────────────────────────────
+  {
+    id      : 'post-master',
+    category: 'numbers',
+    title   : 'Master Numbers 11, 22 & 33: Amplified Purpose',
+    excerpt : 'When a number does not reduce, the rules change. Frequencies of amplified potential and amplified challenge.',
+  },
+  {
+    id      : 'post-pythagorean',
+    category: 'numbers',
+    title   : 'Pythagorean vs. Chaldean Numerology',
+    excerpt : 'Two traditions, different letter values. Understanding the difference clarifies everything.',
+  },
+  // ── Philosophy ──────────────────────────────────────────
+  {
+    id      : 'post-shadow',
+    category: 'philosophy',
+    title   : 'The Shadow Side of Your Numbers',
+    excerpt : 'Every frequency carries both gift and challenge. Authentic numerology honours the full spectrum.',
+  },
+  // ── Practice ────────────────────────────────────────────
+  {
+    id      : 'post-calculate',
+    category: 'practice',
+    title   : 'How to Calculate Your Life Path by Hand',
+    excerpt : 'Step-by-step Pythagorean reduction — so you understand exactly what the calculator is doing.',
+  },
+  {
+    id      : 'post-name',
+    category: 'practice',
+    title   : 'Which Name Do You Use?',
+    excerpt : 'Birth name vs. known name — one of the most common questions, and the answer matters more than most expect.',
+  },
+  {
+    id      : 'post-name-change',
+    category: 'practice',
+    title   : 'The Name-Changer Dilemma',
+    excerpt : "People change their names hoping to change their frequency. Here's why that rarely works.",
+  },
+];
+
+// Quick lookup map: id -> { ...post, index }
+const POST_MAP = Object.fromEntries(POST_SEQUENCE.map((p, i) => [p.id, { ...p, index: i }]));
+
+
+// Per-page meta
 const PAGE_META = {
   home: {
     title      : 'Simulation Source Code · Numerology',
@@ -53,32 +199,32 @@ const PAGE_META = {
 
 // ────────────────────────────────────────────────────────────
 //  POST CONTAINER
-//  One hidden div that receives fetched post HTML.
-//  Posts are cached after first load so each is only
-//  fetched once per session.
 // ────────────────────────────────────────────────────────────
 let _postContainer = null;
-let _postCache     = {};   // { postId: htmlString }
+let _postCache     = {};
 let _currentPostId = null;
 
 function _getPostContainer() {
   if (!_postContainer) {
     _postContainer = document.getElementById('blog-post-container');
     if (!_postContainer) {
+      console.log('[SSC] Creating blog-post-container div');
       _postContainer = document.createElement('div');
       _postContainer.id = 'blog-post-container';
-      // Insert inside #page-blog, after the listing div
       const blogPage = document.getElementById('page-blog');
-      if (blogPage) blogPage.appendChild(_postContainer);
+      if (blogPage) {
+        blogPage.appendChild(_postContainer);
+        console.log('[SSC] blog-post-container appended to page-blog');
+      }
     }
   }
+  console.log('[SSC] Returning post container:', _postContainer?.id);
   return _postContainer;
 }
 
 
 // ────────────────────────────────────────────────────────────
 //  READ POST META FROM DOM
-//  After HTML is injected, reads data-* attributes off the div
 // ────────────────────────────────────────────────────────────
 function _getPostMeta(postEl, id) {
   if (!postEl) return null;
@@ -99,26 +245,153 @@ function _getPostMeta(postEl, id) {
 //  FETCH + INJECT POST HTML
 // ────────────────────────────────────────────────────────────
 async function _loadPost(id) {
-  // Return from cache if already loaded
-  if (_postCache[id]) {
-    console.log(`[SSC] Returning cached post: ${id}`);
-    return _postCache[id];
-  }
-
+  if (_postCache[id]) return _postCache[id];
   const url = SITE.blogPath + id + '.html';
-  console.log(`[SSC] Attempting to fetch post from: ${url}`);
-  
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     const html = await res.text();
-    console.log(`[SSC] Successfully fetched ${id}, HTML length: ${html.length}`, html.substring(0, 100));
     _postCache[id] = html;
     return html;
   } catch (err) {
-    console.error(`[SSC] Failed to load post from ${url}:`, err);
+    console.error(`[SSC] Failed to load post: ${url}`, err);
     return null;
   }
+}
+
+
+// ────────────────────────────────────────────────────────────
+//  HTML ESCAPE HELPER
+// ────────────────────────────────────────────────────────────
+function _esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+
+// ────────────────────────────────────────────────────────────
+//  PICK RELATED POSTS
+//  Priority: same series → same category → everything else
+//  Shuffles within each tier so it varies on each visit.
+// ────────────────────────────────────────────────────────────
+function _pickRelated(currentId, category, series, count) {
+  const pool = POST_SEQUENCE.filter(p => p.id !== currentId);
+  const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+
+  const sameSeries = series ? shuffle(pool.filter(p => p.series === series)) : [];
+  const sameCat    = shuffle(pool.filter(p => p.category === category && !sameSeries.includes(p)));
+  const others     = shuffle(pool.filter(p => !sameSeries.includes(p) && !sameCat.includes(p)));
+
+  return [...sameSeries, ...sameCat, ...others].slice(0, count);
+}
+
+
+// ────────────────────────────────────────────────────────────
+//  CATEGORY HELPERS
+// ────────────────────────────────────────────────────────────
+function _tagClass(cat) {
+  if (cat === 'the-system') return 'blog-tag gold';
+  if (cat === 'numbers')    return 'blog-tag teal';
+  if (cat === 'practice')   return 'blog-tag rose';
+  return 'blog-tag';
+}
+
+function _catLabel(cat) {
+  const map = {
+    'the-system': 'The System',
+    numerology  : 'Numerology',
+    numbers     : 'The Numbers',
+    philosophy  : 'Philosophy',
+    practice    : 'Practice',
+  };
+  return map[cat] || cat;
+}
+
+
+// ────────────────────────────────────────────────────────────
+//  INJECT PREV / NEXT + RELATED FOOTER
+//  Appended to #blog-post-container after each post loads.
+// ────────────────────────────────────────────────────────────
+function _injectPostNav(id) {
+  console.log('[SSC] _injectPostNav called with id:', id);
+  const container = _getPostContainer();
+
+  // Remove any previously injected footer
+  const old = container.querySelector('.post-nav-footer');
+  if (old) old.remove();
+
+  const current = POST_MAP[id];
+  console.log('[SSC] Post found in POST_MAP:', !!current);
+  if (!current) {
+    console.warn('[SSC] Post not found in POST_MAP. Available posts:', Object.keys(POST_MAP).join(', '));
+    return;
+  }
+
+  const idx  = current.index;
+  const prev = idx > 0                        ? POST_SEQUENCE[idx - 1] : null;
+  const next = idx < POST_SEQUENCE.length - 1 ? POST_SEQUENCE[idx + 1] : null;
+
+  console.log('[SSC] Post index:', idx, 'Prev:', prev?.id, 'Next:', next?.id);
+
+  const related = _pickRelated(id, current.category, current.series, 3);
+  console.log('[SSC] Related posts:', related.map(p => p.id).join(', '));
+
+  // Prev button
+  const prevHTML = prev
+    ? `<button class="post-nav-btn post-nav-prev" onclick="openPost('${prev.id}')">
+         <span class="post-nav-arrow">&#8592;</span>
+         <span class="post-nav-label">
+           <span class="post-nav-hint">Previous</span>
+           <span class="post-nav-title">${_esc(prev.title)}</span>
+         </span>
+       </button>`
+    : `<div class="post-nav-spacer"></div>`;
+
+  // Next button
+  const nextHTML = next
+    ? `<button class="post-nav-btn post-nav-next" onclick="openPost('${next.id}')">
+         <span class="post-nav-label post-nav-label-right">
+           <span class="post-nav-hint">Next</span>
+           <span class="post-nav-title">${_esc(next.title)}</span>
+         </span>
+         <span class="post-nav-arrow">&#8594;</span>
+       </button>`
+    : `<div class="post-nav-spacer"></div>`;
+
+  // Related cards
+  const relatedHTML = related.map(p => `
+    <div class="blog-card post-related-card" onclick="openPost('${p.id}')">
+      <div class="blog-card-body" style="padding:20px 20px 16px">
+        <div class="blog-card-meta" style="margin-bottom:8px">
+          <span class="${_tagClass(p.category)}">${_catLabel(p.category)}</span>
+        </div>
+        <div class="blog-card-title" style="font-size:15px;margin-bottom:8px;line-height:1.4">${_esc(p.title)}</div>
+        <p  class="blog-card-excerpt" style="font-size:13px;-webkit-line-clamp:2;line-clamp:2;margin:0 0 10px">${_esc(p.excerpt)}</p>
+        <div class="blog-read-more" style="font-size:12px;margin-top:auto">Read Article &#8594;</div>
+      </div>
+    </div>`).join('');
+
+  const footer = document.createElement('div');
+  footer.className = 'post-nav-footer';
+  footer.innerHTML = `
+    <div class="post-nav-divider"></div>
+    <div class="post-nav-row">
+      ${prevHTML}
+      ${nextHTML}
+    </div>
+    ${related.length ? `
+    <div class="post-related-section">
+      <div class="post-related-eyebrow">&#xB7;&nbsp; Continue Reading &nbsp;&#xB7;</div>
+      <div class="post-related-grid">${relatedHTML}</div>
+    </div>` : ''}
+  `;
+
+  console.log('[SSC] Footer HTML length:', footer.innerHTML.length, 'chars');
+  container.appendChild(footer);
+  console.log('[SSC] Footer appended to container');
 }
 
 
@@ -223,66 +496,57 @@ function toggleMenu() {
 //  BLOG — open / close / filter
 // ────────────────────────────────────────────────────────────
 async function openPost(id, pushState = true) {
-  console.log(`[SSC] openPost() called with id: ${id}`);
-  
-  // Show blog page if not already active
+  console.log('[SSC] openPost called with id:', id);
   const blogPage = document.getElementById('page-blog');
   if (blogPage && !blogPage.classList.contains('active')) {
-    console.log(`[SSC] Showing blog page...`);
     showPage('blog', false);
   }
 
   const listing   = document.getElementById('blog-listing');
   const container = _getPostContainer();
-  
-  console.log(`[SSC] Blog listing found: ${!!listing}, Post container found: ${!!container}`);
 
-  // Show loading state
-  if (listing)   listing.style.display   = 'none';
+  if (listing) listing.style.display = 'none';
   container.style.display = 'block';
-  console.log(`[SSC] Container display set to: ${container.style.display}, page-blog display: ${blogPage?.style.display}`);
 
-  // Clear previous post
   if (_currentPostId !== id) {
-    container.innerHTML = '<div class="blog-post-loading">Loading…</div>';
+    container.innerHTML = '<div class="blog-post-loading">Loading&#8230;</div>';
   }
 
-  // Fetch (or hit cache)
-  console.log(`[SSC] Fetching post HTML...`);
   const html = await _loadPost(id);
-  console.log(`[SSC] Post fetch complete. HTML received: ${!!html}`);
+  console.log('[SSC] Post HTML loaded:', html ? 'YES (' + html.length + ' chars)' : 'NO');
 
   if (!html) {
-    console.error(`[SSC] No HTML returned for post: ${id}`);
-    container.innerHTML = '<div class="blog-post-error"><p>Could not load this post. <button onclick="closePosts()">← Back to Blog</button></p></div>';
+    container.innerHTML = '<div class="blog-post-error"><p>Could not load this post. <button onclick="closePosts()">&#8592; Back to Blog</button></p></div>';
     return;
   }
 
-  // Inject HTML if not already there
   if (_currentPostId !== id) {
-    console.log(`[SSC] Injecting HTML into container...`);
     container.innerHTML = html;
     _currentPostId = id;
-    
-    // Activate the blog post div
-    const postEl = container.querySelector(`#${id}`);
-    if (postEl) {
-      postEl.classList.add('active');
-      console.log(`[SSC] Added active class to post element`);
-    }
+    console.log('[SSC] Post HTML injected into container');
+  }
+
+  // Make sure the .blog-post div has the active class to show it (CSS default is display: none)
+  const postEl = container.querySelector(`#${id}`);
+  if (postEl) {
+    postEl.classList.add('active');
+    console.log('[SSC] Added active class to post element');
+  }
+
+  // Inject prev/next + related footer
+  console.log('[SSC] About to inject post nav footer');
+  try {
+    _injectPostNav(id);
+    console.log('[SSC] Post nav footer injected successfully');
+  } catch (err) {
+    console.error('[SSC] ERROR in _injectPostNav:', err);
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Read meta from injected DOM
-  const postEl = container.querySelector(`#${id}`);
-  console.log(`[SSC] Post element found in DOM: ${!!postEl}`);
-  
   const meta   = _getPostMeta(postEl, id);
   const canonicalUrl = SITE.baseUrl + '/?post=' + id;
 
   if (meta) {
-    console.log(`[SSC] Post meta found:`, meta);
     setMeta(meta.title, meta.description, meta.ogImage, canonicalUrl);
     _setArticleSchema(meta);
   }
@@ -294,7 +558,11 @@ function closePosts(pushState = true) {
   const listing   = document.getElementById('blog-listing');
   const container = _getPostContainer();
 
-  if (listing)   listing.style.display   = 'block';
+  // Remove active class from any active post
+  const activePost = container.querySelector('.blog-post.active');
+  if (activePost) activePost.classList.remove('active');
+
+  if (listing) listing.style.display = 'block';
   container.style.display = 'none';
   _currentPostId = null;
 
@@ -310,28 +578,37 @@ function closePosts(pushState = true) {
 function filterBlog(category, btn) {
   document.querySelectorAll('.blog-filter').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('#page-blog .blog-card').forEach(card => {
-    card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
+
+  const systemHeader = document.getElementById('system-series-header');
+  const systemSeries = document.getElementById('blog-system-series');
+  const moreHeader   = document.getElementById('blog-more-header');
+  const showAll      = category === 'all';
+  const showSystem   = showAll || category === 'the-system';
+
+  if (systemHeader) systemHeader.style.display = showSystem ? '' : 'none';
+  if (systemSeries) systemSeries.style.display = showSystem ? '' : 'none';
+  if (moreHeader)   moreHeader.style.display   = (showAll || category !== 'the-system') ? '' : 'none';
+
+  document.querySelectorAll('#blog-grid .blog-card').forEach(card => {
+    card.style.display = (showAll || card.dataset.category === category) ? 'flex' : 'none';
   });
 }
 
 
 // ────────────────────────────────────────────────────────────
-//  POPSTATE — browser back / forward
+//  POPSTATE
 // ────────────────────────────────────────────────────────────
 window.addEventListener('popstate', e => {
   const s = e.state;
-  if (!s)            { showPage('home', false); return; }
-  if (s.post)        { openPost(s.post, false); }
-  else if (s.page)     showPage(s.page, false);
-  else                 showPage('home', false);
+  if (!s)        { showPage('home', false); return; }
+  if (s.post)    { openPost(s.post, false); }
+  else if (s.page) showPage(s.page, false);
+  else             showPage('home', false);
 });
 
 
 // ────────────────────────────────────────────────────────────
 //  DEEP LINK ON LOAD
-//  /?post=post-666       → fetches + opens that post directly
-//  /?page=calculator     → opens that page directly
 // ────────────────────────────────────────────────────────────
 async function handleDeepLink() {
   const params = new URLSearchParams(window.location.search);
