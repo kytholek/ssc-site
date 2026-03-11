@@ -1,7 +1,7 @@
 <!-- ════════════════════════════════════════════════════════════
      ADMIN OVERLAY — Blog CMS
-     Trigger: Ctrl+Shift+A  |  or navigate to #admin
-     Password: ssc2025  (change PASS in the JS above)
+     Trigger: Ctrl+Shift+A  |  navigate to #admin  |  click © 5×
+     Password: set PASS in admin.js
 ════════════════════════════════════════════════════════════ -->
 
 <!-- Hidden trigger in footer copyright (click 5×) -->
@@ -10,7 +10,7 @@
 
 <div id="admin-overlay">
 
-  <!-- Login screen -->
+  <!-- ── Login ─────────────────────────────────────────── -->
   <div id="admin-login">
     <div id="admin-login-box">
       <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px">Simulation Source Code</div>
@@ -24,23 +24,137 @@
     </div>
   </div>
 
-  <!-- Admin panel -->
+  <!-- ── Admin panel ───────────────────────────────────── -->
   <div id="admin-panel">
+
     <div id="admin-header">
       <div style="display:flex;align-items:center;gap:12px">
         <span style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase">&#10022; SSC Admin</span>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="admin-tab-btn active" id="tab-btn-write"  onclick="adminSystem.switchTab('write')">Write</button>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <button class="admin-tab-btn active" id="tab-btn-edit"    onclick="adminSystem.switchTab('edit')">Edit Posts</button>
+        <button class="admin-tab-btn"        id="tab-btn-write"   onclick="adminSystem.switchTab('write')">New Post</button>
         <button class="admin-tab-btn"        id="tab-btn-preview" onclick="adminSystem.switchTab('preview')">Preview</button>
-        <button class="admin-tab-btn"        id="tab-btn-posts"  onclick="adminSystem.switchTab('posts')">Posts</button>
-        <button class="admin-tab-btn"        id="tab-btn-export" onclick="adminSystem.switchTab('export')">Export</button>
+        <button class="admin-tab-btn"        id="tab-btn-posts"   onclick="adminSystem.switchTab('posts')">Saved</button>
+        <button class="admin-tab-btn"        id="tab-btn-export"  onclick="adminSystem.switchTab('export')">Export</button>
         <button onclick="adminSystem.close()" style="margin-left:8px;background:none;border:1px solid rgba(255,255,255,.12);color:var(--text-dim);border-radius:4px;padding:6px 12px;cursor:pointer;font-size:13px">&#10005;</button>
       </div>
     </div>
 
-    <!-- TAB: Write -->
-    <div class="admin-tab active" id="tab-write">
+
+    <!-- ════════════════════════════════════════════════════
+         TAB: EDIT EXISTING POSTS
+    ════════════════════════════════════════════════════ -->
+    <div class="admin-tab active" id="tab-edit">
+
+      <!-- Loading indicator -->
+      <div id="static-loading" style="display:none;align-items:center;justify-content:center;height:120px;color:var(--text-muted);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;gap:12px">
+        <span class="admin-spinner"></span>
+        <span id="static-loading-msg">Loading…</span>
+      </div>
+
+      <!-- Post list -->
+      <div id="static-post-list-wrap">
+        <div class="admin-section-label">All Posts — click Edit to open</div>
+        <div id="static-post-list"></div>
+      </div>
+
+      <!-- Editor pane (hidden until a post is loaded) -->
+      <div id="static-editor-pane" style="display:none;flex-direction:column;height:100%;gap:0">
+
+        <!-- Editor header bar -->
+        <div class="static-editor-header">
+          <button class="admin-btn-ghost static-back-btn" onclick="adminSystem.closeStaticEditor()">&#8592; All Posts</button>
+          <span id="static-editor-title" class="static-editor-title-text">—</span>
+          <div style="display:flex;gap:6px;margin-left:auto">
+            <button class="static-mode-btn active" data-mode="visual"   onclick="adminSystem.switchStaticMode('visual')">Visual</button>
+            <button class="static-mode-btn"        data-mode="raw"      onclick="adminSystem.switchStaticMode('raw')">HTML</button>
+            <button class="static-mode-btn"        data-mode="preview"  onclick="adminSystem.previewStaticPost()">Preview</button>
+          </div>
+        </div>
+
+        <!-- Meta fields -->
+        <div class="static-meta-bar">
+          <div class="static-meta-field static-meta-title">
+            <label class="admin-label">Title</label>
+            <input id="static-title" type="text" class="admin-input" placeholder="Post title…" autocomplete="off">
+          </div>
+          <div class="static-meta-field">
+            <label class="admin-label">Category</label>
+            <select id="static-category" class="admin-select">
+              <option value="the-system">The System</option>
+              <option value="numerology">Numerology</option>
+              <option value="numbers">The Numbers</option>
+              <option value="philosophy">Philosophy</option>
+              <option value="practice">Practice</option>
+            </select>
+          </div>
+          <div class="static-meta-field">
+            <label class="admin-label">Date</label>
+            <input id="static-date" type="text" class="admin-input" placeholder="Month YYYY" style="width:140px" autocomplete="off">
+          </div>
+        </div>
+        <div class="static-meta-bar" style="border-top:none;padding-top:0">
+          <div class="static-meta-field" style="flex:1">
+            <label class="admin-label">Meta Description <span style="color:var(--text-muted);font-weight:400">(for Google — keep under 160 chars)</span></label>
+            <input id="static-desc" type="text" class="admin-input" placeholder="1–2 sentence summary for search engines…" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Visual editor mode -->
+        <div id="static-visual-mode" style="display:flex;flex-direction:column;flex:1;min-height:0">
+          <div id="static-toolbar" class="admin-toolbar">
+            <button title="Heading"    onclick="adminSystem.staticWrap('### ','','heading')"><b>H3</b></button>
+            <button title="Bold"       onclick="adminSystem.staticWrap('**','**')"><b>B</b></button>
+            <button title="Italic"     onclick="adminSystem.staticWrap('*','*')"><em>I</em></button>
+            <button title="Blockquote" onclick="adminSystem.staticWrap('> ','','quote')">&#8220;&#8221;</button>
+            <button title="Paragraph break" onclick="adminSystem.staticInsertBreak()">&#182;</button>
+            <div class="toolbar-sep"></div>
+            <span class="toolbar-hint">Tip: ### Heading &nbsp;|&nbsp; **bold** &nbsp;|&nbsp; *italic* &nbsp;|&nbsp; &gt; blockquote &nbsp;|&nbsp; blank line = new paragraph</span>
+          </div>
+          <textarea id="static-body" class="admin-body static-body"
+            placeholder="Edit post content here. A blank line = new paragraph.
+### Section Heading
+**Bold text** and *italic text*
+> A blockquote like this
+Regular paragraph text."></textarea>
+          <div class="static-mode-note">
+            Visual mode strips raw HTML — switch to HTML mode to edit SVGs, figures, or custom elements.
+          </div>
+        </div>
+
+        <!-- Raw HTML mode -->
+        <div id="static-raw-mode" style="display:none;flex-direction:column;flex:1;min-height:0">
+          <div class="static-raw-note">
+            &#9888;&nbsp; Editing raw HTML. Changes here override the visual editor. Paste SVGs, figures, or complex markup here.
+          </div>
+          <textarea id="static-raw-html" class="admin-body static-body static-raw-area"
+            placeholder="Raw HTML for the post content…"></textarea>
+        </div>
+
+        <!-- Preview mode -->
+        <div id="static-preview-mode" style="display:none;flex:1;overflow-y:auto;padding:32px 0">
+          <div id="static-preview-content" style="max-width:700px;margin:0 auto"></div>
+        </div>
+
+        <!-- Save bar -->
+        <div class="static-save-bar">
+          <span class="static-save-hint">&#9432;&nbsp; Saving downloads the updated .html file. Drop it into your <code>/blog/</code> folder to deploy.</span>
+          <div style="display:flex;gap:10px">
+            <button class="admin-btn-ghost" onclick="adminSystem.closeStaticEditor()">Cancel</button>
+            <button class="admin-btn-primary" onclick="adminSystem.saveStaticPost()">&#8675; Download Updated File</button>
+          </div>
+        </div>
+
+      </div><!-- /static-editor-pane -->
+    </div><!-- /tab-edit -->
+
+
+    <!-- ════════════════════════════════════════════════════
+         TAB: WRITE (new dynamic post)
+    ════════════════════════════════════════════════════ -->
+    <div class="admin-tab" id="tab-write">
+      <div class="admin-section-label">New Post — saved to browser, export to make permanent</div>
       <input type="hidden" id="admin-editing-id">
       <div id="admin-fields">
         <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;margin-bottom:12px">
@@ -54,15 +168,15 @@
           </select>
           <input id="admin-date" type="text" placeholder="Month YYYY" style="width:130px" autocomplete="off">
         </div>
-        <input id="admin-excerpt" type="text" placeholder="Short excerpt for the card (optional)…" autocomplete="off" style="width:100%;margin-bottom:12px">
+        <input id="admin-excerpt" type="text" placeholder="Short excerpt for the blog card (optional)…" autocomplete="off" style="width:100%;margin-bottom:12px">
         <div style="position:relative;margin-bottom:12px">
-          <input id="admin-image" type="url" placeholder="Card image URL (optional) — paste any image link, e.g. https://i.imgur.com/abc123.jpg" autocomplete="off"
+          <input id="admin-image" type="url" placeholder="Card image URL (optional) — paste any image link" autocomplete="off"
             style="width:100%;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border-dim);border-radius:4px;color:var(--text);font-family:'EB Garamond',serif;font-size:15px;outline:none;transition:border-color .2s"
             oninput="adminSystem.previewCardImage(this.value)">
           <div id="admin-image-preview" style="display:none;margin-top:8px;border-radius:4px;overflow:hidden;height:80px;background-size:cover;background-position:center;border:1px solid var(--border-dim)"></div>
         </div>
-        <div id="admin-toolbar">
-          <button title="Heading"    onclick="adminSystem.wrap('### ','','heading')"><b>H</b></button>
+        <div id="admin-toolbar" class="admin-toolbar">
+          <button title="Heading"    onclick="adminSystem.wrap('### ','','heading')"><b>H3</b></button>
           <button title="Bold"       onclick="adminSystem.wrap('**','**')"><b>B</b></button>
           <button title="Italic"     onclick="adminSystem.wrap('*','*')"><em>I</em></button>
           <button title="Blockquote" onclick="adminSystem.wrap('> ','','quote')">&#8220;&#8221;</button>
@@ -77,26 +191,39 @@
       </div>
     </div>
 
-    <!-- TAB: Preview -->
+
+    <!-- ════════════════════════════════════════════════════
+         TAB: PREVIEW
+    ════════════════════════════════════════════════════ -->
     <div class="admin-tab" id="tab-preview">
       <div id="admin-preview-content" style="max-width:700px;margin:0 auto;padding:40px 0">
-        <div class="admin-empty">Fill in the Write tab to see a preview.</div>
+        <div class="admin-empty">Fill in the New Post tab to see a preview.</div>
       </div>
     </div>
 
-    <!-- TAB: Posts -->
+
+    <!-- ════════════════════════════════════════════════════
+         TAB: SAVED POSTS
+    ════════════════════════════════════════════════════ -->
     <div class="admin-tab" id="tab-posts">
-      <div id="admin-posts-list-inner" style="padding:24px 0"></div>
+      <div class="admin-section-label">Saved (browser-only) posts</div>
+      <div id="admin-posts-list-inner" style="padding:8px 0"></div>
     </div>
 
-    <!-- TAB: Export -->
+
+    <!-- ════════════════════════════════════════════════════
+         TAB: EXPORT
+    ════════════════════════════════════════════════════ -->
     <div class="admin-tab" id="tab-export">
       <div style="padding:24px 0">
-        <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px">Copy this code and paste it into your <code style="color:var(--gold);font-size:12px">index.html</code> to make posts permanent — cards into <code style="color:var(--gold);font-size:12px">#blog-grid</code>, posts before the closing blog div.</p>
+        <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px">Copy this code and paste it into your <code style="color:var(--gold);font-size:12px">pages/blog.html</code> to make browser posts permanent — cards into <code style="color:var(--gold);font-size:12px">#blog-grid</code>.</p>
         <button class="admin-btn-primary" onclick="adminSystem.exportCode()" style="margin-bottom:16px">&#8635; Generate Export Code</button>
-        <textarea id="admin-export-output" readonly style="height:420px;font-size:11px;font-family:'Courier New',monospace;color:var(--teal-light)" placeholder="Click Generate to produce the HTML code for your posts…"></textarea>
+        <textarea id="admin-export-output" readonly style="height:420px;font-size:11px;font-family:'Courier New',monospace;color:var(--teal-light);width:100%;background:rgba(0,0,0,.3);border:1px solid var(--border-dim);border-radius:4px;padding:14px 16px;outline:none;resize:vertical;line-height:1.6" placeholder="Click Generate to produce the HTML code for your posts…"></textarea>
       </div>
     </div>
 
   </div><!-- /admin-panel -->
 </div><!-- /admin-overlay -->
+
+<!-- Toast notification -->
+<div id="admin-toast" class="admin-toast"></div>

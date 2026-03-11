@@ -158,3 +158,266 @@
   white-space: nowrap;
 }
 #admin-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* ══════════════════════════════════════════════════════════
+   STATIC POST EDITOR — Edit Existing Posts tab
+══════════════════════════════════════════════════════════ */
+
+/* Section label above lists */
+.admin-section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 4px 0 18px;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 4px;
+}
+
+/* Highlight current item in post list */
+.static-post-item:hover { background: rgba(201,168,76,.03); }
+
+/* Editor pane layout */
+#static-editor-pane {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Editor top bar */
+.static-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 14px;
+  border-bottom: 1px solid var(--border-dim);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.static-back-btn {
+  padding: 7px 14px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.static-editor-title-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+/* Mode buttons (Visual / HTML / Preview) */
+.static-mode-btn {
+  background: none;
+  border: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  border-radius: 4px;
+  padding: 6px 13px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  transition: all .18s;
+}
+.static-mode-btn:hover  { color: var(--text); border-color: var(--border); }
+.static-mode-btn.active { color: var(--gold); border-color: var(--gold-dim); background: rgba(201,168,76,.07); }
+
+/* Meta bar */
+.static-meta-bar {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-dim);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.static-meta-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.static-meta-title { flex: 1; min-width: 180px; }
+
+/* Shared input styles */
+.admin-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.admin-input {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  padding: 9px 13px;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+}
+.admin-input:focus { border-color: rgba(201,168,76,.4); }
+
+.admin-select {
+  background: var(--deep);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  padding: 9px 13px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  color-scheme: dark;
+}
+
+/* Toolbar */
+.admin-toolbar {
+  display: flex;
+  gap: 5px;
+  padding: 10px 0 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-dim);
+}
+.admin-toolbar button {
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border-dim);
+  color: var(--text-dim);
+  border-radius: 3px;
+  padding: 5px 11px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all .15s;
+  font-family: inherit;
+}
+.admin-toolbar button:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+.toolbar-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border-dim);
+  margin: 0 4px;
+}
+.toolbar-hint {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .1em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Body textarea */
+.admin-body {
+  width: 100%;
+  flex: 1;
+  resize: none;
+  background: rgba(0,0,0,.2);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  line-height: 1.75;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color .2s;
+  min-height: 0;
+}
+.admin-body:focus { border-color: rgba(201,168,76,.35); }
+.static-raw-area  { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.55; }
+
+/* Mode notes */
+.static-mode-note {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .12em;
+  color: var(--text-muted);
+  padding: 7px 0 0;
+  flex-shrink: 0;
+}
+.static-raw-note {
+  background: rgba(201,168,76,.06);
+  border: 1px solid rgba(201,168,76,.18);
+  border-radius: 4px;
+  padding: 9px 14px;
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: var(--gold-dim);
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+/* Save bar */
+.static-save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--border-dim);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.static-save-hint {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex: 1;
+  min-width: 200px;
+}
+.static-save-hint code {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--gold-dim);
+}
+
+/* Loading spinner */
+.admin-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(201,168,76,.25);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: admin-spin .8s linear infinite;
+}
+@keyframes admin-spin { to { transform: rotate(360deg); } }
+
+/* Toast variants */
+.admin-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(20,18,14,.96);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 22px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--text-dim);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  z-index: 9999;
+  white-space: nowrap;
+}
+.admin-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.admin-toast.toast-ok    { border-color: rgba(100,180,120,.5); color: #8dd4a0; }
+.admin-toast.toast-error { border-color: rgba(200,80,80,.5);  color: #e08888; }
