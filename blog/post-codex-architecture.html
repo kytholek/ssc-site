@@ -53,6 +53,312 @@
 
     <blockquote>Notice what happens as you read down each column: energy densifies. The abstract becomes concrete. Each column is a complete developmental path in its own right — but the fullest development requires all three.</blockquote>
 
+    <h3>The Infinity Flow</h3>
+
+    <p>The Codex encodes a second layer of movement — not a grid to read statically, but a living circuit. Trace the path the energy actually travels through the matrix and a figure-eight emerges: a continuous loop that crosses through position 5 at its centre.</p>
+
+    <p>The flow runs: <strong>1 → 2 → 3 → 5 → 7 → 8 → 9 → 5 → 1</strong>. Awareness sparks at 1, enters relationship at 2, generates understanding at 3, crosses through the embodiment point at 5, descends into the spirit plane at 7, demonstrates power at 8, releases at 9 — then passes back through 5 and returns to the beginning. The cycle is continuous. It does not terminate at 9; it flows back through the centre and starts again at a higher octave.</p>
+
+    <p>Notice what is absent from this circuit: positions 4 and 6. They are not on the flow path. They are the anchors on either side — the stable banks that allow the river to move with direction. Position 4 grounds the left arc; position 6 grounds the right. The flow needs the structure they provide, but the current itself moves through the remaining seven.</p>
+
+    <p>And notice what sits exactly at the crossing point of the figure-eight — position 5, the centre. Every cycle passes through here twice: once descending from mind into spirit, once ascending from spirit back into mind. It is the hinge of the whole system. You cannot complete even one loop of the infinity path without passing through embodied experience at the centre.</p>
+
+    <figure class="blog-post-figure codex-flow-figure">
+
+      <style>
+        /* ── Codex Infinity Flow diagram ───────────────────── */
+        .codex-flow-figure { margin: 44px auto; max-width: 520px; text-align: center; }
+        .codex-flow-wrap   { position: relative; display: inline-block; width: 100%; }
+
+        /* Animated travelling orb along the full infinity path */
+        @keyframes codex-travel {
+          0%   { offset-distance: 0%; }
+          100% { offset-distance: 100%; }
+        }
+        /* Node pulse — each active node brightens on its turn */
+        @keyframes codex-node-pulse {
+          0%, 100% { opacity: 0.55; r: 24px; }
+          50%       { opacity: 1;    r: 27px; }
+        }
+        /* Centre node slow breathe */
+        @keyframes codex-centre-breathe {
+          0%, 100% { opacity: 0.8; }
+          50%       { opacity: 1;   }
+        }
+        /* Outer ring spin on centre */
+        @keyframes codex-ring-spin {
+          from { transform: rotate(0deg);   }
+          to   { transform: rotate(360deg); }
+        }
+        /* Path shimmer — dash offset march */
+        @keyframes codex-dash {
+          from { stroke-dashoffset: 0; }
+          to   { stroke-dashoffset: -60; }
+        }
+        /* Faint radial pulse on active nodes */
+        @keyframes codex-ripple {
+          0%   { r: 26px; opacity: 0.4; }
+          100% { r: 52px; opacity: 0; }
+        }
+        /* Row label fade drift */
+        @keyframes codex-label-drift {
+          0%, 100% { opacity: 0.18; }
+          50%       { opacity: 0.32; }
+        }
+      </style>
+
+      <div class="codex-flow-wrap">
+        <svg id="codex-infinity-svg" xmlns="http://www.w3.org/2000/svg"
+          width="100%" viewBox="0 0 600 680"
+          style="display:block; overflow:visible;">
+
+          <defs>
+            <!-- Gold radial gradient for centre node fill -->
+            <radialGradient id="cg-centre" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#c9a84c" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Gold radial gradient for active node fills -->
+            <radialGradient id="cg-node" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#e8d5a3" stop-opacity="0.14"/>
+              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Glow filter for the travelling orb -->
+            <filter id="cg-orb-glow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            <!-- Soft glow filter for centre node -->
+            <filter id="cg-centre-glow" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="9" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            <!-- Subtle glow for flow paths -->
+            <filter id="cg-path-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            <!-- The full continuous infinity path for motion-path animation -->
+            <!--
+              Sequence: 1(180,170) → 2(300,80) → 3(420,170) → 5(300,300)
+                       → 7(180,430) → 8(300,550) → 9(420,430) → 5(300,300) → back to 1
+            -->
+            <path id="cg-motion-path"
+              d="M180,170 Q240,110 300,80 Q360,110 420,170 Q360,240 300,300
+                 Q240,360 180,430 Q240,510 300,550 Q360,510 420,430
+                 Q360,360 300,300 Q240,240 180,170 Z"/>
+          </defs>
+
+          <!-- ── Faint grid lines to suggest the matrix ─────── -->
+          <line x1="90"  y1="50"  x2="90"  y2="610" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="300" y1="50"  x2="300" y2="610" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="510" y1="50"  x2="510" y2="610" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="30"  y1="170" x2="570" y2="170" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="30"  y1="300" x2="570" y2="300" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="30"  y1="430" x2="570" y2="430" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+          <!-- ── Ripple rings on flow nodes (looping, staggered) ── -->
+          <!-- These animate outward from each active node position -->
+          <circle cx="180" cy="170" r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1">
+            <animate attributeName="r"       values="26;52"   dur="3s" begin="0s"    repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0"  dur="3s" begin="0s"    repeatCount="indefinite"/>
+          </circle>
+          <circle cx="300" cy="80"  r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1">
+            <animate attributeName="r"       values="26;52"   dur="3s" begin="0.4s"  repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0"  dur="3s" begin="0.4s"  repeatCount="indefinite"/>
+          </circle>
+          <circle cx="420" cy="170" r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1">
+            <animate attributeName="r"       values="26;52"   dur="3s" begin="0.8s"  repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0"  dur="3s" begin="0.8s"  repeatCount="indefinite"/>
+          </circle>
+          <circle cx="180" cy="430" r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1">
+            <animate attributeName="r"       values="26;52"   dur="3s" begin="1.2s"  repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0"  dur="3s" begin="1.2s"  repeatCount="indefinite"/>
+          </circle>
+          <circle cx="300" cy="550" r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1">
+            <animate attributeName="r"       values="26;52"   dur="3s" begin="1.6s"  repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0"  dur="3s" begin="1.6s"  repeatCount="indefinite"/>
+          </circle>
+          <circle cx="420" cy="430" r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1">
+            <animate attributeName="r"       values="26;52"   dur="3s" begin="2.0s"  repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0"  dur="3s" begin="2.0s"  repeatCount="indefinite"/>
+          </circle>
+
+          <!-- ── Large soft centre corona ───────────────────── -->
+          <circle cx="300" cy="300" r="70" fill="url(#cg-centre)" filter="url(#cg-centre-glow)">
+            <animate attributeName="r"       values="65;80;65" dur="5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="5s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- ── Flow paths (glowing, marching dashes) ─────── -->
+          <!-- 1 → 2 -->
+          <path d="M180,170 Q240,110 300,80"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M180,170 Q240,110 300,80"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" repeatCount="indefinite"/>
+          </path>
+          <!-- 2 → 3 -->
+          <path d="M300,80 Q360,110 420,170"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M300,80 Q360,110 420,170"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="0.22s" repeatCount="indefinite"/>
+          </path>
+          <!-- 3 → 5 -->
+          <path d="M420,170 Q360,240 300,300"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M420,170 Q360,240 300,300"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="0.44s" repeatCount="indefinite"/>
+          </path>
+          <!-- 5 → 7 -->
+          <path d="M300,300 Q240,360 180,430"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M300,300 Q240,360 180,430"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="0.66s" repeatCount="indefinite"/>
+          </path>
+          <!-- 7 → 8 -->
+          <path d="M180,430 Q240,510 300,550"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M180,430 Q240,510 300,550"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="0.88s" repeatCount="indefinite"/>
+          </path>
+          <!-- 8 → 9 -->
+          <path d="M300,550 Q360,510 420,430"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M300,550 Q360,510 420,430"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="1.1s" repeatCount="indefinite"/>
+          </path>
+          <!-- 9 → 5 -->
+          <path d="M420,430 Q360,360 300,300"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M420,430 Q360,360 300,300"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="1.32s" repeatCount="indefinite"/>
+          </path>
+          <!-- 5 → 1 -->
+          <path d="M300,300 Q240,240 180,170"
+            fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="5" filter="url(#cg-path-glow)"/>
+          <path d="M300,300 Q240,240 180,170"
+            fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.7">
+            <animate attributeName="stroke-dashoffset" from="0" to="-52" dur="1.8s" begin="1.54s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- ── Travelling orb along the full path ─────────── -->
+          <circle r="7" fill="#f0e0b0" filter="url(#cg-orb-glow)" opacity="0.95">
+            <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#cg-motion-path"/>
+            </animateMotion>
+            <animate attributeName="r"       values="6;9;6"     dur="1.4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.85;1;0.85" dur="1.4s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Orb soft halo -->
+          <circle r="14" fill="rgba(240,224,176,0.12)" filter="url(#cg-orb-glow)">
+            <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#cg-motion-path"/>
+            </animateMotion>
+          </circle>
+
+          <!-- ── Anchor nodes: 4 and 6 (ghosted) ───────────── -->
+          <!-- 4 left anchor -->
+          <circle cx="90" cy="300" r="22"
+            fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="90" y="300"
+            font-family="'Cinzel', serif" font-size="16"
+            fill="rgba(255,255,255,0.2)" text-anchor="middle" dominant-baseline="middle">4</text>
+          <!-- 6 right anchor -->
+          <circle cx="510" cy="300" r="22"
+            fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="510" y="300"
+            font-family="'Cinzel', serif" font-size="16"
+            fill="rgba(255,255,255,0.2)" text-anchor="middle" dominant-baseline="middle">6</text>
+          <!-- Anchor label -->
+          <text x="90"  y="334" font-family="'Cinzel', serif" font-size="7" fill="rgba(255,255,255,0.13)" text-anchor="middle" letter-spacing="1.5">ANCHOR</text>
+          <text x="510" y="334" font-family="'Cinzel', serif" font-size="7" fill="rgba(255,255,255,0.13)" text-anchor="middle" letter-spacing="1.5">ANCHOR</text>
+
+          <!-- ── Flow nodes ─────────────────────────────────── -->
+          <!-- Node 1 — upper left -->
+          <circle cx="180" cy="170" r="26" fill="url(#cg-node)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <circle cx="180" cy="170" r="26" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="6"/>
+          <text x="180" y="170" font-family="'Cinzel', serif" font-size="17" fill="#e8d5a3" text-anchor="middle" dominant-baseline="middle">1</text>
+
+          <!-- Node 2 — top -->
+          <circle cx="300" cy="80"  r="26" fill="url(#cg-node)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <circle cx="300" cy="80"  r="26" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="6"/>
+          <text x="300" y="80"  font-family="'Cinzel', serif" font-size="17" fill="#e8d5a3" text-anchor="middle" dominant-baseline="middle">2</text>
+
+          <!-- Node 3 — upper right -->
+          <circle cx="420" cy="170" r="26" fill="url(#cg-node)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <circle cx="420" cy="170" r="26" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="6"/>
+          <text x="420" y="170" font-family="'Cinzel', serif" font-size="17" fill="#e8d5a3" text-anchor="middle" dominant-baseline="middle">3</text>
+
+          <!-- Node 5 — centre (pivot — larger, fully glowing) -->
+          <!-- Outer spinning dashed ring -->
+          <circle cx="300" cy="300" r="48"
+            fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1" stroke-dasharray="4 6"
+            style="transform-origin:300px 300px; animation: codex-ring-spin 18s linear infinite;"/>
+          <!-- Inner glow ring -->
+          <circle cx="300" cy="300" r="38" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="4"/>
+          <!-- Fill -->
+          <circle cx="300" cy="300" r="32"
+            fill="rgba(201,168,76,0.10)" stroke="#c9a84c" stroke-width="1.8"
+            filter="url(#cg-centre-glow)"
+            style="animation: codex-centre-breathe 5s ease-in-out infinite;"/>
+          <text x="300" y="300" font-family="'Cinzel', serif" font-size="21" fill="#c9a84c"
+            text-anchor="middle" dominant-baseline="middle"
+            filter="url(#cg-centre-glow)">5</text>
+
+          <!-- Node 7 — lower left -->
+          <circle cx="180" cy="430" r="26" fill="url(#cg-node)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <circle cx="180" cy="430" r="26" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="6"/>
+          <text x="180" y="430" font-family="'Cinzel', serif" font-size="17" fill="#e8d5a3" text-anchor="middle" dominant-baseline="middle">7</text>
+
+          <!-- Node 8 — bottom -->
+          <circle cx="300" cy="550" r="26" fill="url(#cg-node)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <circle cx="300" cy="550" r="26" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="6"/>
+          <text x="300" y="550" font-family="'Cinzel', serif" font-size="17" fill="#e8d5a3" text-anchor="middle" dominant-baseline="middle">8</text>
+
+          <!-- Node 9 — lower right -->
+          <circle cx="420" cy="430" r="26" fill="url(#cg-node)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <circle cx="420" cy="430" r="26" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="6"/>
+          <text x="420" y="430" font-family="'Cinzel', serif" font-size="17" fill="#e8d5a3" text-anchor="middle" dominant-baseline="middle">9</text>
+
+          <!-- ── Row labels (right side, breathing) ─────────── -->
+          <text x="574" y="130" font-family="'Cinzel', serif" font-size="8" fill="rgba(255,255,255,0.2)"
+            text-anchor="end" letter-spacing="3"
+            style="animation: codex-label-drift 4s ease-in-out 0s infinite;">MIND</text>
+          <text x="574" y="305" font-family="'Cinzel', serif" font-size="8" fill="rgba(255,255,255,0.2)"
+            text-anchor="end" letter-spacing="3"
+            style="animation: codex-label-drift 4s ease-in-out 1.3s infinite;">BODY</text>
+          <text x="574" y="480" font-family="'Cinzel', serif" font-size="8" fill="rgba(255,255,255,0.2)"
+            text-anchor="end" letter-spacing="3"
+            style="animation: codex-label-drift 4s ease-in-out 2.6s infinite;">SPIRIT</text>
+
+          <!-- ── Footer sequence text ───────────────────────── -->
+          <text x="300" y="630" font-family="'Cinzel', serif" font-size="9"
+            fill="rgba(201,168,76,0.35)" text-anchor="middle" letter-spacing="4">
+            1 · 2 · 3 · 5 · 7 · 8 · 9 · 5 · 1
+          </text>
+          <text x="300" y="650" font-family="'Cinzel', serif" font-size="7.5"
+            fill="rgba(255,255,255,0.13)" text-anchor="middle" letter-spacing="2.5">
+            4 and 6 anchor the field
+          </text>
+
+        </svg>
+      </div>
+
+      <figcaption>The Infinity Flow — a continuous figure-eight circuit through seven of the nine positions. Position 5 sits at the crossing point and is touched twice in every cycle. Positions 4 and 6 anchor the field on either side but are not on the moving path.</figcaption>
+    </figure>
+
     <h3>The Primary Diagonal: 1 → 5 → 9</h3>
 
     <p>Draw a line from the upper-left corner to the lower-right and you pass through positions 1, 5, and 9 — the three points where row name and column name are identical: Mind/Mind, Body/Body, Spirit/Spirit. This is the spine of the system, the central axis of development.</p>
