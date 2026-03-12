@@ -610,7 +610,7 @@ footer {
 }
 
 /* Social links */
-.social-row { display: flex; gap: 12px; margin-top: 20px; align-items: center; }
+.social-row { display: flex; gap: 12px; margin-top: 20px; align-items: center; justify-content: center; }
 .social-btn {
   width: 36px; height: 36px; border: 1px solid var(--border-dim);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
