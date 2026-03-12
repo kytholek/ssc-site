@@ -506,10 +506,6 @@ async function openPost(id, pushState = true) {
   if (_currentPostId !== id) {
     container.innerHTML = html;
     _currentPostId = id;
-    
-    // Make the blog-post div visible
-    const postEl = container.querySelector('.blog-post');
-    if (postEl) postEl.classList.add('active');
   }
 
   // Inject prev/next + related footer
@@ -689,6 +685,17 @@ function applyLanguage(lang) {
     document.documentElement.lang = lang;
     if (isSwap) {
       requestAnimationFrame(() => els.forEach(el => el.classList.remove('lang-switching')));
+    }
+
+    // If a reading is currently on screen, re-render it in the new language
+    const resultsArea = document.getElementById('results-area');
+    const hasReading  = resultsArea && !resultsArea.querySelector('.results-placeholder-icon');
+    if (hasReading && typeof calculateReading === 'function') {
+      const month = document.getElementById('calc-month')?.value;
+      const day   = document.getElementById('calc-day')?.value;
+      const year  = document.getElementById('calc-year')?.value;
+      const name  = document.getElementById('calc-fullname')?.value;
+      if (month && day && year && name) calculateReading();
     }
   };
 

@@ -6,6 +6,20 @@
  */
 
 /* ═══════════════════════════════════════════════════════════════
+   i18n helper — reads from SSC_TRANSLATIONS if available,
+   falls back to the English value stored in the data objects.
+═══════════════════════════════════════════════════════════════ */
+
+function _t(key) {
+  if (typeof SSC_TRANSLATIONS === 'undefined') return null;
+  const lang  = (typeof getLang === 'function') ? getLang() : 'en';
+  const entry = SSC_TRANSLATIONS[key];
+  if (!entry) return null;
+  return entry[lang] || entry['en'] || null;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
    ROOT INTERPRETATIONS — per frequency, per number (1–9, 11, 22, 33, 44)
    Keys used: name, essence, lp, ex, soul, outer, ach, theme
 ═══════════════════════════════════════════════════════════════ */
@@ -159,8 +173,12 @@ const CALLING = {
    FREQUENCY METADATA — labels and role descriptions
 ═══════════════════════════════════════════════════════════════ */
 
-const FREQ_LABELS = ['Life Path','Expression','Life Calling','Soul','Outer','Achievement','Theme'];
-const FREQ_ROLES  = ['What You Learn','What You Carry','Your Mission','Your Inner Desire','Your Public Persona','How You Accomplish','Your Life Curriculum'];
+// Static fallbacks (English) — used if translations.js hasn't loaded yet
+const FREQ_LABELS_EN = ['Life Path','Expression','Life Calling','Soul','Outer','Achievement','Theme'];
+const FREQ_ROLES_EN  = ['What You Learn','What You Carry','Your Mission','Your Inner Desire','Your Public Persona','How You Accomplish','Your Life Curriculum'];
+
+function getFreqLabel(i) { return _t('calc.freq.label.' + i) || FREQ_LABELS_EN[i]; }
+function getFreqRole(i)  { return _t('calc.freq.role.'  + i) || FREQ_ROLES_EN[i];  }
 const FREQ_DESC = {
   1:  'Independence, leadership, originality. You are here to forge your own path.',
   2:  'Harmony, cooperation, sensitivity. You are here to build bridges between worlds.',
@@ -234,9 +252,10 @@ function calculateReading() {
   const fullName = document.getElementById('calc-fullname').value.trim();
 
   if (!month || !day || !year || !fullName) {
+    const errMsg = _t('calc.results.error') || 'Please fill in all required fields';
     document.getElementById('results-area').innerHTML =
       `<div class="results-placeholder-icon" style="color:var(--rose)">⚠</div>
-       <div class="results-placeholder-text">Please fill in all required fields</div>`;
+       <div class="results-placeholder-text">${errMsg}</div>`;
     return;
   }
 
@@ -256,44 +275,53 @@ function calculateReading() {
   const freqRows = numbers.map((n, i) => {
     const rootKey = FREQ_ROOT_KEYS[i];
     const entry   = ROOT[n] || {};
+    const freqLabel = getFreqLabel(i);
+    const freqRole  = getFreqRole(i);
 
     if (rootKey === null) {
       const c = CALLING[n] || {};
+      const cName    = _t('calc.calling.' + n + '.name')    || c.name    || '';
+      const cEssence = _t('calc.calling.' + n + '.essence') || c.essence || '';
+      const cSummary = _t('calc.calling.' + n + '.summary') || c.summary || _t('calc.results.master_mission') || 'A powerful mission frequency.';
       return `
         <div style="padding:20px 0;border-bottom:1px solid var(--border-dim);display:grid;grid-template-columns:50px 1fr;gap:16px;align-items:start">
           <div style="font-family:'Cinzel Decorative',serif;font-size:32px;color:var(--gold);line-height:1;text-align:center">${n}</div>
           <div>
-            <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${FREQ_ROLES[i]}</div>
-            <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${FREQ_LABELS[i]}${c.name ? ' — ' + c.name : ''}</div>
-            ${c.essence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${c.essence}</div>` : ''}
-            <p style="font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic">${c.summary || 'A powerful mission frequency.'}</p>
+            <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${freqRole}</div>
+            <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${freqLabel}${cName ? ' — ' + cName : ''}</div>
+            ${cEssence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${cEssence}</div>` : ''}
+            <p style="font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic">${cSummary}</p>
           </div>
         </div>`;
     }
 
-    const interp = entry[rootKey] || '';
+    const eName    = _t('calc.root.' + n + '.name')    || entry.name    || '';
+    const eEssence = _t('calc.root.' + n + '.essence') || entry.essence || '';
+    const interp   = _t('calc.root.' + n + '.' + rootKey) || entry[rootKey] || _t('calc.results.deep_freq') || 'A deep frequency — download the app for full interpretation.';
     return `
       <div style="padding:20px 0;border-bottom:1px solid var(--border-dim);display:grid;grid-template-columns:50px 1fr;gap:16px;align-items:start">
         <div style="font-family:'Cinzel Decorative',serif;font-size:32px;color:var(--gold);line-height:1;text-align:center">${n}</div>
         <div>
-          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${FREQ_ROLES[i]}</div>
-          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${FREQ_LABELS[i]}${entry.name ? ' — ' + entry.name : ''}</div>
-          ${entry.essence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${entry.essence}</div>` : ''}
-          <p style="font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic">${interp || 'A deep frequency — download the app for full interpretation.'}</p>
+          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${freqRole}</div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${freqLabel}${eName ? ' — ' + eName : ''}</div>
+          ${eEssence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${eEssence}</div>` : ''}
+          <p style="font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic">${interp}</p>
         </div>
       </div>`;
   }).join('');
 
+  const readingFor = _t('calc.results.reading_for') || 'Reading for';
+  const footerNote = _t('calc.results.footer') || 'Download the full app for complete interpretations, archetype analysis, and personal insights.';
   document.getElementById('results-area').innerHTML = `
     <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-dim)">
-      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px">Reading for</div>
+      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px">${readingFor}</div>
       <div style="font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold)">${fullName}</div>
     </div>
     <div style="display:flex;justify-content:center;margin-bottom:40px">
       ${buildFreqChart(numbers)}
     </div>
     ${freqRows}
-    <p style="text-align:center;font-size:13px;color:var(--text-muted);font-style:italic;margin-top:24px">Download the full app for complete interpretations, archetype analysis, and personal insights.</p>
+    <p style="text-align:center;font-size:13px;color:var(--text-muted);font-style:italic;margin-top:24px">${footerNote}</p>
   `;
 }
 
