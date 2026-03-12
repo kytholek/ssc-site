@@ -208,17 +208,12 @@ function _getPostContainer() {
   if (!_postContainer) {
     _postContainer = document.getElementById('blog-post-container');
     if (!_postContainer) {
-      console.log('[SSC] Creating blog-post-container div');
       _postContainer = document.createElement('div');
       _postContainer.id = 'blog-post-container';
       const blogPage = document.getElementById('page-blog');
-      if (blogPage) {
-        blogPage.appendChild(_postContainer);
-        console.log('[SSC] blog-post-container appended to page-blog');
-      }
+      if (blogPage) blogPage.appendChild(_postContainer);
     }
   }
-  console.log('[SSC] Returning post container:', _postContainer?.id);
   return _postContainer;
 }
 
@@ -316,7 +311,6 @@ function _catLabel(cat) {
 //  Appended to #blog-post-container after each post loads.
 // ────────────────────────────────────────────────────────────
 function _injectPostNav(id) {
-  console.log('[SSC] _injectPostNav called with id:', id);
   const container = _getPostContainer();
 
   // Remove any previously injected footer
@@ -324,20 +318,13 @@ function _injectPostNav(id) {
   if (old) old.remove();
 
   const current = POST_MAP[id];
-  console.log('[SSC] Post found in POST_MAP:', !!current);
-  if (!current) {
-    console.warn('[SSC] Post not found in POST_MAP. Available posts:', Object.keys(POST_MAP).join(', '));
-    return;
-  }
+  if (!current) return;
 
   const idx  = current.index;
   const prev = idx > 0                        ? POST_SEQUENCE[idx - 1] : null;
   const next = idx < POST_SEQUENCE.length - 1 ? POST_SEQUENCE[idx + 1] : null;
 
-  console.log('[SSC] Post index:', idx, 'Prev:', prev?.id, 'Next:', next?.id);
-
   const related = _pickRelated(id, current.category, current.series, 3);
-  console.log('[SSC] Related posts:', related.map(p => p.id).join(', '));
 
   // Prev button
   const prevHTML = prev
@@ -389,9 +376,7 @@ function _injectPostNav(id) {
     </div>` : ''}
   `;
 
-  console.log('[SSC] Footer HTML length:', footer.innerHTML.length, 'chars');
   container.appendChild(footer);
-  console.log('[SSC] Footer appended to container');
 }
 
 
@@ -496,7 +481,6 @@ function toggleMenu() {
 //  BLOG — open / close / filter
 // ────────────────────────────────────────────────────────────
 async function openPost(id, pushState = true) {
-  console.log('[SSC] openPost called with id:', id);
   const blogPage = document.getElementById('page-blog');
   if (blogPage && !blogPage.classList.contains('active')) {
     showPage('blog', false);
@@ -513,7 +497,6 @@ async function openPost(id, pushState = true) {
   }
 
   const html = await _loadPost(id);
-  console.log('[SSC] Post HTML loaded:', html ? 'YES (' + html.length + ' chars)' : 'NO');
 
   if (!html) {
     container.innerHTML = '<div class="blog-post-error"><p>Could not load this post. <button onclick="closePosts()">&#8592; Back to Blog</button></p></div>';
@@ -523,26 +506,14 @@ async function openPost(id, pushState = true) {
   if (_currentPostId !== id) {
     container.innerHTML = html;
     _currentPostId = id;
-    console.log('[SSC] Post HTML injected into container');
-  }
-
-  // Make sure the .blog-post div has the active class to show it (CSS default is display: none)
-  const postEl = container.querySelector(`#${id}`);
-  if (postEl) {
-    postEl.classList.add('active');
-    console.log('[SSC] Added active class to post element');
   }
 
   // Inject prev/next + related footer
-  console.log('[SSC] About to inject post nav footer');
-  try {
-    _injectPostNav(id);
-    console.log('[SSC] Post nav footer injected successfully');
-  } catch (err) {
-    console.error('[SSC] ERROR in _injectPostNav:', err);
-  }
+  _injectPostNav(id);
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const postEl = container.querySelector(`#${id}`);
   const meta   = _getPostMeta(postEl, id);
   const canonicalUrl = SITE.baseUrl + '/?post=' + id;
 
@@ -557,10 +528,6 @@ async function openPost(id, pushState = true) {
 function closePosts(pushState = true) {
   const listing   = document.getElementById('blog-listing');
   const container = _getPostContainer();
-
-  // Remove active class from any active post
-  const activePost = container.querySelector('.blog-post.active');
-  if (activePost) activePost.classList.remove('active');
 
   if (listing) listing.style.display = 'block';
   container.style.display = 'none';
@@ -634,6 +601,9 @@ async function handleDeepLink() {
 // ────────────────────────────────────────────────────────────
 async function initApp() {
   await handleDeepLink();
+  // Apply saved language preference on every load
+  applyLanguage(getLang());
+  _updateLangToggle(getLang());
 }
 
 
@@ -653,3 +623,89 @@ window.filterBlog = filterBlog;
 document.addEventListener('click', e => {
   if (e.target?.classList.contains('calc-btn')) calculateReading();
 });
+
+
+// ════════════════════════════════════════════════════════════
+//  i18n — LANGUAGE SYSTEM
+//  Reads SSC_TRANSLATIONS from translations.js
+//  Applies to all [data-i18n] elements on the page
+// ════════════════════════════════════════════════════════════
+
+const I18N_KEY     = 'ssc-lang';
+const I18N_DEFAULT = 'en';
+
+// Returns the active language ('en' or 'es')
+function getLang() {
+  return localStorage.getItem(I18N_KEY) || I18N_DEFAULT;
+}
+
+// Swap to a language and re-render all keyed elements
+function setLang(lang) {
+  localStorage.setItem(I18N_KEY, lang);
+  applyLanguage(lang);
+  _updateLangToggle(lang);
+}
+
+// Toggle between en ↔ es
+function toggleLang() {
+  setLang(getLang() === 'en' ? 'es' : 'en');
+}
+
+// Apply translations to every [data-i18n] element in the DOM
+// Fades elements out, swaps text, fades back in
+function applyLanguage(lang) {
+  lang = lang || getLang();
+  if (typeof SSC_TRANSLATIONS === 'undefined') return;
+
+  const els = document.querySelectorAll('[data-i18n]');
+
+  // If this is a user-triggered swap, do a quick fade
+  const isSwap = document._i18nReady;
+  if (isSwap) els.forEach(el => el.classList.add('lang-switching'));
+
+  const doSwap = () => {
+    els.forEach(el => {
+      const key   = el.dataset.i18n;
+      const entry = SSC_TRANSLATIONS[key];
+      if (!entry) return;
+      const text = entry[lang] || entry[I18N_DEFAULT] || '';
+      if (text.includes('<') || text.includes('&')) {
+        el.innerHTML = text;
+      } else {
+        el.textContent = text;
+      }
+    });
+
+    // Handle data-i18n-placeholder (e.g. calculator name input)
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key   = el.dataset.i18nPlaceholder;
+      const entry = SSC_TRANSLATIONS[key];
+      if (entry) el.placeholder = entry[lang] || entry[I18N_DEFAULT] || '';
+    });
+    document.documentElement.lang = lang;
+    if (isSwap) {
+      requestAnimationFrame(() => els.forEach(el => el.classList.remove('lang-switching')));
+    }
+  };
+
+  if (isSwap) {
+    setTimeout(doSwap, 180);
+  } else {
+    doSwap();
+    document._i18nReady = true; // mark ready for future swaps
+  }
+}
+
+// Keep the toggle button label in sync
+function _updateLangToggle(lang) {
+  const btn = document.getElementById('lang-toggle');
+  if (!btn) return;
+  btn.textContent = lang === 'en' ? 'ES' : 'EN';
+  btn.setAttribute('aria-label', lang === 'en' ? 'Switch to Spanish' : 'Switch to English');
+  btn.setAttribute('title',      lang === 'en' ? 'Ver en Español'    : 'View in English');
+}
+
+// Expose
+window.toggleLang    = toggleLang;
+window.setLang       = setLang;
+window.applyLanguage = applyLanguage;
