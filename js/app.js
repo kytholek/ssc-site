@@ -506,6 +506,10 @@ async function openPost(id, pushState = true) {
   if (_currentPostId !== id) {
     container.innerHTML = html;
     _currentPostId = id;
+    
+    // Make the blog-post div visible
+    const postEl = container.querySelector('.blog-post');
+    if (postEl) postEl.classList.add('active');
   }
 
   // Inject prev/next + related footer
