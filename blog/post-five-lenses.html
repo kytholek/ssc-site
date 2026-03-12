@@ -40,6 +40,7 @@
   font-size: 17px;
   line-height: 1.85;
   color: var(--text-dim);
+  font-style: italic;
   margin-top: 20px;
 }
 
@@ -62,9 +63,10 @@
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 300px;
+  height: 50%;
+  min-height: 400px;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
 }
 
 /* Large background glyph */
@@ -91,7 +93,7 @@
 }
 .fl-eyebrow {
   font-family: 'Cinzel', serif;
-  font-size: 11px;
+  font-size: 9px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   margin-bottom: 14px;
@@ -116,7 +118,7 @@
   list-style: none;
 }
 .fl-list li {
-  font-size: 19px;
+  font-size: 17px;
   line-height: 1.7;
   padding: 8px 0 8px 20px;
   position: relative;
@@ -126,7 +128,7 @@
   content: '◈';
   position: absolute;
   left: 0;
-  font-size: 11px;
+  font-size: 15px;
   top: 11px;
 }
 .fl-quote {
@@ -135,20 +137,21 @@
   font-style: italic;
   opacity: 0.75;
   margin-top: 24px !important;
-  font-size: 19px !important;
+  font-size: 17px !important;
 }
 
 /* ── Lens 1 — EGO — harsh red-orange, survival fire ─────────── */
 .fl-ego {
-  background: #0e0200;
+  background: linear-gradient(to bottom, #0e0200 0%, #0e0200 60%, #080208 80%, #06010a 100%);
   color: #c06040;
 }
 .fl-ego::before {
   background:
+    linear-gradient(to bottom, #05040a 0%, transparent 28%),
     radial-gradient(ellipse at 50% 45%, rgba(220,80,20,0.22) 0%, rgba(180,40,10,0.10) 40%, transparent 70%),
     radial-gradient(ellipse at 20% 70%, rgba(160,30,10,0.12) 0%, transparent 55%);
 }
-.fl-ego::after { background: linear-gradient(to bottom, transparent 0%, #06010a 100%); }
+.fl-ego::after { background: linear-gradient(to bottom, transparent 0%, rgba(14,2,0,0.6) 50%, #06010a 100%); height: 400px; }
 .fl-ego .fl-eyebrow         { color: #7a2a10; }
 .fl-ego .fl-title           { color: #ff8060; }
 .fl-ego .fl-body p          { color: rgba(200,100,60,0.88); }
@@ -159,16 +162,16 @@
 
 /* ── Lens 2 — MIND — electric blue-cyan, analytical light ───── */
 .fl-mind {
-  background: #06010a;
+  background: linear-gradient(to bottom, #06010a 0%, #06010a 60%, #040208 80%, #020408 100%);
   color: #60a0d0;
 }
 .fl-mind::before {
   background:
-    linear-gradient(to bottom, #0e0200 0%, transparent 25%),
+    linear-gradient(to bottom, #0e0200 0%, transparent 28%),
     radial-gradient(ellipse at 60% 40%, rgba(40,160,220,0.22) 0%, transparent 60%),
     radial-gradient(ellipse at 25% 65%, rgba(20,80,180,0.14) 0%, transparent 55%);
 }
-.fl-mind::after { background: linear-gradient(to bottom, transparent 0%, #020408 100%); }
+.fl-mind::after { background: linear-gradient(to bottom, transparent 0%, rgba(6,1,10,0.6) 50%, #020408 100%); height: 400px; }
 .fl-mind .fl-eyebrow         { color: #2060a0; }
 .fl-mind .fl-title           { color: #80d0ff; }
 .fl-mind .fl-body p          { color: rgba(80,160,210,0.88); }
@@ -179,17 +182,17 @@
 
 /* ── Lens 3 — SOUL — deep rose-violet, warm oceanic ─────────── */
 .fl-soul {
-  background: #020408;
+  background: linear-gradient(to bottom, #020408 0%, #020408 60%, #040206 80%, #050108 100%);
   color: #c070a0;
 }
 .fl-soul::before {
   background:
-    linear-gradient(to bottom, #06010a 0%, transparent 25%),
+    linear-gradient(to bottom, #06010a 0%, transparent 28%),
     radial-gradient(ellipse at 45% 50%, rgba(180,70,130,0.22) 0%, transparent 60%),
     radial-gradient(ellipse at 70% 30%, rgba(130,40,120,0.14) 0%, transparent 55%),
     radial-gradient(ellipse at 20% 70%, rgba(100,30,160,0.10) 0%, transparent 50%);
 }
-.fl-soul::after { background: linear-gradient(to bottom, transparent 0%, #050108 100%); }
+.fl-soul::after { background: linear-gradient(to bottom, transparent 0%, rgba(2,4,8,0.6) 50%, #050108 100%); height: 400px; }
 .fl-soul .fl-eyebrow         { color: #803060; }
 .fl-soul .fl-title           { color: #f0a0d0; }
 .fl-soul .fl-body p          { color: rgba(195,100,155,0.88); }
@@ -200,16 +203,16 @@
 
 /* ── Lens 4 — SPIRIT — white-gold, expansive and dissolving ─── */
 .fl-spirit {
-  background: #050108;
+  background: linear-gradient(to bottom, #050108 0%, #050108 60%, #030106 80%, #020006 100%);
   color: #c8a860;
 }
 .fl-spirit::before {
   background:
-    linear-gradient(to bottom, #020408 0%, transparent 25%),
+    linear-gradient(to bottom, #020408 0%, transparent 28%),
     radial-gradient(ellipse at 50% 40%, rgba(240,220,140,0.18) 0%, rgba(201,168,76,0.09) 45%, transparent 70%),
     radial-gradient(ellipse at 75% 65%, rgba(180,150,60,0.08) 0%, transparent 50%);
 }
-.fl-spirit::after { background: linear-gradient(to bottom, transparent 0%, #020006 100%); }
+.fl-spirit::after { background: linear-gradient(to bottom, transparent 0%, rgba(5,1,8,0.6) 50%, #020006 100%); height: 400px; }
 .fl-spirit .fl-eyebrow         { color: var(--gold-dim); }
 .fl-spirit .fl-title           { color: #f0e0a0; }
 .fl-spirit .fl-body p          { color: rgba(210,180,100,0.88); }
@@ -220,17 +223,17 @@
 
 /* ── Lens 5 — VOID — absolute black, silent ground ──────────── */
 .fl-void {
-  background: #020006;
+  background: linear-gradient(to bottom, #020006 0%, #020006 70%, #05040a 100%);
   color: #6868a0;
   padding-bottom: 120px;
 }
 .fl-void::before {
   background:
-    linear-gradient(to bottom, #050108 0%, transparent 30%),
+    linear-gradient(to bottom, #050108 0%, transparent 28%),
     radial-gradient(ellipse at 50% 50%, rgba(60,50,120,0.15) 0%, transparent 65%),
     radial-gradient(ellipse at 30% 60%, rgba(40,30,100,0.08) 0%, transparent 55%);
 }
-.fl-void::after { background: linear-gradient(to bottom, transparent 0%, #020006 100%); }
+.fl-void::after { background: linear-gradient(to bottom, transparent 0%, #020006 100%); height: 400px; }
 .fl-void .fl-eyebrow         { color: #40406a; }
 .fl-void .fl-title           { color: #b0a8e0; }
 .fl-void .fl-body p          { color: rgba(100,100,160,0.85); }
@@ -360,10 +363,10 @@
 
   <!-- ── CLOSING ───────────────────────────────────────────── -->
   <div class="fl-intro" style="padding:80px 32px 100px">
-    <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(22px,2.5vw,22px);color:var(--gold-light);margin-bottom:24px">The Practice</h2>
+    <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(16px,2.5vw,22px);color:var(--gold-light);margin-bottom:24px">The Practice</h2>
     <p class="fl-intro-body">Knowing these five lenses exist is the beginning. The practice is learning to recognise, in real time, which one you are currently looking through — and developing the capacity to choose.</p>
     <p class="fl-intro-body" style="margin-top:16px">You cannot skip the Ego. It is the necessary layer through which this form of life is lived. But you can learn to observe it rather than be entirely governed by it. That observation capacity is the Mind coming online at a higher level of function. As the Mind stabilises, the Soul's signal becomes more audible. As the Soul becomes more familiar, the Spirit's perspective becomes occasionally accessible. The Void is there throughout, as the ground beneath all of it.</p>
-    <p class="fl-intro-body" style="margin-top:24px;font-size:19px;color:var(--text-dim)">The question to return to, regularly and honestly, is the simplest one:<br><span style="color:var(--gold);font-style:normal;font-family:'Cinzel',serif;font-size:15px;letter-spacing:.1em">which lens am I looking through right now?</span></p>
+    <p class="fl-intro-body" style="margin-top:24px;font-size:20px;color:var(--text-dim)">The question to return to, regularly and honestly, is the simplest one:<br><span style="color:var(--gold);font-style:normal;font-family:'Cinzel',serif;font-size:17px;letter-spacing:.1em">which lens am I looking through right now?</span></p>
   </div>
 
 </div>
