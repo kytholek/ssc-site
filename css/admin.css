@@ -18,7 +18,7 @@
 
 #admin-panel {
   display: none; flex-direction: column;
-  width: 92vw; max-width: 900px; height: 88vh;
+  width: 98vw; max-width: 1400px; height: 96vh;
   background: var(--deep); border: 1px solid var(--border);
   border-radius: 10px; overflow: hidden;
 }
@@ -26,7 +26,7 @@
 
 #admin-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px; border-bottom: 1px solid var(--border-dim);
+  padding: 12px 20px; border-bottom: 1px solid var(--border-dim);
   background: rgba(0,0,0,.3); flex-shrink: 0;
 }
 
@@ -39,10 +39,12 @@
 .admin-tab-btn:hover  { color: var(--text); border-color: var(--border); }
 .admin-tab-btn.active { color: var(--gold); border-color: var(--gold-dim); background: rgba(201,168,76,.06); }
 
+/* Tabs are flex columns so the textarea stretches to fill all remaining height */
 .admin-tab {
-  display: none; flex: 1; overflow-y: auto; padding: 20px 24px;
+  display: none; flex: 1; flex-direction: column; min-height: 0;
+  overflow-y: auto; padding: 16px 28px;
 }
-.admin-tab.active { display: block; }
+.admin-tab.active { display: flex; }
 
 /* Write tab inputs */
 #admin-title, #admin-excerpt, #admin-date {
@@ -78,11 +80,15 @@
 }
 #admin-toolbar button:hover { color: var(--gold); border-color: var(--gold-dim); }
 
+#admin-fields {
+  display: flex; flex-direction: column; flex: 1; min-height: 0;
+}
+
 #admin-body {
-  width: 100%; min-height: 320px; resize: vertical;
+  width: 100%; flex: 1; min-height: 0; resize: none;
   background: rgba(0,0,0,.2); border: 1px solid var(--border-dim);
   border-radius: 4px; color: var(--text); font-family: 'EB Garamond', serif;
-  font-size: 16px; line-height: 1.7; padding: 14px 16px; outline: none;
+  font-size: 17px; line-height: 1.8; padding: 18px 20px; outline: none;
   transition: border-color .2s;
 }
 #admin-body:focus { border-color: rgba(201,168,76,.35); }
@@ -177,10 +183,22 @@
 /* Highlight current item in post list */
 .static-post-item:hover { background: rgba(201,168,76,.03); }
 
-/* Editor pane layout */
+/* Editor pane layout — fills the tab height as a flex column */
 #static-editor-pane {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
+}
+
+/* Visual and raw mode wrappers must also flex to fill remaining space */
+#static-visual-mode,
+#static-raw-mode {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 /* Editor top bar */
@@ -328,9 +346,9 @@
   border-radius: 4px;
   color: var(--text);
   font-family: 'EB Garamond', serif;
-  font-size: 16px;
-  line-height: 1.75;
-  padding: 14px 16px;
+  font-size: 17px;
+  line-height: 1.8;
+  padding: 20px 22px;
   outline: none;
   transition: border-color .2s;
   min-height: 0;
@@ -421,3 +439,206 @@
 }
 .admin-toast.toast-ok    { border-color: rgba(100,180,120,.5); color: #8dd4a0; }
 .admin-toast.toast-error { border-color: rgba(200,80,80,.5);  color: #e08888; }
+
+/* ══════════════════════════════════════════════════════════
+   IN-PLACE PAGE EDITOR
+══════════════════════════════════════════════════════════ */
+
+/* Editable element — hover state */
+.page-editable {
+  outline: none;
+  border-radius: 3px;
+  transition: background .15s, box-shadow .15s;
+  cursor: text;
+  position: relative;
+}
+.page-editable:hover {
+  background: rgba(201,168,76,.08) !important;
+  box-shadow: 0 0 0 2px rgba(201,168,76,.2);
+}
+
+/* Focused / active edit state */
+.page-editable-focused {
+  background: rgba(201,168,76,.1) !important;
+  box-shadow: 0 0 0 2px rgba(201,168,76,.45) !important;
+}
+
+/* ── Floating editor bar ──────────────────────────────── */
+#page-editor-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 52px;
+  background: rgba(12,10,6,.97);
+  border-top: 1px solid rgba(201,168,76,.35);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 8999;
+  transform: translateY(100%);
+  transition: transform .28s cubic-bezier(.4,0,.2,1);
+  gap: 16px;
+}
+#page-editor-bar.visible {
+  transform: translateY(0);
+}
+
+.peb-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Pulsing green dot */
+.peb-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #6dbf7e;
+  flex-shrink: 0;
+  animation: peb-pulse 2s ease-in-out infinite;
+}
+@keyframes peb-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(109,191,126,.4); }
+  50%       { opacity: .8; box-shadow: 0 0 0 5px rgba(109,191,126,0); }
+}
+
+.peb-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #6dbf7e;
+  flex-shrink: 0;
+}
+
+.peb-file {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: rgba(201,168,76,.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.peb-dirty {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .2em;
+  color: #e0a060;
+  flex-shrink: 0;
+}
+
+.peb-right {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.peb-save {
+  background: var(--gold);
+  color: #0a0800;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.peb-save:hover { background: var(--gold-light); }
+
+.peb-exit {
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 4px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'EB Garamond', serif;
+  transition: all .2s;
+}
+.peb-exit:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+
+/* ── Edit Pages tab explainer ─────────────────────────── */
+.page-edit-explainer {
+  display: flex;
+  gap: 24px;
+  padding: 8px 0 24px;
+  max-width: 760px;
+}
+
+.pee-icon {
+  font-size: 32px;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.pee-body { flex: 1; }
+
+.pee-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: .12em;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+
+.pee-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.pee-desc code {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--gold-dim);
+}
+
+.pee-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.pee-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.pee-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pee-note {
+  margin-top: 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .12em;
+  color: var(--text-muted);
+  line-height: 1.7;
+  border-top: 1px solid var(--border-dim);
+  padding-top: 14px;
+}

@@ -33,6 +33,7 @@
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
         <button class="admin-tab-btn active" id="tab-btn-edit"    onclick="adminSystem.switchTab('edit')">Edit Posts</button>
+        <button class="admin-tab-btn"        id="tab-btn-pages"  onclick="adminSystem.switchTab('pages')">Edit Pages</button>
         <button class="admin-tab-btn"        id="tab-btn-write"   onclick="adminSystem.switchTab('write')">New Post</button>
         <button class="admin-tab-btn"        id="tab-btn-preview" onclick="adminSystem.switchTab('preview')">Preview</button>
         <button class="admin-tab-btn"        id="tab-btn-posts"   onclick="adminSystem.switchTab('posts')">Saved</button>
@@ -102,7 +103,7 @@
         </div>
 
         <!-- Visual editor mode -->
-        <div id="static-visual-mode" style="display:flex;flex-direction:column;flex:1;min-height:0">
+        <div id="static-visual-mode">
           <div id="static-toolbar" class="admin-toolbar">
             <button title="Heading"    onclick="adminSystem.staticWrap('### ','','heading')"><b>H3</b></button>
             <button title="Bold"       onclick="adminSystem.staticWrap('**','**')"><b>B</b></button>
@@ -124,7 +125,7 @@ Regular paragraph text."></textarea>
         </div>
 
         <!-- Raw HTML mode -->
-        <div id="static-raw-mode" style="display:none;flex-direction:column;flex:1;min-height:0">
+        <div id="static-raw-mode" style="display:none">
           <div class="static-raw-note">
             &#9888;&nbsp; Editing raw HTML. Changes here override the visual editor. Paste SVGs, figures, or complex markup here.
           </div>
@@ -185,7 +186,7 @@ Regular paragraph text."></textarea>
         </div>
         <textarea id="admin-body" placeholder="Write your post here. Use ### for headings, **bold**, *italic*, and > for blockquotes.&#10;&#10;A blank line starts a new paragraph."></textarea>
       </div>
-      <div id="admin-actions">
+      <div id="admin-actions" style="flex-shrink:0">
         <button class="admin-btn-ghost" onclick="adminSystem.clearForm()">Clear</button>
         <button class="admin-btn-primary" onclick="adminSystem.publish()">Publish Post</button>
       </div>
@@ -222,8 +223,53 @@ Regular paragraph text."></textarea>
       </div>
     </div>
 
+  <!-- ════════════════════════════════════════════════════
+       TAB: EDIT PAGES (in-place editor)
+  ════════════════════════════════════════════════════ -->
+  <div class="admin-tab" id="tab-pages">
+    <div class="admin-section-label">In-Place Page Editor</div>
+    <div class="page-edit-explainer">
+      <div class="pee-icon">&#9998;</div>
+      <div class="pee-body">
+        <div class="pee-title">Edit live page text directly</div>
+        <p class="pee-desc">Click the button below to enter edit mode. Every heading, paragraph, and label on the current page will become clickable and editable — right on the page, exactly as it looks to visitors. When you're done, save to download the updated file and drop it into your <code>/pages/</code> folder.</p>
+        <div class="pee-steps">
+          <div class="pee-step"><span class="pee-num">1</span><span>Close this panel — navigate to the page you want to edit (Home, About, Books, etc.)</span></div>
+          <div class="pee-step"><span class="pee-num">2</span><span>Reopen Admin <em>(Ctrl+Shift+A)</em> → Edit Pages → turn on Edit Mode</span></div>
+          <div class="pee-step"><span class="pee-num">3</span><span>Close the panel again — every text element is now editable. Click and type.</span></div>
+          <div class="pee-step"><span class="pee-num">4</span><span>Open Admin again → Edit Pages → Save — the updated file downloads automatically.</span></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+          <button class="admin-btn-primary" onclick="adminSystem.togglePageEditMode();adminSystem.close()">
+            &#9998;&nbsp; Toggle Edit Mode
+          </button>
+          <button class="admin-btn-ghost" onclick="adminSystem.savePageEdits()">
+            &#8675;&nbsp; Save &amp; Download
+          </button>
+        </div>
+        <div class="pee-note">
+          &#9432;&nbsp; Only plain text elements are editable — buttons, SVGs, calculators, and navigation are protected. Structural HTML is never touched.
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /admin-panel -->
 </div><!-- /admin-overlay -->
+
+<!-- Floating page-edit bar (shown outside the panel, on the live page) -->
+<div id="page-editor-bar">
+  <div class="peb-left">
+    <span class="peb-dot"></span>
+    <span class="peb-label">Page Edit Mode</span>
+    <span class="peb-file" id="page-editor-file-hint">—</span>
+    <span id="page-editor-dirty" class="peb-dirty" style="display:none">&#9679; unsaved</span>
+  </div>
+  <div class="peb-right">
+    <button class="peb-save" onclick="adminSystem.savePageEdits()">&#8675; Save &amp; Download</button>
+    <button class="peb-exit" onclick="adminSystem.disablePageEditMode(true)">&#10005; Exit Edit Mode</button>
+  </div>
+</div>
 
 <!-- Toast notification -->
 <div id="admin-toast" class="admin-toast"></div>

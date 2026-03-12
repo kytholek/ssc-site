@@ -519,8 +519,8 @@ var adminSystem = (function () {
       b.classList.toggle('active', b.dataset.mode === mode);
     });
 
-    if (visualPane) visualPane.style.display = mode === 'visual' ? 'block' : 'none';
-    if (rawPane)    rawPane.style.display    = mode === 'raw'    ? 'block' : 'none';
+    if (visualPane) visualPane.style.display = mode === 'visual' ? 'flex' : 'none';
+    if (rawPane)    rawPane.style.display    = mode === 'raw'    ? 'flex' : 'none';
   }
 
   function switchStaticMode(mode) {
@@ -704,6 +704,160 @@ var adminSystem = (function () {
     showToast('Export ready — copy and paste into blog.html');
   }
 
+  // ── IN-PLACE PAGE EDITOR ───────────────────────────────────
+  // When admin is authenticated, editable text elements across
+  // all pages get a hover highlight. Click any element to edit
+  // it inline. A floating bar lets you download the updated
+  // page fragment file.
+
+  var PAGE_EDITABLE_SELECTOR = [
+    'h1', 'h2', 'h3', 'h4', 'p',
+    '.section-eyebrow', '.section-title', '.section-body',
+    '.hero-title', '.hero-subtitle', '.hero-body',
+    '.freq-name', '.freq-desc',
+    '.step-title', '.step-body',
+    '.quote-text', '.quote-attr',
+    '.about-section-title',
+    '.pillar-title', '.pillar-text',
+    '.book-title', '.book-author', '.book-desc', '.book-tag',
+    '.layer-name',
+  ].join(', ');
+
+  var PAGE_FILES = {
+    'page-home'      : 'home.html',
+    'page-about'     : 'about.html',
+    'page-books'     : 'books.html',
+    'page-calculator': 'calculator.html',
+    'page-blog'      : 'blog.html',
+    'page-privacy'   : 'privacy.html',
+  };
+
+  var _pageEditMode   = false;
+  var _pageEditTarget = null;
+  var _dirtyPageId    = null;
+
+  function enablePageEditMode() {
+    if (_pageEditMode) return;
+    _pageEditMode = true;
+
+    document.querySelectorAll(PAGE_EDITABLE_SELECTOR).forEach(function (el) {
+      if (el.closest('#admin-overlay') || el.closest('#page-editor-bar')) return;
+      if (_hasBlockChildren(el)) return;
+
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'true');
+      el.classList.add('page-editable');
+      el.addEventListener('focus',   _onEdFocus,   true);
+      el.addEventListener('blur',    _onEdBlur,    true);
+      el.addEventListener('input',   _onEdInput,   true);
+      el.addEventListener('keydown', _onEdKeydown, true);
+    });
+
+    var bar = $('page-editor-bar');
+    if (bar) bar.classList.add('visible');
+    showToast('Click any text on the page to edit it', 'ok');
+  }
+
+  function disablePageEditMode(force) {
+    if (!_pageEditMode) return;
+    if (!force && _dirtyPageId && !confirm('You have unsaved changes. Exit page edit mode?')) return;
+    _pageEditMode = false;
+
+    document.querySelectorAll('.page-editable').forEach(function (el) {
+      el.removeAttribute('contenteditable');
+      el.removeAttribute('spellcheck');
+      el.classList.remove('page-editable', 'page-editable-focused');
+      el.removeEventListener('focus',   _onEdFocus,   true);
+      el.removeEventListener('blur',    _onEdBlur,    true);
+      el.removeEventListener('input',   _onEdInput,   true);
+      el.removeEventListener('keydown', _onEdKeydown, true);
+    });
+
+    var bar = $('page-editor-bar');
+    if (bar) bar.classList.remove('visible');
+    _pageEditTarget = null;
+    _dirtyPageId    = null;
+    var ind = $('page-editor-dirty'); if (ind) ind.style.display = 'none';
+  }
+
+  function _hasBlockChildren(el) {
+    var allowed = ['span','strong','em','b','i','a','br','code'];
+    for (var i = 0; i < el.children.length; i++) {
+      if (!allowed.includes(el.children[i].tagName.toLowerCase())) return true;
+    }
+    return false;
+  }
+
+  function _onEdFocus(e) {
+    _pageEditTarget = e.currentTarget;
+    _pageEditTarget.classList.add('page-editable-focused');
+    var pageEl = _pageEditTarget.closest('[id^="page-"]');
+    var hint = $('page-editor-file-hint');
+    if (hint) hint.textContent = pageEl ? (PAGE_FILES[pageEl.id] || pageEl.id) : '';
+  }
+
+  function _onEdBlur(e) {
+    if (_pageEditTarget) _pageEditTarget.classList.remove('page-editable-focused');
+    _pageEditTarget = null;
+  }
+
+  function _onEdInput(e) {
+    var pageEl = e.currentTarget.closest('[id^="page-"]');
+    if (pageEl) {
+      _dirtyPageId = pageEl.id;
+      var ind = $('page-editor-dirty'); if (ind) ind.style.display = 'inline';
+    }
+  }
+
+  function _onEdKeydown(e) {
+    var tag = e.currentTarget.tagName.toLowerCase();
+    if (e.key === 'Enter' && ['h1','h2','h3','h4'].includes(tag)) {
+      e.preventDefault(); e.currentTarget.blur();
+    }
+    if (e.key === 'Escape') e.currentTarget.blur();
+  }
+
+  function savePageEdits() {
+    if (!_dirtyPageId) { showToast('No changes to save yet.', 'error'); return; }
+    var pageEl = $(_dirtyPageId);
+    if (!pageEl) { showToast('Page element not found.', 'error'); return; }
+    var fileName = PAGE_FILES[_dirtyPageId];
+    if (!fileName) { showToast('Unknown page — cannot save.', 'error'); return; }
+
+    // Temporarily strip edit attributes before serialising
+    var eds = pageEl.querySelectorAll('.page-editable');
+    eds.forEach(function (el) {
+      el.removeAttribute('contenteditable');
+      el.removeAttribute('spellcheck');
+      el.classList.remove('page-editable', 'page-editable-focused');
+    });
+
+    var html = pageEl.outerHTML;
+
+    // Restore
+    eds.forEach(function (el) {
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'true');
+      el.classList.add('page-editable');
+    });
+
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href = url; a.download = fileName;
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+
+    showToast('\u2713 ' + fileName + ' downloaded \u2014 drop into /pages/', 'ok');
+    _dirtyPageId = null;
+    var ind = $('page-editor-dirty'); if (ind) ind.style.display = 'none';
+  }
+
+  function togglePageEditMode() {
+    if (_pageEditMode) disablePageEditMode();
+    else               enablePageEditMode();
+  }
+
   // ── Boot ───────────────────────────────────────────────────
   function boot() {
     loadPosts();
@@ -752,6 +906,8 @@ var adminSystem = (function () {
     previewStaticPost, saveStaticPost,
     // Export
     exportCode,
+    // Page editor
+    togglePageEditMode, savePageEdits, disablePageEditMode,
   };
 
 })();
