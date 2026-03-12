@@ -1,55 +1,369 @@
 <!-- blog/post-five-lenses.html — individual post fragment -->
 <!-- Loaded dynamically by app.js when openPost('post-five-lenses') is called -->
-<!-- Edit freely: this file is self-contained. -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 
-<div class="blog-post" id="post-five-lenses"
+<style>
+/* ── Five Lenses post — self-contained styles ────────────────── */
+
+.post-five-lenses-view {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+.post-five-lenses-view > .blog-post-back:first-child {
+  position: fixed;
+  top: 72px;
+  left: 24px;
+  z-index: 200;
+  background: rgba(5,4,10,0.85);
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border-dim);
+  backdrop-filter: blur(8px);
+}
+
+/* Intro */
+.fl-intro {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 100px 32px 60px;
+  text-align: center;
+}
+.fl-post-title {
+  font-size: clamp(28px, 5vw, 52px) !important;
+  background: linear-gradient(135deg, #e8a0c0, #c090ff, #e8c96b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px !important;
+}
+.fl-intro-body {
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--text-dim);
+  margin-top: 20px;
+}
+
+/* Each lens section */
+.fl-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 80px 24px;
+}
+.fl-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.fl-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 300px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Large background glyph */
+.fl-glyph-bg {
+  position: absolute;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(100px, 20vw, 240px);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  right: -1%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.045;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.fl-section-inner {
+  position: relative;
+  z-index: 3;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.fl-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: 0.75;
+}
+.fl-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(18px, 3vw, 28px);
+  line-height: 1.3;
+  margin-bottom: 28px;
+}
+.fl-body p {
+  font-size: 19px;
+  line-height: 1.9;
+  margin-bottom: 18px;
+}
+.fl-body p:last-child { margin-bottom: 0; }
+
+.fl-list {
+  margin: 20px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.fl-list li {
+  font-size: 19px;
+  line-height: 1.7;
+  padding: 8px 0 8px 20px;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.fl-list li::before {
+  content: '◈';
+  position: absolute;
+  left: 0;
+  font-size: 11px;
+  top: 11px;
+}
+.fl-quote {
+  border-left: 2px solid currentColor;
+  padding: 12px 0 12px 20px;
+  font-style: italic;
+  opacity: 0.75;
+  margin-top: 24px !important;
+  font-size: 19px !important;
+}
+
+/* ── Lens 1 — EGO — harsh red-orange, survival fire ─────────── */
+.fl-ego {
+  background: #0e0200;
+  color: #c06040;
+}
+.fl-ego::before {
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(220,80,20,0.22) 0%, rgba(180,40,10,0.10) 40%, transparent 70%),
+    radial-gradient(ellipse at 20% 70%, rgba(160,30,10,0.12) 0%, transparent 55%);
+}
+.fl-ego::after { background: linear-gradient(to bottom, transparent 0%, #06010a 100%); }
+.fl-ego .fl-eyebrow         { color: #7a2a10; }
+.fl-ego .fl-title           { color: #ff8060; }
+.fl-ego .fl-body p          { color: rgba(200,100,60,0.88); }
+.fl-ego .fl-quote           { color: #d06040; border-color: #8a2a10; }
+.fl-ego .fl-glyph-bg        { color: #c04020; }
+.fl-ego .fl-list li         { color: rgba(200,100,60,0.85); }
+.fl-ego .fl-list li::before { color: #c04020; }
+
+/* ── Lens 2 — MIND — electric blue-cyan, analytical light ───── */
+.fl-mind {
+  background: #06010a;
+  color: #60a0d0;
+}
+.fl-mind::before {
+  background:
+    linear-gradient(to bottom, #0e0200 0%, transparent 25%),
+    radial-gradient(ellipse at 60% 40%, rgba(40,160,220,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse at 25% 65%, rgba(20,80,180,0.14) 0%, transparent 55%);
+}
+.fl-mind::after { background: linear-gradient(to bottom, transparent 0%, #020408 100%); }
+.fl-mind .fl-eyebrow         { color: #2060a0; }
+.fl-mind .fl-title           { color: #80d0ff; }
+.fl-mind .fl-body p          { color: rgba(80,160,210,0.88); }
+.fl-mind .fl-quote           { color: #50b0e0; border-color: #2060a0; }
+.fl-mind .fl-glyph-bg        { color: #3090c0; }
+.fl-mind .fl-list li         { color: rgba(80,160,210,0.85); }
+.fl-mind .fl-list li::before { color: #3090c0; }
+
+/* ── Lens 3 — SOUL — deep rose-violet, warm oceanic ─────────── */
+.fl-soul {
+  background: #020408;
+  color: #c070a0;
+}
+.fl-soul::before {
+  background:
+    linear-gradient(to bottom, #06010a 0%, transparent 25%),
+    radial-gradient(ellipse at 45% 50%, rgba(180,70,130,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 30%, rgba(130,40,120,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 70%, rgba(100,30,160,0.10) 0%, transparent 50%);
+}
+.fl-soul::after { background: linear-gradient(to bottom, transparent 0%, #050108 100%); }
+.fl-soul .fl-eyebrow         { color: #803060; }
+.fl-soul .fl-title           { color: #f0a0d0; }
+.fl-soul .fl-body p          { color: rgba(195,100,155,0.88); }
+.fl-soul .fl-quote           { color: #d080b0; border-color: #803060; }
+.fl-soul .fl-glyph-bg        { color: #a05080; }
+.fl-soul .fl-list li         { color: rgba(195,100,155,0.85); }
+.fl-soul .fl-list li::before { color: #a05080; }
+
+/* ── Lens 4 — SPIRIT — white-gold, expansive and dissolving ─── */
+.fl-spirit {
+  background: #050108;
+  color: #c8a860;
+}
+.fl-spirit::before {
+  background:
+    linear-gradient(to bottom, #020408 0%, transparent 25%),
+    radial-gradient(ellipse at 50% 40%, rgba(240,220,140,0.18) 0%, rgba(201,168,76,0.09) 45%, transparent 70%),
+    radial-gradient(ellipse at 75% 65%, rgba(180,150,60,0.08) 0%, transparent 50%);
+}
+.fl-spirit::after { background: linear-gradient(to bottom, transparent 0%, #020006 100%); }
+.fl-spirit .fl-eyebrow         { color: var(--gold-dim); }
+.fl-spirit .fl-title           { color: #f0e0a0; }
+.fl-spirit .fl-body p          { color: rgba(210,180,100,0.88); }
+.fl-spirit .fl-quote           { color: var(--gold); border-color: var(--gold-dim); }
+.fl-spirit .fl-glyph-bg        { color: var(--gold); }
+.fl-spirit .fl-list li         { color: rgba(210,180,100,0.85); }
+.fl-spirit .fl-list li::before { color: var(--gold); }
+
+/* ── Lens 5 — VOID — absolute black, silent ground ──────────── */
+.fl-void {
+  background: #020006;
+  color: #6868a0;
+  padding-bottom: 120px;
+}
+.fl-void::before {
+  background:
+    linear-gradient(to bottom, #050108 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 50%, rgba(60,50,120,0.15) 0%, transparent 65%),
+    radial-gradient(ellipse at 30% 60%, rgba(40,30,100,0.08) 0%, transparent 55%);
+}
+.fl-void::after { background: linear-gradient(to bottom, transparent 0%, #020006 100%); }
+.fl-void .fl-eyebrow         { color: #40406a; }
+.fl-void .fl-title           { color: #b0a8e0; }
+.fl-void .fl-body p          { color: rgba(100,100,160,0.85); }
+.fl-void .fl-quote           { color: #8888c0; border-color: #40408a; }
+.fl-void .fl-glyph-bg        { color: #5050a0; }
+.fl-void .fl-list li         { color: rgba(100,100,160,0.80); }
+.fl-void .fl-list li::before { color: #5050a0; }
+
+.fl-section + .fl-section { border-top: none; }
+</style>
+
+<div class="blog-post post-five-lenses-view" id="post-five-lenses"
     data-title="The Five Lenses of Self: Which One Are You Seeing Through?"
     data-description="Ego, Mind, Soul, Spirit, and Void — five layers of self, five entirely different experiences of the same reality. Which one are you looking through right now?"
     data-date="March 2026">
-    <button class="blog-post-back" onclick="closePosts()">← Back to Blog</button>
+
+  <button class="blog-post-back" onclick="closePosts()">← Back to Blog</button>
+
+  <!-- ── INTRO ─────────────────────────────────────────────── -->
+  <div class="fl-intro">
     <div class="blog-post-eyebrow"><span class="blog-tag gold">Philosophy</span></div>
-    <h1 class="blog-post-title">The Five Lenses of Self: Which One Are You Seeing Through?</h1>
-    <div class="blog-post-meta">March 2026 · 10 min read</div>
-    <div class="blog-post-content">
+    <h1 class="blog-post-title fl-post-title">The Five Lenses of Self</h1>
+    <div class="blog-post-meta">March 2026 · Which One Are You Seeing Through?</div>
+    <p class="fl-intro-body">The same event can be experienced as a catastrophe, a neutral occurrence, a lesson, a gift, or simply as what is — depending entirely on which layer of self is doing the experiencing.</p>
+    <p class="fl-intro-body" style="margin-top:16px">Five is the number of experience and exploration in the SSC system. It sits at the centre of the Codex — the 3×3 consciousness matrix — as the interface point, the pivot through which all transformation must pass. Five senses perceive the outer world. Five appendages interact with it. And five layers of self constitute the inner world through which all outer experience is processed.</p>
+  </div>
 
-      <p>The same event can be experienced as a catastrophe, a neutral occurrence, a lesson, a gift, or simply as what is — depending entirely on which layer of self is doing the experiencing.</p>
-
-      <p>This is not a philosophical abstraction. It is the most practically useful insight in the entire SSC framework: the quality of your experience at any moment is not determined by what is happening, but by the lens through which it is being processed. And there are five distinct lenses available. Most people spend most of their lives looking through only one of them — the coarsest one — without knowing the others exist.</p>
-
-      <h3>Why Five?</h3>
-
-      <p>Five is the number of experience and exploration in the SSC system. It sits at the centre of the Codex — the 3×3 consciousness matrix — as the interface point, the pivot through which all transformation must pass. Five senses perceive the outer world. Five appendages interact with it. And five layers of self constitute the inner world through which all outer experience is processed.</p>
-
-      <h3>The Five Lenses</h3>
-
-      <p><strong>The Ego</strong> is the survival program of the body — the identity built from the accumulation of experiences within this lifetime. Its primary motivation is survival, which means its dominant emotional register is fear. The problem is not the Ego's existence — it is that most people mistake it for the totality of who they are.</p>
-
-      <p>Experienced through the Ego lens: everything is a threat or a reward. Other people are extensions of your needs or obstacles to them. This is the NPC mode of the simulation — fully immersed, reactive, with no awareness that a different mode of engagement exists.</p>
-
-      <p><strong>The Mind</strong> is the tool — the translator that converts the incoming frequencies of experience into something workable. It is the door between the immaterial and the material, the instrument through which intention becomes action. The Mind is not the Ego, though the Ego uses the Mind constantly. It is the instrument that either of them can play.</p>
-
-      <p>Experienced through the Mind lens: you have some distance from pure reaction. You can observe your thoughts, question your interpretations, choose your responses. But the Mind can also trap you in analysis and endless reflection. Thinking about a thing is not the same as living through it.</p>
-
-      <p><strong>The Soul</strong> is the accumulated understanding carried across lifetimes — the storehouse of individualised experience that speaks through intuition and the deep knowing that cannot always be explained rationally. The Soul is what wants to be expressed — the authentic signal beneath the social conditioning.</p>
-
-      <p>Experienced through the Soul lens: you have access to a quality of knowing that operates below analytical thought. Things feel right or wrong before the mind has finished evaluating them. The recurring themes of your life become legible as curriculum rather than accident.</p>
-
-      <p><strong>Spirit</strong> is the animating energy itself — the intelligent light that holds matter together. If the Soul is an individual photon in the ocean, Spirit is the ocean. It is not personal. It does not have opinions about your specific situation. It is the energy that is flowing through the situation.</p>
-
-      <p>Experienced through the Spirit lens: the narrative of your personal story becomes less compelling — not because it is unimportant but because it is clearly part of something much larger. Resistance dissolves not through effort but through recognition.</p>
-
-      <p><strong>The Void</strong> is the ground beneath all of it — the awareness that is aware of all the other layers without itself being any of them. It is not a state to achieve. It is what you are before any lens is applied. Most people never access the Void as a lived experience. It is glimpsed in deep meditation, in moments of profound stillness, in the fraction of a second before thought reconstitutes itself after sleep.</p>
-
-      <blockquote>You are simultaneously the traveller and the territory. The Void is the reminder that the one who is experiencing all of this was never actually separate from what is being experienced.</blockquote>
-
-      <h3>The Practice</h3>
-
-      <p>Knowing these five lenses exist is the beginning. The practice is learning to recognise, in real time, which one you are currently looking through — and developing the capacity to choose.</p>
-
-      <p>You cannot skip the Ego. It is the necessary layer through which this form of life is lived. But you can learn to observe it rather than be entirely governed by it. That observation capacity is the Mind coming online at a higher level of function. As the Mind stabilises, the Soul's signal becomes more audible. As the Soul becomes more familiar, the Spirit's perspective becomes occasionally accessible. The Void is there throughout, as the ground beneath all of it.</p>
-
-      <p>The question to return to, regularly and honestly, is the simplest one: which lens am I looking through right now?</p>
-
+  <!-- ── LENS 1 — EGO ─────────────────────────────────────── -->
+  <div class="fl-section fl-ego">
+    <div class="fl-glyph-bg">I</div>
+    <div class="fl-section-inner">
+      <div class="fl-eyebrow">Layer One · The Survival Program</div>
+      <h2 class="fl-title">The Ego</h2>
+      <div class="fl-body">
+        <p>The Ego is the survival program of the body — the identity built from the accumulation of experiences within this lifetime. Its primary motivation is survival, which means its dominant emotional register is fear. The problem is not the Ego's existence — it is that most people mistake it for the totality of who they are.</p>
+        <p>Experienced through the Ego lens, everything is a threat or a reward. Other people are extensions of your needs or obstacles to them. This is the NPC mode of the simulation — fully immersed, reactive, with no awareness that a different mode of engagement exists.</p>
+        <ul class="fl-list">
+          <li>Every event is filtered through threat or reward</li>
+          <li>Identity is built from accumulated wounds and desires</li>
+          <li>Other people exist as mirrors of your own needs</li>
+          <li>The future is a source of anxiety; the past is a source of regret</li>
+        </ul>
+        <p class="fl-quote">This is not a flaw in the design — it is the design. The Ego is the necessary friction of embodied experience. The mistake is not having one. The mistake is believing it is all you are.</p>
+      </div>
     </div>
   </div>
+
+  <!-- ── LENS 2 — MIND ────────────────────────────────────── -->
+  <div class="fl-section fl-mind">
+    <div class="fl-glyph-bg">II</div>
+    <div class="fl-section-inner">
+      <div class="fl-eyebrow">Layer Two · The Translator</div>
+      <h2 class="fl-title">The Mind</h2>
+      <div class="fl-body">
+        <p>The Mind is the tool — the translator that converts the incoming frequencies of experience into something workable. It is the door between the immaterial and the material, the instrument through which intention becomes action. The Mind is not the Ego, though the Ego uses the Mind constantly. It is the instrument that either of them can play.</p>
+        <p>Experienced through the Mind lens, you have some distance from pure reaction. You can observe your thoughts, question your interpretations, choose your responses. But the Mind can also trap you in analysis and endless reflection. Thinking about a thing is not the same as living through it.</p>
+        <ul class="fl-list">
+          <li>Observation of thought becomes possible</li>
+          <li>Responses can be chosen rather than triggered</li>
+          <li>Analysis can become its own form of avoidance</li>
+          <li>The map is useful — but it is not the territory</li>
+        </ul>
+        <p class="fl-quote">The Mind is the most powerful tool in the simulation. It is also the most dangerous one to mistake for the operator. The Mind is not who is thinking. It is what thinking is done with.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LENS 3 — SOUL ────────────────────────────────────── -->
+  <div class="fl-section fl-soul">
+    <div class="fl-glyph-bg">III</div>
+    <div class="fl-section-inner">
+      <div class="fl-eyebrow">Layer Three · The Accumulated Understanding</div>
+      <h2 class="fl-title">The Soul</h2>
+      <div class="fl-body">
+        <p>The Soul is the accumulated understanding carried across lifetimes — the storehouse of individualised experience that speaks through intuition and the deep knowing that cannot always be explained rationally. The Soul is what wants to be expressed — the authentic signal beneath the social conditioning.</p>
+        <p>Experienced through the Soul lens, you have access to a quality of knowing that operates below analytical thought. Things feel right or wrong before the mind has finished evaluating them. The recurring themes of your life become legible as curriculum rather than accident.</p>
+        <ul class="fl-list">
+          <li>Intuition arrives before analysis has completed</li>
+          <li>Life patterns become readable as curriculum</li>
+          <li>The authentic signal is distinguishable from conditioning</li>
+          <li>Yearning points toward mission rather than simply toward comfort</li>
+        </ul>
+        <p class="fl-quote">Your numerology chart is, at its most precise, a map of the Soul's curriculum for this lifetime — the frequencies it chose to work with, the lessons it agreed to encounter, the gifts it carries from before.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LENS 4 — SPIRIT ──────────────────────────────────── -->
+  <div class="fl-section fl-spirit">
+    <div class="fl-glyph-bg">IV</div>
+    <div class="fl-section-inner">
+      <div class="fl-eyebrow">Layer Four · The Animating Energy</div>
+      <h2 class="fl-title">Spirit</h2>
+      <div class="fl-body">
+        <p>Spirit is the animating energy itself — the intelligent light that holds matter together. If the Soul is an individual photon in the ocean, Spirit is the ocean. It is not personal. It does not have opinions about your specific situation. It is the energy that is flowing through the situation.</p>
+        <p>Experienced through the Spirit lens, the narrative of your personal story becomes less compelling — not because it is unimportant but because it is clearly part of something much larger. Resistance dissolves not through effort but through recognition.</p>
+        <ul class="fl-list">
+          <li>The personal story is seen within a much larger pattern</li>
+          <li>Resistance dissolves through recognition, not force</li>
+          <li>Synchronicity becomes ordinary rather than remarkable</li>
+          <li>Service becomes natural rather than effortful</li>
+        </ul>
+        <p class="fl-quote">At this level, the numbers in your chart are not about you. They are the particular frequencies of universal energy that are moving through the form you currently occupy. You did not choose them. You are them.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LENS 5 — VOID ────────────────────────────────────── -->
+  <div class="fl-section fl-void">
+    <div class="fl-glyph-bg">○</div>
+    <div class="fl-section-inner">
+      <div class="fl-eyebrow">Layer Five · The Ground Beneath All</div>
+      <h2 class="fl-title">The Void</h2>
+      <div class="fl-body">
+        <p>The Void is the ground beneath all of it — the awareness that is aware of all the other layers without itself being any of them. It is not a state to achieve. It is what you are before any lens is applied. Most people never access the Void as a lived experience. It is glimpsed in deep meditation, in moments of profound stillness, in the fraction of a second before thought reconstitutes itself after sleep.</p>
+        <p>There is nothing to describe about the Void from within the Void, because the describer dissolves before the description can be formed. Every account of it is necessarily a description from one of the other four lenses — a memory, an approximation, a pointing finger.</p>
+        <ul class="fl-list">
+          <li>The observer and the observed are the same</li>
+          <li>No lens is required because there is no separate seer</li>
+          <li>All the other layers arise within this and return to it</li>
+          <li>It cannot be reached — it can only be recognised as already present</li>
+        </ul>
+        <p class="fl-quote">You are simultaneously the traveller and the territory. The Void is the reminder that the one who is experiencing all of this was never actually separate from what is being experienced.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CLOSING ───────────────────────────────────────────── -->
+  <div class="fl-intro" style="padding:80px 32px 100px">
+    <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(22px,2.5vw,22px);color:var(--gold-light);margin-bottom:24px">The Practice</h2>
+    <p class="fl-intro-body">Knowing these five lenses exist is the beginning. The practice is learning to recognise, in real time, which one you are currently looking through — and developing the capacity to choose.</p>
+    <p class="fl-intro-body" style="margin-top:16px">You cannot skip the Ego. It is the necessary layer through which this form of life is lived. But you can learn to observe it rather than be entirely governed by it. That observation capacity is the Mind coming online at a higher level of function. As the Mind stabilises, the Soul's signal becomes more audible. As the Soul becomes more familiar, the Spirit's perspective becomes occasionally accessible. The Void is there throughout, as the ground beneath all of it.</p>
+    <p class="fl-intro-body" style="margin-top:24px;font-size:19px;color:var(--text-dim)">The question to return to, regularly and honestly, is the simplest one:<br><span style="color:var(--gold);font-style:normal;font-family:'Cinzel',serif;font-size:15px;letter-spacing:.1em">which lens am I looking through right now?</span></p>
+  </div>
+
+</div>
