@@ -514,6 +514,11 @@ async function openPost(id, pushState = true) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const postEl = container.querySelector(`#${id}`);
+  
+  // Remove active class from any previously active post and add to current
+  document.querySelectorAll('.blog-post').forEach(p => p.classList.remove('active'));
+  if (postEl) postEl.classList.add('active');
+  
   const meta   = _getPostMeta(postEl, id);
   const canonicalUrl = SITE.baseUrl + '/?post=' + id;
 

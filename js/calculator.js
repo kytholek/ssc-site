@@ -311,7 +311,7 @@ function calculateReading() {
   }).join('');
 
   const readingFor = _t('calc.results.reading_for') || 'Reading for';
-  const footerNote = _t('calc.results.footer') || 'Download the full app for complete interpretations, archetype analysis, and personal insights.';
+  const footerNote = _t('calc.results.footer') || 'Download the app for complete interpretations using the compound numbers as well as the root, and personal insights., archetype analysis, and personal insights.';
   document.getElementById('results-area').innerHTML = `
     <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-dim)">
       <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px">${readingFor}</div>

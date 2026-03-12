@@ -1,16 +1,15 @@
-<!-- ════ HOME PAGE ════ -->
 <div class="page active" id="page-home">
 
 <!-- LAYER 1 — Surface Reality (hero) -->
 <section class="hero sim-layer-1" id="sim-layer-1">
   <div class="hero-sigil a0">
     <svg class="hero-sigil-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="30" stroke="#c9a84c" stroke-width="0.5" stroke-dasharray="4 3"/>
-      <circle cx="32" cy="32" r="20" stroke="#c9a84c" stroke-width="0.5"/>
-      <polygon points="32,3 57.11,46.5 6.89,46.5" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/>
-      <polygon points="32,61 6.89,17.5 57.11,17.5" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/>
-      <circle cx="32" cy="32" r="4" fill="#c9a84c" opacity="0.8"/>
-      <circle cx="32" cy="32" r="2" fill="#e8c96b"/>
+      <circle cx="32" cy="32" r="30" stroke="#c9a84c" stroke-width="0.5" stroke-dasharray="4 3"></circle>
+      <circle cx="32" cy="32" r="20" stroke="#c9a84c" stroke-width="0.5"></circle>
+      <polygon points="32,3 57.11,46.5 6.89,46.5" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"></polygon>
+      <polygon points="32,61 6.89,17.5 57.11,17.5" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"></polygon>
+      <circle cx="32" cy="32" r="4" fill="#c9a84c" opacity="0.8"></circle>
+      <circle cx="32" cy="32" r="2" fill="#e8c96b"></circle>
     </svg>
   </div>
   <div class="hero-eyebrow a1">|</div>
@@ -18,7 +17,7 @@
   <div class="hero-subtitle a2" data-i18n="home.hero.subtitle">Decode Your Life Blueprint</div>
   <p class="hero-body a2" data-i18n="home.hero.body">Seven frequencies encoded in your birth and name — the complete blueprint of your simulation, waiting to be read.</p>
   <div class="hero-actions a3">
-    <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.hero.btn.primary">&#11041;&nbsp;Decode Your Blueprint</button>
+    <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.hero.btn.primary">⬡ Decode Your Blueprint</button>
     <button class="btn-secondary" onclick="showPage('about')" data-i18n="home.hero.btn.secondary">Learn More</button>
   </div>
   <div class="scroll-indicator" data-i18n="home.hero.scroll">Descend</div>
@@ -26,23 +25,23 @@
 
 <!-- LAYER 2 — Physical Substrate -->
 <section class="sim-layer sim-layer-2">
-  <canvas class="layer-canvas" id="canvas-solid"></canvas>
-  <div class="layer-label">
+  <canvas class="layer-canvas" id="canvas-solid" width="1901" height="777" style="width: 1520.8px; height: 621.7px; opacity: 1;"></canvas>
+  <div class="layer-label visible">
     <span class="layer-depth">LAYER 02</span>
     <span class="layer-name" data-i18n="home.layer2.name">Physical Substrate</span>
   </div>
   <div class="sim-content">
     <div class="section-eyebrow sim-eyebrow" data-i18n="home.layer2.eyebrow">A New System</div>
     <h2 class="section-title" data-i18n="home.layer2.title">Numerology as Source Code</h2>
-    <p class="section-body" data-i18n="home.layer2.body1">Your name and birth date are not coincidences — they are encoded data, parameters set at the moment your simulation began. Simulation Source Code is the practice of decoding the map within it.</p>
-    <p class="section-body" style="margin-top:16px" data-i18n="home.layer2.body2">Simulation Source Code goes deeper than traditional numerology, revealing seven distinct frequencies that together form the complete architecture of your experience — your drives, your gifts, your lessons, your destiny. The Simulation provides conditioning that you are meant to override, and re-member your Self.</p>
+    <p class="section-body" data-i18n="home.layer2.body1"><div>Simulations Source Code is a consciousness framework for the Simulated Experience within Holographic Perception.</div>Your name and birth date are not coincidences, but are encoded data, parameters set at the moment your simulation began.&nbsp;</p>
+    <p class="section-body" style="margin-top:16px" data-i18n="home.layer2.body2">This system reveals seven distinct frequencies that, together, form the complete architecture of your experience; both inner and "outer."&nbsp;<div>What you are here to learn, and what you are here to express come together to give life direction.&nbsp;</div><div>The Simulation provides conditioning that you are meant to override.&nbsp;</div><div>A Quest to re-member your Self.</div></p>
   </div>
 </section>
 
 <!-- LAYER 3 — Holographic Field -->
 <section class="sim-layer sim-layer-3">
-  <canvas class="layer-canvas" id="canvas-holo"></canvas>
-  <div class="layer-label">
+  <canvas class="layer-canvas fade-ready fade-in" id="canvas-holo" width="1901" height="1490" style="width: 1520.8px; height: 1192.2px;"></canvas>
+  <div class="layer-label visible">
     <span class="layer-depth">LAYER 03</span>
     <span class="layer-name" data-i18n="home.layer3.name">Holographic Field</span>
   </div>
@@ -88,19 +87,19 @@
       <svg class="toroidal-flow" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"></feGaussianBlur>
             <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
+              <feMergeNode in="coloredBlur"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
             </feMerge>
           </filter>
         </defs>
-        <path d="M350 88 L250 88 L200 155" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
-        <path d="M50 88 L150 88 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
-        <path d="M50 235 L150 235 L200 155" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
-        <path d="M350 235 L250 235 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
-        <circle cx="200" cy="155" r="15" fill="none" stroke="var(--gold)" stroke-width="2" stroke-opacity="0.3" class="swirl" filter="url(#glow)" />
-        <circle cx="200" cy="155" r="8" fill="none" stroke="var(--teal)" stroke-width="2" stroke-opacity="0.3" class="swirl-inner" filter="url(#glow)" />
+        <path d="M350 88 L250 88 L200 155" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
+        <path d="M50 88 L150 88 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
+        <path d="M50 235 L150 235 L200 155" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
+        <path d="M350 235 L250 235 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
+        <circle cx="200" cy="155" r="15" fill="none" stroke="var(--gold)" stroke-width="2" stroke-opacity="0.3" class="swirl" filter="url(#glow)"></circle>
+        <circle cx="200" cy="155" r="8" fill="none" stroke="var(--teal)" stroke-width="2" stroke-opacity="0.3" class="swirl-inner" filter="url(#glow)"></circle>
       </svg>
     </div>
   </div>
@@ -108,8 +107,8 @@
 
 <!-- LAYER 4 — Source Code -->
 <section class="sim-layer sim-layer-4">
-  <canvas class="layer-canvas" id="canvas-matrix"></canvas>
-  <div class="layer-label">
+  <canvas class="layer-canvas fade-ready fade-in" id="canvas-matrix" width="1901" height="1772" style="width: 1520.8px; height: 1417.4px;"></canvas>
+  <div class="layer-label visible">
     <span class="layer-depth">LAYER 04</span>
     <span class="layer-name" data-i18n="home.layer4.name">Source Code</span>
   </div>
@@ -141,24 +140,24 @@
     </div>
     <div class="quote-block code-quote">
       <p class="quote-text" data-i18n="home.quote.text">"Numbers are the language in which the universe was written."</p>
-      <div class="quote-attr" data-i18n="home.quote.attr">&#8212; Galileo Galilei</div>
+      <div class="quote-attr" data-i18n="home.quote.attr">— Galileo Galilei</div>
     </div>
     <div style="margin-top:48px">
       <div class="section-eyebrow sim-eyebrow" style="margin-bottom:16px" data-i18n="home.cta.eyebrow">Begin Now</div>
       <h2 class="section-title" style="margin-bottom:16px" data-i18n="home.cta.title">Discover Your Frequencies</h2>
-      <p class="section-body" style="margin-bottom:36px" data-i18n="home.cta.body">Your numerology chart is a map &#8212; not of what must happen, but of what is possible.</p>
+      <p class="section-body" style="margin-bottom:36px" data-i18n="home.cta.body">Your numerology chart is a map — not of what must happen, but of what is possible.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-        <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.cta.btn.primary">&#11041;&nbsp;Open the Calculator</button>
+        <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.cta.btn.primary">⬡ Open the Calculator</button>
         <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="btn-secondary" target="_blank" data-i18n="home.cta.btn.secondary">Download the App</a>
       </div>
       <div style="margin-top:48px;display:flex;justify-content:center;gap:14px">
-        <a href="https://www.instagram.com/simulationsourcecode" target="_blank" class="social-btn">&#128247;</a>
-        <a href="https://www.youtube.com/@kytholek" target="_blank" class="social-btn">&#9654;&#65039;</a>
-        <a href="https://www.kytholek.com" target="_blank" class="social-btn">&#127760;</a>
+        <a href="https://www.instagram.com/simulationsourcecode" target="_blank" class="social-btn">📷</a>
+        <a href="https://www.youtube.com/@kytholek" target="_blank" class="social-btn">▶️</a>
+        <a href="https://www.kytholek.com" target="_blank" class="social-btn">🌐</a>
         <a href="https://www.tiktok.com/@kytholek" target="_blank" class="social-btn">♪</a>
       </div>
     </div>
   </div>
 </section>
 
-</div><!-- /page-home -->
+</div>
