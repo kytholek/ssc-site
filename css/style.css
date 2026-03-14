@@ -149,7 +149,7 @@ body { padding-top: 64px; }
 }
 
 .hero-sigil {
-  width: 45px; height: 45px; margin: 0 auto 32px;
+  width: 110px; height: 110px; margin: 0 auto 32px;
   animation: rotateSlow 24s linear infinite;
   position: relative;
   display: flex;
@@ -160,7 +160,7 @@ body { padding-top: 64px; }
 .hero-sigil::before {
   content: '';
   position: absolute;
-  inset: -15px;
+  inset: -20px;
   background: radial-gradient(circle, rgba(201,168,76,.4) 0%, transparent 70%);
   border-radius: 50%;
   animation: sigil-pulse 3s ease-in-out infinite;
