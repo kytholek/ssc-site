@@ -24,7 +24,7 @@ const SITE = {
   description : 'Discover your seven numerology frequencies — Life Path, Expression, Life Calling, Soul, Outer, Achievement & Theme.',
   ogImage     : 'https://simulationsourcecode.com/ssc-og.png',
   baseUrl     : 'https://simulationsourcecode.com',
-  blogPath    : 'blog/',
+  blogPath    : './blog/',
 };
 
 
