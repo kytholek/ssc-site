@@ -451,7 +451,29 @@
   transition: background .15s, box-shadow .15s;
   cursor: text;
   position: relative;
+  white-space: inherit;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+  color: inherit !important;
+  text-transform: inherit !important;
 }
+
+/* Ensure all children of editable elements also inherit styles */
+.page-editable * {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+  color: inherit !important;
+  text-transform: inherit !important;
+}
+
 .page-editable:hover {
   background: rgba(201,168,76,.08) !important;
   box-shadow: 0 0 0 2px rgba(201,168,76,.2);
