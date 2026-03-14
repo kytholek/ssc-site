@@ -149,20 +149,25 @@ body { padding-top: 64px; }
 }
 
 .hero-sigil {
-  width: 70px; height: 70px; margin: 0 auto 32px;
+  width: 45px; height: 45px; margin: 0 auto 32px;
   animation: rotateSlow 24s linear infinite;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 .hero-sigil::before {
   content: '';
   position: absolute;
-  inset: -20px;
+  inset: -15px;
   background: radial-gradient(circle, rgba(201,168,76,.4) 0%, transparent 70%);
   border-radius: 50%;
   animation: sigil-pulse 3s ease-in-out infinite;
   z-index: -1;
 }
-.hero-sigil svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(201,168,76,.55)); }
+.hero-sigil img,
+.hero-sigil svg { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(201,168,76,.55)); }
 
 .hero-eyebrow {
   font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .45em;
