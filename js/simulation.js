@@ -28,32 +28,25 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
   // Layers 3 and 4 fade in as they scroll into view.
   function initScrollFades() {
     var canvases = document.querySelectorAll('.layer-canvas');
-    console.log('initScrollFades: Found', canvases.length, 'canvases');
     if (!window.IntersectionObserver) {
       // No IO support — show all
-      console.log('initScrollFades: No IntersectionObserver, showing all');
       canvases.forEach(function(c) { c.style.opacity = '1'; });
       return;
     }
     var obs = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
-        console.log('IntersectionObserver fired:', e.target.id, 'isIntersecting:', e.isIntersecting);
         if (e.isIntersecting) {
-          console.log('Adding fade-in to', e.target.id);
           e.target.classList.add('fade-in');
         }
       });
     }, { threshold: 0.04, rootMargin: '0px 0px -4% 0px' });
 
     canvases.forEach(function(c, i) {
-      console.log('Setting up canvas', i, c.id);
       if (i === 0) {
         // First canvas (Layer 2 — stone) is already on screen: show immediately
-        console.log('Canvas 0 - showing immediately');
         c.style.opacity = '1';
       } else {
         // Below fold — arm the fade transition then let IO trigger it
-        console.log('Canvas', i, '- arming fade transition');
         c.classList.add('fade-ready');
         obs.observe(c);
       }
@@ -350,11 +343,11 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
 
     var LAYER_DEFS = [
       // far: dim, slow, tiny, dense
-      { fsPx:11, gap:1.8, speed:0.18, maxOpa:0.14, col:[0,145,35],    leadCol:null,       pool: GLYPHS },
+      { fsPx:11, gap:1.8, speed:0.18, maxOpa:0.14, col:[180,60,10],    leadCol:null,       pool: GLYPHS },
       // mid
-      { fsPx:14, gap:2.2, speed:0.32, maxOpa:0.32, col:[0,185,48],    leadCol:null,       pool: GLYPHS + LATIN },
+      { fsPx:14, gap:2.2, speed:0.32, maxOpa:0.32, col:[210,80,15],    leadCol:null,       pool: GLYPHS + LATIN },
       // near: bright, fast, sparse, gold tinted leads
-      { fsPx:16, gap:4.5, speed:0.60, maxOpa:0.80, col:[0,210,55],    leadCol:[220,185,65], pool: GLYPHS },
+      { fsPx:16, gap:4.5, speed:0.60, maxOpa:0.80, col:[235,110,20],    leadCol:[220,185,65], pool: GLYPHS },
     ];
 
     function seed() {
@@ -403,7 +396,7 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
               var trailY = y - step * layer.fsPx;
               if (trailY < 0) break;
               var trailOpa = baseOpa * Math.pow(0.55, step);
-              ctx.fillStyle = 'rgba(0,' + def.col[1] + ',' + def.col[2] + ',' + trailOpa + ')';
+              ctx.fillStyle = 'rgba(' + def.col[0] + ',' + def.col[1] + ',' + def.col[2] + ',' + trailOpa + ')';
               ctx.fillText(rch('0123456789'), x, trailY);
             }
           }

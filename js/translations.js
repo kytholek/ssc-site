@@ -96,8 +96,13 @@ var SSC_TRANSLATIONS = {
 
   // ── Home — Layer 4 (Source Code) ──────────────────────────
   'home.layer4.name'        : { en: 'Source Code',               es: 'Código Fuente'               },
-  'home.layer4.eyebrow'     : { en: 'How It Works',              es: 'Cómo Funciona'               },
-  'home.layer4.title'       : { en: 'Three Steps to Your Reading', es: 'Tres Pasos para Tu Lectura' },
+  'home.layer4.eyebrow'     : { en: 'The Architecture of Consciousness', es: 'La Arquitectura de la Conciencia' },
+  'home.layer4.title'       : { en: 'The Codex',                 es: 'El Códice'                   },
+  'home.layer4.body1'       : { en: 'Hidden in plain sight on every phone and keyboard is a 3×3 grid of numbers: 1 through 9. Simulation Source Code treats this layout not as an accident — but as a structural map. A blueprint for how consciousness evolves, organises, and transforms.', es: 'Escondido a la vista en cada teléfono y teclado hay una cuadrícula de 3×3 números: del 1 al 9. Simulation Source Code trata este diseño no como un accidente — sino como un mapa estructural. Un plano para cómo la conciencia evoluciona, se organiza y se transforma.' },
+  'home.layer4.body2'       : { en: 'The rows describe three planes — Mind, Body, and Spirit. The columns describe three modes — Witness, Actor, and Sage. At the centre sits the number 5: the pivot through which all transformation must pass.', es: 'Las filas describen tres planos — Mente, Cuerpo y Espíritu. Las columnas describen tres modos — Testigo, Actor y Sabio. En el centro se encuentra el número 5: el pivote a través del cual debe pasar toda transformación.' },
+  'home.layer4.quote'       : { en: '"Consciousness begins in perception, must pass through embodiment, and matures into contribution. There is no bypass."', es: '"La conciencia comienza en la percepción, debe pasar por la encarnación y madura hacia la contribución. No hay atajo."' },
+  'home.layer4.quote.attr'  : { en: '— Simulation Source Code', es: '— Simulation Source Code' },
+  'home.layer4.btn'         : { en: '✦ Read: Decoding the Matrix', es: '✦ Leer: Decodificando la Matriz' },
 
   'home.step1.title' : { en: 'Enter Your Details',          es: 'Ingresa Tus Datos'               },
   'home.step1.body'  : {
@@ -471,4 +476,15 @@ var SSC_TRANSLATIONS = {
   'calc.results.error'       : { en: 'Please fill in all required fields', es: 'Por favor completa todos los campos requeridos' },
   'calc.results.deep_freq'   : { en: 'A deep frequency — download the app for full interpretation.', es: 'Una frecuencia profunda — descarga la app para la interpretación completa.' },
   'calc.results.master_mission' : { en: 'A powerful mission frequency.', es: 'Una poderosa frecuencia de misión.' },
+  // ── Home — Layer 4 (Codex) — updated ─────────────────────
+  'home.layer4.eyebrow'     : { en: 'The Architecture of Consciousness', es: 'La Arquitectura de la Conciencia' },
+  'home.layer4.title'       : { en: 'The Codex',          es: 'El Códex'             },
+  'home.layer4.body1'       : { en: 'Hidden in plain sight on every phone and keyboard is a 3×3 grid of numbers: 1 through 9. Simulation Source Code treats this layout not as an accident — but as a structural map. A blueprint for how consciousness evolves, organises, and transforms.', es: 'Oculta a plena vista en cada teléfono y teclado hay una cuadrícula de 3×3 con los números del 1 al 9. Simulation Source Code trata este diseño no como un accidente — sino como un mapa estructural. Un plano de cómo la conciencia evoluciona, se organiza y se transforma.' },
+  'home.layer4.body2'       : { en: 'The rows describe three planes — Mind, Body, and Spirit. The columns describe three modes — Witness, Actor, and Sage. At the centre sits the number 5: the pivot through which all transformation must pass.', es: 'Las filas describen tres planos — Mente, Cuerpo y Espíritu. Las columnas describen tres modos — Testigo, Actor y Sabio. En el centro se encuentra el número 5: el pivote a través del cual debe pasar toda transformación.' },
+  'home.layer4.quote'       : { en: '"Consciousness begins in perception, must pass through embodiment, and matures into contribution. There is no bypass."', es: '"La conciencia comienza en la percepción, debe pasar por la encarnación y madura en la contribución. No hay atajo."' },
+  'home.layer4.quote.attr'  : { en: '— Simulation Source Code', es: '— Simulation Source Code' },
+  'home.layer4.btn'         : { en: '✦ Read: Decoding the Matrix', es: '✦ Leer: Descifrando la Matriz' },
+  'home.layer5.name'        : { en: 'Decode',              es: 'Descifrar'            },
+
+
 };

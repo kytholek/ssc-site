@@ -1,164 +1,131 @@
+<!-- ════ HOME PAGE ════ -->
 <div class="page active" id="page-home">
 
-<!-- LAYER 1 — Surface Reality (hero) -->
+<!-- LAYER 1 — Surface Reality (hero, unchanged) -->
 <section class="hero sim-layer-1" id="sim-layer-1">
   <div class="hero-sigil a0">
-    <img class="hero-sigil-spin" src="../Images/Codex Sigil.png" alt="Codex Sigil">
+    <img src="images/Codex Sigil.png" alt="The Codex Sigil"/>
   </div>
-  <div class="hero-eyebrow a1">|</div>
-  <h1 class="hero-title a1" data-i18n="home.hero.title">Simulation Source Code</h1>
-  <div class="hero-subtitle a2" data-i18n="home.hero.subtitle">Decode Your Life Blueprint</div>
-  <p class="hero-body a2" data-i18n="home.hero.body">Seven frequencies encoded in your birth and name — the complete blueprint of your simulation, waiting to be read.</p>
+  <h1 class="hero-title a1">Simulation Source Code</h1>
+  <div class="hero-subtitle a2">Decode Your Life Blueprint</div>
+  <p class="hero-body a2">Seven frequencies encoded in your birth and name — the complete blueprint of your simulation, waiting to be read.</p>
   <div class="hero-actions a3">
-    <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.hero.btn.primary">⬡ Decode Your Blueprint</button>
-    <button class="btn-secondary" onclick="showPage('about')" data-i18n="home.hero.btn.secondary">Learn More</button>
+    <button class="btn-primary" onclick="showPage('calculator')">&#11041;&nbsp;Decode Your Blueprint</button>
+    <button class="btn-secondary" onclick="showPage('blog')">Learn More</button>
   </div>
-  <div class="scroll-indicator" data-i18n="home.hero.scroll">Descend</div>
+  <div class="scroll-indicator">Descend</div>
 </section>
 
 <!-- LAYER 2 — Physical Substrate -->
 <section class="sim-layer sim-layer-2">
-  <canvas class="layer-canvas" id="canvas-solid" width="1901" height="777" style="width: 1520.8px; height: 621.7px; opacity: 1;"></canvas>
-  <div class="layer-label visible">
+  <canvas class="layer-canvas" id="canvas-solid"></canvas>
+  <div class="layer-label">
     <span class="layer-depth">LAYER 02</span>
-    <span class="layer-name" data-i18n="home.layer2.name">Physical Substrate</span>
+    <span class="layer-name">Physical Substrate</span>
   </div>
   <div class="sim-content">
-    <div class="section-eyebrow sim-eyebrow" data-i18n="home.layer2.eyebrow">A New System</div>
-    <h2 class="section-title" data-i18n="home.layer2.title">Numerology as Source Code</h2>
-    <p class="section-body" data-i18n="home.layer2.body1"><div>Simulations Source Code is a consciousness framework for the Simulated Experience within Holographic Perception.</div>Your name and birth date are not coincidences, but are encoded data, parameters set at the moment your simulation began.&nbsp;</p>
-    <p class="section-body" style="margin-top:16px" data-i18n="home.layer2.body2">This system reveals seven distinct frequencies that, together, form the complete architecture of your experience; both inner and "outer."&nbsp;<div>What you are here to learn, and what you are here to express come together to give life direction.&nbsp;</div><div>The Simulation provides conditioning that you are meant to override.&nbsp;</div><div>A Quest to re-member your Self.</div></p>
+    <div class="section-eyebrow sim-eyebrow">A New system</div>
+    <h2 class="section-title">Numerology as Source Code</h2>
+    <p class="section-body">&nbsp;Your name and birth date are not coincidences — they are encoded data, parameters set at the moment your simulation began. Simulation Source Code is the practice of decoding the map within it.</p>
+    <p class="section-body" style="margin-top:16px">Your name and birth date are not coincidences — they are encoded data, parameters set at the moment your simulation began. Simulation Source Code is the practice of decoding the map within it.
+Simulations Source Code is a consciousness framework for the Simulated Experience within Holographic Perception. Your name and birth date are not coincidences, but are encoded data, parameters set at the moment your simulation began. Simulation Source Code goes deeper than traditional numerology, revealing seven distinct frequencies that together form the complete architecture of your experience — your drives, your gifts, your lessons, your destiny. The Simulation provides conditioning that you are meant to override, and re-member your Self. What you are here to learn, and what you are here to express come together to give life direction. The Simulation provides conditioning that you are meant to override. A Quest to re-member your Self.</p>
   </div>
 </section>
 
 <!-- LAYER 3 — Holographic Field -->
 <section class="sim-layer sim-layer-3">
-  <canvas class="layer-canvas fade-ready fade-in" id="canvas-holo" width="1901" height="1490" style="width: 1520.8px; height: 1192.2px;"></canvas>
-  <div class="layer-label visible">
+  <canvas class="layer-canvas" id="canvas-holo"></canvas>
+  <div class="layer-label">
     <span class="layer-depth">LAYER 03</span>
-    <span class="layer-name" data-i18n="home.layer3.name">Holographic Field</span>
+    <span class="layer-name">Holographic Field</span>
   </div>
   <div class="sim-content">
-    <div class="section-eyebrow sim-eyebrow" data-i18n="home.layer3.eyebrow">The Seven Frequencies</div>
-    <h2 class="section-title" data-i18n="home.layer3.title">Your Holographic Blueprint</h2>
+    <div class="section-eyebrow sim-eyebrow">The Seven Frequencies</div>
+    <h2 class="section-title">Your Complete Blueprint</h2>
     <div class="freq-grid">
-      <div class="freq-card holo-card">
-        <div class="freq-number">01</div>
-        <div class="freq-name" data-i18n="home.freq.01.name">Theme</div>
-        <p class="freq-desc" data-i18n="home.freq.01.desc">The recurring pattern woven through your life — the lesson that keeps returning until integrated.</p>
-      </div>
-      <div class="freq-card holo-card">
-        <div class="freq-number">02</div>
-        <div class="freq-name" data-i18n="home.freq.02.name">Life Path</div>
-        <p class="freq-desc" data-i18n="home.freq.02.desc">The primary frequency of your journey — the core theme and direction your life is oriented toward.</p>
-      </div>
-      <div class="freq-card holo-card">
-        <div class="freq-number">03</div>
-        <div class="freq-name" data-i18n="home.freq.03.name">Achievement</div>
-        <p class="freq-desc" data-i18n="home.freq.03.desc">Your approach to goals — how you naturally achieve things. Derived from your birth month and day.</p>
-      </div>
-      <div class="freq-card holo-card">
-        <div class="freq-number">04</div>
-        <div class="freq-name" data-i18n="home.freq.04.name">Expression</div>
-        <p class="freq-desc" data-i18n="home.freq.04.desc">How your energies naturally express in the world — your innate talents and the way others experience you.</p>
-      </div>
-      <div class="freq-card holo-card">
-        <div class="freq-number">05</div>
-        <div class="freq-name" data-i18n="home.freq.05.name">Soul</div>
-        <p class="freq-desc" data-i18n="home.freq.05.desc">Your inner world — the private desires, values, and yearnings that motivate everything you do.</p>
-      </div>
-      <div class="freq-card holo-card">
-        <div class="freq-number">06</div>
-        <div class="freq-name" data-i18n="home.freq.06.name">Outer</div>
-        <p class="freq-desc" data-i18n="home.freq.06.desc">The face you show the world — your personality, how you are perceived, and your social signature.</p>
-      </div>
-      <div class="freq-card holo-card">
-        <div class="freq-number">07</div>
-        <div class="freq-name" data-i18n="home.freq.07.name">Life Calling</div>
-        <p class="freq-desc" data-i18n="home.freq.07.desc">Your unique mission — combining your Life Path and Expression into a single directive frequency.</p>
-      </div>
+      <div class="freq-card holo-card"><div class="freq-number">01</div><div class="freq-name">Theme</div><p class="freq-desc">The recurring pattern woven through your life — the lesson that keeps returning until integrated.</p></div>
+      <div class="freq-card holo-card"><div class="freq-number">02</div><div class="freq-name">Life Path</div><p class="freq-desc">The primary frequency of your journey — the core theme and direction your life is oriented toward.</p></div>
+      <div class="freq-card holo-card"><div class="freq-number">03</div><div class="freq-name">Achievement</div><p class="freq-desc">Your approach to goals — how you naturally achieve things. Derived from your birth month and day.</p></div>
+      <div class="freq-card holo-card"><div class="freq-number">04</div><div class="freq-name">Expression</div><p class="freq-desc">How your energies naturally express in the world — your innate talents and the way others experience you.</p></div>
+      <div class="freq-card holo-card"><div class="freq-number">05</div><div class="freq-name">Soul</div><p class="freq-desc">Your inner world — the private desires, values, and yearnings that motivate everything you do.</p></div>
+      <div class="freq-card holo-card"><div class="freq-number">06</div><div class="freq-name">Outer</div><p class="freq-desc">The face you show the world — your personality, how you are perceived, and your social signature.</p></div>
+      <div class="freq-card holo-card"><div class="freq-number">07</div><div class="freq-name">Life Calling</div><p class="freq-desc">Your unique mission — combining your Life Path and Expression into a single directive frequency.</p></div>
       <svg class="toroidal-flow" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"></feGaussianBlur>
-            <feMerge>
-              <feMergeNode in="coloredBlur"></feMergeNode>
-              <feMergeNode in="SourceGraphic"></feMergeNode>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
         </defs>
-        <path d="M350 88 L250 88 L200 155" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
-        <path d="M50 88 L150 88 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
-        <path d="M50 235 L150 235 L200 155" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
-        <path d="M350 235 L250 235 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
-        <circle cx="200" cy="155" r="15" fill="none" stroke="var(--gold)" stroke-width="2" stroke-opacity="0.3" class="swirl" filter="url(#glow)"></circle>
-        <circle cx="200" cy="155" r="8" fill="none" stroke="var(--teal)" stroke-width="2" stroke-opacity="0.3" class="swirl-inner" filter="url(#glow)"></circle>
+        <!-- From Achievement to Life Path to Life Calling -->
+        <path d="M350 88 L250 88 L200 155" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- From Theme to Life Path to Life Calling -->
+        <path d="M50 88 L150 88 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- From Soul through Expression to Life Calling -->
+        <path d="M50 235 L150 235 L200 155" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- From Outer through Expression to Life Calling -->
+        <path d="M350 235 L250 235 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <!-- Swirl at center -->
+        <circle cx="200" cy="155" r="15" fill="none" stroke="var(--gold)" stroke-width="2" stroke-opacity="0.3" class="swirl" filter="url(#glow)" />
+        <circle cx="200" cy="155" r="8" fill="none" stroke="var(--teal)" stroke-width="2" stroke-opacity="0.3" class="swirl-inner" filter="url(#glow)" />
       </svg>
     </div>
   </div>
 </section>
 
-<!-- LAYER 4 — Source Code -->
+<!-- LAYER 4 — The Codex -->
 <section class="sim-layer sim-layer-4">
-  <canvas class="layer-canvas fade-ready fade-in" id="canvas-matrix" width="1901" height="1772" style="width: 1520.8px; height: 1417.4px;"></canvas>
-  <div class="layer-label visible">
+  <canvas class="layer-canvas" id="canvas-matrix"></canvas>
+  <div class="layer-label">
     <span class="layer-depth">LAYER 04</span>
     <span class="layer-name" data-i18n="home.layer4.name">Source Code</span>
   </div>
   <div class="sim-content">
-    <div class="section-eyebrow sim-eyebrow" data-i18n="home.layer4.eyebrow">How It Works</div>
-    <h2 class="section-title" data-i18n="home.layer4.title">Three Steps to Your Reading</h2>
-    <div class="steps steps-code">
-      <div class="step-code">
-        <div class="code-num">I</div>
-        <div>
-          <div class="step-title" data-i18n="home.step1.title">Enter Your Details</div>
-          <p class="step-body" data-i18n="home.step1.body">Provide your full birth name and date of birth. Use the name on your birth certificate.</p>
-        </div>
-      </div>
-      <div class="step-code">
-        <div class="code-num">II</div>
-        <div>
-          <div class="step-title" data-i18n="home.step2.title">Calculate Your Frequencies</div>
-          <p class="step-body" data-i18n="home.step2.body">Our system applies Pythagorean numerology principles to derive each of your seven core numbers.</p>
-        </div>
-      </div>
-      <div class="step-code">
-        <div class="code-num">III</div>
-        <div>
-          <div class="step-title" data-i18n="home.step3.title">Receive Your Interpretation</div>
-          <p class="step-body" data-i18n="home.step3.body">Each number is decoded with rich layered interpretations — themes, archetypes, strengths, and shadows.</p>
-        </div>
-      </div>
+    <div class="section-eyebrow sim-eyebrow" data-i18n="home.layer4.eyebrow">The Architecture of Consciousness</div>
+    <h2 class="section-title" data-i18n="home.layer4.title">The Codex</h2>
+    <p class="section-body" data-i18n="home.layer4.body1">Hidden in plain sight on every phone and keyboard is a 3×3 grid of numbers: 1 through 9. Simulation Source Code treats this layout not as an accident — but as a structural map. A blueprint for how consciousness evolves, organises, and transforms.</p>
+    <p class="section-body" style="margin-top:16px" data-i18n="home.layer4.body2">The rows describe three planes — Mind, Body, and Spirit. The columns describe three modes — Witness, Actor, and Sage. At the centre sits the number 5: the pivot through which all transformation must pass.</p>
+
+    <!-- Codex image placeholder -->
+    <div class="codex-img-wrap">
+      <img src="/blog/codex.png" alt="The Codex — 3×3 Consciousness Matrix" class="codex-img" />
     </div>
-    <div class="quote-block code-quote">
-      <p class="quote-text" data-i18n="home.quote.text">"Numbers are the language in which the universe was written."</p>
-      <div class="quote-attr" data-i18n="home.quote.attr">— Galileo Galilei</div>
+
+    <div class="quote-block code-quote" style="margin-top:40px">
+      <p class="quote-text" data-i18n="home.layer4.quote">"Consciousness begins in perception, must pass through embodiment, and matures into contribution. There is no bypass."</p>
+      <div class="quote-attr" data-i18n="home.layer4.quote.attr">&#8212; Simulation Source Code</div>
     </div>
-    <div style="margin-top:48px">
-      <div class="section-eyebrow sim-eyebrow" style="margin-bottom:16px" data-i18n="home.cta.eyebrow">Begin Now</div>
-      <h2 class="section-title" style="margin-bottom:16px" data-i18n="home.cta.title">Discover Your Frequencies</h2>
-      <p class="section-body" style="margin-bottom:36px" data-i18n="home.cta.body">Your numerology chart is a map — not of what must happen, but of what is possible.</p>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-        <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.cta.btn.primary">⬡ Open the Calculator</button>
-        <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="btn-secondary" target="_blank" data-i18n="home.cta.btn.secondary">Download the App</a>
-      </div>
-      <div style="margin-top:48px;display:flex;justify-content:center;gap:14px">
-        <a href="https://www.instagram.com/simulationsourcecode" target="_blank" class="social-btn" title="Instagram">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-        </a>
-        <a href="https://www.youtube.com/@kytholek" target="_blank" class="social-btn" title="YouTube">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="currentColor" stroke-width="1"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-        <a href="https://www.kytholek.com" target="_blank" class="social-btn" title="Website">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </a>
-        <a href="https://www.tiktok.com/@kytholek" target="_blank" class="social-btn" title="TikTok">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v16.7a2.85 2.85 0 1 1-5.92-6.14 2.89 2.89 0 0 1 2.31 1.39V9.5a6.53 6.53 0 0 0-5.87 6.59 6.59 6.59 0 0 0 11.37 3.45 6.53 6.53 0 0 0 .37-.82v-4.18a8.38 8.38 0 0 0 5.85 2.17v-3.68a8.38 8.38 0 0 1-3.66-.92z"/></svg>
-        </a>
-      </div>
+
+    <div style="margin-top:48px;text-align:center">
+      <button class="btn-secondary" onclick="showPage('blog');setTimeout(()=>openPost('post-decoding-matrix'),100)" data-i18n="home.layer4.btn">&#10022;&nbsp;Read: Decoding the Matrix</button>
     </div>
   </div>
 </section>
 
-</div>
+<!-- LAYER 5 — CTA -->
+<section class="sim-layer sim-layer-5">
+  <div class="layer-label">
+    <span class="layer-depth">LAYER 05</span>
+    <span class="layer-name" data-i18n="home.layer5.name">Decode</span>
+  </div>
+  <div class="sim-content" style="text-align:center">
+    <div class="section-eyebrow sim-eyebrow" data-i18n="home.cta.eyebrow">Begin Now</div>
+    <h2 class="section-title" data-i18n="home.cta.title">Discover Your Frequencies</h2>
+    <p class="section-body" style="margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto" data-i18n="home.cta.body">Your numerology chart is a map &#8212; not of what must happen, but of what is possible.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.cta.btn.primary">&#11041;&nbsp;Open the Calculator</button>
+      <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="btn-secondary" target="_blank" data-i18n="home.cta.btn.secondary">Download the App</a>
+    </div>
+    <div style="margin-top:48px;display:flex;justify-content:center;gap:14px">
+      <a href="https://www.instagram.com/simulationsourcecode" target="_blank" class="social-btn">&#128247;</a>
+      <a href="https://www.youtube.com/@kytholek" target="_blank" class="social-btn">&#9654;&#65039;</a>
+      <a href="https://substack.com/@kyelthomas" target="_blank" class="social-btn">⚡</a>
+      <a href="https://www.tiktok.com/@kytholek" target="_blank" class="social-btn">♪</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page-home -->
