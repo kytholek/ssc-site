@@ -459,8 +459,9 @@
   font-weight: inherit !important;
   line-height: inherit !important;
   letter-spacing: inherit !important;
-  color: inherit !important;
+  color: var(--text) !important;
   text-transform: inherit !important;
+  pointer-events: auto !important;
 }
 
 /* Ensure all children of editable elements also inherit styles */
@@ -470,8 +471,9 @@
   font-weight: inherit !important;
   line-height: inherit !important;
   letter-spacing: inherit !important;
-  color: inherit !important;
+  color: var(--text) !important;
   text-transform: inherit !important;
+  pointer-events: auto !important;
 }
 
 .page-editable:hover {
