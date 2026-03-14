@@ -290,7 +290,7 @@ function calculateReading() {
             <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${freqRole}</div>
             <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${freqLabel}${cName ? ' — ' + cName : ''}</div>
             ${cEssence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${cEssence}</div>` : ''}
-            <p style="font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic">${cSummary}</p>
+            <p style="font-size:15px;line-height:1.7;color:var(--text-dim)">${cSummary}</p>
           </div>
         </div>`;
     }
@@ -305,7 +305,7 @@ function calculateReading() {
           <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${freqRole}</div>
           <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${freqLabel}${eName ? ' — ' + eName : ''}</div>
           ${eEssence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${eEssence}</div>` : ''}
-          <p style="font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic">${interp}</p>
+          <p style="font-size:15px;line-height:1.7;color:var(--text-dim)">${interp}</p>
         </div>
       </div>`;
   }).join('');
@@ -321,7 +321,7 @@ function calculateReading() {
       ${buildFreqChart(numbers)}
     </div>
     ${freqRows}
-    <p style="text-align:center;font-size:13px;color:var(--text-muted);font-style:italic;margin-top:24px">${footerNote}</p>
+    <p style="text-align:center;font-size:13px;color:var(--text-muted);margin-top:24px">${footerNote}</p>
   `;
 }
 
@@ -346,8 +346,8 @@ function buildFreqChart(numbers) {
              y: +(cy + r * Math.sin(rad)).toFixed(2) };
   }
 
-  const soul       = pt(-90);
-  const expression = pt(150);
+  const soul       = pt(150);
+  const expression = pt(-90);
   const outer      = pt(30);
   const lifePath   = pt(90);
   const achievement= pt(-150);
@@ -358,8 +358,8 @@ function buildFreqChart(numbers) {
   const teal   = '#4a9494';
 
   const COLORS = {
-    soul:        { stroke: gold,   fill: '#1a1408', text: '#e8c96b' },
-    expression:  { stroke: purple, fill: '#120b1a', text: '#a96ed4' },
+    soul:        { stroke: purple, fill: '#120b1a', text: '#a96ed4' },
+    expression:  { stroke: gold,   fill: '#1a1408', text: '#e8c96b' },
     outer:       { stroke: teal,   fill: '#081414', text: '#7ec8c8' },
     lifePath:    { stroke: gold,   fill: '#1a1408', text: '#e8c96b' },
     achievement: { stroke: purple, fill: '#120b1a', text: '#a96ed4' },
@@ -468,18 +468,18 @@ function buildFreqChart(numbers) {
   ].join('');
 
   const crossLines = [
-    aLine(soul, lifePath,     gold,   0.25, 1.2, 0.88),
-    aLine(expression, theme,  purple, 0.25, 1.2, 0.92),
+    aLine(soul, lifePath,     purple, 0.25, 1.2, 0.88),
+    aLine(expression, theme,  gold,   0.25, 1.2, 0.92),
     aLine(outer, achievement, teal,   0.25, 1.2, 0.96),
   ].join('');
 
   const outerNodes = [
-    aNode(soul.x,        soul.y,        numbers[3], 'Expression',  COLORS.soul,        22, 1.05),
+    aNode(soul.x,        soul.y,        numbers[3], 'Soul',        COLORS.soul,        22, 1.05),
     aNode(theme.x,       theme.y,       numbers[6], 'Theme',       COLORS.theme,       22, 1.15),
     aNode(outer.x,       outer.y,       numbers[4], 'Outer',       COLORS.outer,       22, 1.20),
     aNode(lifePath.x,    lifePath.y,    numbers[0], 'Life Path',   COLORS.lifePath,    22, 1.25),
     aNode(achievement.x, achievement.y, numbers[5], 'Achievement', COLORS.achievement, 22, 1.35),
-    aNode(expression.x,  expression.y,  numbers[1], 'Soul',        COLORS.expression,  22, 1.40),
+    aNode(expression.x,  expression.y,  numbers[1], 'Expression',  COLORS.expression,  22, 1.40),
   ].join('');
 
   return `
