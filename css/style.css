@@ -1302,19 +1302,30 @@ footer {
 
 /* ════ LAYER 5 — CTA ════ */
 .sim-layer-5 {
-  background: var(--void);
-  border-top: 1px solid var(--border-dim);
-  min-height: 400px;
-  padding: 100px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background: var(--void) !important;
+  border-top: 1px solid var(--border-dim)!important;
+  min-height: 400px!important;
+  padding: 100px 24px!important;
+  display: flex!important;
+  flex-direction: column!important;
+  align-items: center!important;
+  justify-content: center!important;
 }
 .sim-layer-5 * {
   visibility: visible !important;
   opacity: 1 !important;
   display: block !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  text-shadow: none !important;
+  filter: none !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mask: none !important;
+  -webkit-mask: none !important;
+  transform: none !important;
+  pointer-events: auto !important;
 }
 .sim-layer-5 .sim-content {
   visibility: visible !important;
