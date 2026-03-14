@@ -454,6 +454,18 @@ function showPage(name, pushState = true) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
+  // Hide blog post container when switching to non-blog pages
+  // When switching TO blog page, show the listing
+  if (name !== 'blog') {
+    const container = _getPostContainer();
+    if (container) container.style.display = 'none';
+  } else {
+    const listing = document.getElementById('blog-listing');
+    const container = _getPostContainer();
+    if (listing) listing.style.display = 'block';
+    if (container) container.style.display = 'none';
+  }
+
   const page = document.getElementById('page-' + name);
   if (page) { page.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
