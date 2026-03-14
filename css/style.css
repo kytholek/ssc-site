@@ -218,7 +218,7 @@ body { padding-top: 64px; }
   animation: float 3s ease-in-out infinite;
 }
 .scroll-indicator::after {
-  content: 'â†“'; font-size: 14px; color: var(--gold-dim);
+  content: '\2193'; font-size: 14px; color: var(--gold-dim);
 }
 
 /* Divider */
@@ -645,14 +645,14 @@ footer {
 }
 
 /* Social links */
-.social-row { display: flex; gap: 12px; margin-top: 20px; align-items: center; }
+.social-row { display: flex; gap: 12px; margin-top: 20px; align-items: center; justify-content: center; }
 .social-btn {
   width: 36px; height: 36px; border: 1px solid var(--border-dim);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 14px; cursor: pointer; transition: all .2s; text-decoration: none;
-  background: none;
+  font-size: 18px; cursor: pointer; transition: all .2s; text-decoration: none;
+  background: none; color: var(--text);
 }
-.social-btn:hover { border-color: var(--border); background: rgba(201,168,76,.08); }
+.social-btn:hover { border-color: var(--border); background: rgba(201,168,76,.08); color: var(--gold); }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    UTILITIES & ANIMATIONS
