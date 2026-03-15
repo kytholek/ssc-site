@@ -92,7 +92,7 @@ body { padding-top: 64px; }
   display: flex; align-items: center; gap: 12px;
   text-decoration: none; cursor: pointer;
 }
-.nav-logo-sigil { width: 30px; height: 30px; flex-shrink: 0; animation: rotateSlow 20s linear infinite; }
+.nav-logo-sigil { width: 30px; height: 30px; flex-shrink: 0; animation: rotateSlow 20s linear infinite; will-change: transform; transform: translate3d(0,0,0); }
 .nav-logo-sigil svg { width: 100%; height: 100%; filter: drop-shadow(0 0 8px rgba(201,168,76,.45)); }
 .nav-logo-text { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--gold-dim); }
 
@@ -164,9 +164,11 @@ body { padding-top: 64px; }
   border-radius: 50%;
   animation: sigil-pulse 3s ease-in-out infinite;
   z-index: -1;
+  will-change: opacity, transform;
+  transform: translate3d(0,0,0);
 }
 .hero-sigil img,
-.hero-sigil svg { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(201,168,76,.55)); animation: rotateSlow 24s linear infinite; }
+.hero-sigil svg { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(201,168,76,.55)); animation: rotateSlow 24s linear infinite; will-change: transform; transform: translate3d(0,0,0); }
 
 .hero-eyebrow {
   font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .45em;
@@ -285,6 +287,7 @@ body { padding-top: 64px; }
 .flow-path {
   stroke-dasharray: 10 10;
   animation: flow 3s linear infinite;
+  will-change: stroke-dashoffset;
 }
 @keyframes flow {
   0% { stroke-dashoffset: 20; }
@@ -292,9 +295,13 @@ body { padding-top: 64px; }
 }
 .swirl {
   animation: swirl 2s linear infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0);
 }
 .swirl-inner {
   animation: swirl 2s linear infinite reverse;
+  will-change: transform;
+  transform: translate3d(0,0,0);
 }
 @keyframes swirl {
   0% { transform: rotate(0deg); }
@@ -565,6 +572,8 @@ body { padding-top: 64px; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  will-change: transform;
+  transform: translate3d(0,0,0);
 }
 .about-avatar::before {
   content: '';
@@ -574,6 +583,8 @@ body { padding-top: 64px; }
   border-radius: 50%;
   animation: sigil-pulse 3s ease-in-out infinite;
   z-index: -1;
+  will-change: opacity, transform;
+  transform: translate3d(0,0,0);
 }
 .about-avatar img {
   width: 100%; height: 100%; object-fit: contain;
@@ -751,6 +762,23 @@ footer {
   gap: 24px;
 }
 
+.blog-grid-system {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.blog-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-top: 80px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
 .blog-card {
   background: var(--deep); border: 1px solid var(--border-dim);
   border-radius: 10px; overflow: hidden; cursor: pointer;
@@ -762,6 +790,9 @@ footer {
   height: 140px; position: relative; overflow: hidden;
   background: linear-gradient(135deg, var(--abyss), var(--panel));
   display: flex; align-items: center; justify-content: center;
+}
+.blog-card-banner img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
 }
 .blog-featured .blog-card:first-child .blog-card-banner { height: 220px; }
 .blog-card-banner::before {
@@ -1014,6 +1045,13 @@ footer {
   background: linear-gradient(135deg, #05040a 0%, #0d0a1a 50%, #050810 100%);
   position: relative;
   overflow: hidden;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.blog-card-banner-system img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center; position: relative; z-index: 2;
 }
 .blog-card-banner-system::before {
   content: '';
@@ -1038,6 +1076,7 @@ footer {
   background-clip: text;
   position: relative;
   z-index: 1;
+  text-shadow: 0 0 16px rgba(201,168,76,.45), 0 0 32px rgba(201,168,76,.25);
 }
 
 /* Post wrapper */

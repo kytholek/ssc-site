@@ -1,16 +1,12 @@
-<!-- ════ HOME PAGE ════ -->
 <div class="page active" id="page-home">
 
 <!-- LAYER 1 — Surface Reality (hero, unchanged) -->
 <section class="hero sim-layer-1" id="sim-layer-1">
-  <div class="hero-sigil a0">
-    <img src="images/Codex Sigil.png" alt="The Codex Sigil"/>
-  </div>
-  <h1 class="hero-title a1">Simulation Source Code</h1>
-  <div class="hero-subtitle a2">Decode Your Life Blueprint</div>
-  <p class="hero-body a2">Seven frequencies encoded in your birth and name — the complete blueprint of your simulation, waiting to be read.</p>
+  <h1 class="hero-title a0">Simulation Source Code</h1>
+  <div class="hero-subtitle a1">Decode Your Life Blueprint</div>
+  <p class="hero-body a2">Life is not here for you a passive part, but for you to take charge and re-member. Decode your Simulated Experience within Holographic Perception. With seven frequencies encoded in your birth and name — the complete blueprint of your simulation, waiting to be decoded and applied.</p>
   <div class="hero-actions a3">
-    <button class="btn-primary" onclick="showPage('calculator')">&#11041;&nbsp;Decode Your Blueprint</button>
+    <button class="btn-primary" onclick="showPage('calculator')">⬡&nbsp;Decode Your Blueprint</button>
     <button class="btn-secondary" onclick="showPage('blog')">Learn More</button>
   </div>
   <div class="scroll-indicator">Descend</div>
@@ -18,8 +14,8 @@
 
 <!-- LAYER 2 — Physical Substrate -->
 <section class="sim-layer sim-layer-2">
-  <canvas class="layer-canvas" id="canvas-solid"></canvas>
-  <div class="layer-label">
+  <canvas class="layer-canvas" id="canvas-solid" width="1901" height="816" style="width: 1520.8px; height: 652.6px; opacity: 1;"></canvas>
+  <div class="layer-label visible">
     <span class="layer-depth">LAYER 02</span>
     <span class="layer-name">Physical Substrate</span>
   </div>
@@ -33,7 +29,7 @@
 
 <!-- LAYER 3 — Holographic Field -->
 <section class="sim-layer sim-layer-3">
-  <canvas class="layer-canvas" id="canvas-holo"></canvas>
+  <canvas class="layer-canvas fade-ready" id="canvas-holo" width="1901" height="1481" style="width: 1520.8px; height: 1185px;"></canvas>
   <div class="layer-label">
     <span class="layer-depth">LAYER 03</span>
     <span class="layer-name">Holographic Field</span>
@@ -52,55 +48,93 @@
       <svg class="toroidal-flow" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"></feGaussianBlur>
             <feMerge> 
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
+              <feMergeNode in="coloredBlur"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
             </feMerge>
           </filter>
         </defs>
         <!-- From Achievement to Life Path to Life Calling -->
-        <path id="path-achievement" d="M350 88 L250 88 L200 155" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <path id="path-achievement" d="M350 88 L250 88 L200 155" stroke="var(--gold)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
         <!-- From Theme to Life Path to Life Calling -->
-        <path id="path-theme" d="M50 88 L150 88 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <path id="path-theme" d="M50 88 L150 88 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
         <!-- From Soul through Expression to Life Calling -->
-        <path id="path-soul" d="M50 235 L150 235 L200 155" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <path id="path-soul" d="M50 235 L150 235 L200 155" stroke="var(--rose)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
         <!-- From Outer through Expression to Life Calling -->
-        <path id="path-outer" d="M350 235 L250 235 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)" />
+        <path id="path-outer" d="M350 235 L250 235 L200 155" stroke="var(--teal)" stroke-width="3" stroke-opacity="0.3" fill="none" class="flow-path" filter="url(#glow)"></path>
         
         <!-- Animated energy balls flowing toward Life Calling -->
         <g class="energy-ball" r="6" fill="var(--teal)" opacity="0.7" filter="url(#glow)">
           <animateMotion dur="4s" repeatCount="indefinite">
-            <mpath href="#path-theme" />
+            <mpath href="#path-theme"></mpath>
           </animateMotion>
-          <circle r="6" />
+          <circle r="6"></circle>
         </g>
         <g class="energy-ball" r="6" fill="var(--gold)" opacity="0.7" filter="url(#glow)">
           <animateMotion dur="4s" repeatCount="indefinite">
-            <mpath href="#path-achievement" />
+            <mpath href="#path-achievement"></mpath>
           </animateMotion>
-          <circle r="6" />
+          <circle r="6"></circle>
         </g>
         <g class="energy-ball" r="6" fill="var(--rose)" opacity="0.7" filter="url(#glow)">
           <animateMotion dur="4s" repeatCount="indefinite">
-            <mpath href="#path-soul" />
+            <mpath href="#path-soul"></mpath>
           </animateMotion>
-          <circle r="6" />
+          <circle r="6"></circle>
         </g>
         <g class="energy-ball" r="6" fill="var(--teal)" opacity="0.7" filter="url(#glow)">
           <animateMotion dur="4s" repeatCount="indefinite">
-            <mpath href="#path-outer" />
+            <mpath href="#path-outer"></mpath>
           </animateMotion>
-          <circle r="6" />
+          <circle r="6"></circle>
         </g>
-      </svg>
+      <!-- Code injected by live-server -->
+<script>
+	//   &lt;-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i &lt; sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href &amp;&amp; typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&amp;|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') &gt;= 0 ? '&amp;' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage &amp;&amp; !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// 
+</script>
+</svg>
     </div>
   </div>
 </section>
 
 <!-- LAYER 4 — The Codex -->
 <section class="sim-layer sim-layer-4">
-  <canvas class="layer-canvas" id="canvas-matrix"></canvas>
+  <canvas class="layer-canvas fade-ready" id="canvas-matrix" width="1901" height="1274" style="width: 1520.8px; height: 1019.1px;"></canvas>
   <div class="layer-label">
     <span class="layer-depth">LAYER 04</span>
     <span class="layer-name" data-i18n="home.layer4.name">Source Code</span>
@@ -113,16 +147,16 @@
 
     <!-- Codex image placeholder -->
     <div class="codex-img-wrap">
-      <img src="/blog/codex.png" alt="The Codex — 3×3 Consciousness Matrix" class="codex-img" />
+      <img src="/blog/codex.png" alt="The Codex — 3×3 Consciousness Matrix" class="codex-img">
     </div>
 
     <div class="quote-block code-quote" style="margin-top:40px">
       <p class="quote-text" data-i18n="home.layer4.quote">"Consciousness begins in perception, must pass through embodiment, and matures into contribution. There is no bypass."</p>
-      <div class="quote-attr" data-i18n="home.layer4.quote.attr">&#8212; Simulation Source Code</div>
+      <div class="quote-attr" data-i18n="home.layer4.quote.attr">— Simulation Source Code</div>
     </div>
 
     <div style="margin-top:48px;text-align:center">
-      <button class="btn-secondary" onclick="showPage('blog');setTimeout(()=>openPost('post-decoding-matrix'),100)" data-i18n="home.layer4.btn">&#10022;&nbsp;Read: Decoding the Matrix</button>
+      <button class="btn-secondary" onclick="showPage('blog');setTimeout(()=&gt;openPost('post-decoding-matrix'),100)" data-i18n="home.layer4.btn">✦ Read: Decoding the Matrix</button>
     </div>
   </div>
 </section>
@@ -136,9 +170,9 @@
   <div class="sim-content" style="text-align:center">
     <div class="section-eyebrow sim-eyebrow" data-i18n="home.cta.eyebrow">Begin Now</div>
     <h2 class="section-title" data-i18n="home.cta.title">Discover Your Frequencies</h2>
-    <p class="section-body" style="margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto" data-i18n="home.cta.body">Your numerology chart is a map &#8212; not of what must happen, but of what is possible.</p>
+    <p class="section-body" style="margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto" data-i18n="home.cta.body">Your numerology chart is a map — not of what must happen, but of what is possible.</p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.cta.btn.primary">&#11041;&nbsp;Open the Calculator</button>
+      <button class="btn-primary" onclick="showPage('calculator')" data-i18n="home.cta.btn.primary">⬡ Open the Calculator</button>
       <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="btn-secondary" target="_blank" data-i18n="home.cta.btn.secondary">Download the App</a>
     </div>
     <div style="margin-top:48px;display:flex;justify-content:center;gap:14px">
@@ -158,4 +192,4 @@
   </div>
 </section>
 
-</div><!-- /page-home -->
+</div>
