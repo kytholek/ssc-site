@@ -1425,6 +1425,8 @@ footer {
   pointer-events: none;
   opacity: 1;          /* starts visible — JS fades lower sections in via scroll */
   will-change: opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 /* Added by JS after boot — enables smooth scroll fade for below-fold layers */

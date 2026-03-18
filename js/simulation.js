@@ -86,6 +86,9 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
       { x:0.22, y:0.80, vx:-0.00012, vy: 0.00015, r:0.55,'h1':'rgba(42,28,12,','h2':'rgba(28,16,4,' },
     ];
 
+    // Mountain peaks — generated once and reused
+    var mountainPeaks = [];
+
     // Crack segments — fixed geometric structure for elegance
     var cracks = [];
     function buildCracks() {
@@ -107,14 +110,28 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
       });
     }
 
+    function buildMountains() {
+      mountainPeaks = [];
+      var peakCount = 5;
+      for (var p = 0; p < peakCount; p++) {
+        mountainPeaks.push({
+          x: (p + 0.5) / peakCount,
+          height: 0.3 + Math.random() * 0.4,
+          width: 0.15 + Math.random() * 0.2,
+          depth: p / peakCount
+        });
+      }
+    }
+
     function seed() {
       resize(canvas);
       w = canvas.width; h = canvas.height;
       buildCracks();
+      buildMountains();
     }
 
     function draw() {
-      t += 0.25;
+      t += 0.15;
       ctx.clearRect(0, 0, w, h);
 
       // ── Deep void base ──
@@ -127,24 +144,19 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
       // ── Teal holographic mountain ranges ──
       ctx.save();
       
-      // Generate mountain silhouette using teal lines
-      var mountainPeaks = [];
-      var peakCount = 5;
-      for (var p = 0; p < peakCount; p++) {
-        mountainPeaks.push({
-          x: (p + 0.5) / peakCount,
-          height: 0.3 + Math.random() * 0.4,
-          width: 0.15 + Math.random() * 0.2,
-          depth: p / peakCount  // back peaks are dimmer
-        });
-      }
-
       // Draw from back (farthest) to front (nearest)
       for (var m = mountainPeaks.length - 1; m >= 0; m--) {
         var peak = mountainPeaks[m];
         var peakX = peak.x * w;
-        var peakY = h * (0.25 + peak.height * 0.55);
-        var peakW = peak.width * w;
+        
+        // Slow morphing animation using sine waves - only on every other frame
+        var heightVar = (m % 2 === 0) ? 0.2 * Math.sin(t * 0.008 + peak.depth * 3) : 0;
+        var widthVar = (m % 2 === 0) ? 0.15 * Math.sin(t * 0.006 + peak.depth * 2) : 0;
+        var animatedHeight = peak.height + heightVar;
+        var animatedWidth = peak.width + widthVar;
+        
+        var peakY = h * (0.25 + animatedHeight * 0.55);
+        var peakW = animatedWidth * w;
         
         // Opacity based on depth
         var depthOpa = 0.15 + peak.depth * 0.25;
@@ -167,7 +179,7 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
         ctx.stroke();
 
         // Add holographic edge glow on peak
-        var glowOpa = 0.35 * (0.5 + 0.5 * Math.sin(t * 0.005 + peak.x * 4));
+        var glowOpa = 0.35 * (0.5 + 0.5 * Math.sin(t * 0.001 + peak.x * 4));
         ctx.strokeStyle = 'rgba(126,200,200,' + glowOpa + ')';
         ctx.lineWidth = 0.5;
         ctx.beginPath();
