@@ -4,10 +4,6 @@
    Import this AFTER style.css
    ══════════════════════════════════════════════════════════ */
 
-/* ── Google Fonts upgrade ─────────────────────────────── */
-/* Cinzel Decorative for hero display; Cinzel for UI; EB Garamond for body */
-/* Already loaded in index.html — no change needed */
-
 /* ══════════════════════════════════════════════════════════
    ROOT — tighten to exact brand palette
    ══════════════════════════════════════════════════════════ */
@@ -76,6 +72,19 @@
   color: var(--gold);
 }
 
+/* Nav CTA — teal holocard styling */
+.nav-cta {
+  background: linear-gradient(135deg, rgba(74,148,148,.35), rgba(126,200,200,.25)) !important;
+  border: 1px solid rgba(126,200,200,.4) !important;
+  color: var(--gold) !important;
+  box-shadow: 0 4px 20px rgba(74,148,148,.15) !important;
+}
+.nav-cta:hover {
+  box-shadow: 0 0 32px rgba(126,200,200,.35), inset 0 0 20px rgba(126,200,200,.08) !important;
+  border-color: rgba(126,200,200,.6) !important;
+  filter: none !important;
+}
+
 /* ══════════════════════════════════════════════════════════
    HERO — Codex Mark sigil display
    ══════════════════════════════════════════════════════════ */
@@ -134,14 +143,15 @@
 
 /* Hero title — Cormorant SC for gravitas */
 .hero-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-weight: 400;
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
   font-size: clamp(26px, 5vw, 52px);
   color: var(--gold);
   line-height: 1.15;
   text-shadow: 0 0 80px rgba(201,168,76,.25), 0 0 160px rgba(201,168,76,.08);
   margin-bottom: 12px;
   letter-spacing: 0.04em;
+  font-variant: small-caps;
 }
 
 .hero-subtitle {
@@ -149,7 +159,7 @@
   font-size: clamp(10px, 1.6vw, 13px);
   letter-spacing: .35em;
   text-transform: uppercase;
-  color: var(--amethyst-light);
+  color: var(--teal-light);
   margin-bottom: 30px;
 }
 
@@ -199,11 +209,13 @@
 }
 
 .footer-logo-text {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
   font-size: 13px;
   color: var(--gold);
   margin-bottom: 10px;
   letter-spacing: .04em;
+  font-variant: small-caps;
 }
 
 .footer-tagline {
@@ -215,32 +227,66 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   SECTION TITLES — enforce Cinzel Decorative for hero-level
+   SECTION TITLES — enforce Cormorant SC for hero-level
    ══════════════════════════════════════════════════════════ */
 .section-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-weight: 400;
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
   font-size: clamp(20px, 3vw, 32px);
   color: var(--gold);
   line-height: 1.2;
   margin-bottom: 22px;
   letter-spacing: 0.04em;
+  font-variant: small-caps;
 }
 
 /* ══════════════════════════════════════════════════════════
    BUTTONS — sharper contrast, brand-spec hierarchy
    ══════════════════════════════════════════════════════════ */
 .btn-primary {
-  background: linear-gradient(135deg, var(--mystic) 0%, var(--amethyst) 100%);
-  border: 1px solid rgba(169,110,212,.55);
-  color: var(--gold-light);
+  background: linear-gradient(135deg, rgba(74,148,148,.35), rgba(126,200,200,.25));
+  border: 1px solid rgba(126,200,200,.4);
+  color: var(--gold);
   letter-spacing: .28em;
-  box-shadow: 0 4px 24px rgba(123,79,166,.2), inset 0 1px 0 rgba(255,255,255,.04);
+  box-shadow: 0 4px 24px rgba(74,148,148,.15), inset 0 1px 0 rgba(255,255,255,.03);
 }
 .btn-primary:hover {
-  box-shadow: 0 0 32px rgba(123,79,166,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  box-shadow: 0 0 32px rgba(126,200,200,.35), inset 0 0 20px rgba(126,200,200,.08);
   transform: translateY(-2px);
-  border-color: var(--amethyst-light);
+  border-color: rgba(126,200,200,.6);
+}
+
+.calc-btn {
+  background: linear-gradient(135deg, rgba(74,148,148,.35), rgba(126,200,200,.25)) !important;
+  border: 1px solid rgba(126,200,200,.4) !important;
+  color: var(--gold) !important;
+  box-shadow: 0 4px 24px rgba(74,148,148,.15), inset 0 1px 0 rgba(255,255,255,.03) !important;
+}
+.calc-btn:hover {
+  box-shadow: 0 0 32px rgba(126,200,200,.35), inset 0 0 20px rgba(126,200,200,.08) !important;
+  border-color: rgba(126,200,200,.6) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALCULATOR FORM — Teal Holocard Input Interface
+   ══════════════════════════════════════════════════════════ */
+.form-card {
+  background: linear-gradient(135deg, rgba(74,148,148,.08), rgba(126,200,200,.05));
+  border: 1px solid rgba(126,200,200,.3) !important;
+  box-shadow: 0 0 32px rgba(74,148,148,.1), inset 0 0 16px rgba(126,200,200,.04);
+}
+
+.field select, .field input {
+  background: rgba(5,4,10,.7);
+  border: 1px solid rgba(126,200,200,.25) !important;
+  color: var(--text);
+  transition: all .3s;
+}
+.field select:focus, .field input:focus {
+  outline: none;
+  border-color: rgba(126,200,200,.6) !important;
+  background: rgba(5,4,10,.85);
+  box-shadow: 0 0 20px rgba(126,200,200,.2), inset 0 0 12px rgba(126,200,200,.06);
 }
 
 .btn-secondary {
@@ -291,12 +337,14 @@
 }
 
 .freq-number {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
   font-size: 30px;
   color: var(--gold);
   opacity: .28;
   margin-bottom: 14px;
   line-height: 1;
+  font-variant: small-caps;
 }
 .freq-name {
   font-family: 'Cinzel', serif;
@@ -870,26 +918,27 @@
 
 /* ── Written card — gold accent ── */
 .svc-card--written {
-  border-color: rgba(201,168,76,.12);
+  border-color: rgba(201,168,76,.18);
+  box-shadow: 0 0 28px rgba(201,168,76,.08), 0 0 60px rgba(201,168,76,.04);
 }
 .svc-card--written:hover {
-  border-color: rgba(201,168,76,.28);
-  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 40px rgba(201,168,76,.06);
+  border-color: rgba(201,168,76,.45);
+  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 40px rgba(201,168,76,.18), 0 0 80px rgba(201,168,76,.08);
 }
 
 /* ── Featured card (consultation) ── */
 .svc-card--featured {
   border-color: rgba(169,110,212,.3);
   background: rgba(17,11,28,.9);
-  box-shadow: 0 0 40px rgba(123,79,166,.1), 0 0 80px rgba(123,79,166,.05);
+  box-shadow: 0 0 32px rgba(123,79,166,.18), 0 0 80px rgba(123,79,166,.08), inset 0 0 30px rgba(123,79,166,.03);
 }
 .svc-card--featured::before {
   background: linear-gradient(90deg, transparent, var(--amethyst), transparent);
   opacity: 0.4;
 }
 .svc-card--featured:hover {
-  border-color: rgba(169,110,212,.55);
-  box-shadow: 0 24px 64px rgba(0,0,0,.6), 0 0 60px rgba(123,79,166,.18);
+  border-color: rgba(169,110,212,.65);
+  box-shadow: 0 24px 64px rgba(0,0,0,.6), 0 0 60px rgba(123,79,166,.35), 0 0 120px rgba(123,79,166,.12);
 }
 
 /* Featured badge */
@@ -911,11 +960,12 @@
 
 /* ── Membership card — teal accent ── */
 .svc-card--membership {
-  border-color: rgba(74,148,148,.15);
+  border-color: rgba(74,148,148,.22);
+  box-shadow: 0 0 28px rgba(74,148,148,.09), 0 0 60px rgba(74,148,148,.04);
 }
 .svc-card--membership:hover {
-  border-color: rgba(74,148,148,.35);
-  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 40px rgba(74,148,148,.07);
+  border-color: rgba(74,148,148,.5);
+  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 40px rgba(74,148,148,.22), 0 0 80px rgba(74,148,148,.08);
 }
 
 /* ── Card header ── */
@@ -935,15 +985,27 @@
   background: rgba(5,4,10,.8);
   border: 1px solid var(--border-dim);
   border-radius: 50%;
+  filter: drop-shadow(0 0 12px rgba(201,168,76,.25)) drop-shadow(0 0 28px rgba(201,168,76,.08));
+  transition: filter .35s;
 }
 .svc-card-glyph svg { width: 56px; height: 56px; }
-
+.svc-card:hover .svc-card-glyph {
+  filter: drop-shadow(0 0 18px rgba(201,168,76,.42)) drop-shadow(0 0 40px rgba(201,168,76,.14));
+}
 .svc-card--featured .svc-card-glyph {
   border-color: rgba(169,110,212,.25);
   background: rgba(17,11,28,.9);
+  filter: drop-shadow(0 0 12px rgba(169,110,212,.32)) drop-shadow(0 0 28px rgba(169,110,212,.1));
+}
+.svc-card--featured:hover .svc-card-glyph {
+  filter: drop-shadow(0 0 18px rgba(169,110,212,.52)) drop-shadow(0 0 40px rgba(169,110,212,.18));
 }
 .svc-card--membership .svc-card-glyph {
   border-color: rgba(74,148,148,.2);
+  filter: drop-shadow(0 0 12px rgba(74,148,148,.32)) drop-shadow(0 0 28px rgba(74,148,148,.1));
+}
+.svc-card--membership:hover .svc-card-glyph {
+  filter: drop-shadow(0 0 18px rgba(74,148,148,.52)) drop-shadow(0 0 40px rgba(74,148,148,.18));
 }
 
 .svc-card-tier {
@@ -958,13 +1020,14 @@
 .svc-card--membership .svc-card-tier { color: var(--teal); }
 
 .svc-card-name {
-  font-family: 'Cinzel Decorative', serif;
-  font-weight: 400;
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
   font-size: clamp(16px, 2vw, 20px);
   color: var(--gold-light);
   line-height: 1.2;
   margin-bottom: 10px;
   letter-spacing: .04em;
+  font-variant: small-caps;
 }
 .svc-card--featured .svc-card-name { color: var(--amethyst-light); }
 .svc-card--membership .svc-card-name { color: var(--teal-light); }
@@ -1078,7 +1141,6 @@
 .svc-feature-gem--off {
   background: var(--text-muted);
   opacity: 0.3;
-  box-shadow: none;
 }
 
 /* ── Card footer ── */
@@ -1179,7 +1241,7 @@
   justify-content: center;
 }
 
-/* Book icon — stacked lines */
+/* Book icon */
 .svc-glyph-icon--book {
   flex-direction: column;
   gap: 3px;
@@ -1193,28 +1255,29 @@
 .svc-glyph-lines span {
   display: block;
   height: 1px;
-  background: rgba(201,168,76,.6);
+  background: rgba(201,168,76,.7);
   border-radius: 1px;
   width: 100%;
+  box-shadow: 0 0 4px rgba(201,168,76,.5), 0 0 10px rgba(201,168,76,.2);
 }
 .svc-glyph-lines span.short { width: 60%; }
 .svc-glyph-cross {
-  font-size: 9px;
-  color: rgba(201,168,76,.45);
+  font-size: 10px;
+  color: rgba(201,168,76,.65);
   margin-top: 4px;
+  text-shadow: 0 0 6px rgba(201,168,76,.6), 0 0 14px rgba(201,168,76,.2);
 }
 
-/* Video icon — screen + camera wedge */
-.svc-glyph-icon--video {
-  gap: 6px;
-}
+/* Video icon */
+.svc-glyph-icon--video { gap: 6px; }
 .svc-glyph-screen {
   display: block;
   width: 28px;
   height: 20px;
-  border: 1.5px solid rgba(169,110,212,.7);
+  border: 1.5px solid rgba(169,110,212,.9);
   border-radius: 3px;
   flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(169,110,212,.55), 0 0 20px rgba(169,110,212,.2), inset 0 0 6px rgba(169,110,212,.1);
 }
 .svc-glyph-camera {
   display: block;
@@ -1222,11 +1285,12 @@
   height: 0;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-left: 12px solid rgba(169,110,212,.6);
+  border-left: 12px solid rgba(169,110,212,.8);
   flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(169,110,212,.55));
 }
 
-/* Group / network icon — centre node + 4 orbiting nodes */
+/* Group / network icon */
 .svc-glyph-icon--group {
   position: relative;
   width: 52px;
@@ -1238,46 +1302,17 @@
   position: absolute;
 }
 .svc-glyph-node--centre {
-  width: 14px;
-  height: 14px;
-  background: rgba(74,148,148,.25);
-  border: 1.5px solid rgba(74,148,148,.8);
-  top: 50%;
-  left: 50%;
+  width: 14px; height: 14px;
+  background: rgba(74,148,148,.2);
+  border: 1.5px solid rgba(74,148,148,.9);
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(74,148,148,.65), 0 0 24px rgba(74,148,148,.25), inset 0 0 6px rgba(74,148,148,.15);
 }
-.svc-glyph-node--tl {
-  width: 9px;
-  height: 9px;
-  background: rgba(74,148,148,.2);
-  border: 1px solid rgba(74,148,148,.6);
-  top: 6px;
-  left: 6px;
-}
-.svc-glyph-node--tr {
-  width: 9px;
-  height: 9px;
-  background: rgba(74,148,148,.2);
-  border: 1px solid rgba(74,148,148,.6);
-  top: 6px;
-  right: 6px;
-}
-.svc-glyph-node--bl {
-  width: 9px;
-  height: 9px;
-  background: rgba(74,148,148,.2);
-  border: 1px solid rgba(74,148,148,.6);
-  bottom: 6px;
-  left: 6px;
-}
-.svc-glyph-node--br {
-  width: 9px;
-  height: 9px;
-  background: rgba(74,148,148,.2);
-  border: 1px solid rgba(74,148,148,.6);
-  bottom: 6px;
-  right: 6px;
-}
+.svc-glyph-node--tl { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);top:6px;left:6px;   box-shadow:0 0 6px rgba(74,148,148,.45); }
+.svc-glyph-node--tr { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);top:6px;right:6px;  box-shadow:0 0 6px rgba(74,148,148,.45); }
+.svc-glyph-node--bl { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);bottom:6px;left:6px; box-shadow:0 0 6px rgba(74,148,148,.45); }
+.svc-glyph-node--br { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);bottom:6px;right:6px;box-shadow:0 0 6px rgba(74,148,148,.45); }
 
 /* ── Fix: ensure card content stacks above ::before pseudo-element ── */
 .svc-card-header,
@@ -1304,14 +1339,14 @@
   top: 50%; left: 50%;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid rgba(201,168,76,.35);
+  border: 1px solid rgba(201,168,76,.45);
 }
 .svc-sigil-ring--outer {
   width: 100%; height: 100%;
 }
 .svc-sigil-ring--inner {
   width: 82%; height: 82%;
-  border: 0.5px dashed rgba(201,168,76,.12);
+  border: 1px dashed rgba(201,168,76,.18);
 }
 
 /* Cross arms */
@@ -1319,7 +1354,7 @@
   position: absolute;
   top: 50%; left: 50%;
   transform-origin: center;
-  background: rgba(74,148,148,.4);
+  background: rgba(74,148,148,.5);
 }
 .svc-sigil-arm--v {
   width: 1px; height: 90%;
@@ -1338,14 +1373,14 @@
   background: #03020a;
   transform: translate(-50%, -50%);
 }
-.svc-sigil-node--n  { top: 5%;  left: 50%; border: 1px solid rgba(74,148,148,.8);  }
-.svc-sigil-node--e  { top: 50%; left: 95%; border: 1px solid rgba(74,148,148,.8);  }
-.svc-sigil-node--s  { top: 95%; left: 50%; border: 1px solid rgba(74,148,148,.8);  }
-.svc-sigil-node--w  { top: 50%; left: 5%;  border: 1px solid rgba(74,148,148,.8);  }
-.svc-sigil-node--nw { top: 16%; left: 16%; border: 1px solid rgba(201,168,76,.6); width: 9px; height: 9px; }
-.svc-sigil-node--ne { top: 16%; left: 84%; border: 1px solid rgba(201,168,76,.6); width: 9px; height: 9px; }
-.svc-sigil-node--sw { top: 84%; left: 16%; border: 1px solid rgba(201,168,76,.6); width: 9px; height: 9px; }
-.svc-sigil-node--se { top: 84%; left: 84%; border: 1px solid rgba(201,168,76,.6); width: 9px; height: 9px; }
+.svc-sigil-node--n  { top: 5%;  left: 50%; border: 1px solid rgba(74,148,148,.9);   }
+.svc-sigil-node--e  { top: 50%; left: 95%; border: 1px solid rgba(74,148,148,.8); }
+.svc-sigil-node--s  { top: 95%; left: 50%; border: 1px solid rgba(74,148,148,.8); }
+.svc-sigil-node--w  { top: 50%; left: 5%;  border: 1px solid rgba(74,148,148,.9);   }
+.svc-sigil-node--nw { top: 16%; left: 16%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+.svc-sigil-node--ne { top: 16%; left: 84%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+.svc-sigil-node--sw { top: 84%; left: 16%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+.svc-sigil-node--se { top: 84%; left: 84%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
 
 /* Teal dots inside cardinal nodes */
 .svc-sigil-node--n::after,
@@ -1357,7 +1392,7 @@
   width: 4px; height: 4px;
   border-radius: 50%;
   background: #7ec8c8;
-  opacity: 0.85;
+  opacity: 0.9;
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -1370,19 +1405,17 @@
   width: 24%; height: 24%;
   border-radius: 50%;
   background: #03020a;
-  border: 2px solid rgba(201,168,76,.7);
+  border: 2px solid rgba(201,168,76,.8);
   transform: translate(-50%, -50%);
 }
 
-/* Glow behind sigil */
-.services-hero-sigil::before {
-  content: '';
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(74,148,148,.25) 0%, rgba(201,168,76,.08) 45%, transparent 70%);
-  animation: sigil-pulse 4s ease-in-out infinite;
-  pointer-events: none;
+/* Ambient pulse glow behind the whole sigil */
+.services-hero-sigil {
+  position: relative;
+}
+.svc-hero-sigil-css {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Pure CSS divider (replaces SVG divider) ── */
