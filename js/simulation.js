@@ -117,51 +117,87 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
       t += 0.25;
       ctx.clearRect(0, 0, w, h);
 
-      // ── Rich dark stone base ──
-      var bg = ctx.createRadialGradient(w*0.42, h*0.38, 0, w*0.42, h*0.38, Math.max(w,h)*0.9);
-      bg.addColorStop(0,   '#0f0b07');
-      bg.addColorStop(0.5, '#080604');
-      bg.addColorStop(1,   '#030201');
+      // ── Deep void base ──
+      var bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0,   '#050404');
+      bg.addColorStop(0.5, '#080606');
+      bg.addColorStop(1,   '#040303');
       ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
 
-      // ── Geological strata blobs ──
-      blobs.forEach(function(b) {
-        b.x += b.vx; b.y += b.vy;
-        if (b.x < -0.1 || b.x > 1.1) b.vx *= -1;
-        if (b.y < -0.1 || b.y > 1.2) b.vy *= -1;
-        var breathe = 0.85 + 0.15 * Math.sin(t * 0.003 + b.x * 6);
-        var rad     = b.r * Math.max(w, h) * breathe;
-        var grd = ctx.createRadialGradient(b.x*w, b.y*h, 0, b.x*w, b.y*h, rad);
-        grd.addColorStop(0,   b.h1 + '0.22)');
-        grd.addColorStop(0.5, b.h2 + '0.10)');
-        grd.addColorStop(1,   'transparent');
-        ctx.fillStyle = grd; ctx.fillRect(0,0,w,h);
-      });
-
-      // ── Amber vein network ──
+      // ── Teal holographic mountain ranges ──
       ctx.save();
-      cracks.forEach(function(c) {
-        var pulse = 0.25 + 0.75 * (0.5 + 0.5 * Math.sin(t * 0.005 + c.phase));
-        // Glow pass
-        ctx.lineWidth   = 2.5;
-        ctx.shadowBlur  = 12;
-        ctx.shadowColor = 'rgba(210,160,60,0.5)';
-        ctx.strokeStyle = 'rgba(180,135,45,' + (0.04 * pulse) + ')';
-        ctx.beginPath(); ctx.moveTo(c.x1,c.y1); ctx.lineTo(c.x2,c.y2); ctx.stroke();
-        // Sharp core
-        ctx.lineWidth   = 0.6;
-        ctx.shadowBlur  = 4;
-        ctx.strokeStyle = 'rgba(230,185,80,' + (0.35 * pulse) + ')';
-        ctx.beginPath(); ctx.moveTo(c.x1,c.y1); ctx.lineTo(c.x2,c.y2); ctx.stroke();
-      });
+      
+      // Generate mountain silhouette using teal lines
+      var mountainPeaks = [];
+      var peakCount = 5;
+      for (var p = 0; p < peakCount; p++) {
+        mountainPeaks.push({
+          x: (p + 0.5) / peakCount,
+          height: 0.3 + Math.random() * 0.4,
+          width: 0.15 + Math.random() * 0.2,
+          depth: p / peakCount  // back peaks are dimmer
+        });
+      }
+
+      // Draw from back (farthest) to front (nearest)
+      for (var m = mountainPeaks.length - 1; m >= 0; m--) {
+        var peak = mountainPeaks[m];
+        var peakX = peak.x * w;
+        var peakY = h * (0.25 + peak.height * 0.55);
+        var peakW = peak.width * w;
+        
+        // Opacity based on depth
+        var depthOpa = 0.15 + peak.depth * 0.25;
+        
+        // Draw mountain using two diagonal lines meeting at peak
+        ctx.strokeStyle = 'rgba(74,148,148,' + depthOpa + ')';
+        ctx.lineWidth = 1 + peak.depth * 1.2;
+        ctx.lineJoin = 'miter';
+        
+        // Left slope
+        ctx.beginPath();
+        ctx.moveTo(peakX - peakW, h * 0.82);
+        ctx.lineTo(peakX, peakY);
+        ctx.stroke();
+        
+        // Right slope
+        ctx.beginPath();
+        ctx.moveTo(peakX, peakY);
+        ctx.lineTo(peakX + peakW, h * 0.82);
+        ctx.stroke();
+
+        // Add holographic edge glow on peak
+        var glowOpa = 0.35 * (0.5 + 0.5 * Math.sin(t * 0.005 + peak.x * 4));
+        ctx.strokeStyle = 'rgba(126,200,200,' + glowOpa + ')';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(peakX - peakW * 0.3, h * (peakY + (h * 0.82 - peakY) * 0.5));
+        ctx.lineTo(peakX, peakY);
+        ctx.lineTo(peakX + peakW * 0.3, h * (peakY + (h * 0.82 - peakY) * 0.5));
+        ctx.stroke();
+      }
+
+      // Subtle horizontal ridge lines for detail
+      for (var ridge = 0; ridge < 6; ridge++) {
+        var ridgeY = h * (0.30 + ridge * 0.10);
+        var ridgeOpa = 0.12 - ridge * 0.015;
+        ctx.strokeStyle = 'rgba(126,200,200,' + ridgeOpa + ')';
+        ctx.lineWidth = 0.4;
+        ctx.beginPath();
+        ctx.moveTo(0, ridgeY);
+        ctx.lineTo(w, ridgeY);
+        ctx.stroke();
+      }
+      
       ctx.restore();
 
-      // ── Heat rising from below ──
-      var heat = ctx.createLinearGradient(0, h*0.6, 0, h);
-      heat.addColorStop(0,   'transparent');
-      heat.addColorStop(0.6, 'rgba(90,55,15,0.06)');
-      heat.addColorStop(1,   'rgba(120,75,20,0.14)');
-      ctx.fillStyle = heat; ctx.fillRect(0,0,w,h);
+      // ── Holographic glow at horizon ──
+      var horizonGlow = ctx.createLinearGradient(0, h*0.6, 0, h*0.8);
+      horizonGlow.addColorStop(0, 'rgba(126,200,200,0.04)');
+      horizonGlow.addColorStop(0.5, 'rgba(126,200,200,0.08)');
+      horizonGlow.addColorStop(1, 'rgba(126,200,200,0.02)');
+      ctx.fillStyle = horizonGlow;
+      ctx.fillRect(0, h*0.6, w, h*0.2);
 
       // ── Top fade to void ──
       var topfade = ctx.createLinearGradient(0,0,0,h*0.25);
@@ -343,11 +379,11 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
 
     var LAYER_DEFS = [
       // far: dim, slow, tiny, dense
-      { fsPx:11, gap:1.8, speed:0.18, maxOpa:0.14, col:[180,60,10],    leadCol:null,       pool: GLYPHS },
+      { fsPx:11, gap:1.8, speed:0.18, maxOpa:0.14, col:[74,120,120],    leadCol:null,       pool: GLYPHS },
       // mid
-      { fsPx:14, gap:2.2, speed:0.32, maxOpa:0.32, col:[210,80,15],    leadCol:null,       pool: GLYPHS + LATIN },
+      { fsPx:14, gap:2.2, speed:0.32, maxOpa:0.32, col:[100,160,160],   leadCol:null,       pool: GLYPHS + LATIN },
       // near: bright, fast, sparse, gold tinted leads
-      { fsPx:16, gap:4.5, speed:0.60, maxOpa:0.80, col:[235,110,20],    leadCol:[220,185,65], pool: GLYPHS },
+      { fsPx:16, gap:4.5, speed:0.60, maxOpa:0.80, col:[126,200,200],   leadCol:[220,185,65], pool: GLYPHS },
     ];
 
     function seed() {
@@ -408,10 +444,10 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
         }
       });
 
-      // Deep green fog at bottom
+      // Deep teal fog at bottom
       var fog = ctx.createLinearGradient(0, h*0.65, 0, h);
       fog.addColorStop(0, 'transparent');
-      fog.addColorStop(1, 'rgba(0,35,8,0.4)');
+      fog.addColorStop(1, 'rgba(0,50,50,0.4)');
       ctx.fillStyle = fog; ctx.fillRect(0, h*0.65, w, h*0.35);
 
       // Top/bottom void

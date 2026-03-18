@@ -2,15 +2,53 @@
 
   <!-- Blog listing view -->
   <div id="blog-listing">
+
+    <!-- Hero -->
     <div class="blog-hero a0">
+
+      <!-- Mini codex mark as blog hero icon -->
+      <div class="blog-hero-sigil">
+        <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="tealGlow_blog_html_1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/>
+              <stop offset="50%" stop-color="#c9a84c" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+          <circle cx="80" cy="80" r="66" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12" stroke-dasharray="3 6"/>
+          <circle cx="80" cy="80" r="36" fill="url(#tealGlow_blog_html_1)"/>
+          <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+          <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+          <line x1="29" y1="29" x2="131" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+          <line x1="131" y1="29" x2="29" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+          <circle cx="80"  cy="16"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="144" cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="80"  cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="16"  cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="80"  cy="16"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="144" cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="80"  cy="144" r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="16"  cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="31"  cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="129" cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="31"  cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="129" cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
+        </svg>
+      </div>
+
       <div class="section-eyebrow" data-i18n="blog.eyebrow">Insights &amp; Exploration</div>
       <h1 class="section-title" data-i18n="blog.title">The System</h1>
-      <p class="section-body" style="max-width:500px;margin:0 auto;color:var(--text-dim)" data-i18n="blog.subtitle">
+      <p class="blog-hero-body" data-i18n="blog.subtitle">
         Deep dives into Simulation Source Code as a system, the workings and philosophy of the simulation you are living in, and how to navigate it using the source code encoded in your numbers.
       </p>
     </div>
 
     <div class="blog-container">
+
+      <!-- Filters -->
       <div class="blog-filters a1">
         <button class="blog-filter active" onclick="filterBlog('all', this)"       data-i18n="blog.filter.all">All Posts</button>
         <button class="blog-filter" onclick="filterBlog('the-system', this)"  data-i18n="blog.filter.system">The System</button>
@@ -21,164 +59,238 @@
 
       <div class="blog-featured a2" id="blog-featured-row"></div>
 
-      <!-- System Series Featured Cards -->
+      <!-- System Series Section Header -->
+      <div class="blog-section-header">
+        <div class="blog-section-header-sigil">
+          <svg viewBox="0 0 160 160" fill="none" width="28" height="28">
+          <defs>
+            <radialGradient id="tealGlow_blog_html_2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/>
+              <stop offset="50%" stop-color="#c9a84c" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+          <circle cx="80" cy="80" r="66" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12" stroke-dasharray="3 6"/>
+          <circle cx="80" cy="80" r="36" fill="url(#tealGlow_blog_html_2)"/>
+          <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+          <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+          <line x1="29" y1="29" x2="131" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+          <line x1="131" y1="29" x2="29" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+          <circle cx="80"  cy="16"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="144" cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="80"  cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="16"  cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="80"  cy="16"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="144" cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="80"  cy="144" r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="16"  cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="31"  cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="129" cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="31"  cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="129" cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
+        </svg>
+        </div>
+        <h2 class="blog-section-title">The System Series</h2>
+      </div>
+
+      <!-- System Series Cards -->
       <div class="blog-grid-system a2">
-      <div class="blog-card blog-card-system" onclick="openPost('post-decoding-matrix')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">✦</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
-          </div>
-          <div class="blog-card-title">Decoding the Matrix: The Architecture of Simulation Source Code</div>
-          <p class="blog-card-excerpt">What if numerology is not mysticism — but the source code of your simulation? A deep dive into the philosophical foundation, the 3×3 Codex, the nine frequencies of energy, and the seven-number blueprint encoded in your birth.</p>
-          <div class="blog-read-more">Read Article →</div>
-        </div>
-      </div>
 
-      <div class="blog-card blog-card-system" onclick="openPost('post-system')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">0→9</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+        <div class="blog-card blog-card-system" onclick="openPost('post-decoding-matrix')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">✦</div>
           </div>
-          <div class="blog-card-title">The Evolution of Energy</div>
-          <p class="blog-card-excerpt">From the Void of Zero to the Dispersal of Nine — the complete evolution of energy through the numerical frequencies, and what each stage means for the simulation you are living.</p>
-          <div class="blog-read-more">Read Article →</div>
-        </div>
-      </div>
-
-      <div class="blog-card blog-card-system" onclick="openPost('post-electric-magnetic-aether')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <img src="Images/electromagneticcodex.png" alt="Electromagnetic Codex" />
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">Decoding the Matrix: The Architecture of Simulation Source Code</div>
+            <p class="blog-card-excerpt">What if numerology is not mysticism — but the source code of your simulation? A deep dive into the philosophical foundation, the 3×3 Codex, the nine frequencies of energy, and the seven-number blueprint encoded in your birth.</p>
+            <div class="blog-read-more">Read Article →</div>
           </div>
-          <div class="blog-card-title">Electric, Magnetic & Aether: The Three Natures of Number</div>
-          <p class="blog-card-excerpt">Four Electric, four Magnetic, two Aetheric. The nine frequencies differ not just in quality but in fundamental nature.</p>
-          <div class="blog-read-more">Read Article →</div>
         </div>
-      </div>
 
-      <div class="blog-card blog-card-system" onclick="openPost('post-codex-architecture')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-                    <img src="Images/codex.png" alt="The Codex of Consciousness" />
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+        <div class="blog-card blog-card-system" onclick="openPost('post-system')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">0→9</div>
           </div>
-          <div class="blog-card-title">The Codex: Architecture of the Consciousness Matrix</div>
-          <p class="blog-card-excerpt">A 3×3 map of how consciousness moves — three planes, three columns, one central pivot that everything passes through.</p>
-          <div class="blog-read-more">Read Article →</div>
-        </div>
-      </div>
-
-      <div class="blog-card blog-card-system" onclick="openPost('post-666')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">666</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">The Evolution of Energy</div>
+            <p class="blog-card-excerpt">From the Void of Zero to the Dispersal of Nine — the complete evolution of energy through the numerical frequencies, and what each stage means for the simulation you are living.</p>
+            <div class="blog-read-more">Read Article →</div>
           </div>
-          <div class="blog-card-title">666 Is Not What You Think</div>
-          <p class="blog-card-excerpt">One of the most feared number sequences in Western culture is actually a structural law encoded into the consciousness matrix. Here's what it actually means.</p>
-          <div class="blog-read-more">Read Article →</div>
         </div>
-      </div>
 
-      <div class="blog-card blog-card-system" onclick="openPost('post-369')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <<div class="blog-card-glyph system-glyph">3·6·9</div>>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+        <div class="blog-card blog-card-system" onclick="openPost('post-electric-magnetic-aether')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <img src="Images/electromagneticcodex.png" alt="Electromagnetic Codex" />
           </div>
-          <div class="blog-card-title">The 3–6–9 Pattern: Why Tesla Was Right</div>
-          <p class="blog-card-excerpt">Tesla said 3, 6, and 9 were the key to the universe. The Codex shows exactly why — and what these three frequencies reveal about the structure of Mind, Body, and Spirit.</p>
-          <div class="blog-read-more">Read Article →</div>
-        </div>
-      </div>
-
-      <div class="blog-card blog-card-system" onclick="openPost('post-five-lenses')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-                    <img src="Images/the 5 layers.jpg" alt="The Five Layers of Self" />
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">Electric, Magnetic &amp; Aether: The Three Natures of Number</div>
+            <p class="blog-card-excerpt">Four Electric, four Magnetic, two Aetheric. The nine frequencies differ not just in quality but in fundamental nature.</p>
+            <div class="blog-read-more">Read Article →</div>
           </div>
-          <div class="blog-card-title">The Five Lenses of Self: Which One Are You Seeing Through?</div>
-          <p class="blog-card-excerpt">Every experience looks different depending on which layer of self you are identified with. Ego, Mind, Soul, Spirit, and Void — five lenses, five entirely different realities.</p>
-          <div class="blog-read-more">Read Article →</div>
         </div>
-      </div>
 
-      <div class="blog-card blog-card-system" onclick="openPost('post-transformation-path')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">1→9</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+        <div class="blog-card blog-card-system" onclick="openPost('post-codex-architecture')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <img src="Images/codex.png" alt="The Codex of Consciousness" />
           </div>
-          <div class="blog-card-title">The Path of Transformation: 1→4→7→2→5→8→3→6→9</div>
-          <p class="blog-card-excerpt">The Codex encodes a specific nine-step sequence for how transformation actually moves through a person. This is not a theory — it is the operational rhythm of becoming.</p>
-          <div class="blog-read-more">Read Article →</div>
-        </div>
-      </div>
-
-      <div class="blog-card blog-card-system" onclick="openPost('post-seven')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">7</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">The Codex: Architecture of the Consciousness Matrix</div>
+            <p class="blog-card-excerpt">A 3×3 map of how consciousness moves — three planes, three columns, one central pivot that everything passes through.</p>
+            <div class="blog-read-more">Read Article →</div>
           </div>
-          <div class="blog-card-title">Why Seven Frequencies? The Architecture of a Complete Reading</div>
-          <p class="blog-card-excerpt">Traditional numerology often focuses on three or four numbers. SSC works with seven. Each one reveals a different layer — and together they form a complete map.</p>
-          <div class="blog-read-more">Read Article →</div>
         </div>
-      </div>
 
-      <div class="blog-card blog-card-system" onclick="openPost('post-infinity-loop')" data-category="the-system">
-        <div class="blog-card-banner blog-card-banner-system">
-          <div class="blog-card-glyph system-glyph">∞</div>
-        </div>
-        <div class="blog-card-body">
-          <div class="blog-card-meta">
-            <span class="blog-tag gold">The System</span>
-            <span class="blog-card-date">March 2026</span>
+        <div class="blog-card blog-card-system" onclick="openPost('post-666')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">666</div>
           </div>
-          <div class="blog-card-title">The Infinity Loop: Cycles, Recursion, and the Eternal Return</div>
-          <p class="blog-card-excerpt">Nothing is linear in the simulation. Every pattern repeats at deeper levels. Understanding cycles and recursion reveals how the system renews itself — and how you fit into that rhythm.</p>
-          <div class="blog-read-more">Read Article →</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">666 Is Not What You Think</div>
+            <p class="blog-card-excerpt">One of the most feared number sequences in Western culture is actually a structural law encoded into the consciousness matrix. Here's what it actually means.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
         </div>
-      </div>
-      </div>
 
+        <div class="blog-card blog-card-system" onclick="openPost('post-369')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">3·6·9</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">The 3–6–9 Pattern: Why Tesla Was Right</div>
+            <p class="blog-card-excerpt">Tesla said 3, 6, and 9 were the key to the universe. The Codex shows exactly why — and what these three frequencies reveal about the structure of Mind, Body, and Spirit.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <div class="blog-card blog-card-system" onclick="openPost('post-five-lenses')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <img src="Images/the 5 layers.jpg" alt="The Five Layers of Self" />
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">The Five Lenses of Self: Which One Are You Seeing Through?</div>
+            <p class="blog-card-excerpt">Every experience looks different depending on which layer of self you are identified with. Ego, Mind, Soul, Spirit, and Void — five lenses, five entirely different realities.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <div class="blog-card blog-card-system" onclick="openPost('post-transformation-path')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">1→9</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">The Path of Transformation: 1→4→7→2→5→8→3→6→9</div>
+            <p class="blog-card-excerpt">The Codex encodes a specific nine-step sequence for how transformation actually moves through a person. This is not a theory — it is the operational rhythm of becoming.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <div class="blog-card blog-card-system" onclick="openPost('post-seven')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">7</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">Why Seven Frequencies? The Architecture of a Complete Reading</div>
+            <p class="blog-card-excerpt">Traditional numerology often focuses on three or four numbers. SSC works with seven. Each one reveals a different layer — and together they form a complete map.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+        <div class="blog-card blog-card-system" onclick="openPost('post-infinity-loop')" data-category="the-system">
+          <div class="blog-card-banner blog-card-banner-system">
+            <div class="blog-card-glyph system-glyph">∞</div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-tag gold">The System</span>
+              <span class="blog-card-date">March 2026</span>
+            </div>
+            <div class="blog-card-title">The Infinity Loop: Cycles, Recursion, and the Eternal Return</div>
+            <p class="blog-card-excerpt">Nothing is linear in the simulation. Every pattern repeats at deeper levels. Understanding cycles and recursion reveals how the system renews itself — and how you fit into that rhythm.</p>
+            <div class="blog-read-more">Read Article →</div>
+          </div>
+        </div>
+
+      </div><!-- /blog-grid-system -->
+
+      <!-- Other Articles Section Header -->
       <div class="blog-section-separator">
-        <h2 class="blog-section-title">Other Articles</h2>
+        <div class="blog-section-header">
+          <div class="blog-section-header-sigil">
+            <svg viewBox="0 0 160 160" fill="none" width="28" height="28">
+          <defs>
+            <radialGradient id="tealGlow_blog_html_3" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/>
+              <stop offset="50%" stop-color="#c9a84c" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+          <circle cx="80" cy="80" r="66" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12" stroke-dasharray="3 6"/>
+          <circle cx="80" cy="80" r="36" fill="url(#tealGlow_blog_html_3)"/>
+          <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+          <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+          <line x1="29" y1="29" x2="131" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+          <line x1="131" y1="29" x2="29" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+          <circle cx="80"  cy="16"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="144" cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="80"  cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="16"  cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+          <circle cx="80"  cy="16"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="144" cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="80"  cy="144" r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="16"  cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+          <circle cx="31"  cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="129" cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="31"  cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="129" cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
+        </svg>
+          </div>
+          <h2 class="blog-section-title">Other Articles</h2>
+        </div>
       </div>
 
+      <!-- Other Articles Grid -->
       <div class="blog-grid a3" id="blog-grid">
+
         <div class="blog-card" onclick="openPost('post-simulation')" data-category="philosophy">
           <div class="blog-card-banner" style="height:120px">
             <div class="blog-card-glyph">✦</div>
@@ -196,7 +308,7 @@
 
         <div class="blog-card" onclick="openPost('post-lifepath')" data-category="numerology">
           <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph">①</div>
+            <div class="blog-card-glyph">&#9312;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -211,7 +323,7 @@
 
         <div class="blog-card" onclick="openPost('post-master')" data-category="numbers">
           <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">⬡</div>
+            <div class="blog-card-glyph" style="font-size:38px">&#11042;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -223,6 +335,7 @@
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
+
         <div class="blog-card" onclick="openPost('post-name')" data-category="practice">
           <div class="blog-card-banner" style="height:120px">
             <div class="blog-card-glyph" style="font-size:38px">✍</div>
@@ -237,6 +350,7 @@
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
+
         <div class="blog-card" onclick="openPost('post-theme-number')" data-category="numerology">
           <div class="blog-card-banner" style="height:120px">
             <div class="blog-card-glyph" style="font-size:34px">∞</div>
@@ -284,7 +398,7 @@
 
         <div class="blog-card" onclick="openPost('post-calculate')" data-category="practice">
           <div class="blog-card-banner" style="height:120px">
-            <div class="blog-card-glyph" style="font-size:38px">🔢</div>
+            <div class="blog-card-glyph" style="font-size:38px">&#128290;</div>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -326,13 +440,12 @@
             <div class="blog-read-more">Read Article →</div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
+      </div><!-- /blog-grid -->
+    </div><!-- /blog-container -->
   </div><!-- /blog-listing -->
 
-  <!-- Post content is fetched and injected here by app.js -->
+  <!-- Post content injected by app.js -->
   <div id="blog-post-container" style="display:none"></div>
 
 </div><!-- /page-blog -->

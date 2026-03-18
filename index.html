@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-  <!-- Stylesheets -->
+  <!-- Stylesheets — base then brand revamp (overrides come after) -->
   <link rel="icon" type="image/png" href="Images/Codex Sigil.png">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/brand-revamp.css">
   <link rel="stylesheet" href="css/admin.css">
 
   <!-- Font Awesome -->
@@ -41,18 +42,13 @@
   <div id="admin-toast"></div>
 
   <!-- ════ SCRIPTS ════ -->
-  <!-- Load order: app → simulation → admin → then loader injects HTML and boots everything -->
   <script src="js/translations.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/app.js"></script>
   <script src="js/simulation.js"></script>
   <script src="js/admin.js"></script>
 
-  <!-- ════ PAGE LOADER ════
-       Fetches each HTML fragment and injects it.
-       Only AFTER all fragments are in the DOM does it boot
-       the simulation (so canvases exist) and the admin CMS.
-  ════ -->
+  <!-- ════ PAGE LOADER ════ -->
   <script>
     (function () {
       var PAGES = [
@@ -70,16 +66,8 @@
       var loaded = 0;
 
       function onAllLoaded() {
-        // 1. Route to correct page
         if (typeof initApp === 'function') initApp();
-
-        // 2. Boot canvas animations — MUST run after home.html is in the DOM
-        //    so canvas-solid / canvas-holo / canvas-matrix elements exist
-        if (typeof bootSimulation === 'function') {
-          bootSimulation();
-        }
-
-        // 3. Boot admin CMS
+        if (typeof bootSimulation === 'function') bootSimulation();
         if (typeof adminSystem !== 'undefined' && typeof adminSystem.boot === 'function') {
           adminSystem.boot();
         }

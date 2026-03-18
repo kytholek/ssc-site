@@ -1,0 +1,842 @@
+/* ══════════════════════════════════════════════════════════
+   SSC BRAND REVAMP — v2 Additions
+   Aligned with the new Codex Mark identity system.
+   Import this AFTER style.css
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts upgrade ─────────────────────────────── */
+/* Cormorant SC for hero display; Cinzel for UI; EB Garamond for body */
+/* Already loaded in index.html — no change needed */
+
+/* ══════════════════════════════════════════════════════════
+   ROOT — tighten to exact brand palette
+   ══════════════════════════════════════════════════════════ */
+:root {
+  /* Exact brand spec colours */
+  --void:            #05040a;    /* Background — the container */
+  --deep:            #0d0b18;    /* Cards, panels */
+  --abyss:           #110f1f;
+  --panel:           #201d3a;
+  --surface:         #181530;
+
+  --gold:            #c9a84c;    /* Primary · Electric · Active */
+  --gold-light:      #e8c96b;    /* Active states · key numbers · glow centres */
+  --gold-dim:        #7a6330;    /* Eyebrows · Labels · Subdued metadata */
+
+  --amethyst:        #7b4fa6;    /* Secondary · Magnetic · Depth */
+  --amethyst-light:  #a96ed4;    /* Subtitles · Secondary CTAs · Hover */
+  --mystic:          #4a2d6b;
+
+  --teal:            #4a9494;    /* Tertiary · Aether · Bridge */
+  --teal-light:      #7ec8c8;    /* Holographic elements */
+
+  --rose:            #a04070;    /* Soul frequency · Warm accent */
+  --rose-light:      #d47aa0;
+
+  --text:            #e8dfc8;    /* Parchment — body text */
+  --text-dim:        #9b9080;    /* Dust — descriptions, meta */
+  --text-muted:      #5c5448;
+
+  --border:          rgba(201,168,76, 0.22);
+  --border-mid:      rgba(201,168,76, 0.14);
+  --border-dim:      rgba(201,168,76, 0.08);
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAV — upgrade sigil size + text refinement
+   ══════════════════════════════════════════════════════════ */
+.nav-logo-sigil {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  animation: rotateSlow 28s linear infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+}
+.nav-logo-sigil svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,.5));
+}
+
+/* Pause rotation on hover — makes it feel intentional */
+.nav-logo:hover .nav-logo-sigil {
+  animation-play-state: paused;
+}
+
+.nav-logo-text {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  transition: color .25s;
+}
+.nav-logo:hover .nav-logo-text {
+  color: var(--gold);
+}
+
+/* ══════════════════════════════════════════════════════════
+   HERO — Codex Mark sigil display
+   ══════════════════════════════════════════════════════════ */
+.hero {
+  padding-top: 100px;
+  background: var(--void);
+}
+
+.hero-sigil {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 36px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Ambient glow behind the sigil */
+.hero-sigil::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  background: radial-gradient(circle, rgba(201,168,76,.28) 0%, rgba(123,79,166,.1) 40%, transparent 70%);
+  border-radius: 50%;
+  animation: sigil-pulse 4s ease-in-out infinite;
+  z-index: -1;
+  will-change: opacity, transform;
+  transform: translate3d(0,0,0);
+}
+
+.hero-sigil svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 18px rgba(201,168,76,.5)) drop-shadow(0 0 40px rgba(123,79,166,.15));
+  animation: rotateSlow 32s linear infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+}
+
+/* Pause on hover for inspection */
+.hero-sigil:hover svg {
+  animation-play-state: paused;
+}
+
+/* Eyebrow above title */
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  letter-spacing: .48em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 14px;
+}
+
+/* Hero title — Cormorant SC for gravitas */
+.hero-title {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 400;
+  font-size: clamp(26px, 5vw, 52px);
+  color: var(--gold);
+  line-height: 1.15;
+  text-shadow: 0 0 80px rgba(201,168,76,.25), 0 0 160px rgba(201,168,76,.08);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+
+.hero-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(10px, 1.6vw, 13px);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--amethyst-light);
+  margin-bottom: 30px;
+}
+
+.hero-body {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  color: var(--text-dim);
+  line-height: 1.8;
+  max-width: 560px;
+  margin: 0 auto 48px;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CTA SIGIL — the mini sigil in layer 5
+   ══════════════════════════════════════════════════════════ */
+.cta-sigil {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 36px;
+  opacity: 0.6;
+  animation: rotateSlow 36s linear infinite reverse;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+}
+.cta-sigil svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,.3));
+}
+
+/* ══════════════════════════════════════════════════════════
+   FOOTER SIGIL
+   ══════════════════════════════════════════════════════════ */
+.footer-sigil {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 16px;
+  opacity: 0.55;
+  animation: rotateSlow 40s linear infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+}
+.footer-sigil svg {
+  width: 100%;
+  height: 100%;
+}
+
+.footer-logo-text {
+  font-family: 'Cormorant SC', serif;
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  letter-spacing: .04em;
+}
+
+.footer-tagline {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.65;
+  max-width: 240px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION TITLES — enforce Cormorant SC for hero-level
+   ══════════════════════════════════════════════════════════ */
+.section-title {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 3vw, 32px);
+  color: var(--gold);
+  line-height: 1.2;
+  margin-bottom: 22px;
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BUTTONS — sharper contrast, brand-spec hierarchy
+   ══════════════════════════════════════════════════════════ */
+.btn-primary {
+  background: linear-gradient(135deg, var(--mystic) 0%, var(--amethyst) 100%);
+  border: 1px solid rgba(169,110,212,.55);
+  color: var(--gold-light);
+  letter-spacing: .28em;
+  box-shadow: 0 4px 24px rgba(123,79,166,.2), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 32px rgba(123,79,166,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  transform: translateY(-2px);
+  border-color: var(--amethyst-light);
+}
+
+.btn-secondary {
+  border: 1px solid var(--border-mid);
+  color: var(--text-dim);
+  letter-spacing: .28em;
+}
+.btn-secondary:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  background: rgba(201,168,76,.06);
+  box-shadow: 0 4px 20px rgba(201,168,76,.08);
+}
+
+/* ══════════════════════════════════════════════════════════
+   FREQUENCY CARDS — richer brand-token theming
+   ══════════════════════════════════════════════════════════ */
+.freq-card {
+  background: rgba(13,11,24,.8);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  padding: 28px 24px;
+  transition: all .35s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+.freq-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity: 0.5;
+}
+.freq-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,.04), transparent 60%);
+  pointer-events: none;
+}
+.freq-card:hover {
+  border-color: var(--border-mid);
+  background: rgba(24,21,48,.9);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(201,168,76,.06);
+}
+
+.freq-number {
+  font-family: 'Cormorant SC', serif;
+  font-size: 30px;
+  color: var(--gold);
+  opacity: .28;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+.freq-name {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+.freq-desc {
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--text-dim);
+}
+
+/* Life Calling — the 5-pivot card */
+.freq-card:nth-child(7) {
+  background: linear-gradient(135deg, rgba(201,168,76,.07), rgba(123,79,166,.07));
+  border: 1px solid rgba(201,168,76,.42);
+  box-shadow: 0 0 24px rgba(201,168,76,.18), inset 0 0 20px rgba(201,168,76,.04);
+}
+
+/* ══════════════════════════════════════════════════════════
+   QUOTE BLOCK — enhanced frame
+   ══════════════════════════════════════════════════════════ */
+.quote-block {
+  background: linear-gradient(135deg, rgba(17,15,31,.9), rgba(32,29,58,.8));
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  padding: 52px 44px;
+  text-align: center;
+  position: relative;
+  margin: 64px auto;
+  max-width: 700px;
+  backdrop-filter: blur(6px);
+}
+.quote-block::before {
+  content: '⬡';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--void);
+  padding: 0 18px;
+  font-size: 22px;
+  color: var(--gold);
+  filter: drop-shadow(0 0 8px rgba(201,168,76,.4));
+}
+.quote-text {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+.quote-attr {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+/* ══════════════════════════════════════════════════════════
+   FORM INPUTS — subtler refinement
+   ══════════════════════════════════════════════════════════ */
+.field select, .field input {
+  background: rgba(5,4,10,.9);
+  border: 1px solid rgba(201,168,76,.12);
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  padding: 12px 14px;
+  border-radius: 5px;
+  transition: all .22s;
+}
+.field select:focus, .field input:focus {
+  outline: none;
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 3px rgba(201,168,76,.05);
+  background: rgba(201,168,76,.025);
+}
+
+/* ══════════════════════════════════════════════════════════
+   DIVIDER GEM — brand-spec golden diamond
+   ══════════════════════════════════════════════════════════ */
+.divider-gem {
+  width: 9px;
+  height: 9px;
+  background: var(--gold-dim);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(201,168,76,.35);
+  border: 1px solid rgba(201,168,76,.4);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL INDICATOR — refined
+   ══════════════════════════════════════════════════════════ */
+.scroll-indicator {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .5em;
+  color: var(--gold-dim);
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE UPDATES
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero-sigil {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-title {
+    font-size: clamp(22px, 8vw, 34px);
+  }
+  .cta-sigil {
+    width: 64px;
+    height: 64px;
+  }
+  .footer-sigil {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-sigil {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ABOUT PAGE
+   ══════════════════════════════════════════════════════════ */
+
+/* About hero — now uses same sigil size as hero but with amethyst glow */
+.about-avatar {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 28px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+  animation: rotateSlow 32s linear infinite;
+}
+.about-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(123,79,166,.35) 0%, rgba(201,168,76,.08) 50%, transparent 70%);
+  border-radius: 50%;
+  animation: sigil-pulse 4s ease-in-out infinite;
+  z-index: -1;
+  will-change: opacity, transform;
+  transform: translate3d(0,0,0);
+}
+.about-avatar svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 16px rgba(123,79,166,.45)) drop-shadow(0 0 32px rgba(201,168,76,.15));
+}
+
+/* About hero subtitle (separate from section-body for tighter control) */
+.about-hero-subtitle {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--text-dim);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* About section title — replace the dot-surrounded style */
+.about-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 20px;
+  margin-top: 40px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-dim);
+  text-align: center;
+}
+
+.about-section p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+/* Inline codex divider between sections */
+.about-codex-divider {
+  margin: 40px auto;
+  max-width: 600px;
+  opacity: 0.6;
+}
+.about-codex-divider svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Pillars — richer brand feel */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+.pillar {
+  background: rgba(13,11,24,.8);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  padding: 26px 20px;
+  text-align: center;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+.pillar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity: 0.5;
+}
+.pillar:hover {
+  border-color: var(--border-mid);
+  background: rgba(24,21,48,.9);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0,0,0,.4);
+}
+.pillar-icon {
+  font-size: 26px;
+  margin-bottom: 12px;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(201,168,76,.3));
+}
+.pillar-title {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+.pillar-text {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+
+/* CTA row at bottom of about */
+.about-cta-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BLOG PAGE
+   ══════════════════════════════════════════════════════════ */
+
+/* Blog hero sigil — teal (Aether) themed since blog is the bridge */
+.blog-hero-sigil {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 28px;
+  animation: rotateSlow 28s linear infinite reverse;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+  filter: drop-shadow(0 0 12px rgba(74,148,148,.4));
+}
+.blog-hero-sigil svg {
+  width: 100%;
+  height: 100%;
+}
+
+.blog-hero-body {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--text-dim);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Blog section headers with mini sigil */
+.blog-section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 56px 0 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+.blog-section-header-sigil {
+  flex-shrink: 0;
+  opacity: 0.7;
+  animation: rotateSlow 20s linear infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+}
+.blog-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Blog card — enhanced hover, tighter brand feel */
+.blog-card {
+  background: rgba(13,11,24,.85);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .35s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.blog-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.2), transparent);
+}
+.blog-card:hover {
+  border-color: var(--border-mid);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 52px rgba(0,0,0,.55), 0 0 0 1px rgba(201,168,76,.06);
+}
+
+/* Card banner — system cards get extra depth */
+.blog-card-banner-system {
+  background: linear-gradient(135deg, #05040a 0%, #0d0a1a 50%, #050810 100%);
+  position: relative;
+  overflow: hidden;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.blog-card-banner-system::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(74,148,148,.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(123,79,166,.12) 0%, transparent 60%);
+  animation: systemCardPulse 4s ease-in-out infinite;
+}
+@keyframes systemCardPulse {
+  0%,100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+/* System glyph — gold/teal/amethyst gradient text */
+.system-glyph {
+  font-family: 'Cinzel', serif;
+  font-size: 28px !important;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, var(--teal), var(--gold), var(--amethyst));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+
+/* Blog card body */
+.blog-card-body {
+  padding: 22px 22px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.blog-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border-dim);
+  color: var(--amethyst-light);
+}
+.blog-tag.gold { color: var(--gold-light); border-color: rgba(201,168,76,.25); }
+.blog-tag.teal { color: var(--teal-light); border-color: rgba(74,148,148,.25); }
+.blog-tag.rose { color: var(--rose-light); border-color: rgba(160,64,112,.25); }
+
+.blog-date, .blog-card-date {
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.blog-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13.5px;
+  letter-spacing: .04em;
+  color: var(--gold-light);
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+.blog-card-excerpt {
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--text-dim);
+  flex: 1;
+  margin-bottom: 18px;
+}
+.blog-read-more {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  transition: color .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.blog-card:hover .blog-read-more { color: var(--gold); }
+
+/* Blog filter pills */
+.blog-filter {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 20px;
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .25s;
+}
+.blog-filter:hover { border-color: var(--border-mid); color: var(--gold); }
+  background: rgba(201,168,76,.09);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(201,168,76,.1);
+}
+
+/* Blog section grid for system series */
+.blog-grid-system {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HERO SUBTITLE — teal-light accent
+   ══════════════════════════════════════════════════════════ */
+.hero-subtitle {
+  color: var(--teal-light) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BUTTONS — transparent teal holographic aesthetic
+   ══════════════════════════════════════════════════════════ */
+.btn-primary {
+  background: rgba(74,148,148,.25) !important;
+  border: 1px solid rgba(126,200,200,.4) !important;
+  color: var(--teal-light) !important;
+  transition: all .3s;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 32px rgba(74,148,148,.4), inset 0 0 20px rgba(74,148,148,.1) !important;
+  border-color: rgba(126,200,200,.6) !important;
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALCULATOR — holographic form cards and buttons
+   ══════════════════════════════════════════════════════════ */
+.form-card {
+  background: rgba(74,148,148,.15) !important;
+  border: 1px solid rgba(126,200,200,.25) !important;
+  transition: border-color .5s ease, box-shadow .5s ease;
+}
+.form-card:hover {
+  border-color: rgba(126,200,200,.4) !important;
+}
+
+.calc-btn {
+  background: rgba(74,148,148,.25) !important;
+  border: 1px solid rgba(126,200,200,.4) !important;
+  color: var(--teal-light) !important;
+  transition: all .3s;
+}
+.calc-btn:hover {
+  box-shadow: 0 0 32px rgba(74,148,148,.4), inset 0 0 20px rgba(74,148,148,.1) !important;
+  border-color: rgba(126,200,200,.6) !important;
+  transform: translateY(-1px);
+}
+
+.results-placeholder {
+  background: rgba(74,148,148,.15) !important;
+  border: 1px solid rgba(126,200,200,.25) !important;
+  transition: border-color .5s ease, box-shadow .5s ease;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .blog-hero-sigil { width: 64px; height: 64px; }
+  .about-avatar { width: 88px; height: 88px; }
+}

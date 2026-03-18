@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSC — Course Architecture</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#020100; font-family:Georgia,serif; color:#e8d8a0; padding:40px 20px; }
+.wrap { max-width:820px; margin:0 auto; }
+
+h1 { font-size:14px; letter-spacing:.35em; color:#c8a84c; text-align:center; text-transform:uppercase; }
+.sub { font-size:10px; letter-spacing:.25em; color:#7a5a20; text-align:center; margin-top:6px; text-transform:uppercase; }
+.tagline { font-size:11px; color:#e8d8a0; text-align:center; margin:16px 0 4px; font-style:italic; }
+.tagline2 { font-size:10px; color:#7a5a20; text-align:center; margin-bottom:24px; font-style:italic; }
+hr { border:none; border-top:1px solid rgba(200,168,76,.2); margin:16px 0; }
+
+.phase-header { padding:10px 20px; border-radius:4px; margin:24px 0 12px; }
+.phase-header h2 { font-size:11px; letter-spacing:.3em; text-transform:uppercase; text-align:center; }
+.phase-header p  { font-size:9px; letter-spacing:.2em; text-align:center; margin-top:4px; text-transform:uppercase; }
+
+.phase-1 { background:#0a1020; border:1px solid #4a80c8; }
+.phase-1 h2 { color:#4a80c8; } .phase-1 p { color:#2a4878; }
+.phase-2 { background:#180e00; border:1px solid #e08030; }
+.phase-2 h2 { color:#e08030; } .phase-2 p { color:#805018; }
+.phase-3 { background:#040e06; border:1px solid #60b870; }
+.phase-3 h2 { color:#60b870; } .phase-3 p { color:#306838; }
+
+.module { border-radius:4px; padding:22px 24px; margin-bottom:12px; }
+.m1 { background:#060c18; border:1px solid #4a80c8; }
+.m2 { background:#130900; border:1px solid #e08030; }
+.m3 { background:#030a04; border:1px solid #60b870; }
+
+.mod-num { font-size:10px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:4px; }
+.m1 .mod-num { color:#4a80c8; }
+.m2 .mod-num { color:#e08030; }
+.m3 .mod-num { color:#60b870; }
+
+.mod-title { font-size:17px; font-weight:bold; color:#e8d8a0; margin-bottom:4px; }
+.mod-pos   { font-size:9px; color:#7a5a20; font-style:italic; margin-bottom:12px; }
+.divider   { border:none; border-top:1px solid rgba(255,255,255,.06); margin:10px 0; }
+
+.q-label { font-size:10px; color:#606060; margin-bottom:4px; }
+.q-text  { font-size:11px; color:#e8d8a0; font-style:italic; margin-bottom:12px; line-height:1.6; }
+
+.topics  { font-size:10px; color:#606060; line-height:1.8; margin-bottom:8px; }
+.topics span { color:#808080; }
+.practice { font-size:9.5px; color:#7a5a20; font-style:italic; line-height:1.6; padding-top:6px; border-top:1px solid rgba(255,255,255,.04); }
+
+.connector { text-align:center; font-size:9px; color:#505050; font-style:italic; margin:6px 0 18px; letter-spacing:.1em; }
+
+/* Delivery */
+.delivery { margin-top:32px; }
+.delivery h3 { font-size:10px; letter-spacing:.2em; color:#c8a84c; text-align:center; text-transform:uppercase; margin-bottom:16px; }
+.delivery-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.d-card { border-radius:4px; padding:16px; }
+.d1 { background:#0a0800; border:1px solid #4a80c8; }
+.d2 { background:#0a0800; border:1px solid #e08030; }
+.d3 { background:#0a0800; border:1px solid #60b870; }
+.d1 h4 { color:#4a80c8; } .d2 h4 { color:#e08030; } .d3 h4 { color:#60b870; }
+.d-card h4 { font-size:9px; letter-spacing:.15em; text-transform:uppercase; text-align:center; margin-bottom:8px; }
+.d-card p  { font-size:9px; color:#e8d8a0; text-align:center; margin-bottom:4px; line-height:1.7; }
+.d-card .dsub { font-size:8.5px; color:#505050; }
+
+.footer { text-align:center; font-size:9px; color:#5a4a20; font-style:italic; margin-top:28px; }
+
+@media(max-width:600px) { .delivery-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Simulation Source Code</h1>
+<p class="sub">Course Architecture</p>
+<p class="tagline">Three phases · Nine modules · One repeating cycle</p>
+<p class="tagline2">Mirrors the transformation path: 1→4→7 · 2→5→8 · 3→6→9</p>
+<hr>
+
+<!-- ── PHASE 1 ── -->
+<div class="phase-header phase-1">
+  <h2>Phase One — Foundation</h2>
+  <p>Establishing coherence · 1 → 4 → 7 · Mental stabilisation</p>
+</div>
+
+<div class="module m1">
+  <div class="mod-num">Module 01</div>
+  <div class="mod-title">The Simulation Framework</div>
+  <div class="mod-pos">Codex position 1 — Perception · Initiation · The First Question</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"What if reality is a holographic simulation — and you are both its source and its subject?"</div>
+  <div class="topics"><span>Topics:</span> Holographic perception · How the nervous system constructs reality · The purpose of forgetting · The NPC vs the Authentic Self · Why you are here · Numbers as the language of energy</div>
+  <div class="practice">Practice — Life audit: map recurring themes in your life as curriculum, not coincidence. What keeps returning?</div>
+</div>
+
+<div class="module m1">
+  <div class="mod-num">Module 02</div>
+  <div class="mod-title">The Language of Light</div>
+  <div class="mod-pos">Codex position 4 — Structure · Foundation · The Container</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"If numbers are frequencies, what is your personal code — and how do you read it?"</div>
+  <div class="topics"><span>Topics:</span> 0–9 as stages of energetic evolution · Electric / Magnetic / Aether categories · The Pythagorean system · How to calculate all seven frequencies · Master numbers · Birth date as external circuit · Birth name as internal circuit</div>
+  <div class="practice">Practice — Full blueprint calculation: students receive and sit with their seven numbers and first descriptions before interpretation begins.</div>
+</div>
+
+<div class="module m1">
+  <div class="mod-num">Module 03</div>
+  <div class="mod-title">The Codex — Architecture of Consciousness</div>
+  <div class="mod-pos">Codex position 7 — Inner truth · Self-knowledge · Alignment</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"What is the map of how consciousness moves — and where are you on it right now?"</div>
+  <div class="topics"><span>Topics:</span> The 3×3 Codex · Mind / Body / Spirit rows · Witness / Actor / Sage columns · The 1→5→9 primary diagonal · The shadow patterns (bypass, fixation, inflation) · The 3–6–9 frame · The infinity loop · Where your numbers sit on the grid</div>
+  <div class="practice">Practice — Codex mapping: place your seven numbers onto the grid. Identify your natural column, your shadow positions, and which positions generate the most friction in your life.</div>
+</div>
+
+<div class="connector">↓ phase 1 complete — coherence established ↓</div>
+
+<!-- ── PHASE 2 ── -->
+<div class="phase-header phase-2">
+  <h2>Phase Two — Embodiment</h2>
+  <p>Activation through lived experience · 2 → 5 → 8 · The body as the instrument</p>
+</div>
+
+<div class="module m2">
+  <div class="mod-num">Module 04</div>
+  <div class="mod-title">Your Blueprint in Detail</div>
+  <div class="mod-pos">Codex position 2 — Duality · Relationship · The mirror of self</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"Where is the gap between who you are and how you have been conditioned — and what is it costing you?"</div>
+  <div class="topics"><span>Topics:</span> Deep dive into all seven frequencies — light and shadow of each · Life Path vs Expression: the friction between external curriculum and internal frequency · The Triune Trinity · Reading the gaps between your numbers as precise information about your curriculum</div>
+  <div class="practice">Practice — Life review: match five significant past experiences to specific frequency energies. Identify whether you were in the positive or shadow expression — and what the pattern reveals.</div>
+</div>
+
+<div class="module m2">
+  <div class="mod-num">Module 05</div>
+  <div class="mod-title">The Five Lenses — Working With Your Layers</div>
+  <div class="mod-pos">Codex position 5 — The pivot · Embodiment · The incarnation point</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"Which layer of self are you looking through right now — and can you choose a different one?"</div>
+  <div class="topics"><span>Topics:</span> Ego · Mind · Soul · Spirit · Void — the five lenses and how to recognise each in real time · Where attention goes, energy flows · The body as portal to the present · Emotional intelligence as efficient energy management · The choice-maker and the observer</div>
+  <div class="practice">Practice — Daily lens check: at three points in the day, identify which layer you are operating from. Note which situations pull you into Ego, which open the Soul, and where the choice-maker becomes available.</div>
+</div>
+
+<div class="module m2">
+  <div class="mod-num">Module 06</div>
+  <div class="mod-title">Reading the Pattern — Friction as Data</div>
+  <div class="mod-pos">Codex position 8 — Embodied power · Self-mastery · Will applied</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"What are your recurring patterns telling you — and how do you use friction as fuel rather than evidence of failure?"</div>
+  <div class="topics"><span>Topics:</span> The shadow patterns of the Codex in lived experience · Triggers as doorways · The choosing point · How to override habitual re-action · Self-responsibility vs self-blame · The simulation as a gym for the will · Situational themes repeat until the lesson is embodied</div>
+  <div class="practice">Practice — Pattern decoding: identify one recurring situation or relationship dynamic. Trace it to its shadow number on the Codex, then identify the medicine — the position you need to develop to move through it.</div>
+</div>
+
+<div class="connector">↓ phase 2 complete — embodiment activated ↓</div>
+
+<!-- ── PHASE 3 ── -->
+<div class="phase-header phase-3">
+  <h2>Phase Three — Integration</h2>
+  <p>Expression, responsibility and release · 3 → 6 → 9 · Living what you know</p>
+</div>
+
+<div class="module m3">
+  <div class="mod-num">Module 07</div>
+  <div class="mod-title">Authentic Expression — Living Your Frequency</div>
+  <div class="mod-pos">Codex position 3 — Creative expression · Meaning · The authentic signal</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"What does your authentic expression actually look like — and what has been suppressing its signal?"</div>
+  <div class="topics"><span>Topics:</span> Expression number as the authentic channel your nervous system was built to transmit · How conditioning distorts the signal · The gap between the performed self and the authentic self · Synchronicities and angel numbers as feedback from the simulation · The Destined Expression emerging through the friction</div>
+  <div class="practice">Practice — Expression audit: identify three areas of your life where you are living your frequency authentically and three where you are performing. What would shift if you closed that gap by 10%?</div>
+</div>
+
+<div class="module m3">
+  <div class="mod-num">Module 08</div>
+  <div class="mod-title">Integration — Building a Personal Practice</div>
+  <div class="mod-pos">Codex position 6 — Responsibility · Sustainable care · Integration as structure</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"How do you turn insight into a daily operating system — not a weekend epiphany that fades by Tuesday?"</div>
+  <div class="topics"><span>Topics:</span> The full transformation path 1→4→7→2→5→8→3→6→9 as a repeatable daily process · Building the foundation column (1→4→7) into routine · Sustaining embodiment (2→5→8) through simple physical practice · Energy management in relationships · Boundaries as energetic hygiene · Six as the frame that holds the system</div>
+  <div class="practice">Practice — Design your operating system: using your specific numbers as anchors, build a daily and weekly practice that addresses your foundation column, your embodiment, and your expression. What does your version of the path look like?</div>
+</div>
+
+<div class="module m3">
+  <div class="mod-num">Module 09</div>
+  <div class="mod-title">The Life Calling — Contribution and the Next Cycle</div>
+  <div class="mod-pos">Codex position 9 — Completion · Release · The wisdom transmitted</div>
+  <hr class="divider">
+  <div class="q-label">Core question:</div>
+  <div class="q-text">"What is your mission — and how does your unique frequency serve something beyond yourself?"</div>
+  <div class="topics"><span>Topics:</span> The Life Calling number as the synthesis of lesson and gift · The Triune Trinity of purpose · Your blueprint as a gift to others · The continuous optimisation cycle — the spiral, not the circle · Beginning the next revolution at a higher octave · Working with the map as a living system, not a fixed fate</div>
+  <div class="practice">Practice — Mission statement: using your Life Calling, Expression, and Life Path as the three anchors, write a single paragraph that describes what you are here to do. Not a goal. A direction.</div>
+</div>
+
+<!-- ── DELIVERY ── -->
+<hr>
+<div class="delivery">
+  <h3>Delivery Options</h3>
+  <div class="delivery-grid">
+    <div class="d-card d1">
+      <h4>Self-Paced Course</h4>
+      <p>9 modules · 1 per week</p>
+      <p class="dsub">Video teaching + workbook</p>
+      <p class="dsub">Calculator access included</p>
+      <p class="dsub">Book as reading companion</p>
+      <p class="dsub">Practice assignments each module</p>
+    </div>
+    <div class="d-card d2">
+      <h4>Live Cohort</h4>
+      <p>9 weeks · Group sessions</p>
+      <p class="dsub">Weekly live teaching call</p>
+      <p class="dsub">Group pattern work &amp; sharing</p>
+      <p class="dsub">Integration partner pairing</p>
+      <p class="dsub">Private community access</p>
+    </div>
+    <div class="d-card d3">
+      <h4>1:1 Intensive</h4>
+      <p>3 phases · Deep personalised work</p>
+      <p class="dsub">Full reading session per phase</p>
+      <p class="dsub">Personal practice design</p>
+      <p class="dsub">Integration accountability</p>
+      <p class="dsub">Direct pattern work together</p>
+    </div>
+  </div>
+</div>
+
+<p class="footer">The map is the same. The territory is yours.</p>
+
+</div>
+</body>
+</html>
