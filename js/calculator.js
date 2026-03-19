@@ -567,7 +567,7 @@ function handleUnlockPayment() {
   btn.disabled    = true;
   btn.textContent = '· Connecting to Stripe ·';
 
-  fetch('/.netlify/functions/create-checkout', {
+ fetch('https://simulationsourcecode.netlify.app/.netlify/functions/create-checkout', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(payload),
