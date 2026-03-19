@@ -540,7 +540,7 @@ function buildFreqChart(numbers) {
 
 function handleUnlockPayment() {
   var emailInput = document.getElementById('unlock-email');
-  var errorEl   = document.getElementById('unlock-email-error');
+  var errorEl    = document.getElementById('unlock-email-error');
   var btn        = document.getElementById('unlock-pay-btn');
   var email      = (emailInput ? emailInput.value : '').trim();
 
@@ -554,32 +554,41 @@ function handleUnlockPayment() {
   }
   if (errorEl) errorEl.textContent = '';
 
-  var resultsArea = document.getElementById('results-area');
-  var userPayload = {
-    email:    email,
-    name:     (document.getElementById('calc-fullname') || {}).value || '',
-    month:    (document.getElementById('calc-month')    || {}).value || '',
-    day:      (document.getElementById('calc-day')      || {}).value || '',
-    year:     (document.getElementById('calc-year')     || {}).value || '',
-    results:  resultsArea ? resultsArea.innerText : ''
+  var payload = {
+    email: email,
+    name:  (document.getElementById('calc-fullname') || {}).value || '',
+    month: (document.getElementById('calc-month')    || {}).value || '',
+    day:   (document.getElementById('calc-day')      || {}).value || '',
+    year:  (document.getElementById('calc-year')     || {}).value || '',
   };
 
-  try { sessionStorage.setItem('ssc_pending_order', JSON.stringify(userPayload)); } catch(e) {}
-
-  var stripeBase = btn.getAttribute('data-stripe-url') || '#';
-  var stripeUrl  = stripeBase +
-    (stripeBase.includes('?') ? '&' : '?') +
-    'prefilled_email=' + encodeURIComponent(email) +
-    '&client_reference_id=' + encodeURIComponent(btoa(JSON.stringify({
-      name:  userPayload.name,
-      month: userPayload.month,
-      day:   userPayload.day,
-      year:  userPayload.year
-    })).replace(/=/g,''));
+  try { sessionStorage.setItem('ssc_pending_order', JSON.stringify(payload)); } catch(e) {}
 
   btn.disabled    = true;
   btn.textContent = '· Connecting to Stripe ·';
-  window.location.href = stripeUrl;
+
+  fetch('/.netlify/functions/create-checkout', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload),
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'No checkout URL returned');
+    }
+  })
+  .catch(function(err) {
+    console.error('Checkout error:', err);
+    if (errorEl) {
+      errorEl.textContent = 'Something went wrong. Please try again.';
+      errorEl.style.color = 'var(--rose-light)';
+    }
+    btn.disabled    = false;
+    btn.textContent = '⬡  Receive My Guidebook  ⬡';
+  });
 }
 
 window.handleUnlockPayment = handleUnlockPayment;

@@ -1,25 +1,5 @@
 /**
  * netlify/functions/stripe-webhook.js
- * ════════════════════════════════════════════════════════════════
- * Listens for Stripe's `payment_intent.succeeded` webhook,
- * generates a personalised SSC Guidebook via the Claude API,
- * and emails the PDF to the customer via Resend (resend.com).
- *
- * SETUP — 5 steps:
- *  1. `npm install stripe @anthropic-ai/sdk resend`            (in repo root)
- *  2. Set these environment variables in Netlify → Site settings → Env vars:
- *       STRIPE_SECRET_KEY          sk_live_…
- *       STRIPE_WEBHOOK_SECRET      whsec_…   (from Stripe Dashboard → Webhooks)
- *       ANTHROPIC_API_KEY          sk-ant-…
- *       RESEND_API_KEY             re_…      (free tier: 3 000 emails/mo)
- *       FROM_EMAIL                 guidebook@yourdomain.com
- *  3. In Stripe Dashboard → Developers → Webhooks → Add endpoint:
- *       URL: https://yourdomain.netlify.app/.netlify/functions/stripe-webhook
- *       Events: payment_intent.succeeded
- *  4. In Stripe Dashboard → Payment Links → your link → Advanced:
- *       Success URL: https://yourdomain.com/?payment=success
- *  5. Deploy to Netlify — it's live.
- * ════════════════════════════════════════════════════════════════
  */
 
 const stripe    = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -29,7 +9,6 @@ const { Resend } = require('resend');
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const resend    = new Resend(process.env.RESEND_API_KEY);
 
-// ── Netlify handler ────────────────────────────────────────────────────────
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -51,177 +30,150 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: `Webhook Error: ${err.message}` };
   }
 
-  // Only handle the event we care about
   if (stripeEvent.type !== 'payment_intent.succeeded') {
     return { statusCode: 200, body: 'Ignored event type' };
   }
 
   const paymentIntent = stripeEvent.data.object;
 
-  // ── 2. Extract customer data ───────────────────────────────────────────
-  // The client_reference_id was set in handleUnlockPayment() on the frontend:
-  //   btoa(JSON.stringify({ name, month, day, year }))
+  // ── 2. Extract customer data from checkout session metadata ───────────
   let userData = {};
+  let email = paymentIntent.receipt_email || null;
+
   try {
-    const ref = paymentIntent.metadata?.client_reference_id ||
-                paymentIntent.client_reference_id || '';
-    if (ref) {
-      // Re-pad base64 if needed
-      const padded = ref + '='.repeat((4 - ref.length % 4) % 4);
-      userData = JSON.parse(Buffer.from(padded, 'base64').toString('utf8'));
+    const sessions = await stripe.checkout.sessions.list({
+      payment_intent: paymentIntent.id,
+      limit: 1,
+    });
+
+    if (sessions.data.length > 0) {
+      const session = sessions.data[0];
+      email = session.customer_email || session.metadata?.email || email;
+      userData = {
+        name:  session.metadata?.name  || '',
+        month: session.metadata?.month || '',
+        day:   session.metadata?.day   || '',
+        year:  session.metadata?.year  || '',
+      };
+      console.log('Session metadata:', session.metadata);
     }
   } catch (e) {
-    console.warn('Could not parse client_reference_id:', e.message);
+    console.warn('Could not retrieve checkout session:', e.message);
   }
 
-  // Get email from Stripe — try all possible sources
-  let email = paymentIntent.receipt_email || paymentIntent.metadata?.email || userData.email || null;
-
-  // If still no email, retrieve the full payment intent with customer expanded
-  if (!email && paymentIntent.customer) {
-    try {
-      const customer = await stripe.customers.retrieve(paymentIntent.customer);
-      email = customer.email || null;
-      console.log('Got email from customer object:', email);
-    } catch(e) {
-      console.warn('Could not retrieve customer:', e.message);
-    }
-  }
-
-  // Try the latest charge billing details as last resort
+  // Fallback — get email from charge
   if (!email && paymentIntent.latest_charge) {
     try {
       const charge = await stripe.charges.retrieve(paymentIntent.latest_charge);
       email = charge.billing_details?.email || charge.receipt_email || null;
-      console.log('Got email from charge:', email);
     } catch(e) {
       console.warn('Could not retrieve charge:', e.message);
     }
   }
 
-  console.log('Payment intent id:', paymentIntent.id);
-  console.log('All email sources:', {
-    receipt_email: paymentIntent.receipt_email,
-    metadata_email: paymentIntent.metadata?.email,
-    userData_email: userData.email,
-    customer: paymentIntent.customer,
-    final_email: email
-  });
+  console.log('Final email:', email);
+  console.log('User data:', userData);
 
   if (!email) {
     console.error('No email found on payment intent:', paymentIntent.id);
     return { statusCode: 200, body: 'No email — cannot deliver guidebook' };
   }
 
-  const name  = userData.name  || 'Your Name';
-  const month = Number(userData.month || 1);
-  const day   = Number(userData.day   || 1);
-  const year  = Number(userData.year  || 1990);
+  const name  = userData.name  || 'Valued Customer';
+  const month = Number(userData.month) || 1;
+  const day   = Number(userData.day)   || 1;
+  const year  = Number(userData.year)  || 1990;
 
-  // ── 3. Calculate the 7 frequencies (mirror your calculator.js logic) ───
-  // Replace these placeholder calculations with your actual SSC formulas.
+  // ── 3. Calculate frequencies ──────────────────────────────────────────
   const frequencies = calculateFrequencies(name, month, day, year);
+  console.log('Frequencies:', frequencies);
 
-  // ── 4. Generate personalised guidebook with Claude ─────────────────────
+  // ── 4. Generate guidebook with Claude ─────────────────────────────────
   console.log(`Generating guidebook for ${name} (${email})`);
   let guidebookHtml;
   try {
     guidebookHtml = await generateGuidebook({ name, month, day, year, frequencies, email });
   } catch (err) {
-    console.error('Claude API error:', err);
+    console.error('Claude API error:', err.message);
     return { statusCode: 500, body: 'Guidebook generation failed' };
   }
 
-  // ── 5. Email the guidebook ────────────────────────────────────────────
+  // ── 5. Send email ──────────────────────────────────────────────────────
   try {
     await resend.emails.send({
-      from:    process.env.FROM_EMAIL || 'guidebook@simulationsourcecode.com',
+      from:    process.env.FROM_EMAIL || 'onboarding@resend.dev',
       to:      email,
-      subject: `✦ Your Simulation Source Code Guidebook, ${name.split(' ')[0]}`,
+      subject: `✦ Your Simulation Source Code Guidebook`,
       html:    guidebookHtml,
     });
     console.log(`Guidebook emailed to ${email}`);
   } catch (err) {
-    console.error('Email send failed:', err);
+    console.error('Email send failed:', err.message);
     return { statusCode: 500, body: 'Email delivery failed' };
   }
 
   return { statusCode: 200, body: JSON.stringify({ delivered: true, email }) };
 };
 
-// ════════════════════════════════════════════════════════════════
-// FREQUENCY CALCULATOR
-// Replace the stub logic below with your actual SSC calculations.
-// This should mirror calculator.js so the numbers are consistent.
-// ════════════════════════════════════════════════════════════════
+// ── Frequency Calculator ──────────────────────────────────────────────────
 function reduceToSingle(n) {
-  // Reduce to single digit unless 11, 22, 33 (master numbers)
   while (n > 9 && n !== 11 && n !== 22 && n !== 33) {
     n = String(n).split('').reduce((a, d) => a + Number(d), 0);
   }
   return n;
 }
 
-function letterValue(char) {
-  const c = char.toUpperCase();
-  if (c < 'A' || c > 'Z') return 0;
-  return (c.charCodeAt(0) - 64);           // A=1 … Z=26
+const LETTER_VALUES = {
+  A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,
+  J:1,K:11,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,
+  S:1,T:2,U:3,V:22,W:5,X:6,Y:7,Z:8
+};
+const VOWELS = new Set(['A','E','I','O','U','Y']);
+
+function letterValue(c) {
+  return LETTER_VALUES[c.toUpperCase()] || 0;
 }
 
 function calculateFrequencies(name, month, day, year) {
-  // ── Life Path (full DOB reduced) ──
-  const lifePath = reduceToSingle(
-    reduceToSingle(month) + reduceToSingle(day) + reduceToSingle(year)
+  const chars = name.toUpperCase().replace(/[^A-Z]/g, '').split('');
+
+  const lifePath   = reduceToSingle(
+    [...String(month), ...String(day), ...String(year)].reduce((a,c) => a + Number(c), 0)
+  );
+  const achievement = reduceToSingle(month + day);
+  const theme       = reduceToSingle(
+    String(year).split('').reduce((a,d) => a + Number(d), 0)
   );
 
-  // ── Achievement (month + day) ──
-  const achievement = reduceToSingle(reduceToSingle(month) + reduceToSingle(day));
-
-  // ── Theme (birth year reduced) ──
-  const theme = reduceToSingle(
-    String(year).split('').reduce((a, d) => a + Number(d), 0)
+  // Expression: reduce each name word separately then sum
+  const expression = reduceToSingle(
+    name.trim().split(/\s+/).reduce((total, word) => {
+      const wordSum = word.toUpperCase().replace(/[^A-Z]/g,'').split('').reduce((a,c) => a + letterValue(c), 0);
+      return total + reduceToSingle(wordSum);
+    }, 0)
   );
 
-  // ── Expression (all letters in full name) ──
-  const expressionSum = name.toUpperCase().replace(/[^A-Z]/g, '')
-    .split('').reduce((a, c) => a + letterValue(c), 0);
-  const expression = reduceToSingle(expressionSum);
-
-  // ── Soul (vowels only) ──
-  const vowelSum = name.toUpperCase().replace(/[^AEIOU]/g, '')
-    .split('').reduce((a, c) => a + letterValue(c), 0);
-  const soul = reduceToSingle(vowelSum);
-
-  // ── Persona (consonants only) ──
-  const consonantSum = name.toUpperCase().split('').filter(c => /[BCDFGHJKLMNPQRSTVWXZ]/.test(c)).reduce((a, c) => a + letterValue(c), 0);
-  const persona = reduceToSingle(consonantSum);
-
-  // ── Destiny (expression + lifepath) ──
+  const soul    = reduceToSingle(chars.filter(c => VOWELS.has(c)).reduce((a,c) => a + letterValue(c), 0));
+  const persona = reduceToSingle(chars.filter(c => !VOWELS.has(c)).reduce((a,c) => a + letterValue(c), 0));
   const destiny = reduceToSingle(expression + lifePath);
 
   return { lifePath, achievement, theme, expression, soul, persona, destiny };
 }
 
-// ════════════════════════════════════════════════════════════════
-// GUIDEBOOK GENERATOR
-// Calls Claude to write the full personalised report,
-// then wraps it in a branded HTML email template.
-// ════════════════════════════════════════════════════════════════
+// ── Guidebook Generator ───────────────────────────────────────────────────
 async function generateGuidebook({ name, month, day, year, frequencies, email }) {
   const months = ['','January','February','March','April','May','June',
                   'July','August','September','October','November','December'];
   const dob = `${months[month]} ${day}, ${year}`;
   const firstName = name.split(' ')[0];
 
-  const prompt = `You are the author of the Simulation Source Code system — a consciousness framework
-that decodes life as a simulated experience through seven numerological frequencies.
+  const prompt = `You are the author of the Simulation Source Code system — a consciousness framework that decodes life as a simulated experience through seven numerological frequencies.
 
 Write a complete, deeply personalised FREQUENCY GUIDEBOOK for the following person.
 
 PERSONAL DATA:
 - Full birth name: ${name}
 - Date of birth: ${dob}
-- Email: ${email}
 
 THEIR SEVEN FREQUENCIES:
 1. Theme (birth year):       ${frequencies.theme}
@@ -233,24 +185,23 @@ THEIR SEVEN FREQUENCIES:
 7. Destiny (expression+LP):  ${frequencies.destiny}
 
 GUIDELINES:
-- Write in an elevated, mystical yet grounded tone — like a wise mentor who has decoded the simulation.
+- Write in an elevated, mystical yet grounded tone.
 - Address ${firstName} directly throughout.
-- For EACH frequency: explain its archetype, its gifts, its shadow/challenge, and 3–5 specific integration practices.
-- Include a section on how their frequencies interact (especially LP + Expression + Soul).
-- End with a personalised "Quest Directive" — a short, powerful paragraph about what ${firstName}'s simulation is asking them to master.
-- Use HTML formatting with <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em> tags. Do NOT use markdown.
-- Length: 1500–2500 words. Thorough but every sentence earns its place.
-- Do NOT include a preamble or meta-commentary. Start directly with the guidebook content.`;
+- For EACH frequency: explain its archetype, gifts, shadow/challenge, and 2-3 integration practices.
+- Include a section on how their key frequencies interact.
+- End with a "Quest Directive" — a powerful paragraph about what ${firstName}'s simulation is asking them to master.
+- Use HTML: <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>. No markdown.
+- Length: 1200-1800 words.
+- Start directly with the content. No preamble.`;
 
   const message = await anthropic.messages.create({
-    model:      'claude-opus-4-5',
-    max_tokens: 4096,
+    model:      'claude-haiku-4-5-20251001',
+    max_tokens: 3000,
     messages: [{ role: 'user', content: prompt }]
   });
 
   const guidebookBody = message.content[0].text;
 
-  // ── Wrap in branded HTML email ─────────────────────────────────────────
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -285,7 +236,6 @@ GUIDELINES:
     <h1 class="header-title">Your Complete Frequency Guidebook</h1>
     <p class="header-name">${name} · ${dob}</p>
   </div>
-
   <div class="freq-row">
     <span class="freq-badge">Theme · ${frequencies.theme}</span>
     <span class="freq-badge">Life Path · ${frequencies.lifePath}</span>
@@ -295,15 +245,11 @@ GUIDELINES:
     <span class="freq-badge">Persona · ${frequencies.persona}</span>
     <span class="freq-badge">Destiny · ${frequencies.destiny}</span>
   </div>
-
-  <div class="content">
-    ${guidebookBody}
-  </div>
-
+  <div class="content">${guidebookBody}</div>
   <div class="footer">
     <p>
       Simulation Source Code &nbsp;·&nbsp; simulationsourcecode.com<br>
-      This report was generated exclusively for ${email}<br>
+      Generated exclusively for ${email}<br>
       <a href="https://simulationsourcecode.com">Visit the site</a>
     </p>
   </div>
