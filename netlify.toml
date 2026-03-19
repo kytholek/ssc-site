@@ -6,3 +6,6 @@
 
 [functions."stripe-webhook"]
   timeout = 60
+
+[functions."create-checkout"]
+  timeout = 10
