@@ -7,12 +7,12 @@
   </div>
   <div class="calc-container">
     <div class="form-card a1">
-      <div class="form-section-label" data-i18n="calc.label.birthdate">&#xB7; Birth Date &#xB7;</div>
+      <div class="form-section-label" data-i18n="calc.label.birthdate">· Birth Date ·</div>
       <div class="date-row">
         <div class="field">
           <label data-i18n="calc.label.month">Month</label>
           <select id="calc-month">
-            <option value="">&#8212;</option>
+            <option value="">—</option>
             <option value="1"  data-i18n="calc.month.1">January</option>
             <option value="2"  data-i18n="calc.month.2">February</option>
             <option value="3"  data-i18n="calc.month.3">March</option>
@@ -36,26 +36,202 @@
           <input type="number" id="calc-year" placeholder="YYYY" min="1900" max="2099">
         </div>
       </div>
-      <div class="form-section-label" style="margin-top:28px" data-i18n="calc.label.fullname">&#xB7; Full Birth Name &#xB7;</div>
+      <div class="form-section-label" style="margin-top:28px" data-i18n="calc.label.fullname">· Full Birth Name ·</div>
       <div class="field">
         <label data-i18n="calc.label.namehint">Full Name (as on birth certificate)</label>
         <input type="text" id="calc-fullname" data-i18n-placeholder="calc.placeholder.name" placeholder="e.g. Jane Marie Smith" autocomplete="off">
       </div>
     </div>
-    <button class="calc-btn a2" onclick="calculateReading()" data-i18n="calc.btn">&#11041;&nbsp;Decode My Map&nbsp;&#11041;</button>
+    <button class="calc-btn a2" onclick="calculateReading()" data-i18n="calc.btn">⬡&nbsp;Decode My Map&nbsp;⬡</button>
     <div class="results-placeholder a3" id="results-area">
-      <div class="results-placeholder-icon">&#10022;</div>
+      <div class="results-placeholder-icon">✦</div>
       <div class="results-placeholder-text" data-i18n="calc.results.placeholder">Your reading will appear here</div>
     </div>
-  </div>
 
-  <!-- CTA to Services -->
-  <section class="calc-cta-banner" style="margin-bottom:80px">
-    <div class="section-label" style="text-align:center;margin-bottom:16px">◈ GO DEEPER</div>
-    <h2 class="section-title" style="text-align:center">Ready to transform your frequencies into action?</h2>
-    <p class="section-body" style="text-align:center;margin:20px auto 36px">Explore our services to integrate your blueprint into real-world mastery and unlock the full potential of your simulation.</p>
-    <div style="text-align:center">
-      <button class="btn-primary" onclick="showPage('services')" data-i18n="calc.cta.services">✦ Explore Our Services</button>
-    </div>
-  </section>
+    <!-- ════ UNLOCK FULL BLUEPRINT CTA ════
+         Hidden by default. Shown by calculator.js after results render.
+         Your Stripe Payment Link goes in the data-stripe-url attribute.
+    ════ -->
+    <div class="unlock-cta a4" id="unlock-cta" style="display:none;" aria-hidden="true">
+
+      <!-- Decorative top rule -->
+      <div class="unlock-divider">
+        <span class="unlock-divider-line"></span>
+        <span class="unlock-divider-sigil">✦</span>
+        <span class="unlock-divider-line"></span>
+      </div>
+
+      <div class="unlock-card">
+
+        <!-- Glow orb (CSS only) -->
+        <div class="unlock-glow" aria-hidden="true"></div>
+
+        <div class="unlock-eyebrow">Your frequencies have been decoded</div>
+
+        <h2 class="unlock-title">Unlock Your Full Blueprint</h2>
+
+        <p class="unlock-body">
+          What you see above is your encoded map — the surface layer.
+          Your <strong>Complete Frequency Guidebook</strong> goes deeper: a personalised,
+          page-by-page analysis of all seven frequencies, their interactions,
+          shadow expressions, and the precise steps to work with each one.
+        </p>
+
+        <!-- Feature list -->
+        <ul class="unlock-features" aria-label="What's included">
+          <li><span class="unlock-check" aria-hidden="true">◈</span> 20–30 page personalised PDF report</li>
+          <li><span class="unlock-check" aria-hidden="true">◈</span> Deep-dive on all 7 encoded frequencies</li>
+          <li><span class="unlock-check" aria-hidden="true">◈</span> Shadow &amp; integration work for each number</li>
+          <li><span class="unlock-check" aria-hidden="true">◈</span> Your unique frequency interaction map</li>
+          <li><span class="unlock-check" aria-hidden="true">◈</span> Delivered to your inbox within minutes</li>
+        </ul>
+
+        <!-- Email field -->
+        <div class="unlock-email-wrap">
+          <label class="unlock-email-label" for="unlock-email">Where shall we send your guidebook?</label>
+          <input
+            type="email"
+            id="unlock-email"
+            class="unlock-email-input"
+            placeholder="your@email.com"
+            autocomplete="email"
+            required
+          />
+          <div class="unlock-email-hint" id="unlock-email-error" role="alert" aria-live="polite"></div>
+        </div>
+
+        <!-- Price + CTA -->
+        <div class="unlock-price-row">
+          <div class="unlock-price">
+            <span class="unlock-price-amount">$35</span>
+            <span class="unlock-price-label">one-time · instant delivery</span>
+          </div>
+        </div>
+
+        <button
+          class="unlock-btn"
+          id="unlock-pay-btn"
+          onclick="handleUnlockPayment()"
+          data-stripe-url="https://buy.stripe.com/eVq28r0qCfRT5PU3VY53O00"
+        >
+          ⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡
+        </button>
+
+        <p class="unlock-reassurance">
+          Secure payment via Stripe · No subscription · PDF delivered by email
+        </p>
+
+      </div><!-- /unlock-card -->
+    </div><!-- /unlock-cta -->
+
+  </div>
 </div><!-- /page-calculator -->
+
+
+<!-- ════ STRIPE PAYMENT SCRIPT ════ -->
+<script>
+/**
+ * handleUnlockPayment()
+ * Validates the email, stores the user's decoded data in sessionStorage
+ * so the Netlify webhook can retrieve it, then redirects to Stripe.
+ *
+ * SETUP STEPS:
+ *  1. Replace data-stripe-url on #unlock-pay-btn with your real Stripe Payment Link.
+ *  2. In Stripe Dashboard → Payment Links → Advanced → add ?prefilled_email={email}
+ *     to auto-fill the customer email on the Stripe page.
+ *  3. Set your Stripe success_url to: https://yourdomain.com/?payment=success
+ *     (the success banner logic is below)
+ */
+function handleUnlockPayment() {
+  var emailInput = document.getElementById('unlock-email');
+  var errorEl   = document.getElementById('unlock-email-error');
+  var btn        = document.getElementById('unlock-pay-btn');
+  var email      = (emailInput ? emailInput.value : '').trim();
+
+  // Basic email validation
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (errorEl) {
+      errorEl.textContent = 'Please enter a valid email address.';
+      errorEl.style.color = 'var(--rose-light)';
+    }
+    if (emailInput) emailInput.focus();
+    return;
+  }
+  if (errorEl) errorEl.textContent = '';
+
+  // ── Gather the decoded data from the DOM ──────────────────────────────
+  // Adjust these selectors to match whatever your calculateReading() renders.
+  var resultsArea = document.getElementById('results-area');
+  var userPayload = {
+    email:    email,
+    name:     (document.getElementById('calc-fullname') || {}).value || '',
+    month:    (document.getElementById('calc-month')    || {}).value || '',
+    day:      (document.getElementById('calc-day')      || {}).value || '',
+    year:     (document.getElementById('calc-year')     || {}).value || '',
+    results:  resultsArea ? resultsArea.innerText : ''
+  };
+
+  // Persist so the success page / webhook can read it
+  try {
+    sessionStorage.setItem('ssc_pending_order', JSON.stringify(userPayload));
+  } catch(e) {}
+
+  // ── Build Stripe URL with prefilled email ─────────────────────────────
+  var stripeBase = btn.getAttribute('data-stripe-url') || '#';
+  var stripeUrl  = stripeBase +
+    (stripeBase.includes('?') ? '&' : '?') +
+    'prefilled_email=' + encodeURIComponent(email) +
+    '&client_reference_id=' + encodeURIComponent(btoa(JSON.stringify({
+      name:  userPayload.name,
+      month: userPayload.month,
+      day:   userPayload.day,
+      year:  userPayload.year
+    })).replace(/=/g,''));
+
+  // Button loading state
+  btn.disabled    = true;
+  btn.textContent = '· Connecting to Stripe ·';
+
+  // Redirect
+  window.location.href = stripeUrl;
+}
+
+// ── Show success banner if returning from Stripe ──────────────────────────
+(function checkPaymentReturn() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('payment') !== 'success') return;
+
+  // Remove the query param from the URL without a reload
+  history.replaceState({}, '', window.location.pathname);
+
+  // Retrieve stored email
+  var stored = {};
+  try { stored = JSON.parse(sessionStorage.getItem('ssc_pending_order') || '{}'); } catch(e) {}
+
+  // Show a success toast / banner
+  var toast = document.createElement('div');
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  toast.style.cssText = [
+    'position:fixed','top:80px','left:50%','transform:translateX(-50%)',
+    'background:rgba(74,148,148,0.18)','border:1px solid rgba(126,200,200,0.5)',
+    'border-radius:8px','padding:18px 32px','z-index:9999',
+    'font-family:Cinzel,serif','font-size:11px','letter-spacing:.25em',
+    'text-transform:uppercase','color:#7ec8c8','text-align:center',
+    'max-width:90vw','backdrop-filter:blur(12px)'
+  ].join(';');
+  toast.innerHTML =
+    '✦ &nbsp; Payment received — your guidebook is being generated' +
+    (stored.email ? ' and will arrive at <strong style="color:#e8c96b">' + stored.email + '</strong>' : '') +
+    ' shortly &nbsp; ✦';
+  document.body.appendChild(toast);
+  setTimeout(function() {
+    toast.style.transition = 'opacity 1s';
+    toast.style.opacity = '0';
+    setTimeout(function() { toast.remove(); }, 1000);
+  }, 8000);
+
+  // Clear storage
+  try { sessionStorage.removeItem('ssc_pending_order'); } catch(e) {}
+})();
+</script>

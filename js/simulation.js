@@ -155,8 +155,8 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
         var animatedHeight = peak.height + heightVar;
         var animatedWidth = peak.width + widthVar;
         
-        var peakY = h * (0.25 + animatedHeight * 0.55);
-        var peakW = animatedWidth * w;
+        var peakY = h * (0.15 + animatedHeight * 0.65);
+        var peakW = animatedWidth * w * 1.3;
         
         // Opacity based on depth
         var depthOpa = 0.15 + peak.depth * 0.25;
@@ -168,14 +168,14 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
         
         // Left slope
         ctx.beginPath();
-        ctx.moveTo(peakX - peakW, h * 0.82);
+        ctx.moveTo(peakX - peakW, h * 0.84);
         ctx.lineTo(peakX, peakY);
         ctx.stroke();
         
         // Right slope
         ctx.beginPath();
         ctx.moveTo(peakX, peakY);
-        ctx.lineTo(peakX + peakW, h * 0.82);
+        ctx.lineTo(peakX + peakW, h * 0.84);
         ctx.stroke();
 
         // Add holographic edge glow on peak
@@ -183,16 +183,16 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
         ctx.strokeStyle = 'rgba(126,200,200,' + glowOpa + ')';
         ctx.lineWidth = 0.5;
         ctx.beginPath();
-        ctx.moveTo(peakX - peakW * 0.3, h * (peakY + (h * 0.82 - peakY) * 0.5));
+        ctx.moveTo(peakX - peakW * 0.3, h * (peakY + (h * 0.84 - peakY) * 0.5));
         ctx.lineTo(peakX, peakY);
-        ctx.lineTo(peakX + peakW * 0.3, h * (peakY + (h * 0.82 - peakY) * 0.5));
+        ctx.lineTo(peakX + peakW * 0.3, h * (peakY + (h * 0.84 - peakY) * 0.5));
         ctx.stroke();
       }
 
       // Subtle horizontal ridge lines for detail
-      for (var ridge = 0; ridge < 6; ridge++) {
-        var ridgeY = h * (0.30 + ridge * 0.10);
-        var ridgeOpa = 0.12 - ridge * 0.015;
+      for (var ridge = 0; ridge < 8; ridge++) {
+        var ridgeY = h * (0.15 + ridge * 0.08);
+        var ridgeOpa = 0.12 - ridge * 0.012;
         ctx.strokeStyle = 'rgba(126,200,200,' + ridgeOpa + ')';
         ctx.lineWidth = 0.4;
         ctx.beginPath();
@@ -204,24 +204,24 @@ var DPR = Math.min(window.devicePixelRatio || 1, 2);
       ctx.restore();
 
       // ── Holographic glow at horizon ──
-      var horizonGlow = ctx.createLinearGradient(0, h*0.6, 0, h*0.8);
+      var horizonGlow = ctx.createLinearGradient(0, h*0.7, 0, h*0.88);
       horizonGlow.addColorStop(0, 'rgba(126,200,200,0.04)');
       horizonGlow.addColorStop(0.5, 'rgba(126,200,200,0.08)');
       horizonGlow.addColorStop(1, 'rgba(126,200,200,0.02)');
       ctx.fillStyle = horizonGlow;
-      ctx.fillRect(0, h*0.6, w, h*0.2);
+      ctx.fillRect(0, h*0.7, w, h*0.18);
 
       // ── Top fade to void ──
-      var topfade = ctx.createLinearGradient(0,0,0,h*0.25);
+      var topfade = ctx.createLinearGradient(0,0,0,h*0.15);
       topfade.addColorStop(0,   'rgba(0,0,0,0.85)');
       topfade.addColorStop(1,   'transparent');
-      ctx.fillStyle = topfade; ctx.fillRect(0,0,w,h*0.25);
+      ctx.fillStyle = topfade; ctx.fillRect(0,0,w,h*0.15);
 
       // ── Bottom fade to void ──
-      var botfade = ctx.createLinearGradient(0,h*0.75,0,h);
+      var botfade = ctx.createLinearGradient(0,h*0.88,0,h);
       botfade.addColorStop(0,   'transparent');
       botfade.addColorStop(1,   'rgba(0,0,0,0.9)');
-      ctx.fillStyle = botfade; ctx.fillRect(0,h*0.75,w,h*0.25);
+      ctx.fillStyle = botfade; ctx.fillRect(0,h*0.88,w,h*0.12);
 
       requestAnimationFrame(draw);
     }

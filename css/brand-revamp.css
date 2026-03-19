@@ -1404,6 +1404,19 @@
   transform-origin: center;
   background: rgba(74,148,148,.5);
 }
+
+/* Social Logo Image Styling */
+.social-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0.9);
+  transition: filter 0.2s;
+}
+
+.social-btn:hover .social-logo {
+  filter: brightness(1.2) drop-shadow(0 0 8px rgba(201,168,76,0.4));
+}
 .svc-sigil-arm--v {
   width: 1px; height: 90%;
   transform: translate(-50%, -50%);

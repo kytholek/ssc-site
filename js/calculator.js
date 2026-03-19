@@ -323,6 +323,16 @@ function calculateReading() {
     ${freqRows}
     <p style="text-align:center;font-size:13px;color:var(--text-muted);margin-top:24px">${footerNote}</p>
   `;
+
+  // ── Show the Unlock CTA ──────────────────────────────────────
+  var cta = document.getElementById('unlock-cta');
+  if (cta) {
+    cta.style.display = 'block';
+    cta.removeAttribute('aria-hidden');
+    setTimeout(function () {
+      cta.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 400);
+  }
 }
 
 
