@@ -38,8 +38,11 @@ exports.handler = async (event) => {
   // ── 1. Verify Stripe signature ─────────────────────────────────────────
   let stripeEvent;
   try {
+    const rawBody = event.isBase64Encoded
+      ? Buffer.from(event.body, 'base64').toString('utf8')
+      : event.body;
     stripeEvent = stripe.webhooks.constructEvent(
-      event.body,
+      rawBody,
       event.headers['stripe-signature'],
       process.env.STRIPE_WEBHOOK_SECRET
     );
@@ -71,11 +74,39 @@ exports.handler = async (event) => {
     console.warn('Could not parse client_reference_id:', e.message);
   }
 
-  // Get email from Stripe (most reliable source)
-  const email = paymentIntent.receipt_email ||
-                paymentIntent.metadata?.email ||
-                userData.email ||
-                null;
+  // Get email from Stripe — try all possible sources
+  let email = paymentIntent.receipt_email || paymentIntent.metadata?.email || userData.email || null;
+
+  // If still no email, retrieve the full payment intent with customer expanded
+  if (!email && paymentIntent.customer) {
+    try {
+      const customer = await stripe.customers.retrieve(paymentIntent.customer);
+      email = customer.email || null;
+      console.log('Got email from customer object:', email);
+    } catch(e) {
+      console.warn('Could not retrieve customer:', e.message);
+    }
+  }
+
+  // Try the latest charge billing details as last resort
+  if (!email && paymentIntent.latest_charge) {
+    try {
+      const charge = await stripe.charges.retrieve(paymentIntent.latest_charge);
+      email = charge.billing_details?.email || charge.receipt_email || null;
+      console.log('Got email from charge:', email);
+    } catch(e) {
+      console.warn('Could not retrieve charge:', e.message);
+    }
+  }
+
+  console.log('Payment intent id:', paymentIntent.id);
+  console.log('All email sources:', {
+    receipt_email: paymentIntent.receipt_email,
+    metadata_email: paymentIntent.metadata?.email,
+    userData_email: userData.email,
+    customer: paymentIntent.customer,
+    final_email: email
+  });
 
   if (!email) {
     console.error('No email found on payment intent:', paymentIntent.id);
