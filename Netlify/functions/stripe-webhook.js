@@ -193,9 +193,7 @@ function calculateFrequencies(name, month, day, year) {
   const soul = reduceToSingle(vowelSum);
 
   // ── Persona (consonants only) ──
-  const consonantSum = name.toUpperCase().replace(/[^B-DF-HJ-NP-TV-Z]/g, '')
-    .split('').replace(/[^A-Z]/g, '')
-    .split('').reduce((a, c) => a + letterValue(c), 0);
+  const consonantSum = name.toUpperCase().split('').filter(c => /[BCDFGHJKLMNPQRSTVWXZ]/.test(c)).reduce((a, c) => a + letterValue(c), 0);
   const persona = reduceToSingle(consonantSum);
 
   // ── Destiny (expression + lifepath) ──
