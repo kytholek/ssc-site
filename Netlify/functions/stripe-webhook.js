@@ -100,15 +100,16 @@ exports.handler = async (event) => {
 
   // ── 5. Send email ──────────────────────────────────────────────────────
   try {
-    await resend.emails.send({
+    const resendResult = await resend.emails.send({
       from:    process.env.FROM_EMAIL || 'onboarding@resend.dev',
       to:      email,
       subject: `✦ Your Simulation Source Code Guidebook`,
       html:    guidebookHtml,
     });
+    console.log('Resend result:', JSON.stringify(resendResult));
     console.log(`Guidebook emailed to ${email}`);
   } catch (err) {
-    console.error('Email send failed:', err.message);
+    console.error('Email send failed — full error:', JSON.stringify(err));
     return { statusCode: 500, body: 'Email delivery failed' };
   }
 
@@ -137,27 +138,41 @@ function letterValue(c) {
 function calculateFrequencies(name, month, day, year) {
   const chars = name.toUpperCase().replace(/[^A-Z]/g, '').split('');
 
-  const lifePath   = reduceToSingle(
-    [...String(month), ...String(day), ...String(year)].reduce((a,c) => a + Number(c), 0)
-  );
-  const achievement = reduceToSingle(month + day);
-  const theme       = reduceToSingle(
-    String(year).split('').reduce((a,d) => a + Number(d), 0)
-  );
+  // Raw (compound) values before reduction
+  const rawLifePath = [...String(month), ...String(day), ...String(year)].reduce((a,c) => a + Number(c), 0);
+  const lifePath    = reduceToSingle(rawLifePath);
 
-  // Expression: reduce each name word separately then sum
-  const expression = reduceToSingle(
-    name.trim().split(/\s+/).reduce((total, word) => {
-      const wordSum = word.toUpperCase().replace(/[^A-Z]/g,'').split('').reduce((a,c) => a + letterValue(c), 0);
-      return total + reduceToSingle(wordSum);
-    }, 0)
-  );
+  const rawAchievement = month + day;
+  const achievement    = reduceToSingle(rawAchievement);
 
-  const soul    = reduceToSingle(chars.filter(c => VOWELS.has(c)).reduce((a,c) => a + letterValue(c), 0));
-  const persona = reduceToSingle(chars.filter(c => !VOWELS.has(c)).reduce((a,c) => a + letterValue(c), 0));
-  const destiny = reduceToSingle(expression + lifePath);
+  const rawTheme = String(year).split('').reduce((a,d) => a + Number(d), 0);
+  const theme    = reduceToSingle(rawTheme);
 
-  return { lifePath, achievement, theme, expression, soul, persona, destiny };
+  // Expression: reduce each name word separately then sum the word roots
+  const rawExpression = name.trim().split(/\s+/).reduce((total, word) => {
+    const wordSum = word.toUpperCase().replace(/[^A-Z]/g,'').split('').reduce((a,c) => a + letterValue(c), 0);
+    return total + reduceToSingle(wordSum);
+  }, 0);
+  const expression = reduceToSingle(rawExpression);
+
+  const rawSoul    = chars.filter(c => VOWELS.has(c)).reduce((a,c) => a + letterValue(c), 0);
+  const soul       = reduceToSingle(rawSoul);
+
+  const rawPersona = chars.filter(c => !VOWELS.has(c)).reduce((a,c) => a + letterValue(c), 0);
+  const persona    = reduceToSingle(rawPersona);
+
+  const rawDestiny = expression + lifePath;
+  const destiny    = reduceToSingle(rawDestiny);
+
+  return {
+    lifePath, rawLifePath,
+    achievement, rawAchievement,
+    theme, rawTheme,
+    expression, rawExpression,
+    soul, rawSoul,
+    persona, rawPersona,
+    destiny, rawDestiny
+  };
 }
 
 // ── Guidebook Generator ───────────────────────────────────────────────────
@@ -167,32 +182,66 @@ async function generateGuidebook({ name, month, day, year, frequencies, email })
   const dob = `${months[month]} ${day}, ${year}`;
   const firstName = name.split(' ')[0];
 
-  const prompt = `You are the author of the Simulation Source Code system — a consciousness framework that decodes life as a simulated experience through seven numerological frequencies.
+  const prompt = `You are Kytholek, the author of Simulation Source Code — a consciousness framework that reads life as a holographic simulation, decoding the Source Code embedded in a person's birth date and full birth name. You write with an elevated, direct, and grounded tone — mystical but never vague. You speak plainly about complex things. You address the reader as if you have decoded their signal and are now handing them the map.
 
-Write a complete, deeply personalised FREQUENCY GUIDEBOOK for the following person.
+You are writing a COMPLETE HOLOGRAPHIC BLUEPRINT READING for the following person.
 
 PERSONAL DATA:
 - Full birth name: ${name}
 - Date of birth: ${dob}
 
-THEIR SEVEN FREQUENCIES:
-1. Theme (birth year):       ${frequencies.theme}
-2. Life Path (full DOB):     ${frequencies.lifePath}
-3. Achievement (month+day):  ${frequencies.achievement}
-4. Expression (all letters): ${frequencies.expression}
-5. Soul (vowels):            ${frequencies.soul}
-6. Persona (consonants):     ${frequencies.persona}
-7. Destiny (expression+LP):  ${frequencies.destiny}
+THEIR COMPOUND FREQUENCIES (always lead with the compound number, then show the reduction, then interpret both):
+1. Theme (birth year):                    ${frequencies.rawTheme} / ${frequencies.theme}
+2. Life Path (full DOB):                  ${frequencies.rawLifePath} / ${frequencies.lifePath}
+3. Achievement (month + day):             ${frequencies.rawAchievement} / ${frequencies.achievement}
+4. Expression (full name - all letters):  ${frequencies.rawExpression} / ${frequencies.expression}
+5. Soul Urge (vowels only):               ${frequencies.rawSoul} / ${frequencies.soul}
+6. Outer Persona (consonants only):       ${frequencies.rawPersona} / ${frequencies.persona}
+7. Life Calling (Expression + Life Path): ${frequencies.rawDestiny} / ${frequencies.destiny}
 
-GUIDELINES:
-- Write in an elevated, mystical yet grounded tone.
-- Address ${firstName} directly throughout.
-- For EACH frequency: explain its archetype, gifts, shadow/challenge, and 2-3 integration practices.
-- Include a section on how their key frequencies interact.
-- End with a "Quest Directive" — a powerful paragraph about what ${firstName}'s simulation is asking them to master.
-- Use HTML: <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>. No markdown.
-- Length: 1200-1800 words.
-- Start directly with the content. No preamble.`;
+FRAMEWORK CONTEXT (write from within this understanding):
+- Life is a Holographic Simulation — the birth date is the External Circuit (what the simulation presents as lessons), the name is the Internal Circuit (the frequency encoded within for expression).
+- The Life Path is not what you do — it is the THEME of the external curriculum. The flavor of resistance, challenge and growth the simulation presents. You are learning to embody this frequency through immersion.
+- The Expression number is the INTERNAL FREQUENCY — the authentic signal beneath social conditioning. What you are here to express and become. Buried beneath the programming.
+- The Life Calling is the fusion — the specific directive that emerges when your Life Path lesson and Expression frequency are combined into a single compound signal.
+- The Soul Urge (vowels) is the private inner world — the desires, motivations and yearnings that operate beneath the surface. The inner compass.
+- The Outer Persona (consonants) is the social mask — how the world first reads you before they know you. The energetic impression you leave.
+- CRITICAL — Expression section: Do NOT write about Expression in isolation. The Expression is the BLEND of Soul Urge and Outer Persona coming together. The vowels (Soul) are the inner fire. The consonants (Persona) are the outer form. Together they produce the Expression signal. Write it this way — show how Soul and Outer merge to create the Expression the person carries.
+- The Achievement number (month + day) is how they naturally accomplish things — their operational style for moving through tasks and goals.
+- The Theme (birth year) is atmospheric — a generational frequency that flavors the whole simulation run. Less personal, more like the key the music is written in.
+- Numbers carry both positive and shadow expressions. Name both without softening either.
+- The compound number reveals the specific flavour and story of the energy before it reduces. The root reveals the core operating frequency beneath. Honour both — the compound is the experience, the root is the essence.
+
+STRUCTURE TO FOLLOW (use these as HTML h2 headings):
+1. Opening — address ${firstName} directly. 2-3 sentences. State what their simulation is running and what this reading is.
+2. The External Circuit — Life Path ${frequencies.rawLifePath}/${frequencies.lifePath}: The curriculum the simulation has designed for them. What lessons life will bring. Positive expression and shadow expression. How to work with it.
+3. The Internal Circuit — Expression ${frequencies.rawExpression}/${frequencies.expression}: Write this as the blend of Soul (${frequencies.rawSoul}/${frequencies.soul}) and Outer Persona (${frequencies.rawPersona}/${frequencies.persona}) fusing into Expression. Show how the inner desire (Soul) and the social mask (Outer) combine to produce the authentic frequency this person is encoded to express. Shadow and positive. What integration looks like.
+4. The Life Calling — ${frequencies.rawDestiny}/${frequencies.destiny}: The specific mission directive. What happens when Life Path and Expression are run together. The compound number story, the root essence, and the practical directive.
+5. Achievement — ${frequencies.rawAchievement}/${frequencies.achievement}: How they are wired to accomplish. Operational style. Where they thrive and where they stall.
+6. Theme — ${frequencies.rawTheme}/${frequencies.theme}: The atmospheric frequency of their birth year. The generational note their simulation is written in.
+7. The Frequency Interaction — How their key numbers speak to each other. Where the friction lives. Where the alignment is. What the simulation is asking them to integrate.
+8. Quest Directive — A single, powerful closing paragraph. Direct. Personal. What ${firstName}'s simulation is asking them to master in this run. Written like a transmission, not a summary.
+
+TONE AND VOICE RULES:
+- Write like a knowledgeable guide having a real conversation — not a mystic performing a ritual. Direct, warm, and clear. No theatrical language. No phrases like "this is not an accident" or "the universe has spoken" or "it is written in the stars." Just say what the number means and what it asks of the person.
+- Grounded first, elevated when it earns it. If a sentence sounds like it belongs on a crystal shop wall, rewrite it.
+- Use SSC language naturally — simulation, blueprint, external circuit, internal circuit, encoded frequency, conditioning, authentic signal, embodiment, integration — but don't overdo it. Use it where it clarifies, not where it decorates.
+- Do NOT use generic affirmation language: "you are a natural leader", "you have a gift for", "the universe supports you." Say what the frequency actually encodes and what it asks of the person practically.
+- Be specific. Vague is useless. If you're writing about a 4 Life Path, say what the 4 actually demands of them — not just "structure and discipline."
+- Do NOT pad. If a sentence doesn't add something real, cut it.
+- Do NOT over-mystify. The power is in the precision, not the poetry.
+
+MASTER NUMBER RULES:
+- Master numbers (11, 22, 33, 44) do NOT reduce in the standard way, but they always carry the energy of their root as the foundation they operate from.
+- 11 operates from the platform of 2 — but at a higher octave. Always briefly describe what the root (2) means as the base, then explain how 11 elevates or intensifies that energy.
+- 22 operates from 4 as its foundation. 33 from 6. 44 from 8. Always acknowledge the root.
+- Example for 11: "11 carries the core sensitivity and relational awareness of 2, but amplified — turned up to a frequency that can bridge rather than just connect. The 2 beneath it is still present; the lesson of partnership, balance, and receptivity still applies. What 11 adds is the channel — a heightened sensitivity that, when grounded, becomes genuine insight."
+- If the compound AND root are both master numbers (e.g. raw=22, root=22), note that there is no reduction — the frequency is undiluted. This is rare and worth naming plainly, not dramatically.
+
+FORMAT:
+- Use HTML: <h2> for main sections, <h3> for sub-points, <p> for body, <ul><li> for shadow/positive lists. No markdown. No preamble.
+- Length: 1500-2000 words. Dense and useful.
+- Begin directly with the Opening section. No title. No preamble.`;
 
   const message = await anthropic.messages.create({
     model:      'claude-haiku-4-5-20251001',
@@ -209,7 +258,9 @@ GUIDELINES:
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Simulation Source Code Guidebook</title>
 <style>
-  body { margin:0; padding:0; background:#05040a; font-family:'Georgia',serif; color:#e8dfc8; }
+  body { margin:0; padding:0; background:#05040a !important; background-color:#05040a !important; font-family:'Georgia',serif; color:#e8dfc8; }
+  * { -webkit-text-size-adjust:none; }
+  .wrapper { background-color:#05040a !important; }
   .wrapper { max-width:680px; margin:0 auto; padding:40px 24px 60px; }
   .header { text-align:center; padding-bottom:32px; border-bottom:1px solid rgba(201,168,76,.2); margin-bottom:40px; }
   .header-eyebrow { font-family:Arial,sans-serif; font-size:10px; letter-spacing:.4em; text-transform:uppercase; color:#4a9494; margin-bottom:12px; }
@@ -229,21 +280,23 @@ GUIDELINES:
   .footer a { color:#7a6330; text-decoration:none; }
 </style>
 </head>
-<body>
-<div class="wrapper">
+<body style="margin:0;padding:0;background-color:#05040a;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#05040a;">
+<tr><td align="center" style="background-color:#05040a;padding:40px 16px;">
+<div class="wrapper" style="background-color:#05040a;">
   <div class="header">
     <div class="header-eyebrow">Simulation Source Code</div>
     <h1 class="header-title">Your Complete Frequency Guidebook</h1>
     <p class="header-name">${name} · ${dob}</p>
   </div>
   <div class="freq-row">
-    <span class="freq-badge">Theme · ${frequencies.theme}</span>
-    <span class="freq-badge">Life Path · ${frequencies.lifePath}</span>
-    <span class="freq-badge">Achievement · ${frequencies.achievement}</span>
-    <span class="freq-badge">Expression · ${frequencies.expression}</span>
-    <span class="freq-badge">Soul · ${frequencies.soul}</span>
-    <span class="freq-badge">Persona · ${frequencies.persona}</span>
-    <span class="freq-badge">Destiny · ${frequencies.destiny}</span>
+    <span class="freq-badge">Theme · ${frequencies.rawTheme}/${frequencies.theme}</span>
+    <span class="freq-badge">Life Path · ${frequencies.rawLifePath}/${frequencies.lifePath}</span>
+    <span class="freq-badge">Achievement · ${frequencies.rawAchievement}/${frequencies.achievement}</span>
+    <span class="freq-badge">Expression · ${frequencies.rawExpression}/${frequencies.expression}</span>
+    <span class="freq-badge">Soul · ${frequencies.rawSoul}/${frequencies.soul}</span>
+    <span class="freq-badge">Persona · ${frequencies.rawPersona}/${frequencies.persona}</span>
+    <span class="freq-badge">Life Calling · ${frequencies.rawDestiny}/${frequencies.destiny}</span>
   </div>
   <div class="content">${guidebookBody}</div>
   <div class="footer">
@@ -254,6 +307,8 @@ GUIDELINES:
     </p>
   </div>
 </div>
+</td></tr>
+</table>
 </body>
 </html>`;
 }
