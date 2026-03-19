@@ -538,9 +538,63 @@ function buildFreqChart(numbers) {
     </svg>`;
 }
 
+function handleUnlockPayment() {
+  var emailInput = document.getElementById('unlock-email');
+  var errorEl   = document.getElementById('unlock-email-error');
+  var btn        = document.getElementById('unlock-pay-btn');
+  var email      = (emailInput ? emailInput.value : '').trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (errorEl) {
+      errorEl.textContent = 'Please enter a valid email address.';
+      errorEl.style.color = 'var(--rose-light)';
+    }
+    if (emailInput) emailInput.focus();
+    return;
+  }
+  if (errorEl) errorEl.textContent = '';
+
+  var resultsArea = document.getElementById('results-area');
+  var userPayload = {
+    email:    email,
+    name:     (document.getElementById('calc-fullname') || {}).value || '',
+    month:    (document.getElementById('calc-month')    || {}).value || '',
+    day:      (document.getElementById('calc-day')      || {}).value || '',
+    year:     (document.getElementById('calc-year')     || {}).value || '',
+    results:  resultsArea ? resultsArea.innerText : ''
+  };
+
+  try { sessionStorage.setItem('ssc_pending_order', JSON.stringify(userPayload)); } catch(e) {}
+
+  var stripeBase = btn.getAttribute('data-stripe-url') || '#';
+  var stripeUrl  = stripeBase +
+    (stripeBase.includes('?') ? '&' : '?') +
+    'prefilled_email=' + encodeURIComponent(email) +
+    '&client_reference_id=' + encodeURIComponent(btoa(JSON.stringify({
+      name:  userPayload.name,
+      month: userPayload.month,
+      day:   userPayload.day,
+      year:  userPayload.year
+    })).replace(/=/g,''));
+
+  btn.disabled    = true;
+  btn.textContent = '· Connecting to Stripe ·';
+  window.location.href = stripeUrl;
+}
+
+window.handleUnlockPayment = handleUnlockPayment;
+
 /* ═══════════════════════════════════════════════════════════════
    EXPOSE TO WINDOW
 ═══════════════════════════════════════════════════════════════ */
 
 window.calculateReading = calculateReading;
 window.buildFreqChart   = buildFreqChart;
+
+window.handleUnlockPayment = handleUnlockPayment;
+
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'unlock-pay-btn') {
+    handleUnlockPayment();
+  }
+});
