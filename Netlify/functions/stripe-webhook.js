@@ -586,7 +586,7 @@ html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,ser
 <!-- CONTENT -->
 <div class="content-pg">
   <div class="pg-hd"><span>Simulation Source Code</span><span>${name}</span></div>
-  <div class="sb">${guidebookBody}</div>
+  <div class="sb">${guidebookBody.replace(/<h2[^>]*>[^<]*Quest[^<]*<\/h2>[\s\S]*$/i, '').trim()}</div>
   <div class="pg-ft"><span>Holographic Blueprint Reading</span><span>simulationsourcecode.com</span></div>
 </div>
 
