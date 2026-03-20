@@ -1,19 +1,31 @@
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': 'https://simulationsourcecode.com',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-};
+const ALLOWED_ORIGINS = [
+  'https://simulationsourcecode.com',
+  'http://127.0.0.1:5500',
+  'http://localhost:5500',
+  'http://localhost:3000',
+];
+
+function getCorsHeaders(requestOrigin) {
+  const origin = ALLOWED_ORIGINS.includes(requestOrigin)
+    ? requestOrigin
+    : 'https://simulationsourcecode.com';
+  return {
+    'Access-Control-Allow-Origin':  origin,
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+}
 
 exports.handler = async (event) => {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: CORS_HEADERS, body: '' };
+    return { statusCode: 200, headers: getCorsHeaders(event.headers.origin), body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Method Not Allowed' }),
     };
   }
@@ -24,7 +36,7 @@ exports.handler = async (event) => {
   } catch (e) {
     return {
       statusCode: 400,
-      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Invalid JSON' }),
     };
   }
@@ -34,7 +46,7 @@ exports.handler = async (event) => {
   if (!email) {
     return {
       statusCode: 400,
-      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Email required' }),
     };
   }
@@ -45,7 +57,7 @@ exports.handler = async (event) => {
   } catch(e) {
     return {
       statusCode: 500,
-      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Stripe load failed: ' + e.message }),
     };
   }
@@ -81,14 +93,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: session.url }),
     };
   } catch (err) {
     console.error('Stripe error:', err.message);
     return {
       statusCode: 500,
-      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: err.message }),
     };
   }
