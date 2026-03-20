@@ -737,3 +737,111 @@ function _updateLangToggle(lang) {
 window.toggleLang    = toggleLang;
 window.setLang       = setLang;
 window.applyLanguage = applyLanguage;
+
+
+// ════════════════════════════════════════════════════════════
+//  CALCULATOR MODAL — Services Page
+//  Pop-up calculator overlay for guidebook purchase flow
+// ════════════════════════════════════════════════════════════
+
+function openCalculatorModal() {
+  var overlay = document.getElementById('calculator-modal-overlay');
+  if (overlay) overlay.classList.add('open');
+}
+
+function closeCalculatorModal() {
+  var overlay = document.getElementById('calculator-modal-overlay');
+  if (overlay) overlay.classList.remove('open');
+  resetCalculatorModal();
+}
+
+function resetCalculatorModal() {
+  document.getElementById('modal-calc-month').value = '';
+  document.getElementById('modal-calc-day').value = '';
+  document.getElementById('modal-calc-year').value = '';
+  document.getElementById('modal-calc-fullname').value = '';
+  document.getElementById('modal-results-area').innerHTML = '<div class="results-placeholder-icon">✦</div><div class="results-placeholder-text" data-i18n="calc.results.placeholder">Your reading will appear here</div>';
+  document.getElementById('modal-unlock-cta').style.display = 'none';
+  document.getElementById('modal-unlock-cta').setAttribute('aria-hidden', 'true');
+  document.getElementById('modal-unlock-email').value = '';
+  document.getElementById('modal-unlock-email-error').textContent = '';
+}
+
+function calculateReadingModal() {
+  // Copy values from modal inputs to global calculator inputs
+  document.getElementById('calc-month').value = document.getElementById('modal-calc-month').value;
+  document.getElementById('calc-day').value = document.getElementById('modal-calc-day').value;
+  document.getElementById('calc-year').value = document.getElementById('modal-calc-year').value;
+  document.getElementById('calc-fullname').value = document.getElementById('modal-calc-fullname').value;
+  
+  // Call the global calculateReading function
+  calculateReading();
+  
+  // Copy results back to modal
+  var mapContainer = document.getElementById('freq-map');
+  if (mapContainer) {
+    document.getElementById('modal-results-area').innerHTML = mapContainer.outerHTML;
+  }
+  
+  // Show unlock CTA in modal
+  showUnlockCTAModal();
+}
+
+function showUnlockCTAModal() {
+  document.getElementById('modal-unlock-cta').style.display = 'block';
+  document.getElementById('modal-unlock-cta').setAttribute('aria-hidden', 'false');
+  document.getElementById('modal-unlock-cta').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function handleUnlockPaymentModal() {
+  var emailInput = document.getElementById('modal-unlock-email');
+  var errorEl   = document.getElementById('modal-unlock-email-error');
+  var btn        = document.getElementById('modal-unlock-pay-btn');
+  var email      = (emailInput ? emailInput.value : '').trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (errorEl) {
+      errorEl.textContent = 'Please enter a valid email address.';
+      errorEl.style.color = 'var(--rose-light)';
+    }
+    if (emailInput) emailInput.focus();
+    return;
+  }
+  if (errorEl) errorEl.textContent = '';
+
+  var resultsArea = document.getElementById('modal-results-area');
+  var userPayload = {
+    email:    email,
+    name:     document.getElementById('modal-calc-fullname').value || '',
+    month:    document.getElementById('modal-calc-month').value || '',
+    day:      document.getElementById('modal-calc-day').value || '',
+    year:     document.getElementById('modal-calc-year').value || '',
+    results:  resultsArea ? resultsArea.innerText : ''
+  };
+
+  try {
+    sessionStorage.setItem('ssc_pending_order', JSON.stringify(userPayload));
+  } catch(e) {}
+
+  var stripeBase = btn.getAttribute('data-stripe-url') || '#';
+  var stripeUrl  = stripeBase +
+    (stripeBase.includes('?') ? '&' : '?') +
+    'prefilled_email=' + encodeURIComponent(email) +
+    '&client_reference_id=' + encodeURIComponent(btoa(JSON.stringify({
+      name:  userPayload.name,
+      month: userPayload.month,
+      day:   userPayload.day,
+      year:  userPayload.year
+    })).replace(/=/g,''));
+
+  btn.disabled    = true;
+  btn.textContent = '· Connecting to Stripe ·';
+
+  window.location.href = stripeUrl;
+}
+
+// Expose
+window.openCalculatorModal = openCalculatorModal;
+window.closeCalculatorModal = closeCalculatorModal;
+window.calculateReadingModal = calculateReadingModal;
+window.handleUnlockPaymentModal = handleUnlockPaymentModal;

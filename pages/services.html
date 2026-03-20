@@ -63,7 +63,7 @@
           <li class="svc-feature svc-feature--muted"><span class="svc-feature-gem svc-feature-gem--off"></span>Group access not included</li>
         </ul>
         <div class="svc-card-footer">
-          <a href="https://buy.stripe.com/eVq28r0qCfRT5PU3VY53O00" class="svc-cta svc-cta--gold" target="_blank" rel="noopener noreferrer">Order Your Report</a>
+          <button class="svc-cta svc-cta--gold" onclick="openCalculatorModal()">Recieve Your Player Guide</button>
           <p class="svc-delivery-note">Delivered within 3&#8211;5 business days</p>
         </div>
       </div>
@@ -150,5 +150,153 @@
     <p class="svc-quote-text">&#8220;The person who looks closely should find more than the person who glances.&#8221;</p>
     <div class="svc-quote-attr">&#10022;&nbsp;&nbsp;Simulation Source Code&nbsp;&nbsp;&#10022;</div>
   </div>
+
+  <!-- ════ CALCULATOR MODAL ════ -->
+  <div id="calculator-modal-overlay">
+    <div id="calculator-modal">
+      <button id="calculator-modal-close" aria-label="Close calculator">&times;</button>
+      
+      <div class="modal-calculator-hero">
+        <div class="modal-calculator-title" data-i18n="calc.title">Frequency Decoder</div>
+        <p class="modal-calculator-subtitle" data-i18n="calc.subtitle">Enter your birth details to reveal your seven encoded frequencies.</p>
+      </div>
+
+      <div id="modal-form-card" class="form-card">
+        <div class="form-section-label" data-i18n="calc.label.birthdate">· Birth Date ·</div>
+        <div class="date-row">
+          <div class="field">
+            <label data-i18n="calc.label.month">Month</label>
+            <select id="modal-calc-month">
+              <option value="">—</option>
+              <option value="1"  data-i18n="calc.month.1">January</option>
+              <option value="2"  data-i18n="calc.month.2">February</option>
+              <option value="3"  data-i18n="calc.month.3">March</option>
+              <option value="4"  data-i18n="calc.month.4">April</option>
+              <option value="5"  data-i18n="calc.month.5">May</option>
+              <option value="6"  data-i18n="calc.month.6">June</option>
+              <option value="7"  data-i18n="calc.month.7">July</option>
+              <option value="8"  data-i18n="calc.month.8">August</option>
+              <option value="9"  data-i18n="calc.month.9">September</option>
+              <option value="10" data-i18n="calc.month.10">October</option>
+              <option value="11" data-i18n="calc.month.11">November</option>
+              <option value="12" data-i18n="calc.month.12">December</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-i18n="calc.label.day">Day</label>
+            <input type="number" id="modal-calc-day" placeholder="DD" min="1" max="31">
+          </div>
+          <div class="field">
+            <label data-i18n="calc.label.year">Year</label>
+            <input type="number" id="modal-calc-year" placeholder="YYYY" min="1900" max="2099">
+          </div>
+        </div>
+        <div class="form-section-label" style="margin-top:28px" data-i18n="calc.label.fullname">· Full Birth Name ·</div>
+        <div class="field">
+          <label data-i18n="calc.label.namehint">Full Name (as on birth certificate)</label>
+          <input type="text" id="modal-calc-fullname" data-i18n-placeholder="calc.placeholder.name" placeholder="e.g. Jane Marie Smith" autocomplete="off">
+        </div>
+      </div>
+
+      <button id="modal-calc-btn" class="calc-btn" onclick="calculateReadingModal()" data-i18n="calc.btn">⬡&nbsp;Decode My Map&nbsp;⬡</button>
+
+      <div id="modal-results-area" class="results-placeholder">
+        <div class="results-placeholder-icon">✦</div>
+        <div class="results-placeholder-text" data-i18n="calc.results.placeholder">Your reading will appear here</div>
+      </div>
+
+      <!-- ════ UNLOCK FULL BLUEPRINT CTA ════ -->
+      <div id="modal-unlock-cta" class="unlock-cta" style="display:none;" aria-hidden="true">
+        <div class="unlock-divider">
+          <span class="unlock-divider-line"></span>
+          <span class="unlock-divider-sigil">✦</span>
+          <span class="unlock-divider-line"></span>
+        </div>
+
+        <div class="unlock-card">
+          <div class="unlock-glow" aria-hidden="true"></div>
+
+          <div class="unlock-eyebrow">Your frequencies have been decoded</div>
+
+          <h2 class="unlock-title">Unlock Your Full Blueprint</h2>
+
+          <p class="unlock-body">
+            What you see above is your encoded map — the surface layer.
+            Your <strong>Complete Frequency Guidebook</strong> goes deeper: a personalised,
+            page-by-page analysis of all seven frequencies, their interactions,
+            shadow expressions, and the precise steps to work with each one.
+          </p>
+
+          <ul class="unlock-features" aria-label="What's included">
+            <li><span class="unlock-check" aria-hidden="true">◈</span> 20–30 page personalised PDF report</li>
+            <li><span class="unlock-check" aria-hidden="true">◈</span> Deep-dive on all 7 encoded frequencies</li>
+            <li><span class="unlock-check" aria-hidden="true">◈</span> Shadow &amp; integration work for each number</li>
+            <li><span class="unlock-check" aria-hidden="true">◈</span> Your unique frequency interaction map</li>
+            <li><span class="unlock-check" aria-hidden="true">◈</span> Delivered to your inbox within minutes</li>
+          </ul>
+
+          <div class="unlock-email-wrap">
+            <label class="unlock-email-label" for="modal-unlock-email">Where shall we send your guidebook?</label>
+            <input
+              type="email"
+              id="modal-unlock-email"
+              class="unlock-email-input"
+              placeholder="your@email.com"
+              autocomplete="email"
+              required
+            />
+            <div class="unlock-email-hint" id="modal-unlock-email-error" role="alert" aria-live="polite"></div>
+          </div>
+
+          <div class="unlock-price-row">
+            <div class="unlock-price">
+              <span class="unlock-price-amount">$35</span>
+              <span class="unlock-price-label">one-time · instant delivery</span>
+            </div>
+          </div>
+
+          <button
+            class="unlock-btn"
+            id="modal-unlock-pay-btn"
+            data-stripe-url="https://buy.stripe.com/test_eVq28r0qCfRT5PU3VY53O00"
+            onclick="handleUnlockPaymentModal()"
+          >
+            ⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡
+          </button>
+
+          <p class="unlock-reassurance">
+            Secure payment via Stripe · No subscription · PDF delivered by email
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize modal event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Close button
+      var closeBtn = document.getElementById('calculator-modal-close');
+      if (closeBtn) closeBtn.addEventListener('click', closeCalculatorModal);
+
+      // Close on overlay click (outside modal)
+      var overlay = document.getElementById('calculator-modal-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', function(e) {
+          if (e.target === this) closeCalculatorModal();
+        });
+      }
+
+      // Escape key to close
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          var modalOverlay = document.getElementById('calculator-modal-overlay');
+          if (modalOverlay && modalOverlay.classList.contains('open')) {
+            closeCalculatorModal();
+          }
+        }
+      });
+    });
+  </script>
 
 </div>
