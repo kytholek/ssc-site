@@ -58,10 +58,10 @@ exports.handler = async (event) => {
       line_items: [{
         price_data: {
           currency: 'usd',
-          unit_amount: 2700,
+          unit_amount: 3700,
           product_data: {
-            name: 'SSC Full Frequency Guidebook',
-            description: 'Your complete personalised numerology guidebook — all 7 frequencies, shadow work, and integration practices.',
+            name: 'SSC Holographic Blueprint Reading',
+            description: 'Your complete personalised frequency guidebook — all 7 frequencies, star chart, shadow work, and Quest Directive. Delivered as a branded PDF.',
           },
         },
         quantity: 1,
