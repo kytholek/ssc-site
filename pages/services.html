@@ -154,7 +154,7 @@
   <!-- ════ CALCULATOR MODAL ════ -->
   <div id="calculator-modal-overlay">
     <div id="calculator-modal">
-      <button id="calculator-modal-close" aria-label="Close calculator">&times;</button>
+      <button id="calculator-modal-close" aria-label="Close calculator" onclick="closeCalculatorModal()">&times;</button>
       
       <div class="modal-calculator-hero">
         <div class="modal-calculator-title" data-i18n="calc.title">Frequency Decoder</div>
@@ -273,21 +273,20 @@
   </div>
 
   <script>
-    // Initialize modal event listeners
+    // Initialize modal event listeners and close functionality
     document.addEventListener('DOMContentLoaded', function() {
-      // Close button
-      var closeBtn = document.getElementById('calculator-modal-close');
-      if (closeBtn) closeBtn.addEventListener('click', closeCalculatorModal);
-
-      // Close on overlay click (outside modal)
       var overlay = document.getElementById('calculator-modal-overlay');
+      
+      // Close on overlay background click (click outside the modal)
       if (overlay) {
         overlay.addEventListener('click', function(e) {
-          if (e.target === this) closeCalculatorModal();
+          if (e.target === this) {
+            closeCalculatorModal();
+          }
         });
       }
 
-      // Escape key to close
+      // Close on Escape key
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           var modalOverlay = document.getElementById('calculator-modal-overlay');
