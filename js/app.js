@@ -643,6 +643,11 @@ function filterBlog(category, btn) {
   document.querySelectorAll('#blog-grid .blog-card').forEach(card => {
     card.style.display = (showAll || card.dataset.category === category) ? 'flex' : 'none';
   });
+
+  // Also filter the Life Path grid
+  document.querySelectorAll('#blog-grid-lp .blog-card').forEach(card => {
+    card.style.display = (showAll || card.dataset.category === category) ? 'flex' : 'none';
+  });
 }
 
 
