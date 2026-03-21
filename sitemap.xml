@@ -146,59 +146,166 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-1</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-1-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-2</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-2-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-3</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-3-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-4</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-4-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-5</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-5-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-6</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-6-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-7</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-7-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-8</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-8-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://simulationsourcecode.com/?post=post-lifepath-9</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://simulationsourcecode.com/blog/life-path-9-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-1-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-2-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-3-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-4-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-5-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-6-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-7-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-8-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-9-numerology/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-1-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-2-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-3-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-4-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-5-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-6-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-7-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-8-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://simulationsourcecode.com/blog/life-path-9-numerology/</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>
