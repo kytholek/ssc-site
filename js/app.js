@@ -166,6 +166,17 @@ const POST_SEQUENCE = [
     title   : 'The Name-Changer Dilemma',
     excerpt : "People change their names hoping to change their frequency. Here's why that rarely works.",
   },
+
+  // ── Life Path Deep Dives ─────────────────────────────────────────────
+  { id: 'post-lifepath-1', category: 'numbers', title: 'Life Path 1 in Numerology: The Initiator — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps placing you at beginnings and demanding you go first — before you feel ready, before you have approval.' },
+  { id: 'post-lifepath-2', category: 'numbers', title: 'Life Path 2 in Numerology: The Bridge — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps testing whether you can stay fully connected to others without losing connection to yourself.' },
+  { id: 'post-lifepath-3', category: 'numbers', title: 'Life Path 3 in Numerology: The Creator — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps asking you to find and use your authentic voice — not the one that earns approval, but the one that carries something real.' },
+  { id: 'post-lifepath-4', category: 'numbers', title: 'Life Path 4 in Numerology: The Builder — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps collapsing whatever you build on unstable ground — and keeps presenting the opportunity to build something that lasts.' },
+  { id: 'post-lifepath-5', category: 'numbers', title: 'Life Path 5 in Numerology: The Explorer — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps moving the ground beneath you — not to destabilise you, but to teach you that real stability lives in your own presence.' },
+  { id: 'post-lifepath-6', category: 'numbers', title: 'Life Path 6 in Numerology: The Nurturer — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps placing people who need your care in your path — and asking whether you can meet that need without making their need your identity.' },
+  { id: 'post-lifepath-7', category: 'numbers', title: 'Life Path 7 in Numerology: The Seeker — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps stripping away what you thought you knew — not to leave you lost, but to force you toward something genuinely true.' },
+  { id: 'post-lifepath-8', category: 'numbers', title: 'Life Path 8 in Numerology: The Powerhouse — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps placing you in power dynamics and asking whether you can govern yourself before you try to govern anything else.' },
+  { id: 'post-lifepath-9', category: 'numbers', title: 'Life Path 9 in Numerology: The Completor — Meaning, Shadow, and Integration', excerpt: 'The simulation keeps bringing things to completion and asking whether you can release what is finished rather than dragging it into the next chapter.' },
 ];
 
 // Quick lookup map: id -> { ...post, index }
