@@ -2891,3 +2891,266 @@ footer {
   text-transform: uppercase;
   color: var(--text-muted);
 }
+
+/* ══════════════════════════════════════════════════════════
+   HOME PAGE — HERO SOCIAL PROOF
+══════════════════════════════════════════════════════════ */
+.hero-proof {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 14px 20px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 6px;
+}
+.hero-proof-stars {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+.hero-proof-text {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 200px;
+}
+.hero-proof-attr {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOME PAGE — EXTERNAL/INTERNAL CIRCUIT EXPLAINER
+══════════════════════════════════════════════════════════ */
+.home-circuits {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  gap: 0;
+  margin-top: 40px;
+  align-items: center;
+}
+
+.home-circuit {
+  background: rgba(13,11,24,0.7);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 8px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .3s;
+}
+.home-circuit::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+}
+.home-circuit:hover {
+  border-color: rgba(201,168,76,0.2);
+}
+
+.home-circuit--external { border-top: 2px solid rgba(201,168,76,0.35); }
+.home-circuit--internal { border-top: 2px solid rgba(74,148,148,0.35); }
+
+.home-circuit-label {
+  font-family: 'Cinzel', serif;
+  font-size: 7.5px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+}
+.home-circuit--internal .home-circuit-label { color: var(--teal); opacity: 0.7; }
+
+.home-circuit-name {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+  letter-spacing: .04em;
+}
+.home-circuit--internal .home-circuit-name { color: var(--teal-light); }
+
+.home-circuit-body {
+  font-size: 15px;
+  line-height: 1.78;
+  color: var(--text-dim);
+}
+
+.home-circuit-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.home-circuit-divider-line {
+  flex: 1;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(201,168,76,0.25), transparent);
+}
+.home-circuit-divider-gem {
+  font-size: 12px;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .home-circuits {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .home-circuit-divider {
+    flex-direction: row;
+    height: auto;
+  }
+  .home-circuit-divider-line {
+    flex: 1;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOME PAGE — CTA TESTIMONIAL (layer 5)
+══════════════════════════════════════════════════════════ */
+.cta-testimonial {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 6px;
+  text-align: center;
+}
+.cta-testimonial-stars {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+.cta-testimonial-text {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.cta-testimonial-attr {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOME PAGE — LIFE CALLING CONVERGENCE
+══════════════════════════════════════════════════════════ */
+.home-calling-wrap {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Converging arrows from both sides pointing down to the box */
+.home-calling-arrows {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  padding: 0 4px;
+  height: 40px;
+}
+
+.home-calling-arrow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3));
+  position: relative;
+}
+.home-calling-arrow--left {
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.35));
+}
+.home-calling-arrow--left::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  width: 0; height: 0;
+  border-left: 6px solid rgba(201,168,76,0.35);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.home-calling-arrow--right {
+  background: linear-gradient(270deg, transparent, rgba(201,168,76,0.35));
+}
+.home-calling-arrow--right::before {
+  content: '';
+  position: absolute;
+  left: 0; top: -3px;
+  width: 0; height: 0;
+  border-right: 6px solid rgba(201,168,76,0.35);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.home-calling-arrow-gem {
+  font-size: 16px;
+  color: var(--gold-dim);
+  text-align: center;
+  line-height: 1;
+  padding: 0 8px;
+}
+
+.home-circuit--calling {
+  border-top: 2px solid rgba(201,168,76,0.55);
+  border-color: rgba(201,168,76,0.2);
+  background: linear-gradient(135deg, rgba(13,11,24,0.85), rgba(20,17,35,0.8));
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 32px rgba(201,168,76,0.06);
+}
+.home-circuit--calling::before {
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.35), transparent);
+}
+.home-circuit--calling .home-circuit-label {
+  color: var(--gold-dim);
+}
+.home-circuit--calling .home-circuit-name {
+  color: var(--gold-light);
+  font-size: 24px;
+}
+.home-circuit--calling .home-circuit-body {
+  max-width: 580px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+.home-circuit--calling em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .home-calling-arrows {
+    padding: 0;
+  }
+}

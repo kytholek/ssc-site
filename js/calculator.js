@@ -311,7 +311,13 @@ function calculateReading() {
   }).join('');
 
   const readingFor = _t('calc.results.reading_for') || 'Reading for';
-  const footerNote = _t('calc.results.footer') || 'Download the app for complete interpretations using the compound numbers as well as the root, and personal insights., archetype analysis, and personal insights.';
+  const firstName  = fullName.split(' ')[0];
+
+  // Dynamic hook — references their actual Life Path and Life Calling
+  const lpDesc    = (ROOT[lp]     || {}).name    || '';
+  const callDesc  = (CALLING[calling] || {}).name || '';
+  const hookCopy  = buildResultHook(firstName, lp, exp, calling, lpDesc, callDesc);
+
   document.getElementById('results-area').innerHTML = `
     <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-dim)">
       <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px">${readingFor}</div>
@@ -321,7 +327,7 @@ function calculateReading() {
       ${buildFreqChart(numbers)}
     </div>
     ${freqRows}
-    <p style="text-align:center;font-size:13px;color:var(--text-muted);margin-top:24px">${footerNote}</p>
+    ${hookCopy}
   `;
 
   // ── Show the Unlock CTA ──────────────────────────────────────
@@ -335,6 +341,104 @@ function calculateReading() {
   }
 }
 
+
+
+// ── Dynamic result hook — sells the guidebook ────────────────────────────
+function buildResultHook(firstName, lp, exp, calling, lpDesc, callDesc) {
+
+  // Friction phrases — what the LP/Expression tension creates
+  const frictionMap = {
+    // LP: message about what the simulation keeps presenting
+    1: 'keep finding yourself at new beginnings — situations that demand you go first, even when you feel unready',
+    2: 'keep encountering dynamics that test your ability to hold your own while staying connected to others',
+    3: 'keep being pulled toward creative expression but hitting blocks around follow-through and self-doubt',
+    4: 'keep running into situations that demand structure, discipline, and long-term commitment',
+    5: 'keep attracting experiences that push you out of comfort zones — the simulation keeps moving the ground beneath you',
+    6: 'keep finding yourself responsible for others — carrying, nurturing, holding things together',
+    7: 'keep being driven inward — situations that strip away surface certainty and demand real self-knowledge',
+    8: 'keep encountering power dynamics — situations where authority, control, and self-mastery are the central lesson',
+    9: 'keep being drawn toward completion, release, and contribution — the simulation keeps asking you to let go and give back',
+    11: 'keep being placed in the role of bridge — between people, between ideas, between what is and what could be',
+    22: 'keep being handed visions larger than what feels practical — the simulation keeps testing whether you can build them',
+    33: 'keep being called to serve, teach, and hold space — the simulation keeps placing people who need your clarity in your path',
+    44: 'keep being tasked with building things that last — structures, systems, legacies that go beyond the personal',
+  };
+
+  // Expression phrases — what they're encoded to express
+  const expressionMap = {
+    1: 'encoded to initiate — to cut through, begin, and demonstrate independence',
+    2: 'encoded to connect — to bridge, harmonise, and bring people into coherence',
+    3: 'encoded to express — through communication, creativity, and authentic voice',
+    4: 'encoded to build — to create order, structure, and lasting foundations',
+    5: 'encoded to experience — to be present, adapt, and embody freedom',
+    6: 'encoded to nurture — to care, integrate, and hold the wellbeing of the whole',
+    7: 'encoded to seek — to go deep, question, and carry real inner wisdom',
+    8: 'encoded to master — to accumulate real authority and demonstrate it through results',
+    9: 'encoded to complete — to serve, release, and hold a universal perspective',
+    11: 'encoded to illuminate — to channel insight and bridge seen and unseen',
+    22: 'encoded to build at scale — to manifest vision in structures that serve many',
+    33: 'encoded to teach through compassion — to express healing through presence',
+    44: 'encoded to organise power — to create systems of enduring strength',
+  };
+
+  const friction   = frictionMap[lp]  || 'keep encountering situations that reflect your core frequencies back to you';
+  const expression = expressionMap[exp] || 'encoded to express your unique frequency in the world';
+
+  return `
+    <div style="
+      margin-top: 36px;
+      background: linear-gradient(135deg, rgba(13,11,24,0.9), rgba(17,15,31,0.8));
+      border: 1px solid rgba(201,168,76,0.18);
+      border-left: 3px solid rgba(201,168,76,0.45);
+      border-radius: 8px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    ">
+      <div style="
+        position: absolute; top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+      "></div>
+
+      <div style="
+        font-family: 'Cinzel', serif;
+        font-size: 8px;
+        letter-spacing: .4em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        margin-bottom: 14px;
+      ">&#10022; &nbsp; What This Means For You</div>
+
+      <p style="font-size: 16px; line-height: 1.85; color: var(--text-dim); margin-bottom: 14px;">
+        ${firstName}, your <strong style="color:var(--gold-light)">${lp} Life Path</strong> means you will
+        ${friction}. This is not bad luck — it is the curriculum your simulation is running.
+      </p>
+
+      <p style="font-size: 16px; line-height: 1.85; color: var(--text-dim); margin-bottom: 14px;">
+        At the same time, your <strong style="color:var(--gold-light)">${exp} Expression</strong> means you are
+        ${expression}. The tension between what life presents and what you are built to express
+        is the engine of your growth.
+      </p>
+
+      <p style="font-size: 16px; line-height: 1.85; color: var(--text-dim);">
+        Your <strong style="color:var(--gold-light)">${calling} Life Calling</strong> is where these two circuits
+        converge into a single directive. Understanding it — the compound story, the shadow,
+        the integration — is what the Complete Blueprint covers in full.
+      </p>
+
+      <div style="
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(201,168,76,0.08);
+        font-family: 'Cinzel', serif;
+        font-size: 9px;
+        letter-spacing: .25em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      ">What you see above is the map. The Blueprint shows you how to use it. &#8595;</div>
+    </div>
+  `;
+}
 
 // ─── Frequency Chart (Star of David / Hexagram) ───────────────
 function buildFreqChart(numbers) {
