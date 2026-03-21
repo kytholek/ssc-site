@@ -175,24 +175,32 @@ const POST_MAP = Object.fromEntries(POST_SEQUENCE.map((p, i) => [p.id, { ...p, i
 // Per-page meta
 const PAGE_META = {
   home: {
-    title      : 'Simulation Source Code · Numerology',
-    description: 'Discover the seven frequencies encoded in your birth and name. Free numerology calculator — Life Path, Expression, Life Calling and more.',
+    title      : 'Simulation Source Code · Numerology Calculator · Decode Your Blueprint',
+    description: 'Decode the seven frequencies encoded in your birth date and name — Life Path, Expression, Life Calling, Soul Urge, Outer Persona, Achievement, and Theme. Free numerology calculator.',
   },
   calculator: {
-    title      : 'Free Numerology Calculator · SSC',
-    description: 'Calculate your seven core frequencies: Life Path, Expression, Soul, Outer, Achievement, Theme, and Life Calling. Free and instant.',
+    title      : 'Free Numerology Calculator · Seven Frequencies · Simulation Source Code',
+    description: 'Calculate your seven core numerology frequencies instantly. Life Path, Expression, Soul Urge, Outer Persona, Achievement, Theme, and Life Calling — from your birth date and full name.',
   },
   books: {
-    title      : 'Decoding The Matrix · SSC Books',
-    description: 'The Simulation Source Code book — a complete guide to numerology as the source code of a holographic reality.',
+    title      : 'Recommended Numerology Books · Simulation Source Code',
+    description: 'A curated library of numerology, consciousness, and simulation theory books — the essential reading for understanding the system behind Simulation Source Code.',
   },
   blog: {
-    title      : 'Blog · SSC Numerology',
-    description: 'Deep dives into numerology, sacred mathematics, and the philosophy of simulated reality.',
+    title      : 'Numerology Blog · Simulation Source Code · The System Series',
+    description: 'Deep dives into numerology, the 3×3 Codex, simulation theory, and consciousness. The System Series, the nine frequencies, 369, 666, angel numbers, and more.',
   },
   about: {
-    title      : 'About · Simulation Source Code',
-    description: 'The philosophy and system behind Simulation Source Code numerology.',
+    title      : 'About Simulation Source Code · Numerology Framework',
+    description: 'Simulation Source Code is a numerology framework built on Pythagorean principles, simulation theory, and consciousness research — offering practical, grounded readings of your seven encoded frequencies.',
+  },
+  services: {
+    title      : 'Numerology Services · Guidebook, Consultation & Membership · SSC',
+    description: 'Choose your depth of decoding — a personalised PDF guidebook, a live one-on-one consultation, or a monthly membership to learn the system yourself.',
+  },
+  privacy: {
+    title      : 'Privacy Policy · Simulation Source Code',
+    description: 'How Simulation Source Code handles your data. All calculator inputs are processed locally and never stored on our servers.',
   },
 };
 
@@ -478,6 +486,54 @@ function showPage(name, pushState = true) {
   _clearJsonLd();
 
   if (pushState) history.pushState({ page: name, post: null }, meta.title, url);
+
+  // Inject page-specific structured data
+  _injectPageSchema(name);
+}
+
+function _injectPageSchema(name) {
+  _clearJsonLd();
+  if (name === 'calculator' || name === 'home') {
+    _setJsonLd({
+      '@context'   : 'https://schema.org',
+      '@type'      : 'WebApplication',
+      'name'       : 'SSC Numerology Calculator',
+      'url'        : 'https://simulationsourcecode.com/?page=calculator',
+      'description': 'Free numerology calculator. Enter your birth date and full name to calculate your seven core frequencies: Life Path, Expression, Life Calling, Soul Urge, Outer Persona, Achievement, and Theme.',
+      'applicationCategory': 'UtilitiesApplication',
+      'operatingSystem'    : 'Any',
+      'offers': {
+        '@type'       : 'Offer',
+        'price'       : '0',
+        'priceCurrency': 'USD',
+        'description' : 'Free numerology frequency calculator'
+      },
+      'author': { '@type': 'Organization', 'name': 'Simulation Source Code' }
+    });
+  } else if (name === 'services') {
+    _setJsonLd({
+      '@context': 'https://schema.org',
+      '@type'   : 'Service',
+      'name'    : 'Numerology Readings — Simulation Source Code',
+      'url'     : 'https://simulationsourcecode.com/?page=services',
+      'description': 'Personalised numerology guidebook PDF, live consultation, and group membership.',
+      'provider': { '@type': 'Organization', 'name': 'Simulation Source Code' },
+      'offers'  : [
+        { '@type': 'Offer', 'name': 'Holographic Blueprint PDF', 'price': '37', 'priceCurrency': 'USD' },
+        { '@type': 'Offer', 'name': 'Personal Consultation',     'price': '120','priceCurrency': 'USD' },
+        { '@type': 'Offer', 'name': 'Monthly Membership',        'price': '20', 'priceCurrency': 'USD', 'priceSpecification': { '@type': 'RecurringCharges', 'billingPeriod': 'Month' } }
+      ]
+    });
+  } else if (name === 'about') {
+    _setJsonLd({
+      '@context'   : 'https://schema.org',
+      '@type'      : 'AboutPage',
+      'name'       : 'About Simulation Source Code',
+      'url'        : 'https://simulationsourcecode.com/?page=about',
+      'description': 'Simulation Source Code is a numerology framework built on Pythagorean principles, simulation theory, and consciousness research.',
+      'author'     : { '@type': 'Organization', 'name': 'Simulation Source Code' }
+    });
+  }
 }
 
 

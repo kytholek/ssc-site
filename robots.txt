@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://simulationsourcecode.com/sitemap.xml
+
+# Block admin and function endpoints
+Disallow: /.netlify/
+Disallow: /admin
