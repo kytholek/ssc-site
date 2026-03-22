@@ -1,83 +1,201 @@
-<div class="blog-post" id="post-decoding-matrix"
-  data-title="Decoding the Matrix: The Complete Architecture of Simulation Source Code"
-  data-description="The full picture — holographic reality, the Codex, the nine frequencies, and the seven-number personal blueprint."
-  data-date="March 2026">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decoding the Matrix: Complete Architecture of Simulation Source Code</title>
+  <meta name="description" content="The complete architecture of Simulation Source Code — holographic reality, the Codex, nine frequencies, and seven-number personal blueprint.">
+  <link rel="canonical" href="https://simulationsourcecode.com/blog/decoding-matrix/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    nav { display: flex !important; visibility: visible !important; opacity: 1 !important; height: 64px !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 200 !important; }
+    nav > * { display: flex !important; visibility: visible !important; opacity: 1 !important; }
+    .nav-logo { display: flex !important; visibility: visible !important; opacity: 1 !important; }
+    .nav-links { display: flex !important; visibility: visible !important; opacity: 1 !important; }
+    .nav-right { display: flex !important; visibility: visible !important; opacity: 1 !important; }
+    .nav-link { display: block !important; visibility: visible !important; opacity: 1 !important; }
+    body { padding-top: 64px; }
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 48px; }
+    .post-hero { text-align: center; padding: 56px 24px 40px; border-bottom: 1px solid rgba(201,168,76,0.1); margin-bottom: 48px; }
+    .post-hero h1 { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: var(--gold); line-height: 1.2; }
+    .post-body h2 { font-family: "Cinzel", serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); margin: 44px 0 16px; }
+    .post-body p { font-size: 18px; line-height: 1.9; color: var(--text-dim); margin-bottom: 20px; }
+    .post-body p strong { color: var(--text); }
+    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; gap: 10px; }
+    .breadcrumb a { color: var(--gold-dim); text-decoration: none; }
+    .post-codex-cta { margin-top: 56px; padding: 36px 28px; background: linear-gradient(135deg,rgba(13,11,24,0.9),rgba(24,21,48,0.8)); border: 1px solid rgba(201,168,76,0.2); border-radius: 10px; text-align: center; margin-bottom: 0; }
+    .post-codex-cta-eyebrow { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 12px; }
+    .post-codex-cta-title { font-family: "Cinzel", serif; font-size: 18px; letter-spacing: .1em; color: var(--gold); margin-bottom: 16px; }
+    .post-codex-cta-body { font-size: 16px; line-height: 1.8; color: var(--text-dim); margin-bottom: 24px; }
+    .post-codex-cta-btn { display: inline-block; padding: 14px 32px; background: rgba(74,148,148,.25); border: 1px solid rgba(126,200,200,.4); border-radius: 5px; color: var(--teal-light); text-decoration: none; font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; transition: all .3s; }
+    .post-codex-cta-btn:hover { background: rgba(74,148,148,.4); border-color: rgba(126,200,200,.6); }
+    footer { max-width: 100%; }
+    footer .related-posts { max-width: 740px; margin: 56px auto 0; padding: 40px 24px 56px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--teal-light); display: inline-block; transition: color .2s; }
+    .related-post-card:hover .related-post-link { color: var(--gold); }
+  </style>
+</head>
+<body>
 
-  <button class="blog-post-back" onclick="closePosts()">&#8592; Back to Blog</button>
-  <div class="blog-post-eyebrow"><span class="blog-tag gold">The System</span></div>
-  <h1 class="blog-post-title">Decoding the Matrix: The Complete Architecture of Simulation Source Code</h1>
-  <div class="blog-post-meta">March 2026 &middot; 10 min read</div>
-
-  <div class="blog-post-content">
-
-    <p>Everything in this system points toward a single idea: reality is not happening to you. It is being generated by you — or more precisely, through you — according to a specific set of parameters encoded at the moment your simulation began. Your birth date. Your name. These are not coincidences. They are the source code.</p>
-
-    <p>This post is the overview. The full picture. We will cover the philosophical foundation, the structure of the Codex, the nine frequencies and their natures, and the seven-number personal blueprint that makes SSC different from traditional numerology. Consider it the map of the map.</p>
-
-    <h3>The Foundation: Reality as Information</h3>
-
-    <p>Modern physics has arrived, reluctantly, at a disturbing conclusion: the universe behaves like information being processed. At the quantum level, particles do not have definite states until observed. The constants of physics are fine-tuned to a degree that defies random chance. The mathematical structures underlying physical law are unreasonably precise.</p>
-
-    <p>Philosopher Nick Bostrom formalised this unease in 2003 with his simulation argument. Physicist John Wheeler spent the last decades of his life arguing that information — not matter, not energy — is the fundamental substrate of reality. His phrase: <strong>It from Bit</strong>.</p>
-
-    <p>If this is correct — if reality is, at its deepest level, computational — then numbers are not symbols. They are not human constructs projected onto a neutral universe. They are the structure of the universe itself. And the numbers encoded in your birth and name are not random. They are parameters.</p>
-
-    <h3>The Codex: A 3×3 Map of Consciousness</h3>
-
-    <p>At the heart of Simulation Source Code is a structure called the Codex. It is a 3×3 matrix containing the nine primary frequencies — the numbers 1 through 9 — arranged according to three planes and three columns.</p>
-
-    <p>The three rows represent the planes of experience: the Mind plane (1, 2, 3), the Body plane (4, 5, 6), and the Spirit plane (7, 8, 9). Every number lives on one of these planes — meaning it expresses its frequency through that domain of human experience.</p>
-
-    <p>The three columns represent the natures of energy: the Mind column (1, 4, 7), the Body column (2, 5, 8), and the Spirit column (3, 6, 9). This gives each frequency a dual address — its plane and its column — which tells you not just what it does, but how it does it.</p>
-
-    <p>The number 5 sits at the exact centre. It is the pivot of the entire matrix. Every path of transformation passes through 5. This is not symbolic — it is structural.</p>
-
-    <h3>The Three Natures: Electric, Magnetic, Aetheric</h3>
-
-    <p>The nine frequencies are not just different in content. They are different in fundamental nature.</p>
-
-    <p><strong>Electric frequencies</strong> (1, 3, 5, 7) initiate. They generate, begin, spark, and catalyse. If you carry primarily electric numbers, you are a starter — the one who sets things in motion.</p>
-
-    <p><strong>Magnetic frequencies</strong> (2, 4, 6, 8) attract and consolidate. They build, sustain, integrate, and complete. Magnetic numbers are the ones that make things real and lasting.</p>
-
-    <p><strong>Aetheric frequencies</strong> (9, and 0 as the containing ring) operate outside the polarity of electric and magnetic. Nine disperses — it completes cycles and returns energy to the field. Zero is the Void that contains all possibility before the cycle begins.</p>
-
-    <h3>The Path of Transformation</h3>
-
-    <p>The Codex encodes a specific sequence for how change actually moves through a person: <strong>1 → 4 → 7 → 2 → 5 → 8 → 3 → 6 → 9</strong>. This is the infinity loop — the path that travels through all nine nodes without repeating, touching each plane and each column in a specific order before returning to begin again.</p>
-
-    <p>This is not a list of life stages. It is the rhythm of transformation itself — the operational pattern of how a person moves from initiation to completion and back to a new beginning. You will recognise this pattern in your own life once you see it.</p>
-
-    <h3>The Seven-Number Blueprint</h3>
-
-    <p>Traditional numerology typically works with three or four numbers. SSC works with seven — because seven is how many frequencies are required to give a complete map of the simulation.</p>
-
-    <p>The seven frequencies are: Life Path (what you are here to learn), Expression (what you naturally carry), Life Calling (your unique mission, combining Path and Expression), Soul (your inner desire), Outer (your public persona), Achievement (how you naturally accomplish), and Theme (the atmospheric frequency of your birth year).</p>
-
-    <p>Each one is calculated from a different component of your birth data or name, and each one reveals a different layer of the architecture. Together they form a complete picture — not of what will happen, but of what the simulation is designed to teach, and what tools you have been given to navigate it.</p>
-
-    <h3>The Zero: The Ring Around Everything</h3>
-
-    <p>The Codex does not begin with 1. It begins with 0. The Void. The state before the Big Bang — pure potential, containing everything, expressing nothing. Zero is not a number in the ordinary sense. It is the field from which all numbers emerge and to which they return.</p>
-
-    <p>In the visual architecture of the Codex, Zero is the ring that surrounds the 3×3 matrix. It contains the system without being part of it. Understanding Zero — understanding the Void — is the deepest level of the system, and the one most people never reach.</p>
-
-    <p>The nine frequencies are stages in the journey from Zero back to Zero. From void to manifestation and back. Your numbers describe where you are in that cycle — and what this particular pass through the loop is asking of you.</p>
-
-    <h3>How to Read Your Own Map</h3>
-
-    <p>The calculator on this site gives you all seven frequencies instantly. But numbers without interpretation are just numbers. What you are looking for are patterns — where your frequencies cluster on the Codex, which planes and columns appear more than once, whether your numbers are primarily electric or magnetic, and what your Life Calling says about the mission that synthesises everything else.</p>
-
-    <p>The posts in The System series go deeper on each component. The Codex below is the architecture — the living, interactive map of how it all fits together.</p>
-
+<nav style="display: flex !important; visibility: visible !important; opacity: 1 !important; height: 64px !important;">
+  <a class="nav-logo" href="/" style="display: flex !important; visibility: visible !important; opacity: 1 !important;"><div class="nav-logo-sigil"><svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="ng-dm" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/><circle cx="80" cy="80" r="36" fill="url(#ng-dm)"/><line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/></svg></div><div class="nav-logo-text" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">&#10022;&nbsp;Simulation Source Code</div></a>
+  <div class="nav-links" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/?page=calculator">Calculator</a>
+    <a class="nav-link" href="/?page=services">Services</a>
+    <a class="nav-link" href="/?page=blog">Blog</a>
+    <a class="nav-link" href="/pages/codex.html">Codex</a>
+    <a class="nav-link" href="/?page=books">Books</a>
+    <a class="nav-link" href="/?page=about">About</a>
   </div>
+  <div class="nav-right" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">
+    <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a>
+  </div>
+</nav>
+
+<div class="post-wrap">
+  <nav class="breadcrumb"><a href="/">Home</a><span>›</span><span>Decoding the Matrix</span></nav>
+  <div class="post-hero"><h1>Decoding the Matrix: The Complete Architecture of Simulation Source Code</h1></div>
+  <div class="post-body">
+
+<h2>Foundation: Reality as Information</h2>
+<p>Everything in this system points toward a single idea: reality is not happening to you. It is being generated by you — or more precisely, through you — according to a specific set of parameters encoded at the moment your simulation began. Your birth date. Your name. These are not coincidences. They are the source code.</p>
+
+<p>This post is the overview. The full picture. We will cover the philosophical foundation, the structure of the Codex, the nine frequencies and their natures, and the seven-number personal blueprint that makes SSC different from traditional numerology. Consider it the map of the map.</p>
+
+<p>Modern physics has arrived, reluctantly, at a disturbing conclusion: the universe behaves like information being processed. At the quantum level, particles do not have definite states until observed. The constants of physics are fine-tuned to a degree that defies random chance. The mathematical structures underlying physical law are unreasonably precise.</p>
+
+<p>Philosopher Nick Bostrom formalised this unease in 2003 with his simulation argument. Physicist John Wheeler spent the last decades of his life arguing that information — not matter, not energy — is the fundamental substrate of reality. His phrase: <strong>It from Bit</strong>.</p>
+
+<p>If this is correct — if reality is, at its deepest level, computational — then numbers are not symbols. They are not human constructs projected onto a neutral universe. They are the structure of the universe itself. And the numbers encoded in your birth and name are not random. They are parameters.</p>
+
+<h2>The Codex: A 3×3 Map of Consciousness</h2>
+
+<p>At the heart of Simulation Source Code is a structure called the Codex. It is a 3×3 matrix containing the nine primary frequencies — the numbers 1 through 9 — arranged according to three planes and three columns.</p>
+
+<p>The three rows represent the planes of experience: the Mind plane (1, 2, 3), the Body plane (4, 5, 6), and the Spirit plane (7, 8, 9). Every number lives on one of these planes — meaning it expresses its frequency through that domain of human experience.</p>
+
+<p>The three columns represent the natures of energy: the Mind column (1, 4, 7), the Body column (2, 5, 8), and the Spirit column (3, 6, 9). This gives each frequency a dual address — its plane and its column — which tells you not just what it does, but how it does it.</p>
+
+<p>The number 5 sits at the exact centre. It is the pivot of the entire matrix. Every path of transformation passes through 5. This is not symbolic — it is structural.</p>
+
+<h2>The Three Natures: Electric, Magnetic, Aetheric</h2>
+
+<p>The nine frequencies are not just different in content. They are different in fundamental nature.</p>
+
+<p><strong>Electric frequencies</strong> (1, 3, 5, 7) initiate. They generate, begin, spark, and catalyse. If you carry primarily electric numbers, you are a starter — the one who sets things in motion.</p>
+
+<p><strong>Magnetic frequencies</strong> (2, 4, 6, 8) attract and consolidate. They build, sustain, integrate, and complete. Magnetic numbers are the ones that make things real and lasting.</p>
+
+<p><strong>Aetheric frequencies</strong> (9, and 0 as the containing ring) operate outside the polarity of electric and magnetic. Nine disperses — it completes cycles and returns energy to the field. Zero is the Void that contains all possibility before the cycle begins.</p>
+
+<h2>Path of Transformation</h2>
+
+<p>The Codex encodes a specific sequence for how change actually moves through a person: <strong>1 → 4 → 7 → 2 → 5 → 8 → 3 → 6 → 9</strong>. This is the infinity loop — the path that travels through all nine nodes without repeating, touching each plane and each column in a specific order before returning to begin again.</p>
+
+<p>This is not a list of life stages. It is the rhythm of transformation itself — the operational pattern of how a person moves from initiation to completion and back to a new beginning. You will recognise this pattern in your own life once you see it.</p>
+
+<h2>The Seven-Number Blueprint</h2>
+
+<p>Traditional numerology typically works with three or four numbers. SSC works with seven — because seven is how many frequencies are required to give a complete map of the simulation.</p>
+
+<p>The seven frequencies are: Life Path (what you are here to learn), Expression (what you naturally carry), Life Calling (your unique mission, combining Path and Expression), Soul (your inner desire), Outer (your public persona), Achievement (how you naturally accomplish), and Theme (the atmospheric frequency of your birth year).</p>
+
+<p>Each one is calculated from a different component of your birth data or name, and each one reveals a different layer of the architecture. Together they form a complete picture — not of what will happen, but of what the simulation is designed to teach, and what tools you have been given to navigate it.</p>
+
+<h2>The Zero: The Ring Around Everything</h2>
+
+<p>The Codex does not begin with 1. It begins with 0. The Void. The state before the Big Bang — pure potential, containing everything, expressing nothing. Zero is not a number in the ordinary sense. It is the field from which all numbers emerge and to which they return.</p>
+
+<p>In the visual architecture of the Codex, Zero is the ring that surrounds the 3×3 matrix. It contains the system without being part of it. Understanding Zero — understanding the Void — is the deepest level of the system, and the one most people never reach.</p>
+
+<p>The nine frequencies are stages in the journey from Zero back to Zero. From void to manifestation and back. Your numbers describe where you are in that cycle — and what this particular pass through the loop is asking of you.</p>
+
+<h2>How to Read Your Own Map</h2>
+
+<p>The calculator on this site gives you all seven frequencies instantly. But numbers without interpretation are just numbers. What you are looking for are patterns — where your frequencies cluster on the Codex, which planes and columns appear more than once, whether your numbers are primarily electric or magnetic, and what your Life Calling says about the mission that synthesises everything else.</p>
+
+<p>The posts in The System series go deeper on each component. The Codex below is the architecture — the living, interactive map of how it all fits together.</p>
 
   <!-- ── Codex CTA ─────────────────────────────────────────── -->
   <div class="post-codex-cta">
     <div class="post-codex-cta-eyebrow">&#10022;&nbsp; Interactive &nbsp;&#10022;</div>
     <div class="post-codex-cta-title">Explore the Living Codex</div>
     <p class="post-codex-cta-body">The 3×3 matrix — nine neurons, the infinity loop running between them. Hover each node to reveal its nature. Watch the current travel the path of transformation.</p>
-    <a class="post-codex-cta-btn" href="codex.html">Enter the Codex &nbsp;&#8594;</a>
+    <a class="post-codex-cta-btn" href="/pages/codex.html">Enter the Codex &nbsp;&#8594;</a>
   </div>
 
 </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+
+  <div class="related-posts">
+    <div class="related-posts-title">Related Articles</div>
+    <div class="related-posts-grid">
+      <a href="/blog/life-path-1-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 1: The Initiator</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/life-path-5-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 5: The Pivot</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/life-path-9-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 9: The Completor</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo-text">Simulation Source Code</div>
+      <p class="footer-tagline">Seven frequencies encoded in your birth and name &#8212; the complete architecture of your simulation.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <div class="footer-links">
+        <a class="footer-link" href="/">Home</a>
+        <a class="footer-link" href="/?page=calculator">Calculator</a>
+        <a class="footer-link" href="/?page=blog">Blog</a>
+        <a class="footer-link" href="/?page=about">About</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Life Paths</div>
+      <div class="footer-links">
+        <a class="footer-link" href="/blog/life-path-1-numerology/">Life Path 1</a>
+        <a class="footer-link" href="/blog/life-path-2-numerology/">Life Path 2</a>
+        <a class="footer-link" href="/blog/life-path-3-numerology/">Life Path 3</a>
+        <a class="footer-link" href="/blog/life-path-4-numerology/">Life Path 4</a>
+        <a class="footer-link" href="/blog/life-path-5-numerology/">Life Path 5</a>
+        <a class="footer-link" href="/blog/life-path-6-numerology/">Life Path 6</a>
+        <a class="footer-link" href="/blog/life-path-7-numerology/">Life Path 7</a>
+        <a class="footer-link" href="/blog/life-path-8-numerology/">Life Path 8</a>
+        <a class="footer-link" href="/blog/life-path-9-numerology/">Life Path 9</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Learn</div>
+      <div class="footer-links">
+        <a class="footer-link" href="/blog/decoding-matrix/">Decoding the Matrix</a>
+        <a class="footer-link" href="/pages/codex.html">The Codex</a>
+        <a class="footer-link" href="/?page=blog">Articles</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&#169; 2026 Simulation Source Code &middot; All Rights Reserved</div>
+  </div>
+</footer>
+
+</body>
+</html>
