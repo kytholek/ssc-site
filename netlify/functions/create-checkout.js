@@ -5,7 +5,7 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3000',
 ];
 
-console.log('FUNCTION LOADED FROM: Netlify/functions (uppercase)');
+console.log('FUNCTION LOADED FROM: netlify/functions (lowercase)');
 
 function getCorsHeaders(requestOrigin) {
   const origin = ALLOWED_ORIGINS.includes(requestOrigin)
