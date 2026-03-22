@@ -85,6 +85,13 @@ nav {
   height: 64px;
   display: flex; align-items: center; justify-content: space-between;
 }
+
+nav:not(.breadcrumb) {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 body { padding-top: 64px; }
 
 .nav-logo {
