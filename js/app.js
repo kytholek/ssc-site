@@ -871,7 +871,12 @@ function handleUnlockPaymentModal() {
   var btn        = document.getElementById('modal-unlock-pay-btn');
   var email      = (emailInput ? emailInput.value : '').trim();
 
+  console.log('=== handleUnlockPaymentModal called ===');
+  console.log('Email:', email);
+  console.log('Button element:', btn);
+
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    console.log('Invalid email, returning');
     if (errorEl) {
       errorEl.textContent = 'Please enter a valid email address.';
       errorEl.style.color = 'var(--rose-light)';
@@ -898,6 +903,8 @@ function handleUnlockPaymentModal() {
   btn.disabled    = true;
   btn.textContent = '· Connecting to Stripe ·';
 
+  console.log('Sending payload:', JSON.stringify(userPayload));
+
   // ── Call Netlify function to create checkout session ─────────────────
   fetch('/.netlify/functions/create-checkout', {
     method: 'POST',
@@ -911,17 +918,22 @@ function handleUnlockPaymentModal() {
     })
   })
   .then(response => {
+    console.log('Fetch response status:', response.status);
     if (!response.ok) {
       return response.json().then(data => {
+        console.error('Error response:', data);
         throw new Error(data.error || `HTTP ${response.status}`);
-      }).catch(() => {
+      }).catch(err => {
+        console.error('Error parsing error response:', err);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       });
     }
     return response.json();
   })
   .then(data => {
+    console.log('Checkout response:', data);
     if (data.url) {
+      console.log('Redirecting to:', data.url);
       // Redirect to Stripe checkout
       window.location.href = data.url;
     } else {
@@ -933,6 +945,11 @@ function handleUnlockPaymentModal() {
     if (errorEl) {
       errorEl.textContent = 'Checkout failed: ' + err.message;
       errorEl.style.color = 'var(--rose-light)';
+    }
+    btn.disabled    = false;
+    btn.textContent = '⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡';
+  });
+}
     }
     btn.disabled    = false;
     btn.textContent = '⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡';

@@ -645,7 +645,13 @@ function handleUnlockPayment() {
   var btn        = document.getElementById('unlock-pay-btn');
   var email      = (emailInput ? emailInput.value : '').trim();
 
+  console.log('=== handleUnlockPayment called ===');
+  console.log('Email:', email);
+  console.log('Button element:', btn);
+  console.log('Button data attributes:', btn ? btn.dataset : 'N/A');
+
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    console.log('Invalid email, returning');
     if (errorEl) {
       errorEl.textContent = 'Please enter a valid email address.';
       errorEl.style.color = 'var(--rose-light)';
@@ -676,17 +682,22 @@ function handleUnlockPayment() {
     body:    JSON.stringify(payload),
   })
   .then(function(res) {
+    console.log('Fetch response status:', res.status);
     if (!res.ok) {
       return res.json().then(function(data) {
+        console.error('Error response:', data);
         throw new Error(data.error || 'HTTP ' + res.status);
-      }).catch(function() {
+      }).catch(function(err) {
+        console.error('Error parsing error response:', err);
         throw new Error('HTTP ' + res.status + ': ' + res.statusText);
       });
     }
     return res.json();
   })
   .then(function(data) {
+    console.log('Checkout response:', data);
     if (data.url) {
+      console.log('Redirecting to:', data.url);
       window.location.href = data.url;
     } else {
       throw new Error(data.error || 'No checkout URL returned');

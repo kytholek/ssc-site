@@ -20,22 +20,26 @@ exports.handler = async (event) => {
   console.log('=== create-checkout invoked ===');
   console.log('Full event keys:', Object.keys(event));
   console.log('httpMethod:', event.httpMethod);
-  console.log('requestContext:', event.requestContext);
   console.log('method:', event.method);
+  console.log('requestContext:', event.requestContext);
   console.log('headers:', JSON.stringify(event.headers));
   
+  // Get the HTTP method - try multiple properties
+  const httpMethod = event.httpMethod || event.method || (event.requestContext && event.requestContext.http && event.requestContext.http.method);
+  console.log('Resolved httpMethod:', httpMethod);
+  
   // Handle CORS preflight
-  if (event.httpMethod === 'OPTIONS') {
+  if (httpMethod === 'OPTIONS') {
     console.log('Handling OPTIONS request');
     return { statusCode: 200, headers: getCorsHeaders(event.headers.origin), body: '' };
   }
 
-  if (event.httpMethod !== 'POST') {
-    console.error('HTTP method is not POST. Received:', event.httpMethod, 'Type:', typeof event.httpMethod);
+  if (httpMethod !== 'POST') {
+    console.error('HTTP method is not POST. Received:', httpMethod, 'Type:', typeof httpMethod);
     return {
       statusCode: 405,
       headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Method Not Allowed. Expected POST, got ' + event.httpMethod }),
+      body: JSON.stringify({ error: 'Method Not Allowed. Expected POST, got ' + httpMethod }),
     };
   }
 
