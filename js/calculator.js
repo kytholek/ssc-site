@@ -670,12 +670,21 @@ function handleUnlockPayment() {
 
   console.log('Sending payload:', JSON.stringify(payload));
 
- fetch('https://simulationsourcecode.netlify.app/.netlify/functions/create-checkout', {
+  fetch('/.netlify/functions/create-checkout', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(payload),
   })
-  .then(function(res) { return res.json(); })
+  .then(function(res) {
+    if (!res.ok) {
+      return res.json().then(function(data) {
+        throw new Error(data.error || 'HTTP ' + res.status);
+      }).catch(function() {
+        throw new Error('HTTP ' + res.status + ': ' + res.statusText);
+      });
+    }
+    return res.json();
+  })
   .then(function(data) {
     if (data.url) {
       window.location.href = data.url;
@@ -686,7 +695,7 @@ function handleUnlockPayment() {
   .catch(function(err) {
     console.error('Checkout error:', err);
     if (errorEl) {
-      errorEl.textContent = 'Something went wrong. Please try again.';
+      errorEl.textContent = 'Checkout failed: ' + err.message;
       errorEl.style.color = 'var(--rose-light)';
     }
     btn.disabled    = false;
