@@ -90,6 +90,25 @@ nav:not(.breadcrumb) {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
+  height: 64px !important;
+}
+
+nav > a.nav-logo {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+nav > .nav-links {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+nav > .nav-right {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 body { padding-top: 64px; }
