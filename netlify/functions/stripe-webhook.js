@@ -114,53 +114,23 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: `Webhook Error: ${err.message}` };
   }
 
-  if (stripeEvent.type !== 'payment_intent.succeeded') {
+    if (stripeEvent.type !== 'checkout.session.completed') {
     return { statusCode: 200, body: 'Ignored event type' };
   }
 
-  const paymentIntent = stripeEvent.data.object;
+  const session = stripeEvent.data.object;
+  const email   = session.customer_email || session.metadata?.email;
+  const name    = session.metadata?.name  || 'Valued Customer';
+  const month   = Number(session.metadata?.month) || 1;
+  const day     = Number(session.metadata?.day)   || 1;
+  const year    = Number(session.metadata?.year)  || 1990;
 
-  // 2. Extract customer data from checkout session metadata
-  let userData = {};
-  let email = paymentIntent.receipt_email || null;
-
-  try {
-    const sessions = await stripe.checkout.sessions.list({
-      payment_intent: paymentIntent.id,
-      limit: 1,
-    });
-    if (sessions.data.length > 0) {
-      const session = sessions.data[0];
-      email = session.customer_email || session.metadata?.email || email;
-      userData = {
-        name:  session.metadata?.name  || '',
-        month: session.metadata?.month || '',
-        day:   session.metadata?.day   || '',
-        year:  session.metadata?.year  || '',
-      };
-      console.log('Session metadata:', session.metadata);
-    }
-  } catch (e) {
-    console.warn('Could not retrieve checkout session:', e.message);
-  }
-
-  // Fallback — get email from charge
-  if (!email && paymentIntent.latest_charge) {
-    try {
-      const charge = await stripe.charges.retrieve(paymentIntent.latest_charge);
-      email = charge.billing_details?.email || charge.receipt_email || null;
-    } catch (e) {
-      console.warn('Could not retrieve charge:', e.message);
-    }
-  }
-
-  console.log('Final email:', email);
-  console.log('User data:', userData);
-
+  console.log('Session metadata:', session.metadata);
+  console.log('Email:', email);
   if (!email) {
-    console.error('No email found on payment intent:', paymentIntent.id);
-    return { statusCode: 200, body: 'No email — cannot deliver guidebook' };
-  }
+      console.error('No email found on session:', session.id);
+      return { statusCode: 200, body: 'No email — cannot deliver guidebook' };
+    }
 
   const name  = userData.name  || 'Valued Customer';
   const month = Number(userData.month) || 1;

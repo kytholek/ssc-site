@@ -1,11 +1,12 @@
 [build]
-  functions = "netlify/functions"
+  publish = "."
 
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
 [functions."stripe-webhook"]
   timeout = 60
 
 [functions."create-checkout"]
-  timeout = 10
+  timeout = 15
