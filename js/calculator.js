@@ -335,9 +335,6 @@ function calculateReading() {
   if (cta) {
     cta.style.display = 'block';
     cta.removeAttribute('aria-hidden');
-    setTimeout(function () {
-      cta.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 400);
   }
 }
 
