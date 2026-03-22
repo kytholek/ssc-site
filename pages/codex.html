@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Codex · Simulation Source Code · Interactive Numerology Matrix</title>
-<meta name="description" content="Explore the Codex — a 3×3 consciousness matrix mapping the nine numerology frequencies across Mind, Body and Spirit planes. Each node links to its Life Path deep dive.">
+<meta name="description" content="The 3×3 matrix that maps nine numerology frequencies across Mind, Body and Spirit — with live electricity running the 1→4→7→2→5→8→3→6→9 transformation path. Click any node to explore its nature and link to its Life Path deep dive.">
 <meta property="og:title" content="The Codex · Simulation Source Code">
-<meta property="og:description" content="Nine frequencies. Three planes. The interactive architecture of consciousness — hover any node to explore its nature.">
+<meta property="og:description" content="Nine frequencies. Three planes. The living architecture of consciousness — each node a neuron, the current running the path of transformation.">
 <meta property="og:image" content="https://simulationsourcecode.com/images/codex.png">
 <meta property="og:url" content="https://simulationsourcecode.com/codex">
 <meta property="og:type" content="website">
@@ -16,9 +16,20 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "The Codex — Interactive Numerology Matrix",
-  "description": "An interactive 3×3 consciousness matrix mapping the nine numerology frequencies across Mind, Body and Spirit planes.",
+  "description": "The 3×3 consciousness matrix mapping nine numerology frequencies across Mind, Body and Spirit planes, with live electricity running the transformation path.",
   "url": "https://simulationsourcecode.com/codex",
-  "isPartOf": { "@type": "WebSite", "name": "Simulation Source Code", "url": "https://simulationsourcecode.com" }
+  "isPartOf": { "@type": "WebSite", "name": "Simulation Source Code", "url": "https://simulationsourcecode.com" },
+  "mentions": [
+    {"@type":"Article","name":"Life Path 1","url":"https://simulationsourcecode.com/blog/life-path-1-numerology/"},
+    {"@type":"Article","name":"Life Path 2","url":"https://simulationsourcecode.com/blog/life-path-2-numerology/"},
+    {"@type":"Article","name":"Life Path 3","url":"https://simulationsourcecode.com/blog/life-path-3-numerology/"},
+    {"@type":"Article","name":"Life Path 4","url":"https://simulationsourcecode.com/blog/life-path-4-numerology/"},
+    {"@type":"Article","name":"Life Path 5","url":"https://simulationsourcecode.com/blog/life-path-5-numerology/"},
+    {"@type":"Article","name":"Life Path 6","url":"https://simulationsourcecode.com/blog/life-path-6-numerology/"},
+    {"@type":"Article","name":"Life Path 7","url":"https://simulationsourcecode.com/blog/life-path-7-numerology/"},
+    {"@type":"Article","name":"Life Path 8","url":"https://simulationsourcecode.com/blog/life-path-8-numerology/"},
+    {"@type":"Article","name":"Life Path 9","url":"https://simulationsourcecode.com/blog/life-path-9-numerology/"}
+  ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,20 +92,42 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 /* ── Grid ── */
 .codex-grid-wrap{
   display:grid;
-  grid-template-columns:32px 1fr;
-  grid-template-rows:32px 1fr;
+  grid-template-columns:32px 1fr 28px;
+  grid-template-rows:32px 1fr 28px;
   gap:6px;
-  width:64%;
+  width:68%;
   z-index:10;
 }
 .axis-corner{grid-column:1;grid-row:1}
 .axis-col-labels{grid-column:2;grid-row:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .axis-row-labels{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:14px}
+/* Row sums — right side, one per row */
+.axis-row-sums{grid-column:3;grid-row:2;display:grid;grid-template-rows:repeat(3,1fr);gap:14px}
+/* Col sums — bottom, one per column */
+.axis-col-sums{grid-column:2;grid-row:3;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:center}
 .axis-label{font-family:'Cinzel',serif;font-size:clamp(5.5px,.85vw,8px);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.4;opacity:.6}
 .axis-label.mind-label{color:var(--teal-l)}
 .axis-label.body-label{color:var(--gold-l)}
 .axis-label.spirit-label{color:var(--amethyst-l)}
 .axis-label-row{flex:1;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:clamp(5px,.75vw,7px);letter-spacing:.15em}
+/* Sum cells */
+.axis-sum{
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(8px,1.2vw,12px);
+  color:var(--gold);
+  opacity:.55;
+  transition:opacity .3s, text-shadow .3s;
+  flex-direction:column;
+  line-height:1;
+}
+.axis-sum:hover{opacity:1;text-shadow:0 0 12px rgba(201,168,76,.6)}
+.axis-sum.revealed{opacity:1;text-shadow:0 0 16px rgba(201,168,76,.7);color:var(--gold-l)}
+.axis-sum-label{
+  font-family:'Cinzel',serif;font-size:clamp(4px,.6vw,6px);
+  letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(201,168,76,.35);display:block;line-height:1.2;text-align:center;
+}
 .codex-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;grid-column:2;grid-row:2}
 
 /* ── Node ── */
@@ -162,6 +195,28 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   border-color: rgba(201,168,76,.55);
   box-shadow: 0 0 22px rgba(201,168,76,.2), inset 0 0 16px rgba(201,168,76,.08);
 }
+
+/* ── Body cross — row 4·5·6 and column 2·5·8 ── */
+/* Nodes that sit on the Body row OR Body column get a faint warm gold wash.
+   Node 5 (the pivot, already special) gets a slightly stronger version.
+   Node 1 and 9 (diagonal apex) are not on the body cross so they're untouched. */
+.node[data-num="2"] .node-inner,
+.node[data-num="4"] .node-inner,
+.node[data-num="6"] .node-inner,
+.node[data-num="8"] .node-inner {
+  background: linear-gradient(135deg,
+    rgba(201,168,76,.07) 0%,
+    rgba(13,11,24,.88) 60%,
+    rgba(201,168,76,.04) 100%);
+  border-color: rgba(201,168,76,.35);
+}
+/* Node 5 already has its own background — just warm it slightly */
+.node[data-num="5"] .node-inner {
+  background: linear-gradient(135deg,
+    rgba(201,168,76,.12) 0%,
+    rgba(74,148,148,.10) 50%,
+    rgba(123,79,166,.10) 100%);
+}
 /* Corner marker — small rotated diamond in top-left corner */
 .node[data-num="1"] .node-inner::before,
 .node[data-num="5"] .node-inner::before,
@@ -208,6 +263,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .tooltip-link{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:3px;padding:5px 10px;text-decoration:none;transition:background .2s,border-color .2s}
 .tooltip-link:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
 .tooltip-pin-hint{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,.25);margin-top:8px}
+.tooltip-actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid rgba(201,168,76,.08)}
+.tooltip-share{background:none;border:none;cursor:pointer;font-size:11px;color:rgba(201,168,76,.3);transition:color .2s;padding:2px 4px;font-family:'Cinzel',serif;font-size:7px;letter-spacing:.15em;text-transform:uppercase}
+.tooltip-share:hover{color:var(--gold)}
+.tooltip-share.copied{color:var(--teal-l)}
+.codex-instruction{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,168,76,.3);margin-bottom:20px;text-align:center}
 
 /* ── Infinity legend ── */
 .infinity-legend{margin-top:36px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
@@ -235,12 +295,89 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .master-note:hover{color:rgba(201,168,76,.7);border-color:rgba(201,168,76,.25)}
 
 /* ── 666 overlay ── */
-.sixes-overlay{display:none;margin-top:20px;padding:16px 24px;border:1px solid rgba(201,168,76,.2);border-radius:6px;background:rgba(13,11,24,.8);text-align:center;max-width:420px}
-.sixes-overlay.visible{display:block}
-.sixes-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px}
-.sixes-body{font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:12px}
-.sixes-link{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);text-decoration:none;border-bottom:1px solid rgba(74,148,148,.3)}
-.sixes-link:hover{color:var(--teal-l)}
+.pattern-triggers{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:4px;width:100%;max-width:680px;
+}
+.sixes-trigger,.tesla-trigger{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  border-radius:6px;padding:12px 20px;cursor:pointer;
+  transition:all .25s;flex:1;min-width:160px;max-width:280px;
+  background:none;
+}
+.sixes-trigger{
+  background:rgba(201,168,76,.04);
+  border:1px solid rgba(201,168,76,.18);
+}
+.sixes-trigger:hover{background:rgba(201,168,76,.10);border-color:rgba(201,168,76,.4)}
+.tesla-trigger{
+  background:rgba(74,148,148,.04);
+  border:1px solid rgba(74,148,148,.18);
+  text-decoration:none;
+}
+.tesla-trigger:hover{background:rgba(74,148,148,.10);border-color:rgba(74,148,148,.5)}
+.sixes-trigger-num{
+  font-family:'Cinzel Decorative',serif;font-size:20px;
+  color:var(--gold);letter-spacing:.15em;
+  text-shadow:0 0 20px rgba(201,168,76,.4);
+}
+.tesla-trigger-num{
+  font-family:'Cinzel Decorative',serif;font-size:20px;
+  color:var(--teal-l);letter-spacing:.15em;
+  text-shadow:0 0 20px rgba(74,148,148,.4);
+}
+.sixes-trigger-label,.tesla-trigger-label{
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:.25em;
+  text-transform:uppercase;
+}
+.sixes-trigger-label{color:rgba(201,168,76,.45)}
+.tesla-trigger-label{color:rgba(74,148,148,.55)}
+/* ── Pattern modals ── */
+.pattern-modal-backdrop{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(5,4,10,.85);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:24px;
+}
+.pattern-modal-backdrop.open{display:flex}
+.pattern-modal{
+  position:relative;max-width:480px;width:100%;
+  background:var(--deep);border-radius:10px;
+  padding:36px 32px 28px;text-align:center;
+  animation:modalIn .25s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.pattern-modal-close{
+  position:absolute;top:12px;right:14px;
+  background:none;border:none;color:var(--text-dim);
+  font-size:18px;cursor:pointer;transition:color .2s;line-height:1;
+}
+.pattern-modal-close:hover{color:var(--text)}
+.pattern-modal-eyebrow{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:.45em;
+  text-transform:uppercase;margin-bottom:12px;opacity:.7;
+}
+.pattern-modal.gold-modal{border:1px solid rgba(201,168,76,.3)}
+.pattern-modal.gold-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.pattern-modal.gold-modal .pattern-modal-eyebrow{color:var(--gold-d)}
+.pattern-modal.teal-modal{border:1px solid rgba(74,148,148,.3)}
+.pattern-modal.teal-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent)}
+.pattern-modal.teal-modal .pattern-modal-eyebrow{color:var(--teal)}
+.pattern-modal-num{
+  font-family:'Cinzel Decorative',serif;font-size:32px;
+  letter-spacing:.15em;margin-bottom:16px;line-height:1;
+}
+.gold-modal .pattern-modal-num{color:var(--gold);text-shadow:0 0 30px rgba(201,168,76,.4)}
+.teal-modal .pattern-modal-num{color:var(--teal-l);text-shadow:0 0 30px rgba(74,148,148,.4)}
+.pattern-modal-body{font-size:15px;line-height:1.8;color:var(--text-dim);margin-bottom:20px;text-align:left}
+.pattern-modal-body strong{color:var(--text)}
+.pattern-modal-link{
+  display:inline-block;font-family:'Cinzel',serif;font-size:9px;
+  letter-spacing:.25em;text-transform:uppercase;
+  padding:10px 22px;border-radius:4px;text-decoration:none;transition:all .2s;
+}
+.gold-modal .pattern-modal-link{color:var(--gold);border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.04)}
+.gold-modal .pattern-modal-link:hover{background:rgba(201,168,76,.12);border-color:var(--gold)}
+.teal-modal .pattern-modal-link{color:var(--teal-l);border:1px solid rgba(74,148,148,.3);background:rgba(74,148,148,.04)}
+.teal-modal .pattern-modal-link:hover{background:rgba(74,148,148,.14);border-color:var(--teal-l)}
 
 /* ── Back links ── */
 .codex-back-links{position:fixed;top:20px;left:24px;z-index:200;display:flex;gap:8px;align-items:center}
@@ -253,7 +390,26 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .legend-col-item:hover .plane-square{opacity:1}
 .legend-col-item:hover{color:var(--text)}
 
-@media(max-width:600px){.codex-grid-wrap{width:84%}.codex-grid{gap:8px}.node-tooltip{width:180px}}
+@media(max-width:600px){
+  .codex-grid-wrap{width:92%}
+  .codex-grid{gap:8px}
+  .node-tooltip{width:180px}
+  .axis-sum{font-size:9px}
+  .axis-col-labels,.axis-row-labels{display:none}
+  .codex-grid-wrap{grid-template-columns:1fr 28px;grid-template-rows:1fr 28px}
+  .codex-grid{grid-column:1;grid-row:1}
+  .axis-row-sums{grid-column:2;grid-row:1}
+  .axis-col-sums{grid-column:1;grid-row:2}
+  .axis-corner{display:none}
+}
+@media(max-width:480px){
+  .pattern-modal-backdrop{align-items:flex-end;padding:0}
+  .pattern-modal{border-radius:12px 12px 0 0;max-width:100%;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1) both}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .codex-instruction{display:none}
+  .node-tooltip{width:160px;font-size:12px}
+  .tooltip-pin-hint{display:none}
+}
 </style>
 </head>
 <body>
@@ -268,9 +424,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   <header class="codex-header">
     <div class="codex-eyebrow">The Architecture of Consciousness</div>
     <h1 class="codex-title">The Codex</h1>
-    <p class="codex-subtitle">Nine frequencies arranged in a 3×3 matrix — Mind, Body, and Spirit across three planes. Each node a neuron. The current runs the path of transformation.</p>
+    <p class="codex-subtitle">Nine frequencies arranged in a 3×3 matrix — Mind, Body, and Spirit across three planes. Each node a neuron. The sequence <span style="color:var(--gold);font-style:normal;letter-spacing:.05em">1→4→7→2→5→8→3→6→9</span> is the operational rhythm of how change actually moves through a person.</p>
   </header>
 
+  <div class="codex-instruction">Hover to explore &nbsp;·&nbsp; Click to pin &nbsp;·&nbsp; Tap the path below to follow the sequence</div>
   <div class="zero-ring">
     <canvas id="codex-canvas"></canvas>
 
@@ -290,6 +447,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <circle cx="50" cy="50" r="44" stroke="rgba(201,168,76,0.12)" stroke-width="0.3"/>
       <circle class="ring-dash" cx="50" cy="50" r="49.5" stroke="rgba(201,168,76,0.18)" stroke-width="0.4" stroke-dasharray="1.5 2.5" transform-origin="50 50"/>
       <line x1="50" y1="2"  x2="50" y2="5"   stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
+      <text x="50" y="1.2" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="3.5" fill="rgba(201,168,76,0.35)" letter-spacing="0.5">0</text>
       <line x1="50" y1="95" x2="50" y2="98"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
       <line x1="2"  y1="50" x2="5"  y2="50"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
       <line x1="95" y1="50" x2="98" y2="50"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
@@ -321,7 +479,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Electric · Original Force</div>
           <div class="tooltip-body">The spark that begins every cycle. Bold self-direction, pioneer instinct, original creative force.</div>
           <a class="tooltip-link" href="/blog/life-path-1-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'1')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -333,7 +491,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Magnetic · Bridge &amp; Balance</div>
           <div class="tooltip-body">The consciousness that unifies opposites. Diplomacy, relational awareness, the art of genuine union.</div>
           <a class="tooltip-link" href="/blog/life-path-2-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'2')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -345,7 +503,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Electric · Expression &amp; Joy</div>
           <div class="tooltip-body">Creative force finding its voice. Authentic self-expression, joy, and the courage to be heard without apology.</div>
           <a class="tooltip-link" href="/blog/life-path-3-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'3')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -357,7 +515,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Magnetic · Structure &amp; Stability</div>
           <div class="tooltip-body">The consciousness that manifests. Discipline, order, patient building of foundations that outlast their maker.</div>
           <a class="tooltip-link" href="/blog/life-path-4-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'4')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -369,7 +527,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Electric · The Central Pivot</div>
           <div class="tooltip-body">The centre of the entire matrix. Every path of transformation passes through 5. Freedom through full presence, not escape.</div>
           <a class="tooltip-link" href="/blog/life-path-5-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'5')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -381,7 +539,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Magnetic · Service &amp; Responsibility</div>
           <div class="tooltip-body">The integrator. Nothing completes until it reaches 6. Love requiring boundaries, service from wholeness.</div>
           <a class="tooltip-link" href="/blog/life-path-6-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'6')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -393,7 +551,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Electric · Wisdom &amp; Inner Knowing</div>
           <div class="tooltip-body">The questioner of all appearances. Truth through direct experience, inner authority, the sacred quest beneath the noise.</div>
           <a class="tooltip-link" href="/blog/life-path-7-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'7')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -405,7 +563,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Magnetic · Authority &amp; Manifestation</div>
           <div class="tooltip-body">True power is self-mastery. Authority earned, not assumed. Manifestation through disciplined alignment of will and integrity.</div>
           <a class="tooltip-link" href="/blog/life-path-8-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'8')">&#10697; share</button></div>
         </div>
       </div>
 
@@ -417,11 +575,23 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-essence">Aetheric · Completion &amp; Universal Service</div>
           <div class="tooltip-body">The consciousness that completes cycles and releases. Universal compassion, graceful endings, wisdom freely given.</div>
           <a class="tooltip-link" href="/blog/life-path-9-numerology/">Read Deep Dive &#8594;</a>
-          <div class="tooltip-pin-hint">Click to pin open</div>
+          <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'9')">&#10697; share</button></div>
         </div>
       </div>
 
     </div><!-- /codex-grid -->
+      <!-- Row sums: right side — all reduce to 6 -->
+      <div class="axis-row-sums">
+        <div class="axis-sum" title="1+2+3 = 6"><span>6<span class="axis-sum-label">= 6</span></span></div>
+        <div class="axis-sum" title="4+5+6 = 15 → 6"><span>15<span class="axis-sum-label">= 6</span></span></div>
+        <div class="axis-sum" title="7+8+9 = 24 → 6"><span>24<span class="axis-sum-label">= 6</span></span></div>
+      </div>
+      <!-- Col sums: bottom — Mind 12→3, Body 15→6, Spirit 18→9 -->
+      <div class="axis-col-sums">
+        <div class="axis-sum" title="1+4+7 = 12 → 3"><span>12<span class="axis-sum-label">= 3</span></span></div>
+        <div class="axis-sum" title="2+5+8 = 15 → 6"><span>15<span class="axis-sum-label">= 6</span></span></div>
+        <div class="axis-sum" title="3+6+9 = 18 → 9"><span>18<span class="axis-sum-label">= 9</span></span></div>
+      </div>
     </div><!-- /codex-grid-wrap -->
   </div><!-- /zero-ring -->
 
@@ -452,18 +622,24 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
     </div>
     <div class="legend-divider"></div>
     <div style="text-align:center;width:100%">
-      <div class="legend-label">Columns — Natures of Energy · click to reveal</div>
+      <div class="legend-label">Columns — Natures of Energy</div>
       <div class="legend-row">
         <div class="plane-item legend-col-item" onclick="showSixes()"><div class="plane-square" style="background:var(--teal)"></div>Mind — 1 · 4 · 7</div>
         <div class="plane-item legend-col-item" onclick="showSixes()"><div class="plane-square" style="background:var(--gold)"></div>Body — 2 · 5 · 8</div>
         <div class="plane-item legend-col-item" onclick="showSixes()"><div class="plane-square" style="background:var(--amethyst-l)"></div>Spirit — 3 · 6 · 9</div>
       </div>
     </div>
-    <div class="sixes-overlay" id="sixes-overlay">
-      <div class="sixes-title">&#9651; The 6·6·6 Pattern</div>
-      <div class="sixes-body">Every column sums to a multiple of 6: Mind (1+4+7=12→3), Body (2+5+8=15→6), Spirit (3+6+9=18→9). Every row reduces the same way. Around the outer edges of the Codex, every path reduces to 6. This is the structural law encoded into the matrix itself — not a symbol of evil, but of integration.</div>
-      <a class="sixes-link" href="/blog/666-numerology-meaning/">Read: 666 Is Not What You Think →</a>
+    <div class="pattern-triggers">
+      <button class="sixes-trigger" onclick="openModal('modal-666')" id="sixes-trigger">
+        <span class="sixes-trigger-num">6 · 6 · 6</span>
+        <span class="sixes-trigger-label">Every column &amp; row · Tap to reveal</span>
+      </button>
+      <button class="tesla-trigger" onclick="openModal('modal-369')">
+        <span class="tesla-trigger-num">3 · 6 · 9</span>
+        <span class="tesla-trigger-label">The bottom row · Tesla's pattern</span>
+      </button>
     </div>
+
     <div class="legend-divider"></div>
     <div style="text-align:center;width:100%">
       <div class="legend-label">Natures</div>
@@ -476,7 +652,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   </div>
 
   <a href="/blog/master-numbers-11-22-33-numerology/" class="master-note">
-    &#10022; &nbsp; Master numbers do not reduce — they transcend the root matrix and are at a different level &nbsp; &#10022;
+    &#10022; &nbsp; Master numbers 11, 22 &amp; 33 do not reduce — they transcend the matrix &nbsp; &#10022;
   </a>
 
 </div>
@@ -688,9 +864,95 @@ document.addEventListener('click', e=>{
 });
 
 // ── 666 overlay toggle ────────────────────────────────────────
-function showSixes() {
-  document.getElementById('sixes-overlay').classList.toggle('visible');
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (id === 'modal-666') {
+    document.querySelectorAll('.axis-sum').forEach(el => el.classList.add('revealed'));
+  }
 }
+const NODE_SLUGS = {
+  '1':'life-path-1-numerology','2':'life-path-2-numerology','3':'life-path-3-numerology',
+  '4':'life-path-4-numerology','5':'life-path-5-numerology','6':'life-path-6-numerology',
+  '7':'life-path-7-numerology','8':'life-path-8-numerology','9':'life-path-9-numerology',
+};
+function shareNode(e, num) {
+  e.stopPropagation();
+  const slug = NODE_SLUGS[num];
+  const url  = 'https://simulationsourcecode.com/blog/' + slug + '/';
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = e.currentTarget;
+    btn.textContent = '✓ copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = '⧉ share'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    // fallback — select a temp input
+    const inp = document.createElement('input');
+    inp.value = url; document.body.appendChild(inp);
+    inp.select(); document.execCommand('copy');
+    inp.remove();
+    const btn = e.currentTarget;
+    btn.textContent = '✓ copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = '⧉ share'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function closeModal(id, e) {
+  if (e && e.target !== document.getElementById(id)) return;
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+  if (id === 'modal-666') {
+    document.querySelectorAll('.axis-sum').forEach(el => el.classList.remove('revealed'));
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.pattern-modal-backdrop.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+      document.querySelectorAll('.axis-sum').forEach(el => el.classList.remove('revealed'));
+    });
+  }
+});
 </script>
+
+<!-- 666 Modal -->
+<div class="pattern-modal-backdrop" id="modal-666" onclick="closeModal('modal-666', event)">
+  <div class="pattern-modal gold-modal">
+    <button class="pattern-modal-close" onclick="closeModal('modal-666')">&times;</button>
+    <div class="pattern-modal-eyebrow">The Structural Law</div>
+    <div class="pattern-modal-num">6 · 6 · 6</div>
+    <div class="pattern-modal-body">
+      Every row of the Codex reduces to <strong>6</strong>:<br>
+      &nbsp;&nbsp;Mind row: 1 + 2 + 3 = <strong>6</strong><br>
+      &nbsp;&nbsp;Body row: 4 + 5 + 6 = 15 → <strong>6</strong><br>
+      &nbsp;&nbsp;Spirit row: 7 + 8 + 9 = 24 → <strong>6</strong><br><br>
+      Both diagonals reduce to <strong>6</strong>:<br>
+      &nbsp;&nbsp;1 + 5 + 9 = 15 → <strong>6</strong><br>
+      &nbsp;&nbsp;3 + 5 + 7 = 15 → <strong>6</strong><br><br>
+      The outer ring of the matrix — every edge, every corner path — frames the entire system in 6. This is not a symbol of evil. It is the structural law of integration: <strong>6 is the number that holds everything together.</strong>
+    </div>
+    <a class="pattern-modal-link" href="/blog/666-numerology-meaning/">Read: 666 Is Not What You Think &#8594;</a>
+  </div>
+</div>
+
+<!-- 369 Modal -->
+<div class="pattern-modal-backdrop" id="modal-369" onclick="closeModal('modal-369', event)">
+  <div class="pattern-modal teal-modal">
+    <button class="pattern-modal-close" onclick="closeModal('modal-369')">&times;</button>
+    <div class="pattern-modal-eyebrow">Tesla's Key</div>
+    <div class="pattern-modal-num">3 · 6 · 9</div>
+    <div class="pattern-modal-body">
+      Each column of the Codex reduces to 3, 6, or 9:<br>
+      &nbsp;&nbsp;Mind column: 1 + 4 + 7 = 12 → <strong>3</strong><br>
+      &nbsp;&nbsp;Body column: 2 + 5 + 8 = 15 → <strong>6</strong><br>
+      &nbsp;&nbsp;Spirit column: 3 + 6 + 9 = 18 → <strong>9</strong><br><br>
+      Tesla said if you knew the magnificence of 3, 6 and 9 you would have a key to the universe. The Codex shows exactly why — <strong>every column reduces to 3, 6, or 9.</strong> They are the Aetheric axis running through the entire system.
+    </div>
+    <a class="pattern-modal-link" href="/blog/3-6-9-pattern-tesla-numerology/">Read: Why Tesla Was Right &#8594;</a>
+  </div>
+</div>
+
 </body>
 </html>
