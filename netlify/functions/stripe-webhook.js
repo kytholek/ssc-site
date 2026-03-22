@@ -132,11 +132,6 @@ exports.handler = async (event) => {
       return { statusCode: 200, body: 'No email — cannot deliver guidebook' };
     }
 
-  const name  = userData.name  || 'Valued Customer';
-  const month = Number(userData.month) || 1;
-  const day   = Number(userData.day)   || 1;
-  const year  = Number(userData.year)  || 1990;
-
   // 3. Calculate frequencies
   const frequencies = calculateFrequencies(name, month, day, year);
   console.log('Frequencies:', frequencies);
