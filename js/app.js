@@ -950,11 +950,6 @@ function handleUnlockPaymentModal() {
     btn.textContent = '⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡';
   });
 }
-    }
-    btn.disabled    = false;
-    btn.textContent = '⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡';
-  });
-}
 
 // Expose
 window.openCalculatorModal = openCalculatorModal;
