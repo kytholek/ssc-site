@@ -3,9 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Codex · Simulation Source Code</title>
+<title>The Codex · Simulation Source Code · Interactive Numerology Matrix</title>
+<meta name="description" content="Explore the Codex — a 3×3 consciousness matrix mapping the nine numerology frequencies across Mind, Body and Spirit planes. Each node links to its Life Path deep dive.">
+<meta property="og:title" content="The Codex · Simulation Source Code">
+<meta property="og:description" content="Nine frequencies. Three planes. The interactive architecture of consciousness — hover any node to explore its nature.">
+<meta property="og:image" content="https://simulationsourcecode.com/images/codex.png">
+<meta property="og:url" content="https://simulationsourcecode.com/codex">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://simulationsourcecode.com/codex">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "The Codex — Interactive Numerology Matrix",
+  "description": "An interactive 3×3 consciousness matrix mapping the nine numerology frequencies across Mind, Body and Spirit planes.",
+  "url": "https://simulationsourcecode.com/codex",
+  "isPartOf": { "@type": "WebSite", "name": "Simulation Source Code", "url": "https://simulationsourcecode.com" }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
   --void:      #05040a;
@@ -21,415 +38,228 @@
   --text-dim:  #9b9080;
   --border:    rgba(201,168,76,0.2);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:'EB Garamond',serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:
+  radial-gradient(1px 1px at 8% 12%,rgba(201,168,76,.35) 0%,transparent 100%),
+  radial-gradient(1px 1px at 22% 38%,rgba(255,255,255,.15) 0%,transparent 100%),
+  radial-gradient(1.5px 1.5px at 48% 8%,rgba(201,168,76,.25) 0%,transparent 100%),
+  radial-gradient(1px 1px at 68% 28%,rgba(255,255,255,.12) 0%,transparent 100%),
+  radial-gradient(1px 1px at 83% 58%,rgba(201,168,76,.2) 0%,transparent 100%),
+  radial-gradient(1px 1px at 14% 68%,rgba(255,255,255,.08) 0%,transparent 100%),
+  radial-gradient(1.5px 1.5px at 88% 82%,rgba(74,148,148,.2) 0%,transparent 100%),
+  radial-gradient(1px 1px at 38% 88%,rgba(255,255,255,.1) 0%,transparent 100%),
+  radial-gradient(1px 1px at 58% 72%,rgba(201,168,76,.18) 0%,transparent 100%),
+  radial-gradient(1px 1px at 72% 15%,rgba(74,148,148,.15) 0%,transparent 100%),
+  radial-gradient(1px 1px at 33% 55%,rgba(123,79,166,.15) 0%,transparent 100%)}
 
-body {
-  background: var(--void);
-  color: var(--text);
-  font-family: 'EB Garamond', serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── Starfield ── */
-body::before {
-  content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    radial-gradient(1px 1px at 8%  12%, rgba(201,168,76,.35) 0%,transparent 100%),
-    radial-gradient(1px 1px at 22% 38%, rgba(255,255,255,.15) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 48% 8%, rgba(201,168,76,.25) 0%,transparent 100%),
-    radial-gradient(1px 1px at 68% 28%, rgba(255,255,255,.12) 0%,transparent 100%),
-    radial-gradient(1px 1px at 83% 58%, rgba(201,168,76,.2) 0%,transparent 100%),
-    radial-gradient(1px 1px at 14% 68%, rgba(255,255,255,.08) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 88% 82%, rgba(74,148,148,.2) 0%,transparent 100%),
-    radial-gradient(1px 1px at 38% 88%, rgba(255,255,255,.1) 0%,transparent 100%),
-    radial-gradient(1px 1px at 58% 72%, rgba(201,168,76,.18) 0%,transparent 100%),
-    radial-gradient(1px 1px at 72% 15%, rgba(74,148,148,.15) 0%,transparent 100%),
-    radial-gradient(1px 1px at 92% 45%, rgba(255,255,255,.1) 0%,transparent 100%),
-    radial-gradient(1px 1px at 4%  48%, rgba(201,168,76,.12) 0%,transparent 100%),
-    radial-gradient(1px 1px at 33% 55%, rgba(123,79,166,.15) 0%,transparent 100%);
-}
-
-/* ── Page layout ── */
-.page-wrap {
-  position: relative; z-index: 1;
-  min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center;
-  padding: 60px 24px 80px;
-}
+.page-wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:60px 24px 80px}
 
 /* ── Header ── */
-.codex-header {
-  text-align: center; margin-bottom: 48px;
-}
-.codex-eyebrow {
-  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .5em;
-  text-transform: uppercase; color: var(--teal); opacity: .8; margin-bottom: 12px;
-}
-.codex-title {
-  font-family: 'Cormorant SC', serif;
-  font-weight: 300;
-  font-size: clamp(36px, 6vw, 68px);
-  color: var(--gold); line-height: 1.05; margin-bottom: 14px;
-  letter-spacing: .08em;
-  text-shadow: 0 0 60px rgba(201,168,76,.3);
-}
-.codex-subtitle {
-  font-size: 18px; font-style: italic; color: var(--text-dim);
-  max-width: 520px; margin: 0 auto; line-height: 1.7;
-}
+.codex-header{text-align:center;margin-bottom:48px}
+.codex-eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--teal);opacity:.8;margin-bottom:12px}
+.codex-title{font-family:'Cormorant SC',serif;font-weight:300;font-size:clamp(36px,6vw,68px);color:var(--gold);line-height:1.05;margin-bottom:14px;letter-spacing:.08em;text-shadow:0 0 60px rgba(201,168,76,.3)}
+.codex-subtitle{font-size:18px;font-style:italic;color:var(--text-dim);max-width:520px;margin:0 auto;line-height:1.7}
 
-/* ── Outer ring (the Zero) ── */
-.zero-ring {
-  position: relative;
-  width: min(90vw, 720px);
-  aspect-ratio: 1;
-  display: flex; align-items: center; justify-content: center;
-}
+/* ── Zero ring ── */
+.zero-ring{position:relative;width:min(90vw,720px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.zero-ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#codex-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 
-.zero-ring-svg {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  pointer-events: none;
-}
+/* ── Ring pulse animations ── */
+@keyframes ringHeartbeat{0%,100%{opacity:.42;stroke-width:.6}50%{opacity:.88;stroke-width:1.2}}
+@keyframes ringGlowPulse{0%,100%{opacity:.07}50%{opacity:.30}}
+@keyframes ringDashSpin{from{stroke-dashoffset:0}to{stroke-dashoffset:-40}}
+@keyframes ringExpand{0%{r:47;stroke-opacity:0;stroke-width:2}40%{stroke-opacity:.14}100%{r:52;stroke-opacity:0;stroke-width:.3}}
+.ring-main  {animation:ringHeartbeat 4s ease-in-out infinite}
+.ring-glow  {animation:ringGlowPulse 4s ease-in-out infinite}
+.ring-dash  {animation:ringDashSpin  24s linear infinite}
+.ring-expand{animation:ringExpand    4s ease-out infinite;stroke:rgba(201,168,76,1)}
 
-/* ── Canvas for electricity ── */
-#codex-canvas {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  pointer-events: none; border-radius: 50%;
+/* ── Grid ── */
+.codex-grid-wrap{
+  display:grid;
+  grid-template-columns:32px 1fr;
+  grid-template-rows:32px 1fr;
+  gap:6px;
+  width:64%;
+  z-index:10;
 }
-
-/* ── 3x3 Grid ── */
-.codex-grid {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  width: 62%;
-  z-index: 10;
-}
+.axis-corner{grid-column:1;grid-row:1}
+.axis-col-labels{grid-column:2;grid-row:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.axis-row-labels{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:14px}
+.axis-label{font-family:'Cinzel',serif;font-size:clamp(5.5px,.85vw,8px);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.4;opacity:.6}
+.axis-label.mind-label{color:var(--teal-l)}
+.axis-label.body-label{color:var(--gold-l)}
+.axis-label.spirit-label{color:var(--amethyst-l)}
+.axis-label-row{flex:1;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:clamp(5px,.75vw,7px);letter-spacing:.15em}
+.codex-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;grid-column:2;grid-row:2}
 
 /* ── Node ── */
-.node {
-  position: relative;
-  aspect-ratio: 1;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+.node{position:relative;aspect-ratio:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.node:hover{transform:scale(1.12);z-index:20}
+.node.pinned{transform:scale(1.12);z-index:20}
+
+.node-inner{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(201,168,76,.25);background:linear-gradient(135deg,rgba(13,11,24,.9),rgba(5,4,10,.95));transition:border-color .3s,box-shadow .3s,background .3s;overflow:hidden}
+.node:hover .node-inner,.node.pinned .node-inner{border-color:rgba(201,168,76,.7);box-shadow:0 0 30px rgba(201,168,76,.25),inset 0 0 20px rgba(201,168,76,.06)}
+.node[data-plane="mind"]:hover .node-inner,.node[data-plane="mind"].pinned .node-inner{border-color:rgba(74,148,148,.8);box-shadow:0 0 30px rgba(74,148,148,.3),inset 0 0 20px rgba(74,148,148,.08)}
+.node[data-plane="body"]:hover .node-inner,.node[data-plane="body"].pinned .node-inner{border-color:rgba(201,168,76,.8);box-shadow:0 0 30px rgba(201,168,76,.3),inset 0 0 20px rgba(201,168,76,.08)}
+.node[data-plane="spirit"]:hover .node-inner,.node[data-plane="spirit"].pinned .node-inner{border-color:rgba(123,79,166,.8);box-shadow:0 0 30px rgba(123,79,166,.3),inset 0 0 20px rgba(123,79,166,.08)}
+
+.node-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+
+/* ── Nature shimmer overlays ── */
+/* Electric: faint radial shimmer */
+.node[data-nature="electric"] .node-inner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(255,240,150,.04) 0%,transparent 70%);animation:electricShimmer 2.8s ease-in-out infinite}
+@keyframes electricShimmer{0%,100%{opacity:.4}50%{opacity:1}}
+/* Magnetic: steady outer ring glow */
+.node[data-nature="magnetic"] .node-inner::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 18px rgba(201,168,76,.06);animation:magneticPulse 4s ease-in-out infinite}
+@keyframes magneticPulse{0%,100%{box-shadow:inset 0 0 12px rgba(201,168,76,.04)}50%{box-shadow:inset 0 0 24px rgba(201,168,76,.10)}}
+/* Aetheric (9): soft diffuse halo */
+.node[data-nature="aetheric"] .node-inner::after{content:'';position:absolute;inset:-4px;border-radius:8px;background:radial-gradient(ellipse,rgba(123,79,166,.08) 0%,transparent 70%);animation:aethericHalo 5s ease-in-out infinite;pointer-events:none}
+@keyframes aethericHalo{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+
+.node-num{font-family:'Cinzel Decorative',serif;font-size:clamp(22px,4vw,42px);color:var(--gold-l);line-height:1;margin-bottom:4px;transition:color .3s,text-shadow .3s}
+.node[data-plane="mind"] .node-num{color:var(--teal-l)}
+.node[data-plane="spirit"] .node-num{color:var(--amethyst-l)}
+.node[data-plane="body"] .node-num{color:var(--gold-l)}
+.node:hover .node-num,.node.pinned .node-num{text-shadow:0 0 20px currentColor}
+.node[data-num="5"] .node-inner{background:linear-gradient(135deg,rgba(74,148,148,.12),rgba(123,79,166,.12));border-color:rgba(201,168,76,.4)}
+.node[data-num="5"] .node-num{color:var(--gold-l);font-size:clamp(26px,4.5vw,48px)}
+
+.node-name{font-family:'Cinzel',serif;font-size:clamp(5px,1vw,9px);letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);opacity:.7;line-height:1;transition:opacity .3s}
+.node:hover .node-name,.node.pinned .node-name{opacity:1;color:var(--text)}
+@media(max-width:480px){.node-name{display:none}}
+
+.node-dot{position:absolute;bottom:6px;right:6px;width:5px;height:5px;border-radius:50%;background:var(--teal);opacity:.5;transition:opacity .3s,box-shadow .3s}
+.node[data-plane="spirit"] .node-dot{background:var(--amethyst-l)}
+.node[data-plane="body"] .node-dot{background:var(--gold)}
+.node:hover .node-dot,.node.pinned .node-dot{opacity:1;box-shadow:0 0 8px currentColor}
+
+/* Pin indicator */
+.node.pinned .node-inner::before{background:linear-gradient(90deg,transparent,rgba(201,168,76,.8),transparent)}
+
+/* ── Diagonal apex nodes: 1 (Mind/Mind), 5 (Body/Body), 9 (Spirit/Spirit) ── */
+.node[data-num="1"] .node-inner,
+.node[data-num="5"] .node-inner,
+.node[data-num="9"] .node-inner {
+  border-width: 2px;
 }
-.node:hover { transform: scale(1.12); z-index: 20; }
-
-.node-inner {
-  position: relative;
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  border-radius: 6px;
-  border: 1px solid rgba(201,168,76,.25);
-  background: linear-gradient(135deg, rgba(13,11,24,.9), rgba(5,4,10,.95));
-  transition: border-color .3s, box-shadow .3s, background .3s;
-  overflow: hidden;
+/* Node 1 — teal diagonal glow */
+.node[data-num="1"] .node-inner {
+  border-color: rgba(74,148,148,.55);
+  box-shadow: 0 0 18px rgba(74,148,148,.18), inset 0 0 14px rgba(74,148,148,.08);
 }
-
-.node:hover .node-inner {
-  border-color: rgba(201,168,76,.7);
-  box-shadow: 0 0 30px rgba(201,168,76,.25), inset 0 0 20px rgba(201,168,76,.06);
+/* Node 9 — amethyst diagonal glow */
+.node[data-num="9"] .node-inner {
+  border-color: rgba(123,79,166,.55);
+  box-shadow: 0 0 18px rgba(123,79,166,.18), inset 0 0 14px rgba(123,79,166,.08);
 }
-
-/* Plane-based accent colors */
-.node[data-plane="mind"]:hover .node-inner   { border-color: rgba(74,148,148,.8);  box-shadow: 0 0 30px rgba(74,148,148,.3), inset 0 0 20px rgba(74,148,148,.08); }
-.node[data-plane="body"]:hover .node-inner   { border-color: rgba(201,168,76,.8);  box-shadow: 0 0 30px rgba(201,168,76,.3), inset 0 0 20px rgba(201,168,76,.08); }
-.node[data-plane="spirit"]:hover .node-inner { border-color: rgba(123,79,166,.8);  box-shadow: 0 0 30px rgba(123,79,166,.3), inset 0 0 20px rgba(123,79,166,.08); }
-
-/* ── Top corner shine ── */
-.node-inner::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,.4), transparent);
-  transition: opacity .3s;
-}
-.node:hover .node-inner::before { opacity: 1; }
-
-/* ── Node number ── */
-.node-num {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(22px, 4vw, 42px);
-  color: var(--gold-l);
-  line-height: 1; margin-bottom: 4px;
-  transition: color .3s, text-shadow .3s;
-}
-.node[data-plane="mind"]   .node-num { color: var(--teal-l); }
-.node[data-plane="spirit"] .node-num { color: var(--amethyst-l); }
-.node[data-plane="body"]   .node-num { color: var(--gold-l); }
-
-.node:hover .node-num {
-  text-shadow: 0 0 20px currentColor;
-}
-
-/* Node 5 — center pivot — special */
+/* Node 5 already has special treatment — strengthen it */
 .node[data-num="5"] .node-inner {
-  background: linear-gradient(135deg, rgba(74,148,148,.12), rgba(123,79,166,.12));
-  border-color: rgba(201,168,76,.4);
+  border-color: rgba(201,168,76,.55);
+  box-shadow: 0 0 22px rgba(201,168,76,.2), inset 0 0 16px rgba(201,168,76,.08);
 }
-.node[data-num="5"] .node-num { color: var(--gold-l); font-size: clamp(26px,4.5vw,48px); }
-
-/* ── Node name ── */
-.node-name {
-  font-family: 'Cinzel', serif; font-size: clamp(5px,1vw,9px);
-  letter-spacing: .2em; text-transform: uppercase;
-  color: var(--text-dim); opacity: .7; line-height: 1;
-  transition: opacity .3s;
-}
-.node:hover .node-name { opacity: 1; color: var(--text); }
-
-/* ── Neuron dot ── */
-.node-dot {
-  position: absolute; bottom: 6px; right: 6px;
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--teal); opacity: .5;
-  transition: opacity .3s, box-shadow .3s;
-}
-.node[data-plane="spirit"] .node-dot { background: var(--amethyst-l); }
-.node[data-plane="body"]   .node-dot { background: var(--gold); }
-.node:hover .node-dot {
-  opacity: 1;
-  box-shadow: 0 0 8px currentColor;
-}
-
-/* ── Hover tooltip — shown via JS .show class ── */
-.node-tooltip {
+/* Corner marker — small rotated diamond in top-left corner */
+.node[data-num="1"] .node-inner::before,
+.node[data-num="5"] .node-inner::before,
+.node[data-num="9"] .node-inner::before {
+  content: '';
   position: absolute;
-  bottom: calc(100% + 14px); left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  width: 210px;
-  background: rgba(10,8,20,.98);
-  border: 1px solid var(--border);
-  border-radius: 6px; padding: 14px 16px;
-  pointer-events: none;   /* off by default */
-  opacity: 0;
-  transition: opacity .18s, transform .18s;
-  z-index: 200;
-  text-align: center;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, currentColor, transparent);
+  opacity: .7;
 }
-/* Bottom row flips upward */
-.node:nth-child(7) .node-tooltip,
-.node:nth-child(8) .node-tooltip,
-.node:nth-child(9) .node-tooltip {
-  bottom: auto; top: calc(100% + 14px);
-  transform: translateX(-50%) translateY(-6px);
-}
-/* Shown state — pointer-events ON so link is clickable */
-.node-tooltip.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0) !important;
-}
-
-.tooltip-num {
-  font-family: 'Cinzel Decorative', serif; font-size: 22px;
-  color: var(--gold); margin-bottom: 4px;
-}
-.tooltip-name {
-  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .25em;
-  text-transform: uppercase; color: var(--gold-d); margin-bottom: 10px;
-}
-.tooltip-essence {
-  font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 8px; font-family: 'Cinzel', serif;
-}
-.tooltip-body {
-  font-size: 13px; line-height: 1.65; color: var(--text-dim);
-  margin-bottom: 12px;
-}
-.tooltip-link {
-  display: inline-block;
-  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: .25em;
-  text-transform: uppercase; color: var(--gold);
-  border: 1px solid rgba(201,168,76,.3); border-radius: 3px;
-  padding: 5px 10px; text-decoration: none;
-  transition: background .2s, border-color .2s;
-}
-.tooltip-link:hover {
-  background: rgba(201,168,76,.1); border-color: var(--gold);
-  pointer-events: auto;
-}
-
-/* Edge clamp for first/last columns */
-.node:nth-child(1) .node-tooltip,
-.node:nth-child(4) .node-tooltip,
-.node:nth-child(7) .node-tooltip { left: 0; transform: translateX(0) translateY(6px); }
-
-.node:nth-child(3) .node-tooltip,
-.node:nth-child(6) .node-tooltip,
-.node:nth-child(9) .node-tooltip { left: auto; right: 0; transform: translateX(0) translateY(6px); }
-
-.node:nth-child(1) .node-tooltip.show,
-.node:nth-child(4) .node-tooltip.show,
-.node:nth-child(7) .node-tooltip.show { transform: translateX(0) translateY(0) !important; }
-
-.node:nth-child(3) .node-tooltip.show,
-.node:nth-child(6) .node-tooltip.show,
-.node:nth-child(9) .node-tooltip.show { transform: translateX(0) translateY(0) !important; }
-
-/* ── Row / Column labels ── */
-.codex-row-labels, .codex-col-labels {
+.node[data-num="1"] .node-inner::before { color: var(--teal-l); background: linear-gradient(90deg, rgba(74,148,148,.8), transparent); }
+.node[data-num="5"] .node-inner::before { color: var(--gold-l); background: linear-gradient(90deg, rgba(201,168,76,.8), transparent); }
+.node[data-num="9"] .node-inner::before { color: var(--amethyst-l); background: linear-gradient(90deg, rgba(123,79,166,.8), transparent); }
+/* Diagonal marker dot — top-left corner */
+.node[data-num="1"]::before,
+.node[data-num="5"]::before,
+.node[data-num="9"]::before {
+  content: '◆';
   position: absolute;
-  pointer-events: none;
+  top: 4px; left: 5px;
+  font-size: 5px;
   z-index: 5;
+  opacity: .65;
 }
+.node[data-num="1"]::before { color: var(--teal-l); }
+.node[data-num="5"]::before { color: var(--gold-l); }
+.node[data-num="9"]::before { color: var(--amethyst-l); }
 
-.codex-row-labels {
-  left: -80px;
-  top: 0;
-  width: 60px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
+/* ── Tooltip ── */
+.node-tooltip{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(6px);width:220px;background:rgba(10,8,20,.98);border:1px solid var(--border);border-radius:6px;padding:16px 16px 14px;pointer-events:none;opacity:0;transition:opacity .18s,transform .18s;z-index:200;text-align:center}
+.node:nth-child(7) .node-tooltip,.node:nth-child(8) .node-tooltip,.node:nth-child(9) .node-tooltip{bottom:auto;top:calc(100% + 14px);transform:translateX(-50%) translateY(-6px)}
+.node-tooltip.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0) !important}
+.node:nth-child(1) .node-tooltip,.node:nth-child(4) .node-tooltip,.node:nth-child(7) .node-tooltip{left:0;transform:translateX(0) translateY(6px)}
+.node:nth-child(3) .node-tooltip,.node:nth-child(6) .node-tooltip,.node:nth-child(9) .node-tooltip{left:auto;right:0;transform:translateX(0) translateY(6px)}
+.node:nth-child(1) .node-tooltip.show,.node:nth-child(4) .node-tooltip.show,.node:nth-child(7) .node-tooltip.show{transform:translateX(0) translateY(0) !important}
+.node:nth-child(3) .node-tooltip.show,.node:nth-child(6) .node-tooltip.show,.node:nth-child(9) .node-tooltip.show{transform:translateX(0) translateY(0) !important}
 
-.codex-col-labels {
-  top: -50px;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
+.tooltip-num{font-family:'Cinzel Decorative',serif;font-size:22px;color:var(--gold);margin-bottom:4px}
+.tooltip-name{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-d);margin-bottom:6px}
+.tooltip-position{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:8px}
+.tooltip-essence{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;font-family:'Cinzel',serif}
+.tooltip-body{font-size:13px;line-height:1.65;color:var(--text-dim);margin-bottom:12px}
+.tooltip-link{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:3px;padding:5px 10px;text-decoration:none;transition:background .2s,border-color .2s}
+.tooltip-link:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.tooltip-pin-hint{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,.25);margin-top:8px}
 
-.row-label, .col-label {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  color: rgba(201,168,76, .5);
-  text-align: center;
-  white-space: nowrap;
-}
+/* ── Infinity legend ── */
+.infinity-legend{margin-top:36px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.inf-step{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,2vw,18px);transition:color .3s,text-shadow .3s;cursor:default}
+.inf-arrow{font-size:10px;color:rgba(201,168,76,.3)}
+.inf-step.active{color:var(--gold-l);text-shadow:0 0 16px rgba(201,168,76,.8)}
+.inf-step.mind-color{color:var(--teal)}
+.inf-step.body-color{color:var(--gold)}
+.inf-step.spirit-color{color:var(--amethyst-l)}
+.inf-step.pivot-color{color:var(--gold-l)}
 
-/* ── Infinity path indicator ── */
-.infinity-legend {
-  margin-top: 36px; text-align: center;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  flex-wrap: wrap;
-}
-.inf-step {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(13px, 2vw, 18px);
-  transition: color .3s, text-shadow .3s;
-}
-.inf-arrow {
-  font-size: 10px; color: rgba(201,168,76,.3);
-}
-.inf-step.active {
-  color: var(--gold-l);
-  text-shadow: 0 0 16px rgba(201,168,76,.8);
-}
-.inf-step.mind-color   { color: var(--teal); }
-.inf-step.body-color   { color: var(--gold); }
-.inf-step.spirit-color { color: var(--amethyst-l); }
-.inf-step.pivot-color  { color: var(--gold-l); }
+/* ── Legend ── */
+.plane-legend{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.legend-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;align-items:center}
+.legend-divider{width:180px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2),transparent)}
+.plane-item{display:flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim)}
+.plane-dot{width:7px;height:7px;border-radius:50%}
+.plane-square{width:9px;height:9px;border-radius:2px;opacity:.75;flex-shrink:0}
+.legend-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.3);margin-bottom:6px;text-align:center}
+.void-item{display:flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,168,76,.45);border:1px solid rgba(201,168,76,.15);border-radius:20px;padding:5px 14px}
+.void-ring{width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(201,168,76,.5)}
 
-/* ── Plane legend ── */
-.plane-legend {
-  margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 20px;
-}
-.legend-row {
-  display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;
-}
-.legend-divider {
-  width: 180px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,.2), transparent);
-}
-.plane-item {
-  display: flex; align-items: center; gap: 7px;
-  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: .3em;
-  text-transform: uppercase; color: var(--text-dim);
-}
-.plane-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-}
-.plane-square {
-  width: 9px; height: 9px; border-radius: 2px;
-  background: currentColor; opacity: .75; flex-shrink: 0;
-}
-.legend-label {
-  font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: .4em;
-  text-transform: uppercase; color: rgba(201,168,76,.3);
-  margin-bottom: 6px; text-align: center;
-}
-.void-item {
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: .3em;
-  text-transform: uppercase; color: rgba(201,168,76,.45);
-  border: 1px solid rgba(201,168,76,.15); border-radius: 20px;
-  padding: 5px 14px;
-}
-.void-ring {
-  width: 9px; height: 9px; border-radius: 50%;
-  border: 1.5px solid rgba(201,168,76,.5);
-}
+/* ── Master number note ── */
+.master-note{margin-top:24px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.3);text-align:center;padding:10px 20px;border:1px solid rgba(201,168,76,.08);border-radius:4px;cursor:pointer;transition:color .2s,border-color .2s;text-decoration:none;display:inline-block}
+.master-note:hover{color:rgba(201,168,76,.7);border-color:rgba(201,168,76,.25)}
 
-/* ── Zero ring pulse animations ── */
-@keyframes ringHeartbeat {
-  0%, 100% { opacity: .45; stroke-width: 0.6; }
-  50%       { opacity: .85; stroke-width: 1.1; }
-}
-@keyframes ringGlowPulse {
-  0%, 100% { opacity: .08; }
-  50%       { opacity: .28; }
-}
-@keyframes ringFillBreath {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 1.6; }  /* handled via the gradient stop */
-}
-@keyframes ringDashSpin {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -40; }
-}
-@keyframes ringExpand {
-  0%   { r: 47; stroke-opacity: 0;    stroke-width: 2; }
-  40%  { stroke-opacity: 0.12; }
-  100% { r: 51; stroke-opacity: 0;    stroke-width: 0.3; }
-}
-.ring-expand { animation: ringExpand 4s ease-out infinite; stroke: rgba(201,168,76,1); }
-.ring-main   { animation: ringHeartbeat  4s ease-in-out infinite; }
-.ring-glow   { animation: ringGlowPulse  4s ease-in-out infinite; }
-.ring-dash   { animation: ringDashSpin   24s linear infinite; }
+/* ── 666 overlay ── */
+.sixes-overlay{display:none;margin-top:20px;padding:16px 24px;border:1px solid rgba(201,168,76,.2);border-radius:6px;background:rgba(13,11,24,.8);text-align:center;max-width:420px}
+.sixes-overlay.visible{display:block}
+.sixes-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px}
+.sixes-body{font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:12px}
+.sixes-link{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);text-decoration:none;border-bottom:1px solid rgba(74,148,148,.3)}
+.sixes-link:hover{color:var(--teal-l)}
 
 /* ── Back links ── */
-.codex-back-links {
-  position: fixed; top: 20px; left: 24px; z-index: 200;
-  display: flex; gap: 8px; align-items: center;
-}
-.back-link {
-  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .3em;
-  text-transform: uppercase; color: var(--text-dim);
-  text-decoration: none; background: rgba(5,4,10,.85);
-  border: 1px solid rgba(201,168,76,.15); border-radius: 4px;
-  padding: 8px 14px; backdrop-filter: blur(8px);
-  transition: color .2s, border-color .2s;
-}
-.back-link:hover { color: var(--gold); border-color: var(--gold-d); }
-.back-link-home {
-  border-color: rgba(201,168,76,.08);
-  color: rgba(201,168,76,.35);
-}
+.codex-back-links{position:fixed;top:20px;left:24px;z-index:200;display:flex;gap:8px;align-items:center}
+.back-link{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;background:rgba(5,4,10,.85);border:1px solid rgba(201,168,76,.15);border-radius:4px;padding:8px 14px;backdrop-filter:blur(8px);transition:color .2s,border-color .2s}
+.back-link:hover{color:var(--gold);border-color:var(--gold-d)}
+.back-link-home{border-color:rgba(201,168,76,.08);color:rgba(201,168,76,.35)}
 
-/* ── Responsive ── */
-@media (max-width: 600px) {
-  .codex-grid { gap: 8px; width: 72%; }
-  .node-tooltip { width: 160px; }
-}
+/* ── Legend column click trigger ── */
+.legend-col-item{cursor:pointer;transition:color .2s}
+.legend-col-item:hover .plane-square{opacity:1}
+.legend-col-item:hover{color:var(--text)}
+
+@media(max-width:600px){.codex-grid-wrap{width:84%}.codex-grid{gap:8px}.node-tooltip{width:180px}}
 </style>
 </head>
 <body>
 
 <div class="codex-back-links">
-  <a href="/blog/decoding-matrix/" class="back-link">&#8592; Back to Article</a>
+  <a href="/?post=post-decoding-matrix" class="back-link">&#8592; Back to Article</a>
   <a href="/" class="back-link back-link-home">Home</a>
 </div>
 
@@ -441,310 +271,234 @@ body::before {
     <p class="codex-subtitle">Nine frequencies arranged in a 3×3 matrix — Mind, Body, and Spirit across three planes. Each node a neuron. The current runs the path of transformation.</p>
   </header>
 
-  <!-- Zero ring + canvas + grid -->
   <div class="zero-ring">
-
-    <!-- Animated electricity canvas -->
     <canvas id="codex-canvas"></canvas>
 
-    <!-- The outer Zero ring SVG -->
     <svg class="zero-ring-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="60%" stop-color="rgba(201,168,76,0)" />
-          <stop offset="100%" stop-color="rgba(201,168,76,0.06)" />
+          <stop offset="60%" stop-color="rgba(201,168,76,0)"/>
+          <stop offset="100%" stop-color="rgba(201,168,76,0.06)"/>
         </radialGradient>
-        <filter id="glow1">
-          <feGaussianBlur stdDeviation="0.8" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-        <filter id="glow2">
-          <feGaussianBlur stdDeviation="1.5" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
+        <filter id="glow1"><feGaussianBlur stdDeviation="0.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-      <!-- Outer fill -->
       <circle cx="50" cy="50" r="48" fill="url(#ringGlow)"/>
-      <!-- Pulse expansion ring -->
       <circle class="ring-expand" cx="50" cy="50" r="47" stroke="rgba(201,168,76,0)" stroke-width="0" fill="none"/>
-      <!-- Outer glow ring -->
       <circle class="ring-glow" cx="50" cy="50" r="47" stroke="rgba(201,168,76,0.08)" stroke-width="3" filter="url(#glow2)"/>
-      <!-- Main ring -->
       <circle class="ring-main" cx="50" cy="50" r="47" stroke="rgba(201,168,76,0.45)" stroke-width="0.6" filter="url(#glow1)"/>
-      <!-- Inner ring -->
       <circle cx="50" cy="50" r="44" stroke="rgba(201,168,76,0.12)" stroke-width="0.3"/>
-      <!-- Dashed detail ring -->
       <circle class="ring-dash" cx="50" cy="50" r="49.5" stroke="rgba(201,168,76,0.18)" stroke-width="0.4" stroke-dasharray="1.5 2.5" transform-origin="50 50"/>
-      <!-- Cardinal tick marks -->
       <line x1="50" y1="2"  x2="50" y2="5"   stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
       <line x1="50" y1="95" x2="50" y2="98"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
       <line x1="2"  y1="50" x2="5"  y2="50"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
       <line x1="95" y1="50" x2="98" y2="50"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
-      <!-- Diagonal ticks -->
-      <line x1="8.5"  y1="8.5"  x2="10.6" y2="10.6" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
-      <line x1="91.5" y1="8.5"  x2="89.4" y2="10.6" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
-      <line x1="8.5"  y1="91.5" x2="10.6" y2="89.4" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
+      <line x1="8.5" y1="8.5" x2="10.6" y2="10.6" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
+      <line x1="91.5" y1="8.5" x2="89.4" y2="10.6" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
+      <line x1="8.5" y1="91.5" x2="10.6" y2="89.4" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
       <line x1="91.5" y1="91.5" x2="89.4" y2="89.4" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
     </svg>
 
-    <!-- 3×3 Grid -->
-    <div class="codex-grid" id="codex-grid">
+    <div class="codex-grid-wrap">
+      <div class="axis-corner"></div>
+      <div class="axis-col-labels">
+        <div class="axis-label mind-label">Mind<br><small>1·4·7</small></div>
+        <div class="axis-label body-label">Body<br><small>2·5·8</small></div>
+        <div class="axis-label spirit-label">Spirit<br><small>3·6·9</small></div>
+      </div>
+      <div class="axis-row-labels">
+        <div class="axis-label axis-label-row mind-label">Mind 1·2·3</div>
+        <div class="axis-label axis-label-row body-label">Body 4·5·6</div>
+        <div class="axis-label axis-label-row spirit-label">Spirit 7·8·9</div>
+      </div>
+      <div class="codex-grid" id="codex-grid">
 
-      <!-- Row 1: Mind plane -->
-      <div class="node" data-num="1" data-plane="mind" data-col="mind">
-        <div class="node-inner">
-          <div class="node-num">1</div>
-          <div class="node-name">Initiator</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="1" data-plane="mind" data-col="mind" data-nature="electric">
+        <div class="node-inner"><div class="node-num">1</div><div class="node-name">Initiator</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">1</div>
-          <div class="tooltip-name">The Initiator</div>
-          <div class="tooltip-essence">Original Force</div>
-          <div class="tooltip-body">Electric. The spark that begins every cycle. Bold self-direction, pioneer instinct, original creative force.</div>
+          <div class="tooltip-num">1</div><div class="tooltip-name">The Initiator</div>
+          <div class="tooltip-position">Mind Plane &middot; Mind Column</div>
+          <div class="tooltip-essence">Electric · Original Force</div>
+          <div class="tooltip-body">The spark that begins every cycle. Bold self-direction, pioneer instinct, original creative force.</div>
           <a class="tooltip-link" href="/blog/life-path-1-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <div class="node" data-num="2" data-plane="mind" data-col="body">
-        <div class="node-inner">
-          <div class="node-num">2</div>
-          <div class="node-name">Harmonizer</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="2" data-plane="mind" data-col="body" data-nature="magnetic">
+        <div class="node-inner"><div class="node-num">2</div><div class="node-name">Harmonizer</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">2</div>
-          <div class="tooltip-name">The Harmonizer</div>
-          <div class="tooltip-essence">Bridge &amp; Balance</div>
-          <div class="tooltip-body">Magnetic. The consciousness that unifies opposites. Diplomacy, relational awareness, the art of genuine union.</div>
+          <div class="tooltip-num">2</div><div class="tooltip-name">The Harmonizer</div>
+          <div class="tooltip-position">Mind Plane &middot; Body Column</div>
+          <div class="tooltip-essence">Magnetic · Bridge &amp; Balance</div>
+          <div class="tooltip-body">The consciousness that unifies opposites. Diplomacy, relational awareness, the art of genuine union.</div>
           <a class="tooltip-link" href="/blog/life-path-2-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <div class="node" data-num="3" data-plane="mind" data-col="spirit">
-        <div class="node-inner">
-          <div class="node-num">3</div>
-          <div class="node-name">Creator</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="3" data-plane="mind" data-col="spirit" data-nature="electric">
+        <div class="node-inner"><div class="node-num">3</div><div class="node-name">Creator</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">3</div>
-          <div class="tooltip-name">The Creator</div>
-          <div class="tooltip-essence">Expression &amp; Joy</div>
-          <div class="tooltip-body">Electric. Creative force finding its voice. Authentic self-expression, joy, and the courage to be heard without apology.</div>
+          <div class="tooltip-num">3</div><div class="tooltip-name">The Creator</div>
+          <div class="tooltip-position">Mind Plane &middot; Spirit Column</div>
+          <div class="tooltip-essence">Electric · Expression &amp; Joy</div>
+          <div class="tooltip-body">Creative force finding its voice. Authentic self-expression, joy, and the courage to be heard without apology.</div>
           <a class="tooltip-link" href="/blog/life-path-3-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <!-- Row 2: Body plane -->
-      <div class="node" data-num="4" data-plane="body" data-col="mind">
-        <div class="node-inner">
-          <div class="node-num">4</div>
-          <div class="node-name">Builder</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="4" data-plane="body" data-col="mind" data-nature="magnetic">
+        <div class="node-inner"><div class="node-num">4</div><div class="node-name">Builder</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">4</div>
-          <div class="tooltip-name">The Builder</div>
-          <div class="tooltip-essence">Structure &amp; Stability</div>
-          <div class="tooltip-body">Magnetic. The consciousness that manifests. Discipline, order, patient building of foundations that outlast their maker.</div>
+          <div class="tooltip-num">4</div><div class="tooltip-name">The Builder</div>
+          <div class="tooltip-position">Body Plane &middot; Mind Column</div>
+          <div class="tooltip-essence">Magnetic · Structure &amp; Stability</div>
+          <div class="tooltip-body">The consciousness that manifests. Discipline, order, patient building of foundations that outlast their maker.</div>
           <a class="tooltip-link" href="/blog/life-path-4-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <div class="node" data-num="5" data-plane="body" data-col="body">
-        <div class="node-inner">
-          <div class="node-num">5</div>
-          <div class="node-name">The Pivot</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="5" data-plane="body" data-col="body" data-nature="electric">
+        <div class="node-inner"><div class="node-num">5</div><div class="node-name">The Pivot</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">5</div>
-          <div class="tooltip-name">The Explorer</div>
-          <div class="tooltip-essence">The Central Pivot</div>
-          <div class="tooltip-body">Electric. The center of the entire matrix. Every path of transformation passes through 5. Freedom through full presence, not escape.</div>
+          <div class="tooltip-num">5</div><div class="tooltip-name">The Explorer</div>
+          <div class="tooltip-position">Body Plane &middot; Body Column &middot; Centre</div>
+          <div class="tooltip-essence">Electric · The Central Pivot</div>
+          <div class="tooltip-body">The centre of the entire matrix. Every path of transformation passes through 5. Freedom through full presence, not escape.</div>
           <a class="tooltip-link" href="/blog/life-path-5-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <div class="node" data-num="6" data-plane="body" data-col="spirit">
-        <div class="node-inner">
-          <div class="node-num">6</div>
-          <div class="node-name">Nurturer</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="6" data-plane="body" data-col="spirit" data-nature="magnetic">
+        <div class="node-inner"><div class="node-num">6</div><div class="node-name">Nurturer</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">6</div>
-          <div class="tooltip-name">The Nurturer</div>
-          <div class="tooltip-essence">Service &amp; Responsibility</div>
-          <div class="tooltip-body">Magnetic. The integrator. Nothing completes until it reaches 6. Love requiring boundaries, service from wholeness.</div>
+          <div class="tooltip-num">6</div><div class="tooltip-name">The Nurturer</div>
+          <div class="tooltip-position">Body Plane &middot; Spirit Column</div>
+          <div class="tooltip-essence">Magnetic · Service &amp; Responsibility</div>
+          <div class="tooltip-body">The integrator. Nothing completes until it reaches 6. Love requiring boundaries, service from wholeness.</div>
           <a class="tooltip-link" href="/blog/life-path-6-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <!-- Row 3: Spirit plane -->
-      <div class="node" data-num="7" data-plane="spirit" data-col="mind">
-        <div class="node-inner">
-          <div class="node-num">7</div>
-          <div class="node-name">Seeker</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="7" data-plane="spirit" data-col="mind" data-nature="electric">
+        <div class="node-inner"><div class="node-num">7</div><div class="node-name">Seeker</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">7</div>
-          <div class="tooltip-name">The Seeker</div>
-          <div class="tooltip-essence">Wisdom &amp; Inner Knowing</div>
-          <div class="tooltip-body">Electric. The questioner of all appearances. Truth through direct experience, inner authority, the sacred quest beneath the noise.</div>
+          <div class="tooltip-num">7</div><div class="tooltip-name">The Seeker</div>
+          <div class="tooltip-position">Spirit Plane &middot; Mind Column</div>
+          <div class="tooltip-essence">Electric · Wisdom &amp; Inner Knowing</div>
+          <div class="tooltip-body">The questioner of all appearances. Truth through direct experience, inner authority, the sacred quest beneath the noise.</div>
           <a class="tooltip-link" href="/blog/life-path-7-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <div class="node" data-num="8" data-plane="spirit" data-col="body">
-        <div class="node-inner">
-          <div class="node-num">8</div>
-          <div class="node-name">Power Master</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="8" data-plane="spirit" data-col="body" data-nature="magnetic">
+        <div class="node-inner"><div class="node-num">8</div><div class="node-name">Power Master</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">8</div>
-          <div class="tooltip-name">The Power Master</div>
-          <div class="tooltip-essence">Authority &amp; Manifestation</div>
-          <div class="tooltip-body">Magnetic. True power is self-mastery. Authority earned, not assumed. Manifestation through disciplined alignment of will and integrity.</div>
+          <div class="tooltip-num">8</div><div class="tooltip-name">The Power Master</div>
+          <div class="tooltip-position">Spirit Plane &middot; Body Column</div>
+          <div class="tooltip-essence">Magnetic · Authority &amp; Manifestation</div>
+          <div class="tooltip-body">True power is self-mastery. Authority earned, not assumed. Manifestation through disciplined alignment of will and integrity.</div>
           <a class="tooltip-link" href="/blog/life-path-8-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
-      <div class="node" data-num="9" data-plane="spirit" data-col="spirit">
-        <div class="node-inner">
-          <div class="node-num">9</div>
-          <div class="node-name">Humanitarian</div>
-          <div class="node-dot"></div>
-        </div>
+      <div class="node" data-num="9" data-plane="spirit" data-col="spirit" data-nature="aetheric">
+        <div class="node-inner"><div class="node-num">9</div><div class="node-name">Humanitarian</div><div class="node-dot"></div></div>
         <div class="node-tooltip">
-          <div class="tooltip-num">9</div>
-          <div class="tooltip-name">The Humanitarian</div>
-          <div class="tooltip-essence">Completion &amp; Universal Service</div>
-          <div class="tooltip-body">Aetheric. The consciousness that completes cycles and releases. Universal compassion, graceful endings, wisdom freely given.</div>
+          <div class="tooltip-num">9</div><div class="tooltip-name">The Humanitarian</div>
+          <div class="tooltip-position">Spirit Plane &middot; Spirit Column</div>
+          <div class="tooltip-essence">Aetheric · Completion &amp; Universal Service</div>
+          <div class="tooltip-body">The consciousness that completes cycles and releases. Universal compassion, graceful endings, wisdom freely given.</div>
           <a class="tooltip-link" href="/blog/life-path-9-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-pin-hint">Click to pin open</div>
         </div>
       </div>
 
     </div><!-- /codex-grid -->
-
-    <!-- Labels container -->
-    <div id="codex-row-labels" class="codex-row-labels"></div>
-    <div id="codex-col-labels" class="codex-col-labels"></div>
-
+    </div><!-- /codex-grid-wrap -->
   </div><!-- /zero-ring -->
 
   <!-- Transformation path legend -->
   <div class="infinity-legend" id="inf-legend">
-    <span class="inf-step mind-color"   data-seq="0">1</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step body-color"   data-seq="1">4</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step spirit-color" data-seq="2">7</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step mind-color"   data-seq="3">2</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step pivot-color"  data-seq="4">5</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step spirit-color" data-seq="5">8</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step mind-color"   data-seq="6">3</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step body-color"   data-seq="7">6</span>
-    <span class="inf-arrow">→</span>
-    <span class="inf-step spirit-color" data-seq="8">9</span>
-    <span class="inf-arrow">↺</span>
+    <span class="inf-step mind-color" data-seq="0">1</span><span class="inf-arrow">→</span>
+    <span class="inf-step body-color" data-seq="1">4</span><span class="inf-arrow">→</span>
+    <span class="inf-step spirit-color" data-seq="2">7</span><span class="inf-arrow">→</span>
+    <span class="inf-step mind-color" data-seq="3">2</span><span class="inf-arrow">→</span>
+    <span class="inf-step pivot-color" data-seq="4">5</span><span class="inf-arrow">→</span>
+    <span class="inf-step spirit-color" data-seq="5">8</span><span class="inf-arrow">→</span>
+    <span class="inf-step mind-color" data-seq="6">3</span><span class="inf-arrow">→</span>
+    <span class="inf-step body-color" data-seq="7">6</span><span class="inf-arrow">→</span>
+    <span class="inf-step spirit-color" data-seq="8">9</span><span class="inf-arrow">↺</span>
   </div>
 
-  <!-- Expanded Legend -->
+  <!-- Legend -->
   <div class="plane-legend">
-
-    <!-- Zero / Void -->
-    <div class="void-item">
-      <div class="void-ring"></div>
-      0 · The Void — The ring that contains all
-    </div>
-
+    <div class="void-item"><div class="void-ring"></div>0 · The Void — The ring that contains all</div>
     <div class="legend-divider"></div>
-
-    <!-- Rows label -->
     <div style="text-align:center;width:100%">
       <div class="legend-label">Rows — Planes of Experience</div>
       <div class="legend-row">
-        <div class="plane-item">
-          <div class="plane-dot" style="background:var(--teal)"></div>
-          Mind — 1 · 2 · 3
-        </div>
-        <div class="plane-item">
-          <div class="plane-dot" style="background:var(--gold)"></div>
-          Body — 4 · 5 · 6
-        </div>
-        <div class="plane-item">
-          <div class="plane-dot" style="background:var(--amethyst-l)"></div>
-          Spirit — 7 · 8 · 9
-        </div>
+        <div class="plane-item"><div class="plane-dot" style="background:var(--teal)"></div>Mind — 1 · 2 · 3</div>
+        <div class="plane-item"><div class="plane-dot" style="background:var(--gold)"></div>Body — 4 · 5 · 6</div>
+        <div class="plane-item"><div class="plane-dot" style="background:var(--amethyst-l)"></div>Spirit — 7 · 8 · 9</div>
       </div>
     </div>
-
     <div class="legend-divider"></div>
-
-    <!-- Columns label -->
     <div style="text-align:center;width:100%">
-      <div class="legend-label">Columns — Natures of Energy</div>
+      <div class="legend-label">Columns — Natures of Energy · click to reveal</div>
       <div class="legend-row">
-        <div class="plane-item">
-          <div class="plane-square" style="background:var(--teal)"></div>
-          Mind Col — 1 · 4 · 7
-        </div>
-        <div class="plane-item">
-          <div class="plane-square" style="background:var(--gold)"></div>
-          Body Col — 2 · 5 · 8
-        </div>
-        <div class="plane-item">
-          <div class="plane-square" style="background:var(--amethyst-l)"></div>
-          Spirit Col — 3 · 6 · 9
-        </div>
+        <div class="plane-item legend-col-item" onclick="showSixes()"><div class="plane-square" style="background:var(--teal)"></div>Mind — 1 · 4 · 7</div>
+        <div class="plane-item legend-col-item" onclick="showSixes()"><div class="plane-square" style="background:var(--gold)"></div>Body — 2 · 5 · 8</div>
+        <div class="plane-item legend-col-item" onclick="showSixes()"><div class="plane-square" style="background:var(--amethyst-l)"></div>Spirit — 3 · 6 · 9</div>
       </div>
     </div>
-
+    <div class="sixes-overlay" id="sixes-overlay">
+      <div class="sixes-title">&#9651; The 6·6·6 Pattern</div>
+      <div class="sixes-body">Every column sums to a multiple of 6: Mind (1+4+7=12→3), Body (2+5+8=15→6), Spirit (3+6+9=18→9). Every row reduces the same way. Around the outer edges of the Codex, every path reduces to 6. This is the structural law encoded into the matrix itself — not a symbol of evil, but of integration.</div>
+      <a class="sixes-link" href="/blog/666-numerology-meaning/">Read: 666 Is Not What You Think →</a>
+    </div>
+    <div class="legend-divider"></div>
+    <div style="text-align:center;width:100%">
+      <div class="legend-label">Natures</div>
+      <div class="legend-row">
+        <div class="plane-item"><span style="color:rgba(255,240,150,.6);font-size:10px;margin-right:2px">⚡</span>Electric — 1·3·5·7</div>
+        <div class="plane-item"><span style="color:rgba(201,168,76,.6);font-size:10px;margin-right:2px">◉</span>Magnetic — 2·4·6·8</div>
+        <div class="plane-item"><span style="color:rgba(123,79,166,.7);font-size:10px;margin-right:2px">◌</span>Aetheric — 9·0</div>
+      </div>
+    </div>
   </div>
 
-</div><!-- /page-wrap -->
+  <a href="/blog/master-numbers-11-22-33-numerology/" class="master-note">
+    &#10022; &nbsp; Master numbers do not reduce — they transcend the root matrix and are at a different level &nbsp; &#10022;
+  </a>
+
+</div>
 
 <script>
-// ── Node positions (grid layout, 0-indexed) ──────────────────
-// Grid is 3x3. We'll map number → {row,col} for canvas coords.
-const NUM_POS = {
-  1:{r:0,c:0}, 2:{r:0,c:1}, 3:{r:0,c:2},
-  4:{r:1,c:0}, 5:{r:1,c:1}, 6:{r:1,c:2},
-  7:{r:2,c:0}, 8:{r:2,c:1}, 9:{r:2,c:2},
-};
-
-// Transformation path: 1→4→7→2→5→8→3→6→9→(back to 1)
-const INF_PATH = [1,4,7,2,5,8,3,6,9];
-
-// Plane colors
+const INF_PATH   = [1,4,7,2,5,8,3,6,9];
 const PLANE_COLOR = {
-  mind:   { r:74,  g:148, b:148 },
-  body:   { r:201, g:168, b:76  },
-  spirit: { r:123, g:79,  b:166 },
-  pivot:  { r:232, g:201, b:107 },
+  mind:   {r:74, g:148,b:148},
+  body:   {r:201,g:168,b:76},
+  spirit: {r:123,g:79, b:166},
+  pivot:  {r:232,g:201,b:107},
 };
-
 const PLANE_MAP = {1:'mind',2:'mind',3:'mind',4:'body',5:'pivot',6:'body',7:'spirit',8:'spirit',9:'spirit'};
 
-// ── Canvas setup ─────────────────────────────────────────────
-const canvas  = document.getElementById('codex-canvas');
-const ctx     = canvas.getContext('2d');
-const ring    = document.querySelector('.zero-ring');
-const grid    = document.getElementById('codex-grid');
-
+const canvas = document.getElementById('codex-canvas');
+const ctx    = canvas.getContext('2d');
+const ring   = document.querySelector('.zero-ring');
 let W, H, nodePositions = {};
-let bolts = [];
-let pathProgress = 0;  // 0..INF_PATH.length, float
-let activeSeq = 0;
+let particles = [];
+let pulseTimer = 0, pulseSeq = 0;
+// Travelling dot state
+let travelDot = null;
 
 function resize() {
   const rect = ring.getBoundingClientRect();
@@ -755,305 +509,188 @@ function resize() {
 
 function computeNodePositions() {
   nodePositions = {};
-  const ringRect = ring.getBoundingClientRect();
-  document.querySelectorAll('.node').forEach(node => {
-    const num  = parseInt(node.dataset.num);
-    const rect = node.getBoundingClientRect();
-    nodePositions[num] = {
-      x: rect.left + rect.width/2  - ringRect.left,
-      y: rect.top  + rect.height/2 - ringRect.top,
-    };
+  const rr = ring.getBoundingClientRect();
+  document.querySelectorAll('.node').forEach(n => {
+    const num = parseInt(n.dataset.num);
+    const r   = n.getBoundingClientRect();
+    nodePositions[num] = { x: r.left+r.width/2-rr.left, y: r.top+r.height/2-rr.top };
   });
 }
 
-// ── Lightning bolt ────────────────────────────────────────────
+// ── Lightning bolt ─────────────────────────────────────────────
 class Bolt {
   constructor(from, to, color) {
-    this.from  = from;
-    this.to    = to;
-    this.color = color;
-    this.life  = 0;
-    this.maxLife = 28 + Math.random() * 20;
-    this.segments = this.buildSegments();
-    this.width = 1.5 + Math.random();
+    this.from=from; this.to=to; this.color=color;
+    this.life=0; this.maxLife=28+Math.random()*20;
+    this.width=1.5+Math.random();
+    this.segs=this.build();
   }
-
-  buildSegments() {
-    const segs = [];
-    const dx = this.to.x - this.from.x;
-    const dy = this.to.y - this.from.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    const steps = Math.floor(dist / 14) + 2;
-    let px = this.from.x, py = this.from.y;
-
-    for (let i = 1; i <= steps; i++) {
-      const t   = i / steps;
-      const nx  = this.from.x + dx * t;
-      const ny  = this.from.y + dy * t;
-      // jitter perpendicular
-      const perp = (Math.random() - 0.5) * dist * 0.22;
-      const nx2  = nx + (-dy/dist) * perp;
-      const ny2  = ny + ( dx/dist) * perp;
-      segs.push({ x1:px, y1:py, x2:nx2, y2:ny2 });
-      px = nx2; py = ny2;
+  build() {
+    const segs=[]; const dx=this.to.x-this.from.x, dy=this.to.y-this.from.y;
+    const dist=Math.sqrt(dx*dx+dy*dy); const steps=Math.floor(dist/14)+2;
+    let px=this.from.x, py=this.from.y;
+    for(let i=1;i<=steps;i++){
+      const t=i/steps, nx=this.from.x+dx*t, ny=this.from.y+dy*t;
+      const perp=(Math.random()-.5)*dist*.22;
+      const nx2=nx+(-dy/dist)*perp, ny2=ny+(dx/dist)*perp;
+      segs.push({x1:px,y1:py,x2:nx2,y2:ny2}); px=nx2; py=ny2;
     }
-    segs.push({ x1:px, y1:py, x2:this.to.x, y2:this.to.y });
-    return segs;
+    segs.push({x1:px,y1:py,x2:this.to.x,y2:this.to.y}); return segs;
   }
-
   draw(ctx) {
-    const t = this.life / this.maxLife;
-    const alpha = t < 0.3 ? t/0.3 : (t > 0.7 ? (1-t)/0.3 : 1);
-    const {r,g,b} = this.color;
-
+    const t=this.life/this.maxLife, a=t<.3?t/.3:(t>.7?(1-t)/.3:1);
+    const {r,g,b}=this.color;
     ctx.save();
-    // Glow pass
-    ctx.shadowBlur  = 12;
-    ctx.shadowColor = `rgba(${r},${g},${b},${alpha * 0.8})`;
-    ctx.strokeStyle = `rgba(${r},${g},${b},${alpha * 0.4})`;
-    ctx.lineWidth   = this.width * 3;
-    ctx.lineCap     = 'round';
-    ctx.beginPath();
-    this.segments.forEach((s,i) => {
-      if (i===0) ctx.moveTo(s.x1,s.y1);
-      ctx.lineTo(s.x2,s.y2);
-    });
-    ctx.stroke();
-
-    // Core pass
-    ctx.shadowBlur  = 4;
-    ctx.strokeStyle = `rgba(${r},${g},${b+50},${alpha})`;
-    ctx.lineWidth   = this.width;
-    ctx.beginPath();
-    this.segments.forEach((s,i) => {
-      if (i===0) ctx.moveTo(s.x1,s.y1);
-      ctx.lineTo(s.x2,s.y2);
-    });
-    ctx.stroke();
-    ctx.restore();
-
-    this.life++;
-    return this.life < this.maxLife;
+    ctx.shadowBlur=12; ctx.shadowColor=`rgba(${r},${g},${b},${a*.8})`;
+    ctx.strokeStyle=`rgba(${r},${g},${b},${a*.4})`; ctx.lineWidth=this.width*3; ctx.lineCap='round';
+    ctx.beginPath(); this.segs.forEach((s,i)=>{ if(i===0)ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2); }); ctx.stroke();
+    ctx.shadowBlur=4; ctx.strokeStyle=`rgba(${r},${g},${b+50},${a})`; ctx.lineWidth=this.width;
+    ctx.beginPath(); this.segs.forEach((s,i)=>{ if(i===0)ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2); }); ctx.stroke();
+    ctx.restore(); this.life++; return this.life<this.maxLife;
   }
 }
 
-// ── Spark particle ────────────────────────────────────────────
 class Spark {
-  constructor(x, y, color) {
-    this.x = x; this.y = y; this.color = color;
-    this.vx = (Math.random()-.5) * 3;
-    this.vy = (Math.random()-.5) * 3;
-    this.life = 0; this.maxLife = 14 + Math.random() * 10;
-    this.r = 1 + Math.random() * 2;
-  }
-  draw(ctx) {
-    const alpha = 1 - this.life / this.maxLife;
-    const {r,g,b} = this.color;
-    ctx.save();
-    ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-    ctx.shadowBlur = 6; ctx.shadowColor = `rgba(${r},${g},${b},${alpha})`;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-    this.x += this.vx; this.y += this.vy;
-    this.vx *= 0.9; this.vy *= 0.9;
-    this.life++;
-    return this.life < this.maxLife;
-  }
+  constructor(x,y,color){this.x=x;this.y=y;this.color=color;this.vx=(Math.random()-.5)*3;this.vy=(Math.random()-.5)*3;this.life=0;this.maxLife=14+Math.random()*10;this.r=1+Math.random()*2}
+  draw(ctx){const a=1-this.life/this.maxLife,{r,g,b}=this.color;ctx.save();ctx.fillStyle=`rgba(${r},${g},${b},${a})`;ctx.shadowBlur=6;ctx.shadowColor=`rgba(${r},${g},${b},${a})`;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore();this.x+=this.vx;this.y+=this.vy;this.vx*=.9;this.vy*=.9;this.life++;return this.life<this.maxLife}
 }
 
-// ── Travelling pulse along path ───────────────────────────────
-class Pulse {
+// ── Travelling dot along path ──────────────────────────────────
+class TravelDot {
   constructor(from, to, color) {
-    this.from = from; this.to = to; this.color = color;
-    this.t = 0; this.speed = 0.04;
-    this.r = 4;
+    this.from=from; this.to=to; this.color=color; this.t=0; this.speed=0.025;
   }
   draw(ctx) {
     this.t += this.speed;
-    const x = this.from.x + (this.to.x - this.from.x) * this.t;
-    const y = this.from.y + (this.to.y - this.from.y) * this.t;
-    const {r,g,b} = this.color;
-    const alpha = Math.sin(this.t * Math.PI);
-
+    const x = this.from.x+(this.to.x-this.from.x)*this.t;
+    const y = this.from.y+(this.to.y-this.from.y)*this.t;
+    const {r,g,b}=this.color;
+    const a = Math.sin(this.t*Math.PI);
     ctx.save();
-    ctx.shadowBlur = 16;
-    ctx.shadowColor = `rgba(${r},${g},${b},${alpha})`;
-    const grad = ctx.createRadialGradient(x,y,0, x,y,this.r*2);
-    grad.addColorStop(0, `rgba(255,255,255,${alpha*0.9})`);
-    grad.addColorStop(0.4, `rgba(${r},${g},${b},${alpha*0.8})`);
-    grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(x,y,this.r*2,0,Math.PI*2);
-    ctx.fill();
+    // outer glow
+    ctx.shadowBlur=20; ctx.shadowColor=`rgba(${r},${g},${b},${a*.9})`;
+    const grad=ctx.createRadialGradient(x,y,0,x,y,8);
+    grad.addColorStop(0,`rgba(255,255,255,${a*.95})`);
+    grad.addColorStop(.3,`rgba(${r},${g},${b},${a*.8})`);
+    grad.addColorStop(1,`rgba(${r},${g},${b},0)`);
+    ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(x,y,8,0,Math.PI*2); ctx.fill();
+    // bright core
+    ctx.shadowBlur=0; ctx.fillStyle=`rgba(255,255,255,${a})`;
+    ctx.beginPath(); ctx.arc(x,y,2.5,0,Math.PI*2); ctx.fill();
     ctx.restore();
-
     return this.t < 1;
   }
 }
 
-let particles = [];   // bolts + sparks + pulses
-let frameCount = 0;
-let pulseTimer  = 0;
-let pulseSeq    = 0;
-
 function fireBolt(fromNum, toNum) {
-  if (!nodePositions[fromNum] || !nodePositions[toNum]) return;
-  const fromNode = document.querySelector(`.node[data-num="${fromNum}"]`);
-  const plane    = fromNode?.dataset.plane || 'body';
-  const color    = PLANE_COLOR[plane] || PLANE_COLOR.body;
-  const from = nodePositions[fromNum];
-  const to   = nodePositions[toNum];
-
-  // Main bolt
-  particles.push(new Bolt(from, to, color));
-
-  // Trailing sparks at destination
-  for (let i = 0; i < 4; i++) {
-    particles.push(new Spark(to.x, to.y, color));
-  }
-
-  // Travelling pulse
-  particles.push(new Pulse(from, to, color));
+  if(!nodePositions[fromNum]||!nodePositions[toNum]) return;
+  const n = document.querySelector(`.node[data-num="${fromNum}"]`);
+  const plane = n?.dataset.plane||'body';
+  const color = PLANE_COLOR[plane]||PLANE_COLOR.body;
+  const from=nodePositions[fromNum], to=nodePositions[toNum];
+  particles.push(new Bolt(from,to,color));
+  for(let i=0;i<4;i++) particles.push(new Spark(to.x,to.y,color));
+  // travelling dot replaces old Pulse — more visible
+  travelDot = new TravelDot(from, to, color);
 }
 
 function firePulseAlongPath() {
-  const fromNum = INF_PATH[pulseSeq % INF_PATH.length];
-  const toNum   = INF_PATH[(pulseSeq + 1) % INF_PATH.length];
+  const fromNum=INF_PATH[pulseSeq%INF_PATH.length];
+  const toNum  =INF_PATH[(pulseSeq+1)%INF_PATH.length];
   fireBolt(fromNum, toNum);
-
-  // Highlight legend
-  document.querySelectorAll('.inf-step').forEach((el, i) => {
-    el.classList.toggle('active', i === pulseSeq % INF_PATH.length);
+  document.querySelectorAll('.inf-step').forEach((el,i)=>{
+    el.classList.toggle('active', i===pulseSeq%INF_PATH.length);
   });
-
   pulseSeq++;
 }
 
 function draw() {
-  ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0,0,W,H);
 
-  // Draw faint permanent connection lines
-  if (frameCount === 0) {
-    // Draw them once as static
-  }
-
-  // Draw node halos
-  Object.entries(nodePositions).forEach(([num, pos]) => {
-    const plane = PLANE_MAP[num] || 'body';
-    const col   = PLANE_COLOR[plane];
-    const grad  = ctx.createRadialGradient(pos.x, pos.y, 2, pos.x, pos.y, 22);
-    grad.addColorStop(0, `rgba(${col.r},${col.g},${col.b},0.18)`);
-    grad.addColorStop(1, `rgba(${col.r},${col.g},${col.b},0)`);
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(pos.x, pos.y, 22, 0, Math.PI*2);
-    ctx.fill();
+  // Node halos
+  Object.entries(nodePositions).forEach(([num,pos])=>{
+    const plane=PLANE_MAP[num]||'body', col=PLANE_COLOR[plane];
+    const grad=ctx.createRadialGradient(pos.x,pos.y,2,pos.x,pos.y,22);
+    grad.addColorStop(0,`rgba(${col.r},${col.g},${col.b},0.18)`);
+    grad.addColorStop(1,`rgba(${col.r},${col.g},${col.b},0)`);
+    ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(pos.x,pos.y,22,0,Math.PI*2); ctx.fill();
   });
 
-  // Draw faint infinity path lines
-  ctx.save();
-  ctx.setLineDash([3, 6]);
-  ctx.lineWidth = 0.8;
-  for (let i = 0; i < INF_PATH.length; i++) {
-    const fromNum = INF_PATH[i];
-    const toNum   = INF_PATH[(i+1) % INF_PATH.length];
-    const from = nodePositions[fromNum];
-    const to   = nodePositions[toNum];
-    if (!from || !to) continue;
-    const col = PLANE_COLOR[PLANE_MAP[fromNum]];
-    ctx.strokeStyle = `rgba(${col.r},${col.g},${col.b},0.12)`;
-    ctx.beginPath();
-    ctx.moveTo(from.x, from.y);
-    ctx.lineTo(to.x,   to.y);
-    ctx.stroke();
+  // Faint dotted path lines
+  ctx.save(); ctx.setLineDash([3,6]); ctx.lineWidth=0.8;
+  for(let i=0;i<INF_PATH.length;i++){
+    const f=nodePositions[INF_PATH[i]], t=nodePositions[INF_PATH[(i+1)%INF_PATH.length]];
+    if(!f||!t) continue;
+    const col=PLANE_COLOR[PLANE_MAP[INF_PATH[i]]];
+    ctx.strokeStyle=`rgba(${col.r},${col.g},${col.b},0.12)`;
+    ctx.beginPath(); ctx.moveTo(f.x,f.y); ctx.lineTo(t.x,t.y); ctx.stroke();
   }
-  ctx.setLineDash([]);
-  ctx.restore();
+  ctx.setLineDash([]); ctx.restore();
 
-  // Update & draw particles
-  particles = particles.filter(p => p.draw(ctx));
+  // Draw travelling dot
+  if(travelDot && !travelDot.draw(ctx)) travelDot=null;
 
-  // Fire pulses on timer
+  // Particles
+  particles = particles.filter(p=>p.draw(ctx));
+
   pulseTimer++;
-  if (pulseTimer % 38 === 0) {
-    firePulseAlongPath();
-  }
+  if(pulseTimer%38===0) firePulseAlongPath();
 
-  frameCount++;
   requestAnimationFrame(draw);
 }
 
-// ── Init ──────────────────────────────────────────────────────
-function initLabels() {
-  const rowLabelsContainer = document.getElementById('codex-row-labels');
-  const colLabelsContainer = document.getElementById('codex-col-labels');
-  
-  // Row labels: Mind, Body, Spirit
-  const rowLabels = ['Mind', 'Body', 'Spirit'];
-  rowLabels.forEach(label => {
-    const div = document.createElement('div');
-    div.className = 'row-label';
-    div.textContent = label;
-    rowLabelsContainer.appendChild(div);
-  });
-  
-  // Column labels: Mind, Body, Spirit
-  const colLabels = ['Mind', 'Body', 'Spirit'];
-  colLabels.forEach(label => {
-    const div = document.createElement('div');
-    div.className = 'col-label';
-    div.textContent = label;
-    colLabelsContainer.appendChild(div);
-  });
-}
-
-window.addEventListener('resize', () => { resize(); });
-window.addEventListener('load', () => {
+window.addEventListener('resize', resize);
+window.addEventListener('load', ()=>{
   resize();
-  initLabels();
-  // Small delay to let grid render fully
-  setTimeout(() => {
-    computeNodePositions();
-    draw();
-  }, 300);
+  setTimeout(()=>{ computeNodePositions(); draw(); }, 300);
 });
 
-// ── Tooltip show/hide via JS so it stays open while mousing into it ──
+// ── Tooltip: hover to show, click to pin ──────────────────────
 document.querySelectorAll('.node').forEach(node => {
   const tip = node.querySelector('.node-tooltip');
-  if (!tip) return;
-
+  if(!tip) return;
   let hideTimer = null;
 
   function showTip() {
     clearTimeout(hideTimer);
-    // Hide all others first
-    document.querySelectorAll('.node-tooltip.show').forEach(t => {
-      if (t !== tip) t.classList.remove('show');
-    });
+    document.querySelectorAll('.node-tooltip.show').forEach(t=>{ if(t!==tip) t.classList.remove('show'); });
     tip.classList.add('show');
   }
-
   function hideTip() {
-    // Small delay — lets the mouse move into the tooltip itself
-    hideTimer = setTimeout(() => tip.classList.remove('show'), 120);
+    if(node.classList.contains('pinned')) return;
+    hideTimer = setTimeout(()=>tip.classList.remove('show'), 120);
   }
 
   node.addEventListener('mouseenter', showTip);
   node.addEventListener('mouseleave', hideTip);
-  tip.addEventListener('mouseenter',  () => clearTimeout(hideTimer));
-  tip.addEventListener('mouseleave',  hideTip);
+  tip.addEventListener('mouseenter', ()=>clearTimeout(hideTimer));
+  tip.addEventListener('mouseleave', hideTip);
+
+  // Click to pin/unpin
+  node.addEventListener('click', e => {
+    if(e.target.closest('.tooltip-link')) return; // let link clicks through
+    const wasPinned = node.classList.contains('pinned');
+    // unpin all others
+    document.querySelectorAll('.node.pinned').forEach(n=>{ n.classList.remove('pinned'); n.querySelector('.node-tooltip')?.classList.remove('show'); });
+    if(!wasPinned) {
+      node.classList.add('pinned');
+      tip.classList.add('show');
+    }
+  });
 });
 
-// Click anywhere outside nodes → hide all tooltips
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.node')) {
-    document.querySelectorAll('.node-tooltip.show').forEach(t => t.classList.remove('show'));
+// Click outside → unpin all
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.node')) {
+    document.querySelectorAll('.node.pinned').forEach(n=>n.classList.remove('pinned'));
+    document.querySelectorAll('.node-tooltip.show').forEach(t=>t.classList.remove('show'));
   }
 });
+
+// ── 666 overlay toggle ────────────────────────────────────────
+function showSixes() {
+  document.getElementById('sixes-overlay').classList.toggle('visible');
+}
 </script>
 </body>
 </html>
