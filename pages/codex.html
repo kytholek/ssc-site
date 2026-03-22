@@ -274,13 +274,40 @@ body::before {
 .node:nth-child(9) .node-tooltip.show { transform: translateX(0) translateY(0) !important; }
 
 /* ── Row / Column labels ── */
-.codex-labels {
-  position: absolute; inset: 0; pointer-events: none; z-index: 5;
-}
-.label-row, .label-col {
+.codex-row-labels, .codex-col-labels {
   position: absolute;
-  font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: .35em;
-  text-transform: uppercase; color: rgba(201,168,76,.35);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.codex-row-labels {
+  left: -80px;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.codex-col-labels {
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.row-label, .col-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: rgba(201,168,76, .5);
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* ── Infinity path indicator ── */
@@ -602,6 +629,11 @@ body::before {
       </div>
 
     </div><!-- /codex-grid -->
+
+    <!-- Labels container -->
+    <div id="codex-row-labels" class="codex-row-labels"></div>
+    <div id="codex-col-labels" class="codex-col-labels"></div>
+
   </div><!-- /zero-ring -->
 
   <!-- Transformation path legend -->
@@ -955,9 +987,33 @@ function draw() {
 }
 
 // ── Init ──────────────────────────────────────────────────────
+function initLabels() {
+  const rowLabelsContainer = document.getElementById('codex-row-labels');
+  const colLabelsContainer = document.getElementById('codex-col-labels');
+  
+  // Row labels: Mind, Body, Spirit
+  const rowLabels = ['Mind', 'Body', 'Spirit'];
+  rowLabels.forEach(label => {
+    const div = document.createElement('div');
+    div.className = 'row-label';
+    div.textContent = label;
+    rowLabelsContainer.appendChild(div);
+  });
+  
+  // Column labels: Mind, Body, Spirit
+  const colLabels = ['Mind', 'Body', 'Spirit'];
+  colLabels.forEach(label => {
+    const div = document.createElement('div');
+    div.className = 'col-label';
+    div.textContent = label;
+    colLabelsContainer.appendChild(div);
+  });
+}
+
 window.addEventListener('resize', () => { resize(); });
 window.addEventListener('load', () => {
   resize();
+  initLabels();
   // Small delay to let grid render fully
   setTimeout(() => {
     computeNodePositions();
