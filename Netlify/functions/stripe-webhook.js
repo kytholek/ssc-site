@@ -102,7 +102,7 @@ exports.handler = async (event) => {
   let stripeEvent;
   try {
     const rawBody = event.isBase64Encoded
-      ? Buffer.from(event.body, 'base64').toString('utf8')
+      ? Buffer.from(event.body, 'base64')
       : event.body;
     stripeEvent = stripe.webhooks.constructEvent(
       rawBody,
