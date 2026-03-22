@@ -2,7 +2,7 @@
   publish = "."
 
 [functions]
-  directory = "Netlify/functions"
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
 [functions."stripe-webhook"]
