@@ -895,21 +895,48 @@ function handleUnlockPaymentModal() {
     sessionStorage.setItem('ssc_pending_order', JSON.stringify(userPayload));
   } catch(e) {}
 
-  var stripeBase = btn.getAttribute('data-stripe-url') || '#';
-  var stripeUrl  = stripeBase +
-    (stripeBase.includes('?') ? '&' : '?') +
-    'prefilled_email=' + encodeURIComponent(email) +
-    '&client_reference_id=' + encodeURIComponent(btoa(JSON.stringify({
-      name:  userPayload.name,
-      month: userPayload.month,
-      day:   userPayload.day,
-      year:  userPayload.year
-    })).replace(/=/g,''));
-
   btn.disabled    = true;
   btn.textContent = '· Connecting to Stripe ·';
 
-  window.location.href = stripeUrl;
+  // ── Call Netlify function to create checkout session ─────────────────
+  fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email:  email,
+      name:   userPayload.name,
+      month:  userPayload.month,
+      day:    userPayload.day,
+      year:   userPayload.year
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(data => {
+        throw new Error(data.error || `HTTP ${response.status}`);
+      }).catch(() => {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.url) {
+      // Redirect to Stripe checkout
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Failed to create checkout session');
+    }
+  })
+  .catch(err => {
+    console.error('Checkout error:', err);
+    if (errorEl) {
+      errorEl.textContent = 'Checkout failed: ' + err.message;
+      errorEl.style.color = 'var(--rose-light)';
+    }
+    btn.disabled    = false;
+    btn.textContent = '⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡';
+  });
 }
 
 // Expose

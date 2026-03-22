@@ -17,12 +17,18 @@ function getCorsHeaders(requestOrigin) {
 }
 
 exports.handler = async (event) => {
+  console.log('=== create-checkout handler called ===');
+  console.log('Method:', event.httpMethod);
+  console.log('Headers:', event.headers);
+  console.log('Body exists:', !!event.body);
+  
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: getCorsHeaders(event.headers.origin), body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
+    console.error('HTTP method is not POST:', event.httpMethod);
     return {
       statusCode: 405,
       headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
