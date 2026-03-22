@@ -1,10 +1,48 @@
+# Convert 3-6-9 and 666 articles to full HTML pages with CSS
+
+$articles = @(
+    @{
+        path = "blog/3-6-9-pattern-tesla-numerology"
+        title = "The 3–6–9 Pattern: Why Tesla Was Right"
+        description = "Tesla said 3, 6, and 9 were the key to the universe. The Codex shows exactly why — and what these three frequencies reveal about Mind, Body, and Spirit."
+        date = "March 2026"
+        breadcrumb = "3-6-9 Pattern"
+        tag = "The Numbers"
+    },
+    @{
+        path = "blog/666-numerology-meaning"
+        title = "666 Is Not What You Think"
+        description = "One of the most feared number sequences in Western culture is actually a structural law encoded into the consciousness matrix. Here's what it actually means."
+        date = "March 2026"
+        breadcrumb = "666 Meaning"
+        tag = "The Numbers"
+    }
+)
+
+foreach ($article in $articles) {
+    $filePath = $article.path + "\index.html"
+    
+    # Read existing file
+    $content = Get-Content -Path $filePath -Raw
+    
+    # Extract just the blog-post div content (excluding opening/closing tags)
+    $match = [regex]::Match($content, '<div class="blog-post"[^>]*?>(.*)</div>\s*$', [System.Text.RegularExpressions.RegexOptions]::Singleline)
+    if ($match.Success) {
+        $innerContent = $match.Groups[1].Value
+    } else {
+        Write-Host "Could not extract content from $filePath"
+        continue
+    }
+    
+    # Build the new HTML
+    $html = @"
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Do you use the name on your birth certificate, or the name you actually go by? The answer matters more than you think.">
-  <title>Which Name Do You Use? Birth Name vs. Known Name in Numerology</title>
+  <meta name="description" content="$($article.description)">
+  <title>$($article.title)</title>
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
   <link rel="stylesheet" href="/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
@@ -16,7 +54,7 @@
     .blog-post-back:hover { color: #c9a84c; }
     .blog-post-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 12px; }
     .blog-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 8px; letter-spacing: .15em; }
-    .blog-tag.rose { background: rgba(153,95,70,0.15); color: #dd9585; }
+    .blog-tag.teal { background: rgba(124,184,168,0.15); color: #7cb8a8; }
     .blog-post-title { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: #c9a84c; line-height: 1.2; margin-bottom: 16px; margin-top: 0; letter-spacing: .04em; }
     .blog-post-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 28px; }
     .blog-post-content { display: block; }
@@ -81,47 +119,19 @@
   <div class="post-wrap">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="/">Home</a>
-      <span>></span>
+      <span>&#8250;</span>
       <a href="/#blog">Blog</a>
-      <span>></span>
-      <span>Birth Name vs. Known Name</span>
+      <span>&#8250;</span>
+      <span>$($article.breadcrumb)</span>
     </nav>
 
     <div class="blog-post">
       <button class="blog-post-back" onclick="history.back()">← Back to Blog</button>
-      <div class="blog-post-eyebrow"><span class="blog-tag rose">Practice</span></div>
-      <h1 class="blog-post-title">Which Name Do You Use? Birth Name vs. Known Name in Numerology</h1>
-      <div class="blog-post-meta">October 2024 · 5 min read</div>
+      <div class="blog-post-eyebrow"><span class="blog-tag teal">$($article.tag)</span></div>
+      <h1 class="blog-post-title">$($article.title)</h1>
+      <div class="blog-post-meta">$($article.date) · $(if ($article.path -match '3-6-9') { '9 min read' } else { '8 min read' })</div>
       <div class="blog-post-content">
-      <p>This is one of the most frequent questions in numerology practice, and the answer is not simply one or the other. Different names serve different functions in a reading — and understanding which name to use for which calculation changes everything.</p>
-      <h3>The Birth Name: Your Original Parameters</h3>
-      <p>For calculating your Expression, Soul, Outer Personality, and Life Calling numbers, SSC uses the name on your birth certificate — exactly as written, including middle names. This is because your birth name represents the original parameters assigned to your simulation at the moment of instantiation. It carries the numerical signature of the energies you were born carrying, regardless of what name you later adopted.</p>
-      <p>If you were adopted and given a new name shortly after birth, use the name on your birth certificate, not the adoptive name. If you are uncertain, use the earliest name you have a record of.</p>
-      <h3>Married Names, Chosen Names, and Stage Names</h3>
-      <p>Names you take on later in life — through marriage, legal change, or professional choice — create a secondary frequency overlay. They do not replace your birth name numbers, but they do add a new energetic layer that becomes increasingly prominent over time.</p>
-      <blockquote>Your birth name is your factory settings. Names adopted later are updates — they run alongside the original code, not instead of it.</blockquote>
-      <p>Some numerologists calculate readings for both names and compare them. This can be illuminating, particularly for people who feel a strong discontinuity between their early life and who they have become.</p>
-      <h3>Nicknames and Shortened Names</h3>
-      <p>Nicknames are not used for formal calculations. However, because they are the names most frequently spoken and thought, they carry real energetic weight in daily life. The Outer Personality number is particularly relevant here — the name others call you shapes the energy of how the world perceives and interacts with you.</p>
-
-      <div class="related-posts">
-        <div class="related-posts-title">Related Articles</div>
-        <div class="related-posts-grid">
-          <a href="/blog/life-path-2-numerology/" class="related-post-card">
-            <div class="related-post-title">Life Path 2: The Bridge</div>
-            <span class="related-post-link">Read More</span>
-          </a>
-          <a href="/blog/name-change-numerology-simulation/" class="related-post-card">
-            <div class="related-post-title">Name Change Numerology</div>
-            <span class="related-post-link">Read More</span>
-          </a>
-          <a href="/blog/how-to-calculate-life-path-number/" class="related-post-card">
-            <div class="related-post-title">Calculate Life Path</div>
-            <span class="related-post-link">Read More</span>
-          </a>
-        </div>
-      </div>
-
+$innerContent
       </div>
     </div>
   </div>
@@ -130,3 +140,11 @@
   <script src="/js/app.js"></script>
 </body>
 </html>
+"@
+    
+    # Write the new HTML
+    Set-Content -Path $filePath -Value $html -Encoding UTF8
+    Write-Host "Converted $filePath"
+}
+
+Write-Host "Conversion complete!"

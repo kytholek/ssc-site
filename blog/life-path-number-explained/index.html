@@ -1,25 +1,87 @@
-<!-- blog/post-lifepath.html — individual post fragment -->
-<!-- Loaded dynamically by app.js when openPost('post-lifepath') is called -->
-<!-- Edit freely: this file is self-contained. -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-
-<div class="blog-post" id="post-lifepath"
-    data-title="The Life Path Number: Your Primary Frequency"
-    data-description="Of all seven frequencies, Life Path is the most fundamental. It describes not what you will do, but what you are here to learn."
-    data-date="November 2024">
-    <button class="blog-post-back" onclick="closePosts()">← Back to Blog</button>
-    <div class="blog-post-eyebrow"><span class="blog-tag">Numerology</span></div>
-    <h1 class="blog-post-title">The Life Path Number: Your Primary Frequency</h1>
-    <div class="blog-post-meta">November 2024 · 6 min read</div>
-    <div class="blog-post-content">
-      <p>Of all seven frequencies in the SSC system, the Life Path number is the most fundamental. If the other six numbers describe different facets of your experience, the Life Path describes the prism itself — the core theme your simulation is oriented around.</p>
-      <p>It is calculated by reducing your entire birth date to a single root number (or master number). Every digit of your birth date contributes. The resulting number describes not what you will achieve, not what you are talented at, but what you are here to <strong>learn</strong>.</p>
-      <h3>The Distinction That Changes Everything</h3>
-      <p>Most people encounter numerology and immediately want to know what their numbers say about their strengths. The Life Path, however, is specifically about lessons — which means it often describes the areas of life where you encounter the most friction, confusion, or recurring challenge.</p>
-      <p>A Life Path 8 is not someone who naturally has power and financial mastery. It is someone who is here to <em>learn</em> about power and material mastery — often through early experiences of powerlessness, financial instability, or the misuse of authority. The lesson comes packaged as the struggle.</p>
-      <blockquote>The Life Path is the primary curriculum of your simulation. Not the grade you receive — the subject you are enrolled in.</blockquote>
-      <h3>Life Path and the Other Six Frequencies</h3>
-      <p>The Life Path does not operate in isolation. Your Expression number describes the gifts and energies you bring to that path. Your Soul number describes your inner motivation for walking it. Your Life Calling number — a compound of Life Path and Expression — describes the specific mission that emerges when your lessons and gifts combine.</p>
-      <p>Understanding all seven together gives you a complete picture. The Life Path is the foundation — but the other frequencies are what make the foundation livable.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Of all seven frequencies, Life Path is the most fundamental. It describes not what you will do, but what you are here to learn.">
+  <title>The Life Path Number: Your Primary Frequency</title>
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body { padding-top: 64px; }
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 100px; position: relative; z-index: 1; }
+    .blog-post { display: block !important; }
+    .blog-post-back { background: none; border: none; font-family: "Cinzel", serif; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #7cb8a8; cursor: pointer; margin-bottom: 12px; padding: 0; }
+    .blog-post-back:hover { color: #c9a84c; }
+    .blog-post-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 12px; }
+    .blog-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 8px; letter-spacing: .15em; }
+    .blog-tag { background: rgba(124,184,168,0.15); color: #7cb8a8; }
+    .blog-post-title { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: #c9a84c; line-height: 1.2; margin-bottom: 16px; margin-top: 0; }
+    .blog-post-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 28px; }
+    .blog-post-content { display: block; }
+    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+    .breadcrumb a { color: #995f46; text-decoration: none; }
+    .breadcrumb a:hover { color: #c9a84c; }
+    .blog-post-content h3 { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #7cb8a8; margin: 28px 0 12px; }
+    .blog-post-content p { font-size: 18px; line-height: 1.9; color: #c4c4c4; margin-bottom: 20px; }
+    .blog-post-content p strong { color: #ffffff; }
+    .blog-post-content p em { color: #dd9585; }
+    .blog-post-content blockquote { border-left: 2px solid #995f46; padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: #ffffff; line-height: 1.75; }
+    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #c9a84c; margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: #ffffff; margin-bottom: 12px; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
+    .related-post-card:hover .related-post-link { color: #c9a84c; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/"><div class="nav-logo-sigil"><svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="ng1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/><circle cx="80" cy="80" r="36" fill="url(#ng1)"/><line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/></svg></div><div class="nav-logo-text">&#10022;&nbsp;Simulation Source Code</div></a>
+    <div class="nav-links"><a class="nav-link" href="/#calculator">Calculator</a><a class="nav-link" href="/#blog">Blog</a><a class="nav-link" href="/#books">Books</a><a class="nav-link" href="/#about">About</a></div>
+    <div class="nav-right"><a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a></div>
+  </nav>
+  <div class="post-wrap">
+    <nav class="breadcrumb"><a href="/">Home</a> <span>></span> <a href="/#blog">Blog</a> <span>></span> <span>Life Path</span></nav>
+    <div class="blog-post">
+      <button class="blog-post-back" onclick="history.back()">← Back to Blog</button>
+      <div class="blog-post-eyebrow"><span class="blog-tag">Numerology</span></div>
+      <h1 class="blog-post-title">The Life Path Number: Your Primary Frequency</h1>
+      <div class="blog-post-meta">November 2024 · 6 min read</div>
+      <div class="blog-post-content">
+        <p>Of all seven frequencies in the SSC system, the Life Path number is the most fundamental. If the other six numbers describe different facets of your experience, the Life Path describes the prism itself — the core theme your simulation is oriented around.</p>
+        <p>It is calculated by reducing your entire birth date to a single root number (or master number). Every digit of your birth date contributes. The resulting number describes not what you will achieve, not what you are talented at, but what you are here to <strong>learn</strong>.</p>
+        <h3>The Distinction That Changes Everything</h3>
+        <p>Most people encounter numerology and immediately want to know what their numbers say about their strengths. The Life Path, however, is specifically about lessons — which means it often describes the areas of life where you encounter the most friction, confusion, or recurring challenge.</p>
+        <p>A Life Path 8 is not someone who naturally has power and financial mastery. It is someone who is here to <em>learn</em> about power and material mastery — often through early experiences of powerlessness, financial instability, or the misuse of authority. The lesson comes packaged as the struggle.</p>
+        <blockquote>The Life Path is the primary curriculum of your simulation. Not the grade you receive — the subject you are enrolled in.</blockquote>
+        <h3>Life Path and the Other Six Frequencies</h3>
+        <p>The Life Path does not operate in isolation. Your Expression number describes the gifts and energies you bring to that path. Your Soul number describes your inner motivation for walking it. Your Life Calling number — a compound of Life Path and Expression — describes the specific mission that emerges when your lessons and gifts combine.</p>
+        <p>Understanding all seven together gives you a complete picture. The Life Path is the foundation — but the other frequencies are what make the foundation livable.</p>
+        <div class="related-posts">
+          <div class="related-posts-title">Related Articles</div>
+          <div class="related-posts-grid">
+            <a href="/blog/how-to-calculate-life-path-number/" class="related-post-card">
+              <div class="related-post-title">Calculate Life Path</div>
+              <span class="related-post-link">Read More</span>
+            </a>
+            <a href="/blog/birth-name-vs-known-name-numerology/" class="related-post-card">
+              <div class="related-post-title">Birth Name vs Known</div>
+              <span class="related-post-link">Read More</span>
+            </a>
+            <a href="/blog/master-numbers-11-22-33-numerology/" class="related-post-card">
+              <div class="related-post-title">Master Numbers</div>
+              <span class="related-post-link">Read More</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/app.js"></script>
+</body>
+</html>

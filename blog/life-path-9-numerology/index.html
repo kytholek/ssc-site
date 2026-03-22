@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,11 +22,44 @@
     .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; }
     .post-nav-btn { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid rgba(201,168,76,0.1); text-decoration: none; }
     .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; gap: 10px; }
+    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--teal-light); display: inline-block; transition: color .2s; }
+    .related-post-card:hover .related-post-link { color: var(--gold); }
+
   </style>
 </head>
 <body>
 
-<nav><a class="nav-logo" href="/"><div class="nav-logo-sigil"><svg viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c"/></svg></div></a></nav>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="nav-logo-sigil">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="ng1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+        <circle cx="80" cy="80" r="36" fill="url(#ng1)"/>
+        <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+        <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+        <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">&#10022;&nbsp;Simulation Source Code</div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="/#calculator">Calculator</a>
+    <a class="nav-link" href="/#blog">Blog</a>
+    <a class="nav-link" href="/#books">Books</a>
+    <a class="nav-link" href="/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a>
+  </div>
+</nav>
 
 <div class="post-wrap">
   <nav class="breadcrumb"><a href="/">Home</a><span>›</span><span>Life Path 9</span></nav>
@@ -74,7 +107,29 @@
 
 </div>
 
+
+
+  <div class="related-posts">
+    <div class="related-posts-title">Related Articles</div>
+    <div class="related-posts-grid">
+      <a href="/blog/life-path-6-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 6: The Healer</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/life-path-3-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 3: The Creator</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/3-6-9-pattern-tesla-numerology/" class="related-post-card">
+        <div class="related-post-title">3-6-9 Pattern</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+    </div>
+  </div>
+
 <footer><div class="footer-copy">© 2026 Simulation Source Code</div></footer>
 
 </body>
 </html>
+
+

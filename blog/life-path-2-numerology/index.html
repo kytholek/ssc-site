@@ -87,7 +87,15 @@
     .post-nav-hint { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold-dim); }
     .post-nav-title { font-size: 15px; color: var(--text); }
     .post-nav-empty { display: block; }
-    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+        .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--teal-light); display: inline-block; transition: color .2s; }
+    .related-post-card:hover .related-post-link { color: var(--gold); }
+.breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
     .breadcrumb a { color: var(--gold-dim); text-decoration: none; transition: color .2s; }
     .breadcrumb a:hover { color: var(--gold); }
     .breadcrumb span { color: var(--text-muted); }
@@ -145,7 +153,6 @@
   <!-- Body -->
   <div class="post-body">
   <div class="blog-post-eyebrow"><span class="blog-tag teal">The Numbers</span><span class="blog-date">March 2026</span></div>
-  <h1 class="blog-post-title">Life Path 2 in Numerology: The Bridge — Meaning, Shadow, and Integration</h1>
   <div class="blog-post-meta">Life Path 2 &nbsp;&#183;&nbsp; External Circuit &nbsp;&#183;&nbsp; Codex Position 2</div>
 
   <div class="blog-post-content">
@@ -224,6 +231,25 @@
 
 <!-- FOOTER -->
 <footer>
+
+  <div class="related-posts">
+    <div class="related-posts-title">Related Articles</div>
+    <div class="related-posts-grid">
+      <a href="/blog/life-path-1-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 1: The Initiator</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/life-path-3-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 3: The Creator</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/birth-name-vs-known-name-numerology/" class="related-post-card">
+        <div class="related-post-title">Birth Name vs. Known Name</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+    </div>
+  </div>
+
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="footer-logo-text">Simulation Source Code</div>
@@ -266,3 +292,5 @@
 
 </body>
 </html>
+
+

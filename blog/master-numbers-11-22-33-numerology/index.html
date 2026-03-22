@@ -1,17 +1,56 @@
-<!-- blog/post-master.html — individual post fragment -->
-<!-- Loaded dynamically by app.js when openPost('post-master') is called -->
-<!-- Edit freely: this file is self-contained. -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-
-<div class="blog-post" id="post-master"
-    data-title="Master Numbers 11, 22 & 33: Amplified Purpose"
-    data-description="When a number reduces to 11, 22, or 33, the rules change. These are master numbers — frequencies of amplified potential and amplified challenge."
-    data-date="October 2024">
-    <button class="blog-post-back" onclick="closePosts()">← Back to Blog</button>
-    <div class="blog-post-eyebrow"><span class="blog-tag teal">The Numbers</span></div>
-    <h1 class="blog-post-title">Master Numbers 11, 22 &amp; 33: Amplified Purpose</h1>
-    <div class="blog-post-meta">October 2024 · 7 min read</div>
-    <div class="blog-post-content">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="When a number reduces to 11, 22, or 33, the rules change. These are master numbers — frequencies of amplified potential and amplified challenge.">
+  <title>Master Numbers 11, 22 & 33</title>
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body { padding-top: 64px; }
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 100px; position: relative; z-index: 1; }
+    .blog-post { display: block !important; }
+    .blog-post-back { background: none; border: none; font-family: "Cinzel", serif; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #7cb8a8; cursor: pointer; margin-bottom: 12px; padding: 0; }
+    .blog-post-back:hover { color: #c9a84c; }
+    .blog-post-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 12px; }
+    .blog-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 8px; letter-spacing: .15em; }
+    .blog-tag.teal { background: rgba(124,184,168,0.15); color: #7cb8a8; }
+    .blog-post-title { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: #c9a84c; line-height: 1.2; margin-bottom: 16px; margin-top: 0; }
+    .blog-post-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 28px; }
+    .blog-post-content { display: block; }
+    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+    .breadcrumb a { color: #995f46; text-decoration: none; }
+    .breadcrumb a:hover { color: #c9a84c; }
+    .blog-post-content h3 { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #7cb8a8; margin: 28px 0 12px; }
+    .blog-post-content p { font-size: 18px; line-height: 1.9; color: #c4c4c4; margin-bottom: 20px; }
+    .blog-post-content p strong { color: #ffffff; }
+    .blog-post-content blockquote { border-left: 2px solid #995f46; padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: #ffffff; line-height: 1.75; }
+    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #c9a84c; margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: #ffffff; margin-bottom: 12px; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
+    .related-post-card:hover .related-post-link { color: #c9a84c; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/"><div class="nav-logo-sigil"><svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="ng1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/><circle cx="80" cy="80" r="36" fill="url(#ng1)"/><line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/></svg></div><div class="nav-logo-text">&#10022;&nbsp;Simulation Source Code</div></a>
+    <div class="nav-links"><a class="nav-link" href="/#calculator">Calculator</a><a class="nav-link" href="/#blog">Blog</a><a class="nav-link" href="/#books">Books</a><a class="nav-link" href="/#about">About</a></div>
+    <div class="nav-right"><a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a></div>
+  </nav>
+  <div class="post-wrap">
+    <nav class="breadcrumb"><a href="/">Home</a> <span>></span> <a href="/#blog">Blog</a> <span>></span> <span>Master Numbers</span></nav>
+    <div class="blog-post">
+      <button class="blog-post-back" onclick="history.back()">← Back to Blog</button>
+      <div class="blog-post-eyebrow"><span class="blog-tag teal">The Numbers</span></div>
+      <h1 class="blog-post-title">Master Numbers 11, 22 & 33: Amplified Purpose</h1>
+      <div class="blog-post-meta">October 2024 · 7 min read</div>
+      <div class="blog-post-content">
       <p>In the Pythagorean system, all numbers are eventually reduced to a single digit between 1 and 9. There are three exceptions: 11, 22, and 33. These are master numbers — and they operate differently from every other frequency in the system.</p>
       <p>When your calculation produces one of these numbers, you do not reduce further. You are operating at a frequency that contains both the master number's heightened potential <strong>and</strong> its reduced root (11 carries both 11 and 2; 22 carries both 22 and 4; 33 carries both 33 and 6).</p>
       <h3>What Makes a Number "Master"</h3>
@@ -24,5 +63,11 @@
       <p>Life Path 22 combines the visionary capacity of 11 with the practical discipline of 4. The 22 can build things of lasting significance — organisations, systems, movements. The challenge is the gap between the scale of the vision and the patience required to realise it step by step.</p>
       <h3>33 — The Master Teacher</h3>
       <p>The rarest of the three, 33 carries the energy of selfless teaching and compassionate wisdom. At its highest, it is the frequency of those who serve human evolution through transmission of hard-earned understanding. The challenge is not performing wisdom before it has been genuinely earned.</p>
+      <div class="related-posts"><div class="related-posts-title">Related Articles</div><div class="related-posts-grid"><a href="/blog/3-6-9-pattern-tesla-numerology/" class="related-post-card"><div class="related-post-title">3-6-9 Pattern</div><span class="related-post-link">Read More</span></a><a href="/blog/angel-numbers-being-read-wrong/" class="related-post-card"><div class="related-post-title">Angel Numbers</div><span class="related-post-link">Read More</span></a><a href="/blog/life-path-2-numerology/" class="related-post-card"><div class="related-post-title">Life Path 2: The Bridge</div><span class="related-post-link">Read More</span></a></div></div>
+      </div>
     </div>
   </div>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/app.js"></script>
+</body>
+</html>

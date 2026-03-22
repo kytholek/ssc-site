@@ -1,8 +1,14 @@
-<!-- blog/post-five-lenses.html — individual post fragment -->
-<!-- Loaded dynamically by app.js when openPost('post-five-lenses') is called -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The five lenses of consciousness: ego, mind, soul, spirit, and void.">
+  <title>Five Lenses of Self</title>
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
 /* ── Five Lenses post — self-contained styles ────────────────── */
 
 .post-five-lenses-view {
@@ -243,9 +249,18 @@
 .fl-void .fl-list li::before { color: #5050a0; }
 
 .fl-section + .fl-section { border-top: none; }
-</style>
+    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--teal-light); display: inline-block; transition: color .2s; }
+    .related-post-card:hover .related-post-link { color: var(--gold); }
 
-<div class="blog-post post-five-lenses-view" id="post-five-lenses"
+</style>
+</head>
+<body>
     data-title="The Five Lenses of Self: Which One Are You Seeing Through?"
     data-description="Ego, Mind, Soul, Spirit, and Void — five layers of self, five entirely different experiences of the same reality. Which one are you looking through right now?"
     data-date="March 2026">
@@ -367,6 +382,27 @@
     <p class="fl-intro-body">Knowing these five lenses exist is the beginning. The practice is learning to recognise, in real time, which one you are currently looking through — and developing the capacity to choose.</p>
     <p class="fl-intro-body" style="margin-top:16px">You cannot skip the Ego. It is the necessary layer through which this form of life is lived. But you can learn to observe it rather than be entirely governed by it. That observation capacity is the Mind coming online at a higher level of function. As the Mind stabilises, the Soul's signal becomes more audible. As the Soul becomes more familiar, the Spirit's perspective becomes occasionally accessible. The Void is there throughout, as the ground beneath all of it.</p>
     <p class="fl-intro-body" style="margin-top:24px;font-size:20px;color:var(--text-dim)">The question to return to, regularly and honestly, is the simplest one:<br><span style="color:var(--gold);font-style:normal;font-family:'Cinzel',serif;font-size:17px;letter-spacing:.1em">which lens am I looking through right now?</span></p>
+
+  <div class="related-posts">
+    <div class="related-posts-title">Related Articles</div>
+    <div class="related-posts-grid">
+      <a href="/blog/codex-architecture-consciousness-matrix/" class="related-post-card">
+        <div class="related-post-title">Codex Architecture</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/electric-magnetic-aether-three-natures-of-number/" class="related-post-card">
+        <div class="related-post-title">Electric & Magnetic</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/evolution-of-energy-0-through-9/" class="related-post-card">
+        <div class="related-post-title">Evolution of Energy</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+    </div>
+  </div>
+
   </div>
 
 </div>
+</body>
+</html>

@@ -86,7 +86,15 @@
     .post-nav-hint { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold-dim); }
     .post-nav-title { font-size: 15px; color: var(--text); }
     .post-nav-empty { display: block; }
-    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+        .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--teal-light); display: inline-block; transition: color .2s; }
+    .related-post-card:hover .related-post-link { color: var(--gold); }
+.breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
     .breadcrumb a { color: var(--gold-dim); text-decoration: none; transition: color .2s; }
     .breadcrumb a:hover { color: var(--gold); }
     .breadcrumb span { color: var(--text-muted); }
@@ -217,6 +225,25 @@
 
 <!-- FOOTER -->
 <footer>
+
+  <div class="related-posts">
+    <div class="related-posts-title">Related Articles</div>
+    <div class="related-posts-grid">
+      <a href="/blog/life-path-2-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 2: The Bridge</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/life-path-9-numerology/" class="related-post-card">
+        <div class="related-post-title">Life Path 9: The Sage</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+      <a href="/blog/path-of-transformation-1-4-7-2-5-8-3-6-9/" class="related-post-card">
+        <div class="related-post-title">Path of Transformation</div>
+        <span class="related-post-link">Read More</span>
+      </a>
+    </div>
+  </div>
+
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="footer-logo-text">Simulation Source Code</div>
@@ -259,3 +286,4 @@
 
 </body>
 </html>
+

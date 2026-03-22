@@ -1,28 +1,89 @@
-<!-- blog/post-shadow.html — individual post fragment -->
-<!-- Loaded dynamically by app.js when openPost('post-shadow') is called -->
-<!-- Edit freely: this file is self-contained. -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-
-<div class="blog-post" id="post-shadow"
-    data-title="The Shadow Side of Your Numbers: What Numerology Doesn't Tell You"
-    data-description="Every number carries both gift and challenge. Authentic numerology doesn't flatten this into positivity — it honours the full spectrum of what each frequency means."
-    data-date="July 2024">
-    <button class="blog-post-back" onclick="closePosts()">← Back to Blog</button>
-    <div class="blog-post-eyebrow"><span class="blog-tag gold">Philosophy</span></div>
-    <h1 class="blog-post-title">The Shadow Side of Your Numbers: What Numerology Doesn't Tell You</h1>
-    <div class="blog-post-meta">July 2024 · 7 min read</div>
-    <div class="blog-post-content">
-      <p>Most numerology content is aspirational. Your Life Path 3 means you are creative, expressive, joyful. Your Expression 8 means you are powerful, magnetic, destined for material success. The numbers are presented as flattering portraits, and people share them the way they share personality test results — looking for the parts that sound good.</p>
-      <p>This is not wrong, exactly. But it is incomplete. And the incompleteness is the problem.</p>
-      <h3>Every Number Has a Shadow</h3>
-      <p>The number 3 does not only describe creativity and joy. It also describes the person who talks instead of doing, who scatters their gifts across too many projects, who uses humour to avoid depth, who craves attention and feels devastated without it. These are not failures of character — they are the shadow expressions of the same frequency that, at its best, produces beauty and delight.</p>
-      <p>The number 8 does not only describe power and abundance. It also describes the person who becomes ruthless in pursuit of control, who confuses net worth with self-worth, who drives away the people they love with relentless ambition. Again — same frequency, different face.</p>
-      <blockquote>Knowing only the light side of your numbers is like reading a map with half the terrain removed. You will be surprised by the obstacles every time.</blockquote>
-      <h3>Why SSC Interpretations Include Shadow</h3>
-      <p>In SSC readings, every frequency is presented with both its gifts and its challenges. This is not pessimism — it is accuracy. Understanding the shadow expressions of your numbers allows you to recognise when you are operating at the lower end of a frequency and make a conscious choice to move toward the higher expression.</p>
-      <p>The numbers do not determine your behaviour. They describe the terrain. What you do with that terrain is always yours to decide.</p>
-      <h3>Working With Shadow, Not Against It</h3>
-      <p>The most useful approach to shadow numerology is not avoidance but recognition. When you notice the 3 shadow — the scattering, the performance, the avoidance of depth — you are not failing your frequency. You are receiving information. The shadow is pointing you toward what needs attention.</p>
-      <p>Integration, not elimination, is the goal. The shadow of any number contains energy. When that energy is acknowledged and worked with consciously, it becomes part of the frequency's full power rather than a leak in it.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Every number carries both gift and challenge. Authentic numerology doesn't flatten this into positivity — it honours the full spectrum of what each frequency means.">
+  <title>The Shadow Side of Your Numbers</title>
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body { padding-top: 64px; }
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 100px; position: relative; z-index: 1; }
+    .blog-post { display: block !important; }
+    .blog-post-back { background: none; border: none; font-family: "Cinzel", serif; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #7cb8a8; cursor: pointer; margin-bottom: 12px; padding: 0; }
+    .blog-post-back:hover { color: #c9a84c; }
+    .blog-post-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 12px; }
+    .blog-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 8px; letter-spacing: .15em; }
+    .blog-tag.gold { background: rgba(201,168,76,0.15); color: #c9a84c; }
+    .blog-post-title { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: #c9a84c; line-height: 1.2; margin-bottom: 16px; margin-top: 0; }
+    .blog-post-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 28px; }
+    .blog-post-content { display: block; }
+    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+    .breadcrumb a { color: #995f46; text-decoration: none; }
+    .breadcrumb a:hover { color: #c9a84c; }
+    .blog-post-content h3 { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #7cb8a8; margin: 28px 0 12px; }
+    .blog-post-content p { font-size: 18px; line-height: 1.9; color: #c4c4c4; margin-bottom: 20px; }
+    .blog-post-content p strong { color: #ffffff; }
+    .blog-post-content blockquote { border-left: 2px solid #995f46; padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: #ffffff; line-height: 1.75; }
+    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #c9a84c; margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: #ffffff; margin-bottom: 12px; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
+    .related-post-card:hover .related-post-link { color: #c9a84c; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/"><div class="nav-logo-sigil"><svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="ng1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/><circle cx="80" cy="80" r="36" fill="url(#ng1)"/><line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/></svg></div><div class="nav-logo-text">&#10022;&nbsp;Simulation Source Code</div></a>
+    <div class="nav-links"><a class="nav-link" href="/#calculator">Calculator</a><a class="nav-link" href="/#blog">Blog</a><a class="nav-link" href="/#books">Books</a><a class="nav-link" href="/#about">About</a></div>
+    <div class="nav-right"><a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a></div>
+  </nav>
+  <div class="post-wrap">
+    <nav class="breadcrumb"><a href="/">Home</a> <span>></span> <a href="/#blog">Blog</a> <span>></span> <span>Shadow Side</span></nav>
+    <div class="blog-post">
+      <button class="blog-post-back" onclick="history.back()">← Back to Blog</button>
+      <div class="blog-post-eyebrow"><span class="blog-tag gold">Philosophy</span></div>
+      <h1 class="blog-post-title">The Shadow Side of Your Numbers: What Numerology Doesn't Tell You</h1>
+      <div class="blog-post-meta">July 2024 · 7 min read</div>
+      <div class="blog-post-content">
+        <p>Most numerology content is aspirational. Your Life Path 3 means you are creative, expressive, joyful. Your Expression 8 means you are powerful, magnetic, destined for material success. The numbers are presented as flattering portraits, and people share them the way they share personality test results — looking for the parts that sound good.</p>
+        <p>This is not wrong, exactly. But it is incomplete. And the incompleteness is the problem.</p>
+        <h3>Every Number Has a Shadow</h3>
+        <p>The number 3 does not only describe creativity and joy. It also describes the person who talks instead of doing, who scatters their gifts across too many projects, who uses humour to avoid depth, who craves attention and feels devastated without it. These are not failures of character — they are the shadow expressions of the same frequency that, at its best, produces beauty and delight.</p>
+        <p>The number 8 does not only describe power and abundance. It also describes the person who becomes ruthless in pursuit of control, who confuses net worth with self-worth, who drives away the people they love with relentless ambition. Again — same frequency, different face.</p>
+        <blockquote>Knowing only the light side of your numbers is like reading a map with half the terrain removed. You will be surprised by the obstacles every time.</blockquote>
+        <h3>Why SSC Interpretations Include Shadow</h3>
+        <p>In SSC readings, every frequency is presented with both its gifts and its challenges. This is not pessimism — it is accuracy. Understanding the shadow expressions of your numbers allows you to recognise when you are operating at the lower end of a frequency and make a conscious choice to move toward the higher expression.</p>
+        <p>The numbers do not determine your behaviour. They describe the terrain. What you do with that terrain is always yours to decide.</p>
+        <h3>Working With Shadow, Not Against It</h3>
+        <p>The most useful approach to shadow numerology is not avoidance but recognition. When you notice the 3 shadow — the scattering, the performance, the avoidance of depth — you are not failing your frequency. You are receiving information. The shadow is pointing you toward what needs attention.</p>
+        <p>Integration, not elimination, is the goal. The shadow of any number contains energy. When that energy is acknowledged and worked with consciously, it becomes part of the frequency's full power rather than a leak in it.</p>
+        <div class="related-posts">
+          <div class="related-posts-title">Related Articles</div>
+          <div class="related-posts-grid">
+            <a href="/blog/life-path-6-numerology/" class="related-post-card">
+              <div class="related-post-title">Life Path 6: The Healer</div>
+              <span class="related-post-link">Read More</span>
+            </a>
+            <a href="/blog/life-path-8-numerology/" class="related-post-card">
+              <div class="related-post-title">Life Path 8: The Organizer</div>
+              <span class="related-post-link">Read More</span>
+            </a>
+            <a href="/blog/evolution-of-energy-0-through-9/" class="related-post-card">
+              <div class="related-post-title">Evolution of Energy</div>
+              <span class="related-post-link">Read More</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/app.js"></script>
+</body>
+</html>
