@@ -99,15 +99,15 @@ nav > a.nav-logo {
 }
 
 nav > .nav-links {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: flex;
+  visibility: visible;
+  opacity: 1;
 }
 
 nav > .nav-right {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: flex;
+  visibility: visible;
+  opacity: 1;
 }
 
 body { padding-top: 64px; }
@@ -1056,9 +1056,10 @@ footer {
 ═══════════════════════════════════════ */
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
-  .nav-links { display: none; }
-  .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
+  .nav-links { display: none !important; }
+  .nav-right { display: none !important; }
+  .nav-cta { display: none !important; }
+  .nav-hamburger { display: flex !important; }
 
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
   .footer-brand { grid-column: 1/-1; }
