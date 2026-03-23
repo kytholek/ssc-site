@@ -1074,6 +1074,22 @@ footer {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 20px !important;
   }
+
+  /* Holographic freq cards — stack on mobile */
+  .freq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    margin-top: 32px !important;
+    margin-bottom: 48px !important;
+  }
+  .freq-card:nth-child(1) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card:nth-child(2) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card:nth-child(3) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card:nth-child(4) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card:nth-child(5) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card:nth-child(6) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card:nth-child(7) { grid-column: auto !important; grid-row: auto !important; }
+  .freq-card { padding: 20px 18px !important; }
 }
 
 @media (max-width: 480px) {
@@ -1092,6 +1108,13 @@ footer {
 
   #blog-grid-lp .blog-card-glyph {
     font-size: 40px !important;
+  }
+
+  /* Further optimize freq cards for small screens */
+  .freq-card { padding: 16px 14px !important; }
+  .freq-number { font-size: 22px !important; margin-bottom: 8px !important; }
+  .freq-name { font-size: 10px !important; margin-bottom: 8px !important; }
+  .freq-desc { font-size: 14px !important; }
   }
 }
 
