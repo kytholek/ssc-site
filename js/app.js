@@ -478,12 +478,21 @@ async function loadNav() {
     if (!response.ok) throw new Error('Failed to load nav');
     
     const navHtml = await response.text();
-    navPlaceholder.outerHTML = navHtml;
     
-    // Re-attach event listeners if needed
-    const hamburger = document.getElementById('hamburger');
-    if (hamburger) {
-      hamburger.onclick = toggleMenu;
+    // Parse HTML safely
+    const temp = document.createElement('div');
+    temp.innerHTML = navHtml;
+    const newNav = temp.firstElementChild;
+    
+    // Replace placeholder with the actual nav
+    if (newNav) {
+      navPlaceholder.replaceWith(newNav);
+      
+      // Re-attach event listeners
+      const hamburger = document.getElementById('hamburger');
+      if (hamburger) {
+        hamburger.onclick = toggleMenu;
+      }
     }
   } catch (err) {
     console.error('loadNav error:', err);
