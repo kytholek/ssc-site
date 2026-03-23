@@ -467,6 +467,34 @@ function _setArticleSchema(post) {
 
 
 // ────────────────────────────────────────────────────────────
+//  LOAD SHARED NAVIGATION (for blog pages)
+// ────────────────────────────────────────────────────────────
+async function loadNav() {
+  try {
+    const navPlaceholder = document.getElementById('main-nav');
+    if (!navPlaceholder) return; // No placeholder, nav not needed on this page
+    
+    const response = await fetch('/pages/nav.html');
+    if (!response.ok) throw new Error('Failed to load nav');
+    
+    const navHtml = await response.text();
+    navPlaceholder.outerHTML = navHtml;
+    
+    // Re-attach event listeners if needed
+    const hamburger = document.getElementById('hamburger');
+    if (hamburger) {
+      hamburger.onclick = toggleMenu;
+    }
+  } catch (err) {
+    console.error('loadNav error:', err);
+  }
+}
+
+// Make loadNav globally available
+window.loadNav = loadNav;
+
+
+// ────────────────────────────────────────────────────────────
 //  PAGE ROUTING
 // ────────────────────────────────────────────────────────────
 function showPage(name, pushState = true) {

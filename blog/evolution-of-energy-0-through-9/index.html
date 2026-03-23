@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="From the Void of Zero to the Dispersal of Nine ‚Äî the complete evolution of energy through the numerical frequencies, and what each stage means for the simulation you are living.">
+  <meta name="description" content="From the Void of Zero to the Dispersal of Nine ó the complete evolution of energy through the numerical frequencies, and what each stage means for the simulation you are living.">
   <title>The Evolution of Energy: 0 Through 9</title>
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
   <link rel="stylesheet" href="/css/style.css">
@@ -30,7 +30,7 @@
     .blog-post-content p strong { color: #ffffff; }
     .blog-post-content ul { margin: 16px 0 20px 0; padding: 0; list-style: none; }
     .blog-post-content ul li { font-size: 17px; line-height: 1.75; color: #c4c4c4; padding: 10px 0 10px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
-    .blog-post-content ul li::before { content: "‚óà"; position: absolute; left: 0; top: 11px; font-size: 9px; color: #995f46; }
+    .blog-post-content ul li::before { content: "?"; position: absolute; left: 0; top: 11px; font-size: 9px; color: #995f46; }
     .system-section { margin: 48px 0; padding: 28px; border: 1px solid rgba(201,168,76,0.1); border-radius: 8px; background: rgba(201,168,76,0.02); }
     .system-num-display { font-family: "Cormorant SC", serif; font-size: 72px; color: rgba(201,168,76,0.15); font-weight: 300; margin-bottom: 12px; line-height: 1; }
     .system-section-eyebrow { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #7cb8a8; margin-bottom: 8px; }
@@ -38,7 +38,7 @@
     .system-section-body p { font-size: 17px; line-height: 1.85; color: #c4c4c4; margin-bottom: 16px; }
     .system-list { margin: 16px 0 0; padding: 0; list-style: none; }
     .system-list li { font-size: 15px; line-height: 1.7; color: #9a9a9a; padding: 8px 0 8px 20px; position: relative; }
-    .system-list li::before { content: "‚ñ™"; position: absolute; left: 4px; top: 10px; font-size: 6px; color: #7cb8a8; }
+    .system-list li::before { content: "?"; position: absolute; left: 4px; top: 10px; font-size: 6px; color: #7cb8a8; }
     .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
     .post-nav-btn { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid rgba(201,168,76,0.1); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
     .post-nav-btn:hover { border-color: rgba(201,168,76,0.25); background: rgba(201,168,76,0.04); }
@@ -53,62 +53,37 @@
     .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
     .related-post-card:hover .related-post-link { color: #c9a84c; }
     @media (max-width: 640px) { .post-nav { grid-template-columns: 1fr; } }
-  </style>
+  </style>  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof loadNav === 'function') loadNav();
+    });
+  </script>
+
 </head>
 <body>
-  <nav>
-    <a class="nav-logo" href="/">
-      <div class="nav-logo-sigil">
-        <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs><radialGradient id="ng1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs>
-          <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
-          <circle cx="80" cy="80" r="36" fill="url(#ng1)"/>
-          <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
-          <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
-          <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="nav-logo-text">&#10022;&nbsp;Simulation Source Code</div>
-    </a>
-    <div class="nav-links">
-      <a class="nav-link" href="/#calculator">Calculator</a>
-      <a class="nav-link" href="/#blog">Blog</a>
-      <a class="nav-link" href="/#books">Books</a>
-      <a class="nav-link" href="/#about">About</a>
-    </div>
-    <div class="nav-right">
-      <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a>
-    </div>
-  </nav>
+  <nav id="main-nav"></nav>
 
   <div class="post-wrap">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span>&#8250;</span>
-      <a href="/#blog">Blog</a>
-      <span>&#8250;</span>
-      <span>Evolution of Energy</span>
-    </nav>
 
     <div class="blog-post">
-      <button class="blog-post-back" onclick="history.back()">‚Üê Back to Blog</button>
+      <button class="blog-post-back" onclick="history.back()">? Back to Blog</button>
       <div class="blog-post-eyebrow"><span class="blog-tag teal">The System</span></div>
       <h1 class="blog-post-title">The Evolution of Energy: 0 Through 9</h1>
-      <div class="blog-post-meta">March 2025 ¬∑ The System</div>
+      <div class="blog-post-meta">March 2025 ∑ The System</div>
       <div class="blog-post-content">
 
-        <p>Numbers are not symbols invented to count things. They are the stages through which Energy itself evolves ‚Äî from nothing, into form, through experience, and back again. What follows is that journey, told through each frequency in turn.</p>
+        <p>Numbers are not symbols invented to count things. They are the stages through which Energy itself evolves ó from nothing, into form, through experience, and back again. What follows is that journey, told through each frequency in turn.</p>
     <div class="system-section ss-0">
           <div class="system-num-display">0</div>
           <div class="system-section-eyebrow">The Womb of Creation</div>
           <h2 class="system-section-title">The Void of Infinite Potential</h2>
           <div class="system-section-body">
-          <p>Zero is the Womb of Creation, symbolised within its very shape ‚Äî ‚óã. The portal from which life initially emerges and, further down the line, the portal that raises life into higher dimensions.</p>
+          <p>Zero is the Womb of Creation, symbolised within its very shape ó ?. The portal from which life initially emerges and, further down the line, the portal that raises life into higher dimensions.</p>
           <p>It is the container from which all other frequencies dance, blend and express themselves in form. It is the closest to the Source, existing simultaneously as nothingness and the amplification of all things. It is the beginning and the end of a cycle.</p>
           <ul class="system-list">
             <li>All cycles emerge from nothing</li>
             <li>All identities dissolve back into nothing</li>
-            <li>The simulation is not the illusion ‚Äî identity is</li>
+            <li>The simulation is not the illusion ó identity is</li>
           </ul>
         </div>
       </div>
@@ -177,7 +152,7 @@
         <div class="system-section-eyebrow">Foundations</div>
         <h2 class="system-section-title">Beginning of Organized Structures</h2>
         <div class="system-section-body">
-          <p>At some point, the chaos of a child must be tempered and matured. This needs a foundation of structured growth. Just as a seed needs an optimal environment to truly flourish, so does any being. The Four is that organized structure for the work of growth. The four walls of a house, 4 sides to a door, 4 boundaries to a pasture ‚Äî four being the number of organized containment for efficiency.</p>
+          <p>At some point, the chaos of a child must be tempered and matured. This needs a foundation of structured growth. Just as a seed needs an optimal environment to truly flourish, so does any being. The Four is that organized structure for the work of growth. The four walls of a house, 4 sides to a door, 4 boundaries to a pasture ó four being the number of organized containment for efficiency.</p>
           <p>In the cosmic evolution of things, the 4 can be seen as the beginning of smaller "beings" organizing together to create more complex structures or vehicles for consciousness to embody (different specialized cells for organs, etc). Notice now we are in the color green, the FOURTH chakra and color of Earth, life's foundation.</p>
           <ul class="system-list">
             <li>Structure enables growth</li>
@@ -233,7 +208,7 @@
         <div class="system-section-body">
           <p>In the Hindu idea, after your children are grown and you are left with an empty nest, this is the time to pursue knowledge of Self. Following the evolution of the numbers, you have experienced much of what the world offers and are now prepared for the quest of Truth.</p>
           <p>Deep sense of knowing and discerning. Research can bring rebellion through knowledge. And ultimate knowledge is the knowledge of self and its ability to reprogram the mental construct and rewire the nervous system to better bring about authentic expression of that Self. The desire now becomes to understand the mind itself, the creator of experience.</p>
-          <p>In the Cosmic evolution of things, you could see this as the advent of original science ‚Äî the pursuit of understanding.</p>
+          <p>In the Cosmic evolution of things, you could see this as the advent of original science ó the pursuit of understanding.</p>
           <ul class="system-list">
             <li>Inner quest begins</li>
             <li>Wisdom through introspection</li>
@@ -250,7 +225,7 @@
         <div class="system-section-eyebrow">Wisdom Embodied</div>
         <h2 class="system-section-title">Self-Empowered Knowledge</h2>
         <div class="system-section-body">
-          <p>Through the knowledge gained from its time in the 7, the 8 seeks to apply that knowledge to gain power ‚Äî either over itself (positive), or others (negative). As the symbol of the Eight alludes to, true power is the balance of the Masculine and Feminine energies within, bridging the higher realms with the lower.</p>
+          <p>Through the knowledge gained from its time in the 7, the 8 seeks to apply that knowledge to gain power ó either over itself (positive), or others (negative). As the symbol of the Eight alludes to, true power is the balance of the Masculine and Feminine energies within, bridging the higher realms with the lower.</p>
           <p>For a time, the energy of the eight will seek to impose its power on others, until it realizes that true power comes only from the influence over itself. Willful application of discipline towards self-control that leads to Self-empowerment.</p>
           <p>This is where Spirit truly embodies the flesh, again reflected in the symbol of the 8, where upper realm and lower realm are working and flowing together as one.</p>
           <ul class="system-list">
@@ -305,4 +280,6 @@
   <script src="/js/app.js"></script>
 </body>
 </html>
+
+
 

@@ -31,7 +31,7 @@
     .blog-post-content p strong { color: #ffffff; }
     .blog-post-content ul { margin: 16px 0 20px 0; padding: 0; list-style: none; }
     .blog-post-content ul li { font-size: 17px; line-height: 1.75; color: #c4c4c4; padding: 10px 0 10px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
-    .blog-post-content ul li::before { content: "‚óà"; position: absolute; left: 0; top: 11px; font-size: 9px; color: #995f46; }
+    .blog-post-content ul li::before { content: "?"; position: absolute; left: 0; top: 11px; font-size: 9px; color: #995f46; }
     .blog-post-content blockquote { border-left: 2px solid #995f46; padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: #ffffff; line-height: 1.75; }
     .blog-post-figure { margin: 44px auto; max-width: 100%; text-align: center; }
     .blog-post-figure img { max-width: 100%; height: auto; display: block; margin: 0 auto 16px; }
@@ -50,59 +50,34 @@
     .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
     .related-post-card:hover .related-post-link { color: #c9a84c; }
     @media (max-width: 640px) { .post-nav { grid-template-columns: 1fr; } }
-  </style>
+  </style>  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof loadNav === 'function') loadNav();
+    });
+  </script>
+
 </head>
 <body>
-  <nav>
-    <a class="nav-logo" href="/">
-      <div class="nav-logo-sigil">
-        <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs><radialGradient id="ng1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs>
-          <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
-          <circle cx="80" cy="80" r="36" fill="url(#ng1)"/>
-          <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
-          <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
-          <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="nav-logo-text">&#10022;&nbsp;Simulation Source Code</div>
-    </a>
-    <div class="nav-links">
-      <a class="nav-link" href="/#calculator">Calculator</a>
-      <a class="nav-link" href="/#blog">Blog</a>
-      <a class="nav-link" href="/#books">Books</a>
-      <a class="nav-link" href="/#about">About</a>
-    </div>
-    <div class="nav-right">
-      <a href="https://kytholek.github.io/Quest-of-Life-APP/" class="nav-cta" target="_blank">&#11041;&nbsp;Download App</a>
-    </div>
-  </nav>
+  <nav id="main-nav"></nav>
 
   <div class="post-wrap">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span>></span>
-      <a href="/#blog">Blog</a>
-      <span>></span>
-      <span>Birth Name vs. Known Name</span>
-    </nav>
 
     <div class="blog-post">
-      <button class="blog-post-back" onclick="history.back()">‚Üê Back to Blog</button>
+      <button class="blog-post-back" onclick="history.back()">? Back to Blog</button>
       <div class="blog-post-eyebrow"><span class="blog-tag rose">Practice</span></div>
       <h1 class="blog-post-title">Which Name Do You Use? Birth Name vs. Known Name in Numerology</h1>
-      <div class="blog-post-meta">October 2024 ¬∑ 5 min read</div>
+      <div class="blog-post-meta">October 2024 ∑ 5 min read</div>
       <div class="blog-post-content">
-      <p>This is one of the most frequent questions in numerology practice, and the answer is not simply one or the other. Different names serve different functions in a reading ‚Äî and understanding which name to use for which calculation changes everything.</p>
+      <p>This is one of the most frequent questions in numerology practice, and the answer is not simply one or the other. Different names serve different functions in a reading ó and understanding which name to use for which calculation changes everything.</p>
       <h3>The Birth Name: Your Original Parameters</h3>
-      <p>For calculating your Expression, Soul, Outer Personality, and Life Calling numbers, SSC uses the name on your birth certificate ‚Äî exactly as written, including middle names. This is because your birth name represents the original parameters assigned to your simulation at the moment of instantiation. It carries the numerical signature of the energies you were born carrying, regardless of what name you later adopted.</p>
+      <p>For calculating your Expression, Soul, Outer Personality, and Life Calling numbers, SSC uses the name on your birth certificate ó exactly as written, including middle names. This is because your birth name represents the original parameters assigned to your simulation at the moment of instantiation. It carries the numerical signature of the energies you were born carrying, regardless of what name you later adopted.</p>
       <p>If you were adopted and given a new name shortly after birth, use the name on your birth certificate, not the adoptive name. If you are uncertain, use the earliest name you have a record of.</p>
       <h3>Married Names, Chosen Names, and Stage Names</h3>
-      <p>Names you take on later in life ‚Äî through marriage, legal change, or professional choice ‚Äî create a secondary frequency overlay. They do not replace your birth name numbers, but they do add a new energetic layer that becomes increasingly prominent over time.</p>
-      <blockquote>Your birth name is your factory settings. Names adopted later are updates ‚Äî they run alongside the original code, not instead of it.</blockquote>
+      <p>Names you take on later in life ó through marriage, legal change, or professional choice ó create a secondary frequency overlay. They do not replace your birth name numbers, but they do add a new energetic layer that becomes increasingly prominent over time.</p>
+      <blockquote>Your birth name is your factory settings. Names adopted later are updates ó they run alongside the original code, not instead of it.</blockquote>
       <p>Some numerologists calculate readings for both names and compare them. This can be illuminating, particularly for people who feel a strong discontinuity between their early life and who they have become.</p>
       <h3>Nicknames and Shortened Names</h3>
-      <p>Nicknames are not used for formal calculations. However, because they are the names most frequently spoken and thought, they carry real energetic weight in daily life. The Outer Personality number is particularly relevant here ‚Äî the name others call you shapes the energy of how the world perceives and interacts with you.</p>
+      <p>Nicknames are not used for formal calculations. However, because they are the names most frequently spoken and thought, they carry real energetic weight in daily life. The Outer Personality number is particularly relevant here ó the name others call you shapes the energy of how the world perceives and interacts with you.</p>
 
       <div class="related-posts">
         <div class="related-posts-title">Related Articles</div>
@@ -130,3 +105,5 @@
   <script src="/js/app.js"></script>
 </body>
 </html>
+
+
