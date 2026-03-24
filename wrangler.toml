@@ -1,7 +1,7 @@
 # SSC Cloudflare Worker — wrangler.toml
 # Deploy with: npx wrangler deploy
 
-name = "ssc-worker"
+name = "ssc-site"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
