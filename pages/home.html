@@ -46,7 +46,7 @@
 
   <div class="hero-actions a4">
     <button class="btn-primary" onclick="showPage('calculator')">&#11042;&nbsp;Decode Your Blueprint</button>
-    <button class="btn-secondary" onclick="showPage('blog')">Learn the System</button>
+    <button class="btn-secondary" onclick="showPage('services')">See What You Get &#8594;</button>
   </div>
 
   <div class="hero-proof a4">
@@ -55,7 +55,7 @@
     <span class="hero-proof-attr">&#8212; Paige S.</span>
   </div>
 
-  <div class="scroll-indicator">Descend</div>
+  <div class="scroll-indicator">&#8595;</div>
 </section>
 
 
@@ -181,10 +181,10 @@
     <h2 class="section-title">Your Guidebook Report</h2>
     <p class="section-body" style="margin-top:8px;margin-bottom:48px;max-width:540px;margin-left:auto;margin-right:auto">A written decoding of all seven frequencies &#8212; your complete numerical blueprint, delivered as a personal guidebook. Not generic descriptions. Your specific numbers, interpreted in depth.</p>
 
-    <div class="report-preview-wrap">
-      <div class="report-preview-img-wrap">
+    <div class="report-preview-wrap" id="report-preview-wrap">
+      <div class="report-preview-img-wrap" id="report-preview-img-wrap">
         <!-- Replace src with your guidebook preview image -->
-        <img src="/Images/report-preview.png" alt="SSC Guidebook Report preview" class="report-preview-img" onerror="this.parentElement.style.display='none'">
+        <img src="/Images/report-preview.png" alt="SSC Guidebook Report preview" class="report-preview-img" onerror="document.getElementById('report-preview-img-wrap').style.display='none';document.getElementById('report-preview-wrap').classList.add('report-preview-wrap--no-img')">
         <div class="report-preview-overlay">
           <div class="report-preview-overlay-text">Sample Report</div>
         </div>
@@ -210,7 +210,7 @@
      LAYER 4 — Final CTA + Email Capture
      Goal: convert — specific copy + social proof + capture
 ════════════════════════════════════════════════ -->
-<section class="sim-layer sim-layer-5">
+<section class="sim-layer sim-layer-4">
   <div class="layer-label">
     <span class="layer-depth">LAYER 04</span>
     <span class="layer-name" data-i18n="home.layer5.name">Decode</span>
@@ -266,13 +266,13 @@
 
     <!-- Email capture -->
     <div class="email-capture-wrap">
-      <div class="email-capture-label">Not ready yet? Get a free intro to your Life Path number.</div>
+      <div class="email-capture-label">Not ready yet? Leave your email &#8212; I&#8217;ll be in touch.</div>
       <form name="blueprint-email" method="POST" data-netlify="true" class="email-capture-form" onsubmit="handleEmailCapture(event, this)">
         <input type="hidden" name="form-name" value="blueprint-email">
         <input type="email" name="email" placeholder="Your email address" required class="email-capture-input">
-        <button type="submit" class="btn-primary email-capture-btn">Send It Free</button>
+        <button type="submit" class="btn-primary email-capture-btn">Stay Connected</button>
       </form>
-      <div class="email-capture-success" id="email-capture-success" style="display:none">&#10022; Check your inbox &#8212; it&#8217;s on its way.</div>
+      <div class="email-capture-success" id="email-capture-success" style="display:none">&#10022; Got it &#8212; I&#8217;ll be in touch.</div>
       <div class="email-capture-note">No spam. Unsubscribe anytime.</div>
     </div>
 
@@ -290,7 +290,7 @@
      LAYER 5 — The Codex
      Goal: philosophy, authority, depth (for those who want it)
 ════════════════════════════════════════════════ -->
-<section class="sim-layer sim-layer-4">
+<section class="sim-layer sim-layer-5">
   <canvas class="layer-canvas fade-ready" id="canvas-matrix" width="1901" height="1274" style="width:1520.8px;height:1019.1px;"></canvas>
   <div class="layer-label">
     <span class="layer-depth">LAYER 05</span>

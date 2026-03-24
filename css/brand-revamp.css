@@ -1548,6 +1548,17 @@
   text-align: left;
 }
 
+/* When image is missing, center bullets full-width */
+.report-preview-wrap--no-img {
+  justify-content: center;
+}
+.report-preview-wrap--no-img .report-preview-bullets {
+  max-width: 520px;
+}
+.report-preview-wrap--no-img .rp-cta-wrap {
+  align-items: center;
+}
+
 .report-preview-img-wrap {
   position: relative;
   flex-shrink: 0;
