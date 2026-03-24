@@ -2,7 +2,7 @@
 # Deploy with: npx wrangler deploy
 
 name = "ssc-worker"
-main = "Netlify/functions/worker.js"
+main = "netlify/functions/worker.js"
 compatibility_date = "2024-01-01"
 
 [vars]
