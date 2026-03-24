@@ -85,7 +85,7 @@ exports.handler = async (event) => {
       line_items: [{
         price_data: {
           currency: 'usd',
-          unit_amount: 0,
+          unit_amount: 1999, // $19.99 in cents 
           product_data: {
             name: 'SSC Holographic Blueprint Reading',
             description: 'Your complete personalised frequency guidebook — all 7 frequencies, star chart, shadow work, and Quest Directive. Delivered as a branded PDF.',
