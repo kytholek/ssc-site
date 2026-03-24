@@ -176,7 +176,7 @@ OUTPUT: Complete HTML document with inline CSS. Dark theme: background #05040a, 
       'anthropic-version':    '2023-06-01',
     },
     body: JSON.stringify({
-      model:      'claude-opus-4-5',
+      model:      'claude-sonnet-4-6',
       max_tokens: 4096,
       messages: [
         { role: 'user', content: prompt }
