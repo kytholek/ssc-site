@@ -20,7 +20,7 @@
   --text: #e8dfc8;
   --text-dim: #9b9080;
   --text-muted: #5c5448;
-  --border: rgba(201,168,76,0.2);
+  --border: rgba(201,168,76,0.22);
   --border-dim: rgba(201,168,76,0.08);
   --border-mid: rgba(201,168,76,0.14);
 }
@@ -2083,43 +2083,6 @@ footer {
    Import this AFTER style.css
    ---------------------------------------------------------- */
 
-/* -- Google Fonts upgrade ------------------------------- */
-/* Cormorant SC for hero display; Cinzel for UI; EB Garamond for body */
-/* Already loaded in index.html � no change needed */
-
-/* ----------------------------------------------------------
-   ROOT � tighten to exact brand palette
-   ---------------------------------------------------------- */
-:root {
-  /* Exact brand spec colours */
-  --void:            #05040a;    /* Background � the container */
-  --deep:            #0d0b18;    /* Cards, panels */
-  --abyss:           #110f1f;
-  --panel:           #201d3a;
-  --surface:         #181530;
-
-  --gold:            #c9a84c;    /* Primary � Electric � Active */
-  --gold-light:      #e8c96b;    /* Active states � key numbers � glow centres */
-  --gold-dim:        #7a6330;    /* Eyebrows � Labels � Subdued metadata */
-
-  --amethyst:        #7b4fa6;    /* Secondary � Magnetic � Depth */
-  --amethyst-light:  #a96ed4;    /* Subtitles � Secondary CTAs � Hover */
-  --mystic:          #4a2d6b;
-
-  --teal:            #4a9494;    /* Tertiary � Aether � Bridge */
-  --teal-light:      #7ec8c8;    /* Holographic elements */
-
-  --rose:            #a04070;    /* Soul frequency � Warm accent */
-  --rose-light:      #d47aa0;
-
-  --text:            #e8dfc8;    /* Parchment � body text */
-  --text-dim:        #9b9080;    /* Dust � descriptions, meta */
-  --text-muted:      #5c5448;
-
-  --border:          rgba(201,168,76, 0.22);
-  --border-mid:      rgba(201,168,76, 0.14);
-  --border-dim:      rgba(201,168,76, 0.08);
-}
 
 /* ----------------------------------------------------------
    NAV � upgrade sigil size + text refinement
