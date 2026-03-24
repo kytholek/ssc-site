@@ -1,0 +1,28 @@
+# SSC Cloudflare Worker — wrangler.toml
+# Deploy with: npx wrangler deploy
+
+name = "ssc-worker"
+main = "Netlify/functions/worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+FROM_EMAIL = "readings@simulationsourcecode.com"
+# Secrets — set via dashboard or:
+# npx wrangler secret put STRIPE_SECRET
+# npx wrangler secret put STRIPE_WEBHOOK_SECRET
+# npx wrangler secret put ANTHROPIC_API_KEY
+# npx wrangler secret put PDFSHIFT_API_KEY
+# npx wrangler secret put RESEND_API_KEY
+# npx wrangler secret put REPLY_TO_EMAIL
+
+[[routes]]
+pattern   = "simulationsourcecode.com/create-checkout"
+zone_name = "simulationsourcecode.com"
+
+[[routes]]
+pattern   = "simulationsourcecode.com/submit-email"
+zone_name = "simulationsourcecode.com"
+
+[[routes]]
+pattern   = "simulationsourcecode.com/webhook/stripe"
+zone_name = "simulationsourcecode.com"

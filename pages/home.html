@@ -268,8 +268,7 @@
     <!-- Email capture -->
     <div class="email-capture-wrap">
       <div class="email-capture-label">Not ready yet? Leave your email &#8212; I&#8217;ll be in touch.</div>
-      <form name="blueprint-email" method="POST" data-netlify="true" class="email-capture-form" onsubmit="handleEmailCapture(event, this)">
-        <input type="hidden" name="form-name" value="blueprint-email">
+      <form class="email-capture-form" onsubmit="handleEmailCapture(event, this)">
         <input type="email" name="email" placeholder="Your email address" required class="email-capture-input">
         <button type="submit" class="btn-primary email-capture-btn">Stay Connected</button>
       </form>

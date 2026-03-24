@@ -676,7 +676,7 @@ function handleUnlockPayment() {
 
   console.log('Sending payload:', JSON.stringify(payload));
 
-  fetch('/.netlify/functions/create-checkout', {
+  fetch('/create-checkout', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(payload),

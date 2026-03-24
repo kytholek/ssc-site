@@ -942,8 +942,8 @@ function handleUnlockPaymentModal() {
 
   console.log('Sending payload:', JSON.stringify(userPayload));
 
-  // ── Call Netlify function to create checkout session ─────────────────
-  fetch('/.netlify/functions/create-checkout', {
+  // ── Call Cloudflare Worker to create checkout session ────────────────
+  fetch('/create-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -988,17 +988,16 @@ function handleUnlockPaymentModal() {
   });
 }
 
-// Email capture form handler (Netlify Forms)
+// Email capture form handler
 function handleEmailCapture(e, form) {
   e.preventDefault();
-  const data = new FormData(form);
-  fetch('/', { method: 'POST', body: data })
-    .then(() => {
-      form.style.display = 'none';
-      const success = document.getElementById('email-capture-success');
-      if (success) success.style.display = 'block';
-    })
-    .catch(() => {
+  const email = form.querySelector('input[type="email"]').value;
+  fetch('/submit-email', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ email }),
+  })
+    .finally(() => {
       form.style.display = 'none';
       const success = document.getElementById('email-capture-success');
       if (success) success.style.display = 'block';
