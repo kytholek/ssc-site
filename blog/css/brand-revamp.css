@@ -1529,3 +1529,193 @@
   text-transform: uppercase;
   color: var(--gold-dim);
 }
+
+/* ══════════════════════════════════════════════════════════
+   REPORT PREVIEW SECTION
+   ══════════════════════════════════════════════════════════ */
+.report-preview-layer {
+  background: var(--deep);
+  border-top: 1px solid var(--border-dim);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.report-preview-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 56px;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.report-preview-img-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 260px;
+}
+
+.report-preview-img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 32px rgba(201,168,76,.08);
+  display: block;
+}
+
+.report-preview-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(5,4,10,.85) 0%, transparent 100%);
+  border-radius: 0 0 6px 6px;
+  padding: 20px 14px 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.report-preview-overlay-text {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.report-preview-bullets {
+  flex: 1;
+  padding-top: 8px;
+}
+
+.rp-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.rp-gem {
+  color: var(--gold-dim);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.rp-cta-wrap {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.rp-free-note {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.rp-free-link {
+  color: var(--teal-light);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rp-free-link:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 700px) {
+  .report-preview-wrap {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  .report-preview-img-wrap {
+    width: 100%;
+    max-width: 320px;
+  }
+  .rp-cta-wrap {
+    align-items: stretch;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   EMAIL CAPTURE
+   ══════════════════════════════════════════════════════════ */
+.email-capture-wrap {
+  margin-top: 52px;
+  padding: 32px 40px;
+  background: rgba(13,11,24,.7);
+  border: 1px solid var(--border-mid);
+  border-radius: 8px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.email-capture-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 18px;
+}
+
+.email-capture-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.email-capture-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 11px 16px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.email-capture-input::placeholder {
+  color: var(--text-muted);
+}
+
+.email-capture-input:focus {
+  border-color: rgba(201,168,76,.5);
+}
+
+.email-capture-btn {
+  white-space: nowrap;
+  padding: 11px 22px !important;
+}
+
+.email-capture-success {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: var(--teal-light);
+  font-style: italic;
+  margin-top: 14px;
+}
+
+.email-capture-note {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 12px;
+}

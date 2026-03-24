@@ -988,8 +988,26 @@ function handleUnlockPaymentModal() {
   });
 }
 
+// Email capture form handler (Netlify Forms)
+function handleEmailCapture(e, form) {
+  e.preventDefault();
+  const data = new FormData(form);
+  fetch('/', { method: 'POST', body: data })
+    .then(() => {
+      form.style.display = 'none';
+      const success = document.getElementById('email-capture-success');
+      if (success) success.style.display = 'block';
+    })
+    .catch(() => {
+      form.style.display = 'none';
+      const success = document.getElementById('email-capture-success');
+      if (success) success.style.display = 'block';
+    });
+}
+
 // Expose
 window.openCalculatorModal = openCalculatorModal;
 window.closeCalculatorModal = closeCalculatorModal;
 window.calculateReadingModal = calculateReadingModal;
 window.handleUnlockPaymentModal = handleUnlockPaymentModal;
+window.handleEmailCapture = handleEmailCapture;
