@@ -118,6 +118,28 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: 'Ignored event type' };
   }
 
+  // Idempotency: track processed events using Stripe event ID
+  // In production, store this in a database. For now, use simple in-memory cache with TTL
+  if (!global.processedWebhookEvents) {
+    global.processedWebhookEvents = new Map();
+  }
+  
+  if (global.processedWebhookEvents.has(stripeEvent.id)) {
+    console.log('Webhook already processed:', stripeEvent.id);
+    return { statusCode: 200, body: 'Event already processed' };
+  }
+  
+  // Mark this event as processed
+  global.processedWebhookEvents.set(stripeEvent.id, Date.now());
+  
+  // Clean up old entries (older than 24 hours)
+  const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+  for (const [eventId, timestamp] of global.processedWebhookEvents.entries()) {
+    if (timestamp < oneDayAgo) {
+      global.processedWebhookEvents.delete(eventId);
+    }
+  }
+
   // 2. Extract customer data directly from checkout session
   const session = stripeEvent.data.object;
   const email   = session.customer_email || session.metadata?.email;
