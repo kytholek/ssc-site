@@ -312,29 +312,47 @@ STRUCTURE — write ALL sections in EXACTLY this order, each with its own <h2> h
 
 2. <h2>The External Circuit</h2>
    Then each as <h3> with the EXACT id attributes shown:
-   - <h3 id="theme">Theme ${frequencies.rawTheme}/${frequencies.theme}</h3> — atmospheric frequency of birth year
-   - <h3 id="lifepath">Life Path ${frequencies.rawLifePath}/${frequencies.lifePath}</h3> — the external curriculum. Positive and shadow expression.
-   - <h3 id="achievement">Achievement ${frequencies.rawAchievement}/${frequencies.achievement}</h3> — operational style. How they accomplish.
+   - <h3 id="theme">Theme ${frequencies.rawTheme}/${frequencies.theme}</h3> — atmospheric frequency of birth year. Include both positive and shadow expressions.
+   - <h3 id="lifepath">Life Path ${frequencies.rawLifePath}/${frequencies.lifePath}</h3> — the external curriculum. Write about the positive quest AND the shadow—what happens when this energy is unconstructed. Blend in the Theme (${frequencies.rawTheme}/${frequencies.theme}) to show how the atmospheric frequency colors the quest.
+   - <h3 id="achievement">Achievement ${frequencies.rawAchievement}/${frequencies.achievement}</h3> — operational style. How they naturally accomplish things. Include both the constructive way and the shadow avoidance pattern.
+
+   After these three, add:
+   <h3 id="external-quest">External Circuit Quest Objective</h3>
+   ONE powerful sentence or short statement that synthesizes all three (Theme + Life Path + Achievement). Frame it as the specific quest the simulation presents. Example format: "Embody [Theme meaning] by [Life Path challenge] with [Achievement style]."
 
 3. <h2>The Internal Circuit</h2>
    Then each as <h3> with the EXACT id attributes shown:
-   - <h3 id="soul">Soul Urge ${frequencies.rawSoul}/${frequencies.soul}</h3> — private inner world, inner compass
-   - <h3 id="persona">Outer Persona ${frequencies.rawPersona}/${frequencies.persona}</h3> — social mask, how others read them first
-   - <h3 id="expression">Expression ${frequencies.rawExpression}/${frequencies.expression}</h3> — WRITE THIS AS THE BLEND of Soul (${frequencies.rawSoul}/${frequencies.soul}) and Outer Persona (${frequencies.rawPersona}/${frequencies.persona}) fusing together. Show how they combine to produce the authentic signal.
+   - <h3 id="soul">Soul Urge ${frequencies.rawSoul}/${frequencies.soul}</h3> — private inner world, inner compass. Desires and yearnings. Include shadow (repression, self-abandonment).
+   - <h3 id="persona">Outer Persona ${frequencies.rawPersona}/${frequencies.persona}</h3> — social mask, how others read them first. First impression vibe. Include shadow (projecting instead of being authentic).
+   - <h3 id="expression">Expression ${frequencies.rawExpression}/${frequencies.expression}</h3> — WRITE THIS AS THE BLEND of Soul (${frequencies.rawSoul}/${frequencies.soul}) and Outer Persona (${frequencies.rawPersona}/${frequencies.persona}) fusing together. Show how they combine to produce the authentic signal. Include shadow (performing a masked persona rather than expressing authentically).
+
+   After these three, add:
+   <h3 id="internal-quest">Internal Circuit Quest Objective</h3>
+   ONE powerful sentence that synthesizes all three (Soul + Outer Persona + Expression). Frame it as the specific signal they are here to express. Example format: "Express [Soul yearning] through [Persona gateway] by embodying [Expression frequency]."
 
 4. <h2 id="calling">The Life Calling — ${frequencies.rawDestiny}/${frequencies.destiny}</h2>
-   The fusion of Life Path and Expression. The specific directive. Compound story, root essence, practical meaning.
+   The fusion of Life Path and Expression. The specific directive that emerges when external curriculum meets internal signal. Compound story, root essence, practical meaning.
 
-5. <h2>Quest Directive</h2>
-   One powerful paragraph. Direct and personal. What ${firstName}'s simulation is asking them to master.
+5. <h2>Action Guide: Your Quest Objectives</h2>
+   Two subsections:
+   
+   <h3>External Mission</h3>
+   Restate and expand the External Circuit Quest Objective. One paragraph explaining the outer work, the challenges to embrace, the shadow patterns to recognize.
+   
+   <h3>Internal Mission</h3>
+   Restate and expand the Internal Circuit Quest Objective. One paragraph explaining the inner work, the authentic frequency to cultivate, the mask patterns to dissolve.
+
+6. <h2>Quest Directive</h2>
+   One powerful paragraph. Direct and personal. What ${firstName}'s simulation is asking them to master. Synthesize external mission, internal mission, and the Life Calling into ONE unified directive.
 
 FORMAT: HTML only — <h2>, <h3>, <p>, <ul><li>. No markdown. No preamble. Start directly with the Opening.
 IMPORTANT: Include the exact id attributes on h3 tags as shown above — they are used for navigation.
-LENGTH: 900-1100 words. Complete all 5 sections. Do not cut any section short.`;
+LENGTH: 1500-1800 words. Complete all 6 sections. Do not cut sections short.
+DEPTH: Go deep. Explain not just what each frequency means but HOW they apply to ${firstName}. Use the shadow side to show what they are learning to transcend.`;
 
   const message = await anthropic.messages.create({
     model:      'claude-haiku-4-5-20251001',
-    max_tokens: 3000,
+    max_tokens: 5500,
     system:     SSC_SYSTEM_PROMPT,
     messages:   [{ role: 'user', content: prompt }],
   });
@@ -508,6 +526,16 @@ html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,ser
 .ref-pf span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
 
 /* ── QUEST PAGE ── */
+.action-pg{width:100%;background:#05040a;padding:120px 120px 100px;page-break-before:always;position:relative;min-height:100vh}
+.action-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#7a6330;margin-bottom:10px}
+.action-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:30px;color:#e8c96b;letter-spacing:.05em;margin-bottom:6px}
+.action-dv{height:1px;background:linear-gradient(90deg,rgba(201,168,76,0.3),transparent);margin-bottom:28px}
+.action-sec{margin-bottom:40px}
+.action-h3{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#7ec8c8;margin-bottom:14px;border-bottom:1px solid rgba(201,168,76,0.15);padding-bottom:10px}
+.action-bd{font-size:15px;color:#9b9080;line-height:1.8;margin-bottom:16px}
+.action-pf{position:absolute;bottom:24px;left:120px;right:120px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,0.07);padding-top:10px}
+.action-pf span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
+
 .quest-pg{width:100%;min-height:100vh;background:#05040a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 80px;page-break-before:always}
 .q-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#7a6330;margin-bottom:28px}
 .q-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:36px;color:#e8c96b;letter-spacing:.05em;margin-bottom:32px}
@@ -617,6 +645,16 @@ html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,ser
   <div class="ref-pf"><span>Simulation Source Code</span><span>${name} &nbsp;&#183;&nbsp; ${dob}</span></div>
 </div>
 
+
+<!-- ACTION GUIDE -->
+<div class="action-pg">
+  <div class="action-ey">&#10022; &nbsp; Your Path Forward &nbsp; &#10022;</div>
+  <div class="action-ti">Action Guide</div>
+  <div class="action-dv"></div>
+  <div>${(guidebookBody.match(/<h2[^>]*>Action Guide[^<]*<\/h2>([\s\S]*?)(?=<h2|$)/i) || ['',''])[1]}</div>
+  <div class="action-pf"><span>Simulation Source Code</span><span>${name} &nbsp;&#183;&nbsp; ${dob}</span></div>
+</div>
+
 <!-- QUEST DIRECTIVE -->
 <div class="quest-pg">
   <div class="q-ey">&#10022; &nbsp; Final Transmission &nbsp; &#10022;</div>
@@ -643,5 +681,5 @@ html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,ser
 // ── Simple notification email ─────────────────────────────────────────────
 function buildNotificationEmail(name, email, frequencies) {
   const firstName = name.split(' ')[0];
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>body{margin:0;padding:0;background-color:#05040a;font-family:Georgia,serif;color:#e8dfc8}.wrap{max-width:560px;margin:0 auto;padding:48px 32px}.sigil{text-align:center;font-size:32px;color:#c9a84c;margin-bottom:24px}.eyebrow{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#4a9494;text-align:center;margin-bottom:12px}.title{font-size:26px;color:#e8c96b;font-weight:normal;text-align:center;margin-bottom:8px}.sub{font-size:14px;color:#9b9080;font-style:italic;text-align:center;margin-bottom:36px}.divider{height:1px;background:rgba(201,168,76,0.15);margin:32px 0}.body{font-size:16px;line-height:1.8;color:#9b9080;margin-bottom:20px}.body strong{color:#e8dfc8}.freqs{background:rgba(13,11,24,0.9);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:20px;margin:28px 0;text-align:center}.badge{display:inline-block;background:rgba(74,148,148,0.12);border:1px solid rgba(126,200,200,0.25);border-radius:4px;padding:4px 10px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#7ec8c8;margin:3px}.ft{font-family:Arial,sans-serif;font-size:10px;color:#5c5448;text-align:center;letter-spacing:.15em;text-transform:uppercase;line-height:1.8}.ft a{color:#7a6330;text-decoration:none}</style></head><body><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#05040a;"><tr><td align="center" style="padding:40px 16px;"><div class="wrap"><div class="sigil">&#10022;</div><div class="eyebrow">Simulation Source Code</div><div class="title">Your Blueprint is Ready</div><div class="sub">${firstName} &mdash; your complete frequency guidebook is attached</div><div class="divider"></div><p class="body">Your <strong>Holographic Blueprint Reading</strong> is attached as a PDF. Open it to access your complete seven-frequency analysis &mdash; External Circuit, Internal Circuit, Life Calling, and Quest Directive.</p><div class="freqs"><span class="badge">Theme &middot; ${frequencies.rawTheme}/${frequencies.theme}</span><span class="badge">Life Path &middot; ${frequencies.rawLifePath}/${frequencies.lifePath}</span><span class="badge">Achievement &middot; ${frequencies.rawAchievement}/${frequencies.achievement}</span><span class="badge">Expression &middot; ${frequencies.rawExpression}/${frequencies.expression}</span><span class="badge">Soul &middot; ${frequencies.rawSoul}/${frequencies.soul}</span><span class="badge">Persona &middot; ${frequencies.rawPersona}/${frequencies.persona}</span><span class="badge">Life Calling &middot; ${frequencies.rawDestiny}/${frequencies.destiny}</span></div><div class="divider"></div><div class="ft">Simulation Source Code &nbsp;&middot;&nbsp; <a href="https://simulationsourcecode.com">simulationsourcecode.com</a><br>Generated exclusively for ${email}</div></div></td></tr></table></body></html>`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>body{margin:0;padding:0;background-color:#05040a;font-family:Georgia,serif;color:#e8dfc8}.wrap{max-width:560px;margin:0 auto;padding:48px 32px}.sigil{text-align:center;font-size:32px;color:#c9a84c;margin-bottom:24px}.eyebrow{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#4a9494;text-align:center;margin-bottom:12px}.title{font-size:26px;color:#e8c96b;font-weight:normal;text-align:center;margin-bottom:8px}.sub{font-size:14px;color:#9b9080;font-style:italic;text-align:center;margin-bottom:36px}.divider{height:1px;background:rgba(201,168,76,0.15);margin:32px 0}.body{font-size:16px;line-height:1.8;color:#9b9080;margin-bottom:20px}.body strong{color:#e8dfc8}.freqs{background:rgba(13,11,24,0.9);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:20px;margin:28px 0;text-align:center}.badge{display:inline-block;background:rgba(74,148,148,0.12);border:1px solid rgba(126,200,200,0.25);border-radius:4px;padding:4px 10px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#7ec8c8;margin:3px}.ft{font-family:Arial,sans-serif;font-size:10px;color:#5c5448;text-align:center;letter-spacing:.15em;text-transform:uppercase;line-height:1.8}.ft a{color:#7a6330;text-decoration:none}</style></head><body><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#05040a;"><tr><td align="center" style="padding:40px 16px;"><div class="wrap"><div class="sigil">&#10022;</div><div class="eyebrow">Simulation Source Code</div><div class="title">Your Blueprint is Ready</div><div class="sub">${firstName} &mdash; your complete frequency guidebook is attached</div><div class="divider"></div><p class="body">Your <strong>Holographic Blueprint Reading</strong> is attached as a PDF. Open it to access your complete analysis: both positive and shadow expressions of each frequency, quest objectives for each circuit, an action guide mapping your internal and external missions, and your final quest directive.</p><div class="freqs"><span class="badge">Theme &middot; ${frequencies.rawTheme}/${frequencies.theme}</span><span class="badge">Life Path &middot; ${frequencies.rawLifePath}/${frequencies.lifePath}</span><span class="badge">Achievement &middot; ${frequencies.rawAchievement}/${frequencies.achievement}</span><span class="badge">Expression &middot; ${frequencies.rawExpression}/${frequencies.expression}</span><span class="badge">Soul &middot; ${frequencies.rawSoul}/${frequencies.soul}</span><span class="badge">Persona &middot; ${frequencies.rawPersona}/${frequencies.persona}</span><span class="badge">Life Calling &middot; ${frequencies.rawDestiny}/${frequencies.destiny}</span></div><div class="divider"></div><div class="ft">Simulation Source Code &nbsp;&middot;&nbsp; <a href="https://simulationsourcecode.com">simulationsourcecode.com</a><br>Generated exclusively for ${email}</div></div></td></tr></table></body></html>`;
 }
