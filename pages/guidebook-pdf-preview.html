@@ -1,0 +1,757 @@
+<div class="page" id="page-guidebook">
+
+<!-- Inline styles for guidebook preview -->
+<style>
+
+
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Variables ── */
+  :root {
+    --void:           #05040a;
+    --deep:           #0d0b18;
+    --abyss:          #110f1f;
+    --panel:          #201d3a;
+    --gold:           #c9a84c;
+    --gold-light:     #e8c96b;
+    --gold-dim:       #7a6330;
+    --teal:           #4a9494;
+    --teal-light:     #7ec8c8;
+    --amethyst:       #7b4fa6;
+    --text:           #e8dfc8;
+    --text-dim:       #9b9080;
+    --text-muted:     #5c5448;
+  }
+
+  html, body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ════════════════════════════════════════
+     COVER PAGE
+  ════════════════════════════════════════ */
+  .cover {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 300px;
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  /* Radial glow behind sigil */
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(123,79,166,0.18) 0%, rgba(201,168,76,0.08) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Bottom fade */
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--void));
+    pointer-events: none;
+  }
+
+  .cover-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .cover-sigil {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 48px;
+    position: relative;
+  }
+
+  .cover-sigil svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 24px rgba(201,168,76,0.4)) drop-shadow(0 0 60px rgba(123,79,166,0.15));
+  }
+
+  .cover-name {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 300;
+    font-size: 52px;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    text-shadow: 0 0 60px rgba(201,168,76,0.3), 0 0 120px rgba(201,168,76,0.1);
+    position: relative;
+  }
+
+  .cover-dob {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 56px;
+    position: relative;
+  }
+
+  .cover-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 48px;
+    position: relative;
+  }
+
+  .cover-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  .cover-divider-gem {
+    width: 8px;
+    height: 8px;
+    background: var(--gold-dim);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(201,168,76,0.4);
+  }
+
+  /* Frequency badges on cover */
+  .cover-freqs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    max-width: 520px;
+    margin: 0 auto 60px;
+    position: relative;
+  }
+
+  .cover-freq-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: rgba(13,11,24,0.9);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    padding: 10px 16px;
+    min-width: 90px;
+  }
+
+  .cover-freq-badge-num {
+    font-family: 'Cormorant SC', serif;
+    font-size: 22px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .cover-freq-badge-label {
+    font-family: 'Cinzel', serif;
+    font-size: 6.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+  }
+
+  .cover-title-block {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .cover-report-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+
+  .cover-report-title {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--text-dim);
+    letter-spacing: .12em;
+  }
+
+  .cover-footer {
+    position: absolute;
+    bottom: 32px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ════════════════════════════════════════
+     CONTENT PAGES
+  ════════════════════════════════════════ */
+  .content-page {
+    width: 100%;
+    background: var(--void);
+    padding: 56px 300px 48px;
+    page-break-after: always;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Page header bar */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .page-header-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .page-header-name {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  /* Section heading */
+  .section-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 7.5px;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    text-shadow: 0 0 40px rgba(201,168,76,0.2);
+  }
+
+  .section-compound {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: .3em;
+    color: var(--gold-dim);
+    margin-bottom: 28px;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201,168,76,0.3), transparent);
+    margin-bottom: 28px;
+  }
+
+  /* Body content from Claude */
+  .section-body h2 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--gold-light);
+    letter-spacing: 0.04em;
+    margin: 36px 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .section-body h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin: 24px 0 8px;
+  }
+
+  .section-body p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+
+  .section-body strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .section-body em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .section-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+  }
+
+  .section-body ul li {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text-dim);
+    padding: 6px 0 6px 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    position: relative;
+  }
+
+  .section-body ul li::before {
+    content: '◈';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-size: 8px;
+    color: var(--teal);
+  }
+
+  /* Page footer */
+  .page-footer {
+    position: absolute;
+    bottom: 28px;
+    left: 300px; right: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    padding-top: 12px;
+  }
+
+  .page-footer-left {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .page-footer-right {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ════════════════════════════════════════
+     QUEST DIRECTIVE — FINAL PAGE
+  ════════════════════════════════════════ */
+  .quest-page {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 300px;
+    position: relative;
+    page-break-before: always;
+  }
+
+  .quest-page::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .quest-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .quest-gem {
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 32px;
+    display: block;
+    position: relative;
+  }
+
+  .quest-title {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 300;
+    font-size: 36px;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    margin-bottom: 40px;
+    position: relative;
+    text-shadow: 0 0 40px rgba(201,168,76,0.2);
+  }
+
+  .quest-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 0 auto 40px;
+    position: relative;
+  }
+
+  .quest-text {
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--text-dim);
+    max-width: 560px;
+    font-style: italic;
+    position: relative;
+  }
+
+  /* SSC branding block */
+  .quest-brand {
+    margin-top: 64px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .quest-brand-sigil {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+  }
+
+  .quest-brand-name {
+    font-family: 'Cormorant SC', serif;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: .08em;
+  }
+
+  .quest-brand-url {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .quest-social {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+  }
+
+  .quest-social a {
+    font-family: 'Cinzel', serif;
+    font-size: 7.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  /* ════════════════════════════════════════
+     PRINT / PDF OVERRIDES
+  ════════════════════════════════════════ */
+  @media print {
+    body { background: #05040a !important; }
+    .cover, .content-page, .quest-page {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
+</style>
+
+<div style="font-family: 'EB Garamond', Georgia, serif;">
+<!-- ════ COVER PAGE ════ -->
+<div class="cover">
+
+  <div class="cover-eyebrow">✦ &nbsp; Holographic Blueprint Reading &nbsp; ✦</div>
+
+  <div class="cover-sigil">
+    <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sg1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#c9a84c" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+      <circle cx="80" cy="80" r="66" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12" stroke-dasharray="3 6"/>
+      <circle cx="80" cy="80" r="36" fill="url(#sg1)"/>
+      <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+      <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+      <line x1="29" y1="29" x2="131" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+      <line x1="131" y1="29" x2="29" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/>
+      <circle cx="80"  cy="16"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="144" cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="80"  cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="16"  cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="80"  cy="16"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+      <circle cx="144" cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+      <circle cx="80"  cy="144" r="2.5" fill="#7ec8c8" opacity="0.85"/>
+      <circle cx="16"  cy="80"  r="2.5" fill="#7ec8c8" opacity="0.85"/>
+      <circle cx="31"  cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="129" cy="31"  r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="31"  cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="129" cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="cover-title-block">
+    <div class="cover-report-label">Simulation Source Code</div>
+    <div class="cover-report-title">Complete Frequency Guidebook</div>
+  </div>
+
+  <div class="cover-divider">
+    <span class="cover-divider-line"></span>
+    <span class="cover-divider-gem"></span>
+    <span class="cover-divider-line"></span>
+  </div>
+
+  <div class="cover-name">Kyle Thomas Chwalek</div>
+  <div class="cover-dob">November 17, 1987</div>
+
+  <!-- Frequency badges -->
+  <div class="cover-freqs">
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">25/7</span>
+      <span class="cover-freq-badge-label">Theme</span>
+    </div>
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">35/8</span>
+      <span class="cover-freq-badge-label">Life Path</span>
+    </div>
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">28/1</span>
+      <span class="cover-freq-badge-label">Achievement</span>
+    </div>
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">39/3</span>
+      <span class="cover-freq-badge-label">Expression</span>
+    </div>
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">25/7</span>
+      <span class="cover-freq-badge-label">Soul</span>
+    </div>
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">59/5</span>
+      <span class="cover-freq-badge-label">Persona</span>
+    </div>
+    <div class="cover-freq-badge">
+      <span class="cover-freq-badge-num">11/11</span>
+      <span class="cover-freq-badge-label">Life Calling</span>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    simulationsourcecode.com &nbsp;·&nbsp; ✦ &nbsp;·&nbsp; Confidential — Generated exclusively for Kyle Thomas Chwalek
+  </div>
+
+</div><!-- /cover -->
+
+
+<!-- ════ CONTENT PAGE 1 ════ -->
+<div class="content-page">
+
+  <div class="page-header">
+    <span class="page-header-brand">Simulation Source Code</span>
+    <span class="page-header-name">Kyle Thomas Chwalek</span>
+  </div>
+
+  
+        <div class="section-eyebrow">External Circuit</div>
+        <div class="section-heading">Life Path — 35/8</div>
+        <div class="section-compound">Compound 35 · Root 8 · Power &amp; Mastery</div>
+        <div class="section-divider"></div>
+        <div class="section-body">
+            <p>The 35 that produces your 8 carries a specific story. Three is creative expression, the need to communicate and give form to ideas. Five is the embodied explorer — the one who learns through direct contact with experience. When these two combine and reduce to 8, they produce a power that isn't inherited or assumed — it's <strong>earned through the friction of expression meeting reality</strong>.</p>
+            <p>Your Life Path is the curriculum the simulation has designed for you. It is not what you naturally are — it is what life keeps presenting as your training ground. The 8 asks you to develop authority, not just desire it. Self-mastery before any other kind of mastery. The simulation will keep placing you in situations where power is either available or absent — and the lesson is always the same: <em>can you govern yourself first?</em></p>
+            <h3>Positive Expression</h3>
+            <ul>
+                <li>Commanding presence built through demonstrated competence</li>
+                <li>Ability to manifest tangible results from sustained effort</li>
+                <li>Natural understanding of how systems and resources work</li>
+                <li>Earned authority that others respect without needing to be told to</li>
+            </ul>
+            <h3>Shadow Expression</h3>
+            <ul>
+                <li>Chasing external power before building internal foundation</li>
+                <li>Using control as a substitute for self-trust</li>
+                <li>Oscillating between dominance and collapse when things don't yield</li>
+            </ul>
+            <h3>Integration</h3>
+            <p>The 8 Life Path is not asking you to become powerful. It's asking you to become <strong>disciplined enough to handle power without distorting it</strong>. Every time you choose self-governance over reaction, you are walking your path.</p>
+
+            <div style="margin-top:36px">
+            <div class="section-eyebrow">Achievement</div>
+            <div class="section-heading">Achievement — 28/1</div>
+            <div class="section-compound">Compound 28 · Root 1 · Initiation Through Duality</div>
+            <div class="section-divider"></div>
+            <p>28 is an interesting compound — 2 and 8. Relationship awareness (2) meeting power and manifestation (8), reducing to 1: pure initiation. Your operational style is to move <strong>through relational intelligence toward independent action</strong>. You don't accomplish best by going it alone from the start — you achieve by first reading the room, understanding the dynamics, then stepping forward decisively.</p>
+            <p>The 1 Achievement means you accomplish by initiating. You are built to go first, to start what others haven't begun yet. The trap is waiting for permission — or letting the 2 beneath it make you defer too long before the 1 can act.</p>
+            </div>
+        </div>
+    
+
+  <div class="page-footer">
+    <span class="page-footer-left">Holographic Blueprint Reading</span>
+    <span class="page-footer-right">simulationsourcecode.com</span>
+  </div>
+
+</div>
+
+
+<!-- ════ CONTENT PAGE 2 ════ -->
+<div class="content-page">
+
+  <div class="page-header">
+    <span class="page-header-brand">Simulation Source Code</span>
+    <span class="page-header-name">Kyle Thomas Chwalek</span>
+  </div>
+
+  
+        <div class="section-eyebrow">Internal Circuit</div>
+        <div class="section-heading">Expression — 39/3</div>
+        <div class="section-compound">Soul 25/7 · Outer Persona 59/5 · Expression 39/3</div>
+        <div class="section-divider"></div>
+        <div class="section-body">
+            <p>Your Expression is not a standalone number — it is the product of two distinct forces merging. Your Soul (25/7) is your inner world: the seeker, the one who needs to understand, who goes deep rather than wide, who carries a private relationship with truth that most people never see. Your Outer Persona (59/5) is what the world encounters first: dynamic, adaptable, present, a frequency that reads as alive and in motion.</p>
+            <p>When 7 meets 5 and they combine into 3, something specific happens. The seeker's need for depth gets channelled through the explorer's contact with life — and what comes out is <strong>creative expression that carries real insight</strong>. Not performance. Not decoration. Expression that has been tested against experience and carries weight because of it.</p>
+            <p>The 39 is worth noting. Three amplified by nine — creative expression reaching toward completion and universality. There is something in your expression that is meant to serve beyond just yourself. The 3 wants to play; the 9 beneath it wants to transmit something that matters.</p>
+            <h3>Shadow Expression</h3>
+            <ul>
+                <li>Expressing before the inner work is done — performing depth rather than carrying it</li>
+                <li>The 5 Persona can make it easy to stay on the surface and avoid the 7's requirement for real inner honesty</li>
+                <li>Scattered expression — starting many creative channels without finishing any</li>
+            </ul>
+
+            <div style="margin-top:36px">
+            <div class="section-eyebrow">Life Calling</div>
+            <div class="section-heading">Life Calling — 11/11</div>
+            <div class="section-compound">Compound 11 · Root 11 · Undiluted Master Frequency</div>
+            <div class="section-divider"></div>
+            <p>This is rare. Both the compound and root are 11 — there is no reduction happening. The frequency is undiluted. 11 carries the core of 2 — relational awareness, sensitivity, the capacity to receive and transmit — but amplified to a frequency that functions as a bridge between what is seen and what is sensed.</p>
+            <p>Your Life Calling is the fusion of your 8 Life Path and your 3 Expression. Power meeting creativity. Mastery meeting communication. What emerges is a calling to <strong>build something and then illuminate it</strong> — to demonstrate through your own embodiment what is possible when discipline and authentic expression work together.</p>
+            <p>The 11 doesn't call you to do more. It calls you to become a clearer channel for what is already moving through you. The work is not accumulation — it is refinement. Every excess stripped away until what remains is signal.</p>
+
+            <div style="margin-top:32px">
+            <div class="section-eyebrow">Theme</div>
+            <div class="section-heading">Theme — 25/7</div>
+            <div class="section-compound">Compound 25 · Root 7 · The Seeker's Curriculum</div>
+            <div class="section-divider"></div>
+            <p>Your birth year encodes a 25/7 — the same frequency as your Soul. 2 (connection, duality) and 5 (embodied experience) reducing to 7 (inner truth, wisdom). The atmospheric note of your entire simulation is the Seeker. This doesn't mean life will be solitary — it means that beneath every experience, the underlying curriculum is <em>what do you now know that you didn't before?</em></p>
+            </div>
+            </div>
+        </div>
+    
+
+  <div class="page-footer">
+    <span class="page-footer-left">Holographic Blueprint Reading</span>
+    <span class="page-footer-right">simulationsourcecode.com</span>
+  </div>
+
+</div>
+
+
+<!-- ════ QUEST DIRECTIVE — FINAL PAGE ════ -->
+<div class="quest-page">
+
+  <div class="quest-eyebrow">✦ &nbsp; Final Transmission &nbsp; ✦</div>
+
+  <div class="quest-title">Quest Directive</div>
+
+  <div class="quest-divider"></div>
+
+  <div class="quest-text">
+    
+        Kyle, your simulation is running an 8 Life Path through an 11 Life Calling — power developing itself until it becomes a channel rather than a force. The 7 that runs through both your Soul and your Theme is not a coincidence; it is the mechanism. You are built to go inward first, extract something real, and then bring it out through the 3's voice and the 5's contact with life. The work is not to become more — it is to become more precise. Strip the performance, trust the depth, and let the 11 do what it does naturally when the 8 has done its job: <strong>illuminate rather than dominate</strong>. That is your directive.
+    
+  </div>
+
+  <!-- SSC Brand -->
+  <div class="quest-brand">
+    <svg class="quest-brand-sigil" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sg2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+      <circle cx="80" cy="80" r="36" fill="url(#sg2)"/>
+      <line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+      <line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+      <circle cx="80"  cy="16"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="144" cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="80"  cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="16"  cy="80"  r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/>
+      <circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/>
+    </svg>
+    <div class="quest-brand-name">Simulation Source Code</div>
+    <div class="quest-brand-url">simulationsourcecode.com</div>
+    <div class="quest-social">
+      <a href="https://www.instagram.com/simulationsourcecode">Instagram</a>
+      <a href="https://www.youtube.com/@kytholek">YouTube</a>
+      <a href="https://substack.com/@kyelthomas">Substack</a>
+      <a href="https://www.tiktok.com/@kytholek">TikTok</a>
+    </div>
+  </div>
+
+</div><!-- /quest-page -->
+
+</div>
+
+</div>
