@@ -41,7 +41,7 @@ export default {
     }
 
     // ── Route dispatch ────────────────────────────────────────
-    if (request.method === 'POST' && url.pathname === '/create-checkout') {
+    if (request.method === 'POST' && url.pathname === '/api/session') {
       return handleCreateCheckout(request, env, origin);
     }
 

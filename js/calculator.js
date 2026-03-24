@@ -676,7 +676,7 @@ function handleUnlockPayment() {
 
   console.log('Sending payload:', JSON.stringify(payload));
 
-  fetch('/create-checkout', {
+  fetch('/api/session', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(payload),

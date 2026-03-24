@@ -16,7 +16,7 @@ FROM_EMAIL = "readings@simulationsourcecode.com"
 # npx wrangler secret put REPLY_TO_EMAIL
 
 [[routes]]
-pattern   = "simulationsourcecode.com/create-checkout"
+pattern   = "simulationsourcecode.com/api/session"
 zone_name = "simulationsourcecode.com"
 
 [[routes]]
@@ -26,3 +26,8 @@ zone_name = "simulationsourcecode.com"
 [[routes]]
 pattern   = "simulationsourcecode.com/webhook/stripe"
 zone_name = "simulationsourcecode.com"
+
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true

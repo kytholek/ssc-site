@@ -943,7 +943,7 @@ function handleUnlockPaymentModal() {
   console.log('Sending payload:', JSON.stringify(userPayload));
 
   // ── Call Cloudflare Worker to create checkout session ────────────────
-  fetch('/create-checkout', {
+  fetch('/api/session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
