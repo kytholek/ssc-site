@@ -1724,15 +1724,19 @@
    ABOUT PAGE — Photo + Book
    ══════════════════════════════════════════════════════════ */
 
-/* Photo replaces sigil */
+/* Photo replaces sigil — stop avatar spin, swap glow to dark blue */
+.about-avatar:has(.about-photo) {
+  animation: none;
+}
+
 .about-photo {
   width: 140px;
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center top;
-  border: 1px solid var(--border);
-  box-shadow: 0 0 40px rgba(201,168,76,.18), 0 0 80px rgba(123,79,166,.08);
+  border: 1px solid rgba(30,60,120,.8);
+  box-shadow: 0 0 40px rgba(20,40,120,.45), 0 0 80px rgba(10,20,80,.25);
   display: block;
   margin: 0 auto;
 }
