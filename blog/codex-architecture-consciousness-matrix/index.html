@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -44,7 +44,11 @@
     .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
     .related-post-card:hover .related-post-link { color: #c9a84c; }
     @media (max-width: 640px) { .post-nav { grid-template-columns: 1fr; } }
-  </style>  <script>
+      .post-cta-block { margin-top: 56px; padding: 36px 28px; background: linear-gradient(135deg,rgba(13,11,24,0.9),rgba(24,21,48,0.8)); border: 1px solid rgba(201,168,76,0.2); border-radius: 10px; text-align: center; position: relative; overflow: hidden; }
+    .post-cta-block::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent); }
+    .post-cta-block p { font-size: 16px; line-height: 1.8; color: var(--text-dim); margin-bottom: 20px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .post-cta-block a { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; padding: 16px 32px; border-radius: 5px; cursor: pointer; background: rgba(74,148,148,.25); border: 1px solid rgba(126,200,200,.4); color: var(--teal-light); text-decoration: none; display: inline-block; transition: all .3s; }
+    .post-cta-block a:hover { box-shadow: 0 0 32px rgba(74,148,148,.4); transform: translateY(-2px); border-color: rgba(126,200,200,.6); }</style>  <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof loadNav === 'function') loadNav();
     });
@@ -462,6 +466,11 @@
 
     <p>This is where the numerological blueprint becomes practically useful. The numbers encoded in your birth and name point to the specific positions within the Codex that your simulation is designed to work through. The map shows you where you are. What you do with that — how you walk it — is always yours to decide.</p>
 
+
+    <div class="post-cta-block">
+      <p>Every number in this article is one piece of a larger architecture. Your complete blueprint &#8212; seven frequencies calculated from your birth date and name &#8212; is what the Full Blueprint Reading reveals.</p>
+      <a href="/services/">&#11042;&nbsp;Get Your Full Blueprint &#8212; $19.99&nbsp;&#11042;</a>
+    </div>
   <div class="related-posts">
     <div class="related-posts-title">Related Articles</div>
     <div class="related-posts-grid">
