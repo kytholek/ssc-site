@@ -180,7 +180,7 @@ INSTRUCTIONS:
 - The tone is mystical, intelligent, and grounded — not generic horoscope language
 - Frame everything through the Simulation Source Code lens: these are encoded parameters in their simulation
 
-OUTPUT: Complete HTML document with inline CSS. Dark theme: background #05040a, gold #c9a84c, text #e8e2d0. Use Google Fonts (Cinzel, EB Garamond). Make it feel like a sacred document. Include the person's name prominently in the header. No markdown — pure HTML only.`;
+OUTPUT: Complete HTML document with inline CSS. Dark theme: background #05040a, gold #c9a84c, text #e8e2d0. Use Google Fonts — add this exact link tag in <head>: <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">. Use font-family: 'Cinzel', serif for headings and font-family: 'EB Garamond', Georgia, serif for body text. Make it feel like a sacred document. Include the person's name prominently in the header. No markdown — pure HTML only.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -191,7 +191,7 @@ OUTPUT: Complete HTML document with inline CSS. Dark theme: background #05040a, 
     },
     body: JSON.stringify({
       model:      'claude-sonnet-4-6',
-      max_tokens: 4096,
+      max_tokens: 16000,
       messages: [
         { role: 'user', content: prompt }
       ]
@@ -208,7 +208,17 @@ OUTPUT: Complete HTML document with inline CSS. Dark theme: background #05040a, 
 
   if (!html) throw new Error('No content returned from Anthropic');
 
-  return html;
+  // Strip markdown code fences if the model wrapped the HTML despite instructions
+  const cleaned = html
+    .replace(/^```(?:html)?\s*/i, '')
+    .replace(/\s*```\s*$/, '')
+    .trim();
+
+  if (!cleaned.match(/^<!DOCTYPE|^<html/i)) {
+    console.warn('Anthropic response may not be valid HTML — first 80 chars:', cleaned.slice(0, 80));
+  }
+
+  return cleaned;
 }
 
 

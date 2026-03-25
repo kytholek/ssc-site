@@ -3640,3 +3640,57 @@ footer {
   text-transform: uppercase;
   color: var(--gold-dim);
 }
+
+/* ── How It Works ─────────────────────────────────────────── */
+.how-it-works-layer {
+  background: rgba(201,168,76,0.025);
+  border-top: 1px solid rgba(201,168,76,0.08);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+.hiw-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+.hiw-step {
+  flex: 1;
+  min-width: 180px;
+  max-width: 260px;
+  text-align: center;
+}
+.hiw-step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.35;
+  margin-bottom: 16px;
+}
+.hiw-step-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #e8dcc8;
+  margin-bottom: 10px;
+}
+.hiw-step-body {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+.hiw-arrow {
+  font-size: 20px;
+  color: var(--teal);
+  opacity: 0.35;
+  padding-top: 18px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+@media (max-width: 640px) {
+  .hiw-arrow { display: none; }
+  .hiw-step { max-width: 100%; }
+}
