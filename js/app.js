@@ -938,15 +938,29 @@ function handleUnlockPaymentModal() {
     if (emailInput) emailInput.focus();
     return;
   }
+
+  var nameVal  = (document.getElementById('modal-calc-fullname') || {}).value || '';
+  var monthVal = (document.getElementById('modal-calc-month')    || {}).value || '';
+  var dayVal   = (document.getElementById('modal-calc-day')      || {}).value || '';
+  var yearVal  = (document.getElementById('modal-calc-year')     || {}).value || '';
+
+  if (!nameVal || !monthVal || !dayVal || !yearVal) {
+    if (errorEl) {
+      errorEl.textContent = 'Please fill in your birth date and full name before proceeding.';
+      errorEl.style.color = 'var(--rose-light)';
+    }
+    return;
+  }
+
   if (errorEl) errorEl.textContent = '';
 
   var resultsArea = document.getElementById('modal-results-area');
   var userPayload = {
     email:    email,
-    name:     document.getElementById('modal-calc-fullname').value || '',
-    month:    document.getElementById('modal-calc-month').value || '',
-    day:      document.getElementById('modal-calc-day').value || '',
-    year:     document.getElementById('modal-calc-year').value || '',
+    name:     nameVal,
+    month:    monthVal,
+    day:      dayVal,
+    year:     yearVal,
     results:  resultsArea ? resultsArea.innerText : ''
   };
 
@@ -965,10 +979,10 @@ function handleUnlockPaymentModal() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       email:  email,
-      name:   userPayload.name,
-      month:  userPayload.month,
-      day:    userPayload.day,
-      year:   userPayload.year
+      name:   nameVal,
+      month:  monthVal,
+      day:    dayVal,
+      year:   yearVal
     })
   })
   .then(response => {

@@ -92,9 +92,9 @@ export default {
     const userData = {
       name:        session.metadata?.name         || session.customer_details?.name || 'Seeker',
       email:       session.metadata?.email        || session.customer_details?.email,
-      birthMonth:  parseInt(session.metadata?.birth_month),
-      birthDay:    parseInt(session.metadata?.birth_day),
-      birthYear:   parseInt(session.metadata?.birth_year),
+      birthMonth:  parseInt(session.metadata?.birth_month || session.metadata?.month),
+      birthDay:    parseInt(session.metadata?.birth_day   || session.metadata?.day),
+      birthYear:   parseInt(session.metadata?.birth_year  || session.metadata?.year),
       fullName:    session.metadata?.full_name    || session.metadata?.name,
     };
 
@@ -326,7 +326,7 @@ STRUCTURE — write ALL sections in EXACTLY this order, each with its own <h2> h
 
    After these three, add:
    <h3 id="external-quest">External Circuit Quest Objective</h3>
-   ONE powerful sentence or short statement that synthesizes all three (Theme + Life Path + Achievement). Frame it as the specific quest the simulation presents.
+   ONE powerful paragraph that synthesizes all three (Theme + Life Path + Achievement). Frame it as the specific quest the simulation presents.
 
 3. <h2>The Internal Circuit</h2>
    Then each as <h3> with the EXACT id attributes shown:
@@ -336,7 +336,7 @@ STRUCTURE — write ALL sections in EXACTLY this order, each with its own <h2> h
 
    After these three, add:
    <h3 id="internal-quest">Internal Circuit Quest Objective</h3>
-   ONE powerful sentence that synthesizes all three (Soul + Outer Persona + Expression). Frame it as the specific signal they are here to express.
+   ONE powerful paragraph that synthesizes all three (Soul + Outer Persona + Expression). Frame it as the specific signal they are here to express.
 
 4. <h2 id="calling">The Life Calling — ${frequencies.rawDestiny}/${frequencies.destiny}</h2>
    The fusion of Life Path and Expression. The specific directive that emerges when external curriculum meets internal signal. Compound story, root essence, practical meaning.
