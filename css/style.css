@@ -861,6 +861,9 @@ footer {
   color: var(--gold-light); line-height: 1.45; margin-bottom: 10px;
 }
 .blog-featured .blog-card:first-child .blog-card-title { font-size: 18px; }
+.blog-card-apex { border-color: var(--gold-dim) !important; box-shadow: 0 0 32px rgba(201,168,76,.12), inset 0 0 0 1px rgba(201,168,76,.08); }
+.blog-card-apex .blog-card-banner { height: 260px !important; }
+.blog-card-apex .blog-card-glyph { font-size: 72px !important; }
 
 .blog-card-excerpt {
   font-size: 15px; line-height: 1.7; color: var(--text-dim);

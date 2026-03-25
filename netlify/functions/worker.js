@@ -368,7 +368,7 @@ DEPTH: Go deep. Explain not just what each frequency means but HOW they apply to
     },
     body: JSON.stringify({
       model:      'claude-sonnet-4-6',
-      max_tokens: 5500,
+      max_tokens: 3333,
       stream:     true,
       system:     SSC_SYSTEM_PROMPT,
       messages:   [{ role: 'user', content: prompt }],

@@ -1,0 +1,38 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# ── SPA page rewrites — serve index.html for clean URLs ──────────────────────
+# /blog is intentionally excluded — it has its own real index.html
+
+[[redirects]]
+  from = "/services"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculator"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/books"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  [functions.stripe-webhook]
+    timeout = 60
+
+  [functions.create-checkout]
+    timeout = 15
