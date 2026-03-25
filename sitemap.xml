@@ -129,6 +129,28 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- ── Trinity Series ── -->
+  <url>
+    <loc>https://simulationsourcecode.com/blog/trinity-of-purpose-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/trinity-of-expression-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/trinity-of-lessons-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
   <!-- ── Philosophy & Practice ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/simulation-theory-numerology-source-code/</loc>

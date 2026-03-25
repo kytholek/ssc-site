@@ -184,6 +184,22 @@
     .blog-idx-card.hidden { display: none; }
     .blog-idx-section.section-empty { display: none; }
 
+    /* ── Trinity Series row ── */
+    .blog-trinity-row { margin-top: 32px; }
+    .blog-trinity-row-label {
+      font-family: "Cinzel", serif;
+      font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+      color: #c9a84c; opacity: .7;
+      margin-bottom: 14px;
+      padding-left: 2px;
+    }
+    .blog-trinity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 700px) { .blog-trinity-grid { grid-template-columns: 1fr; } }
+
     /* ── Apex featured article ── */
     .blog-idx-apex { margin-top: 64px; }
     .blog-idx-apex-card {
@@ -281,7 +297,7 @@
   <div class="blog-idx-eyebrow">Simulation Source Code &nbsp;&#183;&nbsp; The System</div>
   <h1 class="blog-idx-title">The Blog</h1>
   <p class="blog-idx-sub">Deep dives into numerology as source code — Life Path numbers, Expression frequencies, the Codex, shadow patterns, and the philosophy of the simulation you are living in.</p>
-  <div class="blog-idx-count" id="post-count">40 articles</div>
+  <div class="blog-idx-count" id="post-count">42 articles</div>
 </div>
 
 <!-- Search -->
@@ -324,6 +340,44 @@
         <span class="blog-idx-apex-read">Read the Full Guide →</span>
       </div>
     </a>
+  </div>
+
+  <!-- ── TRINITY SERIES ──────────────────────────────────── -->
+  <div class="blog-trinity-row">
+    <div class="blog-trinity-row-label">Trinity Series</div>
+    <div class="blog-trinity-grid">
+
+      <a href="/blog/trinity-of-purpose-numerology/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys" style="padding:0;overflow:hidden;"><img src="/blog/trinity-of-purpose-numerology/trinity-of-purpose.png" alt="The Trinity of Purpose" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The Trinity of Purpose: Life Path, Expression, and Life Calling</div>
+          <p class="blog-idx-card-excerpt">The synthesis of your Life Path and Expression — the one frequency most systems never calculate. Not what you're learning, not what you carry, but what you're specifically here to do.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/trinity-of-expression-numerology/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys" style="padding:0;overflow:hidden;"><img src="/blog/trinity-of-expression-numerology/trinity-of-expression.png" alt="The Trinity of Expression" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The Trinity of Expression: Soul, Outer, and Expression Numbers</div>
+          <p class="blog-idx-card-excerpt">Soul Knows. Outer Shows. Expression Shares. The complete architecture of how your inner essence becomes output — and why the Expression number is a synthesis, not a standalone.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/trinity-of-lessons-numerology/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys" style="padding:0;overflow:hidden;"><img src="/blog/trinity-of-lessons-numerology/trinity-of-lessons.png" alt="The Trinity of Lessons" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The Trinity of Lessons: Life Path, Achievement, and Theme Numbers</div>
+          <p class="blog-idx-card-excerpt">Your Life Path, Achievement, and Theme form a complete growth curriculum — three frequencies that map the overarching lesson, the physical forge, and the soul's experiential backdrop.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+    </div>
   </div>
 
   <!-- ── SYSTEM SERIES ───────────────────────────────────── -->
@@ -427,16 +481,6 @@
           <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
           <div class="blog-idx-card-title">Numerology Cycles: The Infinity Loop and Recurring Life Patterns</div>
           <p class="blog-idx-card-excerpt">Nothing is linear in the simulation. Every pattern repeats at deeper levels. Understanding cycles and recursion reveals how the system renews itself.</p>
-          <span class="blog-idx-read">Read Article →</span>
-        </div>
-      </a>
-
-      <a href="/blog/numerology-life-calling/" class="blog-idx-card" data-cat="system">
-        <div class="blog-idx-card-thumb sys"><span style="font-size:28px;font-family:Cinzel,serif;letter-spacing:-.03em">LC</span></div>
-        <div class="blog-idx-card-body">
-          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
-          <div class="blog-idx-card-title">The Life Calling Number: Where Your Life Path and Destiny Number Meet</div>
-          <p class="blog-idx-card-excerpt">The synthesis of your Life Path and Expression number — the one frequency most systems never calculate. Not what you're learning, not what you carry, but what you're specifically here to do.</p>
           <span class="blog-idx-read">Read Article →</span>
         </div>
       </a>
@@ -877,6 +921,8 @@ function filterPosts(cat, btn) {
     const hasVisible = section.querySelector('.blog-idx-card:not(.hidden)');
     section.classList.toggle('section-empty', !hasVisible);
   });
+  var trinityRow = document.querySelector('.blog-trinity-row');
+  if (trinityRow) trinityRow.style.display = trinityRow.querySelector('.blog-idx-card:not(.hidden)') ? '' : 'none';
 }
 
 function searchPosts(query) {
@@ -895,6 +941,8 @@ function searchPosts(query) {
     if (apex) apex.style.display = '';
     cards.forEach(function(c) { c.classList.remove('hidden'); });
     sections.forEach(function(s) { s.classList.remove('section-empty'); });
+    var trinityRow = document.querySelector('.blog-trinity-row');
+    if (trinityRow) trinityRow.style.display = '';
     document.getElementById('post-count').textContent = cards.length + ' articles';
     document.querySelectorAll('.blog-idx-filter').forEach(function(b) { b.classList.remove('active'); });
     document.querySelector('.blog-idx-filter').classList.add('active');
@@ -938,6 +986,8 @@ function searchPosts(query) {
   sections.forEach(function(section) {
     section.classList.toggle('section-empty', !section.querySelector('.blog-idx-card:not(.hidden)'));
   });
+  var trinityRow = document.querySelector('.blog-trinity-row');
+  if (trinityRow) trinityRow.style.display = trinityRow.querySelector('.blog-idx-card:not(.hidden)') ? '' : 'none';
 
   document.getElementById('post-count').textContent = visible + ' result' + (visible !== 1 ? 's' : '');
   noResults.style.display = visible === 0 ? 'block' : 'none';
