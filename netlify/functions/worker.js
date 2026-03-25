@@ -627,9 +627,10 @@ html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,ser
 .content-pg{width:100%;background:#05040a;padding:56px 80px 80px;page-break-after:always;position:relative;min-height:100vh}
 .pg-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;padding-bottom:14px;border-bottom:1px solid rgba(201,168,76,0.1)}
 .pg-hd span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.35em;text-transform:uppercase;color:#5c5448}
-.sb h2{font-family:"Cormorant SC",serif;font-weight:300;font-size:28px;color:#e8c96b;letter-spacing:.04em;margin:36px 0 10px;padding-bottom:8px;border-bottom:1px solid rgba(201,168,76,0.1)}
-.sb h3{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#7ec8c8;margin:24px 0 8px}
-.sb p{font-size:17px;line-height:2;color:#9b9080;margin-bottom:14px}
+.sb h2{font-family:"Cormorant SC",serif;font-weight:300;font-size:28px;color:#e8c96b;letter-spacing:.04em;margin:36px 0 10px;padding-bottom:8px;border-bottom:1px solid rgba(201,168,76,0.1);page-break-before:always;break-before:page;page-break-after:avoid;break-after:avoid}
+.sb h2:first-child{page-break-before:avoid;break-before:avoid}
+.sb h3{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#7ec8c8;margin:24px 0 8px;page-break-after:avoid;break-after:avoid}
+.sb p{font-size:17px;line-height:2;color:#9b9080;margin-bottom:14px;page-break-inside:avoid;break-inside:avoid;orphans:3;widows:3}
 .sb strong{color:#e8dfc8}
 .sb em{color:#c9a84c;font-style:italic}
 .sb ul{list-style:none;padding:0;margin:0 0 16px}
