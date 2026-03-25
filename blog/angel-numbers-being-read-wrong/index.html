@@ -53,6 +53,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof loadNav === 'function') loadNav();
+    if (typeof loadFooter === 'function') loadFooter();
     });
   </script>
 </head>
@@ -63,7 +64,7 @@
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <span>></span>
-      <a href="/#blog">Blog</a>
+      <a href="/blog/">Blog</a>
       <span>></span>
       <span>Angel Numbers</span>
     </nav>
@@ -145,6 +146,7 @@
   <script src="/js/app.js"></script>
   <script>
     if (typeof loadNav === 'function') loadNav();
+    if (typeof loadFooter === 'function') loadFooter();
   </script>
 </body>
 </html>

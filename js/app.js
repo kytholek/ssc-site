@@ -502,6 +502,23 @@ async function loadNav() {
 // Make loadNav globally available
 window.loadNav = loadNav;
 
+async function loadFooter() {
+  try {
+    const placeholder = document.getElementById('main-footer');
+    if (!placeholder) return;
+    const response = await fetch('/pages/footer.html');
+    if (!response.ok) throw new Error('Failed to load footer');
+    const html = await response.text();
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    const newFooter = temp.firstElementChild;
+    if (newFooter) placeholder.replaceWith(newFooter);
+  } catch (err) {
+    console.error('loadFooter error:', err);
+  }
+}
+window.loadFooter = loadFooter;
+
 
 // ────────────────────────────────────────────────────────────
 //  PAGE ROUTING

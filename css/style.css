@@ -720,6 +720,7 @@ footer {
   background: none; color: var(--text);
 }
 .social-btn:hover { border-color: var(--border); background: rgba(201,168,76,.08); color: var(--gold); }
+.social-logo { width: 18px; height: 18px; object-fit: contain; display: block; }
 
 /* ═══════════════════════════════════════
    UTILITIES & ANIMATIONS
@@ -1120,6 +1121,12 @@ footer {
 .related-posts {
   margin-top: 56px;
   padding-top: 40px;
+  padding-bottom: 56px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+}
+.related-posts + .footer-inner {
+  margin-top: 0;
+  padding-top: 48px;
   border-top: 1px solid rgba(201,168,76,0.1);
 }
 .related-posts-title {

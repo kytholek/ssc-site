@@ -31,3 +31,15 @@ zone_name = "simulationsourcecode.com"
 [observability.logs]
 enabled = true
 invocation_logs = true
+
+# Queue for long-running reading generation (Anthropic → PDFShift → Resend)
+# Create the queue first: npx wrangler queues create ssc-readings
+[[queues.producers]]
+queue   = "ssc-readings"
+binding = "READINGS_QUEUE"
+
+[[queues.consumers]]
+queue             = "ssc-readings"
+max_batch_size    = 1      # one reading at a time
+max_retries       = 3      # retry up to 3 times on failure
+max_batch_timeout = 0      # process immediately, no batching delay

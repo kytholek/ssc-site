@@ -31,7 +31,21 @@ function corsHeaders(requestOrigin) {
 }
 
 export default {
-  async fetch(request, env, ctx) {
+
+  // ── Queue consumer — runs with up to 15 min, no wall-clock pressure ──
+  async queue(batch, env) {
+    for (const message of batch.messages) {
+      try {
+        await processReading(message.body, env);
+        message.ack();
+      } catch (err) {
+        console.error('Queue consumer error — will retry:', err);
+        message.retry();
+      }
+    }
+  },
+
+  async fetch(request, env) {
     const url    = new URL(request.url);
     const origin = request.headers.get('origin') || '';
 
@@ -102,8 +116,8 @@ export default {
       return new Response('Missing customer email', { status: 200 }); // still 200 so Stripe doesn't retry
     }
 
-    // ── Return 200 immediately, process in background ────────
-    ctx.waitUntil(processReading(userData, env));
+    // ── Push to queue — returns 200 to Stripe in <1s ─────────
+    await env.READINGS_QUEUE.send(userData);
 
     return new Response('OK', { status: 200 });
   }
@@ -374,8 +388,12 @@ function timingSafeEqual(a, b) {
 // ════════════════════════════════════════════════════════════
 
 function arrayBufferToBase64(buffer) {
-  const bytes  = new Uint8Array(buffer);
-  const binary = bytes.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  const chunk = 8192;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
   return btoa(binary);
 }
 

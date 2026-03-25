@@ -38,7 +38,7 @@
   <div class="nav-links">
     <button class="nav-link"        id="nav-calculator" onclick="showPage('calculator')" data-i18n="nav.calculator">Calculator</button>
     <button class="nav-link"        id="nav-services"   onclick="showPage('services')">Services</button>
-    <button class="nav-link"        id="nav-blog"       onclick="showPage('blog')"       data-i18n="nav.blog">Blog</button>
+    <a class="nav-link"             id="nav-blog"       href="/blog/"                    data-i18n="nav.blog">Blog</a>
     <button class="nav-link"        id="nav-codex"      onclick="window.location.href='/pages/codex.html'">Codex</button>
     <button class="nav-link"        id="nav-books"      onclick="showPage('books')"      data-i18n="nav.books">Books</button>
     <button class="nav-link"        id="nav-about"      onclick="showPage('about')"      data-i18n="nav.about">About</button>
@@ -53,7 +53,7 @@
 </nav>
 <div class="nav-mobile" id="mobile-menu">
   <button class="nav-link" onclick="showPage('calculator');toggleMenu()"  data-i18n="nav.calculator">Calculator</button>
-  <button class="nav-link" onclick="showPage('blog');toggleMenu()"        data-i18n="nav.blog">Blog</button>
+  <a class="nav-link" href="/blog/" onclick="toggleMenu()"               data-i18n="nav.blog">Blog</a>
   <button class="nav-link" onclick="showPage('services');toggleMenu()">Services</button>
   <button class="nav-link" onclick="showPage('books');toggleMenu()"       data-i18n="nav.books">Books</button>
   <button class="nav-link" onclick="showPage('about');toggleMenu()"       data-i18n="nav.about">About</button>

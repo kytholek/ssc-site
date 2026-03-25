@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Simulation Source Code | Numerology Deep Dives</title>
+  <meta name="description" content="Deep dives into numerology as source code — Life Path, Expression numbers, the Codex, shadow patterns, and the philosophy of the simulation you are living in.">
+  <meta name="keywords" content="numerology blog, life path numerology, expression number, simulation source code, SSC numerology, numerology deep dive">
+  <link rel="canonical" href="https://simulationsourcecode.com/blog/">
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog — Simulation Source Code">
+  <meta property="og:description" content="Deep dives into numerology as source code — Life Path, Expression numbers, the Codex, shadow patterns, and the philosophy of the simulation you are living in.">
+  <meta property="og:url" content="https://simulationsourcecode.com/blog/">
+  <meta property="og:site_name" content="Simulation Source Code">
+  <meta property="og:image" content="https://simulationsourcecode.com/Images/ssc-og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog — Simulation Source Code">
+  <meta name="twitter:description" content="Deep dives into numerology as source code — Life Path, Expression numbers, the Codex, and the philosophy of your simulation.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    /* ── Page chrome ── */
+    body { padding-top: 64px; }
+
+    /* ── Hero ── */
+    .blog-idx-hero {
+      text-align: center;
+      padding: 72px 24px 56px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      position: relative;
+    }
+    .blog-idx-hero::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 320px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+    }
+    .blog-idx-eyebrow {
+      font-family: "Cinzel", serif;
+      font-size: 9px; letter-spacing: .45em; text-transform: uppercase;
+      color: var(--gold-dim); margin-bottom: 18px;
+    }
+    .blog-idx-title {
+      font-family: "Cinzel Decorative", serif;
+      font-size: clamp(28px, 5vw, 48px);
+      color: var(--gold); font-weight: 400;
+      letter-spacing: .06em; margin-bottom: 20px;
+      text-shadow: 0 0 80px rgba(201,168,76,0.25);
+    }
+    .blog-idx-sub {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px; line-height: 1.75;
+      color: var(--text-dim); max-width: 560px; margin: 0 auto 32px;
+    }
+    .blog-idx-count {
+      font-family: "Cinzel", serif;
+      font-size: 8px; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── Filters ── */
+    .blog-idx-filters {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center;
+      padding: 40px 24px 0;
+      max-width: 900px; margin: 0 auto;
+    }
+    .blog-idx-filter {
+      font-family: "Cinzel", serif;
+      font-size: 8px; letter-spacing: .25em; text-transform: uppercase;
+      padding: 9px 20px; border-radius: 4px; cursor: pointer;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.2);
+      color: var(--text-muted);
+      transition: all .25s;
+    }
+    .blog-idx-filter:hover { border-color: rgba(201,168,76,0.45); color: var(--gold-dim); }
+    .blog-idx-filter.active { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.5); color: var(--gold); }
+
+    /* ── Sections ── */
+    .blog-idx-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px 100px; }
+    .blog-idx-section { margin-top: 64px; }
+    .blog-idx-section-label {
+      font-family: "Cinzel", serif;
+      font-size: 9px; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold-dim);
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .blog-idx-section-label::before {
+      content: ""; display: inline-block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold-dim);
+    }
+
+    /* ── Card grid ── */
+    .blog-idx-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) { .blog-idx-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .blog-idx-grid { grid-template-columns: 1fr; } }
+
+    /* ── Card ── */
+    .blog-idx-card {
+      display: flex; flex-direction: column;
+      border: 1px solid rgba(201,168,76,0.13);
+      border-radius: 8px;
+      overflow: hidden;
+      text-decoration: none;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      background: rgba(3,2,10,0.5);
+    }
+    .blog-idx-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .blog-idx-card-thumb {
+      height: 96px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Cinzel Decorative", serif;
+      font-size: 48px; color: #c9a84c;
+      text-shadow: 0 0 40px #c9a84c66;
+      position: relative; overflow: hidden;
+    }
+    .blog-idx-card-thumb.sys  { background: linear-gradient(135deg,#050310,#0a0620); }
+    .blog-idx-card-thumb.phil { background: linear-gradient(135deg,#000810,#001020); }
+    .blog-idx-card-thumb.num  { background: linear-gradient(135deg,#0a0805,#1a1408); }
+    .blog-idx-card-thumb.prac { background: linear-gradient(135deg,#000a04,#001408); }
+    .blog-idx-card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+    .blog-idx-card-tags { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+    .blog-idx-tag {
+      font-family: "Cinzel", serif;
+      font-size: 7px; letter-spacing: .2em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 3px;
+    }
+    .blog-idx-tag.gold  { background: rgba(201,168,76,0.12); color: #c9a84c; border: 1px solid rgba(201,168,76,0.25); }
+    .blog-idx-tag.teal  { background: rgba(74,148,148,0.12); color: #7ec8c8; border: 1px solid rgba(74,148,148,0.25); }
+    .blog-idx-tag.rose  { background: rgba(180,80,100,0.12); color: #e8a0b0; border: 1px solid rgba(180,80,100,0.25); }
+    .blog-idx-date {
+      font-family: "Cinzel", serif;
+      font-size: 7px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--text-muted); margin-left: auto;
+    }
+    .blog-idx-card-title {
+      font-family: "Cormorant SC", serif;
+      font-size: 16px; font-weight: 400;
+      color: var(--text); line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .blog-idx-card-excerpt {
+      font-size: 14px; line-height: 1.7;
+      color: var(--text-muted);
+      flex: 1; margin-bottom: 14px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .blog-idx-read {
+      font-family: "Cinzel", serif;
+      font-size: 7px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--teal-light); margin-top: auto;
+      transition: color .2s;
+    }
+    .blog-idx-card:hover .blog-idx-read { color: var(--gold); }
+
+    /* Number glyphs for LP / Expression cards */
+    .blog-idx-num-glyph {
+      font-family: "Cinzel Decorative", serif;
+      font-size: 52px; font-weight: 700;
+      text-shadow: 0 0 36px currentColor;
+      line-height: 1;
+    }
+
+    /* hidden by filter */
+    .blog-idx-card.hidden { display: none; }
+    .blog-idx-section.section-empty { display: none; }
+  </style>
+</head>
+<body>
+
+<nav id="main-nav"></nav>
+
+<!-- Hero -->
+<div class="blog-idx-hero">
+  <div class="blog-idx-eyebrow">Simulation Source Code &nbsp;&#183;&nbsp; The System</div>
+  <h1 class="blog-idx-title">The Blog</h1>
+  <p class="blog-idx-sub">Deep dives into numerology as source code — Life Path numbers, Expression frequencies, the Codex, shadow patterns, and the philosophy of the simulation you are living in.</p>
+  <div class="blog-idx-count" id="post-count">38 articles</div>
+</div>
+
+<!-- Filters -->
+<div class="blog-idx-filters">
+  <button class="blog-idx-filter active" onclick="filterPosts('all', this)">All Posts</button>
+  <button class="blog-idx-filter" onclick="filterPosts('system', this)">The System</button>
+  <button class="blog-idx-filter" onclick="filterPosts('philosophy', this)">Philosophy</button>
+  <button class="blog-idx-filter" onclick="filterPosts('numbers', this)">The Numbers</button>
+  <button class="blog-idx-filter" onclick="filterPosts('practice', this)">Practice</button>
+  <button class="blog-idx-filter" onclick="filterPosts('life-path', this)">Life Path</button>
+  <button class="blog-idx-filter" onclick="filterPosts('expression', this)">Expression</button>
+</div>
+
+<div class="blog-idx-wrap">
+
+  <!-- ── SYSTEM SERIES ───────────────────────────────────── -->
+  <div class="blog-idx-section" id="section-system">
+    <div class="blog-idx-section-label">The System Series</div>
+    <div class="blog-idx-grid">
+
+      <a href="/blog/decoding-the-matrix-simulation-source-code/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys">✦</div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Numerology as Source Code: The Complete Architecture</div>
+          <p class="blog-idx-card-excerpt">What if numerology is not mysticism — but the source code of your simulation? The philosophical foundation, the 3×3 Codex, the nine frequencies, and the seven-number blueprint.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/codex-architecture-consciousness-matrix/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys">◈</div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The 3×3 Consciousness Matrix: How the Codex Maps Human Evolution</div>
+          <p class="blog-idx-card-excerpt">A 3×3 map of how consciousness moves — three planes, three columns, one central pivot that everything passes through.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/evolution-of-energy-0-through-9/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:32px;font-family:Cinzel,serif;letter-spacing:-.05em">0→9</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Numerology Numbers 0 to 9: The Evolution of Energy</div>
+          <p class="blog-idx-card-excerpt">From the Void of Zero to the Dispersal of Nine — the complete evolution of energy through the nine frequencies and what each stage means for your simulation.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/electric-magnetic-aether-three-natures-of-number/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:28px;font-family:Cinzel,serif">E·M·Æ</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The Three Types of Numbers: Electric, Magnetic, and Aether</div>
+          <p class="blog-idx-card-excerpt">Four Electric, four Magnetic, two Aetheric. The nine frequencies differ not just in quality but in fundamental nature.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/3-6-9-pattern-tesla-numerology/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:30px;font-family:Cinzel,serif">3·6·9</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Tesla 3 6 9 and Numerology: Why This Pattern Is the Key to the Codex</div>
+          <p class="blog-idx-card-excerpt">Tesla said 3, 6, and 9 were the key to the universe. The Codex shows exactly why — and what these three frequencies reveal about the structure of Mind, Body, and Spirit.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/five-lenses-of-self-ego-mind-soul-spirit-void/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:28px;font-family:Cinzel,serif">5 Layers</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The Five Layers of Self: Ego, Mind, Soul, Spirit, and Void</div>
+          <p class="blog-idx-card-excerpt">Every experience looks different depending on which layer of self you are identified with. Five lenses, five entirely different realities.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/path-of-transformation-1-4-7-2-5-8-3-6-9/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:30px;font-family:Cinzel,serif">1→9</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">The Numerology Transformation Path: How Change Really Moves</div>
+          <p class="blog-idx-card-excerpt">The Codex encodes a specific nine-step sequence for how transformation actually moves through a person. This is the operational rhythm of becoming.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/why-seven-frequencies-numerology/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:52px;font-family:Cinzel,serif">7</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Why Your Numerology Reading Needs 7 Numbers, Not Just One</div>
+          <p class="blog-idx-card-excerpt">Traditional numerology often focuses on three or four numbers. SSC works with seven. Each reveals a different layer — and together they form a complete map.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/666-numerology-meaning/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:28px;font-family:Cinzel,serif">666</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">666 in Numerology: What This Number Actually Represents</div>
+          <p class="blog-idx-card-excerpt">One of the most feared number sequences in Western culture is actually a structural law encoded into the consciousness matrix. Here's what it actually means.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/infinity-loop-cycles-recursion-numerology/" class="blog-idx-card" data-cat="system">
+        <div class="blog-idx-card-thumb sys"><span style="font-size:52px;font-family:Georgia,serif">∞</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">The System</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Numerology Cycles: The Infinity Loop and Recurring Life Patterns</div>
+          <p class="blog-idx-card-excerpt">Nothing is linear in the simulation. Every pattern repeats at deeper levels. Understanding cycles and recursion reveals how the system renews itself.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── PHILOSOPHY & PRACTICE ──────────────────────────── -->
+  <div class="blog-idx-section" id="section-other">
+    <div class="blog-idx-section-label">Philosophy &amp; Practice</div>
+    <div class="blog-idx-grid">
+
+      <a href="/blog/simulation-theory-numerology-source-code/" class="blog-idx-card" data-cat="philosophy">
+        <div class="blog-idx-card-thumb phil">✦</div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">Philosophy</span><span class="blog-idx-date">Dec 2024</span></div>
+          <div class="blog-idx-card-title">Simulation Theory and Numerology: Your Numbers Are Source Code</div>
+          <p class="blog-idx-card-excerpt">Modern physics increasingly suggests reality is information. If the universe is computational, then the numbers in your birth and name are literal parameters of your simulation.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/shadow-side-of-numerology-numbers/" class="blog-idx-card" data-cat="philosophy">
+        <div class="blog-idx-card-thumb phil"><span style="font-size:48px;font-family:Georgia,serif">◑</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">Philosophy</span><span class="blog-idx-date">Jul 2024</span></div>
+          <div class="blog-idx-card-title">Shadow Numbers: The Dark Side of Every Frequency</div>
+          <p class="blog-idx-card-excerpt">Every number carries both gift and challenge. Authentic numerology doesn't flatten this into positivity — it honours the full spectrum of what each frequency means.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/pythagorean-vs-chaldean-numerology/" class="blog-idx-card" data-cat="numbers">
+        <div class="blog-idx-card-thumb num"><span style="font-size:44px;font-family:Georgia,serif">△</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">The Numbers</span><span class="blog-idx-date">Aug 2024</span></div>
+          <div class="blog-idx-card-title">Pythagorean vs Chaldean Numerology: Key Differences</div>
+          <p class="blog-idx-card-excerpt">Two major traditions assign different values to letters. Understanding why SSC uses the Pythagorean system — and what Chaldean offers — clarifies everything.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/master-numbers-11-22-33-numerology/" class="blog-idx-card" data-cat="numbers">
+        <div class="blog-idx-card-thumb num"><span style="font-size:36px;font-family:Cinzel,serif;letter-spacing:-.05em">11·22·33</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">The Numbers</span><span class="blog-idx-date">Oct 2024</span></div>
+          <div class="blog-idx-card-title">Master Numbers 11, 22, 33: What They Mean and How They Work</div>
+          <p class="blog-idx-card-excerpt">When a number reduces to 11, 22, or 33, the rules change. These are master numbers — frequencies of amplified potential and amplified challenge.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-number-explained/" class="blog-idx-card" data-cat="numbers">
+        <div class="blog-idx-card-thumb num"><span style="font-size:44px;font-family:Georgia,serif">①</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">The Numbers</span><span class="blog-idx-date">Nov 2024</span></div>
+          <div class="blog-idx-card-title">Life Path Number Meaning: What It Really Tells You</div>
+          <p class="blog-idx-card-excerpt">Of all seven frequencies, Life Path is the most fundamental. It describes the core theme your simulation is designed to explore — not what you will do, but what you are here to learn.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/theme-number-birth-year-numerology/" class="blog-idx-card" data-cat="numbers">
+        <div class="blog-idx-card-thumb num"><span style="font-size:44px;font-family:Georgia,serif">∞</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">The Numbers</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Theme Number: What Your Birth Year Encodes</div>
+          <p class="blog-idx-card-excerpt">Of the seven frequencies in your blueprint, the Theme number is the least understood. It's not personal — it's atmospheric. And that distinction changes everything.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/how-to-calculate-life-path-number/" class="blog-idx-card" data-cat="practice">
+        <div class="blog-idx-card-thumb prac"><span style="font-size:40px">🧮</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag rose">Practice</span><span class="blog-idx-date">Jun 2024</span></div>
+          <div class="blog-idx-card-title">How to Calculate Your Life Path Number: Step-by-Step</div>
+          <p class="blog-idx-card-excerpt">A step-by-step walkthrough of the Pythagorean reduction method — so you understand exactly what the calculator is doing and why the process matters.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/birth-name-vs-known-name-numerology/" class="blog-idx-card" data-cat="practice">
+        <div class="blog-idx-card-thumb prac"><span style="font-size:40px">✍</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag rose">Practice</span><span class="blog-idx-date">Oct 2024</span></div>
+          <div class="blog-idx-card-title">Birth Name vs Known Name: Which Do You Use in Numerology?</div>
+          <p class="blog-idx-card-excerpt">One of the most common questions: do you use the name on your birth certificate, or the name you actually go by? The answer matters more than you think.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/angel-numbers-being-read-wrong/" class="blog-idx-card" data-cat="practice">
+        <div class="blog-idx-card-thumb prac"><span style="font-size:28px;font-family:Cinzel,serif">11:11</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag rose">Practice</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Angel Numbers: Why Most Interpretations Get It Wrong</div>
+          <p class="blog-idx-card-excerpt">The internet has given angel numbers a universal meaning. But the message is always personal — and stripping out context strips out the most important part of the code.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/name-change-numerology-simulation/" class="blog-idx-card" data-cat="practice">
+        <div class="blog-idx-card-thumb prac"><span style="font-size:40px">✍</span></div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag rose">Practice</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Changing Your Name in Numerology: Does It Change Your Frequencies?</div>
+          <p class="blog-idx-card-excerpt">People change their names hoping to change their frequency. Here's why that rarely works — and what it would actually take if you tried.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── LIFE PATH DEEP DIVES ───────────────────────────── -->
+  <div class="blog-idx-section" id="section-lp">
+    <div class="blog-idx-section-label">Life Path Deep Dives</div>
+    <div class="blog-idx-grid">
+
+      <a href="/blog/life-path-1-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#0a0805,#1a1408)">
+          <span class="blog-idx-num-glyph" style="color:#c9a84c">1</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 1: The Initiator</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps placing you at beginnings and demanding you go first — before you feel ready, before you have approval. The 1 Life Path decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-2-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#010a10,#081414)">
+          <span class="blog-idx-num-glyph" style="color:#7ec8c8">2</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 2: The Bridge</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps testing whether you can stay fully connected to others without losing connection to yourself. Including master number 11/2.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-3-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#0a0600,#180a00)">
+          <span class="blog-idx-num-glyph" style="color:#e8a060">3</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 3: The Creator</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps asking you to find and use your authentic voice — not the one that earns approval, but the one that carries something real.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-4-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#000a04,#001408)">
+          <span class="blog-idx-num-glyph" style="color:#60c890">4</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 4: The Foundation</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps demanding you build something real — structures, systems, commitments that hold up under actual pressure. Including master 22/4.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-5-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#080010,#100018)">
+          <span class="blog-idx-num-glyph" style="color:#b090e8">5</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 5: The Change Agent</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps placing you in situations that require you to adapt, move, and change — and testing whether you can do that without losing your centre.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-6-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#080008,#140010)">
+          <span class="blog-idx-num-glyph" style="color:#d890d8">6</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 6: The Responsibility</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps placing you in positions of care and responsibility — and asking whether you can give genuinely without burning yourself out. Including 33/6.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-7-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#040010,#080018)">
+          <span class="blog-idx-num-glyph" style="color:#8090e8">7</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 7: The Seeker</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps stripping away what you thought you knew — not to leave you lost, but to force you toward something genuinely true. The 7 Life Path in depth.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-8-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#080808,#141008)">
+          <span class="blog-idx-num-glyph" style="color:#d0c890">8</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 8: The Powerhouse</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps placing you in power dynamics and asking whether you can govern yourself before you try to govern anything else. Including master 44/8.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/life-path-9-numerology/" class="blog-idx-card" data-cat="life-path numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#02000a,#080014)">
+          <span class="blog-idx-num-glyph" style="color:#d0b8f8">9</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Life Path</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Life Path 9: The Completor</div>
+          <p class="blog-idx-card-excerpt">The simulation keeps bringing things to completion and asking whether you can release what is finished — rather than dragging it into the next chapter of your life.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── EXPRESSION DEEP DIVES ─────────────────────────── -->
+  <div class="blog-idx-section" id="section-exp">
+    <div class="blog-idx-section-label">Expression Number Deep Dives</div>
+    <div class="blog-idx-grid">
+
+      <a href="/blog/expression-1-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#0a0805,#1a1408)">
+          <span class="blog-idx-num-glyph" style="color:#c9a84c">1</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 1: The Independent Voice</div>
+          <p class="blog-idx-card-excerpt">Built to assert, lead through original voice, and speak truth without waiting for consensus. Shadow, compound story, and integration decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-2-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#010a10,#081414)">
+          <span class="blog-idx-num-glyph" style="color:#7ec8c8">2</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 2: The Bridge Builder</div>
+          <p class="blog-idx-card-excerpt">Built to mediate, connect, and hold two sides in conscious relationship. Including master number 11/2 — shadow and integration decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-3-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#0a0600,#180a00)">
+          <span class="blog-idx-num-glyph" style="color:#e8a060">3</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 3: The Creative Communicator</div>
+          <p class="blog-idx-card-excerpt">Built to translate inner experience into communicable form. Internal circuit, shadow patterns, and compound story decoded in full.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-4-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#000a04,#001408)">
+          <span class="blog-idx-num-glyph" style="color:#60c890">4</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 4: The Architect</div>
+          <p class="blog-idx-card-excerpt">Built to construct systems, establish foundations, and create structures that endure. Including master 22/4 — shadow and integration decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-5-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#080010,#100018)">
+          <span class="blog-idx-num-glyph" style="color:#b090e8">5</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 5: The Freedom Seeker</div>
+          <p class="blog-idx-card-excerpt">Built to move, adapt, and catalyse change wherever they land. The centre of the Codex — shadow, compounds, and integration fully decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-6-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#080008,#140010)">
+          <span class="blog-idx-num-glyph" style="color:#d890d8">6</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 6: The Nurturer</div>
+          <p class="blog-idx-card-excerpt">Built to care, heal, and hold responsibility for the wellbeing of others. Including master 33/6. Shadow patterns and integration fully explored.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-7-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#040010,#080018)">
+          <span class="blog-idx-num-glyph" style="color:#8090e8">7</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 7: The Inner Truth Holder</div>
+          <p class="blog-idx-card-excerpt">Built to seek, analyse, and distil genuine understanding from direct inner experience. Shadow, compound story, and integration decoded in depth.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-8-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#080808,#141008)">
+          <span class="blog-idx-num-glyph" style="color:#d0c890">8</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 8: The Manifestor</div>
+          <p class="blog-idx-card-excerpt">Built to move power, resources, and influence in the material world. Including master 44/8. Shadow, compound story, and integration decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+      <a href="/blog/expression-9-numerology/" class="blog-idx-card" data-cat="expression numbers">
+        <div class="blog-idx-card-thumb num" style="background:linear-gradient(135deg,#02000a,#080014)">
+          <span class="blog-idx-num-glyph" style="color:#d0b8f8">9</span>
+        </div>
+        <div class="blog-idx-card-body">
+          <div class="blog-idx-card-tags"><span class="blog-idx-tag teal">Expression</span><span class="blog-idx-date">Mar 2026</span></div>
+          <div class="blog-idx-card-title">Expression 9: The Humanitarian</div>
+          <p class="blog-idx-card-excerpt">Built to serve the whole, complete cycles, and offer wisdom from the full spectrum of human experience. Shadow, compounds, and integration decoded.</p>
+          <span class="blog-idx-read">Read Article →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── CTA ────────────────────────────────────────────── -->
+  <div style="margin-top:72px;padding:40px 28px;background:linear-gradient(135deg,rgba(13,11,24,0.9),rgba(24,21,48,0.8));border:1px solid rgba(201,168,76,0.2);border-radius:10px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent);"></div>
+    <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:16px;">Know Your Numbers</div>
+    <p style="font-size:17px;line-height:1.8;color:var(--text-dim);max-width:500px;margin:0 auto 24px;">Every article here maps to your personal blueprint. Enter your birth details to see all seven of your encoded frequencies.</p>
+    <a href="/#calculator" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;padding:16px 36px;border-radius:5px;background:rgba(74,148,148,.25);border:1px solid rgba(126,200,200,.4);color:var(--teal-light);text-decoration:none;display:inline-block;transition:all .3s;">&#11042;&nbsp;&nbsp;Decode Your Blueprint</a>
+  </div>
+
+</div><!-- /blog-idx-wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo-text">Simulation Source Code</div>
+      <p class="footer-tagline">Seven frequencies encoded in your birth and name &#8212; the complete architecture of your simulation.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <div class="footer-links">
+        <a class="footer-link" href="/">Home</a>
+        <a class="footer-link" href="/#calculator">Calculator</a>
+        <a class="footer-link" href="/blog/">Blog</a>
+        <a class="footer-link" href="/#about">About</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Life Paths</div>
+      <div class="footer-links">
+        <a class="footer-link" href="/blog/life-path-1-numerology/">Life Path 1</a>
+        <a class="footer-link" href="/blog/life-path-2-numerology/">Life Path 2</a>
+        <a class="footer-link" href="/blog/life-path-3-numerology/">Life Path 3</a>
+        <a class="footer-link" href="/blog/life-path-4-numerology/">Life Path 4</a>
+        <a class="footer-link" href="/blog/life-path-5-numerology/">Life Path 5</a>
+        <a class="footer-link" href="/blog/life-path-6-numerology/">Life Path 6</a>
+        <a class="footer-link" href="/blog/life-path-7-numerology/">Life Path 7</a>
+        <a class="footer-link" href="/blog/life-path-8-numerology/">Life Path 8</a>
+        <a class="footer-link" href="/blog/life-path-9-numerology/">Life Path 9</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Expression</div>
+      <div class="footer-links">
+        <a class="footer-link" href="/blog/expression-1-numerology/">Expression 1</a>
+        <a class="footer-link" href="/blog/expression-2-numerology/">Expression 2</a>
+        <a class="footer-link" href="/blog/expression-3-numerology/">Expression 3</a>
+        <a class="footer-link" href="/blog/expression-4-numerology/">Expression 4</a>
+        <a class="footer-link" href="/blog/expression-5-numerology/">Expression 5</a>
+        <a class="footer-link" href="/blog/expression-6-numerology/">Expression 6</a>
+        <a class="footer-link" href="/blog/expression-7-numerology/">Expression 7</a>
+        <a class="footer-link" href="/blog/expression-8-numerology/">Expression 8</a>
+        <a class="footer-link" href="/blog/expression-9-numerology/">Expression 9</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&#169; 2026 Simulation Source Code &middot; All Rights Reserved</div>
+  </div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script>
+if (typeof loadNav === 'function') loadNav();
+
+function filterPosts(cat, btn) {
+  // Update active button
+  document.querySelectorAll('.blog-idx-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const cards = document.querySelectorAll('.blog-idx-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const cats = (card.dataset.cat || '').split(' ');
+    const show = cat === 'all' || cats.includes(cat);
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  // Update count
+  document.getElementById('post-count').textContent = visible + ' article' + (visible !== 1 ? 's' : '');
+
+  // Hide empty sections
+  document.querySelectorAll('.blog-idx-section').forEach(section => {
+    const hasVisible = section.querySelector('.blog-idx-card:not(.hidden)');
+    section.classList.toggle('section-empty', !hasVisible);
+  });
+}
+</script>
+
+</body>
+</html>
