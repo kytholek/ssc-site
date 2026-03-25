@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SSC Sample Guidebook — Maya Chen Williams</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+SC:wght@300;400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,serif;font-size:18px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+/* ── COVER ── */
+.cover{width:100%;min-height:100vh;background:#05040a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 48px;position:relative;page-break-after:always}
+.c-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#4a9494;margin-bottom:40px}
+.c-sig{width:150px;height:150px;margin:0 auto 44px;filter:drop-shadow(0 0 20px rgba(201,168,76,0.35))}
+.c-sig svg{width:100%;height:100%}
+.c-rl{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#7a6330;margin-bottom:6px}
+.c-rt{font-family:"Cormorant SC",serif;font-weight:300;font-size:16px;color:#9b9080;letter-spacing:.1em;margin-bottom:40px}
+.c-div{display:flex;align-items:center;gap:16px;width:100%;max-width:400px;margin:0 auto 36px}
+.c-dl{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent)}
+.c-dg{width:7px;height:7px;background:#7a6330;transform:rotate(45deg);flex-shrink:0}
+.c-nm{font-family:"Cormorant SC",serif;font-weight:300;font-size:44px;color:#e8c96b;letter-spacing:.06em;line-height:1.1;margin-bottom:8px}
+.c-db{font-family:"Cinzel",serif;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#7a6330;margin-bottom:48px}
+.c-fqs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:520px;margin:0 auto}
+.c-bgt{background:rgba(13,11,24,0.95);border:1px solid rgba(201,168,76,0.18);border-radius:5px;padding:10px 16px;text-align:center;min-width:88px;text-decoration:none;display:block}
+.c-bgt-n{font-family:"Cormorant SC",serif;font-size:22px;color:#c9a84c;display:block;line-height:1}
+.c-bgt-l{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#7ec8c8;display:block;margin-top:4px}
+.c-nav-hint{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,0.3);margin-top:16px}
+.c-ft{position:absolute;bottom:28px;left:0;right:0;text-align:center;font-family:"Cinzel",serif;font-size:7px;letter-spacing:.25em;text-transform:uppercase;color:#5c5448}
+
+/* ── STAR CHART ── */
+.chart-pg{width:100%;min-height:100vh;background:#05040a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 48px;page-break-after:always;position:relative}
+.chart-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#7a6330;margin-bottom:10px}
+.chart-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:28px;color:#e8c96b;letter-spacing:.05em;margin-bottom:32px}
+.chart-wr{width:360px;height:400px;margin:0 auto}
+.chart-pf{position:absolute;bottom:24px;left:52px;right:52px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,0.07);padding-top:10px}
+.chart-pf span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
+
+/* ── HOW TO READ ── */
+.howto{width:100%;background:#05040a;padding:56px 80px 80px;page-break-after:always;position:relative;min-height:100vh}
+.howto-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#4a9494;margin-bottom:10px}
+.howto-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:30px;color:#e8c96b;letter-spacing:.05em;margin-bottom:8px}
+.howto-dv{height:1px;background:linear-gradient(90deg,rgba(201,168,76,0.3),transparent);margin-bottom:28px}
+.howto-in{font-size:17px;line-height:1.85;color:#9b9080;margin-bottom:32px;font-style:italic}
+.howto-gr{display:grid;grid-template-columns:1fr;gap:20px;margin-bottom:32px}
+.howto-cd{background:rgba(13,11,24,0.8);border:1px solid rgba(201,168,76,0.1);border-radius:6px;padding:20px 24px}
+.howto-cl{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#7ec8c8;margin-bottom:6px}
+.howto-ct{font-family:"Cormorant SC",serif;font-size:20px;color:#e8c96b;margin-bottom:8px;letter-spacing:.03em}
+.howto-cb{font-size:16px;line-height:1.8;color:#9b9080}
+.howto-nt{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.12);border-left:3px solid rgba(201,168,76,0.4);border-radius:4px;padding:18px 22px;margin-bottom:24px}
+.howto-nt p{font-size:16px;line-height:1.8;color:#9b9080}
+.howto-nt strong{color:#e8c96b}
+.howto-pf{position:absolute;bottom:24px;left:80px;right:80px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,0.07);padding-top:10px}
+.howto-pf span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
+
+/* ── MAIN CONTENT ── */
+.content-pg{width:100%;background:#05040a;padding:56px 80px 80px;page-break-after:always;position:relative;min-height:100vh}
+.pg-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;padding-bottom:14px;border-bottom:1px solid rgba(201,168,76,0.1)}
+.pg-hd span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.35em;text-transform:uppercase;color:#5c5448}
+.sb h2{font-family:"Cormorant SC",serif;font-weight:300;font-size:28px;color:#e8c96b;letter-spacing:.04em;margin:36px 0 10px;padding-bottom:8px;border-bottom:1px solid rgba(201,168,76,0.1);page-break-before:always;break-before:page;page-break-after:avoid;break-after:avoid}
+.sb h2:first-child{page-break-before:avoid;break-before:avoid}
+.sb h3{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#7ec8c8;margin:24px 0 8px;page-break-after:avoid;break-after:avoid}
+.sb p{font-size:17px;line-height:2;color:#9b9080;margin-bottom:14px;page-break-inside:avoid;break-inside:avoid;orphans:3;widows:3}
+.sb strong{color:#e8dfc8}
+.sb em{color:#c9a84c;font-style:italic}
+.sb ul{list-style:none;padding:0;margin:0 0 16px}
+.sb ul li{font-size:16px;line-height:1.85;color:#9b9080;padding:6px 0 6px 20px;border-bottom:1px solid rgba(201,168,76,0.05);position:relative}
+.sb ul li::before{content:"\25C8";position:absolute;left:0;top:8px;font-size:7px;color:#4a9494}
+.pg-ft{position:absolute;bottom:24px;left:80px;right:80px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,0.07);padding-top:10px}
+.pg-ft span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
+
+/* ── REFERENCE TABLE ── */
+.ref-pg{width:100%;background:#05040a;padding:56px 80px 80px;page-break-before:always;position:relative;min-height:100vh}
+.ref-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#7a6330;margin-bottom:10px}
+.ref-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:30px;color:#e8c96b;letter-spacing:.05em;margin-bottom:6px}
+.ref-dv{height:1px;background:linear-gradient(90deg,rgba(201,168,76,0.3),transparent);margin-bottom:28px}
+.ref-tb{width:100%;border-collapse:collapse;margin-bottom:32px}
+.ref-tb th{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#7a6330;text-align:left;padding:10px 14px;border-bottom:1px solid rgba(201,168,76,0.2)}
+.ref-tb td{font-size:15px;color:#9b9080;padding:11px 14px;border-bottom:1px solid rgba(201,168,76,0.06);vertical-align:top;line-height:1.65}
+.ref-fl{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:#7ec8c8;display:block;margin-bottom:3px}
+.ref-cp{font-family:"Cormorant SC",serif;font-size:19px;color:#c9a84c}
+.ref-pos{color:#7ec8c8}
+.ref-shd{color:#a04070}
+.ref-pf{position:absolute;bottom:24px;left:80px;right:80px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,0.07);padding-top:10px}
+.ref-pf span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
+
+/* ── ACTION GUIDE ── */
+.action-pg{width:100%;background:#05040a;padding:120px 120px 100px;page-break-before:always;position:relative;min-height:100vh}
+.action-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#7a6330;margin-bottom:10px}
+.action-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:30px;color:#e8c96b;letter-spacing:.05em;margin-bottom:6px}
+.action-dv{height:1px;background:linear-gradient(90deg,rgba(201,168,76,0.3),transparent);margin-bottom:28px}
+.action-sec{margin-bottom:40px}
+.action-h3{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#7ec8c8;margin-bottom:14px;border-bottom:1px solid rgba(201,168,76,0.15);padding-bottom:10px}
+.action-bd{font-size:15px;color:#9b9080;line-height:1.8;margin-bottom:16px}
+.action-pf{position:absolute;bottom:24px;left:120px;right:120px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,0.07);padding-top:10px}
+.action-pf span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448}
+
+/* ── QUEST DIRECTIVE ── */
+.quest-pg{width:100%;min-height:100vh;background:#05040a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 80px;page-break-before:always}
+.q-ey{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#7a6330;margin-bottom:28px}
+.q-ti{font-family:"Cormorant SC",serif;font-weight:300;font-size:36px;color:#e8c96b;letter-spacing:.05em;margin-bottom:32px}
+.q-dv{width:100px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent);margin:0 auto 32px}
+.q-tx{font-size:18px;line-height:2;color:#9b9080;max-width:560px;font-style:italic}
+.q-tx strong{color:#e8dfc8;font-style:normal}
+.q-br{margin-top:56px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.q-bs{width:44px;height:44px;opacity:0.45}
+.q-bn{font-family:"Cormorant SC",serif;font-size:14px;color:#c9a84c;letter-spacing:.06em}
+.q-bu{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#5c5448}
+.q-sc{display:flex;gap:20px;margin-top:8px}
+.q-sc a{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5c5448;text-decoration:none}
+
+@media print{body{background:#05040a !important}*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="c-ey">&#10022; &nbsp; Holographic Blueprint Reading &nbsp; &#10022;</div>
+  <div class="c-sig">
+    <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="50%" stop-color="#c9a84c" stop-opacity="0.15"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/><circle cx="80" cy="80" r="66" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12" stroke-dasharray="3 6"/><circle cx="80" cy="80" r="36" fill="url(#sg1)"/><line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="29" y1="29" x2="131" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/><line x1="131" y1="29" x2="29" y2="131" stroke="#c9a84c" stroke-width="0.6" opacity="0.18"/><circle cx="80" cy="16" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="144" cy="80" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="80" cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="16" cy="80" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="80" cy="16" r="2.5" fill="#7ec8c8" opacity="0.85"/><circle cx="144" cy="80" r="2.5" fill="#7ec8c8" opacity="0.85"/><circle cx="80" cy="144" r="2.5" fill="#7ec8c8" opacity="0.85"/><circle cx="16" cy="80" r="2.5" fill="#7ec8c8" opacity="0.85"/><circle cx="31" cy="31" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/><circle cx="129" cy="31" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/><circle cx="31" cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/><circle cx="129" cy="129" r="6" fill="#03020a" stroke="#c9a84c" stroke-width="0.8" opacity="0.6"/><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/></svg>
+  </div>
+  <div class="c-rl">Simulation Source Code</div>
+  <div class="c-rt">Complete Frequency Guidebook</div>
+  <div class="c-div"><span class="c-dl"></span><span class="c-dg"></span><span class="c-dl"></span></div>
+  <div class="c-nm">Maya Chen Williams</div>
+  <div class="c-db">August 14, 1988</div>
+  <div class="c-fqs">
+    <a href="#theme"      class="c-bgt"><span class="c-bgt-n">26/8</span><span  class="c-bgt-l">Theme</span></a>
+    <a href="#lifepath"   class="c-bgt"><span class="c-bgt-n">39/3</span><span  class="c-bgt-l">Life Path</span></a>
+    <a href="#achievement" class="c-bgt"><span class="c-bgt-n">22/22</span><span class="c-bgt-l">Achievement</span></a>
+    <a href="#expression" class="c-bgt"><span class="c-bgt-n">15/6</span><span  class="c-bgt-l">Expression</span></a>
+    <a href="#soul"       class="c-bgt"><span class="c-bgt-n">33/33</span><span class="c-bgt-l">Soul</span></a>
+    <a href="#persona"    class="c-bgt"><span class="c-bgt-n">36/9</span><span  class="c-bgt-l">Persona</span></a>
+    <a href="#calling"    class="c-bgt"><span class="c-bgt-n">54/9</span><span  class="c-bgt-l">Life Calling</span></a>
+  </div>
+  <div class="c-nav-hint">&#8599; tap any frequency to jump to its section</div>
+  <div class="c-ft">simulationsourcecode.com &nbsp;&#183;&nbsp; &#10022; &nbsp;&#183;&nbsp; Generated exclusively for Maya Chen Williams</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ STAR CHART -->
+<div class="chart-pg">
+  <div class="chart-ey">Your Frequency Map</div>
+  <div class="chart-ti">The Seven Frequencies</div>
+  <div class="chart-wr">
+    <svg viewBox="0 0 380 420" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bgG" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1a1620" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#05040a" stop-opacity="1"/>
+        </radialGradient>
+      </defs>
+      <!-- background circle -->
+      <circle cx="190" cy="210" r="175" fill="url(#bgG)" stroke="rgba(201,168,76,0.12)" stroke-width="1"/>
+      <!-- gold triangle: soul–expression–outer -->
+      <polygon points="61.83,284 190,62 318.17,284" fill="rgba(201,168,76,0.07)" stroke="#c9a84c" stroke-width="1.2" stroke-linejoin="round"/>
+      <!-- purple triangle: lifePath–achievement–theme -->
+      <polygon points="190,358 61.83,136 318.17,136" fill="rgba(123,79,166,0.07)" stroke="#7b4fa6" stroke-width="1.2" stroke-linejoin="round"/>
+      <!-- gold triangle edges -->
+      <line x1="61.83" y1="284" x2="190" y2="62"     stroke="#c9a84c" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="190"   y1="62"  x2="318.17" y2="284"  stroke="#c9a84c" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="318.17" y1="284" x2="61.83" y2="284"  stroke="#c9a84c" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+      <!-- purple triangle edges -->
+      <line x1="190"   y1="358" x2="61.83"  y2="136"  stroke="#7b4fa6" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="61.83" y1="136" x2="318.17" y2="136"  stroke="#7b4fa6" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="318.17" y1="136" x2="190"  y2="358"   stroke="#7b4fa6" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+      <!-- spokes -->
+      <line x1="190" y1="210" x2="61.83"  y2="284"  stroke="#c9a84c" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+      <line x1="190" y1="210" x2="190"    y2="62"    stroke="#c9a84c" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+      <line x1="190" y1="210" x2="318.17" y2="284"  stroke="#c9a84c" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+      <line x1="190" y1="210" x2="190"    y2="358"   stroke="#c9a84c" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+      <line x1="190" y1="210" x2="61.83"  y2="136"  stroke="#c9a84c" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+      <line x1="190" y1="210" x2="318.17" y2="136"  stroke="#c9a84c" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+      <!-- Soul node (33, purple) -->
+      <g>
+        <circle cx="61.83" cy="284" r="29" fill="#120b1a" stroke="#7b4fa6" stroke-width="1" opacity="0.4"/>
+        <circle cx="61.83" cy="284" r="22" fill="#120b1a" stroke="#7b4fa6" stroke-width="1.5"/>
+        <text x="61.83" y="284" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="13" fill="#a96ed4" font-weight="700">33</text>
+        <text x="61.83" y="320" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#a96ed4" letter-spacing="0.12em" opacity="0.9">SOUL</text>
+      </g>
+      <!-- Theme node (8, teal) -->
+      <g>
+        <circle cx="318.17" cy="136" r="29" fill="#081414" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+        <circle cx="318.17" cy="136" r="22" fill="#081414" stroke="#4a9494" stroke-width="1.5"/>
+        <text x="318.17" y="136" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" fill="#7ec8c8" font-weight="700">8</text>
+        <text x="318.17" y="100" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#7ec8c8" letter-spacing="0.12em" opacity="0.9">THEME</text>
+      </g>
+      <!-- Outer Persona node (9, teal) -->
+      <g>
+        <circle cx="318.17" cy="284" r="29" fill="#081414" stroke="#4a9494" stroke-width="1" opacity="0.4"/>
+        <circle cx="318.17" cy="284" r="22" fill="#081414" stroke="#4a9494" stroke-width="1.5"/>
+        <text x="318.17" y="284" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" fill="#7ec8c8" font-weight="700">9</text>
+        <text x="318.17" y="320" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#7ec8c8" letter-spacing="0.12em" opacity="0.9">OUTER</text>
+      </g>
+      <!-- Life Path node (3, gold, below) -->
+      <g>
+        <circle cx="190" cy="358" r="29" fill="#1a1408" stroke="#c9a84c" stroke-width="1" opacity="0.4"/>
+        <circle cx="190" cy="358" r="22" fill="#1a1408" stroke="#c9a84c" stroke-width="1.5"/>
+        <text x="190" y="358" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" fill="#e8c96b" font-weight="700">3</text>
+        <text x="190" y="394" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#e8c96b" letter-spacing="0.12em" opacity="0.9">LIFE PATH</text>
+      </g>
+      <!-- Achievement node (22, purple, above) -->
+      <g>
+        <circle cx="61.83" cy="136" r="29" fill="#120b1a" stroke="#7b4fa6" stroke-width="1" opacity="0.4"/>
+        <circle cx="61.83" cy="136" r="22" fill="#120b1a" stroke="#7b4fa6" stroke-width="1.5"/>
+        <text x="61.83" y="136" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="13" fill="#a96ed4" font-weight="700">22</text>
+        <text x="61.83" y="100" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#a96ed4" letter-spacing="0.12em" opacity="0.9">ACHIEVEMENT</text>
+      </g>
+      <!-- Expression node (6, gold, above) -->
+      <g>
+        <circle cx="190" cy="62" r="29" fill="#1a1408" stroke="#c9a84c" stroke-width="1" opacity="0.4"/>
+        <circle cx="190" cy="62" r="22" fill="#1a1408" stroke="#c9a84c" stroke-width="1.5"/>
+        <text x="190" y="62" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" fill="#e8c96b" font-weight="700">6</text>
+        <text x="190" y="26" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#e8c96b" letter-spacing="0.12em" opacity="0.9">EXPRESSION</text>
+      </g>
+      <!-- Life Calling center (9, gold) -->
+      <g>
+        <circle cx="190" cy="210" r="38" fill="rgba(201,168,76,0.06)" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+        <circle cx="190" cy="210" r="28" fill="#100e04" stroke="#c9a84c" stroke-width="1.5"/>
+        <text x="190" y="206" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" fill="#e8c96b" font-weight="700">9</text>
+        <text x="190" y="226" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#c9a84c" letter-spacing="0.14em" opacity="0.85">LIFE CALLING</text>
+      </g>
+    </svg>
+  </div>
+  <div class="chart-pf"><span>Simulation Source Code</span><span>Maya Chen Williams</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ HOW TO READ -->
+<div class="howto">
+  <div class="howto-ey">Before You Begin</div>
+  <div class="howto-ti">How to Read This Blueprint</div>
+  <div class="howto-dv"></div>
+  <p class="howto-in">This is not a personality profile. It is a map of the frequencies encoded in your birth date and full name &#8212; the two circuits through which your simulation runs. Read it as direction, not description.</p>
+  <div class="howto-gr">
+    <div class="howto-cd">
+      <div class="howto-cl">Birth Date</div>
+      <div class="howto-ct">The External Circuit</div>
+      <div class="howto-cb">Your birth date encodes the curriculum the simulation has designed for you &#8212; the themes, resistances, and lessons life will keep presenting. Theme sets the atmospheric note. Life Path is the core curriculum. Achievement is how you are wired to move through it.</div>
+    </div>
+    <div class="howto-cd">
+      <div class="howto-cl">Full Birth Name</div>
+      <div class="howto-ct">The Internal Circuit</div>
+      <div class="howto-cb">Your name encodes the frequency you are here to express. Soul is the inner world. Outer Persona is the social mask. Expression is what emerges when they fuse. This is the authentic signal beneath conditioning &#8212; your inner dominion.</div>
+    </div>
+    <div class="howto-cd">
+      <div class="howto-cl">The Numbers</div>
+      <div class="howto-ct">Positive &amp; Shadow</div>
+      <div class="howto-cb">Every frequency has both a positive and shadow expression. The shadow is not a flaw &#8212; it is the unconstructed version of the same energy. The work is not to eliminate the shadow, but to understand it so it stops running on autopilot.</div>
+    </div>
+    <div class="howto-cd">
+      <div class="howto-cl">The Fusion</div>
+      <div class="howto-ct">The Life Calling</div>
+      <div class="howto-cb">The Life Calling is the fusion of your Life Path and Expression. It is not a career suggestion &#8212; it is the specific directive that emerges when your external curriculum and internal frequency are run together.</div>
+    </div>
+  </div>
+  <div class="howto-nt">
+    <p><strong>On compound numbers:</strong> Every frequency is shown as compound/root (e.g. 35/8). The compound number tells the story of how the energy arrived. The root is the core operating frequency. The compound is the experience; the root is the essence. Both matter.</p>
+  </div>
+  <div class="howto-pf"><span>Simulation Source Code</span><span>simulationsourcecode.com</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ MAIN CONTENT -->
+<div class="content-pg">
+  <div class="pg-hd"><span>Simulation Source Code</span><span>Maya Chen Williams</span></div>
+  <div class="sb">
+
+    <p>Maya, your blueprint encodes a simulation designed around the intersection of master-level building capacity and universal service. Two master numbers &#8212; a 22/22 Achievement and a 33/33 Soul Urge &#8212; run through a 39/3 Life Path and a 15/6 Expression. This is not a subtle frequency. The simulation built you for something larger than personal accomplishment, and every circuit in this blueprint points in that direction.</p>
+
+    <h2>The External Circuit</h2>
+
+    <h3 id="theme">Theme 26/8</h3>
+    <p>Your generation runs on a 26/8 atmospheric note &#8212; Responsible Vision. The compound encodes 2's attunement to others, 6's orientation toward care and integration, and an 8 root that demands those qualities be translated into real-world authority. This is not the atmospheric frequency of pure creativity or lone initiation. It is the frequency of a generation asked to build systems that carry responsibility &#8212; structures that serve rather than dominate.</p>
+    <p>The shadow of this generational backdrop is the collapse of 8 into control: building authority that serves the ego rather than the collective, mistaking power for the goal rather than the vehicle. The simulation running at the atmospheric level keeps asking the same question &#8212; what are you building this for?</p>
+
+    <h3 id="lifepath">Life Path 39/3</h3>
+    <p>Your Life Path is 39/3 &#8212; Universal Expression. The compound holds a specific instruction: 3's creative force moving through 9's completion orientation, reducing to a 3 root that has been seasoned by the entire cycle. This is not the na&#239;ve 3 who expresses freely before learning the cost. The 39 has lived through the full arc. The expression this Life Path asks for has been tempered by universal awareness.</p>
+    <p>Your 26/8 Theme colors this curriculum precisely. The atmospheric frequency of responsible authority meets the 39/3's call for expression in service &#8212; you are not here to express for yourself alone. The simulation's curriculum keeps presenting you with the question of whose expression matters, and what communication actually serves beyond personal satisfaction. The shadow of 39/3 is ego inflation dressed as service: believing your voice matters because of who you are, rather than because of what it transmits. Your 22/22 Achievement shapes how you move through this Life Path &#8212; at the scale of collective infrastructure, not personal project.</p>
+
+    <h3 id="achievement">Achievement 22/22</h3>
+    <p>22/22 &#8212; The Master Builder. This is not a reduced number. The 22 stays at master scale, operating from 4's foundational energy but at a magnitude that can hold collective vision. You accomplish things by building infrastructure. Not ideas, not conversations &#8212; actual structures that hold when you step back from them. The operational style here is methodical, large-scale, and designed for endurance.</p>
+    <p>The shadow of 22/22 is significant: overwhelm, grandiosity, and the collapse into escapism when the weight of the vision becomes unbearable. Master builders who do not ground the vision in practical daily discipline frequently find themselves cycling between inflated plans and complete withdrawal. The 22 demands that you build at the level you are capable of &#8212; and that you do it one foundation stone at a time. The shadow avoidance pattern is talking about the build rather than doing it.</p>
+    <p><strong>External Circuit Quest Objective:</strong> <em>Use the master builder's operational scale to express universal creative force at the level of collective infrastructure &#8212; not as personal legacy, but as functional service.</em></p>
+
+    <h2>The Internal Circuit</h2>
+
+    <h3 id="soul">Soul Urge 33/33</h3>
+    <p>Your Soul Urge is 33/33 &#8212; The Master Teacher. This is one of the most undiluted internal frequencies in the system. It does not reduce. The private world of a 33/33 Soul is organised around an almost involuntary orientation toward compassionate service and the transmission of understanding. What you want most, beneath every surface desire, is to be of genuine use to others. Not to be needed &#8212; to actually help in ways that matter.</p>
+    <p>The shadow of a 33/33 Soul is the martyrdom that comes when this deep yearning is misdirected. Giving without discernment, teaching without invitation, carrying others' weight as though service requires self-erasure. The 6 root of the master teacher frequency also carries the shadow of heartlessness &#8212; the cold withdrawal that follows over-giving. When the 33/33 Soul collapses, it does not disappear gently. It closes completely.</p>
+
+    <h3 id="persona">Outer Persona 36/9</h3>
+    <p>Before anyone knows you, you are read as someone who has completed something &#8212; a 36/9 signal that carries an authority born from lived experience. The 3's creative warmth, the 6's integrative care, and the 9's universal orientation combine to produce a social mask of someone who has seen enough to hold steady. You are not read as na&#239;ve. You are read as someone who understands.</p>
+    <p>The shadow of the 36/9 persona is the appearance of completion masking inner incompletion &#8212; projecting the 9's universality before actually having lived through what that requires. The social mask can perform wisdom while the inner world is still processing. The authentic use of this persona is to let the 9's completion-energy be earned rather than performed.</p>
+
+    <h3 id="expression">Expression 15/6</h3>
+    <p>Your Expression &#8212; 15/6, Embodied Will &#8212; is the frequency that emerges when the 33/33 Soul's compassionate teaching instinct and the 36/9 Persona's universal authority are run together. Personal will tested through direct contact with life, reducing to 6's integration and care. The authentic signal you are here to express is <em>care that has been forged by actual experience</em>. Not theoretical compassion. Not performed service. Integration that has been earned through showing up when it was difficult.</p>
+    <p>The shadow of 15/6 Expression is bypassing the direct contact the 1 and 5 demand &#8212; moving into 6's nurturing before the personal will has been tempered. Caring from a distance. Teaching what has not been lived. The 33/33 Soul yearns to give, the 36/9 Persona looks like it knows, but the 15/6 Expression only becomes authentic when both have been grounded in direct, embodied encounter with life as it actually is.</p>
+    <p><strong>Internal Circuit Quest Objective:</strong> <em>Express compassionate teaching through embodied will &#8212; not as performance of service, but as care that has been earned by direct contact with life.</em></p>
+
+    <h2 id="calling">The Life Calling &#8212; 54/9</h2>
+    <p>54/9 &#8212; Structured Experience reducing to Completion. Your Life Calling is the result of running your Expression (15/6) through your Life Path (39/3): 15 + 39 = 54. Freedom found within structure, reducing to the 9's universal service orientation. This is the precise directive the simulation encoded for you.</p>
+    <p>The 54 compound tells the story exactly: 5's direct embodied experience of life, held within the 4's discipline and structure, producing the 9's completion. Your calling is not to accumulate freedom or wisdom. It is to find freedom <em>within</em> the structure your 22/22 Achievement is built to construct &#8212; and then release what has been built in service of the universal. The 9 root means nothing is kept. Everything built is eventually given away.</p>
+    <p>The shadow of a 54/9 Life Calling: ego inflation around what has been built and learned. The 9 collapses when it holds onto the completion instead of releasing it. The 5's experiences become possessions. The 4's structures become fortresses. The authentic expression of 54/9 is the person who builds the infrastructure, learns everything it took to build it, and then opens the doors to anyone who needs what is inside.</p>
+
+  </div>
+  <div class="pg-ft"><span>Holographic Blueprint Reading</span><span>simulationsourcecode.com</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ REFERENCE TABLE -->
+<div class="ref-pg">
+  <div class="ref-ey">Quick Reference</div>
+  <div class="ref-ti">Your Frequency Map at a Glance</div>
+  <div class="ref-dv"></div>
+  <table class="ref-tb">
+    <thead>
+      <tr><th>Frequency</th><th>Compound / Root</th><th>Positive</th><th>Shadow</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ref-fl">External &#183; Atmospheric</span>Theme</td>
+        <td><span class="ref-cp">26/8</span></td>
+        <td class="ref-pos">Self-mastery, authority, manifestation</td>
+        <td class="ref-shd">Control, collapse, chasing power</td>
+      </tr>
+      <tr>
+        <td><span class="ref-fl">External &#183; Curriculum</span>Life Path</td>
+        <td><span class="ref-cp">39/3</span></td>
+        <td class="ref-pos">Creative expression, communication, joy</td>
+        <td class="ref-shd">Scattered energy, performing for approval</td>
+      </tr>
+      <tr>
+        <td><span class="ref-fl">External &#183; Operational</span>Achievement</td>
+        <td><span class="ref-cp">22/22</span></td>
+        <td class="ref-pos">Master building, visionary pragmatism</td>
+        <td class="ref-shd">Overwhelm, grandiosity, escapism</td>
+      </tr>
+      <tr>
+        <td><span class="ref-fl">Internal &#183; Inner World</span>Soul Urge</td>
+        <td><span class="ref-cp">33/33</span></td>
+        <td class="ref-pos">Compassionate teaching, healing service</td>
+        <td class="ref-shd">Martyrdom, heartlessness</td>
+      </tr>
+      <tr>
+        <td><span class="ref-fl">Internal &#183; Social Mask</span>Outer Persona</td>
+        <td><span class="ref-cp">36/9</span></td>
+        <td class="ref-pos">Completion, service, universal vision</td>
+        <td class="ref-shd">Ego inflation, inability to release</td>
+      </tr>
+      <tr>
+        <td><span class="ref-fl">Internal &#183; Authentic Signal</span>Expression</td>
+        <td><span class="ref-cp">15/6</span></td>
+        <td class="ref-pos">Nurturing, care, integration</td>
+        <td class="ref-shd">Martyrdom, enabling, self-neglect</td>
+      </tr>
+      <tr>
+        <td><span class="ref-fl">The Directive</span>Life Calling</td>
+        <td><span class="ref-cp">54/9</span></td>
+        <td class="ref-pos">Completion, service, universal vision</td>
+        <td class="ref-shd">Ego inflation, inability to release</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="ref-pf"><span>Simulation Source Code</span><span>Maya Chen Williams &nbsp;&#183;&nbsp; August 14, 1988</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ ACTION GUIDE -->
+<div class="action-pg">
+  <div class="action-ey">&#10022; &nbsp; Your Path Forward &nbsp; &#10022;</div>
+  <div class="action-ti">Action Guide</div>
+  <div class="action-dv"></div>
+  <div class="action-sec">
+    <div class="action-h3">External Mission</div>
+    <p class="action-bd">Your external work is to build at the scale your 22/22 Achievement is designed for &#8212; not managing it down to something more comfortable, but actually operating at master-builder capacity in service of the 39/3 Life Path's universal expression. The shadow patterns to watch: talking about the vision without building it, cycling between grandiose plans and complete withdrawal when the scope becomes overwhelming, and performing the 3's communicative warmth as a substitute for the 4's disciplined construction. The simulation will keep presenting you with opportunities to build something that matters. The question it keeps asking is whether you will do it at the scale you are actually capable of, or whether you will settle for something smaller that feels safer.</p>
+  </div>
+  <div class="action-sec">
+    <div class="action-h3">Internal Mission</div>
+    <p class="action-bd">Your internal work is to embody the 15/6 Expression rather than performing it &#8212; to ensure that your care, your teaching, and your service are grounded in actual direct encounter with life rather than transmitted from a safe distance. The 33/33 Soul yearns to give. The 36/9 Persona looks like it has arrived. The 15/6 Expression demands that both be tempered by personal will actually tested. Watch for the martyrdom pattern: giving until depletion and calling it service, carrying others' weight as though the 6's care requires self-erasure. The authentic internal frequency is care that has been earned through embodied experience &#8212; and that knows its limits precisely because it has tested them.</p>
+  </div>
+  <div class="action-pf"><span>Simulation Source Code</span><span>Maya Chen Williams &nbsp;&#183;&nbsp; August 14, 1988</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ QUEST DIRECTIVE -->
+<div class="quest-pg">
+  <div class="q-ey">&#10022; &nbsp; Final Transmission &nbsp; &#10022;</div>
+  <div class="q-ti">Quest Directive</div>
+  <div class="q-dv"></div>
+  <div class="q-tx">
+    Maya, your simulation is asking you to build the infrastructure that sets people free &#8212; at scale, with discipline, in service of something larger than personal recognition. The 22/22 builds. The 33/33 teaches. The 54/9 calls you to find freedom inside the structure and then release what has been built. <strong>Stop managing your capacity down to something that feels manageable. Build at the level you were encoded for, earn the teaching through direct contact with life, and then open the doors.</strong> The universal service embedded in your Life Calling is not a calling to sacrifice. It is a calling to construct something real and then give it away &#8212; because that is what 9 does when it has been fully lived.
+  </div>
+  <div class="q-br">
+    <svg class="q-bs" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9494" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="72" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/><circle cx="80" cy="80" r="36" fill="url(#sg2)"/><line x1="80" y1="14" x2="80" y2="146" stroke="#4a9494" stroke-width="1" opacity="0.4"/><line x1="14" y1="80" x2="146" y2="80" stroke="#4a9494" stroke-width="1" opacity="0.4"/><circle cx="80" cy="16" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="144" cy="80" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="80" cy="144" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="16" cy="80" r="8" fill="#03020a" stroke="#4a9494" stroke-width="1"/><circle cx="80" cy="80" r="18" fill="#03020a" stroke="#c9a84c" stroke-width="1.5"/></svg>
+    <div class="q-bn">Simulation Source Code</div>
+    <div class="q-bu">simulationsourcecode.com</div>
+    <div class="q-sc">
+      <a href="https://www.instagram.com/simulationsourcecode">Instagram</a>
+      <a href="https://www.youtube.com/@kytholek">YouTube</a>
+      <a href="https://substack.com/@kyelthomas">Substack</a>
+      <a href="https://www.tiktok.com/@kytholek">TikTok</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

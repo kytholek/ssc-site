@@ -46,7 +46,7 @@
 
   <div class="hero-actions a4">
     <button class="btn-primary" onclick="showPage('calculator')">&#11042;&nbsp;Decode Your Blueprint</button>
-    <button class="btn-secondary" onclick="showPage('guidebook')">See What You Get &#8594;</button>
+    <button class="btn-secondary" onclick="window.open('/sample-guidebook.html','_blank')">See What You Get &#8594;</button>
   </div>
 
   <div class="hero-proof a4">
@@ -217,10 +217,20 @@
 
     <div class="report-preview-wrap" id="report-preview-wrap">
       <div class="report-preview-img-wrap" id="report-preview-img-wrap">
-        <!-- Replace src with your guidebook preview image -->
-        <img src="/Images/report-preview.png" alt="SSC Guidebook Report preview" class="report-preview-img" onerror="document.getElementById('report-preview-img-wrap').style.display='none';document.getElementById('report-preview-wrap').classList.add('report-preview-wrap--no-img')">
-        <div class="report-preview-overlay">
-          <div class="report-preview-overlay-text">Sample Report</div>
+        <div class="rp-carousel">
+          <img src="/Images/samplestarchart.png"     alt="Star Chart sample"    class="report-preview-img rp-slide active" data-label="Star Chart">
+          <img src="/Images/sampleposandnegchart.png" alt="Polarity Chart sample" class="report-preview-img rp-slide"        data-label="Polarity Chart">
+          <img src="/Images/report-preview.png"       alt="Sample Report"         class="report-preview-img rp-slide"        data-label="Sample Report">
+          <div class="report-preview-overlay">
+            <div class="report-preview-overlay-text" id="rp-slide-label">Star Chart</div>
+          </div>
+          <button class="rp-arrow rp-arrow--prev" onclick="rpCarousel(-1)" aria-label="Previous">&#8249;</button>
+          <button class="rp-arrow rp-arrow--next" onclick="rpCarousel(1)"  aria-label="Next">&#8250;</button>
+        </div>
+        <div class="rp-dots" id="rp-dots">
+          <span class="rp-dot active" onclick="rpCarouselTo(0)"></span>
+          <span class="rp-dot"        onclick="rpCarouselTo(1)"></span>
+          <span class="rp-dot"        onclick="rpCarouselTo(2)"></span>
         </div>
       </div>
       <div class="report-preview-bullets">
@@ -233,7 +243,7 @@
         <div class="rp-cta-wrap">
           <button class="btn-primary" onclick="showPage('services')">View Guidebook &mdash; $19.99 &#8594;</button>
           <div class="rp-free-note">Or try the free calculator first &#8212; <span class="rp-free-link" onclick="showPage('calculator')">calculate your numbers</span></div>
-          <div class="rp-free-note" style="margin-top:8px;"><span class="rp-free-link" onclick="showPage('guidebook')">&#10022; View Sample Guidebook</span></div>
+          <div class="rp-free-note" style="margin-top:8px;"><span class="rp-free-link" onclick="window.open('/sample-guidebook.html','_blank')">&#10022; View Sample Guidebook</span></div>
         </div>
       </div>
     </div>

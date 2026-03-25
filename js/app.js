@@ -747,6 +747,7 @@ async function initApp() {
   // Apply saved language preference on every load
   applyLanguage(getLang());
   _updateLangToggle(getLang());
+  _initRpCarousel();
 }
 
 
@@ -1034,6 +1035,47 @@ function handleEmailCapture(e, form) {
       if (success) success.style.display = 'block';
     });
 }
+
+// ────────────────────────────────────────────────────────────
+//  REPORT PREVIEW CAROUSEL
+// ────────────────────────────────────────────────────────────
+let _rpIndex    = 0;
+let _rpTimer    = null;
+const _rpDelay  = 4000;
+
+function _initRpCarousel() {
+  _rpIndex = 0;
+  _startRpTimer();
+}
+
+function _rpUpdate(index) {
+  const slides = document.querySelectorAll('.rp-slide');
+  const dots   = document.querySelectorAll('.rp-dot');
+  const label  = document.getElementById('rp-slide-label');
+  if (!slides.length) return;
+  _rpIndex = ((index % slides.length) + slides.length) % slides.length;
+  slides.forEach((s, i) => s.classList.toggle('active', i === _rpIndex));
+  dots.forEach((d, i)   => d.classList.toggle('active', i === _rpIndex));
+  if (label) label.textContent = slides[_rpIndex].dataset.label || '';
+}
+
+function _startRpTimer() {
+  clearInterval(_rpTimer);
+  _rpTimer = setInterval(() => _rpUpdate(_rpIndex + 1), _rpDelay);
+}
+
+function rpCarousel(dir) {
+  _rpUpdate(_rpIndex + dir);
+  _startRpTimer();
+}
+
+function rpCarouselTo(index) {
+  _rpUpdate(index);
+  _startRpTimer();
+}
+
+window.rpCarousel   = rpCarousel;
+window.rpCarouselTo = rpCarouselTo;
 
 // Expose
 window.openCalculatorModal = openCalculatorModal;

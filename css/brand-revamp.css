@@ -1542,8 +1542,9 @@
 .report-preview-wrap {
   display: flex;
   align-items: flex-start;
-  gap: 56px;
-  max-width: 860px;
+  gap: 48px;
+  max-width: 1100px;
+  width: 100%;
   margin: 0 auto;
   text-align: left;
 }
@@ -1561,8 +1562,8 @@
 
 .report-preview-img-wrap {
   position: relative;
-  flex-shrink: 0;
-  width: 260px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .report-preview-img {
@@ -1571,6 +1572,65 @@
   border: 1px solid var(--border);
   box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 32px rgba(201,168,76,.08);
   display: block;
+}
+
+/* ── Report preview carousel ── */
+.rp-carousel {
+  position: relative;
+}
+.rp-slide {
+  display: none;
+}
+.rp-slide.active {
+  display: block;
+  animation: rp-fadein 0.4s ease;
+}
+@keyframes rp-fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.rp-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(5,4,10,0.75);
+  border: 1px solid rgba(126,200,200,0.25);
+  border-radius: 50%;
+  color: var(--teal-light);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 2;
+  padding: 0;
+}
+.rp-arrow:hover {
+  background: rgba(74,148,148,0.35);
+  border-color: rgba(126,200,200,0.5);
+}
+.rp-arrow--prev { left: 8px; }
+.rp-arrow--next { right: 8px; }
+.rp-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.rp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(126,200,200,0.2);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.rp-dot.active {
+  background: var(--teal-light);
 }
 
 .report-preview-overlay {
@@ -1595,7 +1655,8 @@
 }
 
 .report-preview-bullets {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   padding-top: 8px;
 }
 
@@ -1643,15 +1704,26 @@
   color: var(--gold);
 }
 
+@media (max-width: 900px) {
+  .report-preview-wrap {
+    gap: 32px;
+  }
+}
+
 @media (max-width: 700px) {
   .report-preview-wrap {
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
   }
   .report-preview-img-wrap {
+    flex: none;
     width: 100%;
-    max-width: 320px;
+    max-width: 480px;
+  }
+  .report-preview-bullets {
+    flex: none;
+    width: 100%;
   }
   .rp-cta-wrap {
     align-items: stretch;
