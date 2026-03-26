@@ -1,8 +1,7 @@
 # SSC Cloudflare Worker — wrangler.toml
 # Deploy with: npx wrangler deploy
 
-
-name = 'simulationsourcecode'
+name = "ssc-site"
 main = "netlify/functions/worker.js"
 compatibility_date = "2024-01-01"
 
