@@ -878,8 +878,9 @@ footer {
 .blog-card:hover .blog-read-more { color: var(--gold); }
 
 /* ── Single post view ── */
-.blog-post { display: none; max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-.blog-post.active { display: block; animation: fadeUp .4s ease both; }
+.blog-post { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+#blog-post-container .blog-post { display: none; }
+#blog-post-container .blog-post.active { display: block; animation: fadeUp .4s ease both; }
 
 /* ---- POST NAVIGATION & RELATED ---- */
 .post-nav-footer {
