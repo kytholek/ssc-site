@@ -286,6 +286,91 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- ── Soul Urge Deep Dives ── -->
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-1-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-2-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-3-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-4-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-5-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-6-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-7-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-8-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-9-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-11-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-22-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/soul-urge-33-numerology/</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
   <!-- ── Expression Number Deep Dives ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-1-numerology/</loc>

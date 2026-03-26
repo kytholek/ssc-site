@@ -199,6 +199,94 @@ const FREQ_DESC = {
 const FREQ_ROOT_KEYS = ['lp', 'ex', null, 'soul', 'outer', 'ach', 'theme'];
 
 /* ═══════════════════════════════════════════════════════════════
+   CODEX PLACEMENT — maps root number to Mind / Body / Spirit grid
+   Master numbers inherit their root: 11→2, 22→4, 33→6, 44→8
+═══════════════════════════════════════════════════════════════ */
+
+const CODEX_PLACEMENT = {
+  1: 'Mind / Mind',   2: 'Mind / Body',   3: 'Mind / Spirit',
+  4: 'Body / Mind',   5: 'Body / Body',   6: 'Body / Spirit',
+  7: 'Spirit / Mind', 8: 'Spirit / Body', 9: 'Spirit / Spirit'
+};
+
+function getCodexPlacement(n) {
+  const root = n === 11 ? 2 : n === 22 ? 4 : n === 33 ? 6 : n === 44 ? 8 : n;
+  return CODEX_PLACEMENT[root] || '';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRINITY RESULT CARD HELPERS
+═══════════════════════════════════════════════════════════════ */
+
+// Builds one frequency card within a trinity block
+// rootKey: 'lp','ex','soul','outer','ach','theme', or null for Life Calling
+function buildFreqCard(n, rootKey, freqIndex, opts) {
+  opts = opts || {};
+  const label       = getFreqLabel(freqIndex);
+  const role        = getFreqRole(freqIndex);
+  const entry       = ROOT[n] || {};
+  const accent      = opts.accent      || '#e8c96b';
+  const accentDim   = opts.accentDim   || 'rgba(201,168,76,0.4)';
+  const accentLight = opts.accentLight || '#e8c96b';
+  const isLast      = opts.isLast      || false;
+  const showCodex   = opts.showCodex   || false;
+
+  var displayName, displayEssence, interp;
+  if (rootKey === null) {
+    var c       = CALLING[n] || {};
+    displayName    = _t('calc.calling.' + n + '.name')    || c.name    || '';
+    displayEssence = _t('calc.calling.' + n + '.essence') || c.essence || '';
+    interp         = _t('calc.calling.' + n + '.summary') || c.summary || 'A powerful mission frequency.';
+  } else {
+    displayName    = _t('calc.root.' + n + '.name')    || entry.name    || '';
+    displayEssence = _t('calc.root.' + n + '.essence') || entry.essence || '';
+    interp         = _t('calc.root.' + n + '.' + rootKey) || entry[rootKey] || 'A deep frequency.';
+  }
+
+  var codexHtml   = showCodex && getCodexPlacement(n)
+    ? '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.28em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:8px">' + getCodexPlacement(n) + '</div>'
+    : '';
+  var essenceHtml = displayEssence
+    ? '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:7px">' + displayEssence + '</div>'
+    : '';
+
+  return '<div style="padding:18px 14px;' + (isLast ? '' : 'border-right:1px solid rgba(255,255,255,0.05)') + '">'
+    + codexHtml
+    + '<div style="font-family:\'Cinzel Decorative\',serif;font-size:28px;color:' + accent + ';line-height:1;margin-bottom:9px">' + n + '</div>'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px">' + role + '</div>'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:' + accentLight + ';margin-bottom:4px">' + label + (displayName ? ' · ' + displayName : '') + '</div>'
+    + essenceHtml
+    + '<p style="font-size:12.5px;line-height:1.7;color:var(--text-dim);margin:0">' + interp + '</p>'
+    + '</div>';
+}
+
+// Builds a full trinity section: styled header + 3-column card grid
+// cards: array of [n, rootKey, freqIndex] triples
+function buildTrinitySection(titleSuffix, subtitle, borderColor, bgColor, cards, opts) {
+  opts = opts || {};
+  var accentLight = opts.accentLight || '#e8c96b';
+  var cardHtml = cards.map(function(c, idx) {
+    return buildFreqCard(c[0], c[1], c[2], {
+      accent:      opts.accent,
+      accentDim:   opts.accentDim,
+      accentLight: opts.accentLight,
+      showCodex:   opts.showCodex || false,
+      isLast:      idx === cards.length - 1
+    });
+  }).join('');
+
+  return '<div style="margin-bottom:24px;border:1px solid ' + borderColor + ';border-radius:10px;overflow:hidden">'
+    + '<div style="padding:12px 18px;background:' + bgColor + ';border-bottom:1px solid ' + borderColor + '">'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:3px">Trinity</div>'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:' + accentLight + '">' + titleSuffix + '</div>'
+    + '<div style="font-family:\'EB Garamond\',serif;font-size:12px;color:rgba(255,255,255,0.38);margin-top:2px;font-style:italic">' + subtitle + '</div>'
+    + '</div>'
+    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);overflow-x:auto">'
+    + cardHtml
+    + '</div></div>';
+}
+
+/* ═══════════════════════════════════════════════════════════════
    CALCULATION FUNCTIONS
 ═══════════════════════════════════════════════════════════════ */
 
@@ -272,51 +360,32 @@ function calculateReading() {
 
   const numbers = [lp, exp, calling, soul, outer, achieve, theme];
 
-  const freqRows = numbers.map((n, i) => {
-    const rootKey = FREQ_ROOT_KEYS[i];
-    const entry   = ROOT[n] || {};
-    const freqLabel = getFreqLabel(i);
-    const freqRole  = getFreqRole(i);
+  // ── Build trinity sections ───────────────────────────────────
+  const lessonsBlock = buildTrinitySection(
+    'of Lessons', 'Achievement · Theme · Life Path',
+    'rgba(74,148,148,0.22)', 'rgba(8,20,20,0.65)',
+    [[achieve, 'ach', 5], [theme, 'theme', 6], [lp, 'lp', 0]],
+    { accent: '#7ec8c8', accentDim: 'rgba(126,200,200,0.4)', accentLight: '#7ec8c8' }
+  );
 
-    if (rootKey === null) {
-      const c = CALLING[n] || {};
-      const cName    = _t('calc.calling.' + n + '.name')    || c.name    || '';
-      const cEssence = _t('calc.calling.' + n + '.essence') || c.essence || '';
-      const cSummary = _t('calc.calling.' + n + '.summary') || c.summary || _t('calc.results.master_mission') || 'A powerful mission frequency.';
-      return `
-        <div style="padding:20px 0;border-bottom:1px solid var(--border-dim);display:grid;grid-template-columns:50px 1fr;gap:16px;align-items:start">
-          <div style="font-family:'Cinzel Decorative',serif;font-size:32px;color:var(--gold);line-height:1;text-align:center">${n}</div>
-          <div>
-            <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${freqRole}</div>
-            <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${freqLabel}${cName ? ' — ' + cName : ''}</div>
-            ${cEssence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${cEssence}</div>` : ''}
-            <p style="font-size:15px;line-height:1.7;color:var(--text-dim)">${cSummary}</p>
-          </div>
-        </div>`;
-    }
+  const expressionBlock = buildTrinitySection(
+    'of Expression', 'Soul · Outer · Expression',
+    'rgba(123,79,166,0.22)', 'rgba(18,11,26,0.65)',
+    [[soul, 'soul', 3], [outer, 'outer', 4], [exp, 'ex', 1]],
+    { accent: '#c898f0', accentDim: 'rgba(169,110,212,0.4)', accentLight: '#c898f0' }
+  );
 
-    const eName    = _t('calc.root.' + n + '.name')    || entry.name    || '';
-    const eEssence = _t('calc.root.' + n + '.essence') || entry.essence || '';
-    const interp   = _t('calc.root.' + n + '.' + rootKey) || entry[rootKey] || _t('calc.results.deep_freq') || 'A deep frequency — download the app for full interpretation.';
-    return `
-      <div style="padding:20px 0;border-bottom:1px solid var(--border-dim);display:grid;grid-template-columns:50px 1fr;gap:16px;align-items:start">
-        <div style="font-family:'Cinzel Decorative',serif;font-size:32px;color:var(--gold);line-height:1;text-align:center">${n}</div>
-        <div>
-          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">${freqRole}</div>
-          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px">${freqLabel}${eName ? ' — ' + eName : ''}</div>
-          ${eEssence ? `<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;opacity:0.8">${eEssence}</div>` : ''}
-          <p style="font-size:15px;line-height:1.7;color:var(--text-dim)">${interp}</p>
-        </div>
-      </div>`;
-  }).join('');
+  const purposeBlock = buildTrinitySection(
+    'of Purpose', 'Expression · Life Path · Life Calling',
+    'rgba(201,168,76,0.22)', 'rgba(26,20,8,0.65)',
+    [[exp, 'ex', 1], [lp, 'lp', 0], [calling, null, 2]],
+    { accent: '#e8c96b', accentDim: 'rgba(201,168,76,0.4)', accentLight: '#e8c96b', showCodex: true }
+  );
 
   const readingFor = _t('calc.results.reading_for') || 'Reading for';
   const firstName  = fullName.split(' ')[0];
 
-  // Dynamic hook — references their actual Life Path and Life Calling
-  const lpDesc    = (ROOT[lp]     || {}).name    || '';
-  const callDesc  = (CALLING[calling] || {}).name || '';
-  const hookCopy  = buildResultHook(firstName, lp, exp, calling, lpDesc, callDesc);
+  const hookCopy = buildResultHook(firstName, lp, exp, calling);
 
   document.getElementById('results-area').innerHTML = `
     <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-dim)">
@@ -326,7 +395,9 @@ function calculateReading() {
     <div style="display:flex;justify-content:center;margin-bottom:40px">
       ${buildFreqChart(numbers)}
     </div>
-    ${freqRows}
+    ${lessonsBlock}
+    ${expressionBlock}
+    ${purposeBlock}
     ${hookCopy}
   `;
 
@@ -341,7 +412,7 @@ function calculateReading() {
 
 
 // ── Dynamic result hook — sells the guidebook ────────────────────────────
-function buildResultHook(firstName, lp, exp, calling, lpDesc, callDesc) {
+function buildResultHook(firstName, lp, exp, calling) {
 
   // Friction phrases — what the LP/Expression tension creates
   const frictionMap = {
