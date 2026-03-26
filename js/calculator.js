@@ -222,14 +222,14 @@ function getCodexPlacement(n) {
 // rootKey: 'lp','ex','soul','outer','ach','theme', or null for Life Calling
 function buildFreqCard(n, rootKey, freqIndex, opts) {
   opts = opts || {};
-  const label       = getFreqLabel(freqIndex);
-  const role        = getFreqRole(freqIndex);
-  const entry       = ROOT[n] || {};
-  const accent      = opts.accent      || '#e8c96b';
-  const accentDim   = opts.accentDim   || 'rgba(201,168,76,0.4)';
-  const accentLight = opts.accentLight || '#e8c96b';
-  const isLast      = opts.isLast      || false;
-  const showCodex   = opts.showCodex   || false;
+  var label       = getFreqLabel(freqIndex);
+  var role        = getFreqRole(freqIndex);
+  var entry       = ROOT[n] || {};
+  var accent      = opts.accent      || '#e8c96b';
+  var accentDim   = opts.accentDim   || 'rgba(201,168,76,0.4)';
+  var accentLight = opts.accentLight || '#e8c96b';
+  var isLast      = opts.isLast      || false;
+  var showCodex   = opts.showCodex   || false;
 
   var displayName, displayEssence, interp;
   if (rootKey === null) {
@@ -243,20 +243,21 @@ function buildFreqCard(n, rootKey, freqIndex, opts) {
     interp         = _t('calc.root.' + n + '.' + rootKey) || entry[rootKey] || 'A deep frequency.';
   }
 
+  var borderStyle = isLast ? '' : 'border-right:1px solid rgba(255,255,255,0.06)';
   var codexHtml   = showCodex && getCodexPlacement(n)
-    ? '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.28em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:8px">' + getCodexPlacement(n) + '</div>'
+    ? '<div class="ssc-cdx" style="font-family:\'Cinzel\',serif;letter-spacing:.28em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:10px">' + getCodexPlacement(n) + '</div>'
     : '';
   var essenceHtml = displayEssence
-    ? '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:7px">' + displayEssence + '</div>'
+    ? '<div class="ssc-ess" style="font-family:\'Cinzel\',serif;letter-spacing:.2em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:8px">' + displayEssence + '</div>'
     : '';
 
-  return '<div style="padding:18px 14px;' + (isLast ? '' : 'border-right:1px solid rgba(255,255,255,0.05)') + '">'
+  return '<div class="ssc-fc" style="' + borderStyle + ';min-width:0;box-sizing:border-box">'
     + codexHtml
-    + '<div style="font-family:\'Cinzel Decorative\',serif;font-size:28px;color:' + accent + ';line-height:1;margin-bottom:9px">' + n + '</div>'
-    + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px">' + role + '</div>'
-    + '<div style="font-family:\'Cinzel\',serif;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:' + accentLight + ';margin-bottom:4px">' + label + (displayName ? ' · ' + displayName : '') + '</div>'
+    + '<div class="ssc-fn" style="font-family:\'Cinzel Decorative\',serif;color:' + accent + ';line-height:1;margin-bottom:10px">' + n + '</div>'
+    + '<div class="ssc-role" style="font-family:\'Cinzel\',serif;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">' + role + '</div>'
+    + '<div class="ssc-lbl" style="font-family:\'Cinzel\',serif;letter-spacing:.14em;text-transform:uppercase;color:' + accentLight + ';margin-bottom:5px">' + label + (displayName ? ' · ' + displayName : '') + '</div>'
     + essenceHtml
-    + '<p style="font-size:12.5px;line-height:1.7;color:var(--text-dim);margin:0">' + interp + '</p>'
+    + '<p class="ssc-fp" style="font-family:\'EB Garamond\',serif;color:var(--text-dim);margin:0;line-height:1.75">' + interp + '</p>'
     + '</div>';
 }
 
@@ -275,13 +276,14 @@ function buildTrinitySection(titleSuffix, subtitle, borderColor, bgColor, cards,
     });
   }).join('');
 
-  return '<div style="margin-bottom:24px;border:1px solid ' + borderColor + ';border-radius:10px;overflow:hidden">'
-    + '<div style="padding:12px 18px;background:' + bgColor + ';border-bottom:1px solid ' + borderColor + '">'
-    + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:3px">Trinity</div>'
-    + '<div style="font-family:\'Cinzel\',serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:' + accentLight + '">' + titleSuffix + '</div>'
-    + '<div style="font-family:\'EB Garamond\',serif;font-size:12px;color:rgba(255,255,255,0.38);margin-top:2px;font-style:italic">' + subtitle + '</div>'
+  return '<div class="ssc-tr" style="margin-bottom:28px;border:1px solid ' + borderColor + ';border-radius:12px;overflow:hidden">'
+    + '<div style="height:2px;background:linear-gradient(90deg,transparent,' + accentLight + ',' + accentLight + ',transparent);opacity:0.5"></div>'
+    + '<div class="ssc-th" style="padding:14px 20px;background:' + bgColor + ';border-bottom:1px solid ' + borderColor + '">'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:4px">Trinity</div>'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:' + accentLight + '">' + titleSuffix + '</div>'
+    + '<div style="font-family:\'EB Garamond\',serif;font-size:13px;color:rgba(255,255,255,0.42);margin-top:3px;font-style:italic;letter-spacing:.02em">' + subtitle + '</div>'
     + '</div>'
-    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);overflow-x:auto">'
+    + '<div class="ssc-tg" style="display:grid;grid-template-columns:repeat(3,1fr)">'
     + cardHtml
     + '</div></div>';
 }
@@ -388,17 +390,43 @@ function calculateReading() {
   const hookCopy = buildResultHook(firstName, lp, exp, calling);
 
   document.getElementById('results-area').innerHTML = `
-    <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-dim)">
-      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px">${readingFor}</div>
-      <div style="font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold)">${fullName}</div>
+    <style>
+      .ssc-rw { }
+      .ssc-fc  { padding: 20px 15px; }
+      .ssc-fn  { font-size: 30px; }
+      .ssc-fp  { font-size: 13px; }
+      .ssc-role{ font-size: 7px; }
+      .ssc-lbl { font-size: 9px; }
+      .ssc-ess { font-size: 7px; }
+      .ssc-cdx { font-size: 7px; }
+      @media (min-width: 680px) {
+        .ssc-rw  { max-width: 1100px; margin: 0 auto; }
+        .ssc-fc  { padding: 28px 22px !important; }
+        .ssc-fn  { font-size: 48px !important; margin-bottom: 14px !important; }
+        .ssc-fp  { font-size: 15px !important; }
+        .ssc-role{ font-size: 8px !important; margin-bottom: 5px !important; }
+        .ssc-lbl { font-size: 10.5px !important; margin-bottom: 6px !important; }
+        .ssc-ess { font-size: 8px !important; margin-bottom: 10px !important; }
+        .ssc-cdx { font-size: 8px !important; margin-bottom: 12px !important; }
+        .ssc-th  { padding: 18px 26px !important; }
+        .ssc-tr  { border-radius: 14px !important; margin-bottom: 32px !important; }
+      }
+    </style>
+    <div class="ssc-rw">
+      <div style="text-align:center;margin-bottom:40px;padding-bottom:32px;position:relative">
+        <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px">${readingFor}</div>
+        <div style="font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold);letter-spacing:.04em;line-height:1.2">${fullName}</div>
+        <div style="font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;opacity:.75">Your Complete Frequency Blueprint</div>
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-bottom:44px">
+        ${buildFreqChart(numbers)}
+      </div>
+      ${lessonsBlock}
+      ${expressionBlock}
+      ${purposeBlock}
+      ${hookCopy}
     </div>
-    <div style="display:flex;justify-content:center;margin-bottom:40px">
-      ${buildFreqChart(numbers)}
-    </div>
-    ${lessonsBlock}
-    ${expressionBlock}
-    ${purposeBlock}
-    ${hookCopy}
   `;
 
   // ── Show the Unlock CTA ──────────────────────────────────────
