@@ -63,8 +63,11 @@ export default {
       return handleSubmitEmail(request, env, origin);
     }
 
-    if (request.method !== 'POST' || url.pathname !== '/webhook/stripe') {
-      return new Response('Not found', { status: 404 });
+    if (url.pathname !== '/webhook/stripe') {
+      return env.ASSETS ? env.ASSETS.fetch(request) : new Response('Not found', { status: 404 });
+    }
+    if (request.method !== 'POST') {
+      return new Response('Method not allowed', { status: 405 });
     }
 
     // ── Read raw body (needed for Stripe signature verification) ─────────
