@@ -524,12 +524,6 @@ window.loadFooter = loadFooter;
 //  PAGE ROUTING
 // ────────────────────────────────────────────────────────────
 function showPage(name, pushState = true) {
-  // On standalone pages (e.g. blog articles), page sections don't exist — navigate to the main site instead
-  if (!document.getElementById('page-home')) {
-    window.location.href = name === 'home' ? '/' : '/' + name;
-    return;
-  }
-
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 

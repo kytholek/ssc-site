@@ -22,27 +22,79 @@ var adminSystem = (function () {
   var _staticOrigHTML = '';    // raw fetched HTML (full file)
   var _staticPostEl   = null;  // parsed DOM element
 
-  // ── Post registry (mirrors POST_SEQUENCE in app.js) ────────
+  // ── Post registry — id + actual folder path + title + category ─
+  // path = the folder name inside /blog/ (file is always index.html)
   var POST_REGISTRY = [
-    { id:'post-simulation',              title:'You Are Running on a Simulation',                       category:'the-system' },
-    { id:'post-system',                  title:'The Evolution of Energy: 0 Through 9',                  category:'the-system' },
-    { id:'post-electric-magnetic-aether',title:'Electric, Magnetic & Aether: The Three Natures of Number', category:'the-system' },
-    { id:'post-codex-architecture',      title:'The Codex: Architecture of the Consciousness Matrix',   category:'the-system' },
-    { id:'post-666',                     title:'666 Is Not What You Think',                             category:'the-system' },
-    { id:'post-369',                     title:'The 3–6–9 Pattern: Why Tesla Was Right',                category:'the-system' },
-    { id:'post-transformation-path',     title:'The Path of Transformation: 1→4→7→2→5→8→3→6→9',       category:'the-system' },
-    { id:'post-five-lenses',             title:'The Five Lenses of Self',                               category:'the-system' },
-    { id:'post-decoding-matrix',         title:'Decoding the Matrix: The Complete Architecture',        category:'the-system' },
-    { id:'post-angel-numbers',           title:'Angel Numbers Are Being Read Wrong',                    category:'the-system' },
-    { id:'post-lifepath',                title:'The Life Path Number: Your Primary Frequency',          category:'numerology'  },
-    { id:'post-theme-number',            title:"Your Birth Year's Hidden Frequency: The Theme Number",  category:'numerology'  },
-    { id:'post-seven',                   title:'Why Seven Frequencies?',                                category:'numerology'  },
-    { id:'post-master',                  title:'Master Numbers 11, 22 & 33: Amplified Purpose',         category:'numbers'     },
-    { id:'post-pythagorean',             title:'Pythagorean vs. Chaldean Numerology',                   category:'numbers'     },
-    { id:'post-shadow',                  title:'The Shadow Side of Your Numbers',                       category:'philosophy'  },
-    { id:'post-calculate',               title:'How to Calculate Your Life Path by Hand',               category:'practice'    },
-    { id:'post-name',                    title:'Which Name Do You Use?',                                category:'practice'    },
-    { id:'post-name-change',             title:'The Name-Changer Dilemma',                              category:'practice'    },
+    // ── The System series ──────────────────────────────────────
+    { id:'post-simulation',              path:'simulation-theory-numerology-source-code',           title:'You Are Running on a Simulation',                          category:'the-system' },
+    { id:'post-system',                  path:'evolution-of-energy-0-through-9',                    title:'The Evolution of Energy: 0 Through 9',                     category:'the-system' },
+    { id:'post-electric-magnetic-aether',path:'electric-magnetic-aether-three-natures-of-number',  title:'Electric, Magnetic & Aether: The Three Natures of Number', category:'the-system' },
+    { id:'post-codex-architecture',      path:'codex-architecture-consciousness-matrix',            title:'The Codex: Architecture of the Consciousness Matrix',       category:'the-system' },
+    { id:'post-666',                     path:'666-numerology-meaning',                             title:'666 Is Not What You Think',                                category:'the-system' },
+    { id:'post-369',                     path:'3-6-9-pattern-tesla-numerology',                     title:'The 3-6-9 Pattern: Why Tesla Was Right',                   category:'the-system' },
+    { id:'post-transformation-path',     path:'path-of-transformation-1-4-7-2-5-8-3-6-9',         title:'The Path of Transformation: 1→4→7→2→5→8→3→6→9',           category:'the-system' },
+    { id:'post-five-lenses',             path:'five-lenses-of-self-ego-mind-soul-spirit-void',     title:'The Five Lenses of Self',                                  category:'the-system' },
+    { id:'post-decoding-matrix',         path:'decoding-matrix',                                    title:'Decoding the Matrix: The Complete Architecture',            category:'the-system' },
+    { id:'post-decoding-matrix-2',       path:'decoding-the-matrix-simulation-source-code',        title:'Decoding the Matrix: Simulation Source Code',               category:'the-system' },
+    { id:'post-pillar',                  path:'pillar-numerology-source-code',                      title:'The Pillar: Numerology as Source Code',                     category:'the-system' },
+    { id:'post-infinity',                path:'infinity-loop-cycles-recursion-numerology',          title:'The Infinity Loop: Cycles, Recursion & Numerology',         category:'the-system' },
+    { id:'post-angel-numbers',           path:'angel-numbers-being-read-wrong',                     title:'Angel Numbers Are Being Read Wrong',                        category:'the-system' },
+    // ── Numerology / frameworks ────────────────────────────────
+    { id:'post-lifepath',                path:'life-path-number-explained',                         title:'The Life Path Number: Your Primary Frequency',              category:'numerology'  },
+    { id:'post-theme-number',            path:'theme-number-birth-year-numerology',                 title:"Your Birth Year's Hidden Frequency: The Theme Number",      category:'numerology'  },
+    { id:'post-seven',                   path:'why-seven-frequencies-numerology',                   title:'Why Seven Frequencies?',                                   category:'numerology'  },
+    { id:'post-trinity-purpose',         path:'trinity-of-purpose-numerology',                      title:'The Trinity of Purpose',                                   category:'numerology'  },
+    { id:'post-trinity-expression',      path:'trinity-of-expression-numerology',                   title:'The Trinity of Expression',                                category:'numerology'  },
+    { id:'post-trinity-lessons',         path:'trinity-of-lessons-numerology',                      title:'The Trinity of Lessons',                                   category:'numerology'  },
+    // ── The Numbers ────────────────────────────────────────────
+    { id:'post-master',                  path:'master-numbers-11-22-33-numerology',                 title:'Master Numbers 11, 22 & 33: Amplified Purpose',            category:'numbers'     },
+    { id:'post-pythagorean',             path:'pythagorean-vs-chaldean-numerology',                 title:'Pythagorean vs. Chaldean Numerology',                      category:'numbers'     },
+    // Life Path
+    { id:'post-lp1',                     path:'life-path-1-numerology',                             title:'Life Path 1',                                              category:'numbers'     },
+    { id:'post-lp2',                     path:'life-path-2-numerology',                             title:'Life Path 2',                                              category:'numbers'     },
+    { id:'post-lp3',                     path:'life-path-3-numerology',                             title:'Life Path 3',                                              category:'numbers'     },
+    { id:'post-lp4',                     path:'life-path-4-numerology',                             title:'Life Path 4',                                              category:'numbers'     },
+    { id:'post-lp5',                     path:'life-path-5-numerology',                             title:'Life Path 5',                                              category:'numbers'     },
+    { id:'post-lp6',                     path:'life-path-6-numerology',                             title:'Life Path 6',                                              category:'numbers'     },
+    { id:'post-lp7',                     path:'life-path-7-numerology',                             title:'Life Path 7',                                              category:'numbers'     },
+    { id:'post-lp8',                     path:'life-path-8-numerology',                             title:'Life Path 8',                                              category:'numbers'     },
+    { id:'post-lp9',                     path:'life-path-9-numerology',                             title:'Life Path 9',                                              category:'numbers'     },
+    { id:'post-lp11',                    path:'life-path-11-numerology',                            title:'Life Path 11',                                             category:'numbers'     },
+    { id:'post-lp22',                    path:'life-path-22-numerology',                            title:'Life Path 22',                                             category:'numbers'     },
+    { id:'post-lp33',                    path:'life-path-33-numerology',                            title:'Life Path 33',                                             category:'numbers'     },
+    { id:'post-lp44',                    path:'life-path-44-numerology',                            title:'Life Path 44',                                             category:'numbers'     },
+    // Expression
+    { id:'post-exp1',                    path:'expression-1-numerology',                            title:'Expression 1',                                             category:'numbers'     },
+    { id:'post-exp2',                    path:'expression-2-numerology',                            title:'Expression 2',                                             category:'numbers'     },
+    { id:'post-exp3',                    path:'expression-3-numerology',                            title:'Expression 3',                                             category:'numbers'     },
+    { id:'post-exp4',                    path:'expression-4-numerology',                            title:'Expression 4',                                             category:'numbers'     },
+    { id:'post-exp5',                    path:'expression-5-numerology',                            title:'Expression 5',                                             category:'numbers'     },
+    { id:'post-exp6',                    path:'expression-6-numerology',                            title:'Expression 6',                                             category:'numbers'     },
+    { id:'post-exp7',                    path:'expression-7-numerology',                            title:'Expression 7',                                             category:'numbers'     },
+    { id:'post-exp8',                    path:'expression-8-numerology',                            title:'Expression 8',                                             category:'numbers'     },
+    { id:'post-exp9',                    path:'expression-9-numerology',                            title:'Expression 9',                                             category:'numbers'     },
+    { id:'post-exp11',                   path:'expression-11-numerology',                           title:'Expression 11',                                            category:'numbers'     },
+    { id:'post-exp22',                   path:'expression-22-numerology',                           title:'Expression 22',                                            category:'numbers'     },
+    { id:'post-exp33',                   path:'expression-33-numerology',                           title:'Expression 33',                                            category:'numbers'     },
+    // Soul Urge
+    { id:'post-su1',                     path:'soul-urge-1-numerology',                             title:'Soul Urge 1',                                              category:'numbers'     },
+    { id:'post-su2',                     path:'soul-urge-2-numerology',                             title:'Soul Urge 2',                                              category:'numbers'     },
+    { id:'post-su3',                     path:'soul-urge-3-numerology',                             title:'Soul Urge 3',                                              category:'numbers'     },
+    { id:'post-su4',                     path:'soul-urge-4-numerology',                             title:'Soul Urge 4',                                              category:'numbers'     },
+    { id:'post-su5',                     path:'soul-urge-5-numerology',                             title:'Soul Urge 5',                                              category:'numbers'     },
+    { id:'post-su6',                     path:'soul-urge-6-numerology',                             title:'Soul Urge 6',                                              category:'numbers'     },
+    { id:'post-su7',                     path:'soul-urge-7-numerology',                             title:'Soul Urge 7',                                              category:'numbers'     },
+    { id:'post-su8',                     path:'soul-urge-8-numerology',                             title:'Soul Urge 8',                                              category:'numbers'     },
+    { id:'post-su9',                     path:'soul-urge-9-numerology',                             title:'Soul Urge 9',                                              category:'numbers'     },
+    { id:'post-su11',                    path:'soul-urge-11-numerology',                            title:'Soul Urge 11',                                             category:'numbers'     },
+    { id:'post-su22',                    path:'soul-urge-22-numerology',                            title:'Soul Urge 22',                                             category:'numbers'     },
+    { id:'post-su33',                    path:'soul-urge-33-numerology',                            title:'Soul Urge 33',                                             category:'numbers'     },
+    // ── Philosophy ─────────────────────────────────────────────
+    { id:'post-shadow',                  path:'shadow-side-of-numerology-numbers',                  title:'The Shadow Side of Your Numbers',                          category:'philosophy'  },
+    // ── Practice ───────────────────────────────────────────────
+    { id:'post-calculate',               path:'how-to-calculate-life-path-number',                  title:'How to Calculate Your Life Path by Hand',                  category:'practice'    },
+    { id:'post-name',                    path:'birth-name-vs-known-name-numerology',                title:'Which Name Do You Use?',                                   category:'practice'    },
+    { id:'post-name-change',             path:'name-change-numerology-simulation',                  title:'The Name-Changer Dilemma',                                 category:'practice'    },
   ];
 
   // ── Helpers ────────────────────────────────────────────────
@@ -440,7 +492,13 @@ var adminSystem = (function () {
     if (pane)    pane.style.display    = 'none';
     if (loading) { loading.style.display = 'flex'; loading.textContent = 'Fetching ' + id + '.html…'; }
 
-    fetch(BLOG_PATH + id + '.html?v=' + Date.now())
+    var reg = POST_REGISTRY.find(function (p) { return p.id === id; });
+    if (!reg || !reg.path) {
+      showToast('Post path not found in registry for: ' + id, 'error');
+      if (loading) loading.style.display = 'none';
+      return;
+    }
+    fetch(BLOG_PATH + reg.path + '/index.html?v=' + Date.now())
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.text();
@@ -461,22 +519,39 @@ var adminSystem = (function () {
   }
 
   function _populateStaticEditor(id, rawHtml) {
-    // Parse the fetched HTML into a temporary DOM
+    // Parse the full HTML document properly
     var parser = new DOMParser();
-    var doc    = parser.parseFromString('<html><body>' + rawHtml + '</body></html>', 'text/html');
-    var postEl = doc.querySelector('.blog-post[id]');
+    var doc    = parser.parseFromString(rawHtml, 'text/html');
 
-    if (!postEl) {
-      showToast('Could not parse post structure — edit the raw HTML directly.', 'error');
-      // Fall back to raw mode
+    // Check it has post content
+    var contentEl = doc.querySelector('.blog-post-content');
+    if (!contentEl) {
+      showToast('Could not find .blog-post-content — falling back to HTML mode.', 'error');
       var rawArea = $('static-raw-html');
-      if (rawArea) { rawArea.value = rawHtml; rawArea.style.display = 'block'; }
+      if (rawArea) rawArea.value = rawHtml;
       var pane = $('static-editor-pane');
       if (pane) pane.style.display = 'flex';
+      _showStaticMode('raw');
       return;
     }
 
-    _staticPostEl = postEl;
+    // Extract title — prefer h1, fall back to <title> tag
+    var h1El     = doc.querySelector('.blog-post-title');
+    var titleTag = doc.querySelector('title');
+    var title    = (h1El && h1El.textContent.trim()) ||
+                   (titleTag ? titleTag.textContent.replace(/\s*[|·—–\-].*$/, '').trim() : '');
+
+    // Extract meta description
+    var metaDescEl = doc.querySelector('meta[name="description"]');
+    var desc       = metaDescEl ? (metaDescEl.getAttribute('content') || '') : '';
+
+    // Extract date from .blog-post-meta (text before the first separator)
+    var metaDateEl = doc.querySelector('.blog-post-meta');
+    var date       = '';
+    if (metaDateEl) {
+      var dateMatch = metaDateEl.textContent.match(/^([A-Z][a-z]+ \d{4})/);
+      if (dateMatch) date = dateMatch[1];
+    }
 
     // Populate fields
     var titleInput = $('static-title');
@@ -486,41 +561,43 @@ var adminSystem = (function () {
     var bodyArea   = $('static-body');
     var rawArea    = $('static-raw-html');
 
-    if (titleInput) titleInput.value = postEl.dataset.title       || '';
-    if (descInput)  descInput.value  = postEl.dataset.description || '';
-    if (dateInput)  dateInput.value  = postEl.dataset.date        || '';
+    if (titleInput) titleInput.value = title;
+    if (descInput)  descInput.value  = desc;
+    if (dateInput)  dateInput.value  = date;
 
-    // Try to match category from registry
+    // Match category from registry
     var reg = POST_REGISTRY.find(function (p) { return p.id === id; });
     if (catSelect && reg) catSelect.value = reg.category;
 
-    // Extract the .blog-post-content innerHTML for editing
-    var contentEl = postEl.querySelector('.blog-post-content');
-    var rawContent = contentEl ? contentEl.innerHTML : '';
-
-    // Offer both editable (simplified) and raw modes
+    // Load content into both editing modes
+    var rawContent = contentEl.innerHTML;
     if (bodyArea) bodyArea.value = htmlToEditable(rawContent);
     if (rawArea)  rawArea.value  = rawContent;
 
-    // Update the editor header
+    // Update editor header
     var header = $('static-editor-title');
-    if (header) header.textContent = postEl.dataset.title || id;
+    if (header) header.textContent = title || id;
 
-    // Show the correct mode panel
-    _showStaticMode('visual');
+    // If the content has custom HTML components, default to raw mode
+    // to avoid htmlToEditable() stripping them when visual mode is active
+    var hasComplexHtml = /<(div|section|aside|figure|table)\b/i.test(rawContent) ||
+                         /class=["'][^"']*(?:math-block|codex-callout|seq-box|pull-quote|step-|freq-|pillar-)[^"']*["']/i.test(rawContent);
+    _showStaticMode(hasComplexHtml ? 'raw' : 'visual');
   }
 
   function _showStaticMode(mode) {
-    var visualPane = $('static-visual-mode');
-    var rawPane    = $('static-raw-mode');
-    var modeBtns   = document.querySelectorAll('.static-mode-btn');
+    var visualPane  = $('static-visual-mode');
+    var rawPane     = $('static-raw-mode');
+    var previewPane = $('static-preview-mode');
+    var modeBtns    = document.querySelectorAll('.static-mode-btn');
 
     modeBtns.forEach(function (b) {
       b.classList.toggle('active', b.dataset.mode === mode);
     });
 
-    if (visualPane) visualPane.style.display = mode === 'visual' ? 'flex' : 'none';
-    if (rawPane)    rawPane.style.display    = mode === 'raw'    ? 'flex' : 'none';
+    if (visualPane)  visualPane.style.display  = mode === 'visual'  ? 'flex' : 'none';
+    if (rawPane)     rawPane.style.display     = mode === 'raw'     ? 'flex' : 'none';
+    if (previewPane) previewPane.style.display = mode === 'preview' ? 'flex' : 'none';
   }
 
   function switchStaticMode(mode) {
@@ -532,12 +609,19 @@ var adminSystem = (function () {
         rawArea.value = markdownToHtml(bodyArea.value);
       }
     }
-    // If switching to visual, sync raw → body
+    // If switching to visual, warn if raw HTML has custom components
     if (mode === 'visual') {
       var rawArea  = $('static-raw-html');
       var bodyArea = $('static-body');
-      if (rawArea && bodyArea) {
-        bodyArea.value = htmlToEditable(rawArea.value);
+      if (rawArea) {
+        var hasComplex = /<(div|section|aside|figure|table)\b/i.test(rawArea.value) ||
+                         /class=["'][^"']*(?:math-block|codex-callout|seq-box|pull-quote)[^"']*["']/i.test(rawArea.value);
+        if (hasComplex) {
+          if (!confirm('⚠️ This article has custom HTML components (math boxes, callouts, etc.).\n\nSwitching to Visual mode will strip those to plain text and they cannot be recovered.\n\nStay in Raw HTML mode to preserve them.\n\nSwitch anyway?')) {
+            return;
+          }
+        }
+        if (bodyArea) bodyArea.value = htmlToEditable(rawArea.value);
       }
     }
     _showStaticMode(mode);
@@ -587,53 +671,53 @@ var adminSystem = (function () {
       return;
     }
 
-    var title    = ($('static-title').value || '').trim();
-    var desc     = ($('static-desc').value  || '').trim();
-    var date     = ($('static-date').value  || '').trim();
-    var rawPane  = $('static-raw-mode');
-    var isRaw    = rawPane && rawPane.style.display !== 'none';
+    var title   = ($('static-title').value || '').trim();
+    var desc    = ($('static-desc').value  || '').trim();
+    var date    = ($('static-date').value  || '').trim();
+    var rawPane = $('static-raw-mode');
+    var isRaw   = rawPane && rawPane.style.display !== 'none';
     var newContent = isRaw
       ? $('static-raw-html').value
       : markdownToHtml($('static-body').value);
 
     if (!title) { showToast('Title cannot be empty.', 'error'); return; }
 
-    // Rebuild the post HTML by modifying the data attributes and content block
-    // We parse the original HTML, patch it, and serialise it back
+    // Parse the full document (not wrapped in extra tags — that was the old bug)
     var parser = new DOMParser();
-    var doc    = parser.parseFromString('<html><body>' + _staticOrigHTML + '</body></html>', 'text/html');
-    var postEl = doc.querySelector('.blog-post[id]');
+    var doc    = parser.parseFromString(_staticOrigHTML, 'text/html');
 
-    if (!postEl) {
-      showToast('Cannot find post element — saving raw HTML as-is.', 'error');
-      _downloadFile(_staticEditId + '.html', _staticOrigHTML);
-      return;
+    // Update <title> tag — preserve any suffix like "| SSC Numerology"
+    var titleEl = doc.querySelector('title');
+    if (titleEl) {
+      var suffix = titleEl.textContent.match(/(\s*[|·—–].+)$/);
+      titleEl.textContent = title + (suffix ? suffix[1] : '');
     }
 
-    // Update data attributes
-    postEl.dataset.title       = title;
-    postEl.dataset.description = desc;
-    postEl.dataset.date        = date;
+    // Update meta description
+    var metaDescEl = doc.querySelector('meta[name="description"]');
+    if (metaDescEl && desc) metaDescEl.setAttribute('content', desc);
 
-    // Update content div
-    var contentEl = postEl.querySelector('.blog-post-content');
-    if (contentEl) contentEl.innerHTML = '\n      ' + newContent + '\n    ';
-
-    // Update the h1 title inside the post
-    var h1 = postEl.querySelector('.blog-post-title');
+    // Update h1
+    var h1 = doc.querySelector('.blog-post-title');
     if (h1) h1.textContent = title;
 
-    // Serialise the body back (just the inner HTML of body, preserving comments)
-    var bodyEl   = doc.querySelector('body');
-    var outputHtml = bodyEl ? bodyEl.innerHTML : _staticOrigHTML;
+    // Update date in .blog-post-meta (replace leading date, keep read-time)
+    var metaDateEl = doc.querySelector('.blog-post-meta');
+    if (metaDateEl && date) {
+      metaDateEl.innerHTML = metaDateEl.innerHTML.replace(/^[A-Z][a-z]+ \d{4}/, date);
+    }
 
-    // Prepend original file comments if present
-    var comments = _staticOrigHTML.match(/^(<!--[\s\S]*?-->\s*)+/);
-    var header   = comments ? comments[0] : '';
-    var finalHtml = header + outputHtml.replace(/^\s*/, '');
+    // Replace content
+    var contentEl = doc.querySelector('.blog-post-content');
+    if (contentEl) contentEl.innerHTML = '\n        ' + newContent + '\n      ';
 
-    _downloadFile(_staticEditId + '.html', finalHtml);
-    showToast('✓ ' + _staticEditId + '.html downloaded — replace the file in /blog/', 'ok');
+    // Serialize — prepend DOCTYPE (DOMParser strips it from outerHTML)
+    var finalHtml = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+
+    _downloadFile('index.html', finalHtml);
+    var reg = POST_REGISTRY.find(function (p) { return p.id === _staticEditId; });
+    var folder = reg ? reg.path : _staticEditId;
+    showToast('\u2713 index.html downloaded \u2014 replace in /blog/' + folder + '/', 'ok');
   }
 
   function _downloadFile(filename, content) {

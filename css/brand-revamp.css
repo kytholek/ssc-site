@@ -524,9 +524,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  will-change: transform;
-  transform: translate3d(0,0,0);
-  animation: rotateSlow 32s linear infinite;
 }
 .about-avatar::before {
   content: '';
@@ -1806,11 +1803,6 @@
 /* ══════════════════════════════════════════════════════════
    ABOUT PAGE — Photo + Book
    ══════════════════════════════════════════════════════════ */
-
-/* Photo replaces sigil — stop avatar spin, swap glow to dark blue */
-.about-avatar:has(.about-photo) {
-  animation: none;
-}
 
 .about-photo {
   width: 140px;
