@@ -37,12 +37,31 @@
   }
   </script>
 
-  <link rel="stylesheet" href="/css/brand-revamp.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
+    body { padding-top: 64px; }
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 100px; position: relative; z-index: 1; }
+    .blog-post { display: block !important; }
+    .blog-post-back { background: none; border: none; font-family: "Cinzel", serif; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #7cb8a8; cursor: pointer; margin-bottom: 12px; padding: 0; transition: color .2s; }
+    .blog-post-back:hover { color: #c9a84c; }
+    .blog-post-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 12px; }
+    .blog-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 8px; letter-spacing: .15em; }
+    .blog-tag.gold { background: rgba(201,168,76,0.12); color: #c9a84c; }
+    .blog-post-title { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: #c9a84c; line-height: 1.2; margin-bottom: 16px; margin-top: 0; letter-spacing: .04em; }
+    .blog-post-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 28px; }
+    .blog-post-content { display: block; }
+    .blog-post-content h2 { font-family: "Cinzel", serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: #d4a96a; margin: 44px 0 16px; padding-top: 8px; border-top: 1px solid rgba(201,168,76,0.08); }
+    .blog-post-content p { font-size: 18px; line-height: 1.9; color: #c4c4c4; margin-bottom: 20px; }
+    .blog-post-content p strong { color: #ffffff; }
+    .blog-post-content ul { margin: 16px 0 20px 0; padding: 0; list-style: none; }
+    .blog-post-content ul li { font-size: 17px; line-height: 1.75; color: #c4c4c4; padding: 10px 0 10px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
+    .blog-post-content ul li::before { content: "›"; position: absolute; left: 0; top: 11px; font-size: 12px; color: #7cb8a8; }
+    .section-divider { border: none; border-top: 1px solid rgba(201,168,76,0.1); margin: 40px 0; }
+    .cta-inline { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; padding: 14px 28px; border-radius: 5px; background: rgba(74,148,148,.25); border: 1px solid rgba(126,200,200,.4); color: #7ec8c8; text-decoration: none; display: inline-block; transition: all .3s; }
+    .cta-inline:hover { box-shadow: 0 0 28px rgba(74,148,148,.4); transform: translateY(-2px); }
     /* ── Math block components ── */
     .math-block {
       background: linear-gradient(135deg, #0d0d1a 0%, #0a0a14 60%, #111128 100%);
@@ -182,14 +201,13 @@
   </style>
 </head>
 <body>
-  <div id="nav-placeholder"></div>
+  <nav id="main-nav"></nav>
 
-  <main class="blog-post" id="post-369">
-    <header class="blog-post-header">
-      <div class="blog-post-category">The System</div>
-      <h1 class="blog-post-title">The 3-6-9 Pattern: Why Tesla Was Right</h1>
-      <div class="blog-post-meta">November 2024 &nbsp;·&nbsp; 8 min read</div>
-    </header>
+  <div class="post-wrap">
+  <div class="blog-post" id="post-369">
+    <div class="blog-post-eyebrow"><span class="blog-tag gold">The System</span></div>
+    <h1 class="blog-post-title">The 3-6-9 Pattern: Why Tesla Was Right</h1>
+    <div class="blog-post-meta">November 2024 &nbsp;·&nbsp; 8 min read</div>
 
     <div class="blog-post-content">
 
@@ -325,17 +343,17 @@
       <div class="codex-callout">
         <div class="codex-col">
           <div class="codex-col-number">3</div>
-          <div class="codex-col-label">Expression</div>
+          <div class="codex-col-label">Expression · Electric</div>
           <div class="codex-col-desc">Creative output, language, the drive to externalize inner experience into form</div>
         </div>
         <div class="codex-col">
           <div class="codex-col-number">6</div>
-          <div class="codex-col-label">Responsibility</div>
-          <div class="codex-col-desc">Service, care, the oscillating pull between giving to others and sustaining the self</div>
+          <div class="codex-col-label">Responsibility · Magnetic</div>
+          <div class="codex-col-desc">Service, care, the cohesive force that holds a system in relation to itself</div>
         </div>
         <div class="codex-col">
           <div class="codex-col-number">9</div>
-          <div class="codex-col-label">Completion</div>
+          <div class="codex-col-label">Completion · Aetheric</div>
           <div class="codex-col-desc">Universal awareness, the end of cycles, wisdom that has absorbed all previous iterations</div>
         </div>
       </div>
@@ -350,6 +368,38 @@
       </div>
 
       <p>Tesla was not speaking poetically. He was pointing at a mathematical fact he had likely observed through his own study of vibration and resonance: that three numbers sit structurally apart from the rest, governing a different domain of reality than the six numbers caught in the doubling loop.</p>
+
+      <hr class="section-divider">
+
+      <h2>Three Natures of Energy</h2>
+
+      <p>In the Simulation Source Code system, the ten digits are not equal in kind. They differ not just in quality but in the fundamental type of energy they carry. Every number is either <strong>Electric</strong>, <strong>Magnetic</strong>, or <strong>Aetheric</strong> — and the three numbers that sit outside the doubling sequence each represent one of these three natures in its clearest form.</p>
+
+      <div class="codex-callout">
+        <div class="codex-col">
+          <div class="codex-col-number">3</div>
+          <div class="codex-col-label">Electric</div>
+          <div class="codex-col-desc">Active, outward, initiating. Expression pushing creative form into space. The force that begins things.</div>
+        </div>
+        <div class="codex-col">
+          <div class="codex-col-number">6</div>
+          <div class="codex-col-label">Magnetic</div>
+          <div class="codex-col-desc">Receptive, cohesive, sustaining. The force that draws things together, holds systems in relation, and organises what the Electric creates.</div>
+        </div>
+        <div class="codex-col">
+          <div class="codex-col-number">9</div>
+          <div class="codex-col-label">Aetheric</div>
+          <div class="codex-col-desc">Neither Electric nor Magnetic. Energy before the division into duality. The void after completion — absorbing all, returning all.</div>
+        </div>
+      </div>
+
+      <p><strong>3 is Electric.</strong> The odd numbers 1, 3, 5, and 7 are the Electric frequencies — active, outward, penetrating. What unites them is directionality: they all move into space. Three is expression in its purest directional form. It does not hold or organise — it <em>emits</em>. Creative output, language, the drive to push inner experience outward into form. The oscillation between 3 and 6 we traced in the doubling sequence is precisely the oscillation between Electric output and Magnetic reception.</p>
+
+      <p><strong>6 is Magnetic.</strong> The even numbers 2, 4, 6, and 8 are the Magnetic frequencies — receptive, inward, cohesive. They do not initiate; they respond, consolidate, sustain. Six is the magnetic force of integration: care, community, the cohesion that holds a system in responsible relation to itself. When 3 emits, 6 organises what was emitted. Their binary cycle — Electric creating, Magnetic integrating, back and forth — is the heartbeat of all relational experience. Just as moving electricity generates a magnetic field, the creative act of 3 inherently calls the integrative force of 6 into being.</p>
+
+      <p><strong>9 is Aetheric.</strong> Zero and Nine stand apart from both Electric and Magnetic. They are Aetheric — energy before the division into active and receptive poles. Zero is the void before initiation. Nine is the void after completion. The cycle has run its full course: Electric and Magnetic forces have played out, and everything generated must be released back into the field. Nine absorbs multiplication without changing because it is not inside the play of forces — it is the container they play within. It is the silence after the last note, the space between the breath out and the breath in.</p>
+
+      <p>This is why the 3-6-9 axis is structurally different from the numbers caught in the doubling loop. The doubling sequence — 1, 2, 4, 8, 7, 5 — contains both Electric and Magnetic numbers cycling through material experience. But it never touches the three that govern the deeper structure: the Electric force of pure expression, the Magnetic force of pure cohesion, and the Aetheric stillness that contains them both.</p>
 
       <hr class="section-divider">
 
@@ -382,28 +432,14 @@
       </p>
 
     </div><!-- /.blog-post-content -->
-  </main>
+  </div><!-- /.blog-post -->
+  </div><!-- /.post-wrap -->
 
-  <div id="footer-placeholder"></div>
-
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/app.js"></script>
   <script>
-    function loadNav() {
-      fetch('/pages/nav.html?v=' + Date.now())
-        .then(function(r){ return r.text(); })
-        .then(function(html){
-          document.getElementById('nav-placeholder').innerHTML = html;
-        });
-    }
-    function loadFooter() {
-      fetch('/pages/footer.html?v=' + Date.now())
-        .then(function(r){ return r.text(); })
-        .then(function(html){
-          var el = document.getElementById('footer-placeholder');
-          if (el) el.innerHTML = html;
-        });
-    }
-    loadNav();
-    loadFooter();
+    if (typeof loadNav    === 'function') loadNav();
+    if (typeof loadFooter === 'function') loadFooter();
   </script>
 </body>
 </html>
