@@ -4,7 +4,6 @@ node_modules/
 .netlify/
 netlify/
 *.toml
-*.json
-*.js
+convert-translations.js
 .env*
 .dev.vars
