@@ -8,7 +8,8 @@
   <title>Five Lenses of Self: Ego, Mind, Soul, Spirit &amp; Void</title>
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
   <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet"></noscript>
   <style>
 /* ── Five Lenses post — self-contained styles ────────────────── */
 
@@ -264,6 +265,17 @@
     .post-cta-block p { font-size: 16px; line-height: 1.8; color: var(--text-dim); margin-bottom: 20px; max-width: 520px; margin-left: auto; margin-right: auto; }
     .post-cta-block a { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; padding: 16px 32px; border-radius: 5px; cursor: pointer; background: rgba(74,148,148,.25); border: 1px solid rgba(126,200,200,.4); color: var(--teal-light); text-decoration: none; display: inline-block; transition: all .3s; }
     .post-cta-block a:hover { box-shadow: 0 0 32px rgba(74,148,148,.4); transform: translateY(-2px); border-color: rgba(126,200,200,.6); }</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://simulationsourcecode.com/"},
+      {"@type":"ListItem","position":2,"name":"Blog","item":"https://simulationsourcecode.com/blog/"},
+      {"@type":"ListItem","position":3,"name":"Five Lenses of Self","item":"https://simulationsourcecode.com/blog/five-lenses-of-self-ego-mind-soul-spirit-void/"}
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -272,6 +284,14 @@
   <div class="blog-post post-five-lenses-view" data-title="The Five Lenses of Self: Which One Are You Seeing Through?" data-description="Ego, Mind, Soul, Spirit, and Void — five layers of self, five entirely different experiences of the same reality. Which one are you looking through right now?" data-date="March 2026">
 
   <button class="blog-post-back" onclick="closePosts()">← Back to Blog</button>
+
+  <nav style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:10px;padding:16px 24px 0" aria-label="Breadcrumb">
+    <a href="/" style="color:rgba(201,168,76,0.6);text-decoration:none">Home</a>
+    <span>&#8250;</span>
+    <a href="/blog/" style="color:rgba(201,168,76,0.6);text-decoration:none">Blog</a>
+    <span>&#8250;</span>
+    <span>Five Lenses of Self</span>
+  </nav>
 
   <!-- ── INTRO ─────────────────────────────────────────────── -->
   <div class="fl-intro">

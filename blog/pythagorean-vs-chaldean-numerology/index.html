@@ -8,7 +8,8 @@
   <title>Pythagorean vs. Chaldean Numerology</title>
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
   <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet"></noscript>
   <style>
     body { padding-top: 64px; }
     .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 100px; position: relative; z-index: 1; }
@@ -42,10 +43,29 @@
     .post-cta-block a { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; padding: 16px 32px; border-radius: 5px; cursor: pointer; background: rgba(74,148,148,.25); border: 1px solid rgba(126,200,200,.4); color: var(--teal-light); text-decoration: none; display: inline-block; transition: all .3s; }
     .post-cta-block a:hover { box-shadow: 0 0 32px rgba(74,148,148,.4); transform: translateY(-2px); border-color: rgba(126,200,200,.6); }</style>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://simulationsourcecode.com/"},
+      {"@type":"ListItem","position":2,"name":"Blog","item":"https://simulationsourcecode.com/blog/"},
+      {"@type":"ListItem","position":3,"name":"Pythagorean vs. Chaldean Numerology","item":"https://simulationsourcecode.com/blog/pythagorean-vs-chaldean-numerology/"}
+    ]
+  }
+  </script>
 </head>
 <body>
   <nav id="main-nav"></nav>
   <div class="post-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>&#8250;</span>
+    <a href="/blog/">Blog</a>
+    <span>&#8250;</span>
+    <span>Pythagorean vs. Chaldean Numerology</span>
+  </nav>
+
     <div class="blog-post">
       <button class="blog-post-back" onclick="history.back()">‹ Back to Blog</button>
       <div class="blog-post-eyebrow"><span class="blog-tag teal">The Numbers</span></div>

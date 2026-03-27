@@ -8,7 +8,8 @@
   <title>The Evolution of Energy: 0 Through 9</title>
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
   <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet"></noscript>
   <style>
     body { padding-top: 64px; }
 
@@ -169,12 +170,31 @@
       .related-posts-grid { grid-template-columns: 1fr; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://simulationsourcecode.com/"},
+      {"@type":"ListItem","position":2,"name":"Blog","item":"https://simulationsourcecode.com/blog/"},
+      {"@type":"ListItem","position":3,"name":"Evolution of Energy: 0 Through 9","item":"https://simulationsourcecode.com/blog/evolution-of-energy-0-through-9/"}
+    ]
+  }
+  </script>
 </head>
 <body>
   <nav id="main-nav"></nav>
 
   <!-- Narrow intro -->
   <div class="post-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>&#8250;</span>
+    <a href="/blog/">Blog</a>
+    <span>&#8250;</span>
+    <span>Evolution of Energy: 0 Through 9</span>
+  </nav>
+
     <button class="blog-post-back" onclick="history.back()">&#8249; Back to Blog</button>
     <div class="blog-post-eyebrow"><span class="blog-tag teal">The System</span></div>
     <h1 class="blog-post-title">The Evolution of Energy: 0 Through 9</h1>
