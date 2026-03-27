@@ -574,14 +574,11 @@ body { padding-top: 64px; }
 
 .about-avatar {
   width: 100px; height: 100px; margin: 0 auto 28px;
-  animation: rotateSlow 24s linear infinite;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  will-change: transform;
-  transform: translate3d(0,0,0);
 }
 .about-avatar::before {
   content: '';
