@@ -71,7 +71,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 
 .scanline{position:fixed;top:-4px;left:0;right:0;height:4px;background:linear-gradient(to bottom,transparent,rgba(0,229,204,0.07),transparent);pointer-events:none;z-index:9002;animation:scanDown 10s linear infinite;will-change:top}
 @keyframes scanDown{from{top:-4px}to{top:100vh}}
-.page-wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:100px 24px 80px}
+.page-wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:100px 24px 140px}
 
 /* ── Header ── */
 .codex-header{text-align:center;margin-bottom:48px}
@@ -252,26 +252,15 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .node[data-num="9"]::before { color: var(--amethyst-l); }
 
 /* ── Tooltip ── */
-.node-tooltip{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(6px);width:220px;background:rgba(10,8,20,.98);border:1px solid var(--border);border-radius:6px;padding:16px 16px 14px;pointer-events:none;opacity:0;transition:opacity .18s,transform .18s;z-index:200;text-align:center}
-.node:nth-child(7) .node-tooltip,.node:nth-child(8) .node-tooltip,.node:nth-child(9) .node-tooltip{bottom:auto;top:calc(100% + 14px);transform:translateX(-50%) translateY(-6px)}
-.node-tooltip.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0) !important}
-.node:nth-child(1) .node-tooltip,.node:nth-child(4) .node-tooltip,.node:nth-child(7) .node-tooltip{left:0;transform:translateX(0) translateY(6px)}
-.node:nth-child(3) .node-tooltip,.node:nth-child(6) .node-tooltip,.node:nth-child(9) .node-tooltip{left:auto;right:0;transform:translateX(0) translateY(6px)}
-.node:nth-child(1) .node-tooltip.show,.node:nth-child(4) .node-tooltip.show,.node:nth-child(7) .node-tooltip.show{transform:translateX(0) translateY(0) !important}
-.node:nth-child(3) .node-tooltip.show,.node:nth-child(6) .node-tooltip.show,.node:nth-child(9) .node-tooltip.show{transform:translateX(0) translateY(0) !important}
+/* tooltips hidden — data only, card shown in fixed bottom bar */
+.node-tooltip{display:none}
 
 .tooltip-num{font-family:'Cinzel Decorative',serif;font-size:22px;color:var(--gold);margin-bottom:4px}
 .tooltip-name{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-d);margin-bottom:6px}
 .tooltip-position{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:8px}
 .tooltip-essence{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;font-family:'Cinzel',serif}
 .tooltip-body{font-size:13px;line-height:1.65;color:var(--text-dim);margin-bottom:12px}
-.tooltip-link{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:3px;padding:5px 10px;text-decoration:none;transition:background .2s,border-color .2s}
-.tooltip-link:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
-.tooltip-pin-hint{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,.25);margin-top:8px}
-.tooltip-actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid rgba(201,168,76,.08)}
-.tooltip-share{background:none;border:none;cursor:pointer;font-size:11px;color:rgba(201,168,76,.3);transition:color .2s;padding:2px 4px;font-family:'Cinzel',serif;font-size:7px;letter-spacing:.15em;text-transform:uppercase}
-.tooltip-share:hover{color:var(--gold)}
-.tooltip-share.copied{color:var(--teal-l)}
+/* tooltip inner styles unused — card handles display */
 .codex-instruction{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,168,76,.3);margin-bottom:20px;text-align:center}
 
 /* ── Infinity legend ── */
@@ -489,27 +478,49 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .hud-br{bottom:-12px;right:-12px;border-bottom:2px solid var(--teal);border-right:2px solid var(--teal);animation-delay:1.5s}
 
 /* ── HUD status bar ── */
-.hud-status{
-  display:flex;align-items:center;justify-content:center;gap:0;
-  margin-top:14px;
-  font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(74,148,148,0.5);
-  border:1px solid rgba(74,148,148,0.15);
-  border-radius:3px;
-  padding:6px 16px;
-  background:rgba(5,4,14,0.7);
-  transition:color .3s,border-color .3s;
-  min-width:340px;
-  text-align:center;
-  z-index:10;
-  position:relative;
+/* ── Node info card (fixed bottom) ── */
+.node-card{
+  position:fixed;bottom:0;left:0;right:0;
+  display:flex;align-items:center;gap:24px;
+  padding:18px 32px;
+  background:rgba(5,4,14,0.96);
+  border-top:1px solid rgba(74,148,148,0.2);
+  z-index:300;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.34,1.2,.64,1),border-color .3s;
+  pointer-events:none;
 }
-.hud-status.active{color:rgba(74,148,148,0.9);border-color:rgba(74,148,148,0.4)}
-.hud-field{display:inline-flex;gap:5px;align-items:center}
-.hud-field span{color:rgba(201,168,76,0.8);font-family:'Cinzel Decorative',serif;font-size:9px;transition:color .2s}
-.hud-sep{margin:0 10px;opacity:.3}
-@media(max-width:600px){.hud-status{min-width:0;font-size:7px;padding:5px 10px;gap:0}.hud-sep{margin:0 6px}}
-@media(max-width:400px){.hud-status{display:none}}
+.node-card.visible{transform:translateY(0);pointer-events:auto}
+.node-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(74,148,148,0.5),transparent)}
+
+.nc-number{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(36px,5vw,56px);
+  line-height:1;
+  flex-shrink:0;
+  min-width:60px;
+  text-align:center;
+  transition:color .2s,text-shadow .2s;
+}
+.nc-divider{width:1px;height:60px;background:rgba(74,148,148,0.2);flex-shrink:0}
+.nc-info{flex:1;min-width:0}
+.nc-name{font-family:'Cinzel',serif;font-size:clamp(10px,1.4vw,13px);letter-spacing:.28em;text-transform:uppercase;color:var(--text);margin-bottom:3px}
+.nc-position{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(74,148,148,0.55);margin-bottom:4px}
+.nc-essence{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-l);margin-bottom:6px}
+.nc-body{font-size:13px;line-height:1.6;color:var(--text-dim);max-width:480px}
+.nc-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.nc-btn{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;text-transform:uppercase;padding:8px 16px;border-radius:3px;text-decoration:none;text-align:center;transition:background .2s,border-color .2s;white-space:nowrap}
+.nc-btn-lp{color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.nc-btn-lp:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.nc-btn-calc{color:var(--teal-l);border:1px solid rgba(74,148,148,.3)}
+.nc-btn-calc:hover{background:rgba(74,148,148,.1);border-color:var(--teal-l)}
+@media(max-width:640px){
+  .node-card{flex-wrap:wrap;gap:12px;padding:14px 20px}
+  .nc-divider{display:none}
+  .nc-body{display:none}
+  .nc-actions{flex-direction:row}
+}
+@media(max-width:400px){.node-card{padding:12px 16px}}
 </style>
 </head>
 <body>
@@ -524,7 +535,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   <header class="codex-header">
     <div class="codex-eyebrow">The Architecture of Consciousness</div>
     <h1 class="codex-title">The Codex</h1>
-    <p class="codex-subtitle">Nine frequencies arranged in a 3×3 matrix — Mind, Body, and Spirit across three planes. Each node a neuron. The sequence <span style="color:var(--gold);font-style:normal;letter-spacing:.05em">1→4→7→2→5→8→3→6→9</span> is the operational rhythm of how change actually moves through a person.</p>
+    <p class="codex-subtitle">Nine frequencies arranged in a 3×3 matrix — Mind, Body, and Spirit across three planes. Each node a neuron.</p>
   </header>
 
   <div class="codex-instruction">Hover to explore &nbsp;·&nbsp; Click to pin &nbsp;·&nbsp; Tap the path below to follow the sequence</div>
@@ -583,7 +594,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Mind Plane &middot; Mind Column</div>
           <div class="tooltip-essence">Electric · Original Force</div>
           <div class="tooltip-body">The spark that begins every cycle. Bold self-direction, pioneer instinct, original creative force.</div>
-          <a class="tooltip-link" href="/blog/life-path-1-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-1-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'1')">&#10697; share</button></div>
         </div>
       </div>
@@ -595,7 +606,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Mind Plane &middot; Body Column</div>
           <div class="tooltip-essence">Magnetic · Bridge &amp; Balance</div>
           <div class="tooltip-body">The consciousness that unifies opposites. Diplomacy, relational awareness, the art of genuine union.</div>
-          <a class="tooltip-link" href="/blog/life-path-2-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-2-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'2')">&#10697; share</button></div>
         </div>
       </div>
@@ -607,7 +618,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Mind Plane &middot; Spirit Column</div>
           <div class="tooltip-essence">Electric · Expression &amp; Joy</div>
           <div class="tooltip-body">Creative force finding its voice. Authentic self-expression, joy, and the courage to be heard without apology.</div>
-          <a class="tooltip-link" href="/blog/life-path-3-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-3-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'3')">&#10697; share</button></div>
         </div>
       </div>
@@ -619,7 +630,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Body Plane &middot; Mind Column</div>
           <div class="tooltip-essence">Magnetic · Structure &amp; Stability</div>
           <div class="tooltip-body">The consciousness that manifests. Discipline, order, patient building of foundations that outlast their maker.</div>
-          <a class="tooltip-link" href="/blog/life-path-4-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-4-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'4')">&#10697; share</button></div>
         </div>
       </div>
@@ -631,7 +642,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Body Plane &middot; Body Column &middot; Centre</div>
           <div class="tooltip-essence">Electric · The Central Pivot</div>
           <div class="tooltip-body">The centre of the entire matrix. Every path of transformation passes through 5. Freedom through full presence, not escape.</div>
-          <a class="tooltip-link" href="/blog/life-path-5-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-5-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'5')">&#10697; share</button></div>
         </div>
       </div>
@@ -643,7 +654,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Body Plane &middot; Spirit Column</div>
           <div class="tooltip-essence">Magnetic · Service &amp; Responsibility</div>
           <div class="tooltip-body">The integrator. Nothing completes until it reaches 6. Love requiring boundaries, service from wholeness.</div>
-          <a class="tooltip-link" href="/blog/life-path-6-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-6-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'6')">&#10697; share</button></div>
         </div>
       </div>
@@ -655,7 +666,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Spirit Plane &middot; Mind Column</div>
           <div class="tooltip-essence">Electric · Wisdom &amp; Inner Knowing</div>
           <div class="tooltip-body">The questioner of all appearances. Truth through direct experience, inner authority, the sacred quest beneath the noise.</div>
-          <a class="tooltip-link" href="/blog/life-path-7-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-7-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'7')">&#10697; share</button></div>
         </div>
       </div>
@@ -667,7 +678,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Spirit Plane &middot; Body Column</div>
           <div class="tooltip-essence">Magnetic · Authority &amp; Manifestation</div>
           <div class="tooltip-body">True power is self-mastery. Authority earned, not assumed. Manifestation through disciplined alignment of will and integrity.</div>
-          <a class="tooltip-link" href="/blog/life-path-8-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-8-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'8')">&#10697; share</button></div>
         </div>
       </div>
@@ -679,7 +690,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
           <div class="tooltip-position">Spirit Plane &middot; Spirit Column</div>
           <div class="tooltip-essence">Aetheric · Completion &amp; Universal Service</div>
           <div class="tooltip-body">The consciousness that completes cycles and releases. Universal compassion, graceful endings, wisdom freely given.</div>
-          <a class="tooltip-link" href="/blog/life-path-9-numerology/">Read Deep Dive &#8594;</a>
+          <div class="tooltip-btn-row"><a class="tooltip-link" href="/blog/life-path-9-numerology/">Life Path &#8594;</a><a class="tooltip-link tooltip-link-alt" href="/">Decode Yours &#8594;</a></div>
           <div class="tooltip-actions"><span class="tooltip-pin-hint">Click to pin</span><button class="tooltip-share" onclick="shareNode(event,'9')">&#10697; share</button></div>
         </div>
       </div>
@@ -699,15 +710,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       </div>
     </div><!-- /codex-grid-wrap -->
   </div><!-- /zero-ring -->
-  <div class="hud-status" id="hud-status">
-    <span class="hud-field">NODE <span id="hs-node">—</span></span>
-    <span class="hud-sep">·</span>
-    <span class="hud-field">PLANE <span id="hs-plane">—</span></span>
-    <span class="hud-sep">·</span>
-    <span class="hud-field">NATURE <span id="hs-nature">—</span></span>
-    <span class="hud-sep">·</span>
-    <span class="hud-field">FREQ <span id="hs-freq">IDLE</span></span>
-  </div>
   </div><!-- /matrix-hud -->
 
   <!-- Transformation path legend -->
@@ -943,26 +945,42 @@ window.addEventListener('load', ()=>{
   setTimeout(()=>{ computeNodePositions(); draw(); }, 300);
 });
 
-// ── HUD status bar helpers ──────────────────────────────────
-const NATURE_LABELS = {electric:'Electric ⚡',magnetic:'Magnetic ◉',aetheric:'Aetheric ◌'};
-const FREQ_LABELS   = {'1':'Initiation','2':'Harmony','3':'Expression','4':'Structure','5':'Freedom','6':'Integration','7':'Wisdom','8':'Authority','9':'Completion'};
+// ── Node card helpers ────────────────────────────────────────
+const PLANE_COLORS = {mind:'var(--teal-l)',body:'var(--gold-l)',spirit:'var(--amethyst-l)',pivot:'var(--gold-l)'};
 function hudShow(node) {
-  const num    = node.dataset.num;
-  const plane  = node.dataset.plane;
-  const nature = node.dataset.nature;
-  const status = document.getElementById('hud-status');
-  document.getElementById('hs-node').textContent  = num || '—';
-  document.getElementById('hs-plane').textContent  = plane ? plane.charAt(0).toUpperCase()+plane.slice(1) : '—';
-  document.getElementById('hs-nature').textContent = NATURE_LABELS[nature] || nature || '—';
-  document.getElementById('hs-freq').textContent   = FREQ_LABELS[num] || '—';
-  status.classList.add('active');
+  const tip      = node.querySelector('.node-tooltip');
+  const num      = node.dataset.num;
+  const plane    = node.dataset.plane;
+  const card     = document.getElementById('node-card');
+  const numEl    = document.getElementById('nc-number');
+  const color    = PLANE_COLORS[plane] || 'var(--gold-l)';
+
+  numEl.textContent = num || '—';
+  numEl.style.color = color;
+  numEl.style.textShadow = `0 0 30px ${color}`;
+
+  document.getElementById('nc-name').textContent     = tip?.querySelector('.tooltip-name')?.textContent     || '';
+  document.getElementById('nc-position').textContent = tip?.querySelector('.tooltip-position')?.textContent || '';
+  document.getElementById('nc-essence').textContent  = tip?.querySelector('.tooltip-essence')?.textContent  || '';
+  document.getElementById('nc-body').textContent     = tip?.querySelector('.tooltip-body')?.textContent     || '';
+
+  const btnRow = tip?.querySelector('.tooltip-btn-row');
+  const actionsEl = document.getElementById('nc-actions');
+  actionsEl.innerHTML = '';
+  if (btnRow) {
+    btnRow.querySelectorAll('a').forEach((a, i) => {
+      const btn = document.createElement('a');
+      btn.href = a.href;
+      btn.textContent = a.textContent;
+      btn.className = 'nc-btn ' + (i === 0 ? 'nc-btn-lp' : 'nc-btn-calc');
+      actionsEl.appendChild(btn);
+    });
+  }
+
+  card.classList.add('visible');
 }
 function hudReset() {
-  document.getElementById('hs-node').textContent  = '—';
-  document.getElementById('hs-plane').textContent  = '—';
-  document.getElementById('hs-nature').textContent = '—';
-  document.getElementById('hs-freq').textContent   = 'IDLE';
-  document.getElementById('hud-status').classList.remove('active');
+  document.getElementById('node-card').classList.remove('visible');
 }
 
 // ── Tooltip: hover to show, click to pin ──────────────────────
@@ -1101,6 +1119,18 @@ document.addEventListener('keydown', e => {
     </div>
     <a class="pattern-modal-link" href="/blog/3-6-9-pattern-tesla-numerology/">Read: Why Tesla Was Right &#8594;</a>
   </div>
+</div>
+
+<div class="node-card" id="node-card">
+  <div class="nc-number" id="nc-number">—</div>
+  <div class="nc-divider"></div>
+  <div class="nc-info">
+    <div class="nc-name" id="nc-name"></div>
+    <div class="nc-position" id="nc-position"></div>
+    <div class="nc-essence" id="nc-essence"></div>
+    <div class="nc-body" id="nc-body"></div>
+  </div>
+  <div class="nc-actions" id="nc-actions"></div>
 </div>
 
 <script src="/js/app.js"></script>
