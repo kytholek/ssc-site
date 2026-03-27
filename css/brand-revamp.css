@@ -146,9 +146,9 @@
   font-family: 'Cormorant SC', serif;
   font-weight: 300;
   font-size: clamp(26px, 5vw, 52px);
-  color: var(--gold);
+  color: var(--teal-light);
   line-height: 1.15;
-  text-shadow: 0 0 80px rgba(201,168,76,.25), 0 0 160px rgba(201,168,76,.08);
+  text-shadow: 0 0 80px rgba(74,148,148,.25), 0 0 160px rgba(74,148,148,.08);
   margin-bottom: 12px;
   letter-spacing: 0.04em;
   font-variant: small-caps;
@@ -161,6 +161,25 @@
   text-transform: uppercase;
   color: var(--teal-light);
   margin-bottom: 30px;
+}
+
+.hero-tagline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(9px, 1.1vw, 11px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin: 18px auto 32px;
+}
+.hero-tagline-dot {
+  opacity: 0.35;
+  font-size: 8px;
 }
 
 .hero-body {
@@ -369,10 +388,11 @@
   font-weight: 300;
   font-size: 30px;
   color: var(--gold);
-  opacity: .28;
+  opacity: .8;
   margin-bottom: 14px;
   line-height: 1;
   font-variant: small-caps;
+  text-shadow: 0 0 20px rgba(201,168,76,.4);
 }
 .freq-name {
   font-family: 'Cinzel', serif;

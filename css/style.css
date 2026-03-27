@@ -1719,7 +1719,7 @@ footer {
   border-color: rgba(0,195,215,.4) !important;
   box-shadow: 0 0 36px rgba(0,190,215,.1), inset 0 0 20px rgba(0,190,215,.04) !important;
 }
-.holo-card .freq-number { color: rgba(0,210,220,.85); }
+.holo-card .freq-number { color: var(--gold); text-shadow: 0 0 20px rgba(201,168,76,.4); }
 .holo-card .freq-name   { color: #96e2e4; }
 .holo-card .freq-desc   { color: rgba(120,215,218,.65); }
 

@@ -35,6 +35,8 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root {
   --void:      #05040a;
@@ -67,18 +69,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   radial-gradient(1px 1px at 72% 15%,rgba(74,148,148,.15) 0%,transparent 100%),
   radial-gradient(1px 1px at 33% 55%,rgba(123,79,166,.15) 0%,transparent 100%)}
 
-.page-wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:60px 24px 80px}
+.scanline{position:fixed;top:-4px;left:0;right:0;height:4px;background:linear-gradient(to bottom,transparent,rgba(0,229,204,0.07),transparent);pointer-events:none;z-index:9002;animation:scanDown 10s linear infinite;will-change:top}
+@keyframes scanDown{from{top:-4px}to{top:100vh}}
+.page-wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:100px 24px 80px}
 
 /* ── Header ── */
 .codex-header{text-align:center;margin-bottom:48px}
 .codex-eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--teal);opacity:.8;margin-bottom:12px}
-.codex-title{font-family:'Cormorant SC',serif;font-weight:300;font-size:clamp(36px,6vw,68px);color:var(--gold);line-height:1.05;margin-bottom:14px;letter-spacing:.08em;text-shadow:0 0 60px rgba(201,168,76,.3)}
+.codex-title{font-family:'Cormorant SC',serif;font-weight:300;font-size:clamp(36px,6vw,68px);color:var(--gold);line-height:1.05;margin-bottom:14px;letter-spacing:.08em;text-shadow:0 0 60px rgba(201,168,76,.3),-2px 0 0 rgba(74,148,148,0.35),2px 0 0 rgba(201,0,100,0.25)}
 .codex-subtitle{font-size:18px;font-style:italic;color:var(--text-dim);max-width:520px;margin:0 auto;line-height:1.7}
 
 /* ── Zero ring ── */
 .zero-ring{position:relative;width:min(90vw,720px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
 .zero-ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#codex-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#codex-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;will-change:transform;transform:translateZ(0)}
 
 /* ── Ring pulse animations ── */
 @keyframes ringHeartbeat{0%,100%{opacity:.42;stroke-width:.6}50%{opacity:.88;stroke-width:1.2}}
@@ -88,7 +92,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .ring-main  {animation:ringHeartbeat 4s ease-in-out infinite}
 .ring-glow  {animation:ringGlowPulse 4s ease-in-out infinite}
 .ring-dash  {animation:ringDashSpin  24s linear infinite}
-.ring-expand{animation:ringExpand    4s ease-out infinite;stroke:rgba(201,168,76,1)}
+.ring-expand{animation:ringExpand    4s ease-out infinite;stroke:rgba(74,148,148,1)}
 
 /* ── Grid ── */
 .codex-grid-wrap{
@@ -403,6 +407,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   .axis-col-sums{grid-column:1;grid-row:2}
   .axis-corner{display:none}
 }
+@media(prefers-reduced-motion:reduce){
+  .scanline,.perspective-grid::before,.matrix-hud::before,.hud-corner,.ring-dash,.ring-expand{animation:none}
+}
 @media(max-width:480px){
   .pattern-modal-backdrop{align-items:flex-end;padding:0}
   .pattern-modal{border-radius:12px 12px 0 0;max-width:100%;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1) both}
@@ -411,14 +418,106 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   .node-tooltip{width:160px;font-size:12px}
   .tooltip-pin-hint{display:none}
 }
+
+/* ── Perspective grid ── */
+.perspective-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  overflow:hidden;
+  contain:paint;
+}
+.perspective-grid::before{
+  content:'';
+  position:absolute;
+  bottom:-80px;left:-50%;right:-50%;height:130%;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(201,168,76,0.05) 0px,transparent 1px,transparent 80px,rgba(201,168,76,0.05) 81px),
+    repeating-linear-gradient(0deg,rgba(201,168,76,0.04) 0px,transparent 1px,transparent 80px,rgba(201,168,76,0.04) 81px);
+  transform:rotateX(55deg) translateY(20%) translateZ(0);
+  transform-origin:bottom center;
+  will-change:transform;
+  animation:gridDrift 20s linear infinite;
+}
+@keyframes gridDrift{from{transform:rotateX(55deg) translateY(20%) translateZ(0)}to{transform:rotateX(55deg) translateY(calc(20% - 80px)) translateZ(0)}}
+
+/* ── CRT scanline overlay ── */
+.crt-overlay{
+  position:fixed;inset:0;pointer-events:none;z-index:9001;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.05) 3px,
+    rgba(0,0,0,0.05) 4px
+  );
+  contain:strict;
+  will-change:auto;
+}
+
+/* ── Matrix HUD wrapper ── */
+.matrix-hud{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.matrix-hud::before{
+  content:'';
+  position:absolute;
+  inset:-40px;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(201,168,76,0.09) 0%,rgba(74,148,148,0.04) 45%,transparent 70%);
+  animation:haloBreath 6s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+  will-change:transform,opacity;
+}
+@keyframes haloBreath{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+
+/* ── HUD corners ── */
+.hud-corner{
+  position:absolute;
+  width:22px;height:22px;
+  pointer-events:none;
+  z-index:20;
+  opacity:.65;
+  animation:hudPulse 4s ease-in-out infinite;
+}
+@keyframes hudPulse{0%,100%{opacity:.45}50%{opacity:.9}}
+.hud-tl{top:-12px;left:-12px;border-top:2px solid var(--teal);border-left:2px solid var(--teal)}
+.hud-tr{top:-12px;right:-12px;border-top:2px solid var(--teal);border-right:2px solid var(--teal);animation-delay:.5s}
+.hud-bl{bottom:-12px;left:-12px;border-bottom:2px solid var(--teal);border-left:2px solid var(--teal);animation-delay:1s}
+.hud-br{bottom:-12px;right:-12px;border-bottom:2px solid var(--teal);border-right:2px solid var(--teal);animation-delay:1.5s}
+
+/* ── HUD status bar ── */
+.hud-status{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  margin-top:14px;
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(74,148,148,0.5);
+  border:1px solid rgba(74,148,148,0.15);
+  border-radius:3px;
+  padding:6px 16px;
+  background:rgba(5,4,14,0.7);
+  transition:color .3s,border-color .3s;
+  min-width:340px;
+  text-align:center;
+  z-index:10;
+  position:relative;
+}
+.hud-status.active{color:rgba(74,148,148,0.9);border-color:rgba(74,148,148,0.4)}
+.hud-field{display:inline-flex;gap:5px;align-items:center}
+.hud-field span{color:rgba(201,168,76,0.8);font-family:'Cinzel Decorative',serif;font-size:9px;transition:color .2s}
+.hud-sep{margin:0 10px;opacity:.3}
+@media(max-width:600px){.hud-status{min-width:0;font-size:7px;padding:5px 10px;gap:0}.hud-sep{margin:0 6px}}
+@media(max-width:400px){.hud-status{display:none}}
 </style>
 </head>
 <body>
 
-<div class="codex-back-links">
-  <a href="blog/decoding-matrix" class="back-link">&#8592; Back to Article</a>
-  <a href="/" class="back-link back-link-home">Home</a>
-</div>
+<div class="scanline"></div>
+<div class="perspective-grid" aria-hidden="true"></div>
+<div class="crt-overlay" aria-hidden="true"></div>
+<nav id="main-nav"></nav>
 
 <div class="page-wrap">
 
@@ -429,33 +528,38 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   </header>
 
   <div class="codex-instruction">Hover to explore &nbsp;·&nbsp; Click to pin &nbsp;·&nbsp; Tap the path below to follow the sequence</div>
+  <div class="matrix-hud">
+  <div class="hud-corner hud-tl" aria-hidden="true"></div>
+  <div class="hud-corner hud-tr" aria-hidden="true"></div>
+  <div class="hud-corner hud-bl" aria-hidden="true"></div>
+  <div class="hud-corner hud-br" aria-hidden="true"></div>
   <div class="zero-ring">
     <canvas id="codex-canvas"></canvas>
 
     <svg class="zero-ring-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="60%" stop-color="rgba(201,168,76,0)"/>
-          <stop offset="100%" stop-color="rgba(201,168,76,0.06)"/>
+          <stop offset="60%" stop-color="rgba(74,148,148,0)"/>
+          <stop offset="100%" stop-color="rgba(74,148,148,0.06)"/>
         </radialGradient>
         <filter id="glow1"><feGaussianBlur stdDeviation="0.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         <filter id="glow2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
       <circle cx="50" cy="50" r="48" fill="url(#ringGlow)"/>
-      <circle class="ring-expand" cx="50" cy="50" r="47" stroke="rgba(201,168,76,0)" stroke-width="0" fill="none"/>
-      <circle class="ring-glow" cx="50" cy="50" r="47" stroke="rgba(201,168,76,0.08)" stroke-width="3" filter="url(#glow2)"/>
-      <circle class="ring-main" cx="50" cy="50" r="47" stroke="rgba(201,168,76,0.45)" stroke-width="0.6" filter="url(#glow1)"/>
-      <circle cx="50" cy="50" r="44" stroke="rgba(201,168,76,0.12)" stroke-width="0.3"/>
-      <circle class="ring-dash" cx="50" cy="50" r="49.5" stroke="rgba(201,168,76,0.18)" stroke-width="0.4" stroke-dasharray="1.5 2.5" transform-origin="50 50"/>
-      <line x1="50" y1="2"  x2="50" y2="5"   stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
-      <text x="50" y="1.2" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="3.5" fill="rgba(201,168,76,0.35)" letter-spacing="0.5">0</text>
-      <line x1="50" y1="95" x2="50" y2="98"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
-      <line x1="2"  y1="50" x2="5"  y2="50"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
-      <line x1="95" y1="50" x2="98" y2="50"  stroke="rgba(201,168,76,0.5)" stroke-width="0.5"/>
-      <line x1="8.5" y1="8.5" x2="10.6" y2="10.6" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
-      <line x1="91.5" y1="8.5" x2="89.4" y2="10.6" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
-      <line x1="8.5" y1="91.5" x2="10.6" y2="89.4" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
-      <line x1="91.5" y1="91.5" x2="89.4" y2="89.4" stroke="rgba(201,168,76,0.25)" stroke-width="0.4"/>
+      <circle class="ring-expand" cx="50" cy="50" r="47" stroke="rgba(74,148,148,0)" stroke-width="0" fill="none"/>
+      <circle class="ring-glow" cx="50" cy="50" r="47" stroke="rgba(74,148,148,0.08)" stroke-width="3" filter="url(#glow2)"/>
+      <circle class="ring-main" cx="50" cy="50" r="47" stroke="rgba(74,148,148,0.55)" stroke-width="0.6" filter="url(#glow1)"/>
+      <circle cx="50" cy="50" r="44" stroke="rgba(74,148,148,0.12)" stroke-width="0.3"/>
+      <circle class="ring-dash" cx="50" cy="50" r="49.5" stroke="rgba(74,148,148,0.22)" stroke-width="0.4" stroke-dasharray="1.5 2.5" transform-origin="50 50"/>
+      <line x1="50" y1="2"  x2="50" y2="5"   stroke="rgba(74,148,148,0.5)" stroke-width="0.5"/>
+      <text x="50" y="1.2" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="3.5" fill="rgba(74,148,148,0.45)" letter-spacing="0.5">0</text>
+      <line x1="50" y1="95" x2="50" y2="98"  stroke="rgba(74,148,148,0.5)" stroke-width="0.5"/>
+      <line x1="2"  y1="50" x2="5"  y2="50"  stroke="rgba(74,148,148,0.5)" stroke-width="0.5"/>
+      <line x1="95" y1="50" x2="98" y2="50"  stroke="rgba(74,148,148,0.5)" stroke-width="0.5"/>
+      <line x1="8.5" y1="8.5" x2="10.6" y2="10.6" stroke="rgba(74,148,148,0.25)" stroke-width="0.4"/>
+      <line x1="91.5" y1="8.5" x2="89.4" y2="10.6" stroke="rgba(74,148,148,0.25)" stroke-width="0.4"/>
+      <line x1="8.5" y1="91.5" x2="10.6" y2="89.4" stroke="rgba(74,148,148,0.25)" stroke-width="0.4"/>
+      <line x1="91.5" y1="91.5" x2="89.4" y2="89.4" stroke="rgba(74,148,148,0.25)" stroke-width="0.4"/>
     </svg>
 
     <div class="codex-grid-wrap">
@@ -595,6 +699,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       </div>
     </div><!-- /codex-grid-wrap -->
   </div><!-- /zero-ring -->
+  <div class="hud-status" id="hud-status">
+    <span class="hud-field">NODE <span id="hs-node">—</span></span>
+    <span class="hud-sep">·</span>
+    <span class="hud-field">PLANE <span id="hs-plane">—</span></span>
+    <span class="hud-sep">·</span>
+    <span class="hud-field">NATURE <span id="hs-nature">—</span></span>
+    <span class="hud-sep">·</span>
+    <span class="hud-field">FREQ <span id="hs-freq">IDLE</span></span>
+  </div>
+  </div><!-- /matrix-hud -->
 
   <!-- Transformation path legend -->
   <div class="infinity-legend" id="inf-legend">
@@ -773,7 +887,7 @@ function fireBolt(fromNum, toNum) {
   const color = PLANE_COLOR[plane]||PLANE_COLOR.body;
   const from=nodePositions[fromNum], to=nodePositions[toNum];
   particles.push(new Bolt(from,to,color));
-  for(let i=0;i<4;i++) particles.push(new Spark(to.x,to.y,color));
+  for(let i=0;i<2;i++) particles.push(new Spark(to.x,to.y,color));
   // travelling dot replaces old Pulse — more visible
   travelDot = new TravelDot(from, to, color);
 }
@@ -818,7 +932,7 @@ function draw() {
   particles = particles.filter(p=>p.draw(ctx));
 
   pulseTimer++;
-  if(pulseTimer%38===0) firePulseAlongPath();
+  if(pulseTimer%55===0) firePulseAlongPath();
 
   requestAnimationFrame(draw);
 }
@@ -828,6 +942,28 @@ window.addEventListener('load', ()=>{
   resize();
   setTimeout(()=>{ computeNodePositions(); draw(); }, 300);
 });
+
+// ── HUD status bar helpers ──────────────────────────────────
+const NATURE_LABELS = {electric:'Electric ⚡',magnetic:'Magnetic ◉',aetheric:'Aetheric ◌'};
+const FREQ_LABELS   = {'1':'Initiation','2':'Harmony','3':'Expression','4':'Structure','5':'Freedom','6':'Integration','7':'Wisdom','8':'Authority','9':'Completion'};
+function hudShow(node) {
+  const num    = node.dataset.num;
+  const plane  = node.dataset.plane;
+  const nature = node.dataset.nature;
+  const status = document.getElementById('hud-status');
+  document.getElementById('hs-node').textContent  = num || '—';
+  document.getElementById('hs-plane').textContent  = plane ? plane.charAt(0).toUpperCase()+plane.slice(1) : '—';
+  document.getElementById('hs-nature').textContent = NATURE_LABELS[nature] || nature || '—';
+  document.getElementById('hs-freq').textContent   = FREQ_LABELS[num] || '—';
+  status.classList.add('active');
+}
+function hudReset() {
+  document.getElementById('hs-node').textContent  = '—';
+  document.getElementById('hs-plane').textContent  = '—';
+  document.getElementById('hs-nature').textContent = '—';
+  document.getElementById('hs-freq').textContent   = 'IDLE';
+  document.getElementById('hud-status').classList.remove('active');
+}
 
 // ── Tooltip: hover to show, click to pin ──────────────────────
 document.querySelectorAll('.node').forEach(node => {
@@ -839,10 +975,11 @@ document.querySelectorAll('.node').forEach(node => {
     clearTimeout(hideTimer);
     document.querySelectorAll('.node-tooltip.show').forEach(t=>{ if(t!==tip) t.classList.remove('show'); });
     tip.classList.add('show');
+    hudShow(node);
   }
   function hideTip() {
     if(node.classList.contains('pinned')) return;
-    hideTimer = setTimeout(()=>tip.classList.remove('show'), 120);
+    hideTimer = setTimeout(()=>{ tip.classList.remove('show'); hudReset(); }, 120);
   }
 
   node.addEventListener('mouseenter', showTip);
@@ -859,6 +996,9 @@ document.querySelectorAll('.node').forEach(node => {
     if(!wasPinned) {
       node.classList.add('pinned');
       tip.classList.add('show');
+      hudShow(node);
+    } else {
+      hudReset();
     }
   });
 });
@@ -868,6 +1008,7 @@ document.addEventListener('click', e=>{
   if(!e.target.closest('.node')) {
     document.querySelectorAll('.node.pinned').forEach(n=>n.classList.remove('pinned'));
     document.querySelectorAll('.node-tooltip.show').forEach(t=>t.classList.remove('show'));
+    hudReset();
   }
 });
 
@@ -962,5 +1103,7 @@ document.addEventListener('keydown', e => {
   </div>
 </div>
 
+<script src="/js/app.js"></script>
+<script>if (typeof loadNav === 'function') loadNav();</script>
 </body>
 </html>
