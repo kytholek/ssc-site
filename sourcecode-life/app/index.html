@@ -3,8 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOURCE CODE: LIFE — Download the App</title>
-<meta name="description" content="Download SOURCE CODE: LIFE on iOS and Android. Decode your 7 numerological frequencies as an RPG character sheet.">
+
+<!-- Primary SEO -->
+<title>Source Code: Life App — Coming to iOS & Android · Numerology RPG</title>
+<meta name="description" content="Source Code: Life is coming to iOS and Android. Decode your 7 numerological frequencies as a full RPG character sheet — quests, journals, stat charts, and your Life Calling. Join the waitlist.">
+<meta name="keywords" content="numerology app, numerology RPG app, iOS numerology, Android numerology, life path app, numerology character sheet, source code life app">
+<meta name="author" content="Simulation Source Code">
+<link rel="canonical" href="https://simulationsourcecode.com/sourcecode-life/app/">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Source Code: Life">
+<meta property="og:title"       content="Source Code: Life — Coming to iOS & Android">
+<meta property="og:description" content="Numerology decoded as an RPG. 7 frequencies, quests, stat charts, and your Life Calling. Coming soon — join the waitlist.">
+<meta property="og:url"         content="https://simulationsourcecode.com/sourcecode-life/app/">
+<meta property="og:image"       content="https://simulationsourcecode.com/sourcecode-life/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@simulationsourcecode">
+<meta name="twitter:title"       content="Source Code: Life — Coming to iOS & Android">
+<meta name="twitter:description" content="Numerology decoded as an RPG. Join the waitlist for the iOS & Android launch.">
+<meta name="twitter:image"       content="https://simulationsourcecode.com/sourcecode-life/og.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
@@ -746,22 +769,26 @@ function submitNotify() {
     return;
   }
 
-  // Store locally (replace this with your backend / Mailchimp / etc.)
-  try {
-    var stored = JSON.parse(localStorage.getItem('ssc-notify-emails') || '[]');
-    if (!stored.includes(email)) {
-      stored.push(email);
-      localStorage.setItem('ssc-notify-emails', JSON.stringify(stored));
-    }
-  } catch (e) {}
+  confirm.style.color = 'var(--text-dim)';
+  confirm.textContent = '> SENDING...';
 
-  input.value = '';
-  confirm.style.color = 'var(--sage)';
-  confirm.textContent = '> REGISTERED — we\'ll contact you at launch ◈';
-
-  // Update notify bar text
-  document.getElementById('notify-text').innerHTML =
-    'You\'re on the list. We\'ll reach out when the simulation goes live.<span class="cursor">_</span>';
+  fetch('/submit-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function() {
+    input.value = '';
+    confirm.style.color = 'var(--sage)';
+    confirm.textContent = '> REGISTERED — we\'ll contact you at launch ◈';
+    document.getElementById('notify-text').innerHTML =
+      'You\'re on the list. We\'ll reach out when the simulation goes live.<span class="cursor">_</span>';
+  })
+  .catch(function() {
+    confirm.style.color = 'var(--rose)';
+    confirm.textContent = '> ERROR — try again';
+  });
 }
 
 // Allow Enter key on email input
