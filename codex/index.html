@@ -33,6 +33,54 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Codex?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The Codex is a 3×3 matrix that maps nine numerological frequencies across three planes of experience — Mind, Body, and Spirit. Each node represents a distinct consciousness frequency, and together they form the complete architecture of how awareness moves through a human life." }
+    },
+    {
+      "@type": "Question",
+      "name": "What do the three planes — Mind, Body, and Spirit — mean in the Codex?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Mind (row 1: 1·2·3) is the plane of thought, perception, and expression. Body (row 2: 4·5·6) is the plane of material reality — how energy is structured and grounded. Spirit (row 3: 7·8·9) is the plane of inner truth, power, and completion." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the transformation path 1→4→7→2→5→8→3→6→9?",
+      "acceptedAnswer": { "@type": "Answer", "text": "This is the operational sequence through which change moves in a person's life. It moves through the Mind column first (1→4→7), then the Body column (2→5→8), then the Spirit column (3→6→9) — descending through all three planes in each column before moving to the next." }
+    },
+    {
+      "@type": "Question",
+      "name": "Where does my Life Path number sit in the Codex?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Your Life Path number corresponds directly to one of the nine nodes. The position tells you which plane and column your core curriculum operates from. Calculate your blueprint at simulationsourcecode.com to see exactly where you sit." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does every row and column in the Codex reduce to 6?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Every row reduces to 6: Mind row (1+2+3=6), Body row (4+5+6=15→6), Spirit row (7+8+9=24→6). Both diagonals also reduce to 6. Six is the structural law of integration — the number that holds the entire matrix together." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Tesla's 3·6·9 pattern in the Codex?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Each column reduces to 3, 6, or 9: Mind column (1+4+7=12→3), Body column (2+5+8=15→6), Spirit column (3+6+9=18→9). Tesla said 3, 6 and 9 are the key to the universe — the Codex shows exactly why." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why aren't master numbers in the Codex?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Master numbers — 11, 22, and 33 — do not reduce to a single digit and therefore transcend the 3×3 matrix. The Codex maps the nine foundational frequencies (1–9) and the Void (0). Master numbers operate on an amplified plane above the standard matrix." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is node 5 and why is it the pivot of the Codex?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Node 5 sits at the exact centre of the matrix — Body plane, Body column. Every path of transformation passes through 5. It is touched by both diagonals, and is the only node in the intersection of the Body row and Body column. It is the pivot around which the entire system turns." }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
@@ -408,6 +456,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   .tooltip-pin-hint{display:none}
 }
 
+/* ── FAQ ── */
+.codex-faq{width:100%;max-width:680px;margin:56px auto 0}
+.codex-faq-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:rgba(201,168,76,.4);text-align:center;margin-bottom:28px}
+.faq-item{border-top:1px solid rgba(201,168,76,.1)}
+.faq-item:last-child{border-bottom:1px solid rgba(201,168,76,.1)}
+.faq-q{width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;text-align:left;font-family:'Cinzel',serif;font-size:clamp(11px,1.3vw,13px);letter-spacing:.12em;text-transform:uppercase;color:var(--text);transition:color .2s}
+.faq-q:hover{color:var(--gold)}
+.faq-icon{font-size:16px;color:rgba(201,168,76,.4);flex-shrink:0;transition:transform .25s,color .2s;line-height:1}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--gold)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a-inner{font-size:15px;line-height:1.8;color:var(--text-dim);padding-bottom:18px}
+.faq-a-inner a{color:var(--teal-l);text-decoration:none}
+.faq-a-inner a:hover{text-decoration:underline}
+
 /* ── Perspective grid ── */
 .perspective-grid{
   position:fixed;inset:0;pointer-events:none;z-index:0;
@@ -779,6 +841,52 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <a href="/" style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:14px 28px;border-radius:5px;background:rgba(74,148,148,.25);border:1px solid rgba(126,200,200,.4);color:rgba(126,200,200,.9);text-decoration:none;display:inline-block;">&#11042;&nbsp;Calculate My Blueprint&nbsp;&#11042;</a>
   </div>
 
+  <!-- FAQ -->
+  <div class="codex-faq" id="codex-faq">
+    <div class="codex-faq-title">&#10022; &nbsp; Frequently Asked &nbsp; &#10022;</div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What is the Codex?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">The Codex is a 3×3 matrix that maps nine numerological frequencies across three planes of experience — Mind, Body, and Spirit. Each node represents a distinct consciousness frequency, and together they form the complete architecture of how awareness moves through a human life. It is the structural map that underpins the entire Simulation Source Code framework.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What do the three planes mean?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner"><strong>Mind</strong> (row 1: 1·2·3) — the plane of thought, perception, and expression. How consciousness observes, connects, and communicates.<br><br><strong>Body</strong> (row 2: 4·5·6) — the plane of material reality. How energy is structured, navigated, and integrated into the physical world.<br><br><strong>Spirit</strong> (row 3: 7·8·9) — the plane of inner truth, power, and completion. Where the journey reaches its deepest purpose.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What is the transformation path 1→4→7→2→5→8→3→6→9?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">This is the operational sequence through which change actually moves in a person's life. It does not follow the linear 1–9 order. Instead it moves: Mind column first (1→4→7), then Body column (2→5→8), then Spirit column (3→6→9) — descending through all three planes in each column before moving to the next. The sequence shows how a new frequency is seeded in the mind, grounded in the body, and completed in the spirit — three times over.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Where does my Life Path number sit in the Codex?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Your Life Path number corresponds directly to one of the nine nodes. The position it occupies tells you which plane and column your core curriculum operates from. For example, a Life Path 7 sits in the Spirit plane, Mind column — the seeker who searches for truth through inner knowing. <a href="/">Calculate your blueprint</a> to see exactly where you sit.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Why does every row and column reduce to 6?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Every row of the Codex reduces to 6: Mind row (1+2+3=6), Body row (4+5+6=15→6), Spirit row (7+8+9=24→6). Both diagonals also reduce to 6 (1+5+9=15→6 and 3+5+7=15→6). Six is not a warning — it is the structural law of integration. It is the number that holds everything together. The Codex is built on 6 as its foundation.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What is Tesla's 3·6·9 pattern in the Codex?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Each column of the Codex reduces to 3, 6, or 9: Mind column (1+4+7=12→3), Body column (2+5+8=15→6), Spirit column (3+6+9=18→9). Tesla said if you knew the magnificence of 3, 6 and 9 you would have a key to the universe. The Codex shows exactly why — they are the Aetheric axis running through the entire system. <a href="/blog/3-6-9-pattern-tesla-numerology/">Read more about Tesla's pattern.</a></div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Why aren't master numbers in the Codex?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Master numbers — 11, 22, and 33 — do not reduce to a single digit and therefore transcend the 3×3 matrix. The Codex maps the nine foundational frequencies (1–9) and the Void (0). Master numbers operate on an amplified plane above the standard matrix. <a href="/blog/master-numbers-11-22-33-numerology/">Read the full master numbers guide.</a></div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What is node 5 and why is it the pivot?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Node 5 sits at the exact centre of the matrix — Body plane, Body column. Every path of transformation passes through 5. It is the only node touched by both diagonals, both the Mind-Body-Spirit row and the Mind-Body-Spirit column. It is the frequency of freedom, change, and full presence. In the Codex, 5 is not just a number — it is the pivot point around which the entire system turns.</div></div>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
@@ -1081,6 +1189,26 @@ document.addEventListener('keydown', e => {
       document.querySelectorAll('.axis-sum').forEach(el => el.classList.remove('revealed'));
     });
   }
+});
+
+// ── FAQ accordion ─────────────────────────────────────────────
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-item.open').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.faq-a').style.maxHeight = '0';
+      el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
 });
 </script>
 
