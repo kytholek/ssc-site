@@ -697,6 +697,9 @@ footer {
   text-align: left;
 }
 .footer-link:hover { color: var(--gold); }
+.footer-link-soon { cursor: default; opacity: .5; display: flex; align-items: center; gap: 6px; }
+.footer-link-soon:hover { color: var(--text-muted); }
+.footer-soon-badge { font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); opacity: .6; border: 1px solid rgba(201,168,76,.3); border-radius: 3px; padding: 1px 5px; }
 
 .footer-bottom {
   max-width: 1000px; margin: 40px auto 0;
