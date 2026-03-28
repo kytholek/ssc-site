@@ -550,7 +550,10 @@ function showPage(name, pushState = true) {
   // Reset codex initiation state when navigating to it fresh
   if (name === 'codex') {
     const cdx = document.getElementById('page-codex');
-    if (cdx) cdx.classList.remove('cdx-active');
+    if (cdx) { cdx.classList.remove('cdx-active'); cdx.classList.remove('cdx-settled'); }
+    const card = document.getElementById('node-card');
+    if (card) card.classList.remove('visible');
+    if (cdx) cdx.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
   }
 
   const page = document.getElementById('page-' + name);
@@ -779,6 +782,7 @@ async function initApp() {
   _initRpCarousel();
   _initNavHero();
   initHomePage();
+  initCodexPage();
 }
 
 
@@ -846,6 +850,341 @@ function initHomePage() {
 }
 
 // ────────────────────────────────────────────────────────────
+//  CODEX PAGE — canvas electricity + tooltip setup
+// ────────────────────────────────────────────────────────────
+var _codexInited = false;
+var _codexRafId  = null;
+
+var PLANE_COLORS_CDX = {mind:'#7ec8c8',body:'#e8c96b',spirit:'#a96ed4',pivot:'#e8c96b'};
+
+function hudShow(node) {
+  var tip     = node.querySelector('.node-tooltip');
+  var num     = node.dataset.num;
+  var plane   = node.dataset.plane;
+  var card    = document.getElementById('node-card');
+  var numEl   = document.getElementById('nc-number');
+  if (!card || !numEl) return;
+  var color   = PLANE_COLORS_CDX[plane] || '#e8c96b';
+  numEl.textContent   = num || '—';
+  numEl.style.color      = color;
+  numEl.style.textShadow = '0 0 30px ' + color;
+  document.getElementById('nc-name').textContent     = tip ? (tip.querySelector('.tooltip-name')?.textContent     || '') : '';
+  document.getElementById('nc-position').textContent = tip ? (tip.querySelector('.tooltip-position')?.textContent || '') : '';
+  document.getElementById('nc-essence').textContent  = tip ? (tip.querySelector('.tooltip-essence')?.textContent  || '') : '';
+  document.getElementById('nc-body').textContent     = tip ? (tip.querySelector('.tooltip-body')?.textContent     || '') : '';
+  var btnRow   = tip && tip.querySelector('.tooltip-btn-row');
+  var actionsEl = document.getElementById('nc-actions');
+  if (actionsEl) {
+    actionsEl.innerHTML = '';
+    if (btnRow) {
+      btnRow.querySelectorAll('a').forEach(function(a, i) {
+        var btn = document.createElement('a');
+        btn.href = a.href; btn.textContent = a.textContent;
+        btn.className = 'nc-btn ' + (i === 0 ? 'nc-btn-lp' : 'nc-btn-calc');
+        actionsEl.appendChild(btn);
+      });
+    }
+  }
+  card.classList.add('visible');
+}
+
+function hudReset() {
+  var card = document.getElementById('node-card');
+  if (card) card.classList.remove('visible');
+}
+
+function initCodexPage() {
+  var page = document.getElementById('page-codex');
+  if (!page || _codexInited) return;
+  if (!page.querySelectorAll('.node').length) return; // not loaded yet
+
+  function hasPinned() { return !!page.querySelector('.node.pinned'); }
+
+  // Node hover → show card (ignored while anything is pinned)
+  page.querySelectorAll('.node').forEach(function(node) {
+    var hideTimer = null;
+    node.addEventListener('mouseenter', function() {
+      if (hasPinned()) return;
+      clearTimeout(hideTimer);
+      hudShow(node);
+    });
+    node.addEventListener('mouseleave', function() {
+      if (hasPinned()) return;
+      hideTimer = setTimeout(hudReset, 200);
+    });
+    node.addEventListener('click', function(e) {
+      if (e.target.closest('.tooltip-link') || e.target.closest('.nc-btn')) return;
+      var wasPinned = node.classList.contains('pinned');
+      page.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
+      if (!wasPinned) {
+        node.classList.add('pinned');
+        hudShow(node);
+      } else {
+        hudReset();
+      }
+    });
+  });
+
+  // Click outside nodes → unpin all
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('#page-codex .node') && !e.target.closest('#node-card')) {
+      page.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
+      hudReset();
+    }
+  });
+
+  // Escape → close modals
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      ['modal-666','modal-369'].forEach(function(id) {
+        var m = document.getElementById(id);
+        if (m) { m.classList.remove('open'); document.body.style.overflow = ''; }
+      });
+      document.querySelectorAll('#page-codex .axis-sum').forEach(function(el) { el.classList.remove('revealed'); });
+    }
+  });
+
+  _codexInited = true;
+}
+
+function openModal(id) {
+  var m = document.getElementById(id);
+  if (!m) return;
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (id === 'modal-666') {
+    document.querySelectorAll('#page-codex .axis-sum').forEach(function(el) { el.classList.add('revealed'); });
+  }
+}
+window.openModal = openModal;
+
+function closeModal(id, e) {
+  if (e && e.target !== document.getElementById(id)) return;
+  var m = document.getElementById(id);
+  if (!m) return;
+  m.classList.remove('open');
+  document.body.style.overflow = '';
+  if (id === 'modal-666') {
+    document.querySelectorAll('#page-codex .axis-sum').forEach(function(el) { el.classList.remove('revealed'); });
+  }
+}
+window.closeModal = closeModal;
+
+var NODE_SLUGS_CDX = {
+  '1':'life-path-1-numerology','2':'life-path-2-numerology','3':'life-path-3-numerology',
+  '4':'life-path-4-numerology','5':'life-path-5-numerology','6':'life-path-6-numerology',
+  '7':'life-path-7-numerology','8':'life-path-8-numerology','9':'life-path-9-numerology',
+};
+function shareNode(e, num) {
+  e.stopPropagation();
+  var url = 'https://simulationsourcecode.com/blog/' + (NODE_SLUGS_CDX[num] || '') + '/';
+  var btn = e.currentTarget;
+  function markCopied() { btn.textContent = '✓ copied'; btn.classList.add('copied'); setTimeout(function(){ btn.innerHTML = '⧉ share'; btn.classList.remove('copied'); }, 2000); }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(markCopied).catch(function() {
+      var inp = document.createElement('input'); inp.value = url;
+      document.body.appendChild(inp); inp.select(); document.execCommand('copy'); inp.remove(); markCopied();
+    });
+  } else {
+    var inp = document.createElement('input'); inp.value = url;
+    document.body.appendChild(inp); inp.select(); document.execCommand('copy'); inp.remove(); markCopied();
+  }
+}
+window.shareNode = shareNode;
+
+function _startCodexCanvas() {
+  if (_codexRafId) cancelAnimationFrame(_codexRafId);
+
+  var canvas = document.getElementById('codex-canvas');
+  var ring   = document.getElementById('codex-ring');
+  var grid   = document.getElementById('codex-grid');
+  if (!canvas || !ring || !grid) return;
+
+  var ctx = canvas.getContext('2d');
+  var W, H, nodePositions = {};
+  var particles = [];
+  var frameCount = 0, pulseTimer = 0, pulseSeq = 0;
+
+  var INF_PATH   = [1,4,7,2,5,8,3,6,9];
+  var PLANE_MAP  = {1:'mind',2:'mind',3:'mind',4:'body',5:'pivot',6:'body',7:'spirit',8:'spirit',9:'spirit'};
+  var PLANE_COLOR = {
+    mind:   {r:74, g:148,b:148},
+    body:   {r:201,g:168,b:76},
+    spirit: {r:123,g:79, b:166},
+    pivot:  {r:232,g:201,b:107},
+  };
+
+  function resize() {
+    var rect = ring.getBoundingClientRect();
+    W = canvas.width  = rect.width;
+    H = canvas.height = rect.height;
+    computeNodePositions();
+  }
+  function computeNodePositions() {
+    nodePositions = {};
+    var ringRect = ring.getBoundingClientRect();
+    grid.querySelectorAll('.node').forEach(function(node) {
+      var num  = parseInt(node.dataset.num);
+      var rect = node.getBoundingClientRect();
+      nodePositions[num] = {
+        x: rect.left + rect.width/2  - ringRect.left,
+        y: rect.top  + rect.height/2 - ringRect.top,
+      };
+    });
+  }
+
+  // Bolt
+  function Bolt(from, to, color) {
+    this.from = from; this.to = to; this.color = color;
+    this.life = 0; this.maxLife = 28 + Math.random() * 20;
+    this.width = 1.5 + Math.random();
+    var dx = to.x - from.x, dy = to.y - from.y;
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    var steps = Math.floor(dist/14) + 2;
+    var segs = []; var px = from.x, py = from.y;
+    for (var i = 1; i <= steps; i++) {
+      var t = i/steps;
+      var nx = from.x + dx*t, ny = from.y + dy*t;
+      var perp = (Math.random()-.5) * dist * 0.22;
+      var nx2 = nx + (-dy/dist)*perp, ny2 = ny + (dx/dist)*perp;
+      segs.push({x1:px,y1:py,x2:nx2,y2:ny2}); px=nx2; py=ny2;
+    }
+    segs.push({x1:px,y1:py,x2:to.x,y2:to.y});
+    this.segments = segs;
+  }
+  Bolt.prototype.draw = function(ctx) {
+    var t = this.life/this.maxLife;
+    var alpha = t<0.3 ? t/0.3 : (t>0.7 ? (1-t)/0.3 : 1);
+    var c = this.color;
+    ctx.save();
+    ctx.shadowBlur=12; ctx.shadowColor='rgba('+c.r+','+c.g+','+c.b+','+alpha*0.8+')';
+    ctx.strokeStyle='rgba('+c.r+','+c.g+','+c.b+','+alpha*0.4+')';
+    ctx.lineWidth=this.width*3; ctx.lineCap='round'; ctx.beginPath();
+    this.segments.forEach(function(s,i){ if(i===0)ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2); });
+    ctx.stroke();
+    ctx.shadowBlur=4; ctx.strokeStyle='rgba('+c.r+','+c.g+','+(c.b+50)+','+alpha+')';
+    ctx.lineWidth=this.width; ctx.beginPath();
+    this.segments.forEach(function(s,i){ if(i===0)ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2); });
+    ctx.stroke(); ctx.restore();
+    this.life++;
+    return this.life < this.maxLife;
+  };
+
+  // Spark
+  function Spark(x, y, color) {
+    this.x=x; this.y=y; this.color=color;
+    this.vx=(Math.random()-.5)*3; this.vy=(Math.random()-.5)*3;
+    this.life=0; this.maxLife=14+Math.random()*10; this.r=1+Math.random()*2;
+  }
+  Spark.prototype.draw = function(ctx) {
+    var alpha = 1 - this.life/this.maxLife; var c=this.color;
+    ctx.save(); ctx.fillStyle='rgba('+c.r+','+c.g+','+c.b+','+alpha+')';
+    ctx.shadowBlur=6; ctx.shadowColor=ctx.fillStyle;
+    ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill(); ctx.restore();
+    this.x+=this.vx; this.y+=this.vy; this.vx*=0.9; this.vy*=0.9; this.life++;
+    return this.life < this.maxLife;
+  };
+
+  // Pulse
+  function Pulse(from, to, color) {
+    this.from=from; this.to=to; this.color=color; this.t=0; this.speed=0.04; this.r=4;
+  }
+  Pulse.prototype.draw = function(ctx) {
+    this.t += this.speed;
+    var x=this.from.x+(this.to.x-this.from.x)*this.t;
+    var y=this.from.y+(this.to.y-this.from.y)*this.t;
+    var c=this.color; var alpha=Math.sin(this.t*Math.PI);
+    ctx.save(); ctx.shadowBlur=16; ctx.shadowColor='rgba('+c.r+','+c.g+','+c.b+','+alpha+')';
+    var grad=ctx.createRadialGradient(x,y,0,x,y,this.r*2);
+    grad.addColorStop(0,'rgba(255,255,255,'+(alpha*0.9)+')');
+    grad.addColorStop(0.4,'rgba('+c.r+','+c.g+','+c.b+','+(alpha*0.8)+')');
+    grad.addColorStop(1,'rgba('+c.r+','+c.g+','+c.b+',0)');
+    ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(x,y,this.r*2,0,Math.PI*2); ctx.fill(); ctx.restore();
+    return this.t < 1;
+  };
+
+  function fireBolt(fromNum, toNum) {
+    if (!nodePositions[fromNum] || !nodePositions[toNum]) return;
+    var fromNode = grid.querySelector('.node[data-num="'+fromNum+'"]');
+    var plane = (fromNode && fromNode.dataset.plane) || 'body';
+    var color = PLANE_COLOR[plane] || PLANE_COLOR.body;
+    var from = nodePositions[fromNum], to = nodePositions[toNum];
+    particles.push(new Bolt(from, to, color));
+    for (var i=0; i<4; i++) particles.push(new Spark(to.x, to.y, color));
+    particles.push(new Pulse(from, to, color));
+  }
+
+  function firePulseAlongPath() {
+    var fromNum = INF_PATH[pulseSeq % INF_PATH.length];
+    var toNum   = INF_PATH[(pulseSeq+1) % INF_PATH.length];
+    fireBolt(fromNum, toNum);
+    var steps = document.querySelectorAll('#inf-legend .inf-step');
+    steps.forEach(function(el, i) { el.classList.toggle('active', i === pulseSeq % INF_PATH.length); });
+    pulseSeq++;
+  }
+
+  function draw() {
+    var page = document.getElementById('page-codex');
+    if (!page || !page.classList.contains('active') || !page.classList.contains('cdx-active')) {
+      _codexRafId = null; return;
+    }
+    ctx.clearRect(0, 0, W, H);
+
+    // Node halos
+    Object.keys(nodePositions).forEach(function(num) {
+      var pos = nodePositions[num];
+      var plane = PLANE_MAP[num] || 'body';
+      var col = PLANE_COLOR[plane];
+      var grad = ctx.createRadialGradient(pos.x,pos.y,2, pos.x,pos.y,22);
+      grad.addColorStop(0,'rgba('+col.r+','+col.g+','+col.b+',0.18)');
+      grad.addColorStop(1,'rgba('+col.r+','+col.g+','+col.b+',0)');
+      ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(pos.x,pos.y,22,0,Math.PI*2); ctx.fill();
+    });
+
+    // Faint infinity path lines
+    ctx.save(); ctx.setLineDash([3,6]); ctx.lineWidth=0.8;
+    for (var i=0; i<INF_PATH.length; i++) {
+      var fn=INF_PATH[i], tn=INF_PATH[(i+1)%INF_PATH.length];
+      var from=nodePositions[fn], to=nodePositions[tn];
+      if (!from||!to) continue;
+      var col=PLANE_COLOR[PLANE_MAP[fn]];
+      ctx.strokeStyle='rgba('+col.r+','+col.g+','+col.b+',0.12)';
+      ctx.beginPath(); ctx.moveTo(from.x,from.y); ctx.lineTo(to.x,to.y); ctx.stroke();
+    }
+    ctx.setLineDash([]); ctx.restore();
+
+    particles = particles.filter(function(p) { return p.draw(ctx); });
+
+    pulseTimer++;
+    if (pulseTimer % 38 === 0) firePulseAlongPath();
+    frameCount++;
+    _codexRafId = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  setTimeout(function() { computeNodePositions(); draw(); }, 300);
+}
+
+function _stopCodexCanvas() {
+  if (_codexRafId) { cancelAnimationFrame(_codexRafId); _codexRafId = null; }
+}
+
+window._startCodexCanvas = _startCodexCanvas;
+window._stopCodexCanvas  = _stopCodexCanvas;
+
+function _initiateCodex() {
+  var page = document.getElementById('page-codex');
+  if (!page) return;
+  page.classList.add('cdx-active');
+  // After scale animation completes, switch to document flow (no more double scroll)
+  setTimeout(function() { page.classList.add('cdx-settled'); }, 1150);
+  if (window._startCodexCanvas) window._startCodexCanvas();
+}
+window._initiateCodex = _initiateCodex;
+
+
+// ────────────────────────────────────────────────────────────
 //  NAV HERO — expand on home page when at top, shrink on scroll
 // ────────────────────────────────────────────────────────────
 function _initNavHero() {
@@ -868,7 +1207,8 @@ function _initNavHero() {
   window.showPage = function(name, pushState) {
     _origShowPage(name, pushState);
     _updateNavHero();
-    if (name === 'home') setTimeout(initHomePage, 50);
+    if (name === 'home')  setTimeout(initHomePage,  50);
+    if (name === 'codex') setTimeout(initCodexPage, 50);
   };
 
   _updateNavHero(); // run once on load

@@ -689,10 +689,10 @@
     <p class="hp-hero-sub">Your birth date and name encode seven frequencies — the complete architecture of your simulation. Decoded in 30 seconds. Free.</p>
     <div class="hp-hero-actions">
       <a href="/calculator" class="btn-primary" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#11042;&nbsp;Calculate Your Blueprint</a>
-      <a href="/codex" class="btn-secondary">Explore the Codex &#8594;</a>
+      <a href="/codex" class="btn-secondary" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('codex');}">Explore the Codex &#8594;</a>
     </div>
   </div>
-  <a href="/codex" class="hp-codex-link" aria-label="Explore the Codex">
+  <a href="/codex" class="hp-codex-link" aria-label="Explore the Codex" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('codex');}">
     <svg class="hp-codex-svg" viewBox="0 0 300 310" xmlns="http://www.w3.org/2000/svg">
 
       <!-- Lines — staggered draw -->
