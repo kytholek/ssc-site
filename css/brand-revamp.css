@@ -1556,11 +1556,18 @@
   border-bottom: 1px solid var(--border-dim);
 }
 
+/* Override the global sim-content max-width for this section */
+.report-preview-layer .sim-content {
+  max-width: 1400px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 .report-preview-wrap {
   display: flex;
   align-items: flex-start;
-  gap: 48px;
-  max-width: 1100px;
+  gap: 64px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   text-align: left;
@@ -1579,12 +1586,14 @@
 
 .report-preview-img-wrap {
   position: relative;
-  flex: 1 1 0;
+  flex: 3 1 0;
   min-width: 0;
 }
 
 .report-preview-img {
   width: 100%;
+  max-height: 420px;
+  object-fit: contain;
   border-radius: 6px;
   border: 1px solid var(--border);
   box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 32px rgba(201,168,76,.08);
@@ -1672,8 +1681,8 @@
 }
 
 .report-preview-bullets {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 2 1 0;
+  min-width: 260px;
   padding-top: 8px;
 }
 
