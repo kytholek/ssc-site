@@ -1007,6 +1007,17 @@ async function handleSubmitEmail(request, env, origin) {
     });
   }
 
+  // Log email to Google Sheet
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbz_G8BxEgYBPpWNPO6vmGEPiITYUAH3px8TxyaSZCME4W_3y7MQ_IPdzdi2tdiX1X7w9w/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+  } catch (err) {
+    console.error('sheets-log error:', err);
+  }
+
   try {
     await fetch('https://api.resend.com/emails', {
       method: 'POST',

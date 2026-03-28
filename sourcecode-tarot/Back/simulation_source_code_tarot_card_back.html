@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#05040a; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem; }
+
+:root {
+  --void: #05040a;
+  --void2: #0d0b18;
+  --gold: #c9a84c;
+  --gold-bright: #e8c96b;
+  --gold-dim: #7a6230;
+  --teal: #4a9494;
+  --teal-bright: #7ec8c8;
+  --teal-dim: #2a5555;
+  --amethyst: #7b4fa6;
+  --amethyst-bright: #a96ed4;
+  --fire: #e8593c;
+  --fire-bright: #f5a623;
+}
+
+.card-container {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2rem;
+}
+
+.card-wrap {
+  width:280px;
+  aspect-ratio:0.578;
+  filter: drop-shadow(0 0 40px rgba(201,168,76,0.2));
+}
+
+@keyframes pulse-teal {
+  0%,100% { opacity:0.9; r:10; }
+  50% { opacity:1; r:12; }
+}
+@keyframes pulse-node {
+  0%,100% { opacity:0.5; }
+  50% { opacity:0.8; }
+}
+@keyframes rotate-outer {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes rotate-inner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+@keyframes glow-gold {
+  0%,100% { opacity:0.15; }
+  50% { opacity:0.35; }
+}
+@keyframes breath-matrix {
+  0%,100% { opacity:0.55; }
+  50% { opacity:0.85; }
+}
+
+.ring-outer {
+  transform-origin: 140px 220px;
+  animation: rotate-outer 40s linear infinite;
+}
+.ring-inner {
+  transform-origin: 140px 220px;
+  animation: rotate-inner 25s linear infinite;
+}
+.center-pulse {
+  animation: pulse-teal 2.5s ease-in-out infinite;
+}
+.node-pulse {
+  animation: pulse-node 3s ease-in-out infinite;
+}
+.node-pulse:nth-child(2) { animation-delay: 0.5s; }
+.node-pulse:nth-child(3) { animation-delay: 1s; }
+.node-pulse:nth-child(4) { animation-delay: 1.5s; }
+.node-pulse:nth-child(5) { animation-delay: 0.3s; }
+.node-pulse:nth-child(6) { animation-delay: 0.8s; }
+.node-pulse:nth-child(7) { animation-delay: 1.3s; }
+.node-pulse:nth-child(8) { animation-delay: 1.8s; }
+.void-glow {
+  animation: glow-gold 4s ease-in-out infinite;
+}
+.matrix-group {
+  animation: breath-matrix 4s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+<div class="card-container">
+  <div class="card-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 484" width="100%">
+  <defs>
+    <!-- Starfield filter -->
+    <filter id="star-blur">
+      <feGaussianBlur stdDeviation="0.3"/>
+    </filter>
+    
+    <!-- Teal glow for center -->
+    <filter id="teal-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="screen"/>
+    </filter>
+
+    <!-- Gold glow -->
+    <filter id="gold-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="screen"/>
+    </filter>
+
+    <!-- Node glow -->
+    <filter id="node-glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="screen"/>
+    </filter>
+
+    <!-- Amethyst glow -->
+    <filter id="amethyst-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="screen"/>
+    </filter>
+    
+    <!-- Radial gradient for void background center -->
+    <radialGradient id="voidCenter" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#12102a" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#05040a" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- Matrix line gradient -->
+    <linearGradient id="matrixLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#c9a84c" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#c9a84c" stop-opacity="0.1"/>
+    </linearGradient>
+    
+    <!-- Zero circle gradient -->
+    <radialGradient id="zeroGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4a9494" stop-opacity="0.08"/>
+      <stop offset="70%" stop-color="#4a9494" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#4a9494" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Clip for card shape -->
+    <clipPath id="cardClip">
+      <rect x="0" y="0" width="280" height="484" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <!-- CARD BASE -->
+  <rect x="0" y="0" width="280" height="484" rx="8" fill="url(#voidCenter)"/>
+  
+  <!-- Starfield -->
+  <g clip-path="url(#cardClip)" filter="url(#star-blur)">
+    <circle cx="25" cy="35" r="0.7" fill="white" opacity="0.4"/>
+    <circle cx="255" cy="22" r="0.6" fill="white" opacity="0.3"/>
+    <circle cx="140" cy="15" r="0.8" fill="white" opacity="0.25"/>
+    <circle cx="68" cy="55" r="0.5" fill="white" opacity="0.35"/>
+    <circle cx="220" cy="70" r="0.7" fill="white" opacity="0.3"/>
+    <circle cx="18" cy="95" r="0.6" fill="white" opacity="0.25"/>
+    <circle cx="262" cy="110" r="0.8" fill="white" opacity="0.2"/>
+    <circle cx="50" cy="145" r="0.5" fill="white" opacity="0.3"/>
+    <circle cx="235" cy="160" r="0.6" fill="white" opacity="0.25"/>
+    <circle cx="12" cy="195" r="0.7" fill="white" opacity="0.2"/>
+    <circle cx="268" cy="240" r="0.5" fill="white" opacity="0.3"/>
+    <circle cx="32" cy="300" r="0.6" fill="white" opacity="0.25"/>
+    <circle cx="248" cy="320" r="0.7" fill="white" opacity="0.2"/>
+    <circle cx="22" cy="380" r="0.5" fill="white" opacity="0.3"/>
+    <circle cx="258" cy="400" r="0.6" fill="white" opacity="0.25"/>
+    <circle cx="75" cy="445" r="0.7" fill="white" opacity="0.2"/>
+    <circle cx="200" cy="460" r="0.5" fill="white" opacity="0.3"/>
+    <circle cx="100" cy="30" r="0.4" fill="white" opacity="0.2"/>
+    <circle cx="185" cy="48" r="0.5" fill="white" opacity="0.25"/>
+    <circle cx="42" cy="230" r="0.4" fill="white" opacity="0.2"/>
+    <circle cx="245" cy="275" r="0.5" fill="white" opacity="0.2"/>
+    <circle cx="88" cy="350" r="0.6" fill="white" opacity="0.2"/>
+    <circle cx="195" cy="370" r="0.4" fill="white" opacity="0.15"/>
+  </g>
+
+  <!-- OUTER BORDER: ornate gold double border -->
+  <rect x="4" y="4" width="272" height="476" rx="6" fill="none" stroke="#c9a84c" stroke-width="1.2" opacity="0.75"/>
+  <rect x="8" y="8" width="264" height="468" rx="5" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.4"/>
+
+  <!-- Corner ornaments - top left -->
+  <g opacity="0.8" fill="none" stroke="#c9a84c" stroke-width="0.8">
+    <path d="M4 22 Q4 4 22 4" opacity="0.9"/>
+    <path d="M4 30 Q4 4 30 4" opacity="0.5"/>
+    <!-- Corner flourish TL -->
+    <circle cx="16" cy="16" r="3" fill="#c9a84c" opacity="0.5" stroke="none"/>
+    <line x1="16" y1="10" x2="16" y2="22" stroke-width="0.6" opacity="0.4"/>
+    <line x1="10" y1="16" x2="22" y2="16" stroke-width="0.6" opacity="0.4"/>
+    <path d="M10 10 L14 14 M22 10 L18 14 M10 22 L14 18 M22 22 L18 18" stroke-width="0.5" opacity="0.35"/>
+  </g>
+  <!-- Corner ornaments - top right -->
+  <g opacity="0.8" fill="none" stroke="#c9a84c" stroke-width="0.8">
+    <path d="M276 22 Q276 4 258 4" opacity="0.9"/>
+    <path d="M276 30 Q276 4 250 4" opacity="0.5"/>
+    <circle cx="264" cy="16" r="3" fill="#c9a84c" opacity="0.5" stroke="none"/>
+    <line x1="264" y1="10" x2="264" y2="22" stroke-width="0.6" opacity="0.4"/>
+    <line x1="258" y1="16" x2="270" y2="16" stroke-width="0.6" opacity="0.4"/>
+    <path d="M258 10 L262 14 M270 10 L266 14 M258 22 L262 18 M270 22 L266 18" stroke-width="0.5" opacity="0.35"/>
+  </g>
+  <!-- Corner ornaments - bottom left -->
+  <g opacity="0.8" fill="none" stroke="#c9a84c" stroke-width="0.8">
+    <path d="M4 462 Q4 480 22 480" opacity="0.9"/>
+    <path d="M4 454 Q4 480 30 480" opacity="0.5"/>
+    <circle cx="16" cy="468" r="3" fill="#c9a84c" opacity="0.5" stroke="none"/>
+    <line x1="16" y1="462" x2="16" y2="474" stroke-width="0.6" opacity="0.4"/>
+    <line x1="10" y1="468" x2="22" y2="468" stroke-width="0.6" opacity="0.4"/>
+  </g>
+  <!-- Corner ornaments - bottom right -->
+  <g opacity="0.8" fill="none" stroke="#c9a84c" stroke-width="0.8">
+    <path d="M276 462 Q276 480 258 480" opacity="0.9"/>
+    <path d="M276 454 Q276 480 250 480" opacity="0.5"/>
+    <circle cx="264" cy="468" r="3" fill="#c9a84c" opacity="0.5" stroke="none"/>
+    <line x1="264" y1="462" x2="264" y2="474" stroke-width="0.6" opacity="0.4"/>
+    <line x1="258" y1="468" x2="270" y2="468" stroke-width="0.6" opacity="0.4"/>
+  </g>
+
+  <!-- ZERO CIRCLE: background suggestion of the zero/void -->
+  <circle cx="140" cy="230" r="105" fill="url(#zeroGlow)"/>
+  <circle cx="140" cy="230" r="104" fill="none" stroke="#4a9494" stroke-width="0.5" opacity="0.15" stroke-dasharray="2 6"/>
+  <circle cx="140" cy="230" r="112" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.12" stroke-dasharray="1 8"/>
+  
+  <!-- ROTATING OUTER RING: sacred geometry -->
+  <g class="ring-outer" clip-path="url(#cardClip)">
+    <circle cx="140" cy="230" r="95" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.2" stroke-dasharray="4 3"/>
+    <!-- 9 tick marks for positions -->
+    <g fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.3">
+      <line x1="140" y1="135" x2="140" y2="143"/>
+      <line x1="195" y1="148.4" x2="191" y2="155.3"/>
+      <line x1="229.3" y1="195.6" x2="222.4" y2="199.6"/>
+      <line x1="235" y1="250" x2="227" y2="250"/>
+      <line x1="218.3" y1="299.4" x2="212.3" y2="292.4"/>
+      <line x1="181.5" y1="334.6" x2="177.5" y2="327.6"/>
+      <line x1="140" y1="325" x2="140" y2="317"/>
+      <line x1="98.5" y1="334.6" x2="102.5" y2="327.6"/>
+      <line x1="61.7" y1="299.4" x2="67.7" y2="292.4"/>
+      <line x1="45" y1="250" x2="53" y2="250"/>
+      <line x1="50.7" y1="195.6" x2="57.6" y2="199.6"/>
+      <line x1="85" y1="155.3" x2="89" y2="148.4"/>
+    </g>
+  </g>
+
+  <!-- ROTATING INNER GEOMETRY -->
+  <g class="ring-inner" clip-path="url(#cardClip)">
+    <circle cx="140" cy="230" r="72" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.15" stroke-dasharray="3 5"/>
+    <!-- Star of David / hexagram lines -->
+    <polygon points="140,160 193,252 87,252" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
+    <polygon points="140,300 87,208 193,208" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
+  </g>
+
+  <!-- SUBTLE RADIANT LINES from center -->
+  <g opacity="0.06" stroke="#c9a84c" stroke-width="0.5" clip-path="url(#cardClip)">
+    <line x1="140" y1="230" x2="140" y2="90"/>
+    <line x1="140" y1="230" x2="208" y2="133"/>
+    <line x1="140" y1="230" x2="247" y2="187"/>
+    <line x1="140" y1="230" x2="250" y2="230"/>
+    <line x1="140" y1="230" x2="238" y2="278"/>
+    <line x1="140" y1="230" x2="200" y2="335"/>
+    <line x1="140" y1="230" x2="140" y2="370"/>
+    <line x1="140" y1="230" x2="80" y2="335"/>
+    <line x1="140" y1="230" x2="42" y2="278"/>
+    <line x1="140" y1="230" x2="30" y2="230"/>
+    <line x1="140" y1="230" x2="42" y2="182"/>
+    <line x1="140" y1="230" x2="80" y2="125"/>
+  </g>
+
+  <!-- THE 3×3 MATRIX: 9 positions -->
+  <!-- Positions: 
+    7(Spirit/Mind) 8(Spirit/Body) 9(Spirit/Spirit)
+    4(Body/Mind)   5(Body/Body)   6(Body/Spirit)
+    1(Mind/Mind)   2(Mind/Body)   3(Mind/Spirit)
+  -->
+  <!-- Matrix connection lines (between all 9 nodes) -->
+  <g class="matrix-group" opacity="0.18" stroke="#c9a84c" stroke-width="0.5">
+    <!-- Row 1 (top/spirit) -->
+    <line x1="90" y1="165" x2="140" y2="165"/>
+    <line x1="140" y1="165" x2="190" y2="165"/>
+    <!-- Row 2 (middle/body) -->
+    <line x1="90" y1="230" x2="140" y2="230"/>
+    <line x1="140" y1="230" x2="190" y2="230"/>
+    <!-- Row 3 (bottom/mind) -->
+    <line x1="90" y1="295" x2="140" y2="295"/>
+    <line x1="140" y1="295" x2="190" y2="295"/>
+    <!-- Col 1 (left/mind) -->
+    <line x1="90" y1="165" x2="90" y2="230"/>
+    <line x1="90" y1="230" x2="90" y2="295"/>
+    <!-- Col 2 (center) -->
+    <line x1="140" y1="165" x2="140" y2="230"/>
+    <line x1="140" y1="230" x2="140" y2="295"/>
+    <!-- Col 3 (right/spirit) -->
+    <line x1="190" y1="165" x2="190" y2="230"/>
+    <line x1="190" y1="230" x2="190" y2="295"/>
+    <!-- Primary diagonal 1→5→9 HIGHLIGHTED -->
+  </g>
+  <!-- Primary diagonal 1→5→9 (fire path) -->
+  <g opacity="0.35" stroke="#e8593c" stroke-width="0.8" stroke-dasharray="2 2">
+    <line x1="90" y1="295" x2="140" y2="230"/>
+    <line x1="140" y1="230" x2="190" y2="165"/>
+  </g>
+  <!-- Counter diagonal 7→5→3 (teal path) -->
+  <g opacity="0.25" stroke="#4a9494" stroke-width="0.6" stroke-dasharray="2 3">
+    <line x1="90" y1="165" x2="140" y2="230"/>
+    <line x1="140" y1="230" x2="190" y2="295"/>
+  </g>
+
+  <!-- SPIRIT ROW NODES (7, 8, 9) - Amethyst -->
+  <!-- Node 7: Spirit/Mind -->
+  <g class="node-pulse" filter="url(#amethyst-glow)">
+    <circle cx="90" cy="165" r="7" fill="#7b4fa6" opacity="0.6"/>
+    <circle cx="90" cy="165" r="4" fill="#a96ed4" opacity="0.85"/>
+    <circle cx="90" cy="165" r="1.5" fill="#d4a0f0" opacity="0.9"/>
+  </g>
+  <!-- Node 8: Spirit/Body -->
+  <g class="node-pulse" filter="url(#amethyst-glow)">
+    <circle cx="140" cy="165" r="7" fill="#7b4fa6" opacity="0.6"/>
+    <circle cx="140" cy="165" r="4" fill="#a96ed4" opacity="0.85"/>
+    <circle cx="140" cy="165" r="1.5" fill="#d4a0f0" opacity="0.9"/>
+  </g>
+  <!-- Node 9: Spirit/Spirit (completion - gold) -->
+  <g filter="url(#gold-glow)">
+    <circle cx="190" cy="165" r="9" fill="#c9a84c" opacity="0.4"/>
+    <circle cx="190" cy="165" r="5.5" fill="#e8c96b" opacity="0.8"/>
+    <circle cx="190" cy="165" r="2" fill="#fff8e0" opacity="0.9"/>
+  </g>
+
+  <!-- BODY ROW NODES (4, 5, 6) - Gold -->
+  <!-- Node 4: Body/Mind -->
+  <g class="node-pulse" filter="url(#gold-glow)">
+    <circle cx="90" cy="230" r="7" fill="#c9a84c" opacity="0.5"/>
+    <circle cx="90" cy="230" r="4" fill="#e8c96b" opacity="0.8"/>
+    <circle cx="90" cy="230" r="1.5" fill="#fff8e0" opacity="0.85"/>
+  </g>
+  <!-- Node 5: CENTER - THE KEY - TEAL -->
+  <g filter="url(#teal-glow)">
+    <!-- Outer pulse ring -->
+    <circle class="center-pulse" cx="140" cy="230" r="22" fill="none" stroke="#4a9494" stroke-width="0.8" opacity="0.4"/>
+    <!-- Glow layers -->
+    <circle cx="140" cy="230" r="18" fill="#2a5555" opacity="0.4"/>
+    <circle cx="140" cy="230" r="14" fill="#4a9494" opacity="0.35"/>
+    <circle cx="140" cy="230" r="10" fill="#7ec8c8" opacity="0.65"/>
+    <circle cx="140" cy="230" r="5" fill="#b8e8e8" opacity="0.9"/>
+    <circle cx="140" cy="230" r="2" fill="white" opacity="0.95"/>
+    <!-- 5 marker: tiny cross -->
+    <line x1="140" y1="224" x2="140" y2="236" stroke="white" stroke-width="0.6" opacity="0.6"/>
+    <line x1="134" y1="230" x2="146" y2="230" stroke="white" stroke-width="0.6" opacity="0.6"/>
+  </g>
+  <!-- Node 6: Body/Spirit -->
+  <g class="node-pulse" filter="url(#gold-glow)">
+    <circle cx="190" cy="230" r="7" fill="#c9a84c" opacity="0.5"/>
+    <circle cx="190" cy="230" r="4" fill="#e8c96b" opacity="0.8"/>
+    <circle cx="190" cy="230" r="1.5" fill="#fff8e0" opacity="0.85"/>
+  </g>
+
+  <!-- MIND ROW NODES (1, 2, 3) - Teal -->
+  <!-- Node 1: Mind/Mind (origin - fire) -->
+  <g filter="url(#gold-glow)">
+    <circle cx="90" cy="295" r="9" fill="#e8593c" opacity="0.35"/>
+    <circle cx="90" cy="295" r="5.5" fill="#f5a623" opacity="0.75"/>
+    <circle cx="90" cy="295" r="2" fill="#ffdd80" opacity="0.9"/>
+  </g>
+  <!-- Node 2: Mind/Body -->
+  <g class="node-pulse" filter="url(#node-glow)">
+    <circle cx="140" cy="295" r="7" fill="#4a9494" opacity="0.5"/>
+    <circle cx="140" cy="295" r="4" fill="#7ec8c8" opacity="0.8"/>
+    <circle cx="140" cy="295" r="1.5" fill="#b8e8e8" opacity="0.85"/>
+  </g>
+  <!-- Node 3: Mind/Spirit -->
+  <g class="node-pulse" filter="url(#node-glow)">
+    <circle cx="190" cy="295" r="7" fill="#4a9494" opacity="0.5"/>
+    <circle cx="190" cy="295" r="4" fill="#7ec8c8" opacity="0.8"/>
+    <circle cx="190" cy="295" r="1.5" fill="#b8e8e8" opacity="0.85"/>
+  </g>
+
+  <!-- NODE LABELS (matrix position indicators) -->
+  <g font-family="Cinzel,serif" font-size="5.5" fill="#c9a84c" opacity="0.5" text-anchor="middle">
+    <text x="90" y="159">7</text>
+    <text x="140" y="159">8</text>
+    <text x="190" y="159">9</text>
+    <text x="76" y="233">4</text>
+    <!-- 5 is center, labeled differently -->
+    <text x="204" y="233">6</text>
+    <text x="90" y="309">1</text>
+    <text x="140" y="309">2</text>
+    <text x="190" y="309">3</text>
+  </g>
+
+  <!-- CENTER LABEL: 5 -->
+  <text x="140" y="248" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="7" fill="#7ec8c8" opacity="0.8" letter-spacing="1">5</text>
+
+  <!-- ROW LABELS (subtle, on sides) -->
+  <g font-family="Cinzel,serif" font-size="4.5" fill="#c9a84c" opacity="0.3" text-anchor="middle">
+    <text x="35" y="168" letter-spacing="0.5">SPIRIT</text>
+    <text x="35" y="233" letter-spacing="0.5">BODY</text>
+    <text x="35" y="298" letter-spacing="0.5">MIND</text>
+  </g>
+  <g font-family="Cinzel,serif" font-size="4.5" fill="#c9a84c" opacity="0.3" text-anchor="middle">
+    <text x="90" y="338" letter-spacing="0.5">MIND</text>
+    <text x="140" y="338" letter-spacing="0.5">BODY</text>
+    <text x="190" y="338" letter-spacing="0.5">SPIRIT</text>
+  </g>
+
+  <!-- CURVED TEXT: "SIMULATION SOURCE CODE" at top -->
+  <path id="topArc" d="M 32,230 A 108,108 0 0 1 248,230" fill="none"/>
+  <text font-family="Cinzel,serif" font-size="7" fill="#c9a84c" opacity="0.85" letter-spacing="2.2">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">SIMULATION SOURCE CODE</textPath>
+  </text>
+
+  <!-- CURVED TEXT: "TAROT" at bottom -->
+  <path id="bottomArc" d="M 52,230 A 88,88 0 0 0 228,230" fill="none"/>
+  <text font-family="Cinzel Decorative,serif" font-size="7.5" fill="#c9a84c" opacity="0.7" letter-spacing="3">
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">TAROT</textPath>
+  </text>
+
+  <!-- DECORATIVE HORIZONTAL DIVIDERS -->
+  <line x1="20" y1="130" x2="100" y2="130" stroke="url(#matrixLine)" stroke-width="0.5" opacity="0.5"/>
+  <line x1="180" y1="130" x2="260" y2="130" stroke="url(#matrixLine)" stroke-width="0.5" opacity="0.5"/>
+  <!-- Small diamonds on dividers -->
+  <polygon points="140,126 144,130 140,134 136,130" fill="#c9a84c" opacity="0.3"/>
+  
+  <line x1="20" y1="345" x2="100" y2="345" stroke="url(#matrixLine)" stroke-width="0.5" opacity="0.5"/>
+  <line x1="180" y1="345" x2="260" y2="345" stroke="url(#matrixLine)" stroke-width="0.5" opacity="0.5"/>
+  <polygon points="140,341 144,345 140,349 136,345" fill="#c9a84c" opacity="0.3"/>
+
+  <!-- TOP SECTION: small zero symbol between title and matrix -->
+  <circle cx="140" cy="95" r="12" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+  <circle cx="140" cy="95" r="7" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.25"/>
+  <circle cx="140" cy="95" r="2" fill="#c9a84c" opacity="0.4"/>
+  <!-- 0 text in circle -->
+  <text x="140" y="99" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="8" fill="#c9a84c" opacity="0.6">0</text>
+
+  <!-- BOTTOM SECTION: the void symbol -->
+  <circle cx="140" cy="400" r="15" fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.25"/>
+  <circle cx="140" cy="400" r="10" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.2" stroke-dasharray="2 2"/>
+  <!-- Subtle teal inner glow -->
+  <circle cx="140" cy="400" r="5" fill="#2a5555" opacity="0.3"/>
+  <circle cx="140" cy="400" r="2" fill="#4a9494" opacity="0.4"/>
+  
+  <!-- BOTTOM TEXT: deck label -->
+  <text x="140" y="430" text-anchor="middle" font-family="Cinzel,serif" font-size="5.5" fill="#c9a84c" opacity="0.5" letter-spacing="2">THE MATRIX SYSTEM</text>
+  <text x="140" y="445" text-anchor="middle" font-family="EB Garamond,serif" font-size="6.5" fill="#c9a84c" opacity="0.35" font-style="italic">78 Cards · Consciousness Mapped</text>
+
+  <!-- FINAL OUTER BORDER REINFORCEMENT -->
+  <rect x="4" y="4" width="272" height="476" rx="6" fill="none" stroke="#7a6230" stroke-width="0.3" opacity="0.5"/>
+
+</svg>
+  </div>
+  
+  <!-- Also show front/back comparison hint -->
+  <div style="font-family:'Cinzel',serif; font-size:9px; color:#7a6230; text-transform:uppercase; letter-spacing:3px; text-align:center; opacity:0.6;">
+    Card Back Design
+  </div>
+</div>
+</body>
+</html>

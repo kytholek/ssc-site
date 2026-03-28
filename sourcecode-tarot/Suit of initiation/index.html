@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suit of Initiation — Simulation Source Code Tarot</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #05040a;
+    --void2: #0d0b18;
+    --gold: #c9a84c;
+    --gold-bright: #e8c96b;
+    --gold-dim: #7a6230;
+    --teal: #4a9494;
+    --teal-bright: #7ec8c8;
+    --teal-dim: #2a5555;
+    --amethyst: #7b4fa6;
+    --amethyst-bright: #a96ed4;
+    --fire: #e8593c;
+    --fire-bright: #f5a623;
+    --star: rgba(255,255,255,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--gold);
+    font-family: 'EB Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Starfield */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 8%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 65%, rgba(255,255,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 50%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 10%, rgba(255,255,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 90%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 72%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 55%, rgba(255,255,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  .deck-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    font-weight: 700;
+    background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 60%, var(--gold-dim) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+
+  .suit-sigil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.8rem 0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--fire-bright);
+  }
+
+  .suit-sigil::before, .suit-sigil::after {
+    content: '';
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, var(--fire), transparent);
+  }
+
+  header p {
+    font-size: 1rem;
+    color: rgba(201,168,76,0.6);
+    font-style: italic;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Path indicator */
+  .path-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+  }
+
+  .path-node {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--gold-dim);
+    transition: all 0.3s;
+  }
+
+  .path-node.active { border-color: var(--fire-bright); color: var(--fire-bright); box-shadow: 0 0 8px var(--fire); }
+  .path-arrow { color: var(--gold-dim); font-size: 0.7rem; }
+
+  /* Filter tabs */
+  .filter-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem 2rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--gold-dim);
+    background: transparent;
+    color: var(--gold-dim);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    background: rgba(201,168,76,0.07);
+  }
+
+  /* Card grid */
+  .card-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 2rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Tarot card */
+  .tarot-card {
+    aspect-ratio: 0.578;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .tarot-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    z-index: 10;
+  }
+
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid var(--gold-dim);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,0,0,0.3);
+  }
+
+  .card-inner svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,4,10,0.92);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    display: flex;
+    gap: 2rem;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-card {
+    width: 260px;
+    min-width: 260px;
+    aspect-ratio: 0.578;
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(201,168,76,0.15);
+    flex-shrink: 0;
+  }
+
+  .modal-card svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal-text {
+    flex: 1;
+    color: var(--gold);
+    padding: 1rem 0;
+  }
+
+  .modal-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--fire-bright);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .modal-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+
+  .modal-directive {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--fire-bright);
+    font-style: italic;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  .modal-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .keyword {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--teal-dim);
+    color: var(--teal-bright);
+    text-transform: uppercase;
+  }
+
+  .modal-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    margin-top: 0.8rem;
+  }
+
+  .modal-text p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(201,168,76,0.8);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-reversed {
+    font-style: italic;
+    color: rgba(201,168,76,0.55) !important;
+  }
+
+  .modal-numerology {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--amethyst-bright);
+    padding: 0.6rem;
+    border-left: 2px solid var(--amethyst);
+    margin-top: 0.8rem;
+  }
+
+  .close-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    background: var(--void2);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+
+  @keyframes pulse-gold {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes flicker-fire {
+    0%, 100% { opacity: 0.8; transform: scaleY(1); }
+    33% { opacity: 1; transform: scaleY(1.05); }
+    66% { opacity: 0.7; transform: scaleY(0.97); }
+  }
+
+  @media (max-width: 600px) {
+    .modal { flex-direction: column; }
+    .modal-card { width: 100%; min-width: unset; max-height: 40vh; aspect-ratio: unset; }
+    .card-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="deck-label">Simulation Source Code Tarot</div>
+  <h1>Suit of Initiation</h1>
+  <div class="suit-sigil">Fire · Lightning · The Primary Diagonal</div>
+  <p>The path of direct transformation. 1→5→9: Perception into Embodiment into Completion.</p>
+  <div class="path-indicator">
+    <span class="path-node">1</span>
+    <span class="path-arrow">→</span>
+    <span class="path-node active">5</span>
+    <span class="path-arrow">→</span>
+    <span class="path-node">9</span>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards('all')">All 14 Cards</button>
+  <button class="filter-btn" onclick="filterCards('pip')">Ace – Ten</button>
+  <button class="filter-btn" onclick="filterCards('court')">Court Cards</button>
+</div>
+
+<div class="card-grid" id="cardGrid"></div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent"></div>
+  <button class="close-btn" onclick="closeAllModal()">✕</button>
+</div>
+
+<script>
+const CARDS = [
+  {
+    id: 'ace',
+    number: 'Ace',
+    label: 'ACE OF INITIATION',
+    title: 'Ace of Initiation',
+    subtitle: 'Pure Potential Activated',
+    directive: '"The signal fires. The path begins."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Origin','First Spark','Pure Will','The Signal','Activation','Uncontained Fire'],
+    path_position: '1 — The Witness',
+    upright: 'The program executes its first line. Pure creative fire erupts from potential into actuality—not a decision to begin, but a beginning that has already happened. The Ace is the moment before momentum requires direction. Something fundamental has been switched on inside you. Do not ask if you are ready. You are already moving.',
+    reversed: 'Energy without a receiver. Fire that burns but does not illuminate. The spark has landed but found no tinder—nothing prepared for it. Or: the impulse to begin used as a substitute for actually beginning. The match struck a thousand times but never applied.',
+    numerology: 'The Ace contains all ten cards within it. 1 is the undivided source of the Mind Row. It corresponds to Position 1: The Witness—the first "I AM" before any division.',
+    symbolism: 'A single bolt of golden fire descending into a void. At its tip, the nine-pointed star of the complete matrix glows faintly—all positions present as potential within this single flash.',
+    svgType: 'ace'
+  },
+  {
+    id: 'two',
+    number: 'II',
+    label: 'TWO OF INITIATION',
+    title: 'Two of Initiation',
+    subtitle: 'Choosing the Path',
+    directive: '"Two roads. Both real. One yours."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Choice','Tension','Direction','Bifurcation','Commitment','The Fork'],
+    path_position: '1→2 Tension',
+    upright: 'The Ace has fired. Now the question arrives: which way does this fire burn? You stand at the first genuine bifurcation of your initiation path. This is not paralysis—both options are alive, both contain possibility. But you can only embody one trajectory. Choose from your vision, not from your fear.',
+    reversed: 'Choosing to not choose. Maintaining both options past the point where holding them serves you. The energy of initiation diffuses into endless deliberation, never condensing into momentum. Or: a choice made but not committed to—the half-turned key.',
+    numerology: '2 introduces polarity into the primary path. 1+1=2. The tension between perception (1) and recognition (2) creates the dynamic that drives initiation forward.',
+    symbolism: 'Two lightning paths diverge from a single point of origin. Each terminates in a different position on the 3×3 matrix. The space between them is charged—not empty, but undecided.',
+    svgType: 'two'
+  },
+  {
+    id: 'three',
+    number: 'III',
+    label: 'THREE OF INITIATION',
+    title: 'Three of Initiation',
+    subtitle: 'Creative Expression Emerging',
+    directive: '"Give your vision a form the world can hold."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Expression','Emergence','Form','Creation','First Fruits','Manifestation'],
+    path_position: '1→3 Creative Bridge',
+    upright: 'The vision you perceived at 1 finds its first external form. The fire of initiation has matured enough to create—to produce something that exists outside your private experience. This is the first evidence that your path is real. What you are becoming is beginning to be visible.',
+    reversed: 'Creative output without authentic vision behind it. Performing creativity rather than enacting it. Or: the opposite—vision so precious you refuse to expose it to the imperfection of manifestation. The painting that stays in your head because real paint would ruin it.',
+    numerology: '3 is the Mind/Spirit position. Expression, joy, meaning-making. The triangle is complete: perception (1) flows through polarity (2) to find voice (3). This is the first closure of the mental realm.',
+    symbolism: 'Three teal rays of light intersecting to form a triangle. Inside the triangle, sacred geometry assembles itself—the moment when pattern becomes language.',
+    svgType: 'three'
+  },
+  {
+    id: 'four',
+    number: 'IV',
+    label: 'FOUR OF INITIATION',
+    title: 'Four of Initiation',
+    subtitle: 'Structure Supporting Vision',
+    directive: '"Build the container before you pour the fire."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Foundation','Framework','Preparation','Architecture','Discipline','Support'],
+    path_position: '1→4 Structural Descent',
+    upright: 'Your initiation path encounters the necessity of structure. Vision alone is not enough—transformation requires a container strong enough to hold the process. This card asks you to do the preparatory work, to build the scaffolding, to impose discipline not as a limit but as the very thing that will allow your fire to burn long enough to achieve its purpose.',
+    reversed: 'Mistaking the scaffold for the cathedral. Structure that has outlived its function and become a cage. Or: refusing to build structure at all—letting fire burn freely but briefly, leaving nothing transformed.',
+    numerology: '4 is the Body/Mind position. The mental organization of physical reality. 4 anchors the primary path into the material realm. Without 4, the 1→5→9 path floats without gravity.',
+    symbolism: 'A perfect geometric cube of golden lines, its vertices grounded into the void-black field. Inside the cube, a controlled flame burns upward—contained, not diminished.',
+    svgType: 'four'
+  },
+  {
+    id: 'five',
+    number: 'V',
+    label: 'FIVE OF INITIATION',
+    title: 'Five of Initiation',
+    subtitle: 'The Central Test',
+    directive: '"You cannot think your way through this. Act."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Embodiment','Testing','The Crucible','Participation','The Test','Direct Action'],
+    path_position: 'Position 5 — THE CENTER',
+    upright: 'You have arrived at the mandatory passage. All of the previous cards—the spark, the choice, the form, the structure—they have been preparation for this. Now there is only one thing to do: enter. The Five of Initiation demands that you act in the real world, that you submit your vision to the test of actual reality. Not planning. Not rehearsing. DOING. The fire of initiation is only purified through actual flame.',
+    reversed: 'Endless preparation. The tenth revision. The moment when readiness becomes an excuse. Or: entering the test but not truly subjecting yourself to it—going through the motions while protecting your ego from genuine risk. Half-presence. Safe transformation.',
+    numerology: 'The center of the entire system. 5 is the Body/Body position. All pathways converge here. 1+4=5, 2+3=5. This is not optional—every transformation must pass through embodied experience.',
+    symbolism: 'A human figure of pure light standing in the center of nine converging pathways, each arriving from one of the nine matrix positions. The figure is neither entering nor leaving—it is the nexus.',
+    svgType: 'five'
+  },
+  {
+    id: 'six',
+    number: 'VI',
+    label: 'SIX OF INITIATION',
+    title: 'Six of Initiation',
+    subtitle: 'Integration of the Vision',
+    directive: '"Let what you have lived change how you live."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Integration','Alignment','Living It','Behavior','Embodied Knowledge','The Frame'],
+    path_position: 'Position 6 — The Frame',
+    upright: 'Having passed through the Five, something has genuinely changed in you—not just as understanding but as behavior. The Six asks whether your outer life reflects your inner transformation. Are you actually different, or just informed? The integration of the initiation path is not intellectual—it is behavioral, relational, habitual. The fire must have changed the shape of the vessel.',
+    reversed: 'The teaching becomes a performance. You speak about your transformation while living unchanged. The knowledge sits in the mind, unreached by the hands and feet. The frame has been announced but not built.',
+    numerology: 'The perfect number: 1+2+3=6, 1×2×3=6. Every row in the 3×3 matrix sums to 6. The Six of Initiation is where the fire becomes architecture—no longer burning freely but becoming the substance of a life.',
+    symbolism: 'A hexagonal frame of golden lines containing a living flame. Outside the frame, scattered embers. Inside, ordered, sustained combustion. The difference between destruction and warmth.',
+    svgType: 'six'
+  },
+  {
+    id: 'seven',
+    number: 'VII',
+    label: 'SEVEN OF INITIATION',
+    title: 'Seven of Initiation',
+    subtitle: 'Wisdom from the Journey',
+    directive: '"Look back without nostalgia. Know what actually happened."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Reflection','Calibration','Wisdom','Assessment','Truth-Seeking','Recalibration'],
+    path_position: 'Spirit/Mind — The Seeker',
+    upright: 'You have moved, tested, integrated. Now comes the sacred pause of genuine reflection. The Seven does not ask you to celebrate or mourn your progress—it asks you to see it clearly. What did the path actually teach you, as opposed to what you wanted it to teach? The wisdom of initiation is only accessible when you are willing to be honest about your experience.',
+    reversed: 'Reflection that becomes rumination. Analysis that becomes avoidance. The journal entry used as a substitute for the decision. Or: refusing to reflect at all—moving from action to action, accumulating experience without extracting wisdom.',
+    numerology: '7 is the Spirit/Mind position. The Seeker—examining the observer, aligning belief with reality. In the Suit of Initiation, 7 is the turning point where the path begins bending toward completion.',
+    symbolism: 'An amethyst eye examining a map of fire. The map shows the path traveled—not idealized, but exact. The eye reflects neither pride nor shame, only clear sight.',
+    svgType: 'seven'
+  },
+  {
+    id: 'eight',
+    number: 'VIII',
+    label: 'EIGHT OF INITIATION',
+    title: 'Eight of Initiation',
+    subtitle: 'Power Demonstrated',
+    directive: '"You know this now. Show it in the world."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Mastery','Demonstration','Authority','Accountability','Power','Achievement'],
+    path_position: 'Spirit/Body — The Master',
+    upright: 'The fire has become skill. The Eight marks the moment when your initiation manifests as genuine capability—something you can apply, demonstrate, and be held accountable for. This is the card of earned authority. Not the proclamation of mastery but its quiet demonstration. Others can see it now. More importantly, you can be relied upon.',
+    reversed: 'Authority claimed before it is earned. The performance of mastery that lacks the embodied foundation. Or: mastery earned but unexpressed—capability hidden away from the world, never offered, never tested in relationship.',
+    numerology: '8 is the Spirit/Body position. Knowledge applied through character, directed energy. The Suit of Initiation reaches its peak expression here before final completion. 8 contains the lemniscate—the infinite loop of giving and receiving mastery.',
+    symbolism: 'Two hands channeling a column of fire between them. The fire is fully controlled—not tamed, but directed. Sacred geometry around the hands shows the mathematical precision of mastered force.',
+    svgType: 'eight'
+  },
+  {
+    id: 'nine',
+    number: 'IX',
+    label: 'NINE OF INITIATION',
+    title: 'Nine of Initiation',
+    subtitle: 'Near Completion',
+    directive: '"Release your grip. Let the path complete itself."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Threshold','Near Completion','Trust','Final Steps','Letting Go','The Edge'],
+    path_position: 'Approaching Position 9',
+    upright: 'You are close. The Nine is the threshold—almost, but not yet. The completion that the Ten represents cannot be forced or rushed. The Nine asks for a particular quality of presence: commitment without grasping, movement without urgency. You have done the work. The final step is learning to let it land.',
+    reversed: 'Near the finish but creating obstacles to prevent completion. Fear of the ending—because ending means no longer having the identity of the one on the path. Or: impatience that overshoots completion into a new beginning before the current cycle has truly closed.',
+    numerology: '9 is the Spirit/Spirit position. 9 is the number of completion, the final single digit. In the Suit of Initiation, the Nine carries the tension of almost—3×3 is complete at 9, but the ten that names full cycle completion awaits.',
+    symbolism: 'A figure at the edge of a cliff made of light. Below: the void, stars, the zero. In the figure\'s chest, a flame has become a star. One more step. The path ends in open sky.',
+    svgType: 'nine'
+  },
+  {
+    id: 'ten',
+    number: 'X',
+    label: 'TEN OF INITIATION',
+    title: 'Ten of Initiation',
+    subtitle: 'Full Cycle Achieved',
+    directive: '"The path completes. The zero opens."',
+    type: 'pip',
+    color: 'fire',
+    keywords: ['Completion','Cycle','Full Circle','Legacy','Transmutation','Return to Zero'],
+    path_position: '1→5→9 Complete',
+    upright: 'The primary diagonal is complete. What began as a spark (Ace) has moved through choice, expression, structure, the test of embodiment, integration, wisdom, mastery, and threshold—and arrived here, at the full manifestation of the initiation path. The Ten is not an ending but a completion. Notice the difference. From here, the zero opens again—the same journey, at a higher octave.',
+    reversed: 'Reaching completion but refusing to acknowledge it. Carrying a finished cycle as though it still needs to be lived. The weight of a completed path, exhausting because you will not set it down. Or: completing the external cycle without completing the internal one—the form finished, the transformation not yet integrated.',
+    numerology: '10 = 1+0 = 1. The Ten returns to the Ace. But it is not the same 1—it is 1 at a new level of the spiral. The 1→5→9 path is encoded in 10: 1 (origin), then 5 (the crucible at center), then 9 (completion). All three primary positions in a single number.',
+    symbolism: 'The 3×3 matrix ablaze—all nine positions connected by golden fire. At the center (5), the brightest light. The entire grid becomes a single mandala of completion, and at its heart, a zero is forming.',
+    svgType: 'ten'
+  },
+  {
+    id: 'page',
+    number: 'Page',
+    label: 'PAGE OF INITIATION',
+    title: 'Page of Initiation',
+    subtitle: 'Beginning the Path',
+    directive: '"The journey is real. Take the first step fully."',
+    type: 'court',
+    color: 'fire',
+    keywords: ['Beginning','Novice','Fresh Fire','New Direction','Apprentice','Eagerness'],
+    path_position: 'Starting the 1→5→9 Path',
+    upright: 'The Page stands at the entrance of the primary diagonal—the full path visible ahead, the first step not yet taken. This court card appears when you or someone around you is genuinely new to this initiation, when the fire is untested, when the courage required is the courage of beginning. The Page is not naive—they are clear-eyed about not knowing, and this is their strength.',
+    reversed: 'Enthusiasm without grounding. The idea of the path more appealing than the actual path. Or: someone younger in initiation energy being dismissed—their fresh perception having genuine wisdom that seasoned travelers no longer have access to.',
+    numerology: 'The Page corresponds to the Ace and the 1 position—pure perception at the threshold. Page = the unwritten first page of the story of initiation.',
+    symbolism: 'A young figure holding a torch of golden fire, standing before a doorway made of three geometric arches (1, 5, 9). The torch illuminates only the immediate threshold. Beyond: luminous dark.',
+    svgType: 'page'
+  },
+  {
+    id: 'knight',
+    number: 'Knight',
+    label: 'KNIGHT OF INITIATION',
+    title: 'Knight of Initiation',
+    subtitle: 'Actively Traversing',
+    directive: '"Move. The path is traversed by those who traverse it."',
+    type: 'court',
+    color: 'fire',
+    keywords: ['Action','Movement','Traversal','Courage','The Test','Mid-Path'],
+    path_position: 'Actively on the 1→5→9 Path',
+    upright: 'The Knight is in motion—currently inside the primary diagonal, somewhere between the spark and completion. This is the energy of full engagement, of being genuinely in the crucible. When the Knight of Initiation appears, the situation calls for active participation, not deliberation. You are being called to move, to test, to discover what you are made of through the doing.',
+    reversed: 'Motion without direction. Activity that substitutes for transformation. The knight charging in circles. Or: stuck in the middle of the path—past the point of easy return, not yet near completion—and collapsing into avoidance rather than continuing forward.',
+    numerology: 'Knight corresponds to the 5 position—the center of the matrix, the mandatory passage. All movement passes through the Knight energy.',
+    symbolism: 'A figure of golden fire in full stride, leaving a trail of lightning in their wake. The 3×3 matrix rotates around them as they move through it. Their face is turned forward—toward 9.',
+    svgType: 'knight'
+  },
+  {
+    id: 'queen',
+    number: 'Queen',
+    label: 'QUEEN OF INITIATION',
+    title: 'Queen of Initiation',
+    subtitle: 'Mastered Path, Guides Others',
+    directive: '"Hold the fire steady so others can find their own."',
+    type: 'court',
+    color: 'fire',
+    keywords: ['Mastery','Guidance','Nurturing Power','Wisdom','Teaching','Completed Path'],
+    path_position: 'Completed and Guides 1→5→9',
+    upright: 'The Queen has completed the primary diagonal and now holds the fire in a way that creates warmth rather than requiring proximity to survive it. This is mature initiation energy—mastery expressed through the capacity to support others on the path without taking it from them. The Queen of Initiation knows the whole arc from the inside.',
+    reversed: 'The teacher who has forgotten what it felt like not to know. Holding others to standards of mastery they have not yet had the conditions to achieve. Or: keeping the fire so contained it no longer illuminates—wisdom hoarded.',
+    numerology: 'The Queen corresponds to the 6 position—integration, responsible stewardship of the path. The Queen embodies the complete 1→5→9 in service to others.',
+    symbolism: 'A figure enthroned in golden fire that radiates outward, not inward. Her crown is a living flame. In one hand, a torch. In the other, an open map of the 1→5→9 diagonal. Around her, smaller flames move independently—students, lives, initiated ones.',
+    svgType: 'queen'
+  },
+  {
+    id: 'king',
+    number: 'King',
+    label: 'KING OF INITIATION',
+    title: 'King of Initiation',
+    subtitle: 'Embodies and Teaches',
+    directive: '"You are the path now. Live it completely."',
+    type: 'court',
+    color: 'fire',
+    keywords: ['Authority','Embodiment','Teaching','Complete Mastery','Legacy','The Living Path'],
+    path_position: 'Fully Embodies and Teaches 1→5→9',
+    upright: 'The King of Initiation does not speak about the path—the King IS the path. Complete embodiment of the 1→5→9 diagonal means that the journey is no longer something done; it is something expressed in every action, relationship, and word. This energy appears when total integrity between vision, embodiment, and completion has been achieved—or is being called for.',
+    reversed: 'Tyranny dressed as mastery. Authority claimed on the basis of completed path that has not actually reached the 9 position—the fire still serving the self, not yet released into universal contribution. Or: the King who refuses to pass the torch, identifying with his position to the exclusion of those coming behind.',
+    numerology: 'The King corresponds to the 9 position—completion, transcendence, universal service. The King of Initiation is 1→5→9 made flesh. 1+5+9=15, 1+5=6. The King both completes and integrates.',
+    symbolism: 'A figure whose body is the 3×3 matrix, the nine positions lit from within. On his throne of black stone, the zero is carved. He does not carry fire—he emits it from his being. His gaze is simultaneously inward and infinite.',
+    svgType: 'king'
+  }
+];
+
+// SVG generators for each card type
+function generateCardSVG(card) {
+  const bg = '#05040a';
+  const borderGold = '#c9a84c';
+  const goldBright = '#e8c96b';
+  const fire = '#e8593c';
+  const fireBright = '#f5a623';
+  const teal = '#4a9494';
+  const tealBright = '#7ec8c8';
+  const amethyst = '#7b4fa6';
+  const amethystBright = '#a96ed4';
+
+  const border = `
+    <rect x="4" y="4" width="192" height="332" rx="5" fill="none" stroke="${borderGold}" stroke-width="1" opacity="0.5"/>
+    <rect x="7" y="7" width="186" height="326" rx="4" fill="none" stroke="${borderGold}" stroke-width="0.5" opacity="0.3"/>
+    <!-- Corner ornaments -->
+    <g opacity="0.7">
+      <path d="M4 22 Q4 4 22 4" fill="none" stroke="${borderGold}" stroke-width="1"/>
+      <path d="M196 22 Q196 4 178 4" fill="none" stroke="${borderGold}" stroke-width="1"/>
+      <path d="M4 318 Q4 336 22 336" fill="none" stroke="${borderGold}" stroke-width="1"/>
+      <path d="M196 318 Q196 336 178 336" fill="none" stroke="${borderGold}" stroke-width="1"/>
+    </g>`;
+
+  const stars = `
+    <circle cx="30" cy="40" r="0.8" fill="white" opacity="0.3"/>
+    <circle cx="170" cy="55" r="0.6" fill="white" opacity="0.25"/>
+    <circle cx="90" cy="25" r="0.7" fill="white" opacity="0.2"/>
+    <circle cx="160" cy="120" r="0.5" fill="white" opacity="0.15"/>
+    <circle cx="35" cy="180" r="0.6" fill="white" opacity="0.2"/>
+    <circle cx="175" cy="220" r="0.7" fill="white" opacity="0.25"/>
+    <circle cx="50" cy="280" r="0.5" fill="white" opacity="0.15"/>
+    <circle cx="155" cy="300" r="0.6" fill="white" opacity="0.2"/>`;
+
+  const svgGenerators = {
+    ace: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Radiant burst background -->
+      <g opacity="0.15">
+        ${Array.from({length:12}, (_,i) => {
+          const a = (i/12)*Math.PI*2;
+          return `<line x1="100" y1="145" x2="${100+Math.cos(a)*90}" y2="${145+Math.sin(a)*90}" stroke="${fire}" stroke-width="0.5"/>`;
+        }).join('')}
+      </g>
+      <!-- Central lightning bolt -->
+      <path d="M100 60 L88 130 L100 130 L88 200 L115 120 L100 120 L115 60Z" fill="${fireBright}" opacity="0.9"/>
+      <!-- Glow rings -->
+      <circle cx="100" cy="145" r="55" fill="none" stroke="${fire}" stroke-width="0.8" opacity="0.3"/>
+      <circle cx="100" cy="145" r="40" fill="none" stroke="${fireBright}" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="100" cy="145" r="25" fill="none" stroke="${goldBright}" stroke-width="0.8" opacity="0.5"/>
+      <!-- Nine-point star (all positions as potential) -->
+      ${Array.from({length:9}, (_,i) => {
+        const a = (i/9)*Math.PI*2 - Math.PI/2;
+        const r = 65;
+        return `<circle cx="${100+Math.cos(a)*r}" cy="${145+Math.sin(a)*r}" r="2" fill="${fire}" opacity="0.4"/>`;
+      }).join('')}
+      <!-- Ace symbol: single point of fire -->
+      <circle cx="100" cy="145" r="6" fill="${goldBright}" opacity="0.9"/>
+      <circle cx="100" cy="145" r="3" fill="white" opacity="0.8"/>
+      ${border}
+      <!-- Number -->
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="11" fill="${goldBright}">ACE</text>
+      <!-- Title -->
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Pure Potential Activated</text>
+      <!-- Bottom number -->
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">I</text>
+    `,
+    two: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Two diverging paths -->
+      <path d="M100 80 L55 180" fill="none" stroke="${fire}" stroke-width="1.5" opacity="0.7"/>
+      <path d="M100 80 L145 180" fill="none" stroke="${fireBright}" stroke-width="1.5" opacity="0.7"/>
+      <!-- Origin point -->
+      <circle cx="100" cy="80" r="5" fill="${goldBright}"/>
+      <circle cx="100" cy="80" r="8" fill="none" stroke="${goldBright}" stroke-width="0.5" opacity="0.5"/>
+      <!-- End points with glowing circles -->
+      <circle cx="55" cy="180" r="12" fill="none" stroke="${fire}" stroke-width="1" opacity="0.5"/>
+      <circle cx="55" cy="180" r="6" fill="${fire}" opacity="0.5"/>
+      <circle cx="145" cy="180" r="12" fill="none" stroke="${fireBright}" stroke-width="1" opacity="0.5"/>
+      <circle cx="145" cy="180" r="6" fill="${fireBright}" opacity="0.5"/>
+      <!-- Sacred geometry center -->
+      <circle cx="100" cy="145" r="30" fill="none" stroke="${borderGold}" stroke-width="0.5" opacity="0.3" stroke-dasharray="3 3"/>
+      <!-- Tension lines -->
+      <line x1="55" y1="180" x2="145" y2="180" stroke="${borderGold}" stroke-width="0.5" opacity="0.25" stroke-dasharray="2 4"/>
+      <!-- Matrix positions implied -->
+      <text x="42" y="200" text-anchor="middle" font-family="Cinzel,serif" font-size="7" fill="${fire}" opacity="0.6">PATH A</text>
+      <text x="158" y="200" text-anchor="middle" font-family="Cinzel,serif" font-size="7" fill="${fireBright}" opacity="0.6">PATH B</text>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="11" fill="${goldBright}">II</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Choosing the Path</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">II</text>
+    `,
+    three: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Teal sacred triangle formation -->
+      <polygon points="100,75 145,165 55,165" fill="none" stroke="${tealBright}" stroke-width="1.2" opacity="0.8"/>
+      <!-- Inner geometry -->
+      <polygon points="100,95 130,150 70,150" fill="none" stroke="${teal}" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="100" cy="130" r="25" fill="none" stroke="${teal}" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
+      <!-- Three vertices glowing -->
+      <circle cx="100" cy="75" r="5" fill="${tealBright}" opacity="0.9"/>
+      <circle cx="145" cy="165" r="5" fill="${tealBright}" opacity="0.9"/>
+      <circle cx="55" cy="165" r="5" fill="${tealBright}" opacity="0.9"/>
+      <!-- Light rays from center -->
+      <circle cx="100" cy="120" r="3" fill="${goldBright}"/>
+      ${Array.from({length:6}, (_,i) => {
+        const a = (i/6)*Math.PI*2;
+        return `<line x1="100" y1="120" x2="${100+Math.cos(a)*40}" y2="${120+Math.sin(a)*40}" stroke="${teal}" stroke-width="0.5" opacity="0.3"/>`;
+      }).join('')}
+      <!-- Expression symbol -->
+      <path d="M85 195 Q100 185 115 195 Q100 210 85 195Z" fill="${tealBright}" opacity="0.4"/>
+      <path d="M80 205 Q100 195 120 205 Q100 225 80 205Z" fill="${tealBright}" opacity="0.25"/>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="11" fill="${tealBright}">III</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${tealBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${teal}" font-style="italic">Creative Expression</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">III</text>
+    `,
+    four: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Perfect cube in perspective -->
+      <!-- Front face -->
+      <polygon points="70,90 130,90 130,160 70,160" fill="none" stroke="${goldBright}" stroke-width="1.2" opacity="0.9"/>
+      <!-- Top face -->
+      <polygon points="70,90 90,70 150,70 130,90" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.7"/>
+      <!-- Right face -->
+      <polygon points="130,90 150,70 150,140 130,160" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.7"/>
+      <!-- Inner frame lines -->
+      <polygon points="80,98 122,98 122,152 80,152" fill="none" stroke="${borderGold}" stroke-width="0.5" opacity="0.4"/>
+      <!-- Radiant lines from cube -->
+      ${Array.from({length:8}, (_,i) => {
+        const a = (i/8)*Math.PI*2;
+        const cx=110, cy=115;
+        return `<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(a)*70}" y2="${cy+Math.sin(a)*70}" stroke="${borderGold}" stroke-width="0.4" opacity="0.15"/>`;
+      }).join('')}
+      <!-- Central star inside cube -->
+      <circle cx="110" cy="115" r="10" fill="none" stroke="${goldBright}" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="110" cy="115" r="4" fill="${goldBright}" opacity="0.7"/>
+      <!-- Ground lightning -->
+      <path d="M70 165 L55 190" fill="none" stroke="${fire}" stroke-width="0.8" opacity="0.4"/>
+      <path d="M130 165 L145 190" fill="none" stroke="${fire}" stroke-width="0.8" opacity="0.4"/>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="11" fill="${goldBright}">IV</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Structure Supporting Vision</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">IV</text>
+    `,
+    five: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Nine paths converging at center -->
+      ${[
+        [20,40],[100,20],[180,40],
+        [20,140],[180,140],
+        [20,240],[100,260],[180,240],[100,80]
+      ].map(([x,y]) => `<line x1="${x}" y1="${y}" x2="100" y2="160" stroke="${fire}" stroke-width="0.6" opacity="0.3"/>`).join('')}
+      <!-- Central vortex rings -->
+      <circle cx="100" cy="160" r="55" fill="none" stroke="${fire}" stroke-width="0.5" opacity="0.2"/>
+      <circle cx="100" cy="160" r="40" fill="none" stroke="${fireBright}" stroke-width="0.8" opacity="0.3"/>
+      <circle cx="100" cy="160" r="28" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.5"/>
+      <circle cx="100" cy="160" r="15" fill="none" stroke="${tealBright}" stroke-width="1.2" opacity="0.6"/>
+      <!-- Human figure silhouette -->
+      <!-- Body -->
+      <ellipse cx="100" cy="145" rx="10" ry="25" fill="${goldBright}" opacity="0.2"/>
+      <!-- Arms -->
+      <path d="M75 148 Q100 140 125 148" fill="none" stroke="${goldBright}" stroke-width="1.5" opacity="0.6"/>
+      <!-- Head -->
+      <circle cx="100" cy="115" r="10" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.5"/>
+      <!-- Lightning through body -->
+      <path d="M100 100 L97 145 L103 145 L97 195 L110 155 L103 155 L110 100Z" fill="${goldBright}" opacity="0.5"/>
+      <!-- The KEY label -->
+      <text x="100" y="50" text-anchor="middle" font-family="Cinzel,serif" font-size="6.5" fill="${fire}" letter-spacing="3" opacity="0.8">★ THE KEY CARD ★</text>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="13" fill="${goldBright}">5</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">The Central Test</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">V</text>
+    `,
+    six: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Hexagonal frame (the 6 pattern) -->
+      <polygon points="100,70 135,91 135,133 100,154 65,133 65,91" fill="none" stroke="${goldBright}" stroke-width="1.2" opacity="0.9"/>
+      <polygon points="100,84 122,97 122,123 100,136 78,123 78,97" fill="none" stroke="${borderGold}" stroke-width="0.6" opacity="0.5"/>
+      <!-- Fire contained within hexagon -->
+      <polygon points="100,90 120,101 120,123 100,134 80,123 80,101" fill="${fire}" opacity="0.08"/>
+      <!-- The two spirals -->
+      <path d="M100 70 Q115 100 100 115 Q85 130 100 145" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.6"/>
+      <path d="M100 154 Q85 124 100 109 Q115 94 100 79" fill="none" stroke="${tealBright}" stroke-width="1" opacity="0.6"/>
+      <!-- Six-pointed star in center -->
+      <polygon points="100,98 108,111 100,124 92,111" fill="none" stroke="${goldBright}" stroke-width="0.8" opacity="0.4"/>
+      <polygon points="92,105 108,105 108,117 92,117" fill="none" stroke="${goldBright}" stroke-width="0.8" opacity="0.4" transform="rotate(60 100 111)"/>
+      <!-- 6 appears subtly in corner areas -->
+      <text x="25" y="170" font-family="Cinzel,serif" font-size="7" fill="${borderGold}" opacity="0.2">6</text>
+      <text x="170" y="170" font-family="Cinzel,serif" font-size="7" fill="${borderGold}" opacity="0.2">6</text>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="13" fill="${goldBright}">6</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Integration of Vision</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">VI</text>
+    `,
+    seven: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Amethyst eye of wisdom -->
+      <!-- Outer aura -->
+      ${Array.from({length:4}, (_,i) => {
+        const r = 60 - i*10;
+        return `<ellipse cx="100" cy="130" rx="${r}" ry="${r*0.5}" fill="none" stroke="${amethyst}" stroke-width="0.5" opacity="${0.15+i*0.05}"/>`;
+      }).join('')}
+      <!-- Eye shape -->
+      <path d="M55 130 Q100 90 145 130 Q100 170 55 130Z" fill="none" stroke="${amethystBright}" stroke-width="1.2" opacity="0.8"/>
+      <path d="M65 130 Q100 100 135 130 Q100 160 65 130Z" fill="${amethyst}" opacity="0.12"/>
+      <!-- Iris -->
+      <circle cx="100" cy="130" r="20" fill="none" stroke="${amethystBright}" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="100" cy="130" r="12" fill="${amethyst}" opacity="0.25"/>
+      <!-- Pupil with fire within -->
+      <circle cx="100" cy="130" r="6" fill="${fire}" opacity="0.6"/>
+      <circle cx="100" cy="130" r="3" fill="${goldBright}" opacity="0.9"/>
+      <!-- Wisdom rays -->
+      ${Array.from({length:7}, (_,i) => {
+        const a = (i/7)*Math.PI*2 - Math.PI/2;
+        return `<line x1="${100+Math.cos(a)*25}" y1="${130+Math.sin(a)*13}" x2="${100+Math.cos(a)*50}" y2="${130+Math.sin(a)*25}" stroke="${amethyst}" stroke-width="0.5" opacity="0.4"/>`;
+      }).join('')}
+      <!-- Fire path map below -->
+      <path d="M40 195 Q70 185 100 195 Q130 205 160 195" fill="none" stroke="${fire}" stroke-width="0.8" opacity="0.3" stroke-dasharray="3 3"/>
+      <circle cx="40" cy="195" r="2.5" fill="${fire}" opacity="0.4"/>
+      <circle cx="100" cy="195" r="3.5" fill="${fire}" opacity="0.6"/>
+      <circle cx="160" cy="195" r="2.5" fill="${fire}" opacity="0.4"/>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="13" fill="${amethystBright}">7</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${amethystBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${amethyst}" font-style="italic">Wisdom from the Journey</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">VII</text>
+    `,
+    eight: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Lemniscate / infinity symbol (mastery loop) -->
+      <path d="M60 130 Q60 100 100 120 Q140 140 140 120 Q140 100 100 130 Q60 160 60 140 Q60 160 100 140 Q140 120 140 130 Q140 150 100 130 Q60 110 60 130Z" fill="none" stroke="${goldBright}" stroke-width="1.5" opacity="0.6"/>
+      <!-- Two hands -->
+      <!-- Left hand -->
+      <ellipse cx="55" cy="140" rx="15" ry="20" fill="none" stroke="${borderGold}" stroke-width="1" opacity="0.5"/>
+      <path d="M46 130 Q43 118 50 120 Q56 118 55 130" fill="${borderGold}" opacity="0.15"/>
+      <!-- Right hand -->
+      <ellipse cx="145" cy="140" rx="15" ry="20" fill="none" stroke="${borderGold}" stroke-width="1" opacity="0.5"/>
+      <!-- Lightning column between hands -->
+      <path d="M100 85 L97 115 L103 115 L97 160 L110 130 L103 130 L110 85Z" fill="${goldBright}" opacity="0.6"/>
+      <!-- Sacred geometry rings -->
+      <circle cx="100" cy="130" r="50" fill="none" stroke="${borderGold}" stroke-width="0.5" opacity="0.2"/>
+      <circle cx="100" cy="130" r="35" fill="none" stroke="${goldBright}" stroke-width="0.5" opacity="0.3"/>
+      <!-- Matrix grid subtle -->
+      ${[-30,0,30].map(dx => [-30,0,30].map(dy => `<circle cx="${100+dx}" cy="${130+dy}" r="1.5" fill="${borderGold}" opacity="0.15"/>`).join('')).join('')}
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="13" fill="${amethystBright}">8</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${amethystBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${amethyst}" font-style="italic">Power Demonstrated</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">VIII</text>
+    `,
+    nine: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Figure at edge of cliff -->
+      <!-- Cliff edge -->
+      <path d="M20 200 L95 200 L95 185" fill="none" stroke="${borderGold}" stroke-width="1.2" opacity="0.5"/>
+      <!-- Figure -->
+      <circle cx="95" cy="165" r="9" fill="none" stroke="${amethystBright}" stroke-width="1" opacity="0.7"/>
+      <line x1="95" y1="174" x2="95" y2="195" stroke="${amethystBright}" stroke-width="1" opacity="0.6"/>
+      <line x1="83" y1="180" x2="107" y2="180" stroke="${amethystBright}" stroke-width="1" opacity="0.6"/>
+      <line x1="95" y1="195" x2="85" y2="208" stroke="${amethystBright}" stroke-width="1" opacity="0.6"/>
+      <line x1="95" y1="195" x2="105" y2="208" stroke="${amethystBright}" stroke-width="1" opacity="0.6"/>
+      <!-- Star in chest -->
+      <circle cx="95" cy="181" r="4" fill="${goldBright}" opacity="0.8"/>
+      <!-- Void below with stars -->
+      <rect x="95" y="200" width="85" height="80" fill="${bg}"/>
+      ${Array.from({length:15}, (_,i) => {
+        const x = 100 + Math.random()*70;
+        const y = 210 + Math.random()*60;
+        return `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="0.8" fill="white" opacity="${(0.2+Math.random()*0.3).toFixed(2)}"/>`;
+      }).join('')}
+      <!-- Zero forming in the void -->
+      <ellipse cx="145" cy="240" rx="18" ry="18" fill="none" stroke="${borderGold}" stroke-width="0.8" opacity="0.3"/>
+      <!-- Nine radiating from position 9 -->
+      ${Array.from({length:9}, (_,i) => {
+        const a = (i/9)*Math.PI*2;
+        const r = 75;
+        return `<circle cx="${100+Math.cos(a)*r}" cy="${115+Math.sin(a)*r}" r="1.5" fill="${amethyst}" opacity="0.3"/>`;
+      }).join('')}
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="13" fill="${amethystBright}">9</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${amethystBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${amethyst}" font-style="italic">Near Completion</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">IX</text>
+    `,
+    ten: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Full 3x3 matrix ablaze -->
+      ${[-1,0,1].map((row,ri) => [-1,0,1].map((col,ci) => {
+        const x = 100 + col*45;
+        const y = 130 + row*45;
+        const isCenter = row===0 && col===0;
+        const isCenterPath = (ri===0&&ci===0)||(ri===1&&ci===1)||(ri===2&&ci===2);
+        const c = isCenter ? goldBright : (isCenterPath ? fire : borderGold);
+        const op = isCenter ? 0.9 : (isCenterPath ? 0.6 : 0.3);
+        const r = isCenter ? 9 : 7;
+        return `
+          <circle cx="${x}" cy="${y}" r="${r}" fill="${c}" opacity="${op}"/>
+          <circle cx="${x}" cy="${y}" r="${r+5}" fill="none" stroke="${c}" stroke-width="0.5" opacity="${op*0.4}"/>`;
+      }).join('')).join('')}
+      <!-- Connection lines between all positions -->
+      ${[-1,0,1].map((r1,i) => [-1,0,1].map((c1,j) => [-1,0,1].map((r2,k) => [-1,0,1].map((c2,l) => {
+        if (i*3+j >= k*3+l) return '';
+        const x1=100+c1*45, y1=130+r1*45, x2=100+c2*45, y2=130+r2*45;
+        return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${fire}" stroke-width="0.3" opacity="0.2"/>`;
+      }).join('')).join('')).join('')).join('')}
+      <!-- Primary diagonal highlighted -->
+      <line x1="55" y1="85" x2="100" y2="130" stroke="${fire}" stroke-width="1.5" opacity="0.8"/>
+      <line x1="100" y1="130" x2="145" y2="175" stroke="${fire}" stroke-width="1.5" opacity="0.8"/>
+      <!-- Zero forming at center -->
+      <circle cx="100" cy="130" r="16" fill="none" stroke="${tealBright}" stroke-width="1" opacity="0.4"/>
+      <!-- Completion glow -->
+      <circle cx="100" cy="130" r="70" fill="none" stroke="${fire}" stroke-width="0.5" opacity="0.1"/>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="11" fill="${goldBright}">X</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Full Cycle Achieved</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel Decorative,serif" font-size="10" fill="${borderGold}" opacity="0.6">X</text>
+    `,
+    page: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Three arches (the three positions 1, 5, 9) -->
+      <path d="M30 210 L30 130 Q30 90 65 90 Q100 90 100 130 L100 210" fill="none" stroke="${borderGold}" stroke-width="1" opacity="0.5"/>
+      <path d="M100 210 L100 130 Q100 90 135 90 Q170 90 170 130 L170 210" fill="none" stroke="${borderGold}" stroke-width="0.7" opacity="0.3"/>
+      <!-- Page figure with torch -->
+      <circle cx="65" cy="130" r="12" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.6"/>
+      <line x1="65" y1="142" x2="65" y2="175" stroke="${goldBright}" stroke-width="1" opacity="0.5"/>
+      <!-- Torch -->
+      <line x1="65" y1="118" x2="65" y2="98" stroke="${borderGold}" stroke-width="1.5" opacity="0.6"/>
+      <!-- Flame -->
+      <path d="M60 98 Q65 82 70 98 Q67 88 65 95 Q63 88 60 98Z" fill="${fireBright}" opacity="0.8"/>
+      <!-- Light cast by torch -->
+      ${Array.from({length:5}, (_,i) => {
+        const a = -Math.PI/2 + (i-2)*0.3;
+        return `<line x1="65" y1="90" x2="${65+Math.cos(a)*30}" y2="${90+Math.sin(a)*30}" stroke="${fireBright}" stroke-width="0.5" opacity="0.2"/>`;
+      }).join('')}
+      <!-- The path ahead (luminous dark) -->
+      <text x="135" y="155" text-anchor="middle" font-family="Cinzel,serif" font-size="6" fill="${fire}" opacity="0.4">1→5→9</text>
+      <circle cx="135" cy="130" r="25" fill="none" stroke="${fire}" stroke-width="0.5" opacity="0.15" stroke-dasharray="2 4"/>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${goldBright}" letter-spacing="2">PAGE OF</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Beginning the Path</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${borderGold}" opacity="0.6">PAGE</text>
+    `,
+    knight: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Knight in motion — figure mid-stride -->
+      <!-- Lightning trail -->
+      <path d="M30 200 Q50 180 60 160 Q70 140 100 130 Q130 120 150 100 Q165 85 180 70" fill="none" stroke="${fire}" stroke-width="2" opacity="0.5"/>
+      <path d="M35 210 Q55 190 62 168 Q72 148 100 136 Q132 124 152 106 Q168 90 182 75" fill="none" stroke="${fireBright}" stroke-width="0.8" opacity="0.3"/>
+      <!-- Figure in motion -->
+      <circle cx="100" cy="130" r="14" fill="none" stroke="${goldBright}" stroke-width="1.2" opacity="0.7"/>
+      <!-- Body in stride -->
+      <line x1="100" y1="144" x2="100" y2="178" stroke="${goldBright}" stroke-width="1.5" opacity="0.6"/>
+      <line x1="83" y1="155" x2="117" y2="155" stroke="${goldBright}" stroke-width="1.5" opacity="0.6"/>
+      <!-- Legs mid-stride -->
+      <line x1="100" y1="178" x2="85" y2="205" stroke="${goldBright}" stroke-width="1.2" opacity="0.5"/>
+      <line x1="100" y1="178" x2="118" y2="200" stroke="${goldBright}" stroke-width="1.2" opacity="0.5"/>
+      <!-- Matrix rotating around figure -->
+      ${Array.from({length:9}, (_,i) => {
+        const a = (i/9)*Math.PI*2;
+        const r = 55;
+        const alpha = i===4 ? 0.9 : (i===0||i===8 ? 0.6 : 0.2);
+        return `<circle cx="${100+Math.cos(a)*r}" cy="${130+Math.sin(a)*r}" r="${i===4?4:2.5}" fill="${fire}" opacity="${alpha}"/>`;
+      }).join('')}
+      <circle cx="100" cy="130" r="55" fill="none" stroke="${fire}" stroke-width="0.5" opacity="0.1"/>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${goldBright}" letter-spacing="2">KNIGHT OF</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Actively Traversing</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${borderGold}" opacity="0.6">KNIGHT</text>
+    `,
+    queen: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- Queen enthroned in fire that radiates outward -->
+      <!-- Throne -->
+      <rect x="72" y="120" width="56" height="90" rx="4" fill="none" stroke="${borderGold}" stroke-width="1" opacity="0.4"/>
+      <path d="M65 118 L135 118 Q135 100 100 95 Q65 100 65 118Z" fill="none" stroke="${goldBright}" stroke-width="1" opacity="0.5"/>
+      <!-- Figure -->
+      <circle cx="100" cy="108" r="13" fill="none" stroke="${goldBright}" stroke-width="1.2" opacity="0.7"/>
+      <!-- Crown of living flame -->
+      ${Array.from({length:5}, (_,i) => {
+        const x = 82 + i*9;
+        return `<path d="M${x} 97 Q${x+4.5} ${83-i%2*10} ${x+9} 97" fill="none" stroke="${fireBright}" stroke-width="1" opacity="${0.5+i%2*0.3}"/>`;
+      }).join('')}
+      <!-- Radiating fire outward (not inward) -->
+      ${Array.from({length:8}, (_,i) => {
+        const a = (i/8)*Math.PI*2;
+        return `<line x1="${100+Math.cos(a)*20}" y1="${155+Math.sin(a)*20}" x2="${100+Math.cos(a)*70}" y2="${155+Math.sin(a)*70}" stroke="${fire}" stroke-width="0.8" opacity="0.2"/>`;
+      }).join('')}
+      <!-- Small flames around (students/lives) -->
+      ${[[30,170],[170,160],[25,210],[175,215],[55,240],[148,235]].map(([x,y]) => 
+        `<path d="M${x} ${y+8} Q${x+3} ${y} ${x+6} ${y+8} Q${x+4} ${y+3} ${x+3} ${y+5} Q${x+2} ${y+3} M${x} ${y+8}Z" fill="${fire}" opacity="0.3"/>`
+      ).join('')}
+      <!-- Map in hand -->
+      <rect x="108" y="130" width="18" height="22" rx="2" fill="${borderGold}" opacity="0.15"/>
+      <line x1="111" y1="135" x2="123" y2="135" stroke="${borderGold}" stroke-width="0.5" opacity="0.4"/>
+      <line x1="111" y1="138" x2="123" y2="138" stroke="${borderGold}" stroke-width="0.5" opacity="0.4"/>
+      <text x="117" y="144" text-anchor="middle" font-family="Cinzel,serif" font-size="4" fill="${borderGold}" opacity="0.5">1→5→9</text>
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${goldBright}" letter-spacing="2">QUEEN OF</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Mastered Path, Guides Others</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${borderGold}" opacity="0.6">QUEEN</text>
+    `,
+    king: () => `
+      <rect width="200" height="340" rx="6" fill="${bg}"/>
+      ${stars}
+      <!-- King IS the matrix -->
+      <!-- Body = the nine positions lit from within -->
+      <!-- Outer figure form -->
+      <ellipse cx="100" cy="145" rx="35" ry="55" fill="none" stroke="${borderGold}" stroke-width="0.5" opacity="0.3"/>
+      <!-- Nine positions as the body nodes -->
+      ${[-1,0,1].map((row,ri) => [-1,0,1].map((col,ci) => {
+        const x = 100 + col*25;
+        const y = 120 + row*30;
+        const isCenter = row===0 && col===0;
+        const isDiag = ri===ci;
+        const c = isDiag ? fire : (isCenter ? goldBright : teal);
+        const r = isCenter ? 8 : 5;
+        const op = isDiag ? 0.8 : 0.4;
+        return `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" opacity="${op}"/>`;
+      }).join('')).join('')}
+      <!-- Black stone throne with zero -->
+      <rect x="65" y="210" width="70" height="20" rx="3" fill="${bg}" stroke="${borderGold}" stroke-width="0.8" opacity="0.5"/>
+      <text x="100" y="224" text-anchor="middle" font-family="Cinzel,serif" font-size="10" fill="${borderGold}" opacity="0.4">0</text>
+      <!-- King's gaze: inward and infinite -->
+      <!-- Head position (top center of matrix) -->
+      <circle cx="100" cy="60" r="14" fill="none" stroke="${goldBright}" stroke-width="1.2" opacity="0.6"/>
+      <!-- Eyes that are stars -->
+      <circle cx="95" cy="59" r="2" fill="${goldBright}" opacity="0.8"/>
+      <circle cx="105" cy="59" r="2" fill="${goldBright}" opacity="0.8"/>
+      <!-- Emission from entire being -->
+      ${Array.from({length:12}, (_,i) => {
+        const a = (i/12)*Math.PI*2;
+        return `<line x1="${100+Math.cos(a)*15}" y1="${120+Math.sin(a)*50}" x2="${100+Math.cos(a)*80}" y2="${120+Math.sin(a)*80}" stroke="${fire}" stroke-width="0.4" opacity="0.12"/>`;
+      }).join('')}
+      ${border}
+      <text x="100" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${goldBright}" letter-spacing="2">KING OF</text>
+      <text x="100" y="295" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${goldBright}" letter-spacing="2">INITIATION</text>
+      <text x="100" y="308" text-anchor="middle" font-family="EB Garamond,serif" font-size="7.5" fill="${fire}" font-style="italic">Embodies and Teaches</text>
+      <text x="100" y="326" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="${borderGold}" opacity="0.6">KING</text>
+    `
+  };
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 340">${svgGenerators[card.svgType]()}</svg>`;
+}
+
+function renderCards(filter) {
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = '';
+  CARDS.filter(c => filter === 'all' || c.type === filter).forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'tarot-card';
+    div.innerHTML = `<div class="card-inner">${generateCardSVG(card)}</div>`;
+    div.onclick = () => openModal(card);
+    grid.appendChild(div);
+  });
+}
+
+function filterCards(type) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderCards(type);
+}
+
+function openModal(card) {
+  const overlay = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+  const isDiag = card.id === 'ace' || card.id === 'five' || card.id === 'ten' || card.id === 'king';
+
+  content.innerHTML = `
+    <div class="modal-card">${generateCardSVG(card)}</div>
+    <div class="modal-text">
+      <div class="modal-number">Suit of Initiation · ${card.label}</div>
+      <div class="modal-title">${card.title}</div>
+      <div class="modal-directive">${card.directive}</div>
+      <div class="modal-keywords">${card.keywords.map(k => `<span class="keyword">${k}</span>`).join('')}</div>
+      <div class="modal-section-title">Matrix Position</div>
+      <p>${card.path_position}</p>
+      <div class="modal-section-title">Symbolism</div>
+      <p>${card.symbolism}</p>
+      <div class="modal-section-title">Upright</div>
+      <p>${card.upright}</p>
+      <div class="modal-section-title">Reversed</div>
+      <p class="modal-reversed">${card.reversed}</p>
+      <div class="modal-numerology">${card.numerology}</div>
+    </div>`;
+  overlay.classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeAllModal();
+}
+
+function closeAllModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModal(); });
+
+renderCards('all');
+</script>
+</body>
+</html>
