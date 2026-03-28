@@ -312,7 +312,20 @@
       <a href="/sourcecode-life/" class="btn-secondary">Try the App &#8594;</a>
     </div>
 
-    <div style="margin-top:48px;display:flex;justify-content:center;gap:14px">
+    <!-- Email Capture -->
+    <div style="margin-top:48px;max-width:420px;margin-left:auto;margin-right:auto">
+      <form id="home-email-form" onsubmit="handleEmailCapture(event,this)" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+        <input type="email" name="email" placeholder="Your email address" required
+          style="flex:1;min-width:220px;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.25);border-radius:5px;color:var(--text);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;outline:none;">
+        <button type="submit" class="btn-secondary" style="white-space:nowrap">Get Free Intro &#8594;</button>
+      </form>
+      <div id="email-capture-success" style="display:none;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--teal-light);margin-top:16px">
+        &#10003; &nbsp;You&#8217;re in. Check your inbox.
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:12px;font-family:'Cinzel',serif;letter-spacing:.1em">Free Life Path intro. No spam.</p>
+    </div>
+
+    <div style="margin-top:32px;display:flex;justify-content:center;gap:14px">
       <a href="https://www.instagram.com/simulationsourcecode" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
       <a href="https://www.youtube.com/@kytholek" target="_blank" class="social-btn"><i class="fab fa-youtube"></i></a>
       <a href="https://substack.com/@kyelthomas" target="_blank" class="social-btn"><img src="/Images/substack logo.png" alt="Substack" class="social-logo"></a>

@@ -106,6 +106,17 @@ export default {
       return new Response('Missing customer email', { status: 200 });
     }
 
+    // Log purchase email to Google Sheet
+    try {
+      await fetch('https://script.google.com/macros/s/AKfycbz_G8BxEgYBPpWNPO6vmGEPiITYUAH3px8TxyaSZCME4W_3y7MQ_IPdzdi2tdiX1X7w9w/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: userData.email, source: 'purchase' }),
+      });
+    } catch (err) {
+      console.error('sheets-log error:', err);
+    }
+
     await env.READINGS_QUEUE.send(userData);
     return new Response('OK', { status: 200 });
   }
@@ -1007,12 +1018,12 @@ async function handleSubmitEmail(request, env, origin) {
     });
   }
 
-  // Log email to Google Sheet
+  // Log email to Google Sheet (home page signups)
   try {
-    await fetch('https://script.google.com/macros/s/AKfycbz_G8BxEgYBPpWNPO6vmGEPiITYUAH3px8TxyaSZCME4W_3y7MQ_IPdzdi2tdiX1X7w9w/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbxxucjttdTVhXaOsLW2PAbwQT1dNoNOnCT8xIYWwG07zLDC_Oy-7K9egqkkm7o3wT3QAQ/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, source: 'signup' }),
     });
   } catch (err) {
     console.error('sheets-log error:', err);
