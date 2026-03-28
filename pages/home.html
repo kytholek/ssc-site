@@ -305,6 +305,10 @@
 .hp-scl-content {
   flex: 1 1 0;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .hp-scl-eyebrow {
   font-family: 'Share Tech Mono', monospace;
@@ -334,6 +338,7 @@
   gap: 24px;
   margin-bottom: 32px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .hp-scl-stat {
   border: 1px solid #1c1c38;
@@ -378,32 +383,34 @@
 }
 
 /* ── Scroll reveal ── */
-.hp-reveal {
-  opacity: 0;
-  transform: translateY(48px);
-  transition: opacity .75s ease, transform .75s ease;
-}
-.hp-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.hp-reveal-left {
-  opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-.hp-reveal-left.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-.hp-reveal-right {
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-.hp-reveal-right.is-visible {
-  opacity: 1;
-  transform: translateX(0);
+@media (min-width: 601px) {
+  .hp-reveal {
+    opacity: 0;
+    transform: translateY(48px);
+    transition: opacity .75s ease, transform .75s ease;
+  }
+  .hp-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .hp-reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .hp-reveal-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .hp-reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .hp-reveal-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ── Hero SVG codex ── */
@@ -543,14 +550,18 @@
   border-radius: 8px;
   text-decoration: none;
   background: rgba(201,168,76,0.02);
-  transition: all .25s;
-  opacity: 0;
-  transform: translateY(16px) scale(.97);
+  transition: border-color .25s, background .25s, transform .25s;
 }
-.hp-freq-chip.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: opacity .5s ease, transform .5s ease, border-color .25s, background .25s;
+@media (min-width: 601px) {
+  .hp-freq-chip.pre-animate {
+    opacity: 0;
+    transform: translateY(16px) scale(.97);
+    transition: opacity .5s ease, transform .5s ease, border-color .25s, background .25s;
+  }
+  .hp-freq-chip.pre-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 .hp-freq-chip:hover {
   border-color: rgba(201,168,76,0.3);
@@ -593,14 +604,18 @@
   background: linear-gradient(135deg, rgba(201,168,76,0.04), rgba(74,148,148,0.03));
   position: relative;
   overflow: hidden;
-  transition: all .25s;
-  opacity: 0;
-  transform: translateY(16px);
+  transition: border-color .25s, box-shadow .25s;
 }
-.hp-freq-calling-wrap.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity .6s ease .3s, transform .6s ease .3s, border-color .25s, box-shadow .25s;
+@media (min-width: 601px) {
+  .hp-freq-calling-wrap.pre-animate {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .6s ease .3s, transform .6s ease .3s, border-color .25s, box-shadow .25s;
+  }
+  .hp-freq-calling-wrap.pre-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .hp-freq-calling-wrap::before {
   content: '';
@@ -672,6 +687,17 @@
   .hp-main-row { padding: 80px 24px 100px; }
   .hp-scl-section { padding: 100px 24px; }
   .hp-frequencies { grid-template-columns: 1fr 1fr; }
+  .hp-ssc { padding: 28px 20px; overflow: visible; }
+  .hp-freq-row { grid-template-columns: 1fr 1fr; }
+  .hp-freq-chip { padding: 12px 12px; }
+  .hp-freq-calling-wrap { padding: 14px 16px; }
+  .hp-freq-calling-inner { gap: 12px; }
+  .hp-freq-calling-glyph { font-size: 28px; }
+}
+@media (max-width: 400px) {
+  .hp-ssc { padding: 24px 16px; }
+  .hp-freq-row { grid-template-columns: 1fr; }
+  .hp-freq-connector::before { display: none; }
 }
 </style>
 
@@ -756,7 +782,7 @@
 <div class="hp-main-row">
 
   <!-- SSC Card -->
-  <div class="hp-ssc hp-reveal-left">
+  <div class="hp-ssc">
     <div class="hp-ssc-eyebrow">The Framework</div>
     <h2 class="hp-ssc-title">Simulation Source Code — The Complete System</h2>
     <p class="hp-ssc-body">SSC treats numerology as the architecture for experience. Your birth date is the External Circuit — what the simulation keeps presenting as curriculum. Your birth name is the Internal Circuit — the authentic frequency you are here to express. Seven numbers. One blueprint. Every number has a specific function.</p>
@@ -832,7 +858,7 @@
   </div>
 
   <!-- Articles Sidebar -->
-  <aside class="hp-articles hp-reveal-right">
+  <aside class="hp-articles">
     <div class="hp-articles-title">Pillar Reads</div>
 
     <a href="/blog/pillar-numerology-source-code/" class="hp-article-card">

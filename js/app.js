@@ -795,7 +795,8 @@ function initHomePage() {
   var page = document.getElementById('page-home');
   if (!page) return;
 
-  // Reveal animations (fade up / left / right)
+  // Reveal animations (desktop only — mobile sees content immediately via CSS)
+  var revealEls = page.querySelectorAll('.hp-reveal, .hp-reveal-left, .hp-reveal-right');
   var revealObs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
@@ -803,24 +804,35 @@ function initHomePage() {
         revealObs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
-  page.querySelectorAll('.hp-reveal, .hp-reveal-left, .hp-reveal-right')
-      .forEach(function (el) { revealObs.observe(el); });
+  }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(function (el) { revealObs.observe(el); });
 
   // Frequency chips — staggered pop-in
-  var chipObs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.hp-freq-chip').forEach(function (chip, i) {
-        setTimeout(function () { chip.classList.add('is-visible'); }, i * 90);
-      });
-      var calling = e.target.querySelector('.hp-freq-calling-wrap');
-      if (calling) calling.classList.add('is-visible');
-      chipObs.unobserve(e.target);
+  function revealChips(block) {
+    block.querySelectorAll('.hp-freq-chip').forEach(function (chip, i) {
+      setTimeout(function () { chip.classList.add('is-visible'); }, i * 90);
     });
-  }, { threshold: 0.08 });
+    var calling = block.querySelector('.hp-freq-calling-wrap');
+    if (calling) calling.classList.add('is-visible');
+  }
   var freqBlock = document.getElementById('hp-freq-block');
-  if (freqBlock) chipObs.observe(freqBlock);
+  if (freqBlock) {
+    // Mark for animation only if IntersectionObserver is supported
+    freqBlock.querySelectorAll('.hp-freq-chip').forEach(function (chip) {
+      chip.classList.add('pre-animate');
+    });
+    var calling = freqBlock.querySelector('.hp-freq-calling-wrap');
+    if (calling) calling.classList.add('pre-animate');
+
+    var chipObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        revealChips(e.target);
+        chipObs.unobserve(e.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+    chipObs.observe(freqBlock);
+  }
 
   // SCL terminal boot sequence
   var sclObs = new IntersectionObserver(function (entries) {
