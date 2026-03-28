@@ -90,7 +90,40 @@ nav:not(.breadcrumb) {
   visibility: visible !important;
   opacity: 1 !important;
   height: 64px !important;
+  transition: height .4s ease, padding .4s ease, background .4s ease;
 }
+
+/* ── Expanded nav — home page at top ── */
+nav.nav-hero:not(.breadcrumb) {
+  height: 96px !important;
+  padding: 0 48px;
+  background: rgba(5,4,10,.6) !important;
+  border-bottom-color: transparent !important;
+}
+nav.nav-hero .nav-logo-sigil {
+  width: 48px !important;
+  height: 48px !important;
+  transition: width .4s ease, height .4s ease;
+}
+nav.nav-hero .nav-logo-text {
+  font-size: 14px !important;
+  letter-spacing: .45em !important;
+  transition: font-size .4s ease, letter-spacing .4s ease;
+}
+nav.nav-hero .nav-link {
+  font-size: 11px !important;
+  letter-spacing: .3em !important;
+  transition: font-size .4s ease;
+}
+nav.nav-hero .nav-cta {
+  font-size: 11px !important;
+  padding: 10px 20px !important;
+  transition: font-size .4s ease, padding .4s ease;
+}
+.nav-logo-sigil { transition: width .4s ease, height .4s ease; }
+.nav-logo-text  { transition: font-size .4s ease, letter-spacing .4s ease; }
+.nav-link       { transition: font-size .4s ease, color .2s; }
+.nav-cta        { transition: font-size .4s ease, padding .4s ease, box-shadow .3s, transform .3s, filter .3s; }
 
 nav > a.nav-logo {
   display: flex !important;

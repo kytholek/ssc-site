@@ -189,6 +189,10 @@ const PAGE_META = {
     title      : 'Simulation Source Code · Numerology Calculator · Decode Your Blueprint',
     description: 'Decode the seven frequencies encoded in your birth date and name — Life Path, Expression, Life Calling, Soul Urge, Outer Persona, Achievement, and Theme. Free numerology calculator.',
   },
+  ssc: {
+    title      : 'The SSC System · Seven Frequencies · Simulation Source Code',
+    description: 'The complete Simulation Source Code framework — seven frequencies encoded in your birth date and name. Life Path, Expression, Soul Urge, Life Calling, Achievement, Theme, and Outer Self decoded.',
+  },
   calculator: {
     title      : 'Free Numerology Calculator · Seven Frequencies · Simulation Source Code',
     description: 'Calculate your seven core numerology frequencies instantly. Life Path, Expression, Soul Urge, Outer Persona, Achievement, Theme, and Life Calling — from your birth date and full name.',
@@ -208,6 +212,10 @@ const PAGE_META = {
   services: {
     title      : 'Numerology Services · Guidebook, Consultation & Membership · SSC',
     description: 'Choose your depth of decoding — a personalised PDF guidebook, a live one-on-one consultation, or a monthly membership to learn the system yourself.',
+  },
+  codex: {
+    title      : 'The Codex — Nine Frequencies · Simulation Source Code',
+    description: 'The nine-frequency consciousness matrix. The complete architecture of the Simulation Source Code framework — each number a stage in the evolution of energy from void to wisdom.',
   },
   privacy: {
     title      : 'Privacy Policy · Simulation Source Code',
@@ -539,8 +547,23 @@ function showPage(name, pushState = true) {
     if (container) container.style.display = 'none';
   }
 
+  // Reset codex initiation state when navigating to it fresh
+  if (name === 'codex') {
+    const cdx = document.getElementById('page-codex');
+    if (cdx) cdx.classList.remove('cdx-active');
+  }
+
   const page = document.getElementById('page-' + name);
-  if (page) { page.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  if (page) {
+    page.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    // SECONDARY pages load async — retry once after they arrive
+    setTimeout(function () {
+      const p2 = document.getElementById('page-' + name);
+      if (p2) { p2.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    }, 600);
+  }
 
   const navLink = document.getElementById('nav-' + name);
   if (navLink) navLink.classList.add('active');
@@ -754,8 +777,102 @@ async function initApp() {
   applyLanguage(getLang());
   _updateLangToggle(getLang());
   _initRpCarousel();
+  _initNavHero();
+  initHomePage();
 }
 
+
+// ────────────────────────────────────────────────────────────
+//  HOME PAGE — scroll reveal, chip stagger, SCL boot, parallax
+// ────────────────────────────────────────────────────────────
+var _homePageInited = false;
+
+function initHomePage() {
+  var page = document.getElementById('page-home');
+  if (!page) return;
+
+  // Reveal animations (fade up / left / right)
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  page.querySelectorAll('.hp-reveal, .hp-reveal-left, .hp-reveal-right')
+      .forEach(function (el) { revealObs.observe(el); });
+
+  // Frequency chips — staggered pop-in
+  var chipObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.hp-freq-chip').forEach(function (chip, i) {
+        setTimeout(function () { chip.classList.add('is-visible'); }, i * 90);
+      });
+      var calling = e.target.querySelector('.hp-freq-calling-wrap');
+      if (calling) calling.classList.add('is-visible');
+      chipObs.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+  var freqBlock = document.getElementById('hp-freq-block');
+  if (freqBlock) chipObs.observe(freqBlock);
+
+  // SCL terminal boot sequence
+  var sclObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-visible');
+      var terminal = e.target.querySelector('.hp-scl-terminal');
+      if (terminal) terminal.classList.add('hp-scl-booting');
+      sclObs.unobserve(e.target);
+    });
+  }, { threshold: 0.15 });
+  var sclSection = document.getElementById('hp-scl-section');
+  if (sclSection) sclObs.observe(sclSection);
+
+  // Hero image parallax (only set up once)
+  if (!_homePageInited) {
+    var heroImg = page.querySelector('.hp-hero-img');
+    if (heroImg) {
+      window.addEventListener('scroll', function () {
+        var p = document.getElementById('page-home');
+        if (!p || !p.classList.contains('active')) return;
+        heroImg.style.transform = 'translateY(' + (window.scrollY * 0.2) + 'px)';
+      }, { passive: true });
+    }
+    _homePageInited = true;
+  }
+}
+
+// ────────────────────────────────────────────────────────────
+//  NAV HERO — expand on home page when at top, shrink on scroll
+// ────────────────────────────────────────────────────────────
+function _initNavHero() {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+
+  function _updateNavHero() {
+    const onHome   = document.getElementById('page-home')?.classList.contains('active');
+    const atTop    = window.scrollY < 60;
+    if (onHome && atTop) {
+      nav.classList.add('nav-hero');
+    } else {
+      nav.classList.remove('nav-hero');
+    }
+  }
+
+  window.addEventListener('scroll', _updateNavHero, { passive: true });
+  // Also re-evaluate whenever showPage is called
+  const _origShowPage = window.showPage;
+  window.showPage = function(name, pushState) {
+    _origShowPage(name, pushState);
+    _updateNavHero();
+    if (name === 'home') setTimeout(initHomePage, 50);
+  };
+
+  _updateNavHero(); // run once on load
+}
 
 // ────────────────────────────────────────────────────────────
 //  EXPOSE to inline onclick attributes
