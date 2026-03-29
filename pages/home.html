@@ -382,6 +382,81 @@
   box-shadow: 0 0 32px rgba(0,229,204,0.15);
 }
 
+/* ── Tester Section ── */
+.hp-tester-section {
+  text-align: center;
+  padding: 90px 40px;
+  background: #0b0b14;
+  border-top: 1px solid rgba(212,168,67,0.12);
+  position: relative;
+  overflow: hidden;
+}
+.hp-tester-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 500px; height: 250px;
+  background: radial-gradient(ellipse, rgba(212,168,67,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hp-tester-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.hp-tester-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: #d4a843;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+.hp-tester-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(13px, 2.5vw, 20px);
+  color: #fff;
+  line-height: 1.8;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+}
+.hp-tester-title span { color: #d4a843; }
+.hp-tester-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.hp-tester-divider {
+  width: 50px; height: 1px;
+  background: rgba(212,168,67,0.4);
+  margin: 22px auto 32px;
+}
+.hp-tester-body {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.hp-tester-btn {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #0b0b14;
+  background: #d4a843;
+  padding: 16px 28px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: opacity .2s, transform .2s;
+}
+.hp-tester-btn:hover { opacity: .85; transform: translateY(-2px); }
+.hp-tester-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 24px;
+  letter-spacing: 1px;
+}
+
 /* ── Scroll reveal ── */
 @media (min-width: 601px) {
   .hp-reveal {
@@ -966,6 +1041,19 @@
       <a href="/sourcecode-life/" class="hp-scl-cta">&gt; Try the Prototype</a>
     </div>
 
+  </div>
+</section>
+
+<!-- Become a Tester -->
+<section class="hp-tester-section">
+  <div class="hp-tester-inner">
+    <div class="hp-tester-label">&gt; BETA ACCESS</div>
+    <h2 class="hp-tester-title">Become a <span>Tester</span></h2>
+    <p class="hp-tester-sub">SOURCE CODE: LIFE IS IN ACTIVE DEVELOPMENT</p>
+    <div class="hp-tester-divider"></div>
+    <p class="hp-tester-body">The prototype is live. If you want early access, want to shape what gets built, or just want to play with the system before it launches — join the tester list.</p>
+    <a href="mailto:hello@simulationsourcecode.com?subject=Tester%20Access%20Request" class="hp-tester-btn">▶ REQUEST TESTER ACCESS</a>
+    <p class="hp-tester-note">// No spam. No pressure. Just early access and a direct feedback loop.</p>
   </div>
 </section>
 

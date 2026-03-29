@@ -643,6 +643,69 @@ a { cursor: pointer; }
   margin: 24px auto 40px;
 }
 
+/* ── TESTER SECTION ── */
+.tester-section {
+  text-align: center;
+  padding: 100px 40px;
+  position: relative;
+  overflow: hidden;
+  background: #0b0b14;
+  border-top: 1px solid var(--border);
+}
+.tester-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(212,168,67,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.tester-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+.tester-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(14px, 3vw, 24px);
+  color: var(--white);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+.tester-title span { color: var(--gold); }
+.tester-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+.tester-body {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+.btn-tester {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #0b0b14;
+  background: var(--gold);
+  border: none;
+  padding: 18px 32px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity .2s, transform .2s;
+}
+.btn-tester:hover { opacity: .85; transform: translateY(-2px); }
+.tester-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 28px;
+  letter-spacing: 1px;
+}
+
 /* ── FOOTER ── */
 footer {
   background: var(--bg-inset);
@@ -922,6 +985,19 @@ footer {
     <p class="cta-sub">IT TAKES LESS THAN 60 SECONDS</p>
     <div class="cta-divider"></div>
     <a href="calculator/" class="btn-primary-hero">▶ ENTER THE SIMULATION</a>
+  </div>
+</section>
+
+<!-- BECOME A TESTER -->
+<section class="tester-section">
+  <div class="tester-inner">
+    <div class="section-label" style="justify-content:center;text-align:center;">◈ BETA ACCESS</div>
+    <h2 class="tester-title">Become a<br><span>Tester</span></h2>
+    <p class="tester-sub">SOURCE CODE: LIFE IS IN ACTIVE DEVELOPMENT</p>
+    <div class="cta-divider"></div>
+    <p class="tester-body">The prototype is live. If you want early access, want to shape what gets built, or just want to play with the system before it launches — join the tester list. You'll get a direct line to report what's working and what isn't.</p>
+    <a href="mailto:hello@simulationsourcecode.com?subject=Tester%20Access%20Request" class="btn-tester">▶ REQUEST TESTER ACCESS</a>
+    <p class="tester-note">// No spam. No pressure. Just early access and direct feedback loop.</p>
   </div>
 </section>
 
