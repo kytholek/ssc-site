@@ -698,13 +698,56 @@ a { cursor: pointer; }
   transition: opacity .2s, transform .2s;
 }
 .btn-tester:hover { opacity: .85; transform: translateY(-2px); }
-.tester-note {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 28px;
-  letter-spacing: 1px;
+.tester-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  text-align: left;
 }
+.tester-step {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  background: rgba(212,168,67,0.05);
+  border: 1px solid rgba(212,168,67,0.15);
+  text-decoration: none;
+  transition: background .2s, border-color .2s;
+}
+.tester-step:hover {
+  background: rgba(212,168,67,0.1);
+  border-color: rgba(212,168,67,0.35);
+}
+.tester-step-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+.tester-step-info { flex: 1; }
+.tester-step-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--white);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.tester-step-desc {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.tester-step-arrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 18px;
+  color: var(--gold);
+  opacity: 0.5;
+  flex-shrink: 0;
+  transition: opacity .2s, transform .2s;
+}
+.tester-step:hover .tester-step-arrow { opacity: 1; transform: translateX(4px); }
 
 /* ── FOOTER ── */
 footer {
@@ -995,9 +1038,33 @@ footer {
     <h2 class="tester-title">Become a<br><span>Tester</span></h2>
     <p class="tester-sub">SOURCE CODE: LIFE IS IN ACTIVE DEVELOPMENT</p>
     <div class="cta-divider"></div>
-    <p class="tester-body">The prototype is live. If you want early access, want to shape what gets built, or just want to play with the system before it launches — join the tester list. You'll get a direct line to report what's working and what isn't.</p>
-    <a href="mailto:hello@simulationsourcecode.com?subject=Tester%20Access%20Request" class="btn-tester">▶ REQUEST TESTER ACCESS</a>
-    <p class="tester-note">// No spam. No pressure. Just early access and direct feedback loop.</p>
+    <p class="tester-body">The app is live on Android. Follow these steps in order to get access and join the testing community.</p>
+    <div class="tester-steps">
+      <a href="https://groups.google.com/g/source-codelife-app-testing" target="_blank" rel="noopener" class="tester-step">
+        <span class="tester-step-num">01</span>
+        <div class="tester-step-info">
+          <div class="tester-step-title">Join the Google Group</div>
+          <div class="tester-step-desc">Share insights, report bugs, and ask questions about the app.</div>
+        </div>
+        <span class="tester-step-arrow">→</span>
+      </a>
+      <a href="https://play.google.com/apps/testing/com.sourcecodelife.app" target="_blank" rel="noopener" class="tester-step">
+        <span class="tester-step-num">02</span>
+        <div class="tester-step-info">
+          <div class="tester-step-title">Opt In to Testing</div>
+          <div class="tester-step-desc">Register as a tester on Google Play.</div>
+        </div>
+        <span class="tester-step-arrow">→</span>
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.sourcecodelife.app" target="_blank" rel="noopener" class="tester-step">
+        <span class="tester-step-num">03</span>
+        <div class="tester-step-info">
+          <div class="tester-step-title">Download the App</div>
+          <div class="tester-step-desc">Install Source Code: Life from the Play Store.</div>
+        </div>
+        <span class="tester-step-arrow">→</span>
+      </a>
+    </div>
   </div>
 </section>
 
