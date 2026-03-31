@@ -4,134 +4,169 @@
   <!-- ── Core pages ── -->
   <url>
     <loc>https://simulationsourcecode.com/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/?page=calculator</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/?page=services</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
+    <loc>https://simulationsourcecode.com/services/</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://simulationsourcecode.com/blog/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/?page=books</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
+    <loc>https://simulationsourcecode.com/books/</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://simulationsourcecode.com/?page=about</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://simulationsourcecode.com/codex</loc>
-    <lastmod>2026-03-25</lastmod>
+    <loc>https://simulationsourcecode.com/about/</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/privacy/</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/codex/</loc>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/sourcecode-life/</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- ── The System Series ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/decoding-matrix/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/pillar-numerology-source-code/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/decoding-the-matrix-simulation-source-code/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/codex-architecture-consciousness-matrix/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/evolution-of-energy-0-through-9/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/electric-magnetic-aether-three-natures-of-number/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/3-6-9-pattern-tesla-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/five-lenses-of-self-ego-mind-soul-spirit-void/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/path-of-transformation-1-4-7-2-5-8-3-6-9/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/why-seven-frequencies-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/666-numerology-meaning/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/infinity-loop-cycles-recursion-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -139,21 +174,21 @@
   <!-- ── Trinity Series ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/trinity-of-purpose-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/trinity-of-expression-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/trinity-of-lessons-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -161,70 +196,77 @@
   <!-- ── Philosophy & Practice ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/simulation-theory-numerology-source-code/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/shadow-side-of-numerology-numbers/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/pythagorean-vs-chaldean-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/master-numbers-11-22-33-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-number-explained/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/theme-number-birth-year-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/how-to-calculate-life-path-number/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://simulationsourcecode.com/blog/how-to-read-numerology-blueprint/</loc>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/birth-name-vs-known-name-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/angel-numbers-being-read-wrong/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/name-change-numerology-simulation/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -232,63 +274,63 @@
   <!-- ── Life Path Deep Dives ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-1-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-2-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-3-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-4-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-5-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-6-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-7-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-8-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-9-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -296,28 +338,28 @@
   <!-- ── Master Life Path Numbers ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-11-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-22-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-33-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/life-path-44-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -325,84 +367,84 @@
   <!-- ── Soul Urge Deep Dives ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-1-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-2-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-3-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-4-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-5-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-6-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-7-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-8-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-9-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-11-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-22-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/soul-urge-33-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -410,63 +452,63 @@
   <!-- ── Expression Number Deep Dives ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-1-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-2-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-3-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-4-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-5-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-6-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-7-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-8-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-9-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -474,21 +516,21 @@
   <!-- ── Master Expression Numbers ── -->
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-11-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-22-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://simulationsourcecode.com/blog/expression-33-numerology/</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
