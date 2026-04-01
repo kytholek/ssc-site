@@ -350,9 +350,10 @@
         if (typeof adminSystem !== 'undefined' && typeof adminSystem.boot === 'function') {
           adminSystem.boot();
         }
-        // Load secondary pages in background after app is running
-        SECONDARY.forEach(loadPage);
       }
+
+      // Start secondary page fetches immediately so they're ready when initApp runs
+      SECONDARY.forEach(loadPage);
 
       var done = 0;
       CRITICAL.forEach(function (page) {
