@@ -1,0 +1,603 @@
+/* ═══════════════════════════════════════════════════════════════
+   QUEST THEME — Source Code: Life RPG Aesthetic
+   Applied site-wide over base styles.
+   Gamify Life · Discover the Quests in Your Life · Start Playing
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap');
+
+/* ── CSS Variable Overrides ───────────────────────────── */
+:root {
+  --bg-deep:      #050508;
+  --bg-panel:     #0b0b14;
+  --bg-panel2:    #0f0f1c;
+  --bg-inset:     #07070f;
+  --border:       #1c1c38;
+  --border-glow:  #252550;
+
+  --gold:         #d4a843;
+  --gold-bright:  #f0c060;
+  --gold-light:   #f0c060;
+  --gold-dim:     #6b5220;
+  --gold-muted:   #382b10;
+
+  --teal:         #00e5cc;
+  --teal-light:   #40ffea;
+  --teal-dim:     #007a6e;
+  --teal-muted:   #00332e;
+
+  --purple:       #a070ff;
+  --amethyst:     #a070ff;
+  --mystic:       #7040cc;
+  --purple-dim:   #4a2d99;
+
+  --rose:         #ff5580;
+  --amber:        #ff9930;
+  --sage:         #60d080;
+  --silver:       #90a8c8;
+  --silver-dim:   #384858;
+
+  --text:         #c8d8f0;
+  --text-dim:     #8898a8;
+  --text-muted:   #50687a;
+  --white:        #e8f0ff;
+
+  --deep:         #050508;
+  --abyss:        #020204;
+  --void:         #020204;
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+body {
+  font-family: 'Share Tech Mono', monospace !important;
+  background: var(--bg-deep) !important;
+  color: var(--text) !important;
+}
+
+/* ── CRT Scanline Overlay ─────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent 3px,
+    rgba(0, 0, 0, 0.09) 3px, rgba(0, 0, 0, 0.09) 4px
+  );
+  pointer-events: none;
+  z-index: 8999;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* ── Scanline sweep ───────────────────────────────────── */
+#qt-scanline {
+  position: fixed;
+  top: -4px; left: 0; right: 0; height: 4px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 229, 204, 0.06), transparent);
+  pointer-events: none;
+  z-index: 9001;
+  animation: qt-scanDown 10s linear infinite;
+}
+@keyframes qt-scanDown {
+  from { top: -4px; }
+  to   { top: 100vh; }
+}
+
+/* ── Custom cursor ────────────────────────────────────── */
+* {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Crect x='0' y='0' width='6' height='6' fill='%2300e5cc'/%3E%3C/svg%3E") 3 3, auto;
+}
+a, button { cursor: pointer; }
+
+/* ── Navigation ───────────────────────────────────────── */
+nav, .site-nav, #site-nav, [class*="nav-wrap"], [class*="navbar"] {
+  background: rgba(5, 5, 8, 0.97) !important;
+  border-bottom: 1px solid var(--border) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.nav-logo, .site-logo, [class*="logo"] a, [class*="logo"] span {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  text-shadow: 0 0 16px rgba(0, 229, 204, 0.5) !important;
+  letter-spacing: 2px !important;
+  animation: qt-flicker 7s infinite;
+}
+@keyframes qt-flicker {
+  0%,89%,91%,95%,100% { opacity: 1; }
+  90%,94% { opacity: 0.65; }
+  92%      { opacity: 0.9; }
+}
+
+nav a, .nav-link, [class*="nav-links"] a {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 6px !important;
+  letter-spacing: 2px !important;
+  color: var(--text-muted) !important;
+  text-transform: uppercase;
+}
+nav a:hover, [class*="nav-links"] a:hover {
+  color: var(--teal) !important;
+}
+
+/* ── Section backgrounds ──────────────────────────────── */
+section, .page, .section,
+[class*="-section"], [class*="page-"],
+.hp-main-row, .hp-scl-section, .hp-tester-section {
+  background: var(--bg-deep) !important;
+}
+
+/* Animated grid on hero-like sections */
+.hp-hero, .hero, [class*="hero"] {
+  position: relative;
+  overflow: hidden;
+}
+.hp-hero::before, .hero::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-image:
+    linear-gradient(rgba(0, 229, 204, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 204, 0.025) 1px, transparent 1px) !important;
+  background-size: 60px 60px !important;
+  animation: qt-gridDrift 40s linear infinite !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+@keyframes qt-gridDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 60px; }
+}
+
+/* SCL section already has grid, keep it dark */
+.hp-scl-section {
+  background: #070710 !important;
+  border-top: 1px solid var(--border) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Tester section */
+.hp-tester-section {
+  background: var(--bg-panel) !important;
+  border-top: 1px solid rgba(212, 168, 67, 0.12) !important;
+}
+
+/* ── Typography ───────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6,
+[class*="-title"], [class*="-heading"] {
+  font-family: 'VT323', monospace !important;
+  letter-spacing: 2px !important;
+}
+
+.hp-hero-title, [class*="hero-title"] {
+  font-family: 'VT323', monospace !important;
+  font-size: clamp(36px, 6vw, 72px) !important;
+  color: var(--white) !important;
+  text-shadow: 0 0 40px rgba(0, 229, 204, 0.12) !important;
+  letter-spacing: 3px !important;
+}
+.hp-hero-title span {
+  color: var(--teal) !important;
+  text-shadow: 0 0 24px rgba(0, 229, 204, 0.6) !important;
+}
+
+[class*="-eyebrow"], [class*="eyebrow"] {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  text-shadow: 0 0 12px rgba(0, 229, 204, 0.4) !important;
+  letter-spacing: 3px !important;
+}
+
+[class*="-sub"], [class*="-body"], p {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: var(--text-dim) !important;
+}
+
+.hp-ssc-title, .hp-scl-title {
+  font-family: 'VT323', monospace !important;
+  font-size: clamp(28px, 4vw, 52px) !important;
+  color: var(--gold) !important;
+  text-shadow: 0 0 24px rgba(212, 168, 67, 0.3) !important;
+}
+
+.hp-ssc-eyebrow, .hp-scl-eyebrow, [class*="section-eyebrow"] {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  letter-spacing: 3px !important;
+  text-shadow: 0 0 12px rgba(0, 229, 204, 0.35) !important;
+}
+
+/* ── Buttons ──────────────────────────────────────────── */
+.btn-primary, [class*="btn-primary"], button[class*="primary"] {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  letter-spacing: 2px !important;
+  background: transparent !important;
+  border: 2px solid var(--teal-dim) !important;
+  color: var(--teal) !important;
+  padding: 14px 24px !important;
+  text-transform: uppercase !important;
+  transition: all 0.2s !important;
+  box-shadow: 0 0 16px rgba(0, 229, 204, 0.05) !important;
+  border-radius: 0 !important;
+}
+.btn-primary:hover, [class*="btn-primary"]:hover {
+  border-color: var(--teal) !important;
+  box-shadow: 0 0 28px rgba(0, 229, 204, 0.2) !important;
+  background: rgba(0, 229, 204, 0.05) !important;
+  transform: translateY(-2px) !important;
+}
+
+.btn-secondary, [class*="btn-secondary"], button[class*="secondary"] {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  letter-spacing: 2px !important;
+  background: transparent !important;
+  border: 1px solid var(--gold-dim) !important;
+  color: var(--gold) !important;
+  padding: 14px 24px !important;
+  text-transform: uppercase !important;
+  transition: all 0.2s !important;
+  border-radius: 0 !important;
+}
+.btn-secondary:hover, [class*="btn-secondary"]:hover {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 24px rgba(212, 168, 67, 0.15) !important;
+  background: rgba(212, 168, 67, 0.04) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── Cards / Panels ───────────────────────────────────── */
+.hp-ssc, [class*="card"], [class*="-panel"], [class*="-block"] {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 40px rgba(0, 229, 204, 0.03) !important;
+}
+.hp-ssc::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 204, 0.2), transparent) !important;
+}
+
+/* Frequency chips */
+.hp-freq-chip {
+  background: rgba(0, 229, 204, 0.03) !important;
+  border: 1px solid rgba(0, 229, 204, 0.15) !important;
+  border-radius: 0 !important;
+  transition: all 0.2s !important;
+}
+.hp-freq-chip:hover {
+  border-color: rgba(0, 229, 204, 0.4) !important;
+  background: rgba(0, 229, 204, 0.08) !important;
+  box-shadow: 0 0 20px rgba(0, 229, 204, 0.1) !important;
+}
+.hp-freq-chip strong {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  letter-spacing: 1px !important;
+}
+.hp-freq-chip span {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: var(--text-muted) !important;
+}
+
+/* Life Calling */
+.hp-freq-calling-wrap {
+  background: rgba(0, 229, 204, 0.03) !important;
+  border: 1px solid rgba(0, 229, 204, 0.18) !important;
+  border-radius: 0 !important;
+}
+.hp-freq-calling-wrap::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 204, 0.35), rgba(212, 168, 67, 0.2), rgba(0, 229, 204, 0.35), transparent) !important;
+}
+.hp-freq-calling-label {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  text-shadow: 0 0 12px rgba(0, 229, 204, 0.4) !important;
+}
+.hp-freq-calling-desc {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: var(--text-muted) !important;
+  font-style: normal !important;
+}
+.hp-freq-calling-glyph {
+  color: rgba(0, 229, 204, 0.15) !important;
+}
+
+/* ── Articles sidebar ─────────────────────────────────── */
+.hp-articles-title {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  text-shadow: 0 0 10px rgba(0, 229, 204, 0.3) !important;
+  border-bottom-color: var(--border) !important;
+}
+.hp-article-tag {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 6px !important;
+  color: var(--teal-dim) !important;
+}
+.hp-article-title {
+  font-family: 'VT323', monospace !important;
+  font-size: 18px !important;
+  letter-spacing: 1px !important;
+  color: var(--text) !important;
+}
+.hp-article-read {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: var(--gold-dim) !important;
+}
+.hp-article-card:hover .hp-article-title { color: var(--teal) !important; }
+.hp-article-card:hover .hp-article-read  { color: var(--teal-light) !important; }
+
+/* ── Tester section ───────────────────────────────────── */
+.hp-tester-title {
+  font-family: 'Press Start 2P', monospace !important;
+  color: var(--white) !important;
+}
+.hp-tester-title span { color: var(--teal) !important; }
+.hp-tester-label {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--teal) !important;
+  text-shadow: 0 0 10px rgba(0, 229, 204, 0.3) !important;
+  opacity: 0.85 !important;
+}
+.hp-tester-sub {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: rgba(200, 216, 240, 0.35) !important;
+}
+.hp-tester-body {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: rgba(200, 216, 240, 0.5) !important;
+}
+.hp-tester-divider {
+  background: rgba(0, 229, 204, 0.4) !important;
+}
+.hp-tester-btn {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 8px !important;
+  background: var(--teal) !important;
+  color: var(--bg-deep) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 24px rgba(0, 229, 204, 0.3) !important;
+}
+.hp-tester-btn:hover {
+  background: var(--teal-light) !important;
+  box-shadow: 0 0 40px rgba(0, 229, 204, 0.45) !important;
+}
+.hp-tester-step {
+  background: rgba(0, 229, 204, 0.03) !important;
+  border: 1px solid rgba(0, 229, 204, 0.12) !important;
+  border-radius: 0 !important;
+}
+.hp-tester-step:hover {
+  background: rgba(0, 229, 204, 0.08) !important;
+  border-color: rgba(0, 229, 204, 0.3) !important;
+}
+.hp-tester-step-num {
+  font-family: 'Press Start 2P', monospace !important;
+  color: var(--teal) !important;
+  opacity: 0.6 !important;
+}
+.hp-tester-step-title {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  color: var(--white) !important;
+}
+.hp-tester-step-desc {
+  font-family: 'Share Tech Mono', monospace !important;
+  color: rgba(200, 216, 240, 0.4) !important;
+}
+.hp-tester-step-arrow { color: var(--teal) !important; }
+
+/* ── Services page ────────────────────────────────────── */
+.service-card, [class*="service-card"], [class*="pricing"] {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+}
+.service-card:hover, [class*="service-card"]:hover {
+  border-color: var(--teal-dim) !important;
+  box-shadow: 0 0 40px rgba(0, 229, 204, 0.08) !important;
+}
+
+[class*="service"] h3, [class*="service"] .price,
+[class*="pricing"] h3, [class*="tier-name"] {
+  font-family: 'VT323', monospace !important;
+  letter-spacing: 2px !important;
+}
+[class*="tier-name"], [class*="plan-name"] {
+  color: var(--teal) !important;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+footer, .site-footer, [class*="footer"] {
+  background: var(--bg-panel) !important;
+  border-top: 1px solid var(--border) !important;
+  font-family: 'Share Tech Mono', monospace !important;
+}
+
+/* ── Blog cards ───────────────────────────────────────── */
+[class*="blog-card"], [class*="post-card"] {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+}
+[class*="blog-card"]:hover, [class*="post-card"]:hover {
+  border-color: var(--teal-dim) !important;
+  box-shadow: 0 0 30px rgba(0, 229, 204, 0.06) !important;
+}
+
+/* ── About page ───────────────────────────────────────── */
+[class*="about-"] h2, [class*="about-"] h3 {
+  font-family: 'VT323', monospace !important;
+  letter-spacing: 2px !important;
+}
+
+/* ── Calculator / Modal ───────────────────────────────── */
+.modal-overlay, [class*="modal-overlay"] {
+  background: rgba(5, 5, 8, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+}
+.modal-card, [class*="modal-card"], [class*="modal-body"] {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 60px rgba(0, 229, 204, 0.08) !important;
+}
+[class*="modal"] h2, [class*="modal"] h3 {
+  font-family: 'VT323', monospace !important;
+  color: var(--teal) !important;
+  letter-spacing: 2px !important;
+}
+input, select, textarea {
+  font-family: 'Share Tech Mono', monospace !important;
+  background: var(--bg-inset) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 0 !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--teal-dim) !important;
+  box-shadow: 0 0 16px rgba(0, 229, 204, 0.1) !important;
+  outline: none !important;
+}
+label {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 7px !important;
+  letter-spacing: 1px !important;
+  color: var(--text-muted) !important;
+}
+
+/* ── Testimonials ─────────────────────────────────────── */
+[class*="testimonial"], [class*="review-card"] {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+}
+[class*="testimonial"] p, [class*="review-card"] p {
+  font-family: 'Share Tech Mono', monospace !important;
+}
+
+/* ── Codex / SVG diagram ──────────────────────────────── */
+.hp-codex-node circle {
+  stroke: rgba(0, 229, 204, 0.5) !important;
+  fill: #0b0b14 !important;
+}
+.hp-codex-node text {
+  fill: rgba(0, 229, 204, 0.8) !important;
+  font-family: 'Share Tech Mono', monospace !important;
+}
+.hp-codex-line {
+  stroke: rgba(0, 229, 204, 0.3) !important;
+}
+.hp-codex-node--center circle {
+  stroke: var(--teal) !important;
+}
+.hp-codex-node--center text {
+  fill: var(--teal) !important;
+}
+
+/* ── Circuit labels ───────────────────────────────────── */
+.hp-freq-circuit-label {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 6px !important;
+  color: var(--text-muted) !important;
+  letter-spacing: 2px !important;
+}
+.hp-freq-circuit-label::before,
+.hp-freq-circuit-label::after {
+  background: rgba(0, 229, 204, 0.1) !important;
+}
+
+/* ── Section dividers / borders ───────────────────────── */
+[class*="-divider"], hr {
+  border-color: var(--border) !important;
+  background: var(--border) !important;
+}
+
+/* ── Corner decorations on hero ───────────────────────── */
+.hp-hero::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: radial-gradient(ellipse at 70% 30%, rgba(0, 229, 204, 0.04), transparent 60%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+/* ── Terminal-style SCL block ─────────────────────────── */
+.hp-scl-terminal {
+  box-shadow: 0 0 40px rgba(0, 229, 204, 0.1), 0 0 0 1px rgba(0, 229, 204, 0.06) !important;
+}
+
+/* ── Glow accents on section headings ─────────────────── */
+h1 { text-shadow: 0 0 30px rgba(0, 229, 204, 0.1); }
+h2 { text-shadow: 0 0 20px rgba(212, 168, 67, 0.15); }
+
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--teal-dim); }
+
+/* ── Selection ────────────────────────────────────────── */
+::selection {
+  background: rgba(0, 229, 204, 0.25);
+  color: var(--white);
+}
+
+/* ── Ensure all hero content is above grid background ─── */
+.hp-hero > * { position: relative; z-index: 1; }
+
+/* ── Service sigil / rotating icon recolor ────────────── */
+[class*="sigil"], [class*="glyph"] {
+  filter: hue-rotate(140deg) brightness(1.1) !important;
+}
+
+/* ── "Coming soon" / badge chips ─────────────────────── */
+[class*="badge"], [class*="tag"], [class*="chip"] {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 6px !important;
+  border-radius: 0 !important;
+}
+
+/* ── Price numbers ────────────────────────────────────── */
+[class*="price"], [class*="-amount"] {
+  font-family: 'VT323', monospace !important;
+  color: var(--teal) !important;
+  font-size: clamp(32px, 4vw, 48px) !important;
+  text-shadow: 0 0 20px rgba(0, 229, 204, 0.3) !important;
+  letter-spacing: 2px !important;
+}
+
+/* ── Unlock / CTA block ───────────────────────────────── */
+[class*="unlock"], [class*="cta-block"] {
+  background: var(--bg-panel2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+}
+
+/* ── Quest-style list items ───────────────────────────── */
+[class*="feature-list"] li::before,
+[class*="check-list"] li::before {
+  content: '▶ ';
+  color: var(--teal);
+}
+
+/* ── Global link styles ───────────────────────────────── */
+a { color: var(--teal-dim); transition: color 0.2s; }
+a:hover { color: var(--teal); text-shadow: 0 0 10px rgba(0, 229, 204, 0.3); }
