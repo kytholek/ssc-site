@@ -1321,7 +1321,10 @@ function switchQuestSection(s) {
   if (dp) { dp.classList.add('hidden'); dp.dataset.activeId = ''; }
   document.querySelectorAll('.quest-tile-inner.active-tile').forEach(el => el.classList.remove('active-tile'));
   if (s === 'side') renderSideQuests();
-  if (s === 'daily' && typeof QuestEngine_buildDailyRead === 'function') QuestEngine_buildDailyRead();
+  if (s === 'daily') {
+    if (typeof QuestEngine_buildDailyRead === 'function') QuestEngine_buildDailyRead();
+    if (typeof _buildFreqQuestList === 'function') try { _buildFreqQuestList(); } catch(e) {}
+  }
 }
 
 /* ================================================

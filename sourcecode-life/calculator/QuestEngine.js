@@ -539,7 +539,11 @@ function QuestEngine_completeDailyQuest() {
     d = { date: today, completed: false, title, body, dayObj, dayObjMeta };
     try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
   }
-  if (d.completed) return;
+  if (d.completed) {
+    // Already complete — force re-render so UI is in sync
+    try { _renderDailyQuest(d); } catch(e) {}
+    return;
+  }
   d.completed = true;
   try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
 
@@ -711,7 +715,16 @@ function _isFreqDone(key) {
 }
 
 function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
-  if (_isFreqDone(key)) return;
+  if (_isFreqDone(key)) {
+    // Already done — just re-render to ensure UI is in sync
+    try { _buildFreqQuestList(); } catch(e) {}
+    return;
+  }
+  // Flash the button
+  try {
+    const btns = document.querySelectorAll('[onclick*="' + key + '"]');
+    btns.forEach(b => { b.textContent = '✓ DONE'; b.style.opacity = '0.5'; b.disabled = true; });
+  } catch(e) {}
   const log = _getFreqLog();
   // Life quest keys use quarter string for 3-month reset; everything else uses timestamp
   const lifeBaseKeys = ['lp','cl','ex','so','ou','ac','th'];
@@ -787,12 +800,11 @@ function _buildDailyFreqList() {
           ${obj ? `<div class="fq-objs"><div class="fq-obj">◈ ${obj}</div></div>` : ''}
           ${done
             ? `<div class="fq-done-label">✓ COMPLETE</div>`
-            : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;"
+            : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:10px;width:100%;"
                  onclick="QuestEngine_completeFreqQuest('${dailyKey}', ${pos.xp}, ${root})">▶ COMPLETE</button>`}
-
         </div>`;
     });
-  } catch(e) { console.error('_buildDailyFreqList:', e); }
+  } catch(e) { console.error('_buildDailyFreqList build:', e); }
 
   el.innerHTML = html;
 }
