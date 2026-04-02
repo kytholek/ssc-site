@@ -60,12 +60,15 @@ window.NativeAuth = {
     _auth.createUserWithEmailAndPassword(normalizedEmail, password)
       .then(result => {
         const uid = result.user.uid;
+        console.log('[bridge] register success uid=' + uid + ', writing player doc...');
         _db.collection('players').doc(uid).set(
           { email: normalizedEmail, created: Date.now() },
           { merge: true }
-        ).finally(() => NativeAuth_onRegisterResult(true, uid, ''));
+        )
+          .then(() => { console.log('[bridge] player doc written OK'); NativeAuth_onRegisterResult(true, uid, ''); })
+          .catch(e => { console.error('[bridge] player doc write FAILED:', e.code, e.message); NativeAuth_onRegisterResult(true, uid, ''); });
       })
-      .catch(e => NativeAuth_onRegisterResult(false, '', _friendlyError(e.code)));
+      .catch(e => { console.error('[bridge] register FAILED:', e.code, e.message); NativeAuth_onRegisterResult(false, '', _friendlyError(e.code)); });
   },
 
   sendPasswordReset(email) {
@@ -86,24 +89,27 @@ window.NativeAuth = {
 
   savePlayer(name, dob, lp, cl, ex) {
     const user = _auth.currentUser;
-    if (!user) { NativeAuth_onSavePlayerResult(false, 'Not signed in.'); return; }
+    if (!user) { console.error('[bridge] savePlayer: no currentUser'); NativeAuth_onSavePlayerResult(false, 'Not signed in.'); return; }
     const email = (user.email || '').trim().toLowerCase();
+    console.log('[bridge] savePlayer uid=' + user.uid);
     _db.collection('players').doc(user.uid).set(
       { name, dob, lp, cl, ex, email, updated: Date.now() },
       { merge: true }
     )
-      .then(() => NativeAuth_onSavePlayerResult(true, ''))
-      .catch(e => NativeAuth_onSavePlayerResult(false, e.message || 'Save failed.'));
+      .then(() => { console.log('[bridge] savePlayer OK'); NativeAuth_onSavePlayerResult(true, ''); })
+      .catch(e => { console.error('[bridge] savePlayer FAILED:', e.code, e.message); NativeAuth_onSavePlayerResult(false, e.message || 'Save failed.'); });
   },
 
   loadPlayer() {
     const user = _auth.currentUser;
-    if (!user) { NativeAuth_onLoadPlayerResult(false, '', '', '', ''); return; }
+    if (!user) { console.warn('[bridge] loadPlayer: no currentUser'); NativeAuth_onLoadPlayerResult(false, '', '', '', ''); return; }
     const uid       = user.uid;
     const authEmail = (user.email || '').trim().toLowerCase();
+    console.log('[bridge] loadPlayer uid=' + uid);
     _db.collection('players').doc(uid).get()
       .then(snap => {
         if (snap.exists) {
+          console.log('[bridge] loadPlayer doc found');
           const d = snap.data();
           NativeAuth_onLoadPlayerResult(true, uid, d.name || '', d.dob || '', authEmail);
           const charXP    = d.charXP    || 0;
@@ -115,10 +121,11 @@ window.NativeAuth = {
           NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel,
             JSON.stringify(statXP), JSON.stringify(freqLog));
         } else {
+          console.log('[bridge] loadPlayer: no doc, sending to char create');
           NativeAuth_onLoadPlayerResult(false, uid, '', '', authEmail);
         }
       })
-      .catch(() => NativeAuth_onLoadPlayerResult(false, '', '', '', ''));
+      .catch(e => { console.error('[bridge] loadPlayer FAILED:', e.code, e.message); NativeAuth_onLoadPlayerResult(false, '', '', '', ''); });
   },
 
   signOut() {

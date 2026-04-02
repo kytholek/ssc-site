@@ -245,8 +245,10 @@
   box-shadow: 0 0 30px rgba(192,48,24,0.12), 4px 4px 16px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(200,144,26,0.12);
 }
 
+/* Diablo: journal strips and quest cards solid bg */
 [data-theme="diablo"] .journal-strip,
 [data-theme="diablo"] .quest-card {
+  background: #1e1c18;
   box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
 }
 
@@ -317,7 +319,7 @@
 /* Diablo: strip + quest card */
 [data-theme="diablo"] .strip-affirmation,
 [data-theme="diablo"] .quest-affirmation {
-  background: rgba(200,144,26,0.05);
+  background: #1e1c18;
   font-style: italic;
 }
 
@@ -329,7 +331,7 @@
 
 /* Diablo: char card */
 [data-theme="diablo"] .char-card {
-  background: linear-gradient(135deg, var(--bg-panel) 0%, rgba(28,24,20,0.9) 100%);
+  background: #1e1c18;
 }
 
 /* Diablo: avatar frame */
