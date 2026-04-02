@@ -1,0 +1,76 @@
+<div class="char-create-overlay hidden" id="charCreateOverlay">
+  <div class="char-create-modal">
+    <div class="char-create-header">
+      <div class="char-create-logo">DECODING YOUR FREQUENCIES</div>
+      <div class="char-create-subtitle">Enter your birth information to compute your core numbers</div>
+    </div>
+    <div class="char-create-body">
+      <div class="field-group">
+        <label class="field-label">FULL BIRTH NAME</label>
+        <input type="text" class="field-input" id="charName" placeholder="Enter your complete name at birth" maxlength="48">
+      </div>
+      <div class="field-group">
+        <label class="field-label">DATE OF BIRTH</label>
+        <div class="date-row">
+          <input type="number" class="field-input" id="charMonth" placeholder="MM" min="1" max="12">
+          <input type="number" class="field-input" id="charDay"   placeholder="DD" min="1" max="31">
+          <input type="number" class="field-input" id="charYear"  placeholder="YYYY" min="1900" max="2100">
+        </div>
+        <div class="field-hint">Used for all numerology calculations</div>
+      </div>
+      <div class="char-create-numbers" id="charCreateNumbers">
+        <div class="ccn-row">
+          <div class="ccn-item">
+            <div class="ccn-label">LIFE PATH</div>
+            <div class="ccn-value" id="ccnLP">--</div>
+          </div>
+          <div class="ccn-sep">/</div>
+          <div class="ccn-item">
+            <div class="ccn-label">CALLING</div>
+            <div class="ccn-value" id="ccnCL">--</div>
+          </div>
+          <div class="ccn-sep">/</div>
+          <div class="ccn-item">
+            <div class="ccn-label">EXPRESSION</div>
+            <div class="ccn-value" id="ccnEX">--</div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-error" id="charError"></div>
+      <div class="auth-success" id="charSuccess"></div>
+      <div class="auth-loading" id="charLoading">
+        <div class="loading-dots">COMPUTING FREQUENCIES...</div>
+      </div>
+      <button class="btn-primary" onclick="handleCharCreate()">▶ CREATE CHARACTER</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('charName').addEventListener('input', updateCharPreview);
+document.getElementById('charMonth').addEventListener('input', updateCharPreview);
+document.getElementById('charDay').addEventListener('input', updateCharPreview);
+document.getElementById('charYear').addEventListener('input', updateCharPreview);
+
+function updateCharPreview() {
+  const name = document.getElementById('charName').value.trim();
+  const month = parseInt(document.getElementById('charMonth').value) || 0;
+  const day = parseInt(document.getElementById('charDay').value) || 0;
+  const year = parseInt(document.getElementById('charYear').value) || 0;
+  
+  if (name && month >= 1 && month <= 12 && day >= 1 && day <= 31 && year >= 1900 && year <= 2100) {
+    try {
+      const data = computeAll(month, day, year, name);
+      document.getElementById('ccnLP').textContent = fmt(data.lp.root, data.lp.compound);
+      document.getElementById('ccnCL').textContent = fmt(data.cl.root, data.cl.compound);
+      document.getElementById('ccnEX').textContent = fmt(data.ex.root, data.ex.compound);
+      document.getElementById('charCreateNumbers').style.opacity = '1';
+    } catch(e) {
+      document.getElementById('charCreateNumbers').style.opacity = '0.4';
+    }
+  } else {
+    document.getElementById('charCreateNumbers').style.opacity = '0.4';
+  }
+}
+</script>
+

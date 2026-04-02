@@ -54,6 +54,12 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
+    // ── app subdomain → redirect to web app ────────────────────────────
+    if (url.hostname === 'app.simulationsourcecode.com') {
+      const appPath = url.pathname === '/' ? '/QuestOfLifeWeb/' : url.pathname;
+      return Response.redirect('https://simulationsourcecode.com' + appPath + url.search, 301);
+    }
+
     // ── Route dispatch ──────────────────────────────────────────────────
     if (request.method === 'POST' && url.pathname === '/api/session') {
       return handleCreateCheckout(request, env, origin);

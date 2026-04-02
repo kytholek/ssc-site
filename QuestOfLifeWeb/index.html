@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="scifi">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOURCE CODE: LIFE</title>
+
+  <!-- Favicon -->
+<!-- Icon removed for web version -->
+</xai:function_call >
+
+<xai:function_call name="edit_file">
+<parameter name="path">QuestOfLifeWeb/index.html
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- THEME SCANLINE -->
+  <div class="scanline"></div>
+
+  <!-- ════ AUTH OVERLAY ════ -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-modal">
+      <div class="auth-header">
+        <div class="auth-logo">SIMULATION SOURCE CODE:</div>
+        <div class="auth-subtitle">THE QUEST OF LIFE</div>
+      </div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tabSignIn" onclick="showAuthTab('signin')">SIGN IN</div>
+        <div class="auth-tab"        id="tabSignUp" onclick="showAuthTab('signup')">NEW PLAYER</div>
+      </div>
+      <div class="auth-body">
+        <!-- Sign In Form -->
+        <div class="auth-form-panel active" id="formSignIn">
+          <div class="field-group">
+            <label class="field-label">EMAIL ADDRESS</label>
+            <input type="email" class="field-input" id="loginEmail" placeholder="player@domain.com" autocomplete="username">
+          </div>
+          <div class="field-group">
+            <label class="field-label">PASSWORD</label>
+            <input type="password" class="field-input" id="loginPassword" placeholder="••••••••••" autocomplete="current-password">
+          </div>
+          <button class="btn-primary" onclick="handleLogin()">▶ DECODE YOUR QUEST</button>
+          <div style="text-align:center;margin-top:18px;">
+            <span class="auth-link" onclick="showAuthTab('reset')">Forgot password?</span>
+          </div>
+          <!-- BYPASS FOR TESTING -->
+          <div style="text-align:center;margin-top:24px;border-top:1px solid var(--border);padding-top:16px;">
+            <span class="auth-link" style="font-size:8px;opacity:0.6;" onclick="handleTesterAccess()">[ TESTER ACCESS ]</span>
+          </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="auth-form-panel" id="formSignUp">
+          <div class="field-group">
+            <label class="field-label">PLAYER NAME</label>
+            <input type="text" class="field-input" id="regName" placeholder="How shall we call you?" maxlength="24">
+          </div>
+          <div class="field-group">
+            <label class="field-label">DATE OF BIRTH</label>
+            <div class="date-row">
+              <input type="number" class="field-input" id="dobDay"   placeholder="DD" min="1" max="31">
+              <input type="number" class="field-input" id="dobMonth" placeholder="MM" min="1" max="12">
+              <input type="number" class="field-input" id="dobYear"  placeholder="YYYY" min="1900" max="2100">
+            </div>
+            <div class="field-hint">Used for your Numerology generation.</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">EMAIL ADDRESS</label>
+            <input type="email" class="field-input" id="regEmail" placeholder="player@domain.com" autocomplete="email">
+          </div>
+          <div class="field-group">
+            <label class="field-label">CREATE PASSWORD</label>
+            <input type="password" class="field-input" id="regPassword" placeholder="min. 6 characters" autocomplete="new-password">
+          </div>
+          <button class="btn-primary" onclick="handleRegister()">▶ AWAKEN CHARACTER</button>
+        </div>
+
+        <!-- Password Reset Form -->
+        <div class="auth-form-panel" id="formReset">
+          <div class="field-group">
+            <label class="field-label">RECOVERY EMAIL</label>
+            <input type="email" class="field-input" id="resetEmail" placeholder="player@domain.com">
+          </div>
+          <button class="btn-primary" onclick="handleReset()">▶ SEND RECOVERY LINK</button>
+          <div style="text-align:center;margin-top:18px;">
+            <span class="auth-link" onclick="showAuthTab('signin')">Back to login</span>
+          </div>
+        </div>
+
+        <div class="auth-error"   id="authError"></div>
+        <div class="auth-success" id="authSuccess"></div>
+        <div class="auth-loading" id="authLoading">
+          <div class="loading-dots">SYNCING WITH CORE...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ APP SHELL ════ -->
+  <div class="app-shell hidden" id="appShell">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div>
+          <div class="header-wordmark">SIMULATION SOURCE CODE:</div>
+          <div class="header-sub">THE QUEST OF LIFE</div>
+        </div>
+        <div class="header-player">
+          <div class="header-player-name" id="headName">—</div>
+          <div class="header-player-dob"  id="headDob">—</div>
+        </div>
+      </div>
+      <div class="header-divider"></div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" id="btnStats" onclick="switchTab('Stats')">
+        <span class="tab-icon">◈</span>
+        <span>STATS</span>
+      </button>
+      <button class="tab-btn" id="btnQuests" onclick="switchTab('Quests')">
+        <span class="tab-icon">⚔</span>
+        <span>QUESTS</span>
+      </button>
+      <button class="tab-btn" id="btnWorld" onclick="switchTab('World')">
+        <span class="tab-icon">🗺</span>
+        <span>WORLD</span>
+      </button>
+      <button class="tab-btn" id="btnSettings" onclick="switchTab('Settings')">
+        <span class="tab-icon">⚙</span>
+        <span>CONFIG</span>
+      </button>
+    </nav>
+
+    <!-- ════ STATS TAB ════ -->
+    <div class="tab-panel active" id="panelStats">
+      <div class="content-area">
+        <!-- Main Character Card -->
+        <div class="rpg-panel char-card">
+          <div class="char-card-inner">
+            <div class="char-avatar-wrap" onclick="triggerAvatarUpload()">
+              <div class="char-avatar-frame">
+                <img src="" id="charAvatarImg" class="char-avatar-img hidden">
+                <div class="char-avatar-placeholder" id="charAvatarPlaceholder">
+                  <span class="char-avatar-icon">👤</span>
+                  <span class="char-avatar-hint">TAP TO<br>UPLOAD</span>
+                </div>
+                <div class="char-avatar-overlay"><span>UPLINK</span></div>
+              </div>
+            </div>
+            <div class="char-identity">
+              <div class="char-identity-name" id="charName">PLAYER</div>
+              <div class="char-identity-dob"  id="charDob">00/00/0000</div>
+              <div class="char-identity-divider"></div>
+              <!-- LEVEL PROGRESS BARS -->
+              <div class="lvl-bar-wrap" style="margin-bottom:8px;">
+                <div class="lvl-bar-header">
+                  <span class="lvl-bar-label">CHARACTER LEVEL</span>
+                  <span class="lvl-bar-num" id="charLvl">1</span>
+                </div>
+                <div class="lvl-bar-track">
+                  <div class="char-bar-fill" id="charBarFill" style="width:0%;"></div>
+                </div>
+              </div>
+              <div class="lvl-bar-wrap">
+                <div class="lvl-bar-header">
+                  <span class="lvl-bar-label">FREQUENCY SYNC</span>
+                  <span class="lvl-bar-num" id="freqLvl">1</span>
+                </div>
+                <div class="lvl-bar-track">
+                  <div class="freq-bar-fill" id="freqBarFill" style="width:0%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CORE NUMBERS PANEL -->
+        <div class="rpg-panel" style="margin-bottom:14px;border-color:var(--gold-muted)!important;">
+          <div class="panel-label c-gold">◈ CORE FREQUENCIES</div>
+          <div class="panel-body" style="padding:14px 12px;">
+            <div class="char-core-numbers">
+              <div class="core-num-block" style="color:var(--teal);">
+                <span class="core-num-value" id="valLP">0</span>
+                <span class="core-num-label">LIFE PATH</span>
+              </div>
+              <span class="core-num-sep">/</span>
+              <div class="core-num-block" style="color:var(--purple);">
+                <span class="core-num-value" id="valCL">0</span>
+                <span class="core-num-label">SOUL URGE</span>
+              </div>
+              <span class="core-num-sep">/</span>
+              <div class="core-num-block" style="color:var(--gold);">
+                <span class="core-num-value" id="valEX">0</span>
+                <span class="core-num-label">EXPRESSION</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-SECTIONS TOGGLE -->
+        <div class="section-toggle">
+          <button class="section-btn active" onclick="showSubSection('Overview')">SUMMARY</button>
+          <button class="section-btn"        onclick="showSubSection('Charts')">ANALYSIS</button>
+          <button class="section-btn"        onclick="showSubSection('Gifts')">GIFTS</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="sub-panel active" id="subOverview">
+          <div class="rpg-panel">
+            <div class="panel-label c-teal">◈ CHARACTER PROFILE</div>
+            <div class="panel-body">
+              <div id="journalList">
+                <div class="placeholder-panel">
+                  <div class="placeholder-icon">⌛</div>
+                  <div class="placeholder-text">CALCULATING CORE METRICS<span class="placeholder-blink">...</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analysis Section -->
+        <div class="sub-panel" id="subCharts">
+          <div class="rpg-panel">
+            <div class="panel-label c-purple">◈ FREQUENCY DISTRIBUTION</div>
+            <div class="panel-body">
+              <div class="chart-section-title">CHART QUANTITY MATRIX</div>
+              <div class="bar-chart" id="statChart"></div>
+              <div class="bar-chart-labels">
+                <div class="bar-chart-label">1</div><div class="bar-chart-label">2</div><div class="bar-chart-label">3</div>
+                <div class="bar-chart-label">4</div><div class="bar-chart-label">5</div><div class="bar-chart-label">6</div>
+                <div class="bar-chart-label">7</div><div class="bar-chart-label">8</div><div class="bar-chart-label">9</div>
+              </div>
+              <div class="chart-section-title">INTENSITY ANALYSIS</div>
+              <div class="freq-detail-grid" id="freqDetailGrid"></div>
+              <div class="source-breakdown" id="sourceBreakdown"></div>
+            </div>
+          </div>
+          <!-- OBLIVION-STYLE STAT CHART -->
+          <div class="rpg-panel">
+            <div class="panel-label c-gold">◈ FREQUENCY RESONANCE</div>
+            <div class="panel-body" style="padding:10px 8px;">
+              <div class="stat-chart-header">
+                <div class="stat-col-hdr">#</div>
+                <div class="stat-col-hdr" style="text-align:left;padding-left:4px;">RESONANCE</div>
+                <div class="stat-col-hdr">LVL</div>
+                <div class="stat-col-hdr">EXP</div>
+                <div class="stat-col-hdr">QU</div>
+                <div class="stat-col-hdr stat-col-total-hdr">TOT</div>
+              </div>
+              <div id="oblivionStatList"></div>
+            </div>
+          </div>
+          <!-- POLARITY ANALYSIS -->
+          <div class="rpg-panel polarity-card">
+            <div class="panel-label c-teal">◈ POLARITY ALIGNMENT</div>
+            <div class="polarity-inner" id="polarityInner"></div>
+          </div>
+        </div>
+
+        <!-- Gifts Section -->
+        <div class="sub-panel" id="subGifts">
+          <div class="rpg-panel char-gifts-panel">
+            <div class="char-gifts-label">◈ ARCHETYPAL GIFTS</div>
+            <div class="char-gifts-grid" id="charGiftsGrid"></div>
+          </div>
+          <!-- Gift Tooltip Box (position fixed/absolute via JS) -->
+          <div id="giftInfoBox" class="gift-info-box">
+             <div class="gift-info-title"  id="giftInfoTitle">Gift Name</div>
+             <div class="gift-info-source" id="giftInfoSource">SOURCE: LP 1</div>
+             <div class="gift-info-desc"   id="giftInfoDesc">Description goes here...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ QUESTS TAB ════ -->
+    <div class="tab-panel" id="panelQuests">
+      <div class="content-area">
+        <!-- Daily Quest (Special) -->
+        <div class="rpg-panel main-quest-card" id="dailyQuestCard">
+          <div class="mq-banner">
+            <span class="mq-banner-label">DAILY ALIGNMENT</span>
+            <span class="mq-banner-badge" id="dailyDate">00/00</span>
+          </div>
+          <div class="mq-body">
+            <div id="dailyQuestContent">
+              <div class="placeholder-panel" style="min-height:160px;">
+                <div class="placeholder-icon" style="font-size:32px;">⌛</div>
+                <div class="placeholder-text">FETCHING DAILY FREQUENCY...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-toggle">
+          <button class="section-btn active" onclick="showQuestType('Personal')">JOURNAL</button>
+          <button class="section-btn"        onclick="showQuestType('World')">ACTIVE</button>
+        </div>
+
+        <!-- Personal Journal Quests -->
+        <div class="sub-panel active" id="questPersonal">
+          <!-- ─── Weekly Quest Panel ─── -->
+          <div class="rpg-panel">
+            <div class="panel-label c-purple">◈ WEEKLY CYCLE</div>
+            <div class="panel-body" style="padding-top:0;">
+              <div id="weeklyQuestList"></div>
+            </div>
+          </div>
+          <div class="rpg-panel">
+            <div class="panel-label c-gold">◈ EXPRESSION PATHS</div>
+            <div class="panel-body">
+              <div class="quest-intro-panel">
+                Your Expression number defines your natural talents and the way you interact with the world. These quests help you manifest your potential.
+              </div>
+              <div id="personalQuestsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- World / Map Quests -->
+        <div class="sub-panel" id="questWorld">
+          <div class="rpg-panel">
+            <div class="panel-label c-teal">◈ ACTIVE MAP QUESTS</div>
+            <div class="panel-body">
+              <div class="quest-intro-panel">
+                Quests you have discovered on the world map. Complete them to earn frequency XP and resonance.
+              </div>
+              <div id="activeMapQuestsList">
+                <div class="placeholder-panel" style="min-height:120px;">
+                  <div class="placeholder-text">Explore the WORLD map to discover quests from other players.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Request Aid (Social) -->
+          <div class="aid-panel">
+            <div class="aid-banner">
+              <span class="aid-banner-label">RESONANCE NETWORK</span>
+              <span class="aid-banner-badge">SOCIAL</span>
+            </div>
+            <div class="aid-body">
+              <div class="aid-top">
+                <div class="aid-sigil">✦</div>
+                <div class="aid-info">
+                  <div class="aid-title">REQUEST AID</div>
+                  <div class="aid-subtitle">Amplification Signal</div>
+                </div>
+              </div>
+              <div class="aid-desc">
+                If your frequencies are out of balance, you can request aid from allies. This broadcasts your current need to your network.
+              </div>
+              <div class="aid-options">
+                <div class="aid-option">
+                  <div class="aid-option-header">
+                    <span class="aid-option-icon">⚡</span>
+                    <div class="aid-option-info">
+                      <div class="aid-option-title">ALLY SEARCH</div>
+                      <div class="aid-option-sub">Frequency Identification</div>
+                    </div>
+                  </div>
+                  <div class="aid-option-desc">Search for players by email to form a resonance bond.</div>
+                  <div class="field-group" style="margin-bottom:10px;">
+                    <input type="email" class="field-input" id="searchEmail" placeholder="ally@domain.com">
+                  </div>
+                  <div id="searchResult" style="margin-bottom:10px;display:none;"></div>
+                  <button class="aid-btn aid-btn-primary" onclick="handleSearch()">▶ SEARCH EMAIL</button>
+                </div>
+                <div class="aid-divider">◈ OR ◈</div>
+                <div class="aid-option">
+                  <div class="aid-option-header">
+                    <span class="aid-option-icon">🤝</span>
+                    <div class="aid-option-info">
+                      <div class="aid-option-title">INVITE LINK</div>
+                      <div class="aid-option-sub">Deep Link Generation</div>
+                    </div>
+                  </div>
+                  <div class="aid-option-desc">Generate a direct invite link to send via messaging apps.</div>
+                  <button class="aid-btn aid-btn-secondary" onclick="shareInviteLink()">▶ GENERATE LINK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Allies Management -->
+          <div class="rpg-panel">
+            <div class="panel-label c-silver">◈ ALLIES &amp; REQUESTS</div>
+            <div class="panel-body">
+              <div class="chart-section-title">PENDING REQUESTS</div>
+              <div id="pendingRequestsList" style="margin-bottom:16px;"><div class="allies-empty">No pending requests.</div></div>
+              <div class="chart-section-title">MY ALLIES</div>
+              <div id="alliesList"><div class="allies-empty">You have no allies yet.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ WORLD TAB ════ -->
+    <div class="tab-panel" id="panelWorld">
+      <div class="content-area">
+        <div class="rpg-panel map-rpg-panel">
+          <div class="panel-label c-teal">◈ GLOBAL RESONANCE MAP</div>
+          <div class="panel-body map-legend-body">
+            <div class="map-legend">
+              <div class="map-legend-item"><span class="map-legend-dot map-legend-dot--mine"></span> MY QUESTS</div>
+              <div class="map-legend-item"><span class="map-legend-dot map-legend-dot--ally"></span> ALLY QUESTS</div>
+            </div>
+          </div>
+          <div id="leafletMap"></div>
+        </div>
+
+        <div class="rpg-panel">
+          <div class="panel-label c-gold">◈ MAKE A QUEST</div>
+          <div class="panel-body">
+            <p class="mq-intro">Drop a quest marker on the world map. Your allies can see it and join your resonance.</p>
+            <div class="field-group">
+              <label class="field-label">QUEST NAME</label>
+              <input type="text" class="field-input" id="mqName" placeholder="Name this quest..." maxlength="40">
+            </div>
+            <div class="field-group">
+              <label class="field-label">DESCRIPTION</label>
+              <textarea class="field-input mq-textarea" id="mqDesc" placeholder="What is this quest about? What are you pursuing here?" maxlength="250"></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">QUEST TYPE</label>
+              <div class="mq-type-grid">
+                <button class="mq-type-btn active" data-type="EXPLORE" onclick="selectQuestType(this)">🗺 EXPLORE</button>
+                <button class="mq-type-btn"        data-type="CONNECT" onclick="selectQuestType(this)">⚔ CONNECT</button>
+                <button class="mq-type-btn"        data-type="ACHIEVE" onclick="selectQuestType(this)">▲ ACHIEVE</button>
+                <button class="mq-type-btn"        data-type="HEAL"    onclick="selectQuestType(this)">✦ HEAL</button>
+                <button class="mq-type-btn"        data-type="CREATE"  onclick="selectQuestType(this)">⬖ CREATE</button>
+                <button class="mq-type-btn"        data-type="REFLECT" onclick="selectQuestType(this)">◇ REFLECT</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">REWARD FREQUENCY</label>
+              <p class="mq-reward-intro">Choose the root number that reflects what you'll gain from this quest.</p>
+              <div class="mq-reward-grid">
+                <button class="mq-reward-btn active" data-num="1" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">1</span>
+                  <span class="mq-reward-name">INITIATION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="2" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">2</span>
+                  <span class="mq-reward-name">UNION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="3" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">3</span>
+                  <span class="mq-reward-name">EXPRESSION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="4" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">4</span>
+                  <span class="mq-reward-name">FOUNDATION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="5" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">5</span>
+                  <span class="mq-reward-name">FREEDOM</span>
+                </button>
+                <button class="mq-reward-btn" data-num="6" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">6</span>
+                  <span class="mq-reward-name">HARMONY</span>
+                </button>
+                <button class="mq-reward-btn" data-num="7" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">7</span>
+                  <span class="mq-reward-name">TRUTH</span>
+                </button>
+                <button class="mq-reward-btn" data-num="8" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">8</span>
+                  <span class="mq-reward-name">POWER</span>
+                </button>
+                <button class="mq-reward-btn" data-num="9" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">9</span>
+                  <span class="mq-reward-name">MASTERY</span>
+                </button>
+              </div>
+              <div class="mq-reward-preview" id="mqRewardPreview">
+                <span class="mq-reward-preview-label">XP GAIN ▸</span>
+                <span id="mqRewardPreviewText">Leadership · Willpower · New Beginnings</span>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">OBJECTIVES <span style="font-family:'VT323',monospace;font-size:16px;color:var(--text-dim);letter-spacing:0;font-weight:normal;">— what to do here</span></label>
+              <div class="mq-obj-inputs">
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj1" placeholder="First thing to do or experience..." maxlength="120">
+                </div>
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj2" placeholder="Second objective (optional)..." maxlength="120">
+                </div>
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj3" placeholder="Third objective (optional)..." maxlength="120">
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">SEEKER TYPE</label>
+              <div class="mq-seeker-grid">
+                <button class="mq-seeker-btn active" data-seeker="solo"    onclick="selectSeekerType(this)">◈ SOLO</button>
+                <button class="mq-seeker-btn"        data-seeker="partner" onclick="selectSeekerType(this)">⚔ PARTNER</button>
+                <button class="mq-seeker-btn"        data-seeker="group"   onclick="selectSeekerType(this)">✦ GROUP</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">DIFFICULTY</label>
+              <div class="mq-seeker-grid">
+                <button class="mq-seeker-btn active" data-diff="1" onclick="selectDifficulty(this)">◈ APPRENTICE</button>
+                <button class="mq-seeker-btn"        data-diff="2" onclick="selectDifficulty(this)">⚔ ADEPT</button>
+                <button class="mq-seeker-btn"        data-diff="3" onclick="selectDifficulty(this)">★ MASTER</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">LOCATION</label>
+              <div class="mq-location-row">
+                <input type="text" class="field-input" id="mqLocation" placeholder="Search for a place or address..." oninput="onLocationInput(this.value)" autocomplete="off">
+                <button class="settings-btn mq-gps-btn" onclick="useMyLocation()">◎ GPS</button>
+              </div>
+              <div id="mqLocationSuggestions" class="mq-suggestions hidden"></div>
+              <div id="mqLocationStatus" class="mq-location-status"></div>
+              <div id="mqMapPreview" class="mq-map-preview hidden"><div id="mqMiniMap"></div></div>
+            </div>
+            <!-- FREQUENCY SIGNATURE PREVIEW — populated by JS on form open -->
+            <div class="mq-sig-panel" id="mqSigPanel">
+              <div class="mq-sig-label">◈ YOUR FREQUENCY SIGNATURE</div>
+              <div class="mq-sig-body" id="mqSigBody">
+                <div class="mq-sig-hint">Sign in to attach your frequencies to this quest.</div>
+              </div>
+              <div class="mq-sig-footer">This signature is embedded in every quest you create. Others whose numbers align will feel the resonance.</div>
+            </div>
+            <div class="auth-error"   id="mqError"  ></div>
+            <div class="auth-success" id="mqSuccess"></div>
+            <div class="auth-loading" id="mqLoading" style="display:none;"><div class="loading-dots">CREATING QUEST...</div></div>
+            <button class="btn-primary" onclick="submitQuest()">▶ DROP QUEST MARKER</button>
+          </div>
+        </div>
+        <div class="rpg-panel">
+          <div class="panel-label c-gold">◈ MY ACTIVE QUESTS</div>
+          <div class="panel-body"><div id="myQuestsList"><div class="allies-empty">No quests placed yet.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ SETTINGS TAB ════ -->
+    <div class="tab-panel" id="panelSettings">
+      <div class="content-area">
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-silver">◈ DISPLAY</div>
+          <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+            <div class="settings-row-key">VISUAL STYLE</div>
+            <div class="cfg-chip-row" style="justify-content:flex-start;">
+              <button class="cfg-chip" id="themeOptScifi"    onclick="setTheme('scifi')">⚡ SCI-FI</button>
+              <button class="cfg-chip" id="themeOptFantasy"  onclick="setTheme('fantasy')">📜 FANTASY</button>
+              <button class="cfg-chip" id="themeOptunicorn"  onclick="setTheme('unicorn')">🦄 UNICORN</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Character Identity Moved to Top for better UX Hierarchy -->
+        <div class="rpg-panel" style="margin-bottom:14px; border-color: var(--gold);">
+          <div class="panel-label c-gold">◈ CHARACTER IDENTITY</div>
+          <div class="settings-row"><div class="settings-row-key">PLAYER NAME</div><div class="settings-row-val" id="settingName" style="color:var(--gold); font-weight:bold;">—</div></div>
+          <div class="settings-row"><div class="settings-row-key">DATE OF BIRTH</div><div class="settings-row-val" id="settingDob">—</div></div>
+          <div class="settings-row"><div class="settings-row-key">ACCOUNT EMAIL</div><div class="settings-row-val" id="settingEmail" style="font-size:11px; opacity:0.8;">—</div></div>
+        </div>
+
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-teal">◈ LOCATION &amp; MAP</div>
+          <div class="settings-row">
+            <div class="settings-row-key">LOCATION PROMPT</div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button class="settings-btn settings-btn-fixed" id="geoPromptToggleBtn" onclick="toggleGeoPromptSetting()" style="min-width:100px;">
+                <span id="geoPromptStatusText" style="margin-right:5px;">ON</span>
+              </button>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);padding:4px 0 2px;line-height:1.7;">When enabled, the app asks for location access on launch.</div>
+          <div class="settings-row" style="margin-top:8px;"><div class="settings-row-key">REQUEST NOW</div><button class="settings-btn settings-btn-fixed" onclick="requestGeoPermNow()">◎ REQUEST</button></div>
+        </div>
+
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-sage">◈ NOTIFICATIONS</div>
+          <div class="settings-row">
+            <div class="settings-row-key">DAILY BRIEFING</div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span id="notifStatusText" style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--text-dim);">OFF</span>
+              <button class="settings-btn settings-btn-fixed" id="notifToggleBtn" onclick="toggleNotifications()">▶ ENABLE</button>
+            </div>
+          </div>
+          <div id="notifTimeRow" style="display:none;">
+            <div class="settings-row"><div class="settings-row-key">SEND AT</div><div style="display:flex;align-items:center;gap:6px;"><select class="notif-select" id="notifHour"></select><span style="font-family:'VT323',monospace;font-size:22px;color:var(--text-dim);">:</span><select class="notif-select" id="notifMinute"></select><button class="settings-btn settings-btn-fixed" style="margin-left:4px;" onclick="saveNotifTime()">▶ SAVE</button></div></div>
+            <div class="settings-row"><div class="settings-row-key">TEST</div><button class="settings-btn settings-btn-fixed" onclick="sendTestNotification()">▶ SEND NOW</button></div>
+          </div>
+          <div class="settings-row" style="margin-top:4px;flex-direction:column;align-items:flex-start;gap:8px;">
+            <div class="settings-row-key">QUEST ALERTS</div>
+            <div class="cfg-chip-row" style="justify-content:flex-start;">
+              <button class="cfg-chip" id="questNotifBtn_off"    onclick="selectQuestNotifMode('off')">✕ OFF</button>
+              <button class="cfg-chip" id="questNotifBtn_allies" onclick="selectQuestNotifMode('allies')">⚔ ALLIES</button>
+              <button class="cfg-chip" id="questNotifBtn_all"    onclick="selectQuestNotifMode('all')">◈ ALL</button>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);padding:6px 0 2px;line-height:1.7;">Daily briefing: personal day frequency + objective. Quest alerts: notify when quests are placed on the map.</div>
+        </div>
+        <div class="rpg-panel">
+          <div class="panel-label c-silver">◈ ACCOUNT</div>
+          <div class="settings-row"><div class="settings-row-key">SIGN OUT</div><button class="settings-btn settings-btn-fixed" onclick="handleSignOut()">▶ SIGN OUT</button></div>
+          <div class="settings-row"><div class="settings-row-key">RESET CHARACTER</div><button class="settings-btn settings-btn-fixed" onclick="handleResetChar()">▶ RESET</button></div>
+          <div class="settings-row" style="cursor:pointer;" onclick="toggleChangePassword()"><div class="settings-row-key">CHANGE PASSWORD</div><div class="settings-btn settings-btn-fixed" id="changePwToggleBtn">▶ CHANGE</div></div>
+          <div id="changePwPanel" style="display:none;padding:10px 0 4px;"><div class="field-group" style="margin-bottom:8px;"><label class="field-label">CURRENT PASSWORD</label><input type="password" class="field-input" id="cpCurrent" placeholder="••••••••••" autocomplete="current-password"></div><div class="field-group" style="margin-bottom:8px;"><label class="field-label">NEW PASSWORD</label><input type="password" class="field-input" id="cpNew" placeholder="min. 6 characters" autocomplete="new-password"></div><div class="field-group" style="margin-bottom:10px;"><label class="field-label">CONFIRM NEW PASSWORD</label><input type="password" class="field-input" id="cpConfirm" placeholder="••••••••••" autocomplete="new-password"></div><div class="auth-error" id="cpError"></div><div class="auth-success" id="cpSuccess"></div><div class="auth-loading" id="cpLoading" style="display:none;"><div class="loading-dots">UPDATING PASSWORD...</div></div><button class="btn-primary" style="margin-top:4px;" onclick="handleChangePassword()">▶ UPDATE PASSWORD</button></div>
+          <div class="danger-zone"><div class="danger-zone-label">⚠ DANGER ZONE</div><div class="settings-row"><div class="settings-row-key" style="color:var(--rose);">DELETE ACCOUNT</div><button class="settings-btn settings-btn-fixed settings-btn-danger" onclick="toggleDeletePanel()">▶ DELETE</button></div><div id="deletePwPanel" style="display:none;padding:10px 0 4px;"><div style="font-size:10px;color:var(--text-dim);line-height:1.7;margin-bottom:10px;">Permanently deletes your account and all associated character data from our servers. This action is irreversible.</div><div class="field-group" style="margin-bottom:10px;"><label class="field-label" style="color:var(--rose);">CONFIRM PASSWORD</label><input type="password" class="field-input field-input-danger" id="deleteConfirmPw" placeholder="••••••••••" autocomplete="current-password"></div><div class="auth-error" id="deleteError"></div><div class="auth-loading" id="deleteLoading" style="display:none;"><div class="loading-dots" style="color:var(--rose);">WIPING DATA...</div></div><button class="btn-danger" onclick="handleDeleteAccount()">▶ PERMANENTLY DELETE ACCOUNT</button></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ LEVEL-UP BANNER ════ -->
+  <div class="lvlup-banner hidden" id="lvlupBanner">
+    <div class="lvlup-inner">
+      <div class="lvlup-track" id="lvlupTrack">CHARACTER LEVEL</div>
+      <div class="lvlup-num"   id="lvlupNum">2</div>
+      <div class="lvlup-sub">RESONANCE AMPLIFIED</div>
+    </div>
+  </div>
+
+  <!-- ════ STAT UNLOCK BANNER ════ -->
+  <div class="stat-unlock-banner" id="statUnlockBanner">
+    <span style="color:var(--teal);">✦ NEW RESONANCE DETECTED:</span><br>
+    <span id="statUnlockName" style="color:var(--gold);">STAT NAME</span>
+  </div>
+
+  <!-- ════ GEOLOCATION PROMPT ════ -->
+  <div class="geo-perm-overlay hidden" id="geoPermOverlay">
+    <div class="geo-perm-modal">
+      <div class="geo-perm-icon">◎</div>
+      <div class="geo-perm-title">ACCESS WORLD MAP?</div>
+      <div class="geo-perm-desc">We need your location to discover nearby quests and place your resonance on the map.</div>
+      <div class="geo-perm-btns">
+        <button class="btn-primary" onclick="confirmGeoPerm()">▶ ACCESS MAP</button>
+        <button class="settings-btn" onclick="closeGeoPermOverlay()">✕ NOT NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts - Standalone Web Version -->
+  <script src="numerology.js"></script>
+  <script src="data.js"></script>
+  <script src="QuestEngine.js"></script>
+  <script src="questObjectives.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

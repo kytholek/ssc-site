@@ -172,7 +172,7 @@ var SSC_TRANSLATIONS = {
   'nav.blog' : { en: 'Blog', es: 'Blog' },
   'nav.books' : { en: 'Books', es: 'Libros' },
   'nav.calculator' : { en: 'Calculator', es: 'Calculadora' },
-  'nav.cta' : { en: '⬡ Download App', es: '⬡ Descargar App' },
+  'nav.cta' : { en: '⬡ Launch App', es: '⬡ Lanzar App' },
   'nav.home' : { en: 'Home', es: 'Inicio' },
   'nav.privacy' : { en: 'Privacy', es: 'Privacidad' },
 
