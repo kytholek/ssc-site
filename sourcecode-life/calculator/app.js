@@ -2126,13 +2126,18 @@ function buildLifeQuests() {
     </div>`;
   lifeEl.appendChild(mqCard);
 
+  // Shared grid for Life Path, Expression, Achievement tiles
+  const lifeGrid = document.createElement('div');
+  lifeGrid.className = 'quest-grid';
+  lifeEl.appendChild(lifeGrid);
+
   // Life Path quest
   {
     const root = lp.root, compound = lp.compound;
     const qData = getQuestData(root, compound, 'lp');
     const abundance = combined[reduceToSimple(root)] || 0;
     const abundancePct = Math.round((abundance / maxCount) * 100);
-    lifeEl.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'LIFE PATH QUEST', sub: 'What You Learn', freqTag: 'LIFE PATH', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), tieredObjsHtml: makeLifeTieredObjsHtml('lp', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
+    lifeGrid.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'LIFE PATH QUEST', sub: 'What You Learn', freqTag: 'LIFE PATH', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), tieredObjsHtml: makeLifeTieredObjsHtml('lp', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
   }
 
   // Expression quest — Soul + Outer roots shown as subsection before objectives
@@ -2160,7 +2165,7 @@ function buildLifeQuests() {
       </div>`;
     const abundance = combined[reduceToSimple(root)] || 0;
     const abundancePct = Math.round((abundance / maxCount) * 100);
-    lifeEl.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'EXPRESSION QUEST', sub: 'What You Carry', freqTag: 'EXPRESSION', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), extraHtml: soExtraHtml, tieredObjsHtml: makeLifeTieredObjsHtml('ex', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
+    lifeGrid.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'EXPRESSION QUEST', sub: 'What You Carry', freqTag: 'EXPRESSION', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), extraHtml: soExtraHtml, tieredObjsHtml: makeLifeTieredObjsHtml('ex', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
   }
 
   // Achievement quest
@@ -2169,12 +2174,15 @@ function buildLifeQuests() {
     const qData = getQuestData(root, compound);
     const abundance = combined[reduceToSimple(root)] || 0;
     const abundancePct = Math.round((abundance / maxCount) * 100);
-    lifeEl.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'ACHIEVEMENT QUEST', sub: 'How You Accomplish', freqTag: 'ACHIEVEMENT', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), tieredObjsHtml: makeLifeTieredObjsHtml('ac', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
+    lifeGrid.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'ACHIEVEMENT QUEST', sub: 'How You Accomplish', freqTag: 'ACHIEVEMENT', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), tieredObjsHtml: makeLifeTieredObjsHtml('ac', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
   }
 
   // --- SIDE QUESTS (Soul + Outer as standalone cards) ---
   const sideEl = document.getElementById('sectionSideQ');
   sideEl.innerHTML = '';
+  const sideGrid = document.createElement('div');
+  sideGrid.className = 'quest-grid';
+  sideEl.appendChild(sideGrid);
 
   [
     { num: so, label: 'SOUL QUEST',  sub: 'Your Inner Desire'  },
@@ -2184,7 +2192,7 @@ function buildLifeQuests() {
     const qData = getQuestData(root, compound);
     const abundance = combined[reduceToSimple(root)] || 0;
     const abundancePct = Math.round((abundance / maxCount) * 100);
-    sideEl.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: label, sub, freqTag: label, typeLabel: 'SIDE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: qData.objectives, affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root) }));
+    sideGrid.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: label, sub, freqTag: label, typeLabel: 'SIDE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: qData.objectives, affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root) }));
   });
 
   // Bonus abundance quests
@@ -2196,16 +2204,19 @@ function buildLifeQuests() {
     .slice(0, 3);
 
   if (bonusNums.length > 0) {
-    const header = document.createElement('div');
-    header.style.cssText = 'font-family:"Press Start 2P",monospace;font-size:6px;color:var(--text-dim);letter-spacing:2px;padding:6px 0 10px;margin-top:4px;border-top:1px solid var(--border);';
-    header.textContent = '◈ ABUNDANCE QUESTS — UNLOCKED BY YOUR NUMBER FREQUENCY';
-    sideEl.appendChild(header);
+    const bonusHeader = document.createElement('div');
+    bonusHeader.style.cssText = 'font-family:"Press Start 2P",monospace;font-size:6px;color:var(--text-dim);letter-spacing:2px;padding:6px 0 10px;margin-top:4px;border-top:1px solid var(--border);';
+    bonusHeader.textContent = '◈ ABUNDANCE QUESTS — UNLOCKED BY YOUR NUMBER FREQUENCY';
+    sideEl.appendChild(bonusHeader);
+    const bonusGrid = document.createElement('div');
+    bonusGrid.className = 'quest-grid';
+    sideEl.appendChild(bonusGrid);
 
     bonusNums.forEach(([numStr, count]) => {
       const n            = Number(numStr);
       const qData        = NUM_QUESTS[n] || NUM_QUESTS[9];
       const abundancePct = Math.round((count / maxCount) * 100);
-      sideEl.appendChild(makeQuestCard({
+      bonusGrid.appendChild(makeQuestCard({
         num: String(n), color: qData.color, colorDim: qData.colorDim,
         title: numStr + ' ABUNDANCE QUEST',
         sub: `High frequency — appears ${count}× in your code`,
@@ -2219,53 +2230,67 @@ function buildLifeQuests() {
   }
 }
 
+/* Quest detail data store — keyed by tile id */
+const _questDetailData = {};
+
 function makeQuestCard({ num, color, colorDim, title, sub, freqTag, typeLabel, archetype, desc, objectives, affirmation, abundance, abundancePct, isMaster, extraHtml = '', tieredObjsHtml = '' }) {
   const el       = document.createElement('div');
-  el.className   = 'quest-card';
+  el.className   = 'quest-tile';
   const colorVar = 'var(' + color + ')';
   const dimVar   = 'var(' + colorDim + ')';
   const uid      = 'qc_' + Math.random().toString(36).substr(2, 8);
   el.id = uid;
+  _questDetailData[uid] = { num, colorVar, dimVar, title, sub, typeLabel, isMaster, extraHtml, tieredObjsHtml, objectives };
   el.innerHTML = `
-    <div class="quest-trigger" onclick="toggleQuestCard('${uid}')">
-      <div class="sparkle-field">
-        <span class="sparkle">✦</span>
-        <span class="sparkle">✧</span>
-        <span class="sparkle">✦</span>
-        <span class="sparkle">✧</span>
-        <span class="sparkle">✦</span>
-      </div>
-      <div class="quest-accent-bar" style="background:${colorVar};color:${colorVar};"></div>
-      <div class="quest-main">
-        <div class="quest-num" style="color:${colorVar};">${num}</div>
-        <div class="quest-info">
-          <div class="quest-title" style="color:${colorVar};">
-            ${title}
-            ${isMaster ? `<span style="font-size:4px;padding:2px 5px;border:1px solid ${dimVar};margin-left:5px;vertical-align:middle;opacity:0.7;">MASTER</span>` : ''}
-          </div>
-          <div class="quest-sub">${sub}</div>
-          <div class="quest-frequency-tag" style="color:${dimVar};">${freqTag}</div>
-        </div>
-      </div>
-      <div class="quest-meta">
-        <div class="quest-type-badge" style="color:${colorVar};">${typeLabel}</div>
-        <div class="quest-chevron">▶</div>
-      </div>
-    </div>
-    <div class="quest-body">
-      <div class="quest-content">
-        <div class="quest-section-title">▶ OBJECTIVES</div>
-        ${extraHtml}
-        ${tieredObjsHtml || `<div class="quest-objectives-list">${objectives.map(o => `<div class="quest-obj-row"><span class="quest-obj-dot" style="color:${colorVar};">◈</span><span>${o}</span></div>`).join('')}</div>`}
-      </div>
+    <div class="quest-tile-inner" onclick="selectQuestCard('${uid}')">
+      <div class="quest-tile-accent" style="background:${colorVar};"></div>
+      <div class="quest-tile-num" style="color:${colorVar};">${num}</div>
+      <div class="quest-tile-title" style="color:${colorVar};">${title}${isMaster ? ' <span class="quest-tile-master">M</span>' : ''}</div>
+      <div class="quest-tile-type">${typeLabel}</div>
     </div>`;
   return el;
 }
 
-function toggleQuestCard(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('open');
+function selectQuestCard(id) {
+  const panel = document.getElementById('questDetailPanel');
+  const d = _questDetailData[id];
+  if (!panel || !d) return;
+  // toggle off if same card already open
+  if (panel.dataset.activeId === id && !panel.classList.contains('hidden')) {
+    panel.classList.add('hidden');
+    panel.dataset.activeId = '';
+    document.querySelectorAll('.quest-tile-inner.active-tile').forEach(el => el.classList.remove('active-tile'));
+    return;
+  }
+  // mark active tile
+  document.querySelectorAll('.quest-tile-inner.active-tile').forEach(el => el.classList.remove('active-tile'));
+  const tileInner = document.querySelector('#' + id + ' .quest-tile-inner');
+  if (tileInner) tileInner.classList.add('active-tile');
+  const objsHtml = d.tieredObjsHtml ||
+    `<div class="quest-objectives-list">${d.objectives.map(o =>
+      `<div class="quest-obj-row"><span class="quest-obj-dot" style="color:${d.colorVar};">◈</span><span>${o}</span></div>`
+    ).join('')}</div>`;
+  panel.innerHTML = `
+    <div class="quest-detail-header">
+      <div class="quest-detail-num" style="color:${d.colorVar};">${d.num}</div>
+      <div class="quest-detail-titles">
+        <div class="quest-detail-title" style="color:${d.colorVar};">${d.title}${d.isMaster ? ' <span class="quest-tile-master">MASTER</span>' : ''}</div>
+        <div class="quest-detail-sub">${d.sub}</div>
+      </div>
+      <div class="quest-detail-badge" style="color:${d.colorVar};">${d.typeLabel}</div>
+      <button class="quest-detail-close" onclick="selectQuestCard('${id}')">✕</button>
+    </div>
+    <div class="quest-detail-body">
+      <div class="quest-section-title">▶ OBJECTIVES</div>
+      ${d.extraHtml}
+      ${objsHtml}
+    </div>`;
+  panel.dataset.activeId = id;
+  panel.classList.remove('hidden');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
 }
+
+function toggleQuestCard(id) { selectQuestCard(id); }
 
 /* ================================================
    ALLIES SYSTEM
