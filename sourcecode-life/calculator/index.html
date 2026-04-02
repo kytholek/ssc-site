@@ -17,6 +17,16 @@
 </head>
 <body>
 
+<!-- BOOT SEQUENCE SPLASH -->
+<div class="boot-splash" id="bootSplash">
+  <div class="boot-content">
+    <div class="boot-logo">SIMULATION SOURCE CODE</div>
+    <div class="boot-sub">THE QUEST OF LIFE</div>
+    <div class="boot-lines" id="bootLines"></div>
+    <div class="boot-cursor">_</div>
+  </div>
+</div>
+
 <!-- CRT Scanline Effect -->
 <div class="scanline"></div>
 
@@ -240,8 +250,17 @@
       <!-- Chart Section -->
       <div id="sectionChart">
 
-        <!-- ── CHARACTER CARD (Nested in Chart) ── -->
-        <div class="char-card rpg-panel" id="charCard">
+      <!-- Character card ... -->
+      <div class="char-card rpg-panel" id="charCard">
+        <!-- FREQUENCY SPIKE BANNER -->
+        <div class="freq-spike-banner hidden" id="freqSpikeBanner">
+          <span class="freq-spike-icon">⚡</span>
+          <div class="freq-spike-text">
+            <div class="freq-spike-title">FREQUENCY AMPLIFIED</div>
+            <div class="freq-spike-sub" id="freqSpikeSub"></div>
+          </div>
+          <span class="freq-spike-icon">⚡</span>
+        </div>
           <div class="char-card-inner">
             <div class="char-avatar-wrap" onclick="triggerAvatarUpload()">
               <div class="char-avatar-frame">

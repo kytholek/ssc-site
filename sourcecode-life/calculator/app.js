@@ -564,10 +564,34 @@ function launchApp() {
   initGeoPromptUI();
   QuestEngine_init(); // XP + leveling system
 
+  // Frequency spike detection — show banner if today's universal day matches a core number
+  _checkFrequencySpike();
+
   document.getElementById('appShell').classList.remove('hidden');
   switchTab('stats');
   setTimeout(maybeShowGeoPrompt, 800);
   setTimeout(restoreQuestNotifListener, 1500); // slight delay so auth is settled
+}
+
+function _checkFrequencySpike() {
+  if (!playerData) return;
+  const now = new Date();
+  const rawDay = now.getMonth() + 1 + now.getDate() + now.getFullYear();
+  let ud = String(rawDay).split('').map(Number).reduce((a, b) => a + b, 0);
+  while (ud > 9 && ud !== 11 && ud !== 22 && ud !== 33) {
+    ud = String(ud).split('').map(Number).reduce((a, b) => a + b, 0);
+  }
+  const { lp, ex, cl, so, ou, ac, th } = playerData;
+  const coreNums = [lp.root, ex.root, cl.root, so.root, ou.root, ac.root, th.root];
+  const LABELS = { lp:'Life Path', ex:'Expression', cl:'Life Calling', so:'Soul', ou:'Outer', ac:'Achievement', th:'Theme' };
+  const keys = ['lp','ex','cl','so','ou','ac','th'];
+  const matches = keys.filter(k => playerData[k].root === ud).map(k => LABELS[k]);
+  const banner = document.getElementById('freqSpikeBanner');
+  const sub    = document.getElementById('freqSpikeSub');
+  if (banner && matches.length > 0) {
+    sub.textContent = 'Universal Day ' + ud + ' aligns with your ' + matches.join(' & ');
+    banner.classList.remove('hidden');
+  }
 }
 
 /* ================================================
@@ -1582,17 +1606,38 @@ function renderStackedBarChart() {} // stub — kept so any old calls don't thro
 function buildCharCoreNumbers(lp, cl, ex) {
   const container = document.getElementById('charCoreNumbers');
   if (!container) return;
+  const ARCHETYPES = { 1:'The Pioneer', 2:'The Mediator', 3:'The Creator', 4:'The Builder', 5:'The Explorer', 6:'The Nurturer', 7:'The Seeker', 8:'The Achiever', 9:'The Humanitarian', 11:'The Intuitive', 22:'The Master Builder', 33:'The Master Teacher', 44:'The Architect' };
   const nums = [
-    { label: 'CALLING',    num: fmt(cl.root, cl.compound), color: 'var(--gold)'   },
-    { label: 'LIFE PATH',  num: fmt(lp.root, lp.compound), color: 'var(--purple)' },
-    { label: 'EXPRESSION', num: fmt(ex.root, ex.compound), color: 'var(--teal)'   }
+    { label: 'CALLING',    num: fmt(cl.root, cl.compound), root: cl.root, color: 'var(--gold)'   },
+    { label: 'LIFE PATH',  num: fmt(lp.root, lp.compound), root: lp.root, color: 'var(--purple)' },
+    { label: 'EXPRESSION', num: fmt(ex.root, ex.compound), root: ex.root, color: 'var(--teal)'   }
   ];
-  container.innerHTML = nums.map(n =>
-    `<div class="core-num-block">
-      <div class="core-num-value" style="color:${n.color};">${n.num}</div>
+  container.innerHTML = nums.map(n => {
+    const tip = ARCHETYPES[n.root] || '';
+    return `<div class="core-num-block" data-tip="${tip}">
+      <div class="core-num-value scan-in" style="color:${n.color};" data-target="${n.num}">0</div>
       <div class="core-num-label">${n.label}</div>
-    </div>`
-  ).join('<div class="core-num-sep">◈</div>');
+      ${tip ? `<div class="core-num-tip">${tip}</div>` : ''}
+    </div>`;
+  }).join('<div class="core-num-sep">◈</div>');
+
+  // Count-up animation
+  container.querySelectorAll('.scan-in').forEach(el => {
+    const target = el.dataset.target;
+    const isCompound = target.includes('/');
+    if (isCompound) {
+      setTimeout(() => { el.textContent = target; el.classList.add('scan-done'); }, 600 + Math.random() * 400);
+      return;
+    }
+    const end = parseInt(target, 10);
+    let cur = 0;
+    const step = Math.max(1, Math.floor(end / 8));
+    const iv = setInterval(() => {
+      cur = Math.min(cur + step, end);
+      el.textContent = String(cur);
+      if (cur >= end) { clearInterval(iv); el.classList.add('scan-done'); }
+    }, 60);
+  });
 }
 
 /* ================================================
@@ -2732,13 +2777,46 @@ function loadSavedTheme() {
 window.addEventListener('DOMContentLoaded', () => {
   loadSavedTheme();
   initGeoPromptUI();
-
-  if (typeof NativeAuth !== 'undefined') {
-    NativeAuth.checkSession();
-  } else {
-    if (loadLocalSaved()) {
-      document.getElementById('authOverlay').classList.add('hidden');
-      launchApp();
+  _runBootSplash(() => {
+    if (typeof NativeAuth !== 'undefined') {
+      NativeAuth.checkSession();
+    } else {
+      if (loadLocalSaved()) {
+        document.getElementById('authOverlay').classList.add('hidden');
+        launchApp();
+      }
     }
-  }
+  });
 });
+
+function _runBootSplash(callback) {
+  const splash = document.getElementById('bootSplash');
+  const lines  = document.getElementById('bootLines');
+  if (!splash || !lines) { callback(); return; }
+
+  const BOOT_LINES = [
+    'INITIALIZING SIMULATION ENGINE...',
+    'LOADING NUMEROLOGY MATRIX...',
+    'DECODING FREQUENCY SIGNATURE...',
+    'CALIBRATING QUEST ENGINE...',
+    'READY.',
+  ];
+  let i = 0;
+  function nextLine() {
+    if (i >= BOOT_LINES.length) {
+      splash.classList.add('boot-fade-out');
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        callback();
+      }, 500);
+      return;
+    }
+    const row = document.createElement('div');
+    row.className = 'boot-line';
+    row.textContent = '> ' + BOOT_LINES[i];
+    lines.appendChild(row);
+    i++;
+    setTimeout(nextLine, i === BOOT_LINES.length ? 300 : 220);
+  }
+  setTimeout(nextLine, 300);
+}

@@ -299,8 +299,15 @@ function _renderBar(wrapperId, trackId, label, lvl, xp, fillCls, color) {
       <span class="lvl-bar-xp">${maxed ? 'MAX' : xpIn + ' / ' + xpNext + ' XP'}</span>
     </div>
     <div class="lvl-bar-track" id="${trackId}">
-      <div class="${fillCls}" style="width:${pct}%;"></div>
+      <div class="${fillCls}" style="width:0%;"></div>
     </div>`;
+  // Animate fill after paint
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const fill = wrap.querySelector('.' + fillCls);
+      if (fill) fill.style.width = pct + '%';
+    });
+  });
 }
 
 /* ─────────────────────────────────────────────────────────────

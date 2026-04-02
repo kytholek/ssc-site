@@ -801,6 +801,120 @@ body::after {
 }
 
 /* ================================================
+   BOOT SPLASH
+   ================================================ */
+.boot-splash {
+  position: fixed; inset: 0;
+  background: var(--bg-deep, #020208);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+.boot-splash.boot-fade-out { opacity: 0; }
+.boot-content {
+  width: 100%; max-width: 420px;
+  padding: 32px 28px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.boot-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px; color: var(--teal, #00e5cc);
+  letter-spacing: 2px; margin-bottom: 4px;
+  text-shadow: 0 0 16px rgba(0,229,204,0.6);
+}
+.boot-sub {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; color: var(--text-dim, #4a6060);
+  letter-spacing: 3px; margin-bottom: 24px;
+}
+.boot-lines { min-height: 90px; }
+.boot-line {
+  font-size: 13px; color: var(--teal, #00e5cc);
+  line-height: 1.9; opacity: 0;
+  animation: bootLineIn 0.18s ease forwards;
+}
+.boot-line:last-child { color: var(--gold, #d4a843); }
+@keyframes bootLineIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.boot-cursor {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 18px; color: var(--teal, #00e5cc);
+  animation: blink 1s step-start infinite;
+  margin-top: 4px;
+}
+
+/* ================================================
+   SCAN-IN NUMBER ANIMATION
+   ================================================ */
+.scan-in {
+  transition: color 0.3s;
+}
+.scan-done {
+  animation: numGlow 0.5s ease;
+}
+@keyframes numGlow {
+  0%   { text-shadow: 0 0 0 currentColor; }
+  50%  { text-shadow: 0 0 18px currentColor; }
+  100% { text-shadow: none; }
+}
+
+/* Core number archetype tooltip */
+.core-num-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow, var(--teal-dim));
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 4px 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+.core-num-tip::after {
+  content: '';
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--border-glow, var(--teal-dim));
+}
+.core-num-block:hover .core-num-tip { opacity: 1; }
+
+/* ================================================
+   FREQUENCY SPIKE BANNER
+   ================================================ */
+.freq-spike-banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, rgba(0,229,204,0.08), rgba(212,168,67,0.08), rgba(0,229,204,0.08));
+  border-bottom: 1px solid var(--teal-dim);
+  animation: spikePulse 3s ease-in-out infinite;
+}
+@keyframes spikePulse {
+  0%,100% { box-shadow: inset 0 0 0 rgba(0,229,204,0); }
+  50%     { box-shadow: inset 0 0 20px rgba(0,229,204,0.08); }
+}
+.freq-spike-icon {
+  font-size: 18px;
+  animation: blink 1.2s step-start infinite;
+}
+.freq-spike-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; color: var(--teal); letter-spacing: 1px;
+}
+.freq-spike-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px; color: var(--text-mid);
+  margin-top: 2px;
+}
+
+/* ================================================
    AUTH OVERLAY
    ================================================ */
 .auth-overlay {
@@ -1535,14 +1649,15 @@ body::after {
   border: 1px solid var(--gold-muted);
   padding: 6px 10px;
   min-width: 52px;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
 }
 .core-num-value {
   font-family: 'VT323', monospace; font-size: 32px;
   line-height: 1; white-space: nowrap;
 }
 .core-num-label {
-  font-family: 'Press Start 2P', monospace; font-size: 4px;
+  font-family: 'Press Start 2P', monospace; font-size: 6px;
   color: var(--text-dim); letter-spacing: 1px; text-align: center;
   line-height: 1.4;
 }
@@ -3426,19 +3541,21 @@ body::after {
   font-size: 9px; color: var(--text-dim);
 }
 .lvl-bar-track {
-  height: 5px; background: var(--bg-inset);
+  height: 8px; background: var(--bg-inset);
   border: 1px solid var(--border);
   overflow: hidden;
 }
 .char-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-  transition: width 0.6s ease;
+  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 4px 0 12px rgba(212,168,67,0.5);
 }
 .freq-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--teal-dim), var(--teal));
-  transition: width 0.6s ease;
+  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 4px 0 12px rgba(0,229,204,0.4);
 }
 
 /* Floating +XP text */
