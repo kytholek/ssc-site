@@ -2179,6 +2179,45 @@ body::after {
 
 .mq-objectives { border: 1px solid var(--gold-dim); background: rgba(212,168,67,0.025); padding: 12px 14px; margin-bottom: 14px; }
 .mq-obj-title  { font-family: 'Press Start 2P', monospace; font-size: 6px; color: var(--gold-dim); letter-spacing: 2px; margin-bottom: 10px; }
+
+/* ── Life Quest Tiered Objectives ── */
+.life-tiers { display: flex; flex-direction: column; gap: 12px; }
+.life-tier { padding: 10px 12px; border: 1px solid var(--border); }
+.life-tier-active { border-color: var(--border-glow); background: rgba(255,255,255,0.02); }
+.life-tier-past   { opacity: 0.6; }
+.life-tier-locked { opacity: 0.4; }
+.life-tier-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; letter-spacing: 1.5px;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.life-tier-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px; padding: 2px 5px;
+  border: 1px solid currentColor; opacity: 0.8;
+}
+.life-tier-progress {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; margin-left: auto;
+}
+.life-tier-locked-msg {
+  font-size: 11px; color: var(--text-dim);
+  font-style: italic; padding: 2px 0;
+}
+.life-tier-objs { display: flex; flex-direction: column; gap: 8px; }
+.life-tier-obj-row {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 14px; line-height: 1.75; color: var(--text-mid);
+}
+.life-tier-obj-row span:first-child { flex-shrink: 0; font-size: 16px; line-height: 1.4; }
+.life-obj-done { opacity: 0.5; text-decoration: line-through; }
+.life-obj-next-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px; padding: 2px 4px;
+  border: 1px solid var(--teal-dim); color: var(--teal);
+  flex-shrink: 0; align-self: center; margin-left: 4px;
+}
 .mq-obj-item   { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 9px; font-size: 11px; line-height: 1.75; color: var(--text-mid); }
 .mq-obj-item:last-child { margin-bottom: 0; }
 .mq-obj-bullet { font-family: 'VT323', monospace; font-size: 18px; color: var(--gold); flex-shrink: 0; line-height: 1.3; }
