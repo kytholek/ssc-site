@@ -1,5 +1,5 @@
 /**
- * SOURCE CODE: LIFE — numerology.js
+ * SOURCE CODE: LIFE â numerology.js
  * Pure numerology engine. Zero DOM dependencies.
  * All exports used by app.js and data.js
  */
@@ -20,13 +20,13 @@ function reduce(n) {
   return n;
 }
 
-/** Display: "22/4" when compound ≠ root, else just "7" */
+/** Display: "22/4" when compound â  root, else just "7" */
 function fmt(root, compound) {
   if (!compound || compound === root) return String(root);
   return compound + '/' + root;
 }
 
-/** Reduce to 1–9 without preserving masters (for chart counting) */
+/** Reduce to 1â9 without preserving masters (for chart counting) */
 function reduceToSimple(n) {
   let r = n;
   while (r > 9) r = String(r).split('').reduce((a, d) => a + +d, 0);
@@ -75,7 +75,7 @@ function calcTheme(y) {
 }
 
 /**
- * Full calculation — returns all 7 frequencies plus raw inputs.
+ * Full calculation â returns all 7 frequencies plus raw inputs.
  * @returns {{ lp, ex, cl, so, ou, ac, th, name, m, d, y }}
  */
 function computeAll(m, d, y, name) {
@@ -88,7 +88,7 @@ function computeAll(m, d, y, name) {
   return { lp, ex: nn.expr, cl, so: nn.soul, ou: nn.outer, ac, th, name, m, d, y };
 }
 
-/** Count occurrences of digits 1–9 in an array of numbers */
+/** Count occurrences of digits 1â9 in an array of numbers */
 function countNums1to9(arr) {
   const counts = {};
   for (let i = 1; i <= 9; i++) counts[i] = 0;

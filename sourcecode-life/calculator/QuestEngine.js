@@ -1,17 +1,17 @@
 /* ============================================================
-   QuestEngine.js  —  Source Code: Life
-   ─────────────────────────────────────────────────────────────
+   QuestEngine.js  â  Source Code: Life
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    TWO LEVEL TRACKS
 
-   ① CHARACTER LEVEL  (charLevel / charXP)  — gold bar
+   â  CHARACTER LEVEL  (charLevel / charXP)  â gold bar
       Earned by completing map quests placed by other players.
       Stat XP (QU column) also accumulates per rewardNum.
 
-   ② FREQUENCY LEVEL  (freqLevel / freqXP)  — teal bar
+   â¡ FREQUENCY LEVEL  (freqLevel / freqXP)  â teal bar
       Earned by completing numerology-derived quests:
-        · Daily quest (+5 XP, resets every 24 h)
-        · Personal day / month / year / pinnacle quests
-        · Life Path, Expression, Calling, Theme etc.
+        Â· Daily quest (+5 XP, resets every 24 h)
+        Â· Personal day / month / year / pinnacle quests
+        Â· Life Path, Expression, Calling, Theme etc.
 
    Max level: 100 for both tracks.
    Storage: localStorage (instant) + Firestore via NativeMap.savePlayerXP
@@ -19,68 +19,52 @@
 
 'use strict';
 
-/* ─────────────────────────────────────────────────────────────
-   XP TABLE — cumulative XP required to REACH each level
-   ───────────────────────────────────────────────────────────── */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   XP TABLE â cumulative XP required to REACH each level
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const LEVEL_XP_TABLE = (() => {
   const t = [0];
   const cost = l =>
-    l <= 9  ?  100 :
-    l <= 18 ?  250 :
-    l <= 27 ?  500 : 1000;
-  for (let i = 1; i <= 33; i++) t.push(t[i - 1] + cost(i));
+    l <= 10 ? 50  : l <= 20 ? 100 : l <= 30 ? 150 :
+    l <= 40 ? 200 : l <= 50 ? 300 : l <= 60 ? 400 :
+    l <= 70 ? 500 : l <= 80 ? 650 : l <= 90 ? 800 : 1000;
+  for (let i = 1; i <= 100; i++) t.push(t[i - 1] + cost(i));
   return t;
 })();
-const MAX_LEVEL = 33;
+const MAX_LEVEL = 100;
 
-/* Level titles tied to XP tier boundaries */
-const LEVEL_TITLES = (() => {
-  const t = {};
-  for (let i = 1;  i <= 9;  i++) t[i] = 'INITIATE';
-  for (let i = 10; i <= 18; i++) t[i] = 'SEEKER';
-  for (let i = 19; i <= 27; i++) t[i] = 'ADEPT';
-  for (let i = 28; i <= 33; i++) t[i] = 'MASTER';
-  return t;
-})();
-const TITLE_COLORS = { INITIATE:'var(--text-dim)', SEEKER:'var(--sage)', ADEPT:'var(--teal)', MASTER:'var(--gold)' };
-function _levelTitle(lvl) { return LEVEL_TITLES[Math.min(lvl, MAX_LEVEL)] || 'INITIATE'; }
-function _titleColor(lvl)  { return TITLE_COLORS[_levelTitle(lvl)] || 'var(--text-dim)'; }
-
-/* ─────────────────────────────────────────────────────────────
-   XP AWARDS — add / adjust values as needed
-   ───────────────────────────────────────────────────────────── */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   XP AWARDS â add / adjust values as needed
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const XP_AWARDS = {
-  // TRACK A — Character XP (map quests, keyed by rewardNum)
-  // Average ~32 XP/quest. At ~1 quest/day targets L33 in ~18 months.
-  map_1:  8,  map_2: 14, map_3: 20, map_4: 26, map_5: 32,
-  map_6: 38,  map_7: 44, map_8: 50, map_9: 56,
-  map_11: 25, map_22: 50, map_33: 75,
+  // TRACK A â Character (map quests keyed by rewardNum)
+  map_1: 10, map_2: 20,  map_3: 30,  map_4: 40,  map_5: 50,
+  map_6: 60, map_7: 70,  map_8: 80,  map_9: 90,
+  map_11: 110, map_22: 220, map_33: 330,
 
-  // TRACK B — Frequency XP
-  // Pacing: L23 at 12mo · L28 at 18mo · L33 at ~27mo (80% daily consistency)
-  daily:          5,    // shown in quest UI — keep in sync with copy
+  // TRACK B â Frequency (numerology quests)
+  daily:          5,    // FIXED â shown in UI, don't change without updating copy
   personal_day:   10,
   personal_month: 25,
-  four_month:     35,
-  personal_year:  60,
-  pinnacle:       80,
-  life_path:      45,
-  expression:     45,
-  life_calling:   55,
-  theme:          45,
-  soul:           35,
-  outer:          35,
-  achievement:    35,
+  personal_year:  50,
+  pinnacle:       75,
+  four_month:     30,
+  life_path:      60,
+  expression:     60,
+  life_calling:   80,
+  theme:          60,
+  soul:           40,
+  outer:          40,
+  achievement:    40,
 };
 
 // Stat growth points per completed quest (1 point = one step toward unlocking innate score)
-// Base score is how many times a stat appears in LE+IN — reaching it = fully embodied
-// 3 quests = +1 stat point. Master numbers: 2 quests = +1.
-const STAT_XP_PER_QUEST = { 1:1/3, 2:1/3, 3:1/3, 4:1/3, 5:1/3, 6:1/3, 7:1/3, 8:1/3, 9:1/3, 11:2/3, 22:2/3, 33:2/3 };
+// Base score is how many times a stat appears in LE+IN â reaching it = fully embodied
+const STAT_XP_PER_QUEST = { 1:1, 2:1, 3:1, 4:1, 5:1, 6:1, 7:1, 8:1, 9:1, 11:2, 22:2, 33:2 };
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    STORAGE KEYS
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const LS_CHAR_XP  = 'scl_char_xp';
 const LS_CHAR_LVL = 'scl_char_level';
 const LS_FREQ_XP  = 'scl_freq_xp';
@@ -90,23 +74,22 @@ const LS_DAILY_Q  = 'scl_daily_quest';
 const LS_FREQ_Q   = 'scl_freq_quests';
 const LS_ACCEPTED = 'scl_accepted_quests';
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    RUNTIME STATE
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 let _charXP = 0, _charLevel = 1;
 let _freqXP = 0, _freqLevel = 1;
 let _statXP = {};
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    INIT
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function QuestEngine_init() {
   _loadFromStorage();
   _renderCharLevelBar();
   _renderFreqLevelBar();
   _renderStatXP();
   _initDailyQuest();
-  _buildWeeklyQuestPanel();
   _buildFreqQuestList();
   renderSideQuests();
   QuestEngine_buildDailyRead();
@@ -132,7 +115,7 @@ function QuestEngine_reset() {
     localStorage.removeItem(LS_LQP);
   } catch(e) {}
 
-  // Push zeroes to Firestore — XP levels AND freq quest log
+  // Push zeroes to Firestore â XP levels AND freq quest log
   if (typeof NativeMap !== 'undefined') {
     if (NativeMap.savePlayerXP) {
       NativeMap.savePlayerXP(0, 1, 0, 1, JSON.stringify(_statXP));
@@ -143,9 +126,9 @@ function QuestEngine_reset() {
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    STORAGE
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _loadFromStorage() {
   try {
     _charXP    = parseInt(localStorage.getItem(LS_CHAR_XP)   || 0);
@@ -174,9 +157,9 @@ function _syncToFirestore() {
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    LEVEL MATH
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _xpToLevel(xp) {
   let l = 1;
   for (let i = 1; i <= MAX_LEVEL; i++) { if (xp >= LEVEL_XP_TABLE[i]) l = i; else break; }
@@ -185,9 +168,9 @@ function _xpToLevel(xp) {
 function _xpInLevel(xp, lvl) { return xp - LEVEL_XP_TABLE[lvl]; }
 function _xpForNext(lvl) { return lvl >= MAX_LEVEL ? 0 : LEVEL_XP_TABLE[lvl + 1] - LEVEL_XP_TABLE[lvl]; }
 
-/* ─────────────────────────────────────────────────────────────
-   EARN XP — public API
-   ───────────────────────────────────────────────────────────── */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   EARN XP â public API
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function earnCharXP(amount) {
   if (_charLevel >= MAX_LEVEL) return;
   const prev = _charLevel;
@@ -220,15 +203,15 @@ function earnStatXP(statNum, amount) {
   _saveToStorage(); _syncToFirestore();
   _renderStatXP();
 
-  // Detect state transition → show banner on milestone
+  // Detect state transition â show banner on milestone
   const prevState = _statState(base, prev);
   const newState  = _statState(base, _statXP[n]);
   if (newState !== prevState) {
     const statName = (typeof STAT_NAMES !== 'undefined' ? STAT_NAMES[n] : null) || ('STAT ' + n);
-    if (newState === 'awakening')   _statUnlockBanner(statName, '◈ AWAKENING',    'var(--rose)');
-    if (newState === 'unlocked')    _statUnlockBanner(statName, '◈ UNLOCKED',     'var(--teal)');
-    if (newState === 'ascending')   _statUnlockBanner(statName, '▲ ASCENDING',    'var(--gold)');
-    if (newState === 'void-master') _statUnlockBanner(statName, '✦ VOID MASTERED','var(--gold)');
+    if (newState === 'awakening')   _statUnlockBanner(statName, 'â AWAKENING',    'var(--rose)');
+    if (newState === 'unlocked')    _statUnlockBanner(statName, 'â UNLOCKED',     'var(--teal)');
+    if (newState === 'ascending')   _statUnlockBanner(statName, 'â² ASCENDING',    'var(--gold)');
+    if (newState === 'void-master') _statUnlockBanner(statName, 'â¦ VOID MASTERED','var(--gold)');
   }
 }
 
@@ -259,9 +242,9 @@ function _statUnlockBanner(statName, label, color) {
   });
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    LEVEL-UP BANNER
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _levelUpBanner(track, lvl) {
   const el = document.getElementById('levelUpBanner');
   if (!el) return;
@@ -269,7 +252,7 @@ function _levelUpBanner(track, lvl) {
     <div class="lvlup-inner">
       <div class="lvlup-track">${track}</div>
       <div class="lvlup-num">LEVEL ${lvl}</div>
-      <div class="lvlup-sub">✦ UNLOCKED</div>
+      <div class="lvlup-sub">â¦ UNLOCKED</div>
     </div>`;
   el.classList.remove('hidden', 'lvlup-out');
   el.classList.add('lvlup-in');
@@ -277,9 +260,9 @@ function _levelUpBanner(track, lvl) {
   setTimeout(() => el.classList.add('hidden'), 3800);
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    FLOATING +XP
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _floatXP(amount, trackId, color) {
   const track = document.getElementById(trackId);
   if (!track) return;
@@ -292,9 +275,9 @@ function _floatXP(amount, trackId, color) {
   setTimeout(() => f.remove(), 1400);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   RENDER — Level Bars
-   ───────────────────────────────────────────────────────────── */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   RENDER â Level Bars
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _renderCharLevelBar() {
   _renderBar('charLevelBar', 'charLevelTrack', 'CHARACTER LVL', _charLevel, _charXP, 'char-bar-fill', 'var(--gold)');
 }
@@ -312,7 +295,7 @@ function _renderBar(wrapperId, trackId, label, lvl, xp, fillCls, color) {
   wrap.innerHTML = `
     <div class="lvl-bar-header">
       <span class="lvl-bar-label">${label}</span>
-      <span class="lvl-bar-num" style="color:${color};">${lvl}${maxed ? ' ✦' : ''}</span>
+      <span class="lvl-bar-num" style="color:${color};">${lvl}${maxed ? ' â¦' : ''}</span>
       <span class="lvl-bar-xp">${maxed ? 'MAX' : xpIn + ' / ' + xpNext + ' XP'}</span>
     </div>
     <div class="lvl-bar-track" id="${trackId}">
@@ -320,19 +303,19 @@ function _renderBar(wrapperId, trackId, label, lvl, xp, fillCls, color) {
     </div>`;
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    STAT GROWTH SYSTEM
-   ─────────────────────────────────────────────────────────────
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    Each stat has an innate score (base = LE + IN from the chart).
    Quest completions feed statXP which tracks growth toward and
    beyond that innate potential.
 
    States:
-     LOCKED     statXP < base          — still growing into innate
-     UNLOCKED   statXP >= base         — stat fully embodied
-     ASCENDING  statXP >= base * 2     — exceeded innate (+ badge)
-     VOID       base = 0, statXP > 0   — developing an absent stat
-   ───────────────────────────────────────────────────────────── */
+     LOCKED     statXP < base          â still growing into innate
+     UNLOCKED   statXP >= base         â stat fully embodied
+     ASCENDING  statXP >= base * 2     â exceeded innate (+ badge)
+     VOID       base = 0, statXP > 0   â developing an absent stat
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 
 const STAT_UNLOCK_THRESHOLD = 1; // quests needed to unlock a base-0 stat
 
@@ -342,7 +325,7 @@ function _statLevel(base, xp) {
   if (base === 0) return Math.floor(xp / 5);   // void stats: 1 level per 5 XP
   return Math.floor(xp / base);                // normal: 1 level per base XP
 }
-// XP progress within the current level (0.0–1.0)
+// XP progress within the current level (0.0â1.0)
 function _statLevelProgress(base, xp) {
   const threshold = base > 0 ? base : 5;
   return (xp % threshold) / threshold;
@@ -363,12 +346,12 @@ function _statState(base, xp) {
 function _statStateStyle(state, accent, dim) {
   switch (state) {
     case 'absent':      return { color: 'var(--text-dim)',    border: 'var(--border)',           badge: null };
-    case 'awakening':   return { color: 'var(--rose)',        border: 'rgba(220,80,120,0.3)',    badge: '◈' };
-    case 'void-master': return { color: 'var(--gold)',        border: 'rgba(200,160,40,0.5)',    badge: '✦' };
+    case 'awakening':   return { color: 'var(--rose)',        border: 'rgba(220,80,120,0.3)',    badge: 'â' };
+    case 'void-master': return { color: 'var(--gold)',        border: 'rgba(200,160,40,0.5)',    badge: 'â¦' };
     case 'locked':      return { color: 'var(--text-dim)',    border: 'var(--border)',           badge: null };
     case 'unlocking':   return { color: dim,                  border: dim,                       badge: null };
-    case 'unlocked':    return { color: accent,               border: dim,                       badge: '◈' };
-    case 'ascending':   return { color: 'var(--gold)',        border: 'rgba(200,160,40,0.5)',    badge: '▲' };
+    case 'unlocked':    return { color: accent,               border: dim,                       badge: 'â' };
+    case 'ascending':   return { color: 'var(--gold)',        border: 'rgba(200,160,40,0.5)',    badge: 'â²' };
     default:            return { color: 'var(--text-dim)',    border: 'var(--border)',           badge: null };
   }
 }
@@ -387,28 +370,28 @@ function _renderStatXP() {
     const level   = _statLevel(base, xp);
     const prog    = _statLevelProgress(base, xp);
 
-    // QU cell — shows accumulated levels, no badge
+    // QU cell â shows accumulated levels, no badge
     if (quEl) {
       if (xp <= 0) {
-        quEl.textContent       = '—';
+        quEl.textContent       = 'â';
         quEl.style.color       = 'var(--text-dim)';
         quEl.style.borderColor = 'var(--border)';
         quEl.title             = '';
       } else {
-        quEl.textContent       = level > 0 ? String(level) : '·';
+        quEl.textContent       = level > 0 ? String(level) : 'Â·';
         quEl.style.color       = style.color;
         quEl.style.borderColor = style.border;
         quEl.title             = _statTooltip(state, base, xp);
       }
     }
 
-    // TOT cell — base + level; badge only when QU has pushed total above innate
+    // TOT cell â base + level; badge only when QU has pushed total above innate
     if (totEl) {
       const tot = base + level;
       // Badge appears only when quest levels have exceeded the innate base (LE+IN)
       const exceeds = level > base;
-      let totDisplay = tot > 0 ? String(tot) : '—';
-      if (exceeds && style.badge) totDisplay = style.badge + ' ' + (tot || '—');
+      let totDisplay = tot > 0 ? String(tot) : 'â';
+      if (exceeds && style.badge) totDisplay = style.badge + ' ' + (tot || 'â');
 
       totEl.textContent       = totDisplay;
       totEl.style.color       = xp > 0 ? style.color : (base > 0 ? accent : 'var(--text-dim)');
@@ -425,23 +408,14 @@ function _statTooltip(state, base, xp) {
   const nextIn = threshold - (xp % threshold);
   switch (state) {
     case 'absent':      return 'No innate presence. Complete quests to develop this stat.';
-    case 'awakening':   return `Awakening — ${xp} XP earned. ${nextIn} more to reach Level 1.`;
-    case 'void-master': return `Void Master — Level ${level}. Developed ${xp} XP with no innate score.`;
+    case 'awakening':   return `Awakening â ${xp} XP earned. ${nextIn} more to reach Level 1.`;
+    case 'void-master': return `Void Master â Level ${level}. Developed ${xp} XP with no innate score.`;
     case 'locked':      return `Innate: ${base}. Earn ${base} XP to unlock. ${xp > 0 ? xp + ' earned so far.' : ''}`;
-    case 'unlocking':   return `Unlocking — ${xp}/${base} XP. ${nextIn} more to reach Level 1.`;
-    case 'unlocked':    return `Level ${level} — Innate embodied. ${nextIn} XP to Level ${level + 1}.`;
-    case 'ascending':   return `Ascending — Level ${level}. ${nextIn} XP to Level ${level + 1}.`;
+    case 'unlocking':   return `Unlocking â ${xp}/${base} XP. ${nextIn} more to reach Level 1.`;
+    case 'unlocked':    return `Level ${level} â Innate embodied. ${nextIn} XP to Level ${level + 1}.`;
+    case 'ascending':   return `Ascending â Level ${level}. ${nextIn} XP to Level ${level + 1}.`;
     default:            return '';
   }
-}
-
-// Public tooltip getter — called by stat row click handler in app.js
-function QuestEngine_getStatTooltip(statNum) {
-  const totEl = document.getElementById('statTOT_' + statNum);
-  const base  = totEl ? parseInt(totEl.dataset.base || 0) : 0;
-  const xp    = _statXP[statNum] || 0;
-  const state = _statState(base, xp);
-  return _statTooltip(state, base, xp);
 }
 
 // Called by app.js buildCharts() so TOT cells know their base value
@@ -455,9 +429,9 @@ function QuestEngine_setStatBase(statNum, baseTotal, accent, dim) {
   _renderStatXP();
 }
 
-/* ─────────────────────────────────────────────────────────────
-   DAILY QUEST  — 24-hour reset, +5 FREQ XP
-   ───────────────────────────────────────────────────────────── */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   DAILY QUEST  â 24-hour reset, +5 FREQ XP
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _todayStr() {
   const n = new Date();
   return n.getFullYear() + '-' + (n.getMonth() + 1) + '-' + n.getDate();
@@ -473,7 +447,7 @@ function _msUntilMidnight() {
 }
 
 function _buildDailyText() {
-  let title = '✦ DAILY QUEST';
+  let title = 'â¦ DAILY QUEST';
   let body  = 'Live in alignment with today\'s personal frequency.';
   try {
     const pd = typeof playerData !== 'undefined' ? playerData : null;
@@ -481,7 +455,7 @@ function _buildDailyText() {
       const pday = calcPersonalDay(pd.m, pd.d);
       const cm   = typeof CYCLE_MEANINGS !== 'undefined' ? CYCLE_MEANINGS?.personalDay?.[pday.root] : null;
       if (cm) {
-        title = 'DAY ' + pday.dayNum + ' · ' + (cm.theme || 'Daily Frequency').toUpperCase();
+        title = 'DAY ' + pday.dayNum + ' Â· ' + (cm.theme || 'Daily Frequency').toUpperCase();
         body  = cm.summary || body;
       }
     }
@@ -529,23 +503,23 @@ function _renderDailyQuest(d) {
   const mm   = Math.floor((ms % 3600000) / 60000);
   el.innerHTML = `
     <div class="daily-q-inner${done ? ' daily-q-done' : ''}">
-      <div class="daily-q-glyph">${done ? '✓' : '◈'}</div>
+      <div class="daily-q-glyph">${done ? 'â' : 'â'}</div>
       <div class="daily-q-text">
         <div class="daily-q-title">${d.title}</div>
         <div class="daily-q-body">${d.body}</div>
         ${d.dayObj ? `<div class="daily-q-obj">
-          ${d.dayObjMeta ? `<div class="daily-q-obj-tag" style="color:var(--gold);">★ LIFE QUEST OBJECTIVE</div>` : ''}
-          <div class="daily-q-obj-row"><span class="daily-q-obj-bullet">◈</span><span>${d.dayObj}</span></div>
+          ${d.dayObjMeta ? `<div class="daily-q-obj-tag" style="color:var(--gold);">â LIFE QUEST OBJECTIVE</div>` : ''}
+          <div class="daily-q-obj-row"><span class="daily-q-obj-bullet">â</span><span>${d.dayObj}</span></div>
         </div>` : ''}
         <div class="daily-q-foot">
           <span class="daily-q-xp" style="color:var(--teal);">+${XP_AWARDS.daily} FREQ XP</span>
-          <span class="daily-q-reset">${done ? '✓ COMPLETED' : 'Resets in ' + hh + 'h ' + mm + 'm'}</span>
+          <span class="daily-q-reset">${done ? 'â COMPLETED' : 'Resets in ' + hh + 'h ' + mm + 'm'}</span>
         </div>
       </div>
     </div>
     ${done
-      ? `<div class="daily-q-complete-label">✓ QUEST COMPLETE</div>`
-      : `<button class="btn-primary daily-q-btn" onclick="QuestEngine_completeDailyQuest()">▶ COMPLETE QUEST</button>`}`;
+      ? `<div class="daily-q-complete-label">â QUEST COMPLETE</div>`
+      : `<button class="btn-primary daily-q-btn" onclick="QuestEngine_completeDailyQuest()">â¶ COMPLETE QUEST</button>`}`;
 }
 
 function QuestEngine_completeDailyQuest() {
@@ -566,13 +540,13 @@ function QuestEngine_completeDailyQuest() {
     if (typeof buildLifeQuests === 'function') buildLifeQuests();
   }
 
-  // Stat XP — based on personal day root number
+  // Stat XP â based on personal day root number
   const pd = typeof playerData !== 'undefined' ? playerData : null;
   if (pd) {
     const pday = calcPersonalDay(pd.m, pd.d);
     const root = pday.root;
     const statNum = root > 9 ? (root === 11 ? 2 : root === 22 ? 4 : 6) : root;
-    earnStatXP(statNum, STAT_XP_PER_QUEST[root] || (1/3));
+    earnStatXP(statNum, STAT_XP_PER_QUEST[root] || 1);
   }
 
   earnFreqXP(XP_AWARDS.daily);
@@ -588,7 +562,7 @@ function _showLifeTierAdvance(questKey, newTier) {
     'background:var(--bg-panel);border:1px solid ' + colors[newTier] + ';padding:14px 22px;' +
     'font-family:"Press Start 2P",monospace;font-size:7px;color:' + colors[newTier] + ';' +
     'letter-spacing:1.5px;text-align:center;pointer-events:none;line-height:1.8;';
-  banner.innerHTML = (qLabels[questKey] || questKey.toUpperCase()) + '<br>★ TIER ADVANCED — ' + labels[newTier];
+  banner.innerHTML = (qLabels[questKey] || questKey.toUpperCase()) + '<br>â TIER ADVANCED â ' + labels[newTier];
   document.body.appendChild(banner);
   setTimeout(() => banner.remove(), 3500);
 }
@@ -604,21 +578,21 @@ function QuestEngine_setDailyFromNotif(title, body) {
   _renderDailyQuest(next);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   FREQUENCY QUEST LIST — personal day/month/year + life quests
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   FREQUENCY QUEST LIST â personal day/month/year + life quests
    These are the numerology-derived quests shown in the Quest tab.
    Each has a complete button; completion awards Freq XP.
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _getFreqLog() { try { return JSON.parse(localStorage.getItem(LS_FREQ_Q) || '{}'); } catch(e) { return {}; } }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    LIFE QUEST OBJECTIVE PROGRESS
-   Stored in localStorage as 'scl_lqp' — a nested object:
+   Stored in localStorage as 'scl_lqp' â a nested object:
      { lp: { 1: [true,true,false], 2: [...], 3: [...] }, cl: {...}, ... }
    An objective index is marked true when the player completes a
    matched daily quest on a personal day whose root = that life quest root.
    When all 3 in a tier are true, the tier is complete and next unlocks.
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const LS_LQP = 'scl_lqp';
 
 function _getLQP() {
@@ -652,7 +626,7 @@ function _matchedLifeQuest(todayRoot) {
   const lqp = _getLQP();
   for (const pos of positions) {
     if (!pos.num || pos.num.root !== todayRoot) continue;
-    // Found a match — determine which tier is active and which obj to show
+    // Found a match â determine which tier is active and which obj to show
     const tier = _getActiveTier(pos.key);
     const objs = (typeof TIERED_OBJECTIVES !== 'undefined' && TIERED_OBJECTIVES[todayRoot])
       ? (TIERED_OBJECTIVES[todayRoot][tier] || []) : [];
@@ -718,7 +692,7 @@ function _isFreqDone(key) {
     (typeof playerData !== 'undefined' ? playerData : {m:1,d:1}).d || 1
   ).cycleStartYear && !!log[key];
   if (key.startsWith('fourmonth_')) return !!log[key]; // cycle advances when new period starts
-  return !!log[key] && log[key] === _quarterKey(); // life quests — quarterly reset
+  return !!log[key] && log[key] === _quarterKey(); // life quests â quarterly reset
 }
 
 function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
@@ -733,122 +707,23 @@ function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
     NativeMap.saveFreqLog(JSON.stringify(log));
   }
   earnFreqXP(parseInt(xpAmount));
-  // Stat XP — based on the root number of the frequency being completed
+  // Stat XP â based on the root number of the frequency being completed
   if (rootNum) {
     const rn = parseInt(rootNum);
     const statNum = rn > 9 ? (rn === 11 ? 2 : rn === 22 ? 4 : 6) : rn;
-    earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || (1/3));
+    earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || 1);
   }
   _buildFreqQuestList();
   if (typeof buildLifeQuests === 'function') buildLifeQuests();
 }
 
 
-
-/* ─────────────────────────────────────────────────────────────
-   WEEKLY QUEST PANEL
-   One objective per life frequency per day Mon–Sun.
-   Mon=LP · Tue=CL · Wed=EX · Thu=SO · Fri=OU · Sat=AC · Sun=TH
-   Completing marks the LQP objective + awards +15 FREQ XP.
-   Resets every Monday.
-   ───────────────────────────────────────────────────────────── */
-const LS_WEEKLY_Q = 'scl_weekly_q';
-function _getWeeklyLog()  { try { return JSON.parse(localStorage.getItem(LS_WEEKLY_Q) || '{}'); } catch(e) { return {}; } }
-function _saveWeeklyLog(l){ try { localStorage.setItem(LS_WEEKLY_Q, JSON.stringify(l)); } catch(e) {} }
-function _isWeeklyDone(k) { return _getWeeklyLog()[k] === _weekKey(); }
-
-function _msUntilMonday() {
-  const n = new Date();
-  const day = n.getDay() || 7;
-  const next = new Date(n.getFullYear(), n.getMonth(), n.getDate() + (8 - day));
-  return next - n;
-}
-
-function _buildWeeklyQuestPanel() {
-  const el = document.getElementById('weeklyQuestPanel');
-  if (!el) return;
-  const pd = typeof playerData !== 'undefined' ? playerData : null;
-  if (!pd) { el.innerHTML = ''; return; }
-
-  const WEEK_FREQ = [
-    { key:'lp', label:'LIFE PATH',    color:'var(--gold)',     badge:'LP' },
-    { key:'cl', label:'LIFE CALLING', color:'var(--teal)',     badge:'CL' },
-    { key:'ex', label:'EXPRESSION',   color:'var(--purple)',   badge:'EX' },
-    { key:'so', label:'SOUL',         color:'var(--rose)',     badge:'SO' },
-    { key:'ou', label:'OUTER',        color:'var(--silver)',   badge:'OU' },
-    { key:'ac', label:'ACHIEVEMENT',  color:'var(--amber)',    badge:'AC' },
-    { key:'th', label:'THEME',        color:'var(--text-mid)', badge:'TH' },
-  ];
-  const DAY_NAMES = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
-  const todayDow = (new Date().getDay() || 7) - 1;
-
-  const msLeft  = _msUntilMonday();
-  const dLeft   = Math.floor(msLeft / 86400000);
-  const hLeft   = Math.floor((msLeft % 86400000) / 3600000);
-  const resetStr = dLeft > 0 ? dLeft + 'd ' + hLeft + 'h' : hLeft + 'h';
-
-  let html = '<div class="wq-header-row"><span class="wq-reset">Resets Monday · ' + resetStr + ' left</span></div>';
-
-  WEEK_FREQ.forEach((freq, idx) => {
-    const numObj = pd[freq.key];
-    if (!numObj) return;
-    const root  = numObj.root;
-    const tier  = _getActiveTier(freq.key);
-    const lqp   = _getLQP();
-    const prog  = (lqp[freq.key] && lqp[freq.key][tier]) ? lqp[freq.key][tier] : [];
-    const pool  = (typeof TIERED_OBJECTIVES !== 'undefined' && TIERED_OBJECTIVES[root])
-                  ? (TIERED_OBJECTIVES[root][tier] || []) : [];
-    const firstInc = prog.findIndex((done, i) => i < pool.length && !done);
-    const objIdx   = firstInc !== -1 ? firstInc : Math.max(pool.length - 1, 0);
-
-    const placObjs = (typeof getPlacementObjectives === 'function') ? getPlacementObjectives(freq.key, root) : [];
-    const wSeed    = _weekOfYear() + idx;
-    const objText  = (placObjs.length) ? _pickObj(placObjs, wSeed) : (pool[objIdx] || '');
-
-    const tierLabel = { 1:'APPRENTICE', 2:'ADEPT', 3:'MASTER' }[tier] || '';
-    const tierColor = { 1:'var(--sage)', 2:'var(--teal)', 3:'var(--gold)' }[tier] || 'var(--sage)';
-    const done    = _isWeeklyDone(freq.key);
-    const isToday = (idx === todayDow);
-
-    html += '<div class="wq-row' + (isToday ? ' wq-today' : '') + (done ? ' wq-done' : '') + '">'
-      + '<div class="wq-day' + (isToday ? ' wq-day-active' : '') + '">' + DAY_NAMES[idx] + '</div>'
-      + '<div class="wq-body">'
-      + '<div class="wq-freq-row">'
-      + '<span class="wq-badge" style="color:' + freq.color + ';border-color:' + freq.color + '44;">' + freq.badge + '</span>'
-      + '<span class="wq-label" style="color:' + freq.color + ';">' + freq.label + '</span>'
-      + '<span class="wq-tier" style="color:' + tierColor + ';">' + tierLabel + '</span>'
-      + (done ? '<span class="wq-check">✓</span>' : '')
-      + '</div>'
-      + (objText ? '<div class="wq-obj">' + objText + '</div>' : '')
-      + (isToday && !done && objText
-          ? '<button class="side-quest-btn side-quest-btn-complete wq-btn" onclick="_completeWeeklyObj(\'' + freq.key + '\',' + root + ',' + tier + ',' + objIdx + ')">&#9658; COMPLETE</button>'
-          : '')
-      + (done ? '<div class="fq-done-label">✓ COMPLETE</div>' : '')
-      + '</div></div>';
-  });
-
-  el.innerHTML = html;
-}
-
-function _completeWeeklyObj(freqKey, root, tier, objIdx) {
-  const result = _markLQPObjective(freqKey, tier, objIdx);
-  const log = _getWeeklyLog();
-  log[freqKey] = _weekKey();
-  _saveWeeklyLog(log);
-  earnFreqXP(15);
-  if (result.tierAdvanced && typeof _showLifeTierAdvance === 'function') {
-    _showLifeTierAdvance(freqKey, result.newTier);
-  }
-  _buildWeeklyQuestPanel();
-  if (typeof buildLifeQuests === 'function') buildLifeQuests();
-}
-
 function _buildFreqQuestList() {
   _buildDailyFreqList();
   _buildCycleQuestList();
 }
 
-/* ── 7 Daily Frequency Quest Cards (LP, CL, EX, SO, OU, AC, TH) ── */
+/* ââ 7 Daily Frequency Quest Cards (LP, CL, EX, SO, OU, AC, TH) ââ */
 function _buildDailyFreqList() {
   const el = document.getElementById('dailyFreqList');
   if (!el) return;
@@ -875,15 +750,11 @@ function _buildDailyFreqList() {
       const root       = numObj.root;
       const displayNum = numObj.compound && numObj.compound !== root ? numObj.compound + '/' + root : String(root);
       const tier       = (typeof _getActiveTier === 'function') ? _getActiveTier(pos.key) : 1;
-      // Use placement-aware objectives from questObjectives.js; fall back to TIERED_OBJECTIVES
-      const placPool   = (typeof getPlacementObjectives === 'function')
-                         ? getPlacementObjectives(pos.key, root) : [];
-      const pool       = placPool.length ? placPool
-                         : ((typeof TIERED_OBJECTIVES !== 'undefined' && TIERED_OBJECTIVES[root])
-                            ? (TIERED_OBJECTIVES[root][tier] || TIERED_OBJECTIVES[root][1] || []) : []);
+      const pool       = (typeof TIERED_OBJECTIVES !== 'undefined' && TIERED_OBJECTIVES[root])
+                         ? (TIERED_OBJECTIVES[root][tier] || TIERED_OBJECTIVES[root][1] || []) : [];
       const obj        = _pickObj(pool, doy + pos.key.charCodeAt(0));
 
-      // Daily key per position — resets each day
+      // Daily key per position â resets each day
       const dailyKey = 'dfreq_' + pos.key + '_' + _todayStr();
       const done     = _isFreqDone(dailyKey);
 
@@ -893,15 +764,15 @@ function _buildDailyFreqList() {
         <div class="freq-quest-card${done ? ' fq-done' : ''}">
           <div class="fq-header">
             <span class="fq-badge" style="color:${pos.color};border-color:${pos.color}44;">${pos.badge} <span style="opacity:0.7;font-size:8px;">${displayNum}</span></span>
-            <span class="fq-xp" style="color:${done ? 'var(--sage)' : pos.color};">${done ? '✓ DONE' : '+' + XP_AWARDS.daily + ' XP'}</span>
+            <span class="fq-xp" style="color:${done ? 'var(--sage)' : pos.color};">${done ? 'â DONE' : '+' + pos.xp + ' XP'}</span>
           </div>
-          <div class="fq-title" style="color:${pos.color};">${pos.label} · ${displayNum}</div>
-          <div class="fq-period">Daily · ${tierLabel} tier · Resets at midnight</div>
-          ${obj ? `<div class="fq-objs"><div class="fq-obj">◈ ${obj}</div></div>` : ''}
+          <div class="fq-title" style="color:${pos.color};">${pos.label} Â· ${displayNum}</div>
+          <div class="fq-period">Daily Â· ${tierLabel} tier Â· Resets at midnight</div>
+          ${obj ? `<div class="fq-objs"><div class="fq-obj">â ${obj}</div></div>` : ''}
           ${done
-            ? `<div class="fq-done-label">✓ COMPLETE</div>`
+            ? `<div class="fq-done-label">â COMPLETE</div>`
             : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;"
-                 onclick="QuestEngine_completeFreqQuest('${dailyKey}', ${XP_AWARDS.daily}, ${root})">▶ COMPLETE</button>`}
+                 onclick="QuestEngine_completeFreqQuest('${dailyKey}', ${pos.xp}, ${root})">â¶ COMPLETE</button>`}
         </div>`;
     });
   } catch(e) { console.error('_buildDailyFreqList:', e); }
@@ -909,7 +780,7 @@ function _buildDailyFreqList() {
   el.innerHTML = html;
 }
 
-/* ── Cycle Quests: personal year, 4-month, month + life quests ── */
+/* ââ Cycle Quests: personal year, 4-month, month + life quests ââ */
 function _buildCycleQuestList() {
   const el = document.getElementById('freqQuestList');
   if (!el) return;
@@ -922,23 +793,21 @@ function _buildCycleQuestList() {
   let html  = '';
 
   try {
-    html += `<div class="fq-section-label">◇ CYCLE QUESTS</div>`;
+    html += `<div class="fq-section-label">â CYCLE QUESTS</div>`;
 
-    // ── Personal Year (top — biggest scope) ───────────────────
+    // ââ Personal Year (top â biggest scope) âââââââââââââââââââ
     const py      = calcPersonalYear(pd.m, pd.d);
     const yrKey   = 'year_' + py.cycleStartYear;
     const yrMeta  = CYCLE_MEANINGS?.personalYear?.[py.root] || {};
-    const yrPool  = (typeof getCycleObjectives === 'function')
-                    ? getCycleObjectives('personalYear', py.root)
-                    : ((typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.personalYear)
-                       ? (CURRENT_QUEST_OBJECTIVES.personalYear[py.root] || []) : []);
+    const yrPool  = (typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.personalYear)
+                    ? (CURRENT_QUEST_OBJECTIVES.personalYear[py.root] || []) : [];
     const yrObj   = _pickObj(yrPool, mon);
     html += _fqCard({ key: yrKey, xp: XP_AWARDS.personal_year, done: _isFreqDone(yrKey),
-      badge: 'YEARLY', color: 'var(--teal)', period: 'Resets on your birthday · Year ' + py.cycleStartYear,
-      title: 'PERSONAL YEAR ' + py.cycleStartYear + (yrMeta.theme ? ' · ' + yrMeta.theme.toUpperCase() : ''),
+      badge: 'YEARLY', color: 'var(--teal)', period: 'Resets on your birthday Â· Year ' + py.cycleStartYear,
+      title: 'PERSONAL YEAR ' + py.cycleStartYear + (yrMeta.theme ? ' Â· ' + yrMeta.theme.toUpperCase() : ''),
       objs: yrObj ? [yrObj] : [], rootNum: py.root });
 
-    // ── Pinnacle ──────────────────────────────────────────────
+    // ââ Pinnacle ââââââââââââââââââââââââââââââââââââââââââââââ
     if (typeof calcPinnacles === 'function') {
       try {
         const pins           = calcPinnacles(pd.m, pd.d, pd.y, pd.lp);
@@ -946,68 +815,59 @@ function _buildCycleQuestList() {
         if (activePinnacle) {
           const pinKey  = 'pinnacle_' + activePinnacle.num + '_s' + activePinnacle.startAge;
           const pinMeta = CYCLE_MEANINGS?.pinnacle?.[activePinnacle.num] || {};
-          const pinPool = (typeof getCycleObjectives === 'function')
-                          ? getCycleObjectives('pinnacle', activePinnacle.num)
-                          : ((typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.pinnacle)
-                             ? (CURRENT_QUEST_OBJECTIVES.pinnacle[activePinnacle.num] || []) : []);
+          const pinPool = (typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.pinnacle)
+                          ? (CURRENT_QUEST_OBJECTIVES.pinnacle[activePinnacle.num] || []) : [];
           const pinObj  = _pickObj(pinPool, mon + 1);
           html += _fqCard({ key: pinKey, xp: XP_AWARDS.pinnacle, done: _isFreqDone(pinKey),
-            badge: 'PINNACLE', color: 'var(--gold)', period: 'Long-cycle · Ages ' + activePinnacle.startAge + (activePinnacle.endAge ? '–' + activePinnacle.endAge : '+'),
-            title: 'PINNACLE ' + activePinnacle.num + (pinMeta.theme ? ' · ' + pinMeta.theme.toUpperCase() : ''),
+            badge: 'PINNACLE', color: 'var(--gold)', period: 'Long-cycle Â· Ages ' + activePinnacle.startAge + (activePinnacle.endAge ? 'â' + activePinnacle.endAge : '+'),
+            title: 'PINNACLE ' + activePinnacle.num + (pinMeta.theme ? ' Â· ' + pinMeta.theme.toUpperCase() : ''),
             objs: pinObj ? [pinObj] : [], rootNum: activePinnacle.num });
         }
       } catch(e2) {}
     }
 
-    // ── 4-Month Cycle ─────────────────────────────────────────
+    // ââ 4-Month Cycle âââââââââââââââââââââââââââââââââââââââââ
     if (typeof calcFourMonthCycle === 'function') {
       const fc     = calcFourMonthCycle(pd.m, pd.d);
       const fcKey  = 'fourmonth_' + py.cycleStartYear + '_' + fc.cycleNum;
       const fcMeta = CYCLE_MEANINGS?.fourMonthCycle?.[fc.root] || {};
-      const fcPool = (typeof getCycleObjectives === 'function')
-                     ? getCycleObjectives('fourMonthCycle', fc.root)
-                     : ((typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.fourMonthCycle)
-                        ? (CURRENT_QUEST_OBJECTIVES.fourMonthCycle[fc.root] || []) : []);
+      const fcPool = (typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.fourMonthCycle)
+                     ? (CURRENT_QUEST_OBJECTIVES.fourMonthCycle[fc.root] || []) : [];
       const fcObj  = _pickObj(fcPool, woy + 3);
       html += _fqCard({ key: fcKey, xp: XP_AWARDS.four_month, done: _isFreqDone(fcKey),
         badge: '4-MONTH', color: 'var(--purple)', period: 'Resets every 4 months',
-        title: '4-MONTH CYCLE ' + fc.cycleNum + (fcMeta.theme ? ' · ' + fcMeta.theme.toUpperCase() : ''),
+        title: '4-MONTH CYCLE ' + fc.cycleNum + (fcMeta.theme ? ' Â· ' + fcMeta.theme.toUpperCase() : ''),
         objs: fcObj ? [fcObj] : [], rootNum: fc.root });
     }
 
-    // ── Personal Month ────────────────────────────────────────
+    // ââ Personal Month ââââââââââââââââââââââââââââââââââââââââ
     const pm      = calcPersonalMonth(pd.m, pd.d);
     const monKey  = 'month_' + n.getFullYear() + '-' + (n.getMonth() + 1);
     const monMeta = CYCLE_MEANINGS?.personalMonth?.[pm.root] || {};
-    const monPool = (typeof getCycleObjectives === 'function')
-                    ? getCycleObjectives('personalMonth', pm.root)
-                    : ((typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.personalMonth)
-                       ? (CURRENT_QUEST_OBJECTIVES.personalMonth[pm.root] || []) : []);
+    const monPool = (typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.personalMonth)
+                    ? (CURRENT_QUEST_OBJECTIVES.personalMonth[pm.root] || []) : [];
     const monObj  = _pickObj(monPool, woy);
     html += _fqCard({ key: monKey, xp: XP_AWARDS.personal_month, done: _isFreqDone(monKey),
       badge: 'MONTHLY', color: 'var(--rose)', period: 'Resets each month',
-      title: 'PERSONAL MONTH ' + pm.monthNum + (monMeta.theme ? ' · ' + monMeta.theme.toUpperCase() : ''),
+      title: 'PERSONAL MONTH ' + pm.monthNum + (monMeta.theme ? ' Â· ' + monMeta.theme.toUpperCase() : ''),
       objs: monObj ? [monObj] : [], rootNum: pm.root });
 
-    // ── Life Frequency Quests — separate header ───────────────
+    // ââ Life Frequency Quests â separate header âââââââââââââââ
     const lifeQ = [
-      { key:'lp', xp:XP_AWARDS.life_path,    color:'var(--gold)',     badge:'LIFE PATH',    title:'LIFE PATH · '    + _fmtN(pd.lp) },
-      { key:'cl', xp:XP_AWARDS.life_calling,  color:'var(--teal)',     badge:'LIFE CALLING', title:'LIFE CALLING · ' + _fmtN(pd.cl) },
-      { key:'ex', xp:XP_AWARDS.expression,   color:'var(--purple)',   badge:'EXPRESSION',   title:'EXPRESSION · '   + _fmtN(pd.ex) },
-      { key:'so', xp:XP_AWARDS.soul,          color:'var(--rose)',     badge:'SOUL',          title:'SOUL QUEST · '   + _fmtN(pd.so) },
-      { key:'ou', xp:XP_AWARDS.outer,         color:'var(--purple)',   badge:'OUTER',         title:'OUTER QUEST · '  + _fmtN(pd.ou) },
-      { key:'ac', xp:XP_AWARDS.achievement,   color:'var(--amber)',    badge:'ACHIEVEMENT',  title:'ACHIEVEMENT · '  + _fmtN(pd.ac) },
-      { key:'th', xp:XP_AWARDS.theme,         color:'var(--silver)',   badge:'THEME',         title:'THEME QUEST · '  + _fmtN(pd.th) },
+      { key:'lp', xp:XP_AWARDS.life_path,    color:'var(--gold)',     badge:'LIFE PATH',    title:'LIFE PATH Â· '    + _fmtN(pd.lp) },
+      { key:'cl', xp:XP_AWARDS.life_calling,  color:'var(--teal)',     badge:'LIFE CALLING', title:'LIFE CALLING Â· ' + _fmtN(pd.cl) },
+      { key:'ex', xp:XP_AWARDS.expression,   color:'var(--purple)',   badge:'EXPRESSION',   title:'EXPRESSION Â· '   + _fmtN(pd.ex) },
+      { key:'so', xp:XP_AWARDS.soul,          color:'var(--rose)',     badge:'SOUL',          title:'SOUL QUEST Â· '   + _fmtN(pd.so) },
+      { key:'ou', xp:XP_AWARDS.outer,         color:'var(--purple)',   badge:'OUTER',         title:'OUTER QUEST Â· '  + _fmtN(pd.ou) },
+      { key:'ac', xp:XP_AWARDS.achievement,   color:'var(--amber)',    badge:'ACHIEVEMENT',  title:'ACHIEVEMENT Â· '  + _fmtN(pd.ac) },
+      { key:'th', xp:XP_AWARDS.theme,         color:'var(--silver)',   badge:'THEME',         title:'THEME QUEST Â· '  + _fmtN(pd.th) },
     ];
-    html += `<div class="fq-section-label fq-section-label--life">◈ LIFE FREQUENCY QUESTS</div>`;
+    html += `<div class="fq-section-label fq-section-label--life">â LIFE FREQUENCY QUESTS</div>`;
     lifeQ.forEach(q => {
       const qRoot    = pd[q.key] ? pd[q.key].root : 1;
       const qTier    = _getActiveTier(q.key);
-      const qPlacPool = (typeof getPlacementObjectives === 'function')
-        ? getPlacementObjectives(q.key, qRoot) : [];
-      const qPool    = qPlacPool.length ? qPlacPool
-        : ((typeof TIERED_OBJECTIVES !== 'undefined' && TIERED_OBJECTIVES[qRoot])
-           ? (TIERED_OBJECTIVES[qRoot][qTier] || TIERED_OBJECTIVES[qRoot][1] || []) : []);
+      const qPool    = (typeof TIERED_OBJECTIVES !== 'undefined' && TIERED_OBJECTIVES[qRoot])
+        ? (TIERED_OBJECTIVES[qRoot][qTier] || TIERED_OBJECTIVES[qRoot][1] || []) : [];
       const qLQP     = _getLQP();
       const qProg    = (qLQP[q.key] && qLQP[q.key][qTier]) ? qLQP[q.key][qTier] : [];
       // Pick objective by quarter index so it rotates every 3 months
@@ -1019,7 +879,7 @@ function _buildCycleQuestList() {
       const qObjs    = qPool.length ? [qPool[qFinal]] : [];
       const tierLabel = { 1:'APPRENTICE', 2:'ADEPT', 3:'MASTER' }[qTier] || 'APPRENTICE';
       const tierColor = { 1:'var(--sage)', 2:'var(--teal)', 3:'var(--gold)' }[qTier] || 'var(--sage)';
-      const periodStr = `Resets quarterly · <span style="color:${tierColor};">${tierLabel}</span>`;
+      const periodStr = `Resets quarterly Â· <span style="color:${tierColor};">${tierLabel}</span>`;
       html += _fqCard({ ...q, done: _isFreqDone(q.key), period: periodStr, objs: qObjs, rootNum: qRoot });
     });
 
@@ -1036,28 +896,28 @@ function _fmtN(numObj) {
 
 function _fqCard({ key, xp, done, badge, color, period, title, objs, rootNum }) {
   const objsHtml = objs.length
-    ? `<div class="fq-objs">${objs.slice(0, 3).map(o => `<div class="fq-obj">◈ ${o}</div>`).join('')}</div>` : '';
+    ? `<div class="fq-objs">${objs.slice(0, 3).map(o => `<div class="fq-obj">â ${o}</div>`).join('')}</div>` : '';
   const rootArg = rootNum ? `, ${rootNum}` : '';
   return `
     <div class="freq-quest-card${done ? ' fq-done' : ''}">
       <div class="fq-header">
         <span class="fq-badge" style="color:${color};border-color:${color}44;">${badge}</span>
-        <span class="fq-xp" style="color:${done ? 'var(--sage)' : color};">${done ? '✓ DONE' : '+' + xp + ' XP'}</span>
+        <span class="fq-xp" style="color:${done ? 'var(--sage)' : color};">${done ? 'â DONE' : '+' + xp + ' XP'}</span>
       </div>
       <div class="fq-title" style="color:${color};">${title}</div>
       <div class="fq-period">${period}</div>
       ${objsHtml}
       ${done
-        ? `<div class="fq-done-label">✓ COMPLETE</div>`
+        ? `<div class="fq-done-label">â COMPLETE</div>`
         : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;"
-             onclick="QuestEngine_completeFreqQuest('${key}', ${xp}${rootArg})">▶ COMPLETE</button>`}
+             onclick="QuestEngine_completeFreqQuest('${key}', ${xp}${rootArg})">â¶ COMPLETE</button>`}
     </div>`;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   MAP QUEST — ACCEPT / COMPLETE / CANCEL / RENDER
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   MAP QUEST â ACCEPT / COMPLETE / CANCEL / RENDER
    These replace the same functions in app.js
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function acceptQuest(questId) {
   if (!questId) return;
   try {
@@ -1098,9 +958,9 @@ function completeSideQuest(questId) {
     const xpAmount = XP_AWARDS['map_' + rn] || XP_AWARDS.map_1;
     earnCharXP(xpAmount);
 
-    // Stat boost — master nums map to their reduced root stat
+    // Stat boost â master nums map to their reduced root stat
     const statNum = rn > 9 ? (rn === 11 ? 2 : rn === 22 ? 4 : 6) : rn;
-    earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || (1/3));
+    earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || 5);
 
     renderSideQuests();
   } catch(e) { console.error('completeSideQuest:', e); }
@@ -1115,17 +975,17 @@ function renderSideQuests() {
     const completed = Object.values(all).filter(q => q.status === 'completed');
 
     if (!active.length && !completed.length) {
-      el.innerHTML = '<div class="quest-intro-panel">No side quests yet.<br>Open the Map, tap a quest marker, and press ▶ ACCEPT QUEST.</div>';
+      el.innerHTML = '<div class="quest-intro-panel">No side quests yet.<br>Open the Map, tap a quest marker, and press â¶ ACCEPT QUEST.</div>';
       return;
     }
 
-    const seekerLabel = { solo: '◈ SOLO', partner: '⚔ PARTNER', group: '✦ GROUP' };
+    const seekerLabel = { solo: 'â SOLO', partner: 'â PARTNER', group: 'â¦ GROUP' };
     let html = '';
 
     active.forEach(q => {
       const rn       = q.rewardNum || '';
       const rewardXp = q.rewardXp  || q.rewardName || '';
-      const typeMeta = (typeof QUEST_TYPES !== 'undefined' ? QUEST_TYPES[q.type] : null) || { label: '🗺 EXPLORE' };
+      const typeMeta = (typeof QUEST_TYPES !== 'undefined' ? QUEST_TYPES[q.type] : null) || { label: 'ðº EXPLORE' };
       const locStr   = q.location || (q.lat && q.lng ? parseFloat(q.lat).toFixed(3)+', '+parseFloat(q.lng).toFixed(3) : '');
       const xpAmt    = XP_AWARDS['map_' + parseInt(rn || 1)] || XP_AWARDS.map_1;
       const qid      = _esc(q.questId || q.id || '');
@@ -1133,7 +993,7 @@ function renderSideQuests() {
       const seekerHtml = q.seekerType && q.seekerType !== ''
         ? `<span class="side-quest-seeker-badge">${seekerLabel[q.seekerType] || q.seekerType}</span>` : '';
       const objsHtml = q.objectives?.length
-        ? `<div class="side-quest-objs">${q.objectives.map(o=>`<div class="side-quest-obj-row">◈ ${_esc(o)}</div>`).join('')}</div>` : '';
+        ? `<div class="side-quest-objs">${q.objectives.map(o=>`<div class="side-quest-obj-row">â ${_esc(o)}</div>`).join('')}</div>` : '';
       const sigHtml = q.creatorSig
         ? `<div class="side-quest-sig"><span class="side-quest-sig-label">CREATOR</span>${
             [['CL',q.creatorSig.cl,'var(--teal)'],['LP',q.creatorSig.lp,'var(--gold)'],
@@ -1154,16 +1014,16 @@ function renderSideQuests() {
         </div>
         ${q.description ? `<div class="side-quest-desc">${_esc(q.description)}</div>` : ''}
         ${objsHtml}${sigHtml}
-        ${locStr ? `<div class="side-quest-loc">◎ ${_esc(locStr)}</div>` : ''}
+        ${locStr ? `<div class="side-quest-loc">â ${_esc(locStr)}</div>` : ''}
         <div class="side-quest-actions">
-          <button class="side-quest-btn side-quest-btn-complete" onclick="completeSideQuest('${qid}')">▶ COMPLETE</button>
-          <button class="side-quest-btn side-quest-btn-cancel"   onclick="cancelSideQuest('${qid}')">✕ ABANDON</button>
+          <button class="side-quest-btn side-quest-btn-complete" onclick="completeSideQuest('${qid}')">â¶ COMPLETE</button>
+          <button class="side-quest-btn side-quest-btn-cancel"   onclick="cancelSideQuest('${qid}')">â ABANDON</button>
         </div>
       </div>`;
     });
 
     if (completed.length) {
-      html += `<div class="side-quest-section-label">◈ COMPLETED</div>`;
+      html += `<div class="side-quest-section-label">â COMPLETED</div>`;
       completed.forEach(q => {
         const qid = _esc(q.questId || q.id || '');
         html += `<div class="side-quest-card" style="opacity:0.5;border-left-color:var(--sage-dim);">
@@ -1171,11 +1031,11 @@ function renderSideQuests() {
             ${q.rewardNum ? `<div class="side-quest-reward-num" style="color:var(--sage)">${q.rewardNum}</div>` : ''}
             <div class="side-quest-info">
               <div class="side-quest-name" style="text-decoration:line-through;">${_esc(q.name||'Quest')}</div>
-              <div class="side-quest-xp" style="color:var(--sage)">✓ COMPLETE</div>
+              <div class="side-quest-xp" style="color:var(--sage)">â COMPLETE</div>
             </div>
           </div>
           <div class="side-quest-actions">
-            <button class="side-quest-btn" onclick="cancelSideQuest('${qid}')">✕ CLEAR</button>
+            <button class="side-quest-btn" onclick="cancelSideQuest('${qid}')">â CLEAR</button>
           </div>
         </div>`;
       });
@@ -1187,10 +1047,10 @@ function renderSideQuests() {
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    FIRESTORE SYNC CALLBACK
    Called by Kotlin (MapBridge) after loadPlayer
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel, statXPJson, freqLogJson) {
   try {
     const rCX = parseInt(charXP  || 0), rCL = parseInt(charLevel || 1);
@@ -1200,7 +1060,7 @@ function NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel, statXPJson
     if (rFX > _freqXP) { _freqXP = rFX; _freqLevel = rFL; }
     for (let i = 0; i <= 9; i++) if ((rSX[i]||0) > (_statXP[i]||0)) _statXP[i] = rSX[i];
     _saveToStorage();
-    // Restore freq quest log from Firestore — this is the authoritative source after reset
+    // Restore freq quest log from Firestore â this is the authoritative source after reset
     if (freqLogJson !== undefined && freqLogJson !== null) {
       try {
         const remote = JSON.parse(freqLogJson);
@@ -1212,11 +1072,11 @@ function NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel, statXPJson
   } catch(e) { console.error('NativeQuest_onXPLoaded:', e); }
 }
 
-/* ─────────────────────────────────────────────────────────────
-   DAILY READ — rich briefing panel shown at the top of Daily tab
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   DAILY READ â rich briefing panel shown at the top of Daily tab
    Shows: notification read, 7 frequency daily objectives,
    weekly objectives for medium cycles, monthly for long cycles.
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 
 function _dayOfYear() {
   const n = new Date();
@@ -1249,16 +1109,16 @@ function QuestEngine_buildDailyRead() {
     const woy = _weekOfYear();
     const mon = new Date().getMonth();
 
-    // ── Personal Day ─────────────────────────────────────────
+    // ââ Personal Day âââââââââââââââââââââââââââââââââââââââââ
     const pday    = calcPersonalDay(pd.m, pd.d);
     const pdMeta  = CYCLE_MEANINGS?.personalDay?.[pday.root] || {};
-    const notifTitle = 'PERSONAL DAY ' + pday.dayNum + (pdMeta.theme ? ' · ' + pdMeta.theme.toUpperCase() : '');
+    const notifTitle = 'PERSONAL DAY ' + pday.dayNum + (pdMeta.theme ? ' Â· ' + pdMeta.theme.toUpperCase() : '');
     const notifBody  = pdMeta.summary || 'Live in alignment with today\'s personal frequency.';
     const pdObjs  = (typeof CURRENT_QUEST_OBJECTIVES !== 'undefined' && CURRENT_QUEST_OBJECTIVES.personalDay)
                     ? (CURRENT_QUEST_OBJECTIVES.personalDay[pday.root] || []) : [];
     const pdObj   = _pickObj(pdObjs, doy);
 
-    // ── Year / Pinnacle (main quest) ─────────────────────────
+    // ââ Year / Pinnacle (main quest) âââââââââââââââââââââââââ
     const py      = calcPersonalYear(pd.m, pd.d);
     const cycleYear = py.cycleStartYear;
     const pyMeta  = CYCLE_MEANINGS?.personalYear?.[py.root] || {};
@@ -1278,7 +1138,7 @@ function QuestEngine_buildDailyRead() {
           const pinObj  = _pickObj(pinPool, mon + 1);
           if (pinObj) pinnacleRow = `
             <div class="freq-quest-card" style="border-left-color:var(--gold);">
-              <div class="fq-badge" style="color:var(--gold);border-color:var(--gold);display:inline-block;margin-bottom:6px;">PINNACLE ${ap.num}${pinMeta.theme ? ' · ' + pinMeta.theme.toUpperCase() : ''}</div>
+              <div class="fq-badge" style="color:var(--gold);border-color:var(--gold);display:inline-block;margin-bottom:6px;">PINNACLE ${ap.num}${pinMeta.theme ? ' Â· ' + pinMeta.theme.toUpperCase() : ''}</div>
               <div class="fq-obj">${pinObj}</div>
             </div>`;
         }
@@ -1287,13 +1147,13 @@ function QuestEngine_buildDailyRead() {
 
     const mainQuestHtml = [
       pyObj ? `<div class="freq-quest-card" style="border-left-color:var(--teal);">
-        <div class="fq-badge" style="color:var(--teal);border-color:var(--teal);display:inline-block;margin-bottom:6px;">YEAR ${cycleYear} · ${py.root}${pyMeta.theme ? ' · ' + pyMeta.theme.toUpperCase() : ''}</div>
+        <div class="fq-badge" style="color:var(--teal);border-color:var(--teal);display:inline-block;margin-bottom:6px;">YEAR ${cycleYear} Â· ${py.root}${pyMeta.theme ? ' Â· ' + pyMeta.theme.toUpperCase() : ''}</div>
         <div class="fq-obj">${pyObj}</div>
       </div>` : '',
       pinnacleRow
     ].filter(Boolean).join('\n');
 
-    // ── 4-Month + Personal Month (cycle focus) ────────────────
+    // ââ 4-Month + Personal Month (cycle focus) ââââââââââââââââ
     let fcRow = '';
     if (typeof calcFourMonthCycle === 'function') {
       try {
@@ -1304,7 +1164,7 @@ function QuestEngine_buildDailyRead() {
         const fcObj  = _pickObj(fcPool, woy + 3);
         if (fcObj) fcRow = `
           <div class="freq-quest-card" style="border-left-color:var(--purple);">
-            <div class="fq-badge" style="color:var(--purple);border-color:var(--purple);display:inline-block;margin-bottom:6px;">4-MONTH CYCLE${fcMeta.theme ? ' · ' + fcMeta.theme.toUpperCase() : ''}</div>
+            <div class="fq-badge" style="color:var(--purple);border-color:var(--purple);display:inline-block;margin-bottom:6px;">4-MONTH CYCLE${fcMeta.theme ? ' Â· ' + fcMeta.theme.toUpperCase() : ''}</div>
             <div class="fq-obj">${fcObj}</div>
           </div>`;
       } catch(e2) {}
@@ -1317,13 +1177,13 @@ function QuestEngine_buildDailyRead() {
     const pmObj   = _pickObj(pmObjs, woy);
     const monRow  = pmObj ? `
       <div class="freq-quest-card" style="border-left-color:var(--rose);">
-        <div class="fq-badge" style="color:var(--rose);border-color:var(--rose);display:inline-block;margin-bottom:6px;">MONTH ${pm.monthNum}${pmMeta.theme ? ' · ' + pmMeta.theme.toUpperCase() : ''}</div>
+        <div class="fq-badge" style="color:var(--rose);border-color:var(--rose);display:inline-block;margin-bottom:6px;">MONTH ${pm.monthNum}${pmMeta.theme ? ' Â· ' + pmMeta.theme.toUpperCase() : ''}</div>
         <div class="fq-obj">${pmObj}</div>
       </div>` : '';
 
     const weekCycleHtml = [fcRow, monRow].filter(Boolean).join('\n');
 
-    // ── Countdown ─────────────────────────────────────────────
+    // ââ Countdown âââââââââââââââââââââââââââââââââââââââââââââ
     const ms = _msUntilMidnight();
     const hh = Math.floor(ms / 3600000);
     const mm = Math.floor((ms % 3600000) / 60000);
@@ -1331,7 +1191,7 @@ function QuestEngine_buildDailyRead() {
     el.innerHTML = `
       <div class="rpg-panel" style="margin-bottom:14px;">
 
-        <div class="panel-label c-teal">◈ TODAY'S READ</div>
+        <div class="panel-label c-teal">â TODAY'S READ</div>
 
         <div style="padding:0 16px 16px;">
 
@@ -1339,21 +1199,21 @@ function QuestEngine_buildDailyRead() {
           <div class="freq-quest-card" style="border-left-color:var(--teal);">
             <div class="fq-header">
               <span class="fq-badge" style="color:var(--teal);border-color:var(--teal);">DAY ${pday.dayNum}</span>
-              <span class="fq-period">↻ ${hh}h ${mm}m</span>
+              <span class="fq-period">â» ${hh}h ${mm}m</span>
             </div>
             <div class="fq-title" style="color:var(--teal);">${notifTitle}</div>
             <div class="fq-objs">
               <div class="fq-obj">${notifBody}</div>
             </div>
-            ${pdObj ? `<div class="daily-q-obj"><div class="daily-q-obj-row"><span class="daily-q-obj-bullet">◈</span><span>${pdObj}</span></div></div>` : ''}
+            ${pdObj ? `<div class="daily-q-obj"><div class="daily-q-obj-row"><span class="daily-q-obj-bullet">â</span><span>${pdObj}</span></div></div>` : ''}
           </div>
 
           ${mainQuestHtml ? `
-          <div class="fq-section-label">▲ MAIN QUEST FOCUS · THIS YEAR</div>
+          <div class="fq-section-label">â² MAIN QUEST FOCUS Â· THIS YEAR</div>
           ${mainQuestHtml}` : ''}
 
           ${weekCycleHtml ? `
-          <div class="fq-section-label">◇ CYCLE FOCUS · THIS WEEK</div>
+          <div class="fq-section-label">â CYCLE FOCUS Â· THIS WEEK</div>
           ${weekCycleHtml}` : ''}
 
         </div>
@@ -1365,7 +1225,7 @@ function QuestEngine_buildDailyRead() {
 }
 
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    HELPERS
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function _parseJson(json) { try { return JSON.parse(json); } catch(e) { return []; } }

@@ -1,2858 +1,656 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="scifi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-<!-- Primary SEO -->
-<title>Numerology Calculator — Source Code: Life · Decode Your 7 Frequencies</title>
-<meta name="description" content="Enter your birth name and date to instantly decode your 7 numerological frequencies — Life Path, Expression, Life Calling, Soul Urge, Outer Persona, Achievement, and Theme. Free, private, no account required.">
-<meta name="keywords" content="numerology calculator, free numerology, life path calculator, expression number, soul urge calculator, numerology frequencies, life calling number">
-<meta name="author" content="Simulation Source Code">
-<link rel="canonical" href="https://simulationsourcecode.com/sourcecode-life/calculator/">
-
-<!-- Open Graph -->
-<meta property="og:type"        content="website">
-<meta property="og:site_name"   content="Source Code: Life">
-<meta property="og:title"       content="Free Numerology Calculator — Source Code: Life">
-<meta property="og:description" content="Decode your 7 numerological frequencies instantly. Enter your birth name and date — free, private, no sign-up.">
-<meta property="og:url"         content="https://simulationsourcecode.com/sourcecode-life/calculator/">
-<meta property="og:image"       content="https://simulationsourcecode.com/sourcecode-life/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-
-<!-- Twitter Card -->
-<meta name="twitter:card"        content="summary_large_image">
-<meta name="twitter:site"        content="@simulationsourcecode">
-<meta name="twitter:title"       content="Free Numerology Calculator — Source Code: Life">
-<meta name="twitter:description" content="Decode your 7 numerological frequencies instantly. Free, private, no sign-up.">
-<meta name="twitter:image"       content="https://simulationsourcecode.com/sourcecode-life/og.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
-<style>
-/* ════════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES — RPG PALETTE
-════════════════════════════════════════════════ */
-:root {
-  --bg-deep:      #050508;
-  --bg-panel:     #0b0b14;
-  --bg-panel2:    #0f0f1c;
-  --bg-inset:     #07070f;
-  --border:       #1c1c38;
-  --border-glow:  #252550;
-
-  --gold:         #d4a843;
-  --gold-bright:  #f0c060;
-  --gold-dim:     #6b5220;
-  --gold-muted:   #382b10;
-
-  --teal:         #00e5cc;
-  --teal-dim:     #007a6e;
-  --teal-muted:   #00332e;
-
-  --purple:       #a070ff;
-  --purple-dim:   #4a2d99;
-  --purple-muted: #1e0f40;
-
-  --rose:         #ff5580;
-  --rose-dim:     #7a1f3a;
-  --rose-muted:   #2a0815;
-
-  --amber:        #ff9930;
-  --amber-dim:    #7a4400;
-  --amber-muted:  #2a1500;
-
-  --sage:         #60d080;
-  --sage-dim:     #1e6030;
-  --sage-muted:   #091a0e;
-
-  --silver:       #90a8c8;
-  --silver-dim:   #384858;
-  --silver-muted: #101820;
-
-  --red:          #ff3a3a;
-  --text:         #c8d8f0;
-  --text-dim:     #50687a;
-  --text-mid:     #8898a8;
-  --white:        #e8f0ff;
-}
-
-/* ════════════════════════════════════════════════
-   RESET & BASE
-════════════════════════════════════════════════ */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { height: 100%; }
-
-body {
-  font-family: 'Share Tech Mono', monospace;
-  background: var(--bg-deep);
-  color: var(--text);
-  min-height: 100%;
-  overflow-x: hidden;
-  position: relative;
-  cursor: default;
-}
-
-/* ── CRT OVERLAY ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    rgba(0,0,0,0.12) 3px,
-    rgba(0,0,0,0.12) 4px
-  );
-  pointer-events: none;
-  z-index: 9000;
-}
-/* ── VIGNETTE ── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,0.7) 100%);
-  pointer-events: none;
-  z-index: 9001;
-}
-
-/* ── PIXEL CURSOR ── */
-* { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='0' y='0' width='6' height='6' fill='%2300e5cc'/%3E%3C/svg%3E") 3 3, auto; }
-input, textarea { cursor: text; }
-
-/* ════════════════════════════════════════════════
-   UTILITY
-════════════════════════════════════════════════ */
-.hidden { display: none !important; }
-.pixel-font { font-family: 'Press Start 2P', monospace; }
-.vt-font    { font-family: 'VT323', monospace; }
-.mono-font  { font-family: 'Share Tech Mono', monospace; }
-
-.c-gold   { color: var(--gold); }
-.c-teal   { color: var(--teal); }
-.c-purple { color: var(--purple); }
-.c-rose   { color: var(--rose); }
-.c-amber  { color: var(--amber); }
-.c-sage   { color: var(--sage); }
-.c-silver { color: var(--silver); }
-.c-dim    { color: var(--text-dim); }
-.c-mid    { color: var(--text-mid); }
-.c-white  { color: var(--white); }
-
-/* ════════════════════════════════════════════════
-   ANIMATED SCANLINE
-════════════════════════════════════════════════ */
-.scanline {
-  position: fixed;
-  top: -4px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(to bottom, transparent, rgba(0,229,204,0.07), transparent);
-  pointer-events: none;
-  z-index: 9002;
-  animation: scanDown 8s linear infinite;
-}
-@keyframes scanDown {
-  from { top: -4px; }
-  to   { top: 100vh; }
-}
-
-/* ════════════════════════════════════════════════
-   AUTH OVERLAY
-════════════════════════════════════════════════ */
-.auth-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 2, 8, 0.92);
-  backdrop-filter: blur(6px);
-  z-index: 8000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  animation: fadeIn 0.4s ease;
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.auth-modal {
-  width: 100%;
-  max-width: 440px;
-  background: var(--bg-panel);
-  border: 2px solid var(--teal-dim);
-  box-shadow: 0 0 60px rgba(0,229,204,0.08), 0 0 120px rgba(0,229,204,0.03), inset 0 0 40px rgba(0,229,204,0.02);
-  position: relative;
-  animation: modalIn 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-@keyframes modalIn {
-  from { transform: translateY(24px) scale(0.97); opacity: 0; }
-  to   { transform: translateY(0) scale(1); opacity: 1; }
-}
-
-/* modal corner decorations */
-.auth-modal::before, .auth-modal::after {
-  content: '';
-  position: absolute;
-  width: 12px; height: 12px;
-  border-color: var(--teal);
-  border-style: solid;
-}
-.auth-modal::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
-.auth-modal::after  { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
-
-.auth-header {
-  padding: 28px 28px 0;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 20px;
-}
-.auth-logo {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: var(--teal);
-  text-shadow: 0 0 20px rgba(0,229,204,0.6);
-  letter-spacing: 2px;
-  margin-bottom: 6px;
-  animation: flicker 6s infinite;
-}
-@keyframes flicker {
-  0%,90%,92%,96%,100% { opacity: 1; }
-  91%,95% { opacity: 0.7; }
-  93% { opacity: 0.9; }
-}
-.auth-subtitle {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: var(--text-dim);
-  letter-spacing: 3px;
-}
-
-.auth-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-}
-.auth-tab {
-  flex: 1;
-  padding: 14px;
-  text-align: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  color: var(--text-dim);
-  cursor: pointer;
-  letter-spacing: 1px;
-  transition: color 0.2s, background 0.2s;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-}
-.auth-tab:hover { color: var(--text-mid); }
-.auth-tab.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-  background: rgba(212,168,67,0.04);
-}
-
-.auth-body { padding: 24px 28px; }
-
-.auth-form-panel { display: none; }
-.auth-form-panel.active { display: block; }
-
-.field-group { margin-bottom: 16px; }
-.field-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  display: block;
-  margin-bottom: 8px;
-}
-.field-input {
-  width: 100%;
-  background: var(--bg-inset);
-  border: 1px solid var(--border-glow);
-  color: var(--teal);
-  padding: 11px 14px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  letter-spacing: 1px;
-  -webkit-appearance: none;
-}
-.field-input:focus {
-  border-color: var(--teal-dim);
-  box-shadow: 0 0 0 3px rgba(0,229,204,0.06), inset 0 0 12px rgba(0,229,204,0.04);
-}
-.field-input::placeholder { color: var(--text-dim); }
-
-.date-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr;
-  gap: 8px;
-}
-
-.field-hint {
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-top: 5px;
-  padding-left: 2px;
-}
-
-.btn-primary {
-  width: 100%;
-  padding: 14px;
-  background: transparent;
-  border: 1px solid var(--teal-dim);
-  color: var(--teal);
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-  margin-top: 8px;
-  text-shadow: 0 0 10px rgba(0,229,204,0.5);
-  box-shadow: 0 0 20px rgba(0,229,204,0.05), inset 0 0 20px rgba(0,229,204,0.03);
-}
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, transparent 30%, rgba(0,229,204,0.06));
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.btn-primary:hover {
-  border-color: var(--teal);
-  box-shadow: 0 0 30px rgba(0,229,204,0.15), inset 0 0 30px rgba(0,229,204,0.06);
-}
-.btn-primary:hover::before { opacity: 1; }
-.btn-primary:active { transform: scale(0.99); }
-
-.btn-google {
-  width: 100%;
-  padding: 13px;
-  background: transparent;
-  border: 1px solid var(--border-glow);
-  color: var(--text-mid);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.btn-google:hover {
-  border-color: var(--border-glow);
-  color: var(--white);
-  background: rgba(255,255,255,0.02);
-}
-.google-icon {
-  width: 16px; height: 16px;
-  display: inline-block;
-  background: conic-gradient(#4285F4 0 90deg, #EA4335 90deg 180deg, #FBBC04 180deg 270deg, #34A853 270deg 360deg);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.auth-divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 14px 0;
-  color: var(--text-dim);
-  font-size: 10px;
-  letter-spacing: 3px;
-}
-.auth-divider::before, .auth-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-.auth-error {
-  font-size: 10px;
-  color: var(--red);
-  padding: 8px 10px;
-  border: 1px solid rgba(255,58,58,0.3);
-  background: rgba(255,58,58,0.05);
-  margin-top: 10px;
-  display: none;
-}
-.auth-error.show { display: block; }
-
-/* ════════════════════════════════════════════════
-   CHARACTER CREATION (step 2 of onboarding)
-════════════════════════════════════════════════ */
-.char-create-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2,2,8,0.95);
-  backdrop-filter: blur(6px);
-  z-index: 7500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-.char-create-modal {
-  width: 100%;
-  max-width: 460px;
-  background: var(--bg-panel);
-  border: 2px solid var(--gold-dim);
-  box-shadow: 0 0 60px rgba(212,168,67,0.07);
-  position: relative;
-}
-.char-create-modal::before, .char-create-modal::after {
-  content: '';
-  position: absolute;
-  width: 12px; height: 12px;
-  border-color: var(--gold);
-  border-style: solid;
-}
-.char-create-modal::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
-.char-create-modal::after  { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
-
-.char-header {
-  padding: 24px 28px 18px;
-  border-bottom: 1px solid var(--border);
-}
-.char-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: var(--gold);
-  text-shadow: 0 0 12px rgba(212,168,67,0.5);
-  margin-bottom: 6px;
-}
-.char-desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  line-height: 1.6;
-}
-.char-body { padding: 24px 28px; }
-
-/* ════════════════════════════════════════════════
-   MAIN APP SHELL
-════════════════════════════════════════════════ */
-.app-shell {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 820px;
-  margin: 0 auto;
-}
-
-/* ── TOP HEADER ── */
-.app-header {
-  padding: 14px 20px 0;
-  background: linear-gradient(180deg, var(--bg-deep) 0%, transparent 100%);
-  position: relative;
-  z-index: 10;
-}
-.header-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-.header-wordmark {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: var(--teal);
-  letter-spacing: 2px;
-  text-shadow: 0 0 16px rgba(0,229,204,0.5);
-  animation: flicker 8s infinite;
-  line-height: 1.4;
-}
-.header-sub {
-  font-family: 'VT323', monospace;
-  font-size: 15px;
-  color: var(--text-dim);
-  letter-spacing: 4px;
-  margin-top: 3px;
-}
-.header-player {
-  text-align: right;
-}
-.header-player-name {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  color: var(--gold);
-  text-shadow: 0 0 8px rgba(212,168,67,0.4);
-  line-height: 1;
-}
-.header-player-dob {
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-top: 3px;
-}
-.header-divider {
-  height: 1px;
-  background: linear-gradient(90deg, var(--teal-dim), var(--border), transparent);
-  margin-top: 12px;
-}
-
-/* ── TAB BAR ── */
-.tab-bar {
-  display: flex;
-  background: var(--bg-inset);
-  border-bottom: 2px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  flex-shrink: 0;
-}
-.tab-btn {
-  flex: 1;
-  padding: 0;
-  background: none;
-  border: none;
-  border-right: 1px solid var(--border);
-  color: var(--text-dim);
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: color 0.2s, background 0.2s;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 10px 4px;
-  user-select: none;
-}
-.tab-btn:last-child { border-right: none; }
-.tab-btn:hover { color: var(--text-mid); background: rgba(255,255,255,0.015); }
-.tab-btn.active {
-  color: var(--teal);
-  background: rgba(0,229,204,0.04);
-  text-shadow: 0 0 8px rgba(0,229,204,0.4);
-}
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--teal);
-  box-shadow: 0 0 8px var(--teal);
-}
-.tab-icon {
-  font-size: 14px;
-  display: block;
-  line-height: 1;
-}
-
-/* ── TAB PANELS ── */
-.tab-panel { display: none; flex: 1; }
-.tab-panel.active { display: block; }
-
-/* ════════════════════════════════════════════════
-   SHARED PANEL COMPONENTS
-════════════════════════════════════════════════ */
-.content-area { padding: 18px 18px 40px; }
-
-.rpg-panel {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  position: relative;
-  margin-bottom: 14px;
-  overflow: hidden;
-}
-.rpg-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(255,255,255,0.025);
-  pointer-events: none;
-}
-
-.panel-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  letter-spacing: 2px;
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.panel-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, var(--border), transparent);
-}
-.panel-body { padding: 16px; }
-
-/* ── SECTION TOGGLE ── */
-.section-toggle {
-  display: flex;
-  background: var(--bg-inset);
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-  gap: 1px;
-  padding: 3px;
-}
-.section-btn {
-  flex: 1;
-  background: none;
-  border: 1px solid transparent;
-  color: var(--text-dim);
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  letter-spacing: 1px;
-  padding: 10px 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-  user-select: none;
-}
-.section-btn:hover { color: var(--text-mid); }
-.section-btn.active {
-  color: var(--gold);
-  background: rgba(212,168,67,0.07);
-  border-color: var(--gold-dim);
-}
-
-/* ════════════════════════════════════════════════
-   STATS TAB — JOURNAL SECTION
-════════════════════════════════════════════════ */
-.journal-strip {
-  border: 1px solid var(--border);
-  margin-bottom: 10px;
-  overflow: hidden;
-  transition: border-color 0.2s;
-  position: relative;
-}
-.journal-strip:hover { border-color: var(--border-glow); }
-.journal-strip.open { border-color: var(--border-glow); }
-
-.strip-trigger {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  cursor: pointer;
-  user-select: none;
-  background: var(--bg-panel2);
-  transition: background 0.15s;
-}
-.strip-trigger:hover { background: rgba(255,255,255,0.012); }
-
-.strip-accent-bar {
-  width: 4px;
-  align-self: stretch;
-  flex-shrink: 0;
-  transition: box-shadow 0.2s;
-}
-.journal-strip.open .strip-accent-bar { box-shadow: 4px 0 12px currentColor; }
-
-.strip-main {
-  flex: 1;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.strip-number {
-  font-family: 'VT323', monospace;
-  font-size: 44px;
-  line-height: 1;
-  min-width: 56px;
-  text-align: center;
-  text-shadow: 0 0 14px currentColor;
-  flex-shrink: 0;
-}
-
-.strip-info { flex: 1; min-width: 0; }
-.strip-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  letter-spacing: 1px;
-  margin-bottom: 3px;
-}
-.strip-role {
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-bottom: 2px;
-}
-.strip-name {
-  font-size: 12px;
-  font-style: italic;
-  opacity: 0.85;
-}
-
-.strip-chevron {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  color: var(--text-dim);
-  padding-right: 14px;
-  transition: transform 0.25s;
-  flex-shrink: 0;
-}
-.journal-strip.open .strip-chevron { transform: rotate(90deg); }
-
-.strip-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.journal-strip.open .strip-body { max-height: 600px; }
-
-.strip-content {
-  padding: 0 14px 14px 30px;
-  border-top: 1px solid var(--border);
-}
-.strip-text {
-  font-size: 12px;
-  line-height: 1.9;
-  color: var(--text);
-  padding-top: 14px;
-}
-.strip-affirmation {
-  margin-top: 14px;
-  padding: 10px 14px;
-  font-size: 11px;
-  font-style: italic;
-  color: var(--text-mid);
-  background: rgba(0,0,0,0.25);
-  border-left: 3px solid currentColor;
-  line-height: 1.6;
-}
-.strip-master-badge {
-  display: inline-block;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5px;
-  padding: 3px 6px;
-  border: 1px solid currentColor;
-  letter-spacing: 1px;
-  margin-left: 6px;
-  vertical-align: middle;
-  opacity: 0.8;
-}
-
-/* ════════════════════════════════════════════════
-   STATS TAB — CHART SECTION
-════════════════════════════════════════════════ */
-.chart-section-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.chart-section-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-/* Bar chart grid */
-.bar-chart {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 3px;
-  align-items: end;
-  height: 90px;
-  margin-bottom: 4px;
-}
-.bar-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100%;
-  gap: 2px;
-}
-.bar-num {
-  font-family: 'VT323', monospace;
-  font-size: 14px;
-  line-height: 1;
-  color: var(--text-dim);
-}
-.bar-fill {
-  width: 100%;
-  min-height: 2px;
-  transition: height 0.7s cubic-bezier(0.16,1,0.3,1);
-  position: relative;
-  image-rendering: pixelated;
-}
-.bar-fill::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: rgba(255,255,255,0.35);
-}
-.bar-count {
-  font-family: 'VT323', monospace;
-  font-size: 15px;
-  line-height: 1;
-  margin-top: 2px;
-}
-
-.bar-chart-labels {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 3px;
-  margin-top: 6px;
-  margin-bottom: 18px;
-}
-.bar-chart-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 4px;
-  color: var(--text-dim);
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 1.4;
-}
-
-/* Detail grid below chart */
-.freq-detail-grid {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 4px;
-  margin-bottom: 18px;
-}
-.freq-detail-cell {
-  background: var(--bg-inset);
-  border: 1px solid var(--border);
-  padding: 6px 3px;
-  text-align: center;
-}
-.freq-detail-num {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  color: var(--teal);
-  line-height: 1;
-}
-.freq-detail-counts {
-  font-size: 9px;
-  color: var(--text-dim);
-  margin-top: 3px;
-  line-height: 1.4;
-}
-.freq-detail-counts span { display: block; }
-
-/* Number source breakdown */
-.source-breakdown {
-  margin-top: 14px;
-  font-size: 11px;
-  color: var(--text-dim);
-  line-height: 2;
-  padding: 10px 14px;
-  background: var(--bg-inset);
-  border: 1px solid var(--border);
-}
-.source-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.source-key {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-  min-width: 100px;
-  flex-shrink: 0;
-}
-.source-nums {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.source-pill {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  padding: 0 6px;
-  border: 1px solid var(--border);
-  color: var(--text-mid);
-  line-height: 1.3;
-}
-
-/* ════════════════════════════════════════════════
-   QUEST CARDS
-════════════════════════════════════════════════ */
-
-/* ── MAIN QUEST (gold, special treatment) ── */
-.main-quest-card {
-  background: var(--bg-panel);
-  border: 2px solid var(--gold-dim);
-  position: relative;
-  margin-bottom: 18px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(212,168,67,0.07), inset 0 0 40px rgba(212,168,67,0.02);
-}
-.main-quest-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(212,168,67,0.08);
-  pointer-events: none;
-}
-.main-quest-card::after {
-  content: '';
-  position: absolute;
-  top: -1px; right: -1px;
-  width: 0; height: 0;
-  border-style: solid;
-  border-width: 0 28px 28px 0;
-  border-color: transparent var(--gold-dim) transparent transparent;
-}
-.mq-banner {
-  background: linear-gradient(135deg, var(--gold-muted) 0%, rgba(212,168,67,0.06) 100%);
-  border-bottom: 1px solid var(--gold-dim);
-  padding: 10px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.mq-banner-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  color: var(--gold);
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(212,168,67,0.5);
-}
-.mq-banner-badge {
-  font-family: 'VT323', monospace;
-  font-size: 14px;
-  color: var(--gold-bright);
-  border: 1px solid var(--gold-dim);
-  padding: 1px 10px;
-  letter-spacing: 2px;
-  background: rgba(212,168,67,0.06);
-}
-.mq-body { padding: 18px 18px 16px; }
-.mq-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-.mq-number {
-  font-family: 'VT323', monospace;
-  font-size: 72px;
-  color: var(--gold);
-  text-shadow: 0 0 24px rgba(212,168,67,0.45);
-  line-height: 1;
-  min-width: 70px;
-  text-align: center;
-  flex-shrink: 0;
-}
-.mq-info { flex: 1; }
-.mq-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: var(--gold-bright);
-  letter-spacing: 1px;
-  line-height: 1.7;
-  margin-bottom: 5px;
-}
-.mq-archetype {
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: var(--gold);
-  opacity: 0.75;
-  margin-bottom: 3px;
-}
-.mq-essence {
-  font-size: 11px;
-  color: var(--text-dim);
-  font-style: italic;
-}
-.mq-desc {
-  font-size: 12px;
-  line-height: 1.9;
-  color: var(--text);
-  margin-bottom: 14px;
-}
-.mq-freq-block {
-  margin-bottom: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(212,168,67,0.12);
-}
-.mq-freq-block:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.mq-freq-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5.5px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  line-height: 2;
-}
-.mq-freq-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(212,168,67,0.18);
-}
-.mq-freq-text {
-  font-size: 12px;
-  line-height: 1.9;
-  color: var(--text);
-}
-.mq-master-pill {
-  font-size: 4.5px;
-  padding: 2px 6px;
-  border: 1px solid var(--gold-dim);
-  letter-spacing: 1.5px;
-  opacity: 0.75;
-  vertical-align: middle;
-  font-family: 'Press Start 2P', monospace;
-}
-.mq-objectives {
-  border: 1px solid var(--gold-dim);
-  background: rgba(212,168,67,0.025);
-  padding: 12px 14px;
-  margin-bottom: 14px;
-}
-.mq-obj-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  color: var(--gold-dim);
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-.mq-obj-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 9px;
-  font-size: 11px;
-  line-height: 1.75;
-  color: var(--text-mid);
-}
-.mq-obj-item:last-child { margin-bottom: 0; }
-.mq-obj-bullet {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: var(--gold);
-  flex-shrink: 0;
-  line-height: 1.3;
-}
-.mq-reward {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border: 1px solid var(--gold-muted);
-  background: rgba(0,0,0,0.18);
-}
-.mq-reward-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5px;
-  color: var(--gold-dim);
-  letter-spacing: 2px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-.mq-reward-text {
-  font-size: 11px;
-  color: var(--gold);
-  font-style: italic;
-  line-height: 1.5;
-}
-
-/* ── REGULAR QUEST CARDS ── */
-.quest-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  position: relative;
-  margin-bottom: 10px;
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-.quest-card:hover { border-color: var(--border-glow); }
-.quest-card.open  { border-color: var(--border-glow); }
-
-.quest-trigger {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  background: var(--bg-panel2);
-  transition: background 0.15s;
-}
-.quest-trigger:hover { background: rgba(255,255,255,0.01); }
-
-.quest-accent-bar {
-  width: 4px;
-  align-self: stretch;
-  flex-shrink: 0;
-}
-.quest-card.open .quest-accent-bar { box-shadow: 4px 0 10px currentColor; }
-
-.quest-main {
-  flex: 1;
-  padding: 11px 12px;
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-width: 0;
-}
-.quest-num {
-  font-family: 'VT323', monospace;
-  font-size: 38px;
-  line-height: 1;
-  min-width: 46px;
-  text-align: center;
-  text-shadow: 0 0 10px currentColor;
-  flex-shrink: 0;
-}
-.quest-info { flex: 1; min-width: 0; }
-.quest-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  letter-spacing: 1px;
-  margin-bottom: 3px;
-  line-height: 1.6;
-}
-.quest-sub {
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-bottom: 2px;
-}
-.quest-frequency-tag { font-size: 9px; font-style: italic; }
-.quest-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 5px;
-  padding-right: 12px;
-  flex-shrink: 0;
-}
-.quest-type-badge {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 4px;
-  padding: 3px 6px;
-  border: 1px solid currentColor;
-  letter-spacing: 1px;
-  opacity: 0.65;
-}
-.quest-chevron {
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: var(--text-dim);
-  transition: transform 0.25s;
-}
-.quest-card.open .quest-chevron { transform: rotate(90deg); }
-
-.quest-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.quest-card.open .quest-body { max-height: 900px; }
-
-.quest-content {
-  padding: 0 14px 16px 20px;
-  border-top: 1px solid var(--border);
-}
-.quest-section-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  margin: 14px 0 7px;
-}
-.quest-desc-text {
-  font-size: 12px;
-  line-height: 1.9;
-  color: var(--text);
-}
-.quest-objectives-list { margin-top: 4px; }
-.quest-obj-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-size: 11px;
-  line-height: 1.75;
-  color: var(--text-mid);
-}
-.quest-obj-dot {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  flex-shrink: 0;
-  line-height: 1.3;
-}
-.quest-affirmation {
-  margin-top: 12px;
-  padding: 9px 12px;
-  font-size: 11px;
-  font-style: italic;
-  color: var(--text-mid);
-  background: rgba(0,0,0,0.2);
-  border-left: 2px solid currentColor;
-  line-height: 1.6;
-}
-.abundance-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-.abundance-bar {
-  flex: 1;
-  height: 3px;
-  background: var(--border);
-  overflow: hidden;
-}
-.abundance-fill {
-  height: 100%;
-  transition: width 1s cubic-bezier(0.16,1,0.3,1);
-}
-.abundance-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-.quest-intro-panel {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  padding: 13px 16px;
-  margin-bottom: 14px;
-  font-size: 11px;
-  color: var(--text-dim);
-  line-height: 1.8;
-}
-
-/* ════════════════════════════════════════════════
-   PLACEHOLDER TABS
-════════════════════════════════════════════════ */
-.placeholder-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 340px;
-  text-align: center;
-  padding: 40px 20px;
-}
-.placeholder-icon {
-  font-family: 'VT323', monospace;
-  font-size: 64px;
-  color: var(--border-glow);
-  margin-bottom: 16px;
-  line-height: 1;
-}
-.placeholder-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-.placeholder-text {
-  font-size: 11px;
-  color: var(--text-dim);
-  max-width: 260px;
-  line-height: 1.8;
-  opacity: 0.6;
-}
-.placeholder-blink {
-  display: inline-block;
-  animation: blink 1.2s step-end infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
-
-/* ════════════════════════════════════════════════
-   SETTINGS TAB
-════════════════════════════════════════════════ */
-.settings-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 13px 16px;
-  border-bottom: 1px solid var(--border);
-  gap: 12px;
-}
-.settings-row:last-child { border-bottom: none; }
-.settings-row-key {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-}
-.settings-row-val {
-  font-size: 12px;
-  color: var(--teal);
-  text-align: right;
-  max-width: 60%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.settings-btn {
-  background: none;
-  border: 1px solid var(--border-glow);
-  color: var(--text-dim);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 1px;
-}
-.settings-btn:hover { border-color: var(--rose-dim); color: var(--rose); }
-
-/* ════════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════════ */
-@media (max-width: 500px) {
-  .auth-header, .auth-body, .char-header, .char-body { padding-left: 18px; padding-right: 18px; }
-  .auth-logo { font-size: 7px; }
-  .header-wordmark { font-size: 7px; }
-  .tab-btn { font-size: 5px; }
-  .bar-chart-label { font-size: 3px; }
-  .freq-detail-num { font-size: 17px; }
-  .content-area { padding: 12px 12px 40px; }
-  .strip-main { padding: 10px 10px; }
-  .strip-number { font-size: 36px; min-width: 46px; }
-  .strip-content { padding: 0 10px 12px 20px; }
-  .source-key { min-width: 80px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SOURCE CODE: LIFE</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<!-- CRT Scanline Effect -->
 <div class="scanline"></div>
 
-<!-- ════════════════════════════════════════════════
-     AUTH POPUP
-════════════════════════════════════════════════ -->
-<div class="auth-overlay hidden" id="authOverlay">
+<!-- ================================================
+     AUTH OVERLAY
+     ================================================ -->
+<div class="auth-overlay" id="authOverlay">
   <div class="auth-modal">
+
     <div class="auth-header">
-      <div class="auth-logo">◈ SOURCE CODE: LIFE</div>
-      <div class="auth-subtitle">THE SIMULATION RPG</div>
+      <div class="auth-logo">SIMULATION SOURCE CODE:</div>
+      <div class="auth-subtitle">THE QUEST OF LIFE</div>
     </div>
 
     <div class="auth-tabs">
-      <div class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">SIGN IN</div>
-      <div class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">NEW PLAYER</div>
+      <div class="auth-tab active" id="tabLogin"    onclick="switchAuthTab('login')">SIGN IN</div>
+      <div class="auth-tab"        id="tabRegister" onclick="switchAuthTab('register')">NEW PLAYER</div>
     </div>
 
     <div class="auth-body">
 
-      <!-- SIGN IN PANEL -->
+      <!-- Sign In Form -->
       <div class="auth-form-panel active" id="panelLogin">
-        <button class="btn-google" onclick="handleGoogleAuth()">
-          <span class="google-icon"></span>
-          CONNECT WITH GOOGLE
-        </button>
-        <div class="auth-divider">OR</div>
-
         <div class="field-group">
           <label class="field-label">EMAIL ADDRESS</label>
-          <input type="email" class="field-input" id="loginEmail" placeholder="player@domain.com" autocomplete="email">
+          <input type="email" class="field-input" id="loginEmail"
+                 placeholder="player@domain.com" autocomplete="email" inputmode="email">
         </div>
         <div class="field-group">
           <label class="field-label">PASSWORD</label>
-          <input type="password" class="field-input" id="loginPassword" placeholder="••••••••••" autocomplete="current-password">
+          <input type="password" class="field-input" id="loginPassword"
+                 placeholder="â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢" autocomplete="current-password">
         </div>
-
-        <div class="auth-error" id="loginError"></div>
-        <button class="btn-primary" onclick="handleLogin()">▶ ENTER THE SIMULATION</button>
+        <div class="auth-error"   id="loginError"></div>
+        <div class="auth-loading" id="loginLoading">
+          <div class="loading-dots">AUTHENTICATING...</div>
+        </div>
+        <button class="btn-primary" onclick="handleLogin()">â¶ DECODE YOUR QUEST</button>
+        <div style="text-align:center;margin-top:10px;">
+          <span class="auth-link" onclick="switchAuthTab('forgot')">Forgot password?</span>
+        </div>
       </div>
 
-      <!-- REGISTER PANEL -->
-      <div class="auth-form-panel" id="panelRegister">
-        <button class="btn-google" onclick="handleGoogleAuth()">
-          <span class="google-icon"></span>
-          CONNECT WITH GOOGLE
-        </button>
-        <div class="auth-divider">OR</div>
-
+      <!-- Forgot Password Form -->
+      <div class="auth-form-panel" id="panelForgot">
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:14px;line-height:1.7;letter-spacing:0.5px;">
+          ENTER YOUR EMAIL â WE'LL SEND A RESET LINK
+        </div>
         <div class="field-group">
           <label class="field-label">EMAIL ADDRESS</label>
-          <input type="email" class="field-input" id="regEmail" placeholder="player@domain.com" autocomplete="email">
+          <input type="email" class="field-input" id="forgotEmail"
+                 placeholder="player@domain.com" autocomplete="email" inputmode="email">
+        </div>
+        <div class="auth-error"   id="forgotError"></div>
+        <div class="auth-success" id="forgotSuccess"></div>
+        <div class="auth-loading" id="forgotLoading">
+          <div class="loading-dots">SENDING RESET LINK...</div>
+        </div>
+        <button class="btn-primary" onclick="handleForgotPassword()">â¶ SEND RESET LINK</button>
+        <div style="text-align:center;margin-top:10px;">
+          <span class="auth-link" onclick="switchAuthTab('login')">â Back to sign in</span>
+        </div>
+      </div>
+
+      <!-- Register Form -->
+      <div class="auth-form-panel" id="panelRegister">
+        <div class="field-group">
+          <label class="field-label">EMAIL ADDRESS</label>
+          <input type="email" class="field-input" id="regEmail"
+                 placeholder="player@domain.com" autocomplete="email" inputmode="email">
         </div>
         <div class="field-group">
           <label class="field-label">PASSWORD</label>
-          <input type="password" class="field-input" id="regPassword" placeholder="min. 6 characters" autocomplete="new-password">
+          <input type="password" class="field-input" id="regPassword"
+                 placeholder="min. 6 characters" autocomplete="new-password">
         </div>
-
-        <div class="auth-error" id="regError"></div>
-        <button class="btn-primary" onclick="handleRegister()">▶ CREATE ACCOUNT</button>
+        <div class="auth-error"   id="regError"></div>
+        <div class="auth-loading" id="regLoading">
+          <div class="loading-dots">CREATING ACCOUNT...</div>
+        </div>
+        <button class="btn-primary" onclick="handleRegister()">â¶ CREATE ACCOUNT</button>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     CHARACTER CREATION (shown after first sign-up)
-════════════════════════════════════════════════ -->
-<div class="char-create-overlay" id="charCreateOverlay">
-  <div class="char-create-modal">
-    <div class="char-header">
-      <div class="char-title">⚔ INITIALISE CHARACTER</div>
-      <div class="char-desc" style="margin-top:6px;">Enter your birth name and date to calculate your 7 Source Code frequencies.</div>
+<!-- ================================================
+     GEOLOCATION PERMISSION OVERLAY
+     ================================================ -->
+<div class="geo-perm-overlay hidden" id="geoPermOverlay">
+  <div class="geo-perm-modal">
+    <div class="geo-perm-icon">â</div>
+    <div class="geo-perm-title">ALLOW LOCATION ACCESS?</div>
+    <div class="geo-perm-desc">
+      SIMULATION SOURCE CODE: QUEST OF LIFE uses your location to place quest markers on the world map.
+      Your location is only used when you choose to create a quest.
     </div>
-    <div class="char-body">
+    <div class="geo-perm-btns">
+      <button class="btn-primary" onclick="geoPermAllow()" style="margin-bottom:8px;">
+        â ALLOW LOCATION
+      </button>
+      <button class="settings-btn" style="width:100%;padding:10px;" onclick="geoPermDeny()">
+        â NOT NOW
+      </button>
+    </div>
+  </div>
+</div>
 
+<!-- ================================================
+     CHARACTER CREATION OVERLAY
+     ================================================ -->
+<div class="char-create-overlay hidden" id="charCreateOverlay">
+  <div class="char-create-modal">
+
+    <div class="char-header">
+      <div class="char-title">â INITIALISE CHARACTER</div>
+      <div class="char-desc" style="margin-top:6px;">
+        Enter your birth name and date to calculate your 7 Source Code frequencies.
+      </div>
+    </div>
+
+    <div class="char-body">
       <div class="field-group">
         <label class="field-label">FULL BIRTH NAME</label>
-        <input type="text" class="field-input" id="charName" placeholder="As it appears on your birth certificate" autocomplete="name">
-        <div class="field-hint">Include all names — first, middle, last</div>
+        <input type="text" class="field-input" id="charName"
+               placeholder="As it appears on your birth certificate" autocomplete="name">
+        <div class="field-hint">Include all names â first, middle, last</div>
       </div>
-
       <div class="field-group">
         <label class="field-label">DATE OF BIRTH</label>
         <div class="date-row">
-          <input type="number" class="field-input" id="charMonth" placeholder="MM" min="1" max="12">
-          <input type="number" class="field-input" id="charDay" placeholder="DD" min="1" max="31">
-          <input type="number" class="field-input" id="charYear" placeholder="YYYY" min="1900" max="2099">
+          <input type="number" class="field-input" id="charMonth"
+                 placeholder="MM" min="1" max="12" inputmode="numeric">
+          <input type="number" class="field-input" id="charDay"
+                 placeholder="DD" min="1" max="31" inputmode="numeric">
+          <input type="number" class="field-input" id="charYear"
+                 placeholder="YYYY" min="1900" max="2099" inputmode="numeric">
         </div>
       </div>
-
-      <div class="auth-error" id="charError"></div>
-      <button class="btn-primary" onclick="handleCharCreate()" style="border-color:var(--gold-dim); color:var(--gold); text-shadow: 0 0 10px rgba(212,168,67,0.5);">▶ CALCULATE FREQUENCIES</button>
+      <div class="auth-error"   id="charError"></div>
+      <div class="auth-loading" id="charLoading">
+        <div class="loading-dots">DECODING...</div>
+      </div>
+      <button class="btn-primary" onclick="handleCharCreate()"
+              style="border-color:var(--gold-dim);color:var(--gold);text-shadow:0 0 10px rgba(212,168,67,0.5);">
+        â¶ DECODE QUEST OF LIFE
+      </button>
     </div>
+
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     MAIN APP
-════════════════════════════════════════════════ -->
+<!-- ================================================
+     MAIN APP SHELL
+     ================================================ -->
 <div class="app-shell hidden" id="appShell">
 
-  <!-- HEADER -->
+  <!-- App Header -->
   <div class="app-header">
     <div class="header-top">
       <div>
-        <div class="header-wordmark">◈ SOURCE CODE: LIFE</div>
-        <div class="header-sub">THE SIMULATION RPG</div>
+        <div class="header-wordmark">SIMULATION SOURCE CODE:</div>
+        <div class="header-sub">THE QUEST OF LIFE</div>
       </div>
       <div class="header-player">
-        <div class="header-player-name" id="headerName">—</div>
-        <div class="header-player-dob" id="headerDob">—</div>
+        <div class="header-player-name" id="headerName">â</div>
+        <div class="header-player-dob"  id="headerDob">â</div>
       </div>
     </div>
     <div class="header-divider"></div>
   </div>
 
-  <!-- TAB BAR -->
+  <!-- Tab Bar -->
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('stats')" id="btnStats">
-      <span class="tab-icon">◈</span>STATS
+    <button class="tab-btn active" id="btnStats"    onclick="switchTab('stats')">
+      <span class="tab-icon">â</span>STATS
     </button>
-    <button class="tab-btn" onclick="switchTab('quests')" id="btnQuests">
-      <span class="tab-icon">⚔</span>QUESTS
+    <button class="tab-btn"        id="btnQuests"   onclick="switchTab('quests')">
+      <span class="tab-icon">â</span>QUESTS
     </button>
-    <button class="tab-btn" onclick="switchTab('map')" id="btnMap">
-      <span class="tab-icon">🗺</span>MAP
+    <button class="tab-btn"        id="btnMap"      onclick="switchTab('map')">
+      <span class="tab-icon">ðº</span>WORLD
     </button>
-    <button class="tab-btn" onclick="switchTab('settings')" id="btnSettings">
-      <span class="tab-icon">⚙</span>CONFIG
+    <button class="tab-btn"        id="btnSettings" onclick="switchTab('settings')">
+      <span class="tab-icon">â</span>CONFIG
     </button>
   </div>
 
-  <!-- ════ STATS TAB ════ -->
+  <!-- ââââ STATS TAB ââââ -->
   <div class="tab-panel active" id="panelStats">
     <div class="content-area">
 
+      <!-- ââ SECTION TOGGLE (Moved to Top) ââ -->
       <div class="section-toggle">
-        <button class="section-btn active" id="btnJournal" onclick="switchSection('journal')">📖  JOURNAL</button>
-        <button class="section-btn" id="btnChart" onclick="switchSection('chart')">📊  STAT CHART</button>
+        <button class="section-btn active" id="btnChart"   onclick="switchSection('chart')">ð  STAT CHART</button>
+        <button class="section-btn"        id="btnJournal" onclick="switchSection('journal')">ð  JOURNAL</button>
       </div>
 
-      <!-- JOURNAL SECTION -->
-      <div id="sectionJournal">
-        <div id="journalStrips"><!-- populated by JS --></div>
-      </div>
+      <!-- Chart Section -->
+      <div id="sectionChart">
 
-      <!-- CHART SECTION -->
-      <div id="sectionChart" class="hidden">
-
-        <!-- Combined all-source bar chart -->
-        <div class="rpg-panel">
-          <div class="panel-label c-gold">◈ FREQUENCY OVERVIEW — ALL SOURCES</div>
-          <div class="panel-body">
-            <div class="chart-section-title">TOTAL COUNT PER NUMBER (1–9)</div>
-            <div class="bar-chart" id="chartCombined"></div>
-            <div class="bar-chart-labels" id="chartLabels"></div>
+        <!-- ââ CHARACTER CARD (Nested in Chart) ââ -->
+        <div class="char-card rpg-panel" id="charCard">
+          <div class="char-card-inner">
+            <div class="char-avatar-wrap" onclick="triggerAvatarUpload()">
+              <div class="char-avatar-frame">
+                <img class="char-avatar-img hidden" id="charAvatarImg" alt="Character portrait">
+                <div class="char-avatar-placeholder" id="charAvatarPlaceholder">
+                  <div class="char-avatar-icon">â</div>
+                  <div class="char-avatar-hint">TAP TO ADD<br>PORTRAIT</div>
+                </div>
+                <div class="char-avatar-overlay"><span>â UPLOAD</span></div>
+              </div>
+              <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+            </div>
+            <div class="char-identity">
+              <div class="char-identity-name" id="charCardName">â</div>
+              <div class="char-identity-dob"  id="charCardDob">â</div>
+              <div class="char-identity-divider"></div>
+              <div class="char-core-numbers" id="charCoreNumbers"></div>
+              <div class="char-identity-divider" style="margin-top:10px;"></div>
+              <div id="charLevelBar" class="lvl-bar-wrap"></div>
+              <div id="freqLevelBar" class="lvl-bar-wrap" style="margin-top:6px;"></div>
+            </div>
           </div>
         </div>
 
-        <!-- Per-source breakdown -->
-        <div class="rpg-panel">
-          <div class="panel-label c-teal">◈ SOURCE BREAKDOWN</div>
+        <!-- ââ GIFTS / SKILLS (Nested in Chart) ââ -->
+        <div class="char-gifts-panel rpg-panel">
+          <div class="char-gifts-label">&#9672; SKILLS</div>
+          <div class="char-gifts-grid" id="charGifts"></div>
+        </div>
+
+        <!-- RPG Stat Chart -->
+        <div class="rpg-panel" id="rpgStatChart">
+          <div class="panel-label c-gold">â STAT CHART</div>
           <div class="panel-body">
-
-            <div class="chart-section-title" style="color:var(--purple)">7 CORE FREQUENCIES</div>
-            <div class="bar-chart" id="chartFreq"></div>
-            <div style="margin-bottom:14px;"></div>
-
-            <div class="chart-section-title" style="color:var(--amber)">BIRTHDATE DIGITS</div>
-            <div class="bar-chart" id="chartBirth"></div>
-            <div style="margin-bottom:14px;"></div>
-
-            <div class="chart-section-title" style="color:var(--sage)">NAME LETTER VALUES</div>
-            <div class="bar-chart" id="chartName"></div>
-
-            <!-- Source pills -->
-            <div class="source-breakdown" id="sourcePills" style="margin-top:18px;"></div>
+            <div class="frequency-legend">
+              <span><strong>LE</strong> = Learned Through Life</span>
+              <span><strong>IN</strong> = Inherited at Birth</span>
+              <span><strong>QU</strong> = Quest Growth Â· â Unlocked Â· â² Ascending</span>
+              <span><strong>TTL</strong> = Total Stat Potential</span>
+            </div>
+            <div class="stat-chart-header">
+              <div class="stat-col-num"></div>
+              <div class="stat-col-name"></div>
+              <div class="stat-col-box stat-col-hdr" style="color:var(--amber);">LE</div>
+              <div class="stat-col-box stat-col-hdr" style="color:var(--sage);">IN</div>
+              <div class="stat-col-box stat-col-hdr" style="color:var(--purple);">QU</div>
+              <div class="stat-col-box stat-col-hdr stat-col-total-hdr">TTL</div>
+            </div>
+            <div class="stat-polarity-divider electric">â¡ ELECTRIC  Â·  1  3  5  7</div>
+            <div id="statRowsElectric"></div>
+            <div class="stat-polarity-divider magnetic">â MAGNETIC  Â·  2  4  6  8</div>
+            <div id="statRowsMagnetic"></div>
+            <div class="stat-polarity-divider aether">â¦ AETHER  Â·  0  9</div>
+            <div id="statRowsAether"></div>
           </div>
         </div>
 
-        <!-- Per-number detail -->
-        <div class="rpg-panel">
-          <div class="panel-label c-silver">◈ NUMBER FREQUENCY DETAIL</div>
-          <div class="panel-body">
-            <div class="freq-detail-grid" id="freqDetailGrid"></div>
-          </div>
+        <div class="polarity-card rpg-panel" id="polarityCard"></div>
+
+        <!-- Frequencies reference panel â all 7 numbers at a glance -->
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-silver">â FREQUENCIES</div>
+          <div class="settings-row"><div class="settings-row-key">LIFE PATH</div><div class="settings-row-val" id="settingLp">â</div></div>
+          <div class="settings-row"><div class="settings-row-key">EXPRESSION</div><div class="settings-row-val" id="settingEx">â</div></div>
+          <div class="settings-row"><div class="settings-row-key">LIFE CALLING</div><div class="settings-row-val" id="settingCl">â</div></div>
+          <div class="settings-row"><div class="settings-row-key">SOUL</div><div class="settings-row-val" id="settingSo">â</div></div>
+          <div class="settings-row"><div class="settings-row-key">OUTER</div><div class="settings-row-val" id="settingOu">â</div></div>
+          <div class="settings-row"><div class="settings-row-key">ACHIEVEMENT</div><div class="settings-row-val" id="settingAc">â</div></div>
+          <div class="settings-row"><div class="settings-row-key">THEME</div><div class="settings-row-val" id="settingTh">â</div></div>
         </div>
 
       </div><!-- /sectionChart -->
 
+      <!-- Journal Section (includes Cycles) -->
+      <div id="sectionJournal" class="hidden">
+        <div id="journalStrips"></div>
+        <div class="panel-label c-teal" id="cyclesHeader" style="margin:18px 16px 8px;font-size:7px;letter-spacing:2px;">ð CYCLES</div>
+        <div id="cycleStrips"></div>
+      </div>
+
+      <!-- Hidden stubs -->
+      <div style="display:none">
+        <div id="chartCombined"></div><div id="chartLabels"></div><div id="chartFreq"></div>
+        <div id="chartBirth"></div><div id="chartName"></div><div id="sourcePills"></div>
+        <div id="freqDetailGrid"></div>
+      </div>
+
     </div>
   </div><!-- /panelStats -->
 
-  <!-- ════ QUESTS TAB ════ -->
+  <!-- ââââ QUESTS TAB ââââ -->
   <div class="tab-panel" id="panelQuests">
     <div class="content-area">
       <div class="section-toggle">
-        <button class="section-btn active" id="btnLifeQ" onclick="switchQuestSection('life')">⚔  LIFE QUESTS</button>
-        <button class="section-btn" id="btnSideQ" onclick="switchQuestSection('side')">◇  SIDE QUESTS</button>
+        <button class="section-btn active" id="btnLifeQ"  onclick="switchQuestSection('life')">â LIFE</button>
+        <button class="section-btn"        id="btnDailyQ" onclick="switchQuestSection('daily')">â DAILY</button>
+        <button class="section-btn"        id="btnSideQ"  onclick="switchQuestSection('side')">â SIDE</button>
       </div>
-      <div id="sectionLifeQ">
-        <!-- populated by buildLifeQuests() -->
+
+      <!-- Life Quests (Main Quest + Life Path / Expression etc.) -->
+      <div id="sectionLifeQ"></div>
+
+      <!-- Daily + Frequency Quests -->
+      <div id="sectionDailyQ" class="hidden">
+        <!-- Daily Read Panel â notification + cycle focus -->
+        <div id="dailyReadPanel" style="margin-bottom:14px;"></div>
+
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-teal">â TODAY'S QUEST</div>
+          <div id="dailyQuestCard" style="padding:0 16px 16px;"></div>
+        </div>
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-teal">â DAILY FREQUENCY QUESTS</div>
+          <div id="dailyFreqList" style="padding:0 16px 16px;"></div>
+        </div>
+        <div class="rpg-panel">
+          <div class="panel-label c-purple">â CYCLE &amp; LIFE QUESTS</div>
+          <div id="freqQuestList" style="padding:0 16px 16px;"></div>
+        </div>
       </div>
-      <div id="sectionSideQ" class="hidden">
-        <!-- populated by buildLifeQuests() -->
+
+      <!-- Side Quests (accepted map quests) -->
+      <div id="sectionSideQ" class="hidden"></div>
+
+      <div class="aid-panel" id="aidPanel">
+        <div class="aid-banner">
+          <div class="sparkle-field">
+            <span class="sparkle">â¦</span><span class="sparkle">â§</span><span class="sparkle">â¦</span><span class="sparkle">â§</span><span class="sparkle">â¦</span>
+          </div>
+          <div class="aid-banner-label">â¦ REQUEST AID</div>
+          <div class="aid-banner-badge">QUEST GUIDE AVAILABLE</div>
+        </div>
+        <div class="aid-body">
+          <div class="aid-top">
+            <div class="aid-sigil">â</div>
+            <div class="aid-intro">
+              <div class="aid-title">THE QUEST GUIDE</div>
+              <div class="aid-subtitle">Your numbers decoded in full</div>
+            </div>
+          </div>
+          <div class="aid-desc">
+            Your code is yours to read â but a guide can show you what the symbols mean...
+          </div>
+          <div class="aid-options">
+            <div class="aid-option">
+              <a class="aid-btn aid-btn-primary" href="https://calendly.com/kytholek/new-meeting" target="_blank" rel="noopener">â¶ BOOK A READING</a>
+            </div>
+            <div class="aid-divider">â OR â</div>
+            <div class="aid-option">
+              <a class="aid-btn aid-btn-secondary" href="https://ko-fi.com/kytholek" target="_blank" rel="noopener">â¶ GET THE BOOK</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ════ MAP TAB ════ -->
+  <!-- ââââ MAP TAB ââââ -->
   <div class="tab-panel" id="panelMap">
     <div class="content-area">
-      <div class="rpg-panel">
-        <div class="placeholder-panel">
-          <div class="placeholder-icon">🗺</div>
-          <div class="placeholder-title">WORLD MAP</div>
-          <div class="placeholder-text">Your life simulation map will be rendered here.<br>Content coming soon<span class="placeholder-blink">_</span></div>
+      <div class="section-toggle">
+        <button class="section-btn active" id="btnMapAllies"    onclick="switchMapSection('allies')">â ALLIES</button>
+        <button class="section-btn"        id="btnMapMap"       onclick="switchMapSection('map')">ðº MAP</button>
+        <button class="section-btn"        id="btnMapMakequest" onclick="switchMapSection('makequest')">â¦ MAKE QUEST</button>
+      </div>
+      <div id="sectionMapAllies">
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-teal">â ALLIES &amp; CONNECTIONS</div>
+          <div class="panel-body">
+            <div style="font-size:10px;color:var(--text-dim);margin-bottom:12px;line-height:1.6;">
+              Connect with other players to see their frequencies and progress.
+            </div>
+            <button class="btn-primary" onclick="shareInviteLink()"
+                    style="border-color:var(--teal-dim);color:var(--teal);margin-bottom:16px;">
+              â¶ SHARE YOUR INVITE LINK
+            </button>
+            <div class="field-group">
+              <label class="field-label">FIND ALLY BY EMAIL</label>
+              <div style="display:flex;gap:8px;">
+                <input type="email" class="field-input" id="allySearchInput" placeholder="ally@domain.com" style="flex:1;">
+                <button class="settings-btn" onclick="searchAlly()" style="padding:0 12px;">SEARCH</button>
+              </div>
+            </div>
+            <div id="allyError"        class="auth-error"   style="display:none;margin-bottom:10px;"></div>
+            <div id="allySuccess"      class="auth-success" style="display:none;margin-bottom:10px;"></div>
+            <div id="allySearchResult" style="display:none;margin-bottom:16px;"></div>
+            <div id="allyRequestsSection" style="display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:12px;">
+              <div class="field-label" style="margin-bottom:8px;color:var(--gold);">PENDING REQUESTS</div>
+              <div id="allyRequestsList"></div>
+            </div>
+            <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px;">
+              <div class="field-label" style="margin-bottom:8px;">CONFIRMED ALLIES</div>
+              <div id="alliesList">
+                <div class="allies-empty">Loading allies...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sectionMapMap" class="hidden">
+        <div class="rpg-panel map-rpg-panel">
+          <div class="panel-label c-gold">â WORLD MAP</div>
+          <div class="panel-body map-legend-body">
+            <div class="map-legend">
+              <span class="map-legend-item"><span class="map-legend-dot map-legend-dot--mine"></span>MY QUESTS</span>
+              <span class="map-legend-item"><span class="map-legend-dot map-legend-dot--ally"></span>ALLY QUESTS</span>
+            </div>
+          </div>
+          <div id="mapContainer">
+            <div id="mapLoading" class="map-loading" style="display:none;">
+              <div class="loading-dots">LOADING MAP...</div>
+            </div>
+            <div id="leafletMap"></div>
+          </div>
+        </div>
+      </div>
+      <div id="sectionMapMakequest" class="hidden">
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-amber">â MAKE A QUEST</div>
+          <div class="panel-body">
+            <p class="mq-intro">Drop a quest marker on the world map. Your allies can see it.</p>
+            <div class="field-group">
+              <label class="field-label">QUEST NAME</label>
+              <input type="text" class="field-input" id="mqName" placeholder="Name this quest..." maxlength="60">
+            </div>
+            <div class="field-group">
+              <label class="field-label">DESCRIPTION</label>
+              <textarea class="field-input mq-textarea" id="mqDesc" placeholder="What is this quest about? What are you pursuing here?" rows="3" maxlength="280"></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">QUEST TYPE</label>
+              <div class="mq-type-grid">
+                <button class="mq-type-btn active" data-type="exploration" onclick="selectQuestType(this)">ðº EXPLORE</button>
+                <button class="mq-type-btn"        data-type="connection"  onclick="selectQuestType(this)">â CONNECT</button>
+                <button class="mq-type-btn"        data-type="achievement" onclick="selectQuestType(this)">â² ACHIEVE</button>
+                <button class="mq-type-btn"        data-type="healing"     onclick="selectQuestType(this)">â¦ HEAL</button>
+                <button class="mq-type-btn"        data-type="creation"    onclick="selectQuestType(this)">â CREATE</button>
+                <button class="mq-type-btn"        data-type="reflection"  onclick="selectQuestType(this)">â REFLECT</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">REWARD FREQUENCY</label>
+              <div class="mq-reward-intro">Choose the root number that reflects what you'll gain from this quest.</div>
+              <div class="mq-reward-grid" id="mqRewardGrid">
+                <button class="mq-reward-btn active" data-num="1" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">1</span>
+                  <span class="mq-reward-name">INITIATION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="2" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">2</span>
+                  <span class="mq-reward-name">UNION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="3" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">3</span>
+                  <span class="mq-reward-name">EXPRESSION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="4" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">4</span>
+                  <span class="mq-reward-name">FOUNDATION</span>
+                </button>
+                <button class="mq-reward-btn" data-num="5" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">5</span>
+                  <span class="mq-reward-name">FREEDOM</span>
+                </button>
+                <button class="mq-reward-btn" data-num="6" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">6</span>
+                  <span class="mq-reward-name">HARMONY</span>
+                </button>
+                <button class="mq-reward-btn" data-num="7" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">7</span>
+                  <span class="mq-reward-name">TRUTH</span>
+                </button>
+                <button class="mq-reward-btn" data-num="8" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">8</span>
+                  <span class="mq-reward-name">POWER</span>
+                </button>
+                <button class="mq-reward-btn" data-num="9" onclick="selectRewardNum(this)">
+                  <span class="mq-reward-num">9</span>
+                  <span class="mq-reward-name">MASTERY</span>
+                </button>
+              </div>
+              <div class="mq-reward-preview" id="mqRewardPreview">
+                <span class="mq-reward-preview-label">XP GAIN â¸</span>
+                <span id="mqRewardPreviewText">Leadership Â· Willpower Â· New Beginnings</span>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">OBJECTIVES <span style="font-family:'VT323',monospace;font-size:16px;color:var(--text-dim);letter-spacing:0;font-weight:normal;">â what to do here</span></label>
+              <div class="mq-obj-inputs">
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">â</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj1" placeholder="First thing to do or experience..." maxlength="120">
+                </div>
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">â</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj2" placeholder="Second objective (optional)..." maxlength="120">
+                </div>
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">â</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj3" placeholder="Third objective (optional)..." maxlength="120">
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">SEEKER TYPE</label>
+              <div class="mq-seeker-grid">
+                <button class="mq-seeker-btn active" data-seeker="solo"    onclick="selectSeekerType(this)">â SOLO</button>
+                <button class="mq-seeker-btn"        data-seeker="partner" onclick="selectSeekerType(this)">â PARTNER</button>
+                <button class="mq-seeker-btn"        data-seeker="group"   onclick="selectSeekerType(this)">â¦ GROUP</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">DIFFICULTY</label>
+              <div class="mq-seeker-grid">
+                <button class="mq-seeker-btn active" data-diff="1" onclick="selectDifficulty(this)">â APPRENTICE</button>
+                <button class="mq-seeker-btn"        data-diff="2" onclick="selectDifficulty(this)">â ADEPT</button>
+                <button class="mq-seeker-btn"        data-diff="3" onclick="selectDifficulty(this)">â MASTER</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">LOCATION</label>
+              <div class="mq-location-row">
+                <input type="text" class="field-input" id="mqLocation" placeholder="Search for a place or address..." oninput="onLocationInput(this.value)" autocomplete="off">
+                <button class="settings-btn mq-gps-btn" onclick="useMyLocation()">â GPS</button>
+              </div>
+              <div id="mqLocationSuggestions" class="mq-suggestions hidden"></div>
+              <div id="mqLocationStatus" class="mq-location-status"></div>
+              <div id="mqMapPreview" class="mq-map-preview hidden"><div id="mqMiniMap"></div></div>
+            </div>
+            <!-- FREQUENCY SIGNATURE PREVIEW â populated by JS on form open -->
+            <div class="mq-sig-panel" id="mqSigPanel">
+              <div class="mq-sig-label">â YOUR FREQUENCY SIGNATURE</div>
+              <div class="mq-sig-body" id="mqSigBody">
+                <div class="mq-sig-hint">Sign in to attach your frequencies to this quest.</div>
+              </div>
+              <div class="mq-sig-footer">This signature is embedded in every quest you create. Others whose numbers align will feel the resonance.</div>
+            </div>
+            <div class="auth-error"   id="mqError"  ></div>
+            <div class="auth-success" id="mqSuccess"></div>
+            <div class="auth-loading" id="mqLoading" style="display:none;"><div class="loading-dots">CREATING QUEST...</div></div>
+            <button class="btn-primary" onclick="submitQuest()">â¶ DROP QUEST MARKER</button>
+          </div>
+        </div>
+        <div class="rpg-panel">
+          <div class="panel-label c-gold">â MY ACTIVE QUESTS</div>
+          <div class="panel-body"><div id="myQuestsList"><div class="allies-empty">No quests placed yet.</div></div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ════ SETTINGS TAB ════ -->
+  <!-- ââââ SETTINGS TAB ââââ -->
   <div class="tab-panel" id="panelSettings">
     <div class="content-area">
-
       <div class="rpg-panel" style="margin-bottom:14px;">
-        <div class="panel-label c-silver">◈ CHARACTER DATA</div>
-        <div class="settings-row">
-          <div class="settings-row-key">PLAYER NAME</div>
-          <div class="settings-row-val" id="settingName">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">DATE OF BIRTH</div>
-          <div class="settings-row-val" id="settingDob">—</div>
+        <div class="panel-label c-silver">â DISPLAY</div>
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+          <div class="settings-row-key">VISUAL STYLE</div>
+          <div class="cfg-chip-row" style="justify-content:flex-start;">
+            <button class="cfg-chip" id="themeOptScifi"    onclick="setTheme('scifi')">â¡ SCI-FI</button>
+            <button class="cfg-chip" id="themeOptFantasy"  onclick="setTheme('fantasy')">ð FANTASY</button>
+            <button class="cfg-chip" id="themeOptunicorn"  onclick="setTheme('unicorn')">ð¦ UNICORN</button>
+          </div>
         </div>
       </div>
-
       <div class="rpg-panel" style="margin-bottom:14px;">
-        <div class="panel-label c-silver">◈ FREQUENCIES</div>
-        <div class="settings-row">
-          <div class="settings-row-key">LIFE PATH</div>
-          <div class="settings-row-val" id="settingLp">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">EXPRESSION</div>
-          <div class="settings-row-val" id="settingEx">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">LIFE CALLING</div>
-          <div class="settings-row-val" id="settingCl">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">SOUL</div>
-          <div class="settings-row-val" id="settingSo">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">OUTER</div>
-          <div class="settings-row-val" id="settingOu">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">ACHIEVEMENT</div>
-          <div class="settings-row-val" id="settingAc">—</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-row-key">THEME</div>
-          <div class="settings-row-val" id="settingTh">—</div>
-        </div>
+        <div class="panel-label c-teal">â LOCATION &amp; MAP</div>
+        <div class="settings-row"><div class="settings-row-key">LOCATION PROMPT</div><div style="display:flex;align-items:center;gap:10px;"><span id="geoPromptStatusText" style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--text-dim);">ON</span><button class="settings-btn settings-btn-fixed" id="geoPromptToggleBtn" onclick="toggleGeoPromptSetting()">â¶ DISABLE</button></div></div>
+        <div style="font-size:10px;color:var(--text-dim);padding:4px 0 2px;line-height:1.7;">When enabled, the app asks for location access on launch.</div>
+        <div class="settings-row" style="margin-top:8px;"><div class="settings-row-key">REQUEST NOW</div><button class="settings-btn settings-btn-fixed" onclick="requestGeoPermNow()">â REQUEST</button></div>
       </div>
-
+      <div class="rpg-panel" style="margin-bottom:14px;">
+        <div class="panel-label c-silver">â CHARACTER DATA</div>
+        <div class="settings-row"><div class="settings-row-key">PLAYER NAME</div><div class="settings-row-val" id="settingName">â</div></div>
+        <div class="settings-row"><div class="settings-row-key">DATE OF BIRTH</div><div class="settings-row-val" id="settingDob">â</div></div>
+        <div class="settings-row"><div class="settings-row-key">ACCOUNT EMAIL</div><div class="settings-row-val" id="settingEmail">â</div></div>
+      </div>
+      <div class="rpg-panel" style="margin-bottom:14px;">
+        <div class="panel-label c-sage">â NOTIFICATIONS</div>
+        <div class="settings-row">
+          <div class="settings-row-key">DAILY BRIEFING</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span id="notifStatusText" style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--text-dim);">OFF</span>
+            <button class="settings-btn settings-btn-fixed" id="notifToggleBtn" onclick="toggleNotifications()">â¶ ENABLE</button>
+          </div>
+        </div>
+        <div id="notifTimeRow" style="display:none;">
+          <div class="settings-row"><div class="settings-row-key">SEND AT</div><div style="display:flex;align-items:center;gap:6px;"><select class="notif-select" id="notifHour"></select><span style="font-family:'VT323',monospace;font-size:22px;color:var(--text-dim);">:</span><select class="notif-select" id="notifMinute"></select><button class="settings-btn settings-btn-fixed" style="margin-left:4px;" onclick="saveNotifTime()">â¶ SAVE</button></div></div>
+          <div class="settings-row"><div class="settings-row-key">TEST</div><button class="settings-btn settings-btn-fixed" onclick="sendTestNotification()">â¶ SEND NOW</button></div>
+        </div>
+        <div class="settings-row" style="margin-top:4px;flex-direction:column;align-items:flex-start;gap:8px;">
+          <div class="settings-row-key">QUEST ALERTS</div>
+          <div class="cfg-chip-row" style="justify-content:flex-start;">
+            <button class="cfg-chip" id="questNotifBtn_off"    onclick="selectQuestNotifMode('off')">â OFF</button>
+            <button class="cfg-chip" id="questNotifBtn_allies" onclick="selectQuestNotifMode('allies')">â ALLIES</button>
+            <button class="cfg-chip" id="questNotifBtn_all"    onclick="selectQuestNotifMode('all')">â ALL</button>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--text-dim);padding:6px 0 2px;line-height:1.7;">Daily briefing: personal day frequency + objective. Quest alerts: notify when quests are placed on the map.</div>
+      </div>
       <div class="rpg-panel">
-        <div class="panel-label c-silver">◈ OPTIONS</div>
-        <div class="settings-row">
-          <div class="settings-row-key">NEW CHARACTER</div>
-          <button class="settings-btn" onclick="handleResetChar()">▶ START OVER</button>
-        </div>
+        <div class="panel-label c-silver">â ACCOUNT</div>
+        <div class="settings-row"><div class="settings-row-key">SIGN OUT</div><button class="settings-btn settings-btn-fixed" onclick="handleSignOut()">â¶ SIGN OUT</button></div>
+        <div class="settings-row"><div class="settings-row-key">RESET CHARACTER</div><button class="settings-btn settings-btn-fixed" onclick="handleResetChar()">â¶ RESET</button></div>
+        <div class="settings-row" style="cursor:pointer;" onclick="toggleChangePassword()"><div class="settings-row-key">CHANGE PASSWORD</div><div class="settings-btn settings-btn-fixed" id="changePwToggleBtn">â¶ CHANGE</div></div>
+        <div id="changePwPanel" style="display:none;padding:10px 0 4px;"><div class="field-group" style="margin-bottom:8px;"><label class="field-label">CURRENT PASSWORD</label><input type="password" class="field-input" id="cpCurrent" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢" autocomplete="current-password"></div><div class="field-group" style="margin-bottom:8px;"><label class="field-label">NEW PASSWORD</label><input type="password" class="field-input" id="cpNew" placeholder="min. 6 characters" autocomplete="new-password"></div><div class="field-group" style="margin-bottom:10px;"><label class="field-label">CONFIRM NEW PASSWORD</label><input type="password" class="field-input" id="cpConfirm" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢" autocomplete="new-password"></div><div class="auth-error" id="cpError"></div><div class="auth-success" id="cpSuccess"></div><div class="auth-loading" id="cpLoading" style="display:none;"><div class="loading-dots">UPDATING PASSWORD...</div></div><button class="btn-primary" style="margin-top:4px;" onclick="handleChangePassword()">â¶ UPDATE PASSWORD</button></div>
+        <div class="danger-zone"><div class="danger-zone-label">â  DANGER ZONE</div><div class="settings-row"><div class="settings-row-key" style="color:var(--rose);">DELETE ACCOUNT</div><button class="settings-btn settings-btn-fixed settings-btn-danger" onclick="toggleDeletePanel()">â¶ DELETE</button></div><div id="deletePwPanel" style="display:none;padding:10px 0 4px;"><div style="font-size:10px;color:var(--text-dim);line-height:1.7;margin-bottom:10px;">Permanently deletes your account and data. Enter your password to confirm.</div><div class="field-group" style="margin-bottom:8px;"><label class="field-label" style="color:var(--rose);">CONFIRM PASSWORD</label><input type="password" class="field-input field-input-danger" id="deleteConfirmPw" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢" autocomplete="current-password"></div><div class="auth-error" id="deleteError"></div><div class="auth-loading" id="deleteLoading" style="display:none;"><div class="loading-dots">DELETING ACCOUNT...</div></div><button class="btn-danger" onclick="handleDeleteAccount()">â¶ PERMANENTLY DELETE EVERYTHING</button></div></div>
       </div>
-
     </div>
   </div>
 
-</div><!-- /app-shell -->
+</div>
+
+<!-- ================================================
+     SCRIPTS â load order matters
+     ================================================ -->
+<!-- Level-Up Banner -->
+<div id="levelUpBanner" class="hidden lvlup-banner">
+  <div class="lvlup-inner">
+    <div class="lvlup-track">CHARACTER</div>
+    <div class="lvlup-num">LEVEL 1</div>
+    <div class="lvlup-sub">â¦ UNLOCKED</div>
+  </div>
+</div>
+
+<script src="bridge.js"></script>
+<script src="numerology.js"></script>
+<script src="data.js"></script>
+<script src="QuestEngine.js"></script>
+<script src="app.js"></script>
 
-
-<script>
-/* ════════════════════════════════════════════════
-   NUMEROLOGY ENGINE
-════════════════════════════════════════════════ */
-const LV = {
-  A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,
-  J:1,K:11,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,
-  S:1,T:2,U:3,V:22,W:5,X:6,Y:7,Z:8
-};
-const VOWELS = new Set(['A','E','I','O','U','Y']);
-const MASTERS = new Set([11,22,33,44,55,66,77,88,99]);
-
-function reduce(n) {
-  while (n > 9 && !MASTERS.has(n))
-    n = String(n).split('').reduce((a,d) => a + +d, 0);
-  return n;
-}
-function fmt(root, compound) {
-  if (!compound || compound === root) return String(root);
-  return `${compound}/${root}`;
-}
-function calcLifePath(m, d, y) {
-  const total = [m, d, ...String(y).split('').map(Number)].reduce((a,b)=>a+b,0);
-  return { root: reduce(total), compound: total };
-}
-function calcNameNumbers(name) {
-  const names = name.trim().split(/\s+/);
-  let expressionSum=0, soulSum=0, outerSum=0;
-  names.forEach(n => {
-    const L = n.toUpperCase().replace(/[^A-Z]/g,'').split('');
-    const vs = L.filter(l=>VOWELS.has(l)).reduce((a,l)=>a+(LV[l]||0),0);
-    const cs = L.filter(l=>!VOWELS.has(l)).reduce((a,l)=>a+(LV[l]||0),0);
-    const es = L.reduce((a,l)=>a+(LV[l]||0),0);
-    expressionSum += reduce(es);
-    soulSum += vs;
-    outerSum += cs;
-  });
-  return {
-    soul:  { root: reduce(soulSum),  compound: soulSum  },
-    outer: { root: reduce(outerSum), compound: outerSum },
-    expr:  { root: reduce(expressionSum), compound: expressionSum }
-  };
-}
-function calcAchievement(m,d){ const t=m+d; return {root:reduce(t),compound:t}; }
-function calcTheme(y){ const t=String(y).split('').reduce((a,d)=>a+ +d,0); return {root:reduce(t),compound:t}; }
-function computeAll(m,d,y,name){
-  const lp = calcLifePath(m,d,y);
-  const nn = calcNameNumbers(name);
-  const ac = calcAchievement(m,d);
-  const th = calcTheme(y);
-  const clComp = parseInt(String(nn.expr.root)+String(lp.root));
-  const cl = { root: reduce(clComp), compound: clComp };
-  return { lp, ex:nn.expr, cl, so:nn.soul, ou:nn.outer, ac, th, name, m, d, y };
-}
-
-/* ════════════════════════════════════════════════
-   CONTENT DATA
-════════════════════════════════════════════════ */
-const ROOT = {
-  1:{ name:'The Initiator', essence:'Original Creative Force',
-      lp:  'You are here to learn bold self-direction — to move first, pioneer new paths, and lead without waiting for permission. The simulation places you at the beginning of cycles and tests whether you will step forward or shrink back.',
-      ex:  'You naturally carry leadership, pioneering instinct, and original thinking. You were made to start things without prompting, blaze new trails, and inspire others through confident action.',
-      soul:'Deep within, you crave autonomy, recognition, and the freedom to lead. Your soul yearns to be the initiator — the original spark that sets things in motion.',
-      outer:'The world sees you as confident, self-directed, and independent — a natural leader who moves forward without needing permission or approval.',
-      ach: 'Your achievement energy centres on initiation and leadership. You accomplish most powerfully when you go first and forge new paths without hesitation.',
-      theme:'The overarching theme of your life involves initiating new cycles, developing independence, and learning that self-reliance is a gift — not a burden.',
-      aff: '"I am the first spark of creation. I initiate without waiting for permission."' },
-  2:{ name:'The Harmonizer', essence:'Bridge & Balance',
-      lp:  'You are here to master connection — to harmonize opposites, bridge divides, and find unity in duality. Every relationship the simulation brings is a mirror of your own inner polarities.',
-      ex:  'You naturally carry diplomatic awareness, relational sensitivity, and dual-perspective vision. You see all sides, bring people together, and create peace from conflict.',
-      soul:'Deep within, you crave harmony, partnership, and the experience of being truly seen. Your soul yearns to belong — to meet and be met in genuine union.',
-      outer:'The world sees you as gentle, empathetic, and easy to trust — a natural mediator and peacemaker who brings calm to even the most charged situations.',
-      ach: 'Your achievement energy centres on collaboration and partnership. You accomplish most powerfully through relationship and cooperative effort.',
-      theme:'The overarching theme of your life involves mastering relationship, learning to receive as well as give, and discovering wholeness through conscious connection.',
-      aff: '"I harmonize from wholeness, not from lack."' },
-  3:{ name:'The Creator', essence:'Expression & Joy',
-      lp:  'You are here to learn authentic self-expression — to channel creative force without performing for approval. The simulation blocks creativity until you stop seeking validation and start expressing truth.',
-      ex:  'You naturally carry creative flow, expressiveness, and joyful energy. You communicate beautifully, uplift others naturally, and inspire through genuine authenticity.',
-      soul:'Deep within, you crave expression, joy, and creative freedom. Your soul yearns to be heard — to share its unique voice without apology or diminishment.',
-      outer:'The world sees you as charming, expressive, and magnetic — a natural communicator whose presence uplifts any room and inspires others to come alive.',
-      ach: 'Your achievement energy centres on creative expression. You accomplish most powerfully when you allow authentic creativity to lead, free from the need for applause.',
-      theme:'The overarching theme of your life involves discovering and honouring your unique voice, finding joy through creation, and learning to complete what you begin.',
-      aff: '"I am a clear channel for creative force."' },
-  4:{ name:'The Builder', essence:'Structure & Stability',
-      lp:  'You are here to master discipline, order, and patient building. The simulation tests your relationship with structure — too rigid and it shatters you; too loose and chaos forces discipline upon you.',
-      ex:  'You naturally carry organizational instinct, systematic thinking, and grounded presence. You create order from chaos and manifest through disciplined, sustained effort.',
-      soul:'Deep within, you crave stability, security, and the satisfaction of building something solid and lasting. Your soul yearns to create foundations that endure.',
-      outer:'The world sees you as reliable, methodical, and dependable — the one others count on to get things done and keep everything steady.',
-      ach: 'Your achievement energy centres on building and consolidation. You accomplish most powerfully through sustained, disciplined effort compounded over time.',
-      theme:'The overarching theme of your life involves learning the sacred nature of limitation, discovering that structure creates freedom, and building foundations that serve those who come after.',
-      aff: '"I build foundations that serve life\'s unfolding."' },
-  5:{ name:'The Explorer', essence:'Freedom Through Embodiment',
-      lp:  'You are the central vessel — the interface between spirit and matter. Your lesson is full presence in the midst of constant change. The simulation provides endless variety to test whether you stay present or flee.',
-      ex:  'You naturally carry adaptability, present-moment awareness, and dynamic responsiveness. You are the interface in the system — embodying freedom through presence, not escape.',
-      soul:'Deep within, you crave freedom, variety, and full sensory experience. Your soul yearns to explore — to taste life completely without being caged.',
-      outer:'The world sees you as adventurous, dynamic, and magnetically alive — someone who inhabits the present moment in a way others aspire to.',
-      ach: 'Your achievement energy centres on adaptability and embodied presence. You accomplish most powerfully when you stay fully here and let each moment be enough.',
-      theme:'The overarching theme of your life involves mastering presence, discovering that true freedom is found within rather than through escape, and becoming the living interface between worlds.',
-      aff: '"I am fully here — the interface between spirit and matter."' },
-  6:{ name:'The Nurturer', essence:'Service & Responsibility',
-      lp:  'You are here to learn that love requires boundaries — that serving others begins with serving yourself. The simulation places you in caretaking roles and tests whether you enable or empower.',
-      ex:  'You naturally carry nurturing instinct, compassionate awareness, and integration ability. You are the integrator — nothing completes until it reaches you and becomes sustainable.',
-      soul:'Deep within, you crave love, belonging, and the fulfilment of being genuinely needed. Your soul yearns to nurture — to create a world where everyone feels cared for.',
-      outer:'The world sees you as warm, responsible, and caring — someone who shows up reliably and creates environments of safety and unconditional support.',
-      ach: 'Your achievement energy centres on service and care. You accomplish most powerfully when you serve from wholeness rather than self-sacrifice.',
-      theme:'The overarching theme of your life involves mastering the balance between self-care and service, learning that boundaries are an act of love, and becoming a sustainable source of nurturance.',
-      aff: '"I serve from wholeness and stay whole while serving."' },
-  7:{ name:'The Seeker', essence:'Wisdom & Inner Knowing',
-      lp:  'You are here to seek truth through direct experience — not merely intellectual knowing. The simulation enforces solitude until you stop looking to external authorities and begin trusting your own inner oracle.',
-      ex:  'You naturally carry an analytical mind, introspective nature, and deep inner authority. You see beneath the surface and teach wisdom only after you have lived it.',
-      soul:'Deep within, you crave truth, understanding, and spiritual depth. Your soul yearns to pierce through illusion — to touch what is actually real beneath all the noise.',
-      outer:'The world sees you as introspective, intelligent, and quietly compelling — someone who observes carefully and carries a stillness others find deeply reassuring.',
-      ach: 'Your achievement energy centres on investigation and inner mastery. You accomplish most powerfully when you trust your own knowing above any external validation.',
-      theme:'The overarching theme of your life involves the sacred quest for truth, learning to embody wisdom rather than merely accumulate knowledge, and finding the divine in the everyday.',
-      aff: '"I trust my inner knowing and embody the wisdom I discover."' },
-  8:{ name:'The Power Master', essence:'Authority & Manifestation',
-      lp:  'You are here to master yourself — to discover that true power is self-mastery, not control of others. The simulation will make your temptations inescapable until you demonstrate dominion over impulse.',
-      ex:  'You naturally carry authority, manifestation ability, and achievement drive. You demonstrate power-with rather than power-over, and you lead through earned respect.',
-      soul:'Deep within, you crave mastery, influence, and the satisfaction of tangible accomplishment. Your soul yearns to build something that proves what disciplined human will can achieve.',
-      outer:'The world sees you as authoritative, ambitious, and capable — someone who commands respect naturally and consistently delivers results.',
-      ach: 'Your achievement energy centres on mastery and manifestation. You accomplish most powerfully when discipline, vision, and integrity are working in alignment.',
-      theme:'The overarching theme of your life involves learning the proper use of power, discovering that self-mastery precedes all other authority, and proving that material success is a spiritual test.',
-      aff: '"I master myself and use power to serve."' },
-  9:{ name:'The Humanitarian', essence:'Completion & Universal Service',
-      lp:  'You are here to complete cycles with grace — to release what is finished and serve the greater good. The simulation brings repeated endings; your lesson is letting go with love.',
-      ex:  'You naturally carry compassionate awareness, universal perspective, and completion orientation. You facilitate endings and serve collective evolution through wisdom freely shared.',
-      soul:'Deep within, you crave meaning, contribution, and the sense of having served something larger than yourself. Your soul yearns to give — to leave the world measurably better.',
-      outer:'The world sees you as compassionate, idealistic, and deeply wise — someone who holds all of humanity in their heart with genuine tenderness.',
-      ach: 'Your achievement energy centres on completion and service to the whole. You accomplish most powerfully when you release attachment to outcomes and give freely.',
-      theme:'The overarching theme of your life involves learning graceful release, completing cycles consciously, and contributing your accumulated wisdom to collective evolution.',
-      aff: '"I complete with grace and serve the whole."' },
-  11:{ name:'The Illuminated Bridge', essence:'Master Channel Between Worlds',
-       lp:  'A master number — your lesson is to channel higher wisdom while remaining grounded in human experience. Heightened sensitivity is your gift; rigorous daily grounding and energetic protection are its requirements.',
-       ex:  'A master expression — you carry gateway frequency. You are literally wired to channel higher consciousness into material reality. Your sensitivity is a tool, not a burden.',
-       soul:'At the soul level, you carry an ancient yearning to bridge worlds — to bring something sacred through from the unseen into lived human experience.',
-       outer:'The world sees you as inspiring, otherworldly, and deeply intuitive — your presence seems to carry a light others feel but cannot name.',
-       ach: 'Your achievement is in spiritual illumination and practical inspiration. You accomplish by grounding divine insight into real-world service that actually helps people.',
-       theme:'The overarching theme of your life is being a beacon — receiving higher frequencies and translating them faithfully into guidance that uplifts those around you.',
-       aff: '"I am a humble bridge. I ground divine wisdom in practical service."' },
-  22:{ name:'The Master Builder', essence:'Cosmic Architect of Material Reality',
-       lp:  'A master number — you are here to manifest spiritual vision into lasting material form. Your mission is multi-generational. You will not see completion in this lifetime — build anyway.',
-       ex:  'A master expression — you see what could be built and possess the strategic genius to make it real across generations. Patience and delegation are your essential disciplines.',
-       soul:'At the soul level, you carry a profound drive to create something that outlasts you — structures, movements, or systems that alter the course of what comes after.',
-       outer:'The world sees you as visionary, disciplined, and built for achievement at a scale most people cannot yet imagine.',
-       ach: 'Your achievement is in monumental, lasting creation. You accomplish at a generational scale — your work serves long after your personal involvement ends.',
-       theme:'The overarching theme of your life is grounding cosmic vision into enduring material form — becoming the living bridge between the ideal and the real.',
-       aff: '"I build patiently. One brick today serves the structure tomorrow."' },
-  33:{ name:'The Master Teacher', essence:'Unconditional Love & Creative Service',
-       lp:  'A master number — you embody unconditional love and creative service. You teach through beauty and heal through compassion. Your shadow is martyrdom; your master lesson is that self-care is not optional.',
-       ex:  'A master expression — you carry double creative energy channelled into healing service. You teach through art and embody compassion as a lived demonstration.',
-       soul:'At the soul level, you carry the deepest possible longing to love without limit — to be a vessel through which healing moves into every life it touches.',
-       outer:'The world sees you as profoundly compassionate, creatively gifted, and spiritually seasoned — your presence alone carries a quality of healing others feel immediately.',
-       ach: 'Your achievement is in teaching and healing through creative love. You accomplish by embodying unconditional compassion while maintaining the wholeness that makes it sustainable.',
-       theme:'The overarching theme of your life is learning to love sustainably — to be a channel for universal love without losing yourself in the current you are carrying.',
-       aff: '"I serve from fullness. My wholeness IS my service."' },
-  44:{ name:'The Master Manifestor', essence:'Ultimate Material Mastery',
-       lp:  'A master number — you carry supreme building and manifestation power. You create structures designed to stand for centuries. Your mission exceeds your lifetime; build knowing others will complete it.',
-       ex:  'A master expression — you manifest what others call impossible and create systems built to outlast you. Legacy over ego is your north star.',
-       soul:'At the soul level, you carry an unshakeable drive to build — to demonstrate that human will, properly disciplined, can bring anything from spirit into permanent material form.',
-       outer:'The world sees you as extraordinarily capable, intensely focused, and built for achievement at a scale few people can comprehend.',
-       ach: 'Your achievement is in century-level building. You accomplish by constructing systems and structures designed to function and serve long after your direct involvement ends.',
-       theme:'The overarching theme of your life is demonstrating that material mastery and spiritual integrity are not opposites — they are the same act performed at full power.',
-       aff: '"I build for generations. My foundation serves long after I\'m gone."' }
-};
-
-/* strips config */
-const STRIPS = [
-  { id:'ac',  label:'Achievement',          role:'How You Accomplish',   skey:'ach',   accent:'amber',  cssVar:'--amber'  },
-  { id:'lp',  label:'Life Path',            role:'What You Learn',       skey:'lp',    accent:'gold',   cssVar:'--gold'   },
-  { id:'th',  label:'Theme',                role:'Your Life Curriculum', skey:'theme', accent:'silver', cssVar:'--silver' },
-  { id:'so',  label:'Soul',                 role:'Your Inner Desire',    skey:'soul',  accent:'rose',   cssVar:'--rose'   },
-  { id:'ou',  label:'Outer',                role:'Your Public Persona',  skey:'outer', accent:'sage',   cssVar:'--sage'   },
-  { id:'ex',  label:'Destined Expression',  role:'What You Carry',       skey:'ex',    accent:'purple', cssVar:'--purple' },
-  { id:'cl',  label:'Life Calling',         role:'Your Mission',         skey:'cl',    accent:'teal',   cssVar:'--teal'   },
-];
-
-/* For Life Calling we use CALLING data */
-const CALLING = {
-  1:{name:'The Pioneer Leader',essence:'Initiating New Realities',summary:'Your mission is to go first — to initiate new realities through bold, authentic leadership. The simulation places you at the beginning of movements and innovations so others can follow your trail.',career:'You thrive as founder, innovator, trailblazer — any role where you initiate new ventures, lead revolutionary changes, or pioneer uncharted territories.',gift:'Your gift is fearless initiation. You naturally move first, inspiring others through your courage to begin what others only imagine.'},
-  2:{name:'The Sacred Harmonizer',essence:'Bridging Divides Through Unity',summary:'Your mission is to bridge divides and create unity from separation. You are the relational glue — positioned exactly where opposites meet and collaboration is the only path forward.',career:'You excel as mediator, diplomat, partnership facilitator — any role bringing opposing forces into productive collaboration.',gift:'Your gift is seeing all sides and finding the thread of unity.'},
-  3:{name:'The Creative Catalyst',essence:'Inspiring Through Expression',summary:'Your mission is to inspire through authentic creative expression — to translate the unseen into seen and the felt into expressed.',career:'You thrive as artist, communicator, creative director — any role channeling inspiration into tangible form.',gift:'Your gift is translating the ineffable into expression.'},
-  4:{name:'The Sacred Architect',essence:'Building Foundations That Last',summary:'Your mission is to build systems, structures, and foundations that outlast you. You create the containers others inhabit — transforming chaos into order.',career:'You excel as systems builder, organizational designer, infrastructure creator.',gift:'Your gift is building foundations that last.'},
-  5:{name:'The Freedom Embodier',essence:'Teaching Presence Through Being',summary:'Your mission is to experience fully and teach freedom through embodiment. You are the pivot point — demonstrating that true freedom is being completely here.',career:'You thrive as experiential teacher, embodiment guide, presence facilitator.',gift:'Your gift is embodied freedom.'},
-  6:{name:'The Compassionate Guardian',essence:'Nurturing from Wholeness',summary:'Your mission is to nurture in balanced, sustainable ways. You are the integrator — ensuring growth becomes grounded in reality.',career:'You excel as sustainable caregiver, community guardian, integration specialist.',gift:'Your gift is sustainable nurturing.'},
-  7:{name:'The Mystic Teacher',essence:'Revealing Truth Through Wisdom',summary:'Your mission is to seek truth and share wisdom born from direct experience.',career:'You thrive as wisdom teacher, spiritual guide, depth researcher.',gift:'Your gift is penetrating insight.'},
-  8:{name:'The Power Master',essence:'Wielding Authority With Wisdom',summary:'Your mission is to master power and demonstrate responsible authority.',career:'You excel as transformational leader, authority figure, manifestation master.',gift:'Your gift is conscious authority.'},
-  9:{name:'The World Server',essence:'Completing Cycles With Grace',summary:'Your mission is to complete cycles and serve humanity.',career:'You thrive as humanitarian leader, completion facilitator, wisdom elder.',gift:'Your gift is sacred completion.'},
-  11:{name:'The Illuminated Channel',essence:'Bridging Spirit and Matter',summary:'A master calling — your mission is to bridge spiritual and material realms.',career:'You excel as inspired teacher, intuitive guide, spiritual translator.',gift:'Your gift is grounded illumination.'},
-  22:{name:'The Master Builder',essence:'Manifesting Grand Visions',summary:'A master calling — your mission is to build at the largest scale.',career:'You excel as visionary leader, large-scale builder, civilization architect.',gift:'Your gift is turning impossible visions into tangible reality.'},
-  33:{name:'The Master Healer',essence:'Embodying Compassionate Service',summary:'A master calling — your mission is to heal through unconditional love.',career:'You excel as transformational healer, compassionate leader.',gift:'Your gift is healing through creative love.'},
-  44:{name:'The Master Organizer',essence:'Creating Universal Systems',summary:'A master calling — your mission is to organize chaos at the grandest scale.',career:'You excel as systems designer, universal organizer.',gift:'Your gift is seeing the pattern behind all patterns.'},
-};
-
-/* ════════════════════════════════════════════════
-   APP STATE
-════════════════════════════════════════════════ */
-let currentUser = null;  // { email }
-let playerData  = null;  // result of computeAll()
-
-/* ════════════════════════════════════════════════
-   PERSISTENCE (localStorage)
-════════════════════════════════════════════════ */
-const LS_USER   = 'scl_user';
-const LS_PLAYER = 'scl_player';
-
-function saveUser(email) {
-  try { localStorage.setItem(LS_USER, JSON.stringify({ email })); } catch(e){}
-}
-function savePlayer(data) {
-  try { localStorage.setItem(LS_PLAYER, JSON.stringify({ name:data.name, m:data.m, d:data.d, y:data.y })); } catch(e){}
-}
-function loadSaved() {
-  try {
-    const u = localStorage.getItem(LS_USER);
-    const p = localStorage.getItem(LS_PLAYER);
-    if (u && p) {
-      const uo = JSON.parse(u);
-      const po = JSON.parse(p);
-      currentUser = uo;
-      playerData  = computeAll(po.m, po.d, po.y, po.name);
-      return true;
-    }
-  } catch(e){}
-  return false;
-}
-
-/* ════════════════════════════════════════════════
-   AUTH FLOW
-════════════════════════════════════════════════ */
-function switchAuthTab(tab) {
-  document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.auth-form-panel').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab' + (tab==='login'?'Login':'Register')).classList.add('active');
-  document.getElementById('panel' + (tab==='login'?'Login':'Register')).classList.add('active');
-}
-
-function showAuthError(id, msg) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.classList.add('show');
-}
-function clearAuthErrors() {
-  document.querySelectorAll('.auth-error').forEach(el => el.classList.remove('show'));
-}
-
-function handleGoogleAuth() {
-  /* Stub — in production this would trigger Google OAuth flow */
-  clearAuthErrors();
-  const email = 'player@google.com';
-  currentUser = { email };
-  saveUser(email);
-  afterAuth(true);
-}
-
-function handleLogin() {
-  clearAuthErrors();
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPassword').value;
-  if (!email || !pass) { showAuthError('loginError','⚠ Please fill in all fields.'); return; }
-  if (!validateEmail(email)) { showAuthError('loginError','⚠ Enter a valid email address.'); return; }
-  /* Stub auth — accept any valid email+password */
-  currentUser = { email };
-  saveUser(email);
-  /* Check if they already have player data */
-  try {
-    const p = localStorage.getItem(LS_PLAYER);
-    if (p) {
-      const po = JSON.parse(p);
-      playerData = computeAll(po.m, po.d, po.y, po.name);
-      afterAuth(false);
-    } else {
-      afterAuth(true);
-    }
-  } catch(e) { afterAuth(true); }
-}
-
-function handleRegister() {
-  clearAuthErrors();
-  const email = document.getElementById('regEmail').value.trim();
-  const pass  = document.getElementById('regPassword').value;
-  if (!email || !pass) { showAuthError('regError','⚠ Please fill in all fields.'); return; }
-  if (!validateEmail(email)) { showAuthError('regError','⚠ Enter a valid email address.'); return; }
-  if (pass.length < 6) { showAuthError('regError','⚠ Password must be at least 6 characters.'); return; }
-  currentUser = { email };
-  saveUser(email);
-  afterAuth(true);
-}
-
-function afterAuth(needsChar) {
-  document.getElementById('authOverlay').classList.add('hidden');
-  if (needsChar) {
-    document.getElementById('charCreateOverlay').classList.remove('hidden');
-  } else {
-    launchApp();
-  }
-}
-
-function handleCharCreate() {
-  clearAuthErrors();
-  const name  = document.getElementById('charName').value.trim();
-  const month = parseInt(document.getElementById('charMonth').value, 10);
-  const day   = parseInt(document.getElementById('charDay').value, 10);
-  const year  = parseInt(document.getElementById('charYear').value, 10);
-
-  if (!name) { showAuthError('charError','⚠ Please enter your full birth name.'); return; }
-  if (!month||month<1||month>12) { showAuthError('charError','⚠ Enter a valid month (1–12).'); return; }
-  if (!day||day<1||day>31)       { showAuthError('charError','⚠ Enter a valid day (1–31).'); return; }
-  if (!year||year<1900||year>2099){ showAuthError('charError','⚠ Enter a valid year (1900–2099).'); return; }
-
-  playerData = computeAll(month, day, year, name);
-  savePlayer(playerData);
-  document.getElementById('charCreateOverlay').classList.add('hidden');
-  launchApp();
-}
-
-function handleSignOut() {
-  try { localStorage.removeItem(LS_USER); localStorage.removeItem(LS_PLAYER); } catch(e){}
-  playerData = null;
-  document.getElementById('appShell').classList.add('hidden');
-  document.getElementById('charCreateOverlay').classList.remove('hidden');
-}
-
-function handleResetChar() {
-  if (!confirm('Reset your character? Your frequency data will be cleared.')) return;
-  try { localStorage.removeItem(LS_PLAYER); } catch(e){}
-  playerData = null;
-  document.getElementById('appShell').classList.add('hidden');
-  document.getElementById('charCreateOverlay').classList.remove('hidden');
-}
-
-function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-
-/* ════════════════════════════════════════════════
-   APP LAUNCH
-════════════════════════════════════════════════ */
-function launchApp() {
-  const { lp, ex, cl, so, ou, ac, th, name, m, d, y } = playerData;
-
-  /* header */
-  document.getElementById('headerName').textContent = name.toUpperCase();
-  document.getElementById('headerDob').textContent  = `${String(m).padStart(2,'0')} / ${String(d).padStart(2,'0')} / ${y}`;
-
-  /* settings */
-  document.getElementById('settingName').textContent  = name;
-  document.getElementById('settingDob').textContent   = `${m}/${d}/${y}`;
-  document.getElementById('settingLp').textContent    = fmt(lp.root,lp.compound);
-  document.getElementById('settingEx').textContent    = fmt(ex.root,ex.compound);
-  document.getElementById('settingCl').textContent    = fmt(cl.root,cl.compound);
-  document.getElementById('settingSo').textContent    = fmt(so.root,so.compound);
-  document.getElementById('settingOu').textContent    = fmt(ou.root,ou.compound);
-  document.getElementById('settingAc').textContent    = fmt(ac.root,ac.compound);
-  document.getElementById('settingTh').textContent    = fmt(th.root,th.compound);
-
-  buildJournal();
-  buildCharts();
-  buildLifeQuests();
-
-  document.getElementById('appShell').classList.remove('hidden');
-  switchTab('stats');
-}
-
-/* ════════════════════════════════════════════════
-   NAVIGATION
-════════════════════════════════════════════════ */
-function switchTab(tab) {
-  const map = { stats:'Stats', quests:'Quests', map:'Map', settings:'Settings' };
-  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
-  document.getElementById('btn' + (tab.charAt(0).toUpperCase()+tab.slice(1))).classList.add('active');
-  document.getElementById('panel' + (tab.charAt(0).toUpperCase()+tab.slice(1))).classList.add('active');
-}
-
-function switchSection(section) {
-  const journal = document.getElementById('sectionJournal');
-  const chart   = document.getElementById('sectionChart');
-  const btnJ    = document.getElementById('btnJournal');
-  const btnC    = document.getElementById('btnChart');
-  if (section === 'journal') {
-    journal.classList.remove('hidden'); chart.classList.add('hidden');
-    btnJ.classList.add('active'); btnC.classList.remove('active');
-  } else {
-    chart.classList.remove('hidden'); journal.classList.add('hidden');
-    btnC.classList.add('active'); btnJ.classList.remove('active');
-  }
-}
-
-function switchQuestSection(s) {
-  const life = document.getElementById('sectionLifeQ');
-  const side = document.getElementById('sectionSideQ');
-  const btnL = document.getElementById('btnLifeQ');
-  const btnS = document.getElementById('btnSideQ');
-  if (s === 'life') {
-    life.classList.remove('hidden'); side.classList.add('hidden');
-    btnL.classList.add('active'); btnS.classList.remove('active');
-  } else {
-    side.classList.remove('hidden'); life.classList.add('hidden');
-    btnS.classList.add('active'); btnL.classList.remove('active');
-  }
-}
-
-/* ════════════════════════════════════════════════
-   JOURNAL BUILDER
-════════════════════════════════════════════════ */
-function getStripText(stripId, root, compound) {
-  const rData = ROOT[root] || ROOT[9];
-  const isMaster = MASTERS.has(root);
-  let text = '';
-  let aff  = rData.aff || '';
-
-  if (stripId === 'lp')  text = rData.lp;
-  else if (stripId === 'ex')  text = rData.ex;
-  else if (stripId === 'so')  text = rData.soul;
-  else if (stripId === 'ou')  text = rData.outer;
-  else if (stripId === 'ac')  text = rData.ach;
-  else if (stripId === 'th')  text = rData.theme;
-  else if (stripId === 'cl') {
-    const cData = CALLING[root] || CALLING[9];
-    text = cData.summary + '\n\n' + cData.career + '\n\n✦ Gift: ' + cData.gift;
-    aff  = '';
-  }
-
-  return { text, aff, isMaster };
-}
-
-function buildJournal() {
-  const pd = playerData;
-  const numMap = { lp:pd.lp, ex:pd.ex, cl:pd.cl, so:pd.so, ou:pd.ou, ac:pd.ac, th:pd.th };
-  const container = document.getElementById('journalStrips');
-  container.innerHTML = '';
-
-  STRIPS.forEach(strip => {
-    const numObj = numMap[strip.id];
-    const root     = numObj.root;
-    const compound = numObj.compound;
-    const rData    = ROOT[root] || ROOT[9];
-    const { text, aff, isMaster } = getStripText(strip.id, root, compound);
-    const displayNum = fmt(root, compound);
-    const colorVar   = `var(${strip.cssVar})`;
-    const dimVar     = `var(${strip.cssVar}-dim)`;
-
-    const el = document.createElement('div');
-    el.className = 'journal-strip';
-    el.style.setProperty('--strip-color', colorVar);
-
-    el.innerHTML = `
-      <div class="strip-trigger" onclick="toggleStrip(this.closest('.journal-strip'))">
-        <div class="strip-accent-bar" style="background:${colorVar}; color:${colorVar};"></div>
-        <div class="strip-main">
-          <div class="strip-number" style="color:${colorVar};">${displayNum}</div>
-          <div class="strip-info">
-            <div class="strip-label" style="color:${colorVar};">
-              ${strip.label}
-              ${isMaster ? `<span class="strip-master-badge" style="color:${colorVar}; border-color:${dimVar};">MASTER</span>` : ''}
-            </div>
-            <div class="strip-role">${strip.role}</div>
-            <div class="strip-name" style="color:${colorVar}; opacity:0.7;">${rData.name}</div>
-          </div>
-        </div>
-        <div class="strip-chevron">▶</div>
-      </div>
-      <div class="strip-body">
-        <div class="strip-content">
-          <div class="strip-text">${text.replace(/\n\n/g,'<br><br>').replace(/\n/g,' ')}</div>
-          ${aff ? `<div class="strip-affirmation" style="color:${colorVar}; border-color:${colorVar};">${aff}</div>` : ''}
-        </div>
-      </div>
-    `;
-
-    container.appendChild(el);
-  });
-}
-
-function toggleStrip(strip) {
-  strip.classList.toggle('open');
-}
-
-/* ════════════════════════════════════════════════
-   CHART BUILDER
-════════════════════════════════════════════════ */
-function buildCharts() {
-  const { lp, ex, cl, so, ou, ac, th, name, m, d, y } = playerData;
-
-  /* 1) Collect numbers from 7 core frequencies (roots 1–9 only, reduce masters) */
-  const freqRoots = [lp.root, ex.root, cl.root, so.root, ou.root, ac.root, th.root];
-  const freqCounts = countNums1to9(freqRoots);
-
-  /* 2) Birthdate digits */
-  const bdDigits = [...String(m), ...String(d), ...String(y)].map(Number).filter(n=>n>0);
-  const bdCounts = countNums1to9(bdDigits);
-
-  /* 3) Name letter values */
-  const nameLetters = name.toUpperCase().replace(/[^A-Z]/g,'').split('');
-  const nameVals    = nameLetters.map(l => { const v = LV[l]||0; return reduceSimple(v); }).filter(n=>n>0);
-  const nameCounts  = countNums1to9(nameVals);
-
-  /* 4) Combined */
-  const combined = {};
-  for (let i=1;i<=9;i++) combined[i] = (freqCounts[i]||0) + (bdCounts[i]||0) + (nameCounts[i]||0);
-
-  /* Render bar charts */
-  const colors = {
-    combined: { fill:'var(--teal)',   count:'var(--teal)'   },
-    freq:     { fill:'var(--purple)', count:'var(--purple)' },
-    birth:    { fill:'var(--amber)',  count:'var(--amber)'  },
-    name:     { fill:'var(--sage)',   count:'var(--sage)'   },
-  };
-  renderBarChart('chartCombined', combined, colors.combined, true);
-  renderBarChart('chartFreq',     freqCounts, colors.freq,   false);
-  renderBarChart('chartBirth',    bdCounts,   colors.birth,  false);
-  renderBarChart('chartName',     nameCounts, colors.name,   false);
-
-  /* Labels under combined chart */
-  const labelsEl = document.getElementById('chartLabels');
-  labelsEl.innerHTML = '';
-  const lblNames = ['INIT','HARM','CRTR','BLDR','EXPL','NRTR','SEEK','POWR','HMNT'];
-  for (let i=1;i<=9;i++) {
-    const d = document.createElement('div');
-    d.className = 'bar-chart-label';
-    d.textContent = lblNames[i-1];
-    labelsEl.appendChild(d);
-  }
-
-  /* Frequency detail grid */
-  const gridEl = document.getElementById('freqDetailGrid');
-  gridEl.innerHTML = '';
-  for (let i=1;i<=9;i++) {
-    const cell = document.createElement('div');
-    cell.className = 'freq-detail-cell';
-    const fq = freqCounts[i]||0, bq = bdCounts[i]||0, nq = nameCounts[i]||0, tot = combined[i]||0;
-    const hasAny = tot > 0;
-    cell.innerHTML = `
-      <div class="freq-detail-num" style="color:${hasAny?'var(--teal)':'var(--border-glow)'};">${i}</div>
-      <div class="freq-detail-counts">
-        <span style="color:var(--purple-dim)">F:${fq}</span>
-        <span style="color:var(--amber-dim)">B:${bq}</span>
-        <span style="color:var(--sage-dim)">N:${nq}</span>
-      </div>
-    `;
-    gridEl.appendChild(cell);
-  }
-
-  /* Source pills */
-  const pillsEl = document.getElementById('sourcePills');
-  pillsEl.innerHTML = `
-    <div class="source-row" style="margin-bottom:6px;">
-      <span class="source-key" style="color:var(--purple);">FREQUENCIES</span>
-      <span class="source-nums">${freqRoots.map(n=>`<span class="source-pill" style="color:var(--purple);border-color:var(--purple-dim);">${n}</span>`).join('')}</span>
-    </div>
-    <div class="source-row" style="margin-bottom:6px;">
-      <span class="source-key" style="color:var(--amber);">BIRTHDATE</span>
-      <span class="source-nums">${bdDigits.map(n=>`<span class="source-pill" style="color:var(--amber);border-color:var(--amber-dim);">${n}</span>`).join('')}</span>
-    </div>
-    <div class="source-row">
-      <span class="source-key" style="color:var(--sage);">NAME LETTERS</span>
-      <span class="source-nums">${nameVals.map(n=>`<span class="source-pill" style="color:var(--sage);border-color:var(--sage-dim);">${n}</span>`).join('')}</span>
-    </div>
-  `;
-}
-
-function reduceSimple(n) {
-  /* reduce master letter values to 1-9 for chart purposes */
-  if (n === 11) return 2;
-  if (n === 22) return 4;
-  while (n > 9) n = String(n).split('').reduce((a,d)=>a+ +d,0);
-  return n;
-}
-
-function countNums1to9(arr) {
-  const counts = {};
-  for (let i=1;i<=9;i++) counts[i]=0;
-  arr.forEach(n => {
-    let r = n;
-    /* reduce to 1–9 */
-    while (r > 9) r = String(r).split('').reduce((a,d)=>a+ +d,0);
-    if (r>=1&&r<=9) counts[r]++;
-  });
-  return counts;
-}
-
-function renderBarChart(containerId, counts, colors, showNum) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  el.innerHTML = '';
-  const maxVal = Math.max(...Object.values(counts), 1);
-  for (let i=1;i<=9;i++) {
-    const count = counts[i]||0;
-    const pct   = Math.round((count/maxVal)*100);
-    const barH  = Math.max(2, Math.round((count/maxVal)*74));
-
-    const col = document.createElement('div');
-    col.className = 'bar-col';
-
-    col.innerHTML = `
-      ${showNum ? `<div class="bar-num">${i}</div>` : ''}
-      <div class="bar-fill" style="height:${barH}px; background:${colors.fill}; opacity:${count>0?'1':'0.15'};"></div>
-      <div class="bar-count" style="color:${count>0?colors.count:'var(--border-glow)'};">${count}</div>
-    `;
-    el.appendChild(col);
-  }
-}
-
-/* ════════════════════════════════════════════════
-   QUEST ENGINE
-════════════════════════════════════════════════ */
-
-/* ── Per-number quest blueprints ──
-   Each number has: title, sub (source label), description, objectives[], affirmation
-   Used for both frequency-driven quests AND abundance-driven quests.
-*/
-const NUM_QUESTS = {
-  1: {
-    title: 'THE INITIATOR\'S PATH',
-    icon: '⚡',
-    color: '--amber',
-    colorDim: '--amber-dim',
-    archetype: 'Pioneer · Starter · Leader',
-    desc: 'You carry the energy of pure initiation. The simulation has coded you to go first — to begin things others only contemplate. Every time you wait for permission or let someone else take the wheel, you are working against your own source code.',
-    objectives: [
-      'Start one project this week that you have been putting off — without first seeking approval from anyone.',
-      'Identify a space in your life where you have been following instead of leading. Take one step to reverse that.',
-      'Practice introducing yourself or your ideas first in group settings. Observe what shifts.',
-      'Launch something imperfect. The 1 energy rewards beginning, not perfecting.'
-    ],
-    affirmation: '"I move first. I do not wait for permission to begin."'
-  },
-  2: {
-    title: 'THE BRIDGE BUILDER\'S PATH',
-    icon: '◈',
-    color: '--teal',
-    colorDim: '--teal-dim',
-    archetype: 'Harmonizer · Diplomat · Partner',
-    desc: 'Your code runs on connection. You are built to sense all sides of a situation, find the common thread, and weave people together. The quest is not to suppress conflict — it is to become the force that transforms it into productive cooperation.',
-    objectives: [
-      'In your next disagreement, practice stating the other person\'s position before your own.',
-      'Identify one relationship that needs a bridge built. Take one step toward rebuilding it this week.',
-      'Notice when you abandon your own needs in order to keep peace. Practise speaking your truth gently but clearly.',
-      'Build a collaboration between two people in your life who should know each other but don\'t.'
-    ],
-    affirmation: '"I harmonize from wholeness. I include myself in the peace I create."'
-  },
-  3: {
-    title: 'THE CREATIVE CHANNEL\'S PATH',
-    icon: '✦',
-    color: '--rose',
-    colorDim: '--rose-dim',
-    archetype: 'Creator · Communicator · Catalyst',
-    desc: 'Expression is your primary mode of power. When you are creating and communicating authentically, you are a force multiplier for everyone around you. When you are performing for approval, your creative signal goes static. This quest is about finding and trusting your real voice.',
-    objectives: [
-      'Create something daily for 7 days — writing, art, music, cooking — without sharing it with anyone.',
-      'Identify one area where you are performing instead of expressing. Drop the performance and speak your actual truth.',
-      'Complete one creative project that you have left unfinished. The 3 must learn to close loops.',
-      'Express an opinion in public that you have been keeping private out of fear of judgment.'
-    ],
-    affirmation: '"I express from truth, not from the need for applause."'
-  },
-  4: {
-    title: 'THE MASTER BUILDER\'S PATH',
-    icon: '▪',
-    color: '--silver',
-    colorDim: '--silver-dim',
-    archetype: 'Builder · Architect · Sustainer',
-    desc: 'You are encoded with the frequency of structure, discipline and patient construction. Every great thing that lasts was built by someone who showed up consistently, especially when it was unglamorous. This quest is about learning to love the process of building — not just the finished product.',
-    objectives: [
-      'Choose one area of your life that needs more structure. Design a simple system and run it for 21 days.',
-      'Identify something you have been building sporadically. Commit to consistent daily effort, however small.',
-      'Build one thing with your hands this week — cook, repair, assemble, craft. Ground the energy physically.',
-      'Document your systems. Write down the processes that keep your life running so they can be refined and shared.'
-    ],
-    affirmation: '"I build with patience. One brick a day becomes an empire."'
-  },
-  5: {
-    title: 'THE PRESENCE EMBODIER\'S PATH',
-    icon: '◎',
-    color: '--purple',
-    colorDim: '--purple-dim',
-    archetype: 'Explorer · Adaptor · Pivot Point',
-    desc: 'You are the central interface — the node where spirit and matter meet. Your quest is not to escape into freedom but to find freedom right here, fully inhabiting the present moment. Every time you flee from intensity, you miss the frequency that was coded into this lifetime specifically for you.',
-    objectives: [
-      'Practise 10 minutes of complete presence daily — no phone, no planning. Just this moment, this body.',
-      'When the urge to escape or change the subject arises, pause and sit with the discomfort for 2 minutes first.',
-      'Say yes to a sensory experience you have been avoiding. Taste the thing, feel the texture, go to the place.',
-      'Identify one commitment you have been avoiding. Make it — and stay with how that feels.'
-    ],
-    affirmation: '"I am fully here. Freedom is not elsewhere — it is in this moment."'
-  },
-  6: {
-    title: 'THE COMPASSIONATE GUARDIAN\'S PATH',
-    icon: '♡',
-    color: '--sage',
-    colorDim: '--sage-dim',
-    archetype: 'Nurturer · Integrator · Guardian',
-    desc: 'You carry the healing frequency. Your purpose is to create environments where people feel genuinely cared for — but only if you have first filled your own cup. Every act of unsustainable service depletes the very resource others need from you. This quest is about love that includes you.',
-    objectives: [
-      'List three ways you are currently over-giving. Choose one to renegotiate this week.',
-      'Practise receiving care — let someone do something for you without immediately reciprocating.',
-      'Set one clear boundary this week with someone you have been over-accommodating.',
-      'Design a daily self-care ritual that cannot be cancelled for others. Treat it as sacred as any appointment.'
-    ],
-    affirmation: '"I serve from overflow. My wholeness IS my gift."'
-  },
-  7: {
-    title: 'THE TRUTH SEEKER\'S PATH',
-    icon: '◇',
-    color: '--purple',
-    colorDim: '--purple-dim',
-    archetype: 'Seeker · Mystic · Inner Authority',
-    desc: 'You are coded for depth. The simulation has given you an internal oracle — a knowing that arrives quietly and is almost always right. Your quest is to trust that knowing above external validation, to stop running every intuition through the approval machine of other people\'s opinions.',
-    objectives: [
-      'Spend 30 minutes daily in undistracted solitude — no input, no content. Just being with your own knowing.',
-      'Act on one intuitive hit this week without seeking a second opinion first.',
-      'Identify where you are using research and analysis to avoid committing to what you already know.',
-      'Share one piece of insight from direct personal experience — not from a book or teacher.'
-    ],
-    affirmation: '"I trust my own knowing. The oracle speaks. I listen."'
-  },
-  8: {
-    title: 'THE POWER MASTER\'S PATH',
-    icon: '◈',
-    color: '--gold',
-    colorDim: '--gold-dim',
-    archetype: 'Manifestor · Authority · Self-Master',
-    desc: 'True power begins inside. The simulation coded you with extraordinary manifestation capacity — but that capacity is only as clean as your self-mastery. Every time you yield to an impulse you know is misaligned, you leak the very power that was meant to build something significant.',
-    objectives: [
-      'Identify your specific temptation — the pattern that consistently leaks your power. Name it. Watch it.',
-      'Make one significant decision this week based purely on what is correct, not what is comfortable.',
-      'Build one discipline-based habit: wake time, exercise, cold exposure, fasting. Non-negotiable for 30 days.',
-      'Use your authority to empower someone rather than direct them. See what changes.'
-    ],
-    affirmation: '"I master myself first. All other mastery follows."'
-  },
-  9: {
-    title: 'THE CYCLE COMPLETER\'S PATH',
-    icon: '∞',
-    color: '--teal',
-    colorDim: '--teal-dim',
-    archetype: 'Humanitarian · Releaser · Wisdom Holder',
-    desc: 'You carry the energy of completion and universal service. Your simulation is asking you to release what is finished gracefully — not to drag endings into new beginnings. What you cling to from the past costs you the wisdom you are meant to carry forward and the space you are meant to create for others.',
-    objectives: [
-      'Identify one relationship, project or belief you are clinging to past its natural end. Begin the process of releasing it.',
-      'Practise forgiveness — of one person or one version of yourself — this week.',
-      'Give something away that you have been hoarding: time, knowledge, money, a physical object.',
-      'Complete one cycle you have been dragging on. Close it — formally, consciously, with gratitude.'
-    ],
-    affirmation: '"I release with love. What ends in me creates space for what must begin."'
-  }
-};
-
-/* Master number quest overrides */
-const MASTER_QUESTS = {
-  11: {
-    title: 'THE ILLUMINATED BRIDGE\'S QUEST',
-    icon: '✦',
-    color: '--teal',
-    colorDim: '--teal-dim',
-    archetype: 'Master Channel · Intuitive Bridge',
-    desc: 'You carry master-level sensitivity. You are literally coded to receive higher frequencies and translate them into practical guidance that serves real people. Your quest is to stop treating your sensitivity as a liability and start treating it as the signal — and to ground what you receive in disciplined daily practice.',
-    objectives: [
-      'Build a grounding ritual: daily movement, time in nature, or breathwork. Non-negotiable.',
-      'Share one piece of inspired insight with someone who needs it — channelled, not performed.',
-      'Identify where your sensitivity is causing you to withdraw. Step toward that discomfort instead.',
-      'Practise energetic protection: learn to distinguish your feelings from the feelings of those around you.'
-    ],
-    affirmation: '"I am a clear channel. I receive. I ground. I give."'
-  },
-  22: {
-    title: 'THE MASTER BUILDER\'S QUEST',
-    icon: '▪',
-    color: '--gold',
-    colorDim: '--gold-dim',
-    archetype: 'Cosmic Architect · Generational Builder',
-    desc: 'You are coded to build at a scale most people cannot fathom. Your mission exceeds your personal lifetime — you are laying foundations for others who come after. The quest is to resist the temptation of shortcuts and build with the integrity that monuments require.',
-    objectives: [
-      'Write a 10-year vision for something you are building. Let it be uncomfortably large.',
-      'Identify where you are shrinking your vision to fit other people\'s comfort. Restore the true scale.',
-      'Delegate something you have been controlling. Learn to build through others, not just alone.',
-      'Begin one thing today knowing you will not see its completion in this chapter of your life.'
-    ],
-    affirmation: '"I build for generations. I plant trees in whose shade I may not sit."'
-  },
-  33: {
-    title: 'THE MASTER TEACHER\'S QUEST',
-    icon: '♡',
-    color: '--rose',
-    colorDim: '--rose-dim',
-    archetype: 'Master Healer · Compassionate Guide',
-    desc: 'You carry double creative energy directed into healing and teaching. Your presence alone initiates transformation in others. The quest is to stop martyring yourself in service and to understand that your own wholeness is the teaching — not the sacrifice of it.',
-    objectives: [
-      'Draw the line between compassion and martyrdom in your current life. Where is it blurred?',
-      'Teach something from direct experience this week — not from theory.',
-      'Create one piece of art, writing or expression intended purely to heal someone.',
-      'Receive care completely and gratefully. Let yourself be taught by someone you normally teach.'
-    ],
-    affirmation: '"My wholeness is the teaching. I serve from fullness."'
-  },
-  44: {
-    title: 'THE MASTER MANIFESTOR\'S QUEST',
-    icon: '◈',
-    color: '--amber',
-    colorDim: '--amber-dim',
-    archetype: 'Supreme Builder · Material Master',
-    desc: 'You carry the most potent building frequency in the code. You manifest what others call impossible. The quest is to direct this extraordinary power with equal integrity — to build systems that liberate rather than structures that confine, and to leave something that genuinely serves those who come after.',
-    objectives: [
-      'Audit your current projects: which are ego-driven and which are legacy-driven? Redirect accordingly.',
-      'Build or strengthen one system this week that will run without you in it.',
-      'Make one decision based on 50-year impact rather than immediate return.',
-      'Find one person whose potential you can amplify. Invest significantly in them this month.'
-    ],
-    affirmation: '"I manifest with integrity. My structures liberate, they do not confine."'
-  }
-};
-
-/* Main quest (Life Calling) templates per root number */
-/* ── COMPOUND FLAVOUR TEXT ──────────────────────────────────────────────────
-   Flavour text for compound (pre-reduction) numbers 10–99.
-   Used to show the unique quality of the compound before the root takes over.
-   ─────────────────────────────────────────────────────────────────────────── */
-const COMPOUND_DESC = {
-  10: 'The 10 carries the initiating force of 1 amplified to a new octave. Where 1 begins, 10 resets — it signals a clean slate arrived at through completion, not avoidance. The zero amplifies the 1\'s drive to near-absolute intensity. This compound belongs to those who seem to start from nothing and build everything, whose restarts are not failures but deliberate resets of the entire operating system.',
-  12: 'The 12 holds the creative triad of 3 within a cooperative, service-oriented frame. The 1 pioneers; the 2 cooperates; together they form the teacher, the messenger, the bridge between self-expression and collective need. This compound tends toward sacrifice that doesn\'t feel like loss — a willingness to subordinate personal vision in service of something that reaches further.',
-  13: 'The 13 is the transformer. It carries the 1\'s initiative and the 3\'s creativity, but reduces to the 4\'s discipline — meaning the creative impulse here is always asked to prove itself through work. Transformation is the theme: things that appear to end are actually changing form. This compound belongs to those who rebuild from rubble and find the new structure stronger than the original.',
-  14: 'The 14 holds freedom and structure in creative tension. The 1 initiates, the 4 consolidates, and the root 5 demands full embodied presence — meaning this compound is always being tested by change. The lesson is that true freedom is built, not found. Discipline and adventure are not opposites here; they are the two legs of the same walk.',
-  15: 'The 15 carries nurturing magnetic force. The 1\'s drive and the 5\'s aliveness combine to form the 6 root — meaning the mission of this compound is to care, but actively. Not passive service but pioneering love. These are the ones who create new forms of family, community, and care — who build the structures that hold others without becoming the structures themselves.',
-  16: 'The 16 holds a difficult wisdom. The 1\'s ego-strength and the 6\'s love combine to form the 7 root — but the path runs through a particular lesson: the fall of what has been built on false foundations. This compound strips away what was constructed for the wrong reasons, making space for something built on genuine inner knowing. The destruction is the teaching.',
-  17: 'The 17 is the star compound — spiritual aspiration meets practical authority. The 1\'s will and the 7\'s depth combine to form the 8 root — meaning the mission here is to build material power on a foundation of genuine spiritual knowing. This compound belongs to those who do not separate the inner and outer lives, who bring what they have discovered inward into the world in a form others can use.',
-  18: 'The 18 holds the tension between personal ambition (1) and universal compassion (8/9). The compound reduces to 9, meaning all the authority and drive of the 1 and 8 must ultimately serve the whole. These are people who build power only to discover the power was never for them — it was the access point for a larger service.',
-  19: 'The 19 is the prince of heaven who must learn through the fire of earth. The 1\'s independence and the 9\'s completion meet in a root 1 — but only after the lesson of interdependence is fully absorbed. This compound belongs to those who arrive at genuine self-reliance only after discovering they cannot do it alone. The ego is refined, not destroyed, through the encounter with the collective.',
-  20: 'The 20 amplifies the 2\'s cooperative, receptive, bridge-building frequency to an absolute register. The zero doubles the sensitivity and the stakes. This compound belongs to those for whom relationship and partnership are not preferences but the actual vehicle of their purpose — those who build bridges between worlds, between people, between what is and what could be.',
-  21: 'The 21 carries the creative communicator into the world. The 2\'s cooperation and the 1\'s initiative form the 3 root — but with a cooperative foundation, meaning the expression here serves connection rather than ego. The voice of the 21 is magnetic because it comes from a genuine desire to reach the other, not to perform.',
-  23: 'The 23 is the royal star of the lion — a frequency of natural authority married to creative expression. The 2\'s attunement and the 3\'s joy combine through the 5 root to produce someone who moves easily through the world, adaptable and magnetically present, carrying the rare quality of being simultaneously royal and genuinely approachable.',
-  24: 'The 24 builds love into permanent form. The 2\'s relational depth and the 4\'s constructive discipline combine to form the 6 root — meaning this compound is oriented toward creating lasting environments of genuine care. These are the builders of homes, communities, and organisations that carry a living warmth rather than mere structure.',
-  25: 'The 25 seeks truth through experience. The 2\'s sensitivity and the 5\'s appetite for full embodied presence form the 7 root — meaning wisdom here is not theoretical. It is earned through relationship, through physical life, through allowing experience to become understanding. The inner life of the 25 is unusually rich precisely because the outer life has been lived fully.',
-  26: 'The 26 carries material ambition in service of love. The 2\'s cooperation and the 6\'s nurturing combine to form the 8 root — meaning the drive for achievement here is not for personal accumulation but for the creation of environments where others can thrive. This compound builds power and uses it to care.',
-  27: 'The 27 is a deeply spiritual compound — the combination of partnership (2) and inner seeking (7) forms the 9 root of universal service. These are people who have gone inward enough to bring something genuinely useful back. The wisdom of the 27 is intimate, not institutional. It arrives through the quieter rooms of direct experience.',
-  28: 'The 28 holds material power and relational mastery in tension. The 2\'s attunement and the 8\'s authority combine to form the 1 root — meaning this compound ultimately must stand alone, having integrated the lessons of both deep partnership and genuine authority. Leadership here is not assumed but earned through the full experience of both receiving and commanding.',
-  29: 'The 29 tests idealism. The 2\'s sensitivity and the 9\'s universal vision combine to form the 11 master number — meaning the emotional depth of this compound is not ordinary. These are people who carry visions so clear they are sometimes mistaken for demands, whose relational sensitivity is inseparable from their larger mission. The test is sustaining idealism through the difficulty of actual human contact.',
-  30: 'The 30 is pure creative expression at full amplitude. The 3 at its most uninhibited, with the zero amplifying the frequency to its most essential register. This compound belongs to those who are here specifically to express — who suffer when the channel is blocked and flourish when the voice is free. The gift is original; the lesson is consistency.',
-  31: 'The 31 applies creativity to practical construction. The 3\'s expressive power and the 1\'s initiating will combine to form the 4 root — meaning the creative impulse here is always being asked to build something real. These are the artists who also manage the studio, the writers who also build the platform, the visionaries who refuse to stop at the vision.',
-  32: 'The 32 is a masterful communication compound. The 3\'s expression and the 2\'s cooperative sensitivity form the 5 root — meaning the communication here is not for performance but for genuine connection and movement. These are the voices that actually move people: teachers, speakers, writers who reach the specific nerve.',
-  34: 'The 34 disciplines creativity into endurance. The 3\'s expressive flow and the 4\'s structural demand form the 7 root — meaning the creative work here runs deep, is refined over time, and arrives at the kind of insight that only sustained inquiry produces. Not prolific but precise — work that holds up under examination.',
-  35: 'The 35 brings creative intelligence to the experience of full aliveness. The 3\'s expressive capacity and the 5\'s appetite for embodied freedom form the 8 root — meaning the creative power here can produce material results of genuine scale. These are people who make things with both artistic intelligence and commercial awareness.',
-  36: 'The 36 carries visionary love. The 3\'s creative spirit and the 6\'s nurturing orientation combine to form the 9 root of universal service — meaning the creative work here is not private. It belongs to everyone. These are the artists, teachers, and voices whose work heals rather than merely entertains.',
-  37: 'The 37 carries intuitive mastery. The 3\'s expressive gift and the 7\'s inner authority combine to form the 1 root — meaning this compound produces originals: those whose creative and intuitive capacities are so fused that what they make carries the unmistakable signature of direct inner knowing. Pioneers of the inner life who also make something visible.',
-  38: 'The 38 holds the rare combination of creative expression (3), material power (8), and the master frequency of 11 as its root. The voice here is not merely communicative — it carries authority. The ideas are not merely interesting — they build. This compound belongs to those who are simultaneously the artist and the architect, the voice and the structure it speaks through. The creative work is always oriented toward something that matters at scale, and the material power is always in service of a vision larger than personal gain. The 11 root means the channel runs deep — what is expressed here has the potential to move people at a level they cannot fully explain.',
-  39: 'The 39 carries creative completion. The 3\'s expression and the 9\'s universal orientation combine to form the 3 root again — meaning the creative gift here is entirely in service of the whole. These are the storytellers, artists, and voices whose work makes people feel less alone, whose expression carries the quality of something given rather than owned.',
-  40: 'The 40 amplifies the 4\'s building frequency to an absolute register. Pure structural mastery — the capacity to organise, systematise, and build with total discipline. The zero doubles the dedication. This compound belongs to those for whom work is not a means but a calling, and whose patience with process is essentially limitless.',
-  41: 'The 41 initiates structure. The 4\'s disciplined building and the 1\'s pioneering drive combine to form the 5 root — meaning the construction here eventually produces freedom. These are the builders who build toward liberation rather than containment, who create systems designed to make themselves unnecessary.',
-  42: 'The 42 builds bridges. The 4\'s stable foundation and the 2\'s relational sensitivity combine to form the 6 root — meaning the construction here is always in service of relationship. These are the ones who build the infrastructure of connection: schools, families, organisations that function as genuine communities.',
-  43: 'The 43 is the compound of practical creativity. The 4\'s structure and the 3\'s expression form the 7 root — meaning creative work here is disciplined to the point of mastery. The insight is not scattered but refined. These are people who practise their craft with the patience of the 4 and the love of the 3, and whose work eventually achieves a quality that could only come from time.',
-  44: 'The 44 is a master compound — the supreme material builder. This frequency carries the weight of large-scale organisation, the mastery of physical reality, and the drive to construct systems that serve humanity across generations. The double 4 amplifies both the gift and the demand: the capacity to build at extraordinary scale and the requirement to do so with absolute integrity.',
-  45: 'The 45 applies discipline to the experience of full aliveness. The 4\'s structural mastery and the 5\'s appetite for presence combine to form the 9 root — meaning the work of this compound ultimately serves the whole. The discipline is not for personal accumulation; it is for the development of a capacity that can be given away.',
-  46: 'The 46 builds sustainable care. The 4\'s construction and the 6\'s nurturing combine to form the 1 root — meaning this compound ultimately produces something new in the world: environments, families, or organisations that did not exist before and that carry a living warmth. The new thing is always built carefully and loved into existence.',
-  47: 'The 47 builds on inner authority. The 4\'s disciplined construction and the 7\'s depth of knowing combine to form the 11 master number — meaning this compound has access to a quality of spiritual intelligence that arrives through sustained inner work and rigorous building. What is constructed here is not merely functional; it transmits something.',
-  48: 'The 48 combines structural mastery with absolute authority. The 4\'s building capacity and the 8\'s power orientation combine to form the 3 root — meaning what is built here ultimately becomes a voice, a platform, a creative legacy. The authority is earned through construction; the construction becomes a means of expression.',
-  49: 'The 49 builds toward completion. The 4\'s patient construction and the 9\'s universal service combine to form the 4 root again — meaning this compound is in it for the long game. The work is methodical, deeply oriented toward serving something larger, and resistant to short-term thinking. These are the patient architects of genuine contribution.',
-  50: 'The 50 amplifies the 5\'s aliveness and appetite for presence to an absolute register. The zero doubles the intensity of the freedom-seeking, experience-hungry, embodied quality of the 5. This compound belongs to those for whom half a life is not possible — who must be fully in or not at all, whose vitality is both their gift and the source of their most difficult lessons.',
-  51: 'The 51 initiates into full presence. The 5\'s aliveness and the 1\'s pioneering will combine to form the 6 root — meaning the freedom-seeking here ultimately resolves into responsible love. The independence is real; the service is equally real. These are people who discover that the truest freedom is the freedom to give without resentment.',
-  52: 'The 52 brings attunement to aliveness. The 5\'s dynamic presence and the 2\'s cooperative sensitivity combine to form the 7 root — meaning the full embodied experience of the 5 is constantly being integrated through the inner life of the 7. These are people who feel everything and understand most of it, whose inner world is as rich as their outer life is dynamic.',
-  53: 'The 53 is dynamically expressive. The 5\'s aliveness and the 3\'s creative voice combine to form the 8 root — meaning the expression here has real material force. These are the performers, speakers, artists, and voices who do not merely entertain but compel — whose creative energy translates directly into results.',
-  54: 'The 54 disciplines freedom. The 5\'s appetite for experience and the 4\'s structural mastery combine to form the 9 root of universal service — meaning the aliveness here is always being channelled toward something larger. These are the freedom-seekers who discover that the work itself is the freedom, that discipline is not a cage but a practice of presence.',
-  55: 'The 55 is a master compound of freedom — double aliveness, doubled stakes. The master quality of the 55 means the frequency of full presence and embodied liberation is being carried at maximum intensity. These are people who are here to demonstrate, not describe, what complete aliveness looks like — whose lives are themselves the transmission.',
-  56: 'The 56 brings aliveness to love. The 5\'s dynamic presence and the 6\'s nurturing care combine to form the 2 root — meaning the care here is alive rather than static, dynamic rather than dependent. These are the nurturers who stay interesting, whose love is both stable and surprising, who create environments that are simultaneously safe and fully alive.',
-  57: 'The 57 combines full presence with deep inner knowing. The 5\'s embodied aliveness and the 7\'s inner authority combine to form the 3 root — meaning the wisdom here does not stay internal. It is expressed. These are people whose inner life is so rich that it naturally becomes art, teaching, or voice — who cannot help but give what they have found.',
-  58: 'The 58 applies aliveness to material mastery. The 5\'s full presence and the 8\'s authority combine to form the 4 root — meaning the drive for material achievement here is grounded in direct experience. These are practical masters: people who know what works because they have lived it, whose authority is embodied rather than borrowed.',
-  59: 'The 59 brings aliveness to completion. The 5\'s dynamic presence and the 9\'s universal orientation combine to form the 5 root again — meaning this compound is here to be fully alive in service of the whole, and then do it again. The cycle of experience and release is the pattern; the transmission is the full living of it.',
-  60: 'The 60 amplifies the 6\'s nurturing, integrating frequency to its purest register. The zero doubles the love. This compound belongs to those for whom care is not an occasional act but a continuous quality of presence — whose entire orientation is toward the wholeness and wellbeing of those in their field.',
-  61: 'The 61 initiates through love. The 6\'s nurturing orientation and the 1\'s pioneering drive combine to form the 7 root — meaning the care here is always searching, always going deeper, always asking what is really needed rather than what is comfortable to give. These are the bold carers: those who love enough to challenge as well as comfort.',
-  62: 'The 62 integrates love and relationship at depth. The 6\'s care and the 2\'s cooperative sensitivity combine to form the 8 root — meaning the relational mastery here eventually produces genuine material authority. These are people who understand that the quality of their connections is their most important resource, and who build accordingly.',
-  63: 'The 63 expresses love creatively. The 6\'s nurturing and the 3\'s creative voice combine to form the 9 root — meaning the creative work here is always in service of healing and wholeness. These are the artists, teachers, and voices whose work carries an inherent quality of care — whose expression itself is an act of love.',
-  64: 'The 64 builds sustainable love. The 6\'s care and the 4\'s disciplined construction combine to form the 1 root — meaning the new things built here are always built to last and built with love. These are the patient constructors of genuine community: people who build not for recognition but because the thing needs to exist.',
-  65: 'The 65 brings aliveness to care. The 6\'s nurturing and the 5\'s dynamic presence combine to form the 2 root — meaning the care here is alive and attentive, neither smothering nor distant. These are the nurturers who genuinely enjoy the ones they care for, whose love is expressed through presence and play as much as responsibility.',
-  67: 'The 67 seeks wisdom in love. The 6\'s nurturing and the 7\'s inner authority combine to form the 4 root — meaning the care here is always seeking its own improvement. These are students of love: people who take relationship as seriously as any other discipline, who bring as much rigor to their connections as to their craft.',
-  68: 'The 68 carries love and power in productive tension. The 6\'s nurturing and the 8\'s material authority combine to form the 5 root — meaning the integration of these two forces produces aliveness. These are people who have learned that power and love are not opposites, and whose lives demonstrate the possibility of holding both.',
-  69: 'The 69 is the completion of love. The 6\'s care and the 9\'s universal orientation combine to form the 6 root again — meaning love here is not personal but universal, not conditional but freely given. These are the true servants of humanity: those whose care has no agenda and whose generosity has no floor.',
-  70: 'The 70 amplifies the 7\'s inner seeking and quiet authority to its absolute register. The zero doubles the depth of the inner life. This compound belongs to those who have gone further in than most people know is possible — whose inner world is vast, intricate, and largely invisible to others, but whose presence carries the unmistakable weight of someone who knows.',
-  71: 'The 71 initiates from inner knowing. The 7\'s depth and the 1\'s pioneering drive combine to form the 8 root — meaning the authority here is built on genuine inner foundation. These are people who do not claim territory they have not actually explored, whose leadership is grounded in verified inner knowing rather than performed confidence.',
-  72: 'The 72 carries spiritual wisdom into relationship. The 7\'s depth and the 2\'s cooperative sensitivity combine to form the 9 root — meaning the inner knowing here is always being tested and refined through actual human connection. These are the wise ones who do not retreat from contact but use it as their most important teacher.',
-  73: 'The 73 expresses deep knowing. The 7\'s inner authority and the 3\'s creative voice combine to form the 1 root — meaning what has been discovered inward is expressed outward, and the expression itself becomes a form of pioneering. These are the voices that say the true thing no one else has found the words for.',
-  74: 'The 74 builds on deep knowing. The 7\'s inner authority and the 4\'s disciplined construction combine to form the 2 root — meaning what is known inwardly becomes the foundation for structures that connect people. These are the builders of meaning — those who take genuine inner insight and create lasting vehicles through which others can access it.',
-  75: 'The 75 applies inner knowing to full aliveness. The 7\'s depth and the 5\'s embodied presence combine to form the 3 root — meaning wisdom here cannot stay theoretical. It must be lived, demonstrated, and ultimately expressed. These are the wisdom-keepers who also dance — who understand that genuine knowing must be embodied to be fully real.',
-  76: 'The 76 applies inner knowing to love. The 7\'s depth and the 6\'s nurturing combine to form the 4 root — meaning the love here is both wise and patient, grounded in genuine understanding of human nature and expressed through steady, disciplined care. These are the therapists, guides, and teachers whose care is backed by genuine knowing.',
-  77: 'The 77 is a profound spiritual compound — double inner seeking, doubled depth. The double 7 amplifies the inner life to extraordinary intensity. These are people for whom the inner world is as real and demanding as the outer — who live simultaneously in two registers, and whose outer expression carries the weight of a very long inner conversation with what is actually true.',
-  78: 'The 78 carries spiritual authority into material mastery. The 7\'s inner knowing and the 8\'s material power combine to form the 6 root — meaning the achievement here is always in service of care and wholeness. These are people who have both the inner authority and the outer capacity to create environments that genuinely heal.',
-  79: 'The 79 brings inner knowing to completion. The 7\'s depth and the 9\'s universal orientation combine to form the 7 root again — meaning this compound goes inward in service of the whole and returns with something genuinely useful. The cycle is: seek, find, give, seek again. The transmission carries the particular authority of someone who has completed many such cycles.',
-  80: 'The 80 amplifies the 8\'s material mastery and authority to its absolute register. The zero doubles the capacity for power and the weight of the responsibility that comes with it. This compound belongs to those for whom achievement at scale is not optional but essential — whose ability to organise, command, and produce is essentially their entire vehicle.',
-  81: 'The 81 initiates from power. The 8\'s material authority and the 1\'s pioneering drive combine to form the 9 root of universal service — meaning all the power and drive here is ultimately in service of the collective. The achievement is real; the beneficiary is everyone. These are the leaders who build not for personal legacy but for what comes after them.',
-  82: 'The 82 carries power into relationship. The 8\'s material authority and the 2\'s cooperative sensitivity combine to form the 1 root — meaning genuine self-mastery here is achieved through the discipline of real partnership. These are people who discover that their greatest power is unlocked through cooperation rather than domination.',
-  83: 'The 83 expresses power creatively. The 8\'s material authority and the 3\'s expressive gift combine to form the 2 root — meaning the creative work here is built to connect, to reach, to bridge. These are the creators who also deliver at scale — whose artistic or communicative capacity is matched by their ability to build the platform it needs.',
-  84: 'The 84 disciplines power. The 8\'s material authority and the 4\'s structural mastery combine to form the 3 root — meaning the power here finds its most natural expression through creative building. These are the master builders whose constructions carry a creative signature, whose discipline is in service of something genuinely original.',
-  85: 'The 85 applies power to full presence. The 8\'s material authority and the 5\'s dynamic aliveness combine to form the 4 root — meaning the power here must always be grounded. These are the dynamic achievers who discover that their most lasting accomplishments come from slowing down and building — that the energy of the 5 is most potent when channelled by the structure of the 4.',
-  86: 'The 86 applies power to love. The 8\'s material authority and the 6\'s nurturing care combine to form the 5 root — meaning the integration of power and love produces genuine aliveness. These are people who have learned to command without dominating and to care without losing themselves — whose presence is simultaneously strong and warm.',
-  87: 'The 87 applies power to inner authority. The 8\'s material mastery and the 7\'s depth of knowing combine to form the 6 root — meaning the power here is always checked against inner truth, and the inner truth is always translated into practical service. These are the wise leaders: those who know what they know and use what they have built in genuine service of others.',
-  88: 'The 88 is a profound material mastery compound — double power, doubled responsibility. The double 8 amplifies both the capacity for achievement and the weight of the accountability that comes with it. These are people who carry an extraordinary ability to organise and manifest in the material world, and whose lives demand absolute integrity as the price of that power.',
-  89: 'The 89 carries power to its completion. The 8\'s material authority and the 9\'s universal orientation combine to form the 8 root again — meaning the power here is always circling back to its source and asking whether it is being used rightly. The cycle of achievement and release is the pattern; the integrity of the use is the lesson.',
-  90: 'The 90 amplifies the 9\'s universal service, completion, and compassion to an absolute register. The zero doubles the scope. This compound belongs to those for whom personal preference and collective service have become nearly indistinguishable — whose desire is to serve the whole, and whose lives are organised around that desire at every level.',
-  91: 'The 91 initiates from completion. The 9\'s universal orientation and the 1\'s pioneering drive combine to form the 1 root — meaning the new things begun here are always informed by a vast perspective. These are the pioneers who have already lived many cycles and who begin again not from naivety but from the authority of someone who knows what is worth building.',
-  92: 'The 92 brings universal compassion to relationship. The 9\'s completion and the 2\'s cooperative sensitivity combine to form the 2 root again — meaning the relational work here is entirely oriented toward genuine service and bridge-building. These are the mediators, peacemakers, and bridge-builders whose love has no preference for outcome.',
-  93: 'The 93 expresses universal compassion creatively. The 9\'s universal orientation and the 3\'s creative voice combine to form the 3 root again — meaning the creative work here is an unmediated expression of universal love. These are the artists, teachers, and voices whose work has no agenda other than the transmission of what is most essentially true and most genuinely loving.',
-  94: 'The 94 builds toward completion. The 9\'s universal service and the 4\'s disciplined construction combine to form the 4 root again — meaning this compound is here for the long work. Patient, universal, disciplined service. These are the ones who build the things that outlast them without needing to see the results.',
-  95: 'The 95 brings aliveness to completion. The 9\'s universal orientation and the 5\'s dynamic presence combine to form the 5 root again — meaning this compound is here to be fully alive in service of the whole, moving through experience after experience, always remaining present, always releasing what has been lived. The transmission is the living itself.',
-  96: 'The 96 is love at its most universal. The 9\'s completion and the 6\'s nurturing combine to form the 6 root again — meaning the care here has no preference, no agenda, and no limit. These are the great nurturers: those whose love is genuinely impersonal and therefore genuinely unlimited, who care for strangers as they care for the ones closest to them.',
-  97: 'The 97 carries universal wisdom. The 9\'s universal orientation and the 7\'s inner authority combine to form the 7 root again — meaning this compound has completed many cycles of inner seeking and has arrived at something that feels less like knowledge and more like a quality of presence. The wisdom here is not held; it is embodied.',
-  98: 'The 98 carries universal power. The 9\'s completion and the 8\'s material authority combine to form the 8 root again — meaning the power here has completed many cycles and arrived at something different from ordinary ambition. These are people who have used power, released it, used it again, and discovered in the repetition what power is actually for.',
-  99: 'The 99 is the highest compound before return to zero — universal service at its most absolute. Double completion, doubled scope. This compound belongs to those whose entire existence is oriented toward the completion and service of the whole — who carry the weight and the grace of many lifetimes of service, and who give without any residue of personal claim.',
-};
-
-const MAIN_QUEST_DATA = {
-  1:  { missionLine: 'Go first. Pioneer the path. Your calling is to initiate the movements others will follow — to demonstrate that bold self-directed action creates the trails that make whole generations possible.', rewardText: 'Mastery of initiation · The courage to be first without needing to be approved' },
-  2:  { missionLine: 'Unite what is divided. Bridge what is broken. Your calling is to be the relational force that makes collaboration possible where it seemed impossible.', rewardText: 'Mastery of connection · The wisdom to harmonize without losing yourself' },
-  3:  { missionLine: 'Give your creative voice to the world without apology. Your calling is to translate what you feel into what others can see — to inspire through authentic expression.', rewardText: 'Mastery of expression · The freedom to create without needing validation' },
-  4:  { missionLine: 'Build the foundations that outlast you. Your calling is to construct the containers — the systems, structures and disciplines — inside which others will grow and flourish.', rewardText: 'Mastery of structure · The satisfaction of building what endures' },
-  5:  { missionLine: 'Demonstrate what full presence looks like. Your calling is to be the living proof that freedom is discovered right here, in this body, in this moment — not through escape.', rewardText: 'Mastery of presence · The experience of radical aliveness in the now' },
-  6:  { missionLine: 'Nurture sustainably. Your calling is to care for others from a place of wholeness — creating environments of genuine safety without depleting the source of the care.', rewardText: 'Mastery of love · The fulfilment of serving without self-destruction' },
-  7:  { missionLine: 'Seek truth and share it from direct experience. Your calling is to be the seeker who finds and then returns to transmit — not the seeker who hoards knowing in comfortable solitude.', rewardText: 'Mastery of wisdom · The peace of trusting your own inner authority' },
-  8:  { missionLine: 'Master yourself and wield power with integrity. Your calling is to demonstrate that extraordinary authority is possible without corruption — that self-mastery is the foundation of all other mastery.', rewardText: 'Mastery of power · The satisfaction of achieving through discipline and integrity' },
-  9:  { missionLine: 'Complete what needs to end and serve what needs to begin. Your calling is to facilitate the graceful endings that allow humanity to start its next chapter.', rewardText: 'Mastery of release · The freedom that comes from letting go with love' },
-  11: { missionLine: 'Bridge the seen and unseen worlds. Your master calling is to channel higher frequencies into practical, grounded guidance that actually helps real people navigate their real lives.', rewardText: 'Master illumination · The gift of being a clear channel between worlds' },
-  22: { missionLine: 'Manifest spiritual vision into material reality at the largest scale. Your master calling is to build across generations — creating structures that will serve humanity long after your personal involvement ends.', rewardText: 'Master manifestation · The legacy of building what civilisations rest upon' },
-  33: { missionLine: 'Embody unconditional love as lived practice. Your master calling is to heal through creative expression and compassionate presence — to be the living demonstration of what sustainable love looks like.', rewardText: 'Master healing · The wholeness of loving without limit from a sustainable source' },
-  44: { missionLine: 'Organise the highest vision into the most enduring material form. Your master calling is to be the supreme architect — creating universal systems that harmonise human life at scale.', rewardText: 'Master organisation · The power of turning cosmic vision into tangible, lasting reality' }
-};
-
-/* ── Quest builder functions ── */
-
-function buildLifeQuests() {
-  const { lp, ex, cl, so, ou, ac, th, name, m, d, y } = playerData;
-
-  /* Calculate combined frequency counts for abundance scoring */
-  const freqRoots  = [lp.root, ex.root, cl.root, so.root, ou.root, ac.root, th.root];
-  const bdDigits   = [...String(m), ...String(d), ...String(y)].map(Number).filter(n=>n>0);
-  const nameLetters = name.toUpperCase().replace(/[^A-Z]/g,'').split('');
-  const nameVals   = nameLetters.map(l => { const v=LV[l]||0; return reduceSimple(v); }).filter(n=>n>0);
-
-  const combined = {};
-  for (let i=1;i<=9;i++) combined[i]=0;
-  [...freqRoots, ...bdDigits, ...nameVals].forEach(n => {
-    let r=n; while(r>9) r=String(r).split('').reduce((a,d)=>a+ +d,0);
-    if(r>=1&&r<=9) combined[r]++;
-  });
-
-  const maxCount = Math.max(...Object.values(combined), 1);
-
-  /* ── LIFE QUESTS ── */
-  const lifeContainer = document.getElementById('sectionLifeQ');
-  lifeContainer.innerHTML = '';
-
-  /* Intro blurb */
-  const lqIntro = document.createElement('div');
-  lqIntro.className = 'quest-intro-panel';
-  const clName = (CALLING[cl.root] || CALLING[9]).name;
-  lqIntro.innerHTML = `Your life quests are generated from your <strong style="color:var(--gold)">Life Calling (${fmt(cl.root,cl.compound)})</strong>, <strong style="color:var(--purple)">Life Path (${fmt(lp.root,lp.compound)})</strong>, and <strong style="color:var(--teal)">Destined Expression (${fmt(ex.root,ex.compound)})</strong> — the three frequencies that define your primary mission in this simulation.`;
-  lifeContainer.appendChild(lqIntro);
-
-  /* ── MAIN QUEST — Life Calling ── */
-  const clData   = CALLING[cl.root] || CALLING[9];
-  const clRoot   = ROOT[cl.root] || ROOT[9];
-  const mqData   = MAIN_QUEST_DATA[cl.root] || MAIN_QUEST_DATA[9];
-  const isMaster = MASTERS.has(cl.root);
-
-  const mqCard = document.createElement('div');
-  mqCard.className = 'main-quest-card';
-
-  /* get appropriate quest template for calling number */
-  const mqTemplate = isMaster ? (MASTER_QUESTS[cl.root] || MASTER_QUESTS[11]) : (NUM_QUESTS[cl.root] || NUM_QUESTS[9]);
-
-  mqCard.innerHTML = `
-    <div class="mq-banner">
-      <div class="mq-banner-label">★ MAIN QUEST — LIFE CALLING</div>
-      <div class="mq-banner-badge">${isMaster ? 'MASTER NUMBER' : 'PRIMARY MISSION'}</div>
-    </div>
-    <div class="mq-body">
-      <div class="mq-top">
-        <div class="mq-number">${fmt(cl.root, cl.compound)}</div>
-        <div class="mq-info">
-          <div class="mq-title">${clData.name.toUpperCase()}</div>
-          <div class="mq-archetype">${clData.essence}</div>
-          <div class="mq-essence">${mqTemplate.archetype}</div>
-        </div>
-      </div>
-      <div class="mq-desc">${(() => {
-          const hasCompound = cl.compound && cl.compound !== cl.root;
-          const compFlavour = hasCompound ? (COMPOUND_DESC[cl.compound] || '') : '';
-          const isMasterRoot = MASTERS.has(cl.root);
-          let html = '';
-          if (hasCompound && compFlavour) {
-            html += `<div class="mq-freq-block">
-              <div class="mq-freq-label" style="color:var(--gold-dim);">◈ THE COMPOUND &nbsp;·&nbsp; ${cl.compound}</div>
-              <div class="mq-freq-text">${compFlavour}</div>
-            </div>`;
-          }
-          const rootLabel = hasCompound
-            ? `◈ THE ROOT &nbsp;·&nbsp; ${cl.root}${isMasterRoot ? ' &nbsp;<span class="mq-master-pill">MASTER NUMBER</span>' : ''}`
-            : `◈ THE CALLING &nbsp;·&nbsp; ${cl.root}${isMasterRoot ? ' &nbsp;<span class="mq-master-pill">MASTER NUMBER</span>' : ''}`;
-          html += `<div class="mq-freq-block">
-            <div class="mq-freq-label" style="color:var(--gold);">${rootLabel}</div>
-            <div class="mq-freq-text">${mqData.missionLine}<br><br>${clData.summary}</div>
-          </div>`;
-          return html;
-        })()}</div>
-      <div class="mq-objectives">
-        <div class="mq-obj-title">▶ MISSION OBJECTIVES</div>
-        ${mqTemplate.objectives.map(o => `
-          <div class="mq-obj-item">
-            <span class="mq-obj-bullet">◈</span>
-            <span>${o}</span>
-          </div>`).join('')}
-      </div>
-      <div class="mq-reward">
-        <div class="mq-reward-label">REWARD</div>
-        <div class="mq-reward-text">${mqData.rewardText}</div>
-      </div>
-    </div>
-  `;
-  lifeContainer.appendChild(mqCard);
-
-  /* ── SECONDARY LIFE QUESTS: Life Path + Expression ── */
-  const secondaryQuests = [
-    { num: lp, label: 'LIFE PATH QUEST', sub: 'What You Learn', freqLabel: `Life Path ${fmt(lp.root,lp.compound)}` },
-    { num: ex, label: 'EXPRESSION QUEST', sub: 'What You Carry', freqLabel: `Expression ${fmt(ex.root,ex.compound)}` }
-  ];
-
-  secondaryQuests.forEach(({ num, label, sub, freqLabel }) => {
-    const root = num.root;
-    const compound = num.compound;
-    const qData = isMasterNum(root) ? (MASTER_QUESTS[root] || MASTER_QUESTS[11]) : (NUM_QUESTS[root] || NUM_QUESTS[9]);
-    const abundance = combined[reduceToSimple(root)] || 0;
-    const abundancePct = Math.round((abundance / maxCount) * 100);
-
-    const card = makeQuestCard({
-      num: fmt(root, compound),
-      color: qData.color,
-      colorDim: qData.colorDim,
-      icon: qData.icon,
-      title: label,
-      sub: sub,
-      freqTag: freqLabel,
-      typeLabel: 'LIFE QUEST',
-      archetype: qData.archetype,
-      desc: qData.desc,
-      objectives: qData.objectives,
-      affirmation: qData.affirmation,
-      abundance,
-      abundancePct,
-      isMaster: isMasterNum(root)
-    });
-    lifeContainer.appendChild(card);
-  });
-
-  /* ── SIDE QUESTS ── */
-  const sideContainer = document.getElementById('sectionSideQ');
-  sideContainer.innerHTML = '';
-
-  const sqIntro = document.createElement('div');
-  sqIntro.className = 'quest-intro-panel';
-  sqIntro.innerHTML = `Side quests are generated from your <strong style="color:var(--rose)">Soul (${fmt(so.root,so.compound)})</strong>, <strong style="color:var(--sage)">Outer (${fmt(ou.root,ou.compound)})</strong>, <strong style="color:var(--amber)">Achievement (${fmt(ac.root,ac.compound)})</strong>, and <strong style="color:var(--silver)">Theme (${fmt(th.root,th.compound)})</strong> frequencies — plus bonus quests from your most abundant numbers.`;
-  sideContainer.appendChild(sqIntro);
-
-  const sideFreqs = [
-    { num: so, label: 'SOUL QUEST', sub: 'Your Inner Desire' },
-    { num: ou, label: 'OUTER QUEST', sub: 'Your Public Persona' },
-    { num: ac, label: 'ACHIEVEMENT QUEST', sub: 'How You Accomplish' },
-    { num: th, label: 'THEME QUEST', sub: 'Your Life Curriculum' }
-  ];
-
-  sideFreqs.forEach(({ num, label, sub }) => {
-    const root = num.root;
-    const compound = num.compound;
-    const qData = isMasterNum(root) ? (MASTER_QUESTS[root] || MASTER_QUESTS[11]) : (NUM_QUESTS[root] || NUM_QUESTS[9]);
-    const abundance = combined[reduceToSimple(root)] || 0;
-    const abundancePct = Math.round((abundance / maxCount) * 100);
-
-    const card = makeQuestCard({
-      num: fmt(root, compound),
-      color: qData.color,
-      colorDim: qData.colorDim,
-      icon: qData.icon,
-      title: label,
-      sub: sub,
-      freqTag: `${label.split(' ')[0].charAt(0) + label.split(' ')[0].slice(1).toLowerCase()} ${fmt(root,compound)}`,
-      typeLabel: 'SIDE QUEST',
-      archetype: qData.archetype,
-      desc: qData.desc,
-      objectives: qData.objectives,
-      affirmation: qData.affirmation,
-      abundance,
-      abundancePct,
-      isMaster: isMasterNum(root)
-    });
-    sideContainer.appendChild(card);
-  });
-
-  /* ── BONUS ABUNDANCE QUESTS ── 
-     Find numbers with above-average count that aren't already covered by the 7 frequencies
-  */
-  const coveredNums = new Set([
-    reduceToSimple(lp.root), reduceToSimple(ex.root), reduceToSimple(cl.root),
-    reduceToSimple(so.root), reduceToSimple(ou.root), reduceToSimple(ac.root),
-    reduceToSimple(th.root)
-  ]);
-
-  const avgCount = Object.values(combined).reduce((a,b)=>a+b,0) / 9;
-
-  /* Build a sorted list of abundant numbers not already featured as core frequencies */
-  const bonusNums = Object.entries(combined)
-    .filter(([n, count]) => count > avgCount && !coveredNums.has(Number(n)) && count > 0)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 3); // max 3 bonus quests
-
-  if (bonusNums.length > 0) {
-    const bonusHeader = document.createElement('div');
-    bonusHeader.style.cssText = 'font-family:"Press Start 2P",monospace;font-size:6px;color:var(--text-dim);letter-spacing:2px;padding:6px 0 10px;margin-top:4px;border-top:1px solid var(--border);';
-    bonusHeader.textContent = '◈ ABUNDANCE QUESTS — UNLOCKED BY YOUR NUMBER FREQUENCY';
-    sideContainer.appendChild(bonusHeader);
-
-    bonusNums.forEach(([numStr, count]) => {
-      const n = Number(numStr);
-      const qData = NUM_QUESTS[n] || NUM_QUESTS[9];
-      const abundancePct = Math.round((count / maxCount) * 100);
-
-      const card = makeQuestCard({
-        num: String(n),
-        color: qData.color,
-        colorDim: qData.colorDim,
-        icon: qData.icon,
-        title: `${numStr} ABUNDANCE QUEST`,
-        sub: `High frequency — appears ${count}× in your code`,
-        freqTag: `${qData.archetype}`,
-        typeLabel: 'BONUS QUEST',
-        archetype: qData.archetype,
-        desc: `The number ${n} appears ${count} times across your birthdate, name, and frequencies — making it a dominant force in your simulation. This abundance quest asks you to consciously harness that energy.\n\n${qData.desc}`,
-        objectives: qData.objectives,
-        affirmation: qData.affirmation,
-        abundance: count,
-        abundancePct,
-        isMaster: false
-      });
-      sideContainer.appendChild(card);
-    });
-  }
-}
-
-function isMasterNum(n) { return MASTERS.has(n); }
-
-function reduceToSimple(n) {
-  let r = n;
-  while (r > 9) r = String(r).split('').reduce((a,d)=>a+ +d, 0);
-  return r;
-}
-
-function makeQuestCard({ num, color, colorDim, icon, title, sub, freqTag, typeLabel, archetype, desc, objectives, affirmation, abundance, abundancePct, isMaster }) {
-  const el = document.createElement('div');
-  el.className = 'quest-card';
-
-  const colorVar    = `var(${color})`;
-  const colorDimVar = `var(${colorDim})`;
-  const uniqueId    = 'qc_' + Math.random().toString(36).substr(2,8);
-  el.id = uniqueId;
-
-  el.innerHTML = `
-    <div class="quest-trigger" onclick="toggleQuestCard('${uniqueId}')">
-      <div class="quest-accent-bar" style="background:${colorVar}; color:${colorVar};"></div>
-      <div class="quest-main">
-        <div class="quest-num" style="color:${colorVar};">${num}</div>
-        <div class="quest-info">
-          <div class="quest-title" style="color:${colorVar};">
-            ${title}
-            ${isMaster ? `<span style="font-size:4px;padding:2px 5px;border:1px solid ${colorDimVar};margin-left:5px;vertical-align:middle;opacity:0.7;">MASTER</span>` : ''}
-          </div>
-          <div class="quest-sub">${sub}</div>
-          <div class="quest-frequency-tag" style="color:${colorDimVar};">${freqTag}</div>
-        </div>
-      </div>
-      <div class="quest-meta">
-        <div class="quest-type-badge" style="color:${colorVar};">${typeLabel}</div>
-        <div class="quest-chevron">▶</div>
-      </div>
-    </div>
-    <div class="quest-body">
-      <div class="quest-content">
-        <div class="quest-section-title">▶ ARCHETYPE</div>
-        <div style="font-family:'VT323',monospace;font-size:18px;color:${colorVar};opacity:0.8;margin-bottom:2px;">${archetype}</div>
-
-        <div class="quest-section-title" style="margin-top:12px;">▶ MISSION BRIEFING</div>
-        <div class="quest-desc-text">${desc.replace(/\n\n/g,'<br><br>')}</div>
-
-        ${abundance > 0 ? `
-        <div class="abundance-row">
-          <div class="abundance-label">FREQUENCY</div>
-          <div class="abundance-bar">
-            <div class="abundance-fill" style="width:${abundancePct}%;background:${colorVar};opacity:0.6;"></div>
-          </div>
-          <div style="font-family:'VT323',monospace;font-size:14px;color:${colorDimVar};">${abundance}×</div>
-        </div>` : ''}
-
-        <div class="quest-section-title" style="margin-top:14px;">▶ OBJECTIVES</div>
-        <div class="quest-objectives-list">
-          ${objectives.map(o => `
-            <div class="quest-obj-row">
-              <span class="quest-obj-dot" style="color:${colorVar};">◈</span>
-              <span>${o}</span>
-            </div>`).join('')}
-        </div>
-
-        <div class="quest-affirmation" style="color:${colorVar};border-color:${colorVar};">${affirmation}</div>
-      </div>
-    </div>
-  `;
-
-  return el;
-}
-
-function toggleQuestCard(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('open');
-}
-
-/* ════════════════════════════════════════════════
-   INIT
-════════════════════════════════════════════════ */
-window.addEventListener('DOMContentLoaded', () => {
-  if (loadSaved()) {
-    /* returning user — skip straight to app */
-    document.getElementById('charCreateOverlay').classList.add('hidden');
-    launchApp();
-  }
-  /* else: char-create overlay is visible by default */
-});
-</script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 /**
- * SOURCE CODE: LIFE — questObjectives.js
+ * SOURCE CODE: LIFE â questObjectives.js
  * Quest objectives keyed by placement + root number.
  * Each placement (lp, cl, ex, so, ou, ac, th) has its own
- * objectives per root 1–9 and master numbers 11/22/33.
- * Multiple objectives per slot — system rotates through them.
+ * objectives per root 1â9 and master numbers 11/22/33.
+ * Multiple objectives per slot â system rotates through them.
  *
  * Also contains objectives for cycle quests:
  * personalDay, personalMonth, personalYear, fourMonthCycle, pinnacle.
@@ -13,21 +13,21 @@
  *   CYCLE_OBJECTIVES[cycleType][root]  = [ ...objectives ]
  */
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    LIFE FREQUENCY QUEST OBJECTIVES
    Placement-aware: LP 8 emphasises embodied authority;
    EX 8 emphasises how power moves through your expression;
    SO 8 emphasises what your soul truly hungers for beneath
    the drive for control.
-   ───────────────────────────────────────────────────────────── */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const QUEST_OBJECTIVES = {
 
-  /* ── LIFE PATH — the lesson you are here to learn ── */
+  /* ââ LIFE PATH â the lesson you are here to learn ââ */
   lp: {
     1: [
       'Take the lead in one area of your life where you have been waiting for permission.',
       'Begin the project you have been circling. Start before it is ready.',
-      'Make one significant decision this week using only your own authority — no consensus.',
+      'Make one significant decision this week using only your own authority â no consensus.',
       'Identify one space where you are following when your code says lead. Reverse it.',
     ],
     2: [
@@ -44,12 +44,12 @@ const QUEST_OBJECTIVES = {
     ],
     4: [
       'Design one system for an area of your life currently running on improvisation.',
-      'Show up to your most important work every day this week — inspired or not.',
+      'Show up to your most important work every day this week â inspired or not.',
       'Build something with your hands: cook, repair, assemble, craft. Ground the 4 energy physically.',
       'Complete one half-finished structure before starting anything new.',
     ],
     5: [
-      'Spend 10 minutes daily in complete stillness — no content, no planning. Just this moment.',
+      'Spend 10 minutes daily in complete stillness â no content, no planning. Just this moment.',
       'When the urge to escape or avoid arises today, pause for two minutes and stay.',
       'Make one commitment you have been avoiding and stay fully present to keeping it.',
       'Say yes to one experience you have been indefinitely postponing.',
@@ -61,7 +61,7 @@ const QUEST_OBJECTIVES = {
       'Design a daily self-care ritual that cannot be cancelled for other people. Hold it.',
     ],
     7: [
-      'Spend 30 uninterrupted minutes in genuine solitude today — no input, no content.',
+      'Spend 30 uninterrupted minutes in genuine solitude today â no input, no content.',
       'Act on one intuitive signal this week without seeking anyone\'s confirmation first.',
       'Share one piece of insight from your own direct experience, not from a book or teacher.',
       'Identify where analysis is being used to avoid a decision you already know to make.',
@@ -69,17 +69,17 @@ const QUEST_OBJECTIVES = {
     8: [
       'Name the pattern that most consistently leaks your power. Observe it in operation today.',
       'Make one significant decision this week based purely on what is correct, not comfortable.',
-      'Build one non-negotiable discipline this month — wake time, movement, or sustained practice.',
+      'Build one non-negotiable discipline this month â wake time, movement, or sustained practice.',
       'Use your authority today to genuinely empower someone rather than direct them.',
     ],
     9: [
       'Identify one relationship, project, or belief you are holding past its natural end. Begin releasing it.',
       'Practise forgiveness of one person or past version of yourself this week. Even just internally.',
       'Give something away you have been hoarding: time, knowledge, money, or attention.',
-      'Complete one open cycle — formally, consciously, with gratitude for what it gave you.',
+      'Complete one open cycle â formally, consciously, with gratitude for what it gave you.',
     ],
     11: [
-      'Build a daily grounding ritual — movement, breath, or time in nature. Make it non-negotiable.',
+      'Build a daily grounding ritual â movement, breath, or time in nature. Make it non-negotiable.',
       'Share one piece of channelled insight with someone who genuinely needs it this week.',
       'Notice where your sensitivity is causing you to withdraw. Step toward that discomfort once.',
       'Practice distinguishing your feelings from the feelings of those around you.',
@@ -92,17 +92,17 @@ const QUEST_OBJECTIVES = {
     ],
     33: [
       'Draw the line between compassion and martyrdom in your life right now. Where is it blurred?',
-      'Teach something this week from direct experience — not from theory or secondhand knowledge.',
+      'Teach something this week from direct experience â not from theory or secondhand knowledge.',
       'Receive care completely and gratefully this week. Let yourself be seen in your need.',
       'Create one thing intended purely to heal or comfort someone else.',
     ],
   },
 
-  /* ── LIFE CALLING — how you contribute and create impact ── */
+  /* ââ LIFE CALLING â how you contribute and create impact ââ */
   cl: {
     1: [
       'Step into a leadership role in your field or community that you have been circling.',
-      'Initiate one collaboration or project this week — you make the first move.',
+      'Initiate one collaboration or project this week â you make the first move.',
       'Identify where your calling asks you to go first and where you have been waiting. Go first.',
       'Launch one idea from your calling this week, imperfect and early.',
     ],
@@ -116,7 +116,7 @@ const QUEST_OBJECTIVES = {
       'Share your work or ideas in a new format or channel you have not used before.',
       'Collaborate with someone whose style is different from yours. Let the contrast strengthen the work.',
       'Express one aspect of your calling publicly that you have been keeping internal.',
-      'Create something this week that is in full service of your calling — without overthinking it.',
+      'Create something this week that is in full service of your calling â without overthinking it.',
     ],
     4: [
       'Identify the structural foundation your calling requires right now. Begin laying it.',
@@ -137,14 +137,14 @@ const QUEST_OBJECTIVES = {
       'Check: is your calling currently giving from overflow or from depletion? Adjust accordingly.',
     ],
     7: [
-      'Spend one session this week in genuine inquiry about your calling — no outputs, just questions.',
+      'Spend one session this week in genuine inquiry about your calling â no outputs, just questions.',
       'Research or study one aspect of your calling that you have been taking for granted.',
       'Trust one piece of inner knowing about your calling direction this week without seeking external validation.',
       'What is your calling actually asking of you right now beneath the noise? Sit with that question.',
     ],
     8: [
       'Bring your full authority to your calling work this week. Do not soften, diminish, or hedge.',
-      'Make one significant move in your calling this week — the ask, the offer, the decision.',
+      'Make one significant move in your calling this week â the ask, the offer, the decision.',
       'Identify where your calling is being undermined by your own ambivalence about your power. Address it.',
       'Use your calling to empower one other person this week. Give real power, not instruction.',
     ],
@@ -155,14 +155,14 @@ const QUEST_OBJECTIVES = {
       'Give freely from your calling this week with zero expectation of return.',
     ],
     11: [
-      'Your calling is to illuminate. Share one inspired insight in your field this week — channelled, not performed.',
+      'Your calling is to illuminate. Share one inspired insight in your field this week â channelled, not performed.',
       'Notice where your intuitive perceptions about your calling are being filtered by self-doubt. Offer one unfiltered.',
-      'Ground your calling in practice this week — the vision is real but it needs a body to move through.',
+      'Ground your calling in practice this week â the vision is real but it needs a body to move through.',
       'Identify one place your calling is asking you to go ahead of others. Trust that.',
     ],
     22: [
       'Your calling is to build at scale. Identify the largest version of what you are building and orient today\'s work to it.',
-      'Find one way to amplify your calling\'s reach — through partnership, platform, or structure.',
+      'Find one way to amplify your calling\'s reach â through partnership, platform, or structure.',
       'Make one decision in your calling based on generational impact rather than near-term return.',
       'Your calling requires legacy thinking. What will this work mean 20 years from now?',
     ],
@@ -170,11 +170,11 @@ const QUEST_OBJECTIVES = {
       'Your calling is to heal and teach. Identify one person whose growth you can genuinely serve this week.',
       'Create one piece of work in your calling that is designed entirely to uplift someone else.',
       'Ensure your calling is coming from wholeness this week, not sacrifice. Fill your cup first.',
-      'Teach one thing from direct, lived experience. Not from what you have read — from what you know.',
+      'Teach one thing from direct, lived experience. Not from what you have read â from what you know.',
     ],
   },
 
-  /* ── EXPRESSION — how you communicate and manifest outwardly ── */
+  /* ââ EXPRESSION â how you communicate and manifest outwardly ââ */
   ex: {
     1: [
       'Express one bold, original idea this week that you have been softening for the room.',
@@ -183,7 +183,7 @@ const QUEST_OBJECTIVES = {
       'Speak up once this week in a situation where you would normally let someone else take the lead.',
     ],
     2: [
-      'Express yourself in a way that genuinely connects today — not performs, connects.',
+      'Express yourself in a way that genuinely connects today â not performs, connects.',
       'Write or speak something today that acknowledges someone else\'s perspective fully before offering your own.',
       'Find the most diplomatic way to say one honest thing you have been holding back.',
       'Collaborate in a creative or communicative project this week. Let the work be shared.',
@@ -196,15 +196,15 @@ const QUEST_OBJECTIVES = {
     ],
     4: [
       'Structure your most important communication this week before you deliver it. Preparation is power.',
-      'Express yourself with precision today — say exactly what you mean in as few words as needed.',
+      'Express yourself with precision today â say exactly what you mean in as few words as needed.',
       'Build a consistent communication practice this week: write, record, or speak at the same time daily.',
       'Deliver one piece of work or communication that demonstrates your reliability and thoroughness.',
     ],
     5: [
       'Express yourself in a medium or format you have never used before this week.',
-      'Take one communicative risk today — say the unexpected thing, take the unconventional angle.',
+      'Take one communicative risk today â say the unexpected thing, take the unconventional angle.',
       'Bring curiosity rather than control to your expression today. Let it go somewhere new.',
-      'Tell one story this week that is fully alive — not rehearsed, not safe.',
+      'Tell one story this week that is fully alive â not rehearsed, not safe.',
     ],
     6: [
       'Express care for someone today in words they will actually receive, not just words that feel true to you.',
@@ -216,23 +216,23 @@ const QUEST_OBJECTIVES = {
       'Express one insight this week that you have arrived at through direct experience, not received wisdom.',
       'Write or speak something today that reflects what you actually know, not what you are supposed to say.',
       'Share one genuine question you are sitting with rather than pretending to have an answer.',
-      'Express yourself slowly today — let each word carry actual weight.',
+      'Express yourself slowly today â let each word carry actual weight.',
     ],
     8: [
       'Speak with full authority in one high-stakes conversation this week. Do not hedge or soften.',
       'Express your vision or position clearly and directly in a context where you have been equivocating.',
-      'Use your communication today to open a door for someone — make an introduction, write a recommendation, offer a platform.',
+      'Use your communication today to open a door for someone â make an introduction, write a recommendation, offer a platform.',
       'Identify where your expression is leaking power through over-explanation. Say less, mean more.',
     ],
     9: [
       'Express something that completes a cycle: a thank you, an apology, a final word on something long open.',
       'Speak to someone this week in a way that helps them release something they have been carrying.',
       'Write or record one piece of expression this week that is in full service of something larger than yourself.',
-      'Let your expression today be generous — give your best insight, your clearest thinking, your genuine warmth.',
+      'Let your expression today be generous â give your best insight, your clearest thinking, your genuine warmth.',
     ],
     11: [
       'Express one intuitive perception this week without softening it with qualifications.',
-      'Channel something today — let your expression come from a deeper place than your analytical mind.',
+      'Channel something today â let your expression come from a deeper place than your analytical mind.',
       'Share one transmission this week that you feel rather than think. Trust the feeling.',
       'Speak to the invisible reality in one conversation this week, not just the surface content.',
     ],
@@ -244,22 +244,22 @@ const QUEST_OBJECTIVES = {
     ],
     33: [
       'Express one deeply felt truth this week that has the power to help someone heal.',
-      'Create something this week through your expression that is designed to last — something teaching-quality.',
+      'Create something this week through your expression that is designed to last â something teaching-quality.',
       'Let your expression today be a gift with nothing attached. No credit needed.',
       'Speak from love in one conversation where judgment or frustration would have been the default.',
     ],
   },
 
-  /* ── SOUL — your deepest authentic desire and inner drive ── */
+  /* ââ SOUL â your deepest authentic desire and inner drive ââ */
   so: {
     1: [
       'Your soul craves genuine autonomy. Identify one area where you are still seeking permission and withdraw it.',
-      'Do one thing today that is completely, authentically yours — no audience, no approval.',
+      'Do one thing today that is completely, authentically yours â no audience, no approval.',
       'Your soul needs you to lead your own life. Where are you following a script someone else wrote?',
       'Take one action today that your soul has been waiting for your personality to catch up with.',
     ],
     2: [
-      'Your soul craves deep connection. Reach out to one person today with full presence — no agenda.',
+      'Your soul craves deep connection. Reach out to one person today with full presence â no agenda.',
       'What relationship is your soul currently invested in? Give it genuine attention this week.',
       'Your soul finds peace in harmony. Identify one internal conflict that needs honest resolution.',
       'Let yourself be genuinely moved by someone today. Allow the connection to land.',
@@ -274,12 +274,12 @@ const QUEST_OBJECTIVES = {
       'Your soul craves stability and meaningful work. Identify what you are genuinely building and tend to it today.',
       'What does your soul need to feel secure right now? Take one practical step to provide that.',
       'Your soul is nourished by doing real, tangible work. Put in undivided effort on something that matters today.',
-      'Build one thing this week — physical, creative, or structural — that your soul can feel proud of.',
+      'Build one thing this week â physical, creative, or structural â that your soul can feel proud of.',
     ],
     5: [
       'Your soul craves freedom through presence, not escape. Find the freedom available right here, right now.',
       'What is your soul actually curious about right now? Follow that thread for 30 minutes today.',
-      'Your soul is not restless — it is alive. Let that aliveness express itself in one concrete way today.',
+      'Your soul is not restless â it is alive. Let that aliveness express itself in one concrete way today.',
       'Say yes to one experience today that your soul is drawn to and your habit-mind is avoiding.',
     ],
     6: [
@@ -295,8 +295,8 @@ const QUEST_OBJECTIVES = {
       'Trust one quiet inner perception today without explaining it away.',
     ],
     8: [
-      'Your soul craves genuine power — not control, but mastery. Identify one discipline to deepen this week.',
-      'What is your soul\'s actual ambition — beneath the approved version? Acknowledge it clearly.',
+      'Your soul craves genuine power â not control, but mastery. Identify one discipline to deepen this week.',
+      'What is your soul\'s actual ambition â beneath the approved version? Acknowledge it clearly.',
       'Your soul is fed by integrity. Identify one place where your actions and your deepest values are not aligned.',
       'Do one thing today from a place of genuine inner authority, not external pressure.',
     ],
@@ -308,7 +308,7 @@ const QUEST_OBJECTIVES = {
     ],
     11: [
       'Your soul craves illumination and transmission. What are you receiving right now that wants to be given?',
-      'Ground your soul\'s sensitivity today — move your body, spend time in nature, breathe consciously.',
+      'Ground your soul\'s sensitivity today â move your body, spend time in nature, breathe consciously.',
       'Your soul\'s knowing is accurate. Trust one perception today that your mind wants to dismiss.',
       'Identify what your soul most needs to feel safe right now. Provide it with care.',
     ],
@@ -326,7 +326,7 @@ const QUEST_OBJECTIVES = {
     ],
   },
 
-  /* ── OUTER SELF — how others first perceive and experience you ── */
+  /* ââ OUTER SELF â how others first perceive and experience you ââ */
   ou: {
     1: [
       'Others experience you as a pioneer. Step into one room this week as if that is simply true.',
@@ -343,37 +343,37 @@ const QUEST_OBJECTIVES = {
     3: [
       'Others experience you as vibrant and expressive. Let that be genuine rather than performed today.',
       'Your outer presence lights up rooms. Bring that energy to one interaction that needs it.',
-      'Let your natural creativity be visible in one exchange today — in how you speak, create, or connect.',
+      'Let your natural creativity be visible in one exchange today â in how you speak, create, or connect.',
       'Smile with intent today. Your outer warmth is a real contribution to people around you.',
     ],
     4: [
       'Others experience you as reliable and grounded. Honour that today by being completely trustworthy in one commitment.',
       'Your outer presence signals stability. Be the steadiest person in the room in one situation this week.',
-      'Let your thoroughness be visible today — do one thing with complete care and attention to detail.',
+      'Let your thoroughness be visible today â do one thing with complete care and attention to detail.',
       'Your outer 4 builds trust over time. Identify one relationship where consistent reliability is the gift needed.',
     ],
     5: [
       'Others experience you as dynamic and engaging. Bring your most alive, present self to one interaction today.',
       'Your outer presence invites others to loosen up. Use that gift consciously in one situation this week.',
-      'Let your natural adaptability be visible — navigate one unexpected change today with visible ease.',
+      'Let your natural adaptability be visible â navigate one unexpected change today with visible ease.',
       'Your outer energy is energising to others. Bring it fully to your most important interaction today.',
     ],
     6: [
       'Others experience you as warm and caring. Let that be real today, not just behavioural.',
       'Your outer presence creates a feeling of being seen. Give that gift fully to one person today.',
       'Be the person who makes the space feel safer in one situation today. Your outer 6 does this naturally.',
-      'Let your genuine care be visible in one small, specific act today. Not grand — precise.',
+      'Let your genuine care be visible in one small, specific act today. Not grand â precise.',
     ],
     7: [
       'Others experience you as deep and considered. Honour that with real thoughtfulness in one exchange today.',
       'Your outer presence signals trustworthiness through depth. Let people see that you have actually thought.',
-      'Speak with genuine precision today — fewer words, each one chosen.',
+      'Speak with genuine precision today â fewer words, each one chosen.',
       'Your outer 7 creates a sense of mystery and depth. Let your silence speak as clearly as your words.',
     ],
     8: [
       'Others experience you as powerful and authoritative. Step into that today without apology.',
       'Your outer presence signals competence. Demonstrate it concretely in one high-stakes situation this week.',
-      'Let your authority be felt in one interaction today — not through force, through unshakeable clarity.',
+      'Let your authority be felt in one interaction today â not through force, through unshakeable clarity.',
       'Your outer 8 opens doors. Walk through one of them this week that you have been standing outside of.',
     ],
     9: [
@@ -385,7 +385,7 @@ const QUEST_OBJECTIVES = {
     11: [
       'Others experience you as intuitive and illuminating. Share one perception today that others haven\'t voiced.',
       'Your outer presence carries unusual frequency. Ground it today so it is felt as warmth, not intensity.',
-      'Let your sensitivity be a visible gift in one interaction today — notice what others miss.',
+      'Let your sensitivity be a visible gift in one interaction today â notice what others miss.',
       'Your outer 11 can inspire. Bring one genuinely inspired thought into one conversation this week.',
     ],
     22: [
@@ -397,18 +397,18 @@ const QUEST_OBJECTIVES = {
     33: [
       'Others experience you as healing and deeply caring. Let that be unconditional in one interaction today.',
       'Your outer presence creates space for people to be seen. Offer that to one person who needs it.',
-      'Let your compassion be precise today — not general warmth, but attunement to what one specific person needs.',
+      'Let your compassion be precise today â not general warmth, but attunement to what one specific person needs.',
       'Your outer 33 can shift rooms. Show up with full love in one difficult or tense situation today.',
     ],
   },
 
-  /* ── ACHIEVEMENT — what you are here to accomplish ── */
+  /* ââ ACHIEVEMENT â what you are here to accomplish ââ */
   ac: {
     1: [
       'Your achievement frequency calls you to initiate. What is the one thing you are here to start that hasn\'t started yet?',
       'Make one move this week toward your most important goal that requires no one\'s permission.',
       'Your greatest achievements begin alone. Identify the solo step that needs to happen this week.',
-      'Take the first action on the project your achievement frequency is pointing at. Not the plan — the action.',
+      'Take the first action on the project your achievement frequency is pointing at. Not the plan â the action.',
     ],
     2: [
       'Your achievement is amplified through partnership. Identify one alliance that would accelerate your most important work.',
@@ -478,7 +478,7 @@ const QUEST_OBJECTIVES = {
     ],
   },
 
-  /* ── THEME — the overarching energy of your birth year ── */
+  /* ââ THEME â the overarching energy of your birth year ââ */
   th: {
     1: [
       'Your life theme is new beginnings. Where in your life is something genuinely starting? Give it your full attention.',
@@ -496,7 +496,7 @@ const QUEST_OBJECTIVES = {
       'Your life theme is creative expression. What wants to be made by you that only you can make?',
       'Your theme calls you to communicate authentically. What truth have you been softening that wants to be spoken?',
       'The 3 theme is joy and expression. When did you last do something purely for the pleasure of doing it?',
-      'Your theme is creativity. Create something today — not for outcome, for expression.',
+      'Your theme is creativity. Create something today â not for outcome, for expression.',
     ],
     4: [
       'Your life theme is foundation building. What are you constructing right now that will still be standing in 10 years?',
@@ -555,30 +555,30 @@ const QUEST_OBJECTIVES = {
   },
 };
 
-/* ─────────────────────────────────────────────────────────────
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    CYCLE QUEST OBJECTIVES
    For personal day/month/year, 4-month cycles, pinnacles.
    These are the same for everyone with that root number
    but separate from the frequency descriptions in data.js.
-   Multiple objectives per root — system rotates through them.
-   ───────────────────────────────────────────────────────────── */
+   Multiple objectives per root â system rotates through them.
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const CYCLE_OBJECTIVES = {
 
   personalDay: {
     1:  [
-      'Do the one thing you have been putting off — before anything else today.',
+      'Do the one thing you have been putting off â before anything else today.',
       'Introduce yourself, your idea, or your work to one new person today.',
       'Make one decision today without seeking anyone\'s opinion first.',
       'Take the first step on something that has been waiting for the right moment. Today is it.',
     ],
     2:  [
-      'Reach out to one person today — not for a reason, just to genuinely connect.',
+      'Reach out to one person today â not for a reason, just to genuinely connect.',
       'Listen more than you speak in every conversation today. Notice what you actually hear.',
       'Ask for help with something small today. Practise receiving.',
       'Reflect back what someone says to you before responding. Do this in every conversation.',
     ],
     3:  [
-      'Say something true and creative in one conversation today — don\'t self-censor.',
+      'Say something true and creative in one conversation today â don\'t self-censor.',
       'Spend 20 minutes making something: writing, drawing, cooking, music. No purpose but expression.',
       'Express appreciation to one person today in specific, genuine, unrepeated terms.',
       'Share something you have made or thought with one person today. Don\'t wait until it\'s finished.',
@@ -587,7 +587,7 @@ const CYCLE_OBJECTIVES = {
       'Work on your most important project for 30 uninterrupted minutes today.',
       'Clear one small backlog: emails, messages, tasks. Get one thing completely done.',
       'Tidy or organise one physical space today, however small. Ground the frequency.',
-      'Do the structural work that needs doing — the part that is unglamorous and necessary.',
+      'Do the structural work that needs doing â the part that is unglamorous and necessary.',
     ],
     5:  [
       'Take a different route, try a different approach, or change one element of your usual day.',
@@ -596,25 +596,25 @@ const CYCLE_OBJECTIVES = {
       'Follow one impulse today that your habit-mind is trying to plan away.',
     ],
     6:  [
-      'Do one small act of genuine care for someone in your life today — without being asked.',
+      'Do one small act of genuine care for someone in your life today â without being asked.',
       'Take 10 minutes to care for your own body today: move, eat well, rest consciously.',
       'Check in with someone you haven\'t spoken to in a while. Just to see how they are.',
       'Make one moment of beauty or warmth in your environment or someone else\'s today.',
     ],
     7:  [
-      'Spend 15 minutes today in complete silence — no phone, no content, just your own mind.',
+      'Spend 15 minutes today in complete silence â no phone, no content, just your own mind.',
       'Write down one thing you know but haven\'t said yet.',
       'Avoid making any major decision today. Let today be for observing and gathering.',
       'Ask one question today you genuinely don\'t know the answer to. Sit with not knowing.',
     ],
     8:  [
-      'Make the most important ask or move of your week today — authority energy is high.',
+      'Make the most important ask or move of your week today â authority energy is high.',
       'Do one thing today that demonstrates your capability in your domain.',
       'Review what you are building. Is today\'s effort aligned with your actual goals?',
       'Make one decision from your own authority today. Trust your assessment.',
     ],
     9:  [
-      'Complete one thing today — fully, properly, without leaving loose ends.',
+      'Complete one thing today â fully, properly, without leaving loose ends.',
       'Let go of one small grievance or irritation today. It is not worth the energy it costs.',
       'Do one generous act today with no expectation of return.',
       'Identify something that has already completed and release it consciously today.',
@@ -628,7 +628,7 @@ const CYCLE_OBJECTIVES = {
     22: [
       'Focus on the largest, most structurally important task on your list today. Give it first priority.',
       'Think beyond today. What you build right now can carry further than you expect.',
-      'Invest in one person today — with your attention, your feedback, or your genuine support.',
+      'Invest in one person today â with your attention, your feedback, or your genuine support.',
       'Identify the most leveraged action available to you today and take it.',
     ],
   },
@@ -636,7 +636,7 @@ const CYCLE_OBJECTIVES = {
   personalMonth: {
     1:  [
       'Declare one intention for this month out loud or in writing before the first week ends.',
-      'Start something new this month — even one small, deliberate beginning.',
+      'Start something new this month â even one small, deliberate beginning.',
       'Send the email. Make the call. Take the step you have been delaying for a month.',
       'Identify the single most important thing to initiate this month. Begin it today.',
     ],
@@ -654,13 +654,13 @@ const CYCLE_OBJECTIVES = {
     ],
     4:  [
       'Choose one task that has been sitting on your list and complete it fully this month.',
-      'Improve one system in your daily life — a routine, a workspace, a process.',
+      'Improve one system in your daily life â a routine, a workspace, a process.',
       'Do the practical work this month without requiring it to feel inspired.',
       'Identify the foundational work needed this month and show up for it every day.',
     ],
     5:  [
       'Accept one unplanned change this month with curiosity instead of resistance.',
-      'Do one thing this month that is genuinely new to you — a place, a person, an experience.',
+      'Do one thing this month that is genuinely new to you â a place, a person, an experience.',
       'When you feel the urge to control an outcome this month, practise releasing it instead.',
       'Follow one thread of genuine interest or curiosity this month to see where it leads.',
     ],
@@ -671,7 +671,7 @@ const CYCLE_OBJECTIVES = {
       'Design one nourishing ritual for yourself this month and protect it from cancellation.',
     ],
     7:  [
-      'Carve out three periods of genuine quiet this month — no input, just presence.',
+      'Carve out three periods of genuine quiet this month â no input, just presence.',
       'Write down what you actually think about one question you have been outsourcing to others.',
       'Read or study one thing that genuinely interests you at depth this month.',
       'Take one full day of rest and reflection this month with no agenda.',
@@ -685,11 +685,11 @@ const CYCLE_OBJECTIVES = {
     9:  [
       'Finish one thing this month that has been dragging. Complete it cleanly.',
       'Let go of one expectation or outcome you have been holding too tightly.',
-      'Forgive one thing — a person, a circumstance, or yourself — and mean it.',
+      'Forgive one thing â a person, a circumstance, or yourself â and mean it.',
       'Identify three open cycles this month. Commit to closing them before the month ends.',
     ],
     11: [
-      'Pay close attention to what arrives quietly this month — impressions, ideas, coincidences.',
+      'Pay close attention to what arrives quietly this month â impressions, ideas, coincidences.',
       'Act on one intuitive signal without waiting to rationalise it fully.',
       'Create or consume one piece of work that genuinely moves you. Let it in.',
       'Ground your heightened sensitivity this month through a consistent daily physical practice.',
@@ -725,7 +725,7 @@ const CYCLE_OBJECTIVES = {
       'Design the structural foundation your most important goal requires. Map it this week.',
       'Identify the one daily discipline that, if held this year, changes everything. Begin it.',
       'Build something this year that will still be standing in ten years. Work on it today.',
-      'Clear the backlog — every incomplete project consuming energy. Decide: complete or release.',
+      'Clear the backlog â every incomplete project consuming energy. Decide: complete or release.',
     ],
     5:  [
       'Identify what this year is asking you to change, adapt, or release. Move toward it.',
@@ -740,7 +740,7 @@ const CYCLE_OBJECTIVES = {
       'Your service this year becomes sacred. Identify what you are here to offer and offer it fully.',
     ],
     7:  [
-      'Commit to a consistent inner practice this year — meditation, journaling, solitude. Non-negotiable.',
+      'Commit to a consistent inner practice this year â meditation, journaling, solitude. Non-negotiable.',
       'Study one area deeply this year. Master something rather than surveying many things.',
       'Identify the question your inner life is most asking this year. Pursue its answer.',
       'Trust your own knowing more than external consensus this year. Track where that takes you.',
@@ -749,7 +749,7 @@ const CYCLE_OBJECTIVES = {
       'Identify the most significant material or professional achievement available to you this year. Pursue it.',
       'Raise your standard in one important domain of your life this year. Decide what that means.',
       'Claim one form of authority or recognition this year that you have been underselling yourself for.',
-      'Build one asset this year — financial, relational, reputational — that compounds beyond this cycle.',
+      'Build one asset this year â financial, relational, reputational â that compounds beyond this cycle.',
     ],
     9:  [
       'Identify three major cycles in your life that are completing this year. Help them end well.',
@@ -760,14 +760,14 @@ const CYCLE_OBJECTIVES = {
     11: [
       'Commit to a grounding practice this year to match the amplified sensitivity you are carrying.',
       'Identify the illumination this master year is asking you to bring forward. Begin that work.',
-      'Share inspired insight publicly this year — don\'t keep your perceptions private.',
+      'Share inspired insight publicly this year â don\'t keep your perceptions private.',
       'Your intuition is operating at unusual depth this year. Trust it consistently, not selectively.',
     ],
     22: [
       'Identify the generational-scale project this master year is asking you to build or advance.',
       'Think beyond your lifetime in one major decision this year.',
       'Find one strategic partnership this year that amplifies the scale of what you are building.',
-      'Invest in legacy this year — in people, in systems, in work that will outlast this chapter.',
+      'Invest in legacy this year â in people, in systems, in work that will outlast this chapter.',
     ],
   },
 
@@ -785,7 +785,7 @@ const CYCLE_OBJECTIVES = {
       'Tend one important relationship with consistent attentiveness through this entire cycle.',
     ],
     3:  [
-      'Publish, share, or express something every week of this cycle — don\'t wait until it\'s perfect.',
+      'Publish, share, or express something every week of this cycle â don\'t wait until it\'s perfect.',
       'Organise or attend one gathering, collaboration, or creative exchange.',
       'Say the thing you have been holding back in one important relationship or context.',
       'Complete one creative project this cycle. Finish it, share it, let it land.',
@@ -806,16 +806,16 @@ const CYCLE_OBJECTIVES = {
       'Schedule quality time with one person who matters and give them your full presence.',
       'Create or restore one home environment or daily practice that nourishes you.',
       'Identify one area where you are over-functioning for someone else. Gently reduce it this cycle.',
-      'Do one act of genuine care every day of this cycle — for yourself or someone else.',
+      'Do one act of genuine care every day of this cycle â for yourself or someone else.',
     ],
     7:  [
-      'Take at least one full day of genuine rest and reflection this cycle — no agenda.',
+      'Take at least one full day of genuine rest and reflection this cycle â no agenda.',
       'Read one book or pursue one topic that genuinely interests your inner life.',
       'Journal three times this week about what you actually know versus what you have been told.',
       'Spend time daily in undistracted solitude through this cycle. Let something surface.',
     ],
     8:  [
-      'Make one significant ask this cycle — a raise, a partnership, an opportunity.',
+      'Make one significant ask this cycle â a raise, a partnership, an opportunity.',
       'Review your current results. Identify one bottleneck and clear it with focused effort.',
       'Take one action that demonstrates genuine authority in your field or domain.',
       'Raise the bar on one achievement goal this cycle and take the most direct action toward it.',
@@ -836,7 +836,7 @@ const CYCLE_OBJECTIVES = {
       'Map the largest project or vision you are currently working on. Where is the next structural decision?',
       'Find one person to mentor or support in a meaningful way this cycle.',
       'Make one decision based on 10-year impact rather than immediate return.',
-      'Build one thing this cycle that extends beyond your direct effort — a system, a framework, a platform.',
+      'Build one thing this cycle that extends beyond your direct effort â a system, a framework, a platform.',
     ],
   },
 
@@ -867,7 +867,7 @@ const CYCLE_OBJECTIVES = {
       'Your pinnacle calls for presence over planning. Where are you trying to manage what wants to move?',
     ],
     6:  [
-      'Your pinnacle asks for love with boundaries — giving sustainably, not until there is nothing left.',
+      'Your pinnacle asks for love with boundaries â giving sustainably, not until there is nothing left.',
       'Who in your life most needs your full, boundaried presence right now? Show up for them.',
       'Your pinnacle is a chapter of deepening commitment. What commitment is asking for your fullest expression?',
     ],
@@ -903,7 +903,7 @@ const CYCLE_OBJECTIVES = {
  * Get objectives for a given placement and root number.
  * Returns the objectives array, or empty array if not found.
  * @param {string} placement - 'lp','cl','ex','so','ou','ac','th'
- * @param {number} root - 1–9, 11, 22, 33
+ * @param {number} root - 1â9, 11, 22, 33
  */
 function getPlacementObjectives(placement, root) {
   return (QUEST_OBJECTIVES[placement] && QUEST_OBJECTIVES[placement][root]) || [];

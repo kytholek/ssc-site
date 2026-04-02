@@ -1,5 +1,5 @@
 /* ================================================
-   SOURCE CODE: LIFE — styles.css
+   SOURCE CODE: LIFE â styles.css
    All visual styling for the WebView UI
    ================================================ */
 
@@ -149,7 +149,7 @@
   font-family: 'VT323', monospace;
 }
 
-/* Fairy: font overrides — keep pixel font for labels but soften numbers */
+/* Fairy: font overrides â keep pixel font for labels but soften numbers */
 [data-theme="unicorn"] .auth-logo,
 [data-theme="unicorn"] .header-wordmark,
 [data-theme="unicorn"] .char-title,
@@ -298,7 +298,7 @@
   letter-spacing: 1px;
 }
 
-/* Cinzel renders larger than Press Start 2P at the same px — scale down small UI elements */
+/* Cinzel renders larger than Press Start 2P at the same px â scale down small UI elements */
 [data-theme="fantasy"] .tab-btn       { font-size: 5.5px; letter-spacing: 0.5px; }
 [data-theme="fantasy"] .section-btn   { font-size: 5px;   letter-spacing: 0.5px; }
 [data-theme="fantasy"] .bar-chart-label { font-size: 4.5px; }
@@ -789,7 +789,7 @@ body::after {
     radial-gradient(ellipse at 20% 70%, rgba(0,100,140,0.12) 0%, transparent 50%);
 }
 
-/* Core panel — hologram glass */
+/* Core panel â hologram glass */
 [data-theme="scifi"] .rpg-panel {
   background: rgba(0, 180, 160, 0.04);
   backdrop-filter: blur(8px);
@@ -802,7 +802,7 @@ body::after {
     0 2px 40px rgba(0,0,0,0.5);
 }
 
-/* Inner highlight line — the "glass edge" shimmer */
+/* Inner highlight line â the "glass edge" shimmer */
 [data-theme="scifi"] .rpg-panel::before {
   border: 1px solid rgba(0,255,220,0.10);
   background:
@@ -820,7 +820,7 @@ body::after {
   text-shadow: 0 0 8px rgba(0,255,220,0.6);
 }
 
-/* Panel body — holographic scanline grid */
+/* Panel body â holographic scanline grid */
 [data-theme="scifi"] .panel-body {
   background-image:
     linear-gradient(rgba(0,220,200,0.04) 1px, transparent 1px),
@@ -1274,7 +1274,7 @@ body::after {
   margin-top: 3px;
 }
 
-/* Info box — hidden by default, shown on tap */
+/* Info box â hidden by default, shown on tap */
 .gift-info-box {
   display: none;
   position: fixed;
@@ -1287,7 +1287,7 @@ body::after {
   z-index: 999;
   pointer-events: none;
 }
-/* position is set dynamically by JS — see toggleGiftInfo() */
+/* position is set dynamically by JS â see toggleGiftInfo() */
 .gift-glyph.gift-open .gift-info-box {
   display: block;
   pointer-events: auto;
@@ -1404,7 +1404,7 @@ body::after {
 .stat-chart-row:hover { background: rgba(255,255,255,0.02); }
 .stat-row-empty { opacity: 0.38; }
 
-/* Primary frequency highlight — CL, LP, EX */
+/* Primary frequency highlight â CL, LP, EX */
 .stat-row-primary {
   background: rgba(255,255,255,0.025);
   border-left: 2px solid currentColor;
@@ -1461,17 +1461,17 @@ body::after {
   border-width: 1px;
 }
 
-/* QU column — stat state indicators */
+/* QU column â stat state indicators */
 .stat-col-box[id^="statQU_"] {
   font-size: 14px;
   transition: color 0.3s, border-color 0.3s;
   cursor: default;
 }
-/* State: locked — dim, no XP yet */
+/* State: locked â dim, no XP yet */
 .stat-col-box[id^="statQU_"]:empty,
 .stat-col-box[id^="statQU_"] { color: var(--text-dim); }
 
-/* TOT column — lights up with state color */
+/* TOT column â lights up with state color */
 .stat-col-total[id^="statTOT_"] {
   transition: color 0.3s, border-color 0.3s;
   cursor: default;
@@ -1792,7 +1792,7 @@ body::after {
 .settings-btn:hover { border-color: var(--rose-dim); color: var(--rose); }
 .settings-btn-fixed { min-width: 110px; text-align: center; }
 
-/* ── Inline chip selector — used for theme and quest alerts ── */
+/* ââ Inline chip selector â used for theme and quest alerts ââ */
 .cfg-chip-row {
   display: flex;
   gap: 5px;
@@ -1850,7 +1850,7 @@ body::after {
 }
 
 /* ================================================
-   MAIN QUEST — COMPOUND / ROOT FREQUENCY BLOCKS
+   MAIN QUEST â COMPOUND / ROOT FREQUENCY BLOCKS
    ================================================ */
 .mq-freq-block {
   margin-bottom: 16px;
@@ -1919,7 +1919,7 @@ body::after {
 }
 
 /* ================================================
-   JOURNAL — RICH SECTION LAYOUT
+   JOURNAL â RICH SECTION LAYOUT
    ================================================ */
 .journal-section {
   margin-bottom: 18px;
@@ -2219,7 +2219,7 @@ body::after {
 }
 
 /* ================================================
-   DANGER ZONE — Delete Account
+   DANGER ZONE â Delete Account
    ================================================ */
 .danger-zone {
   margin-top: 14px;
@@ -2275,7 +2275,7 @@ body::after {
 }
 
 /* ================================================
-   MAP TAB — MAP SECTION
+   MAP TAB â MAP SECTION
    ================================================ */
 
 /* Override rpg-panel overflow only for the map panel */
@@ -2336,7 +2336,7 @@ body::after {
 .gm-style-iw-chr { display: none !important; }
 
 /* ================================================
-   MAP TAB — MAKE QUEST SECTION
+   MAP TAB â MAKE QUEST SECTION
    ================================================ */
 
 /* Intro text */
@@ -2355,7 +2355,7 @@ body::after {
   box-sizing: border-box;
 }
 
-/* Quest type grid — 3 columns, self-contained inside panel-body padding */
+/* Quest type grid â 3 columns, self-contained inside panel-body padding */
 .mq-type-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -2378,7 +2378,7 @@ body::after {
 .mq-type-btn:hover  { border-color: var(--border-glow); color: var(--text-mid); }
 .mq-type-btn.active { border-color: var(--gold-dim); color: var(--gold); background: rgba(212,168,67,0.07); }
 
-/* ── Reward Frequency Selector ── */
+/* ââ Reward Frequency Selector ââ */
 .mq-reward-intro {
   font-size: 10px;
   color: var(--text-dim);
@@ -2449,7 +2449,7 @@ body::after {
   white-space: nowrap;
 }
 
-/* ── Side Quest Cards ── */
+/* ââ Side Quest Cards ââ */
 .side-quest-card {
   padding: 12px 14px;
   margin-bottom: 10px;
@@ -2542,7 +2542,7 @@ body::after {
   color: var(--rose);
 }
 
-/* ── Objectives inputs in Make a Quest ── */
+/* ââ Objectives inputs in Make a Quest ââ */
 .mq-obj-inputs {
   display: flex;
   flex-direction: column;
@@ -2566,7 +2566,7 @@ body::after {
   padding: 8px 10px;
 }
 
-/* ── Seeker Type selector ── */
+/* ââ Seeker Type selector ââ */
 .mq-seeker-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -2589,7 +2589,7 @@ body::after {
 .mq-seeker-btn:hover  { border-color: var(--border-glow); color: var(--text-mid); }
 .mq-seeker-btn.active { border-color: var(--teal-dim); color: var(--teal); background: rgba(0,229,204,0.06); }
 
-/* ── Difficulty selector ── */
+/* ââ Difficulty selector ââ */
 .mq-difficulty-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -2623,7 +2623,7 @@ body::after {
 .mq-difficulty-btn[data-difficulty="legendary"].active { border-color: var(--gold-dim); background: rgba(212,175,55,0.06); color: var(--gold); }
 .mq-difficulty-btn[data-difficulty="legendary"].active .mq-difficulty-xp { color: var(--gold); }
 
-/* ── Frequency Signature panel ── */
+/* ââ Frequency Signature panel ââ */
 .mq-sig-panel {
   border: 1px solid var(--border);
   background: linear-gradient(135deg, rgba(0,229,204,0.03), rgba(160,112,255,0.03));
@@ -2670,7 +2670,7 @@ body::after {
   text-align: center;
 }
 
-/* ── Side quest seeker badge + type row ── */
+/* ââ Side quest seeker badge + type row ââ */
 .side-quest-type-row {
   display: flex;
   align-items: center;
@@ -2688,7 +2688,7 @@ body::after {
   white-space: nowrap;
 }
 
-/* ── Side quest creator signature row ── */
+/* ââ Side quest creator signature row ââ */
 .side-quest-sig {
   display: flex;
   align-items: center;
@@ -2730,7 +2730,7 @@ body::after {
   margin-top: 2px;
 }
 
-/* ── My Quest card updates — type row + seeker badge + objectives ── */
+/* ââ My Quest card updates â type row + seeker badge + objectives ââ */
 .my-quest-type-row {
   display: flex;
   align-items: center;
@@ -2757,7 +2757,7 @@ body::after {
   padding-left: 2px;
 }
 
-/* ── Side quest objectives ── */
+/* ââ Side quest objectives ââ */
 .side-quest-objs {
   margin-bottom: 6px;
 }
@@ -2795,7 +2795,7 @@ body::after {
   display: none;
 }
 
-/* Mini map preview — fixed height, no overflow bleed */
+/* Mini map preview â fixed height, no overflow bleed */
 .mq-map-preview {
   margin-top: 8px;
   height: 160px;
@@ -2809,7 +2809,7 @@ body::after {
   display: block;
 }
 
-/* ── My active quests list ── */
+/* ââ My active quests list ââ */
 .my-quest-card {
   padding: 12px 14px;
   margin-bottom: 10px;
@@ -2848,7 +2848,7 @@ body::after {
   line-height: 1.4;
   margin-bottom: 8px;
 }
-/* Remove button — flows below card content */
+/* Remove button â flows below card content */
 .my-quest-card .ally-remove-btn {
   display: block;
   width: 100%;
@@ -3005,7 +3005,7 @@ body::after {
 }
 
 /* ================================================
-   QUEST ENGINE — LEVEL BARS, XP FLOAT, LEVEL-UP BANNER
+   QUEST ENGINE â LEVEL BARS, XP FLOAT, LEVEL-UP BANNER
    ================================================ */
 
 /* Level bar wrapper (in char card) */
@@ -3190,185 +3190,3 @@ body::after {
 
 /* c-purple panel label */
 .c-purple { color: var(--purple); }
-
-/* ─── Weekly Quest Panel ─────────────────────────────────── */
-.wq-header-row  { display:flex; justify-content:flex-end; padding:4px 0 8px; }
-.wq-reset       { font-size:10px; color:var(--text-dim); letter-spacing:.04em; }
-.wq-row         { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); opacity:.45; transition:opacity .2s; }
-.wq-row:last-child { border-bottom:none; }
-.wq-row.wq-today  { opacity:1; }
-.wq-row.wq-done   { opacity:.4; }
-.wq-day           { width:32px; min-width:32px; font-size:9px; letter-spacing:.08em; color:var(--text-dim); padding-top:3px; }
-.wq-day.wq-day-active { color:var(--gold); font-weight:700; }
-.wq-body          { flex:1; display:flex; flex-direction:column; gap:5px; }
-.wq-freq-row      { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-.wq-badge         { font-size:9px; letter-spacing:.08em; border:1px solid; border-radius:3px; padding:1px 5px; }
-.wq-label         { font-size:11px; letter-spacing:.06em; font-weight:600; }
-.wq-tier          { font-size:9px; letter-spacing:.06em; margin-left:auto; }
-.wq-check         { font-size:11px; color:var(--sage); margin-left:4px; }
-.wq-obj           { font-size:11px; color:var(--text-mid); line-height:1.5; padding:2px 0; }
-.wq-btn           { margin-top:4px; }
-
-/* ─── Stat Row Tooltip Popup ─────────────────────────────── */
-.stat-tooltip-popup {
-  position: absolute;
-  z-index: 9999;
-  min-width: 220px;
-  max-width: 300px;
-  background: var(--panel-bg, #1a1a2e);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  padding: 0;
-  overflow: hidden;
-  animation: stp-in .12s ease;
-}
-@keyframes stp-in {
-  from { opacity:0; transform:translateY(-4px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-.stp-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--border);
-  font-size: 11px;
-  letter-spacing: .08em;
-  font-weight: 700;
-}
-.stp-num {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid;
-  border-radius: 3px;
-  font-size: 10px;
-  flex-shrink: 0;
-}
-.stp-name  { flex: 1; }
-.stp-close {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  font-size: 11px;
-  cursor: pointer;
-  padding: 2px 4px;
-  line-height: 1;
-}
-.stp-close:hover { color: var(--text-mid); }
-.stp-body {
-  padding: 10px 12px;
-  font-size: 12px;
-  color: var(--text-mid);
-  line-height: 1.55;
-}
-
-/* ================================================
-   PIXEL CHARACTER DISPLAY (in avatar frame)
-   ================================================ */
-.char-pixel-display {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--bg-inset);
-}
-.char-pixel-display svg {
-  height: 88%; width: auto;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-/* ================================================
-   ALIAS / DISPLAY NAME
-   ================================================ */
-.char-alias-wrap {
-  display: flex; align-items: center; gap: 6px;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  padding: 2px 0; margin: 1px 0;
-}
-.char-alias-label {
-  font-family: 'Press Start 2P', monospace; font-size: 5px;
-  color: var(--text-dim); letter-spacing: 1px;
-  white-space: nowrap;
-}
-.char-alias-value {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: var(--text-dim); letter-spacing: 1px;
-  transition: color 0.2s;
-}
-.char-alias-value.char-alias-set {
-  color: var(--teal);
-  text-shadow: 0 0 8px rgba(0,229,204,0.35);
-}
-.char-alias-input {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: var(--teal); letter-spacing: 1px;
-  background: transparent; border: none;
-  border-bottom: 1px solid var(--teal-dim);
-  outline: none; width: 100%; max-width: 160px;
-  padding: 2px 0; caret-color: var(--teal);
-  margin: 2px 0;
-}
-
-/* ================================================
-   CHARACTER PICKER MODAL
-   ================================================ */
-.char-picker-overlay {
-  position: fixed; inset: 0; z-index: 2000;
-  background: rgba(0,0,0,0.78);
-  display: flex; align-items: flex-end;
-}
-.char-picker-overlay.hidden { display: none; }
-
-.char-picker-sheet {
-  width: 100%; max-width: 500px; margin: 0 auto;
-  background: var(--bg-panel);
-  border-top: 1px solid var(--gold-dim);
-  border-radius: 16px 16px 0 0;
-  padding: 22px 16px 32px;
-  box-shadow: 0 -6px 40px rgba(0,0,0,0.7);
-}
-.char-picker-title {
-  font-family: 'Press Start 2P', monospace; font-size: 7px;
-  color: var(--gold); letter-spacing: 2px;
-  text-align: center; margin-bottom: 18px;
-}
-.char-picker-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 8px; margin-bottom: 18px;
-}
-.char-picker-cell {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 5px; cursor: pointer; padding: 8px 4px 6px;
-  border: 1px solid var(--gold-dim); border-radius: 6px;
-  background: var(--bg-inset);
-  -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.15s, background 0.15s;
-  position: relative;
-}
-.char-picker-cell:active { opacity: 0.75; }
-.char-picker-cell.selected {
-  border-color: var(--teal);
-  background: var(--teal-muted);
-  box-shadow: 0 0 12px rgba(0,229,204,0.18);
-}
-.char-picker-sprite {
-  width: 48px; height: 60px;
-  display: flex; align-items: center; justify-content: center;
-}
-.char-picker-sprite svg {
-  height: 100%; width: auto;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-.char-picker-label {
-  font-family: 'Press Start 2P', monospace; font-size: 4px;
-  color: var(--text-dim); letter-spacing: 0.5px; text-align: center;
-}
-.char-picker-cell.selected .char-picker-label { color: var(--teal); }
-.char-picker-footer {
-  text-align: center; padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
