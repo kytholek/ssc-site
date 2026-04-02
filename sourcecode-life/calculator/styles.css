@@ -1150,6 +1150,11 @@ body::after {
   opacity: 0.7;
   vertical-align: middle;
 }
+.quest-xp-strip {
+  padding: 10px 0 14px;
+}
+.quest-xp-strip .lvl-bar-wrap { margin: 0; }
+
 .quest-detail-panel {
   background: var(--bg-panel);
   border: 1px solid var(--border);

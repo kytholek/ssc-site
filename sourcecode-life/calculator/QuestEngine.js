@@ -190,6 +190,7 @@ function earnFreqXP(amount) {
   _saveToStorage(); _syncToFirestore();
   _renderFreqLevelBar();
   _floatXP(amount, 'freqLevelTrack', 'var(--teal)');
+  _floatXP(amount, 'questFreqLevelTrack', 'var(--teal)');
   if (_freqLevel > prev) _levelUpBanner('FREQUENCY', _freqLevel);
 }
 
@@ -282,7 +283,8 @@ function _renderCharLevelBar() {
   _renderBar('charLevelBar', 'charLevelTrack', 'CHARACTER LVL', _charLevel, _charXP, 'char-bar-fill', 'var(--gold)');
 }
 function _renderFreqLevelBar() {
-  _renderBar('freqLevelBar', 'freqLevelTrack', 'FREQUENCY LVL', _freqLevel, _freqXP, 'freq-bar-fill', 'var(--teal)');
+  _renderBar('freqLevelBar',      'freqLevelTrack',      'FREQUENCY LVL', _freqLevel, _freqXP, 'freq-bar-fill', 'var(--teal)');
+  _renderBar('questFreqLevelBar', 'questFreqLevelTrack', 'FREQUENCY LVL', _freqLevel, _freqXP, 'freq-bar-fill', 'var(--teal)');
 }
 
 function _renderBar(wrapperId, trackId, label, lvl, xp, fillCls, color) {
