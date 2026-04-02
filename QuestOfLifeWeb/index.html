@@ -144,16 +144,18 @@
         <!-- Main Character Card -->
         <div class="rpg-panel char-card">
           <div class="char-card-inner">
-            <div class="char-avatar-wrap" onclick="triggerAvatarUpload()">
+            <div class="char-avatar-wrap" onclick="showCharPicker()">
               <div class="char-avatar-frame">
+                <div id="charPixelDisplay" style="display:none;"></div>
                 <img src="" id="charAvatarImg" class="char-avatar-img hidden">
                 <div class="char-avatar-placeholder" id="charAvatarPlaceholder">
                   <span class="char-avatar-icon">👤</span>
-                  <span class="char-avatar-hint">TAP TO<br>UPLOAD</span>
+                  <span class="char-avatar-hint">TAP TO<br>CHOOSE</span>
                 </div>
                 <div class="char-avatar-overlay"><span>UPLINK</span></div>
               </div>
             </div>
+            <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
             <div class="char-identity">
               <div class="char-identity-name" id="charName">PLAYER</div>
               <div class="char-identity-dob"  id="charDob">00/00/0000</div>
@@ -645,6 +647,58 @@
       <div class="geo-perm-btns">
         <button class="btn-primary" onclick="confirmGeoPerm()">▶ ACCESS MAP</button>
         <button class="settings-btn" onclick="closeGeoPermOverlay()">✕ NOT NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ CHARACTER CREATE OVERLAY ════ -->
+  <div class="char-create-overlay hidden" id="charCreateOverlay">
+    <div class="char-create-modal">
+      <div class="char-create-header">
+        <div class="char-create-logo">DECODING YOUR FREQUENCIES</div>
+        <div class="char-create-subtitle">Enter your birth information to compute your core numbers</div>
+      </div>
+      <div class="char-create-body">
+        <div class="field-group">
+          <label class="field-label">FULL BIRTH NAME</label>
+          <input type="text" class="field-input" id="charCreateName" placeholder="Enter your complete name at birth" maxlength="48">
+        </div>
+        <div class="field-group">
+          <label class="field-label">DATE OF BIRTH</label>
+          <div class="date-row">
+            <input type="number" class="field-input" id="charMonth" placeholder="MM" min="1" max="12">
+            <input type="number" class="field-input" id="charDay"   placeholder="DD" min="1" max="31">
+            <input type="number" class="field-input" id="charYear"  placeholder="YYYY" min="1900" max="2100">
+          </div>
+          <div class="field-hint">Used for all numerology calculations</div>
+        </div>
+        <div class="char-create-numbers" id="charCreateNumbers" style="opacity:0.4;">
+          <div class="ccn-row">
+            <div class="ccn-item"><div class="ccn-label">LIFE PATH</div><div class="ccn-value" id="ccnLP">--</div></div>
+            <div class="ccn-sep">/</div>
+            <div class="ccn-item"><div class="ccn-label">CALLING</div><div class="ccn-value" id="ccnCL">--</div></div>
+            <div class="ccn-sep">/</div>
+            <div class="ccn-item"><div class="ccn-label">EXPRESSION</div><div class="ccn-value" id="ccnEX">--</div></div>
+          </div>
+        </div>
+        <div class="auth-error"   id="charError"></div>
+        <div class="auth-success" id="charSuccess"></div>
+        <div class="auth-loading" id="charLoading"><div class="loading-dots">COMPUTING FREQUENCIES...</div></div>
+        <button class="btn-primary" onclick="handleCharCreate()">▶ CREATE CHARACTER</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ PIXEL CHARACTER PICKER ════ -->
+  <div class="char-picker-overlay hidden" id="charPickerOverlay" onclick="hideCharPicker(event)">
+    <div class="char-picker-modal">
+      <div class="char-picker-header">
+        <div class="char-picker-title">CHOOSE YOUR CHARACTER</div>
+        <button class="char-picker-close" onclick="hideCharPicker(null)">✕</button>
+      </div>
+      <div class="char-picker-grid" id="charPickerGrid"></div>
+      <div class="char-picker-footer">
+        <button class="settings-btn" onclick="document.getElementById('avatarFileInput').click();hideCharPicker(null);">▶ UPLOAD PHOTO</button>
       </div>
     </div>
   </div>

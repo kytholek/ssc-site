@@ -254,7 +254,7 @@ function handleRegister() {
 
 function handleCharCreate() {
   clearAuthErrors();
-  const name  = document.getElementById('charName').value.trim();
+  const name  = (document.getElementById('charCreateName') || document.getElementById('charName') || {}).value?.trim() || '';
   const month = parseInt(document.getElementById('charMonth').value, 10);
   const day   = parseInt(document.getElementById('charDay').value, 10);
   const year  = parseInt(document.getElementById('charYear').value, 10);
@@ -3047,33 +3047,56 @@ function loadSavedTheme() {
 }
 
 /* ================================================
+   CHAR CREATE PREVIEW (web)
+   ================================================ */
+function updateCharPreview() {
+  const name  = (document.getElementById('charCreateName') || {}).value || '';
+  const month = parseInt((document.getElementById('charMonth') || {}).value) || 0;
+  const day   = parseInt((document.getElementById('charDay')   || {}).value) || 0;
+  const year  = parseInt((document.getElementById('charYear')  || {}).value) || 0;
+  const nums  = document.getElementById('charCreateNumbers');
+  if (!nums) return;
+  if (name.trim() && month >= 1 && month <= 12 && day >= 1 && day <= 31 && year >= 1900 && year <= 2100) {
+    try {
+      const data = computeAll(month, day, year, name.trim());
+      const lp = document.getElementById('ccnLP'); if (lp) lp.textContent = fmt(data.lp.root, data.lp.compound);
+      const cl = document.getElementById('ccnCL'); if (cl) cl.textContent = fmt(data.cl.root, data.cl.compound);
+      const ex = document.getElementById('ccnEX'); if (ex) ex.textContent = fmt(data.ex.root, data.ex.compound);
+      nums.style.opacity = '1';
+    } catch(e) { nums.style.opacity = '0.4'; }
+  } else { nums.style.opacity = '0.4'; }
+}
+
+/* ================================================
    INIT
    ================================================ */
 window.addEventListener('DOMContentLoaded', () => {
   loadSavedTheme();
   initGeoPromptUI();
 
-// Web guest mode - auto-create demo player on launch
-  console.log('Quest of Life Web - Guest Mode');
-  currentUser = { uid: 'guest', email: 'guest@questoflife.web' };
-  window._currentUid = 'guest';
-  
-  // Demo player: 11/11/1990 - "John Doe" (master numbers, balanced chart)
-  const demoMonth = 11, demoDay = 11, demoYear = 1990, demoName = 'John Doe';
-  playerData = computeAll(demoMonth, demoDay, demoYear, demoName);
-  
-  saveLocalUser(currentUser.email);
-  saveLocalPlayer(playerData);
-  
-  document.getElementById('authOverlay').classList.add('hidden');
-  launchApp();
+  // Always hide the email auth overlay on web — NativeAuth not available
+  const authEl = document.getElementById('authOverlay');
+  if (authEl) authEl.classList.add('hidden');
 
   if (typeof NativeAuth !== 'undefined') {
+    // Running inside Android WebView — use native auth
     NativeAuth.checkSession();
   } else {
+    // Web: load saved player or show character creation
     if (loadLocalSaved()) {
-      document.getElementById('authOverlay').classList.add('hidden');
       launchApp();
+    } else {
+      currentUser = { uid: 'guest', email: '' };
+      window._currentUid = 'guest';
+      const ccEl = document.getElementById('charCreateOverlay');
+      if (ccEl) {
+        ccEl.classList.remove('hidden');
+        // Wire preview inputs
+        ['charCreateName','charMonth','charDay','charYear'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', updateCharPreview);
+        });
+      }
     }
   }
 });
