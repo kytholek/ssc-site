@@ -1288,6 +1288,10 @@ function switchQuestSection(s) {
     if (key === s) { el.classList.remove('hidden'); btn.classList.add('active'); }
     else           { el.classList.add('hidden');    btn.classList.remove('active'); }
   });
+  // Hide the shared detail panel whenever the tab changes
+  const dp = document.getElementById('questDetailPanel');
+  if (dp) { dp.classList.add('hidden'); dp.dataset.activeId = ''; }
+  document.querySelectorAll('.quest-tile-inner.active-tile').forEach(el => el.classList.remove('active-tile'));
   if (s === 'side') renderSideQuests();
   if (s === 'daily' && typeof QuestEngine_buildDailyRead === 'function') QuestEngine_buildDailyRead();
 }

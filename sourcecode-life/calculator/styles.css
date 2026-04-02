@@ -1014,18 +1014,18 @@ body::after {
 }
 .quest-tile-num {
   font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1;
   margin-top: 4px;
 }
 .quest-tile-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 4px;
+  font-size: 6px;
   letter-spacing: 0.3px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 .quest-tile-type {
-  font-size: 8px;
+  font-size: 9px;
   color: var(--text-dim);
   letter-spacing: 1px;
 }
@@ -1063,17 +1063,17 @@ body::after {
 .quest-detail-titles { flex: 1; min-width: 0; }
 .quest-detail-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
+  font-size: 12px;
   line-height: 1.5;
 }
 .quest-detail-sub {
-  font-size: 10px;
+  font-size: 13px;
   color: var(--text-dim);
   margin-top: 3px;
 }
 .quest-detail-badge {
   font-family: 'Press Start 2P', monospace;
-  font-size: 4px;
+  font-size: 12px;
   letter-spacing: 0.5px;
   flex-shrink: 0;
 }
