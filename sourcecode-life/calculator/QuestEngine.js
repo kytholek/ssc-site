@@ -533,7 +533,13 @@ function QuestEngine_completeDailyQuest() {
   const today = _todayStr();
   let d = null;
   try { d = JSON.parse(localStorage.getItem(LS_DAILY_Q)); } catch(e) {}
-  if (!d || d.completed) return;
+  // If no record or it's stale, build a fresh one first
+  if (!d || d.date !== today) {
+    const { title, body, dayObj, dayObjMeta } = _buildDailyText();
+    d = { date: today, completed: false, title, body, dayObj, dayObjMeta };
+    try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
+  }
+  if (d.completed) return;
   d.completed = true;
   try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
 
@@ -558,8 +564,8 @@ function QuestEngine_completeDailyQuest() {
     }
   } catch(e) { console.error('completeDailyQuest stat:', e); }
 
-  earnFreqXP(XP_AWARDS.daily);
-  _renderDailyQuest(d);
+  try { earnFreqXP(XP_AWARDS.daily); } catch(e) { console.error('completeDailyQuest xp:', e); }
+  try { _renderDailyQuest(d); } catch(e) { console.error('completeDailyQuest render:', e); }
 }
 
 function _showLifeTierAdvance(questKey, newTier) {
@@ -722,15 +728,15 @@ function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
       const statNum = rn > 9 ? (rn === 11 ? 2 : rn === 22 ? 4 : 6) : rn;
       earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || 1);
     }
-    _buildFreqQuestList();
-    if (typeof buildLifeQuests === 'function') buildLifeQuests();
-  } catch(e) { console.error('completeFreqQuest post-xp:', e); }
+  } catch(e) { console.error('completeFreqQuest stat:', e); }
+  try { _buildFreqQuestList(); } catch(e) { console.error('completeFreqQuest rebuild:', e); }
+  try { if (typeof buildLifeQuests === 'function') buildLifeQuests(); } catch(e) { console.error('completeFreqQuest lifeQuests:', e); }
 }
 
 
 function _buildFreqQuestList() {
-  _buildDailyFreqList();
-  _buildCycleQuestList();
+  try { _buildDailyFreqList(); } catch(e) { console.error('_buildDailyFreqList:', e); }
+  try { _buildCycleQuestList(); } catch(e) { console.error('_buildCycleQuestList:', e); }
 }
 
 /* ── 7 Daily Frequency Quest Cards (LP, CL, EX, SO, OU, AC, TH) ── */
