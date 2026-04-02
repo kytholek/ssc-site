@@ -1,5 +1,5 @@
 /**
- * SOURCE CODE: LIFE â app.js
+ * SOURCE CODE: LIFE — app.js
  * All UI logic, auth, navigation, journal, charts, quests.
  * Depends on: numerology.js, data.js
  */
@@ -13,8 +13,8 @@ let playerData  = null;
 const LS_USER   = 'scl_user';
 const LS_PLAYER = 'scl_player';
 
-// To test the app without signing in, set this to true.
-const BYPASS_AUTH_FOR_TESTING = true;
+// Tester email — logs straight into character creation without NativeAuth.
+const TESTER_EMAIL = 'tester@sourcecode.life';
 
 /* ================================================
    LOCAL STORAGE PERSISTENCE (offline / dev fallback)
@@ -51,7 +51,7 @@ function NativeAuth_onLoginResult(success, uid, errorMsg) {
     currentUser = { uid: uid };
     NativeAuth.loadPlayer();
   } else {
-    showAuthError('loginError', 'â  ' + friendlyError(errorMsg));
+    showAuthError('loginError', '⚠ ' + friendlyError(errorMsg));
   }
 }
 
@@ -62,7 +62,7 @@ function NativeAuth_onRegisterResult(success, uid, errorMsg) {
     document.getElementById('authOverlay').classList.add('hidden');
     document.getElementById('charCreateOverlay').classList.remove('hidden');
   } else {
-    showAuthError('regError', 'â  ' + friendlyError(errorMsg));
+    showAuthError('regError', '⚠ ' + friendlyError(errorMsg));
   }
 }
 
@@ -74,14 +74,14 @@ function NativeAuth_onSavePlayerResult(success, errorMsg) {
     // If user arrived via an invite link, auto-send ally request to the inviter
     if (window._pendingInviterUid) {
       const refUid = window._pendingInviterUid;
-      window._pendingInviterUid = null; // Clear â fires once only
+      window._pendingInviterUid = null; // Clear — fires once only
       if (typeof NativeAllies !== 'undefined') {
         NativeAllies.sendRequest(refUid);
       }
     }
     NativeAuth.loadPlayer();
   } else {
-    showAuthError('charError', 'â  ' + (errorMsg || 'Failed to save. Check your connection.'));
+    showAuthError('charError', '⚠ ' + (errorMsg || 'Failed to save. Check your connection.'));
   }
 }
 
@@ -100,7 +100,7 @@ function NativeAuth_onInviteDetected(inviterUid) {
   }
 }
 
-/** Kotlin callback for getPlayerName â delivers the inviter's display name */
+/** Kotlin callback for getPlayerName — delivers the inviter's display name */
 function NativeAllies_onPlayerName(name) {
   _renderInviteBanner(name || 'An ally');
 }
@@ -121,9 +121,9 @@ function _renderInviteBanner(inviterName) {
     'line-height:1.7'
   ].join(';');
   banner.innerHTML = `
-    <span style="font-size:18px;flex-shrink:0;">â¦</span>
+    <span style="font-size:18px;flex-shrink:0;">✦</span>
     <span style="flex:1;">${_esc(inviterName)} invited you.<br>Complete your character to connect as allies.</span>
-    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:0 4px;line-height:1;">â</button>`;
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:0 4px;line-height:1;">✕</button>`;
   document.body.appendChild(banner);
   setTimeout(() => { document.getElementById('inviteBanner')?.remove(); }, 10000);
 }
@@ -229,9 +229,18 @@ function handleLogin() {
   clearAuthErrors();
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPassword').value;
-  if (!email || !pass)     { showAuthError('loginError', 'â  Please fill in all fields.'); return; }
-  if (!validateEmail(email)) { showAuthError('loginError', 'â  Enter a valid email address.'); return; }
-  if (pass.length < 6)     { showAuthError('loginError', 'â  Password must be at least 6 characters.'); return; }
+  if (!email || !pass)     { showAuthError('loginError', '⚠ Please fill in all fields.'); return; }
+  if (!validateEmail(email)) { showAuthError('loginError', '⚠ Enter a valid email address.'); return; }
+
+  // Tester shortcut — skip NativeAuth, go straight to character creation
+  if (email === TESTER_EMAIL) {
+    currentUser = { email: TESTER_EMAIL };
+    document.getElementById('authOverlay').classList.add('hidden');
+    document.getElementById('charCreateOverlay').classList.remove('hidden');
+    return;
+  }
+
+  if (pass.length < 6)     { showAuthError('loginError', '⚠ Password must be at least 6 characters.'); return; }
   setLoading('loginLoading', true);
   NativeAuth.login(email, pass);
 }
@@ -240,11 +249,19 @@ function handleRegister() {
   clearAuthErrors();
   const email = document.getElementById('regEmail').value.trim();
   const pass  = document.getElementById('regPassword').value;
-  if (!email || !pass)     { showAuthError('regError', 'â  Please fill in all fields.'); return; }
-  if (!validateEmail(email)) { showAuthError('regError', 'â  Enter a valid email address.'); return; }
-  if (pass.length < 6)     { showAuthError('regError', 'â  Password must be at least 6 characters.'); return; }
+  if (!email || !pass)     { showAuthError('regError', '⚠ Please fill in all fields.'); return; }
+  if (!validateEmail(email)) { showAuthError('regError', '⚠ Enter a valid email address.'); return; }
+  if (pass.length < 6)     { showAuthError('regError', '⚠ Password must be at least 6 characters.'); return; }
   setLoading('regLoading', true);
   NativeAuth.register(email, pass);
+}
+
+function selectCharTheme(theme) {
+  ['scifi','fantasy','unicorn','diablo'].forEach(t => {
+    const el = document.getElementById('charTheme' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (el) el.classList.toggle('active', t === theme);
+  });
+  setTheme(theme);
 }
 
 function handleCharCreate() {
@@ -253,23 +270,25 @@ function handleCharCreate() {
   const month = parseInt(document.getElementById('charMonth').value, 10);
   const day   = parseInt(document.getElementById('charDay').value, 10);
   const year  = parseInt(document.getElementById('charYear').value, 10);
-  if (!name)                       { showAuthError('charError', 'â  Please enter your full birth name.'); return; }
-  if (!month || month < 1 || month > 12) { showAuthError('charError', 'â  Enter a valid month (1â12).'); return; }
-  if (!day   || day   < 1 || day   > 31) { showAuthError('charError', 'â  Enter a valid day (1â31).'); return; }
-  if (!year  || year  < 1900 || year > 2099) { showAuthError('charError', 'â  Enter a valid year (1900â2099).'); return; }
+  if (!name)                       { showAuthError('charError', '⚠ Please enter your full birth name.'); return; }
+  if (!month || month < 1 || month > 12) { showAuthError('charError', '⚠ Enter a valid month (1–12).'); return; }
+  if (!day   || day   < 1 || day   > 31) { showAuthError('charError', '⚠ Enter a valid day (1–31).'); return; }
+  if (!year  || year  < 1900 || year > 2099) { showAuthError('charError', '⚠ Enter a valid year (1900–2099).'); return; }
   setLoading('charLoading', true);
 
   try {
     playerData = computeAll(month, day, year, name);
   } catch(e) {
     setLoading('charLoading', false);
-    showAuthError('charError', 'â  Error calculating frequencies. Please check your inputs.');
+    showAuthError('charError', '⚠ Error calculating frequencies. Please check your inputs.');
     console.error('computeAll error:', e);
     return;
   }
 
-  if (BYPASS_AUTH_FOR_TESTING) {
+  // Tester email or no NativeAuth (browser/web) — launch directly
+  if ((currentUser && currentUser.email === TESTER_EMAIL) || typeof NativeAuth === 'undefined') {
     setLoading('charLoading', false);
+    saveLocalPlayer(playerData);
     document.getElementById('charCreateOverlay').classList.add('hidden');
     try { launchApp(); } catch(e) {
       console.error('launchApp error:', e);
@@ -280,7 +299,7 @@ function handleCharCreate() {
     const saveTimeout = setTimeout(() => {
       if (document.getElementById('charLoading').classList.contains('show')) {
         setLoading('charLoading', false);
-        showAuthError('charError', 'â  Save timed out. Check your connection and try again.');
+        showAuthError('charError', '⚠ Save timed out. Check your connection and try again.');
       }
     }, 15000);
     window._saveTimeout = saveTimeout;
@@ -317,7 +336,7 @@ function handleDeleteAccount() {
   const loadEl  = document.getElementById('deleteLoading');
   errorEl.style.display = 'none';
   if (!pw) {
-    errorEl.textContent = 'â  Enter your password to confirm deletion.';
+    errorEl.textContent = '⚠ Enter your password to confirm deletion.';
     errorEl.style.display = 'block';
     return;
   }
@@ -350,7 +369,7 @@ function NativeAuth_onDeleteResult(success, errorMsg) {
     document.getElementById('authOverlay').classList.remove('hidden');
   } else {
     if (errorEl) {
-      errorEl.textContent = 'â  ' + (errorMsg || 'Deletion failed. Check your password and try again.');
+      errorEl.textContent = '⚠ ' + (errorMsg || 'Deletion failed. Check your password and try again.');
       errorEl.style.display = 'block';
     }
   }
@@ -359,26 +378,24 @@ function NativeAuth_onDeleteResult(success, errorMsg) {
 function handleForgotPassword() {
   clearAuthMessages();
   const email = document.getElementById('forgotEmail').value.trim();
-  if (!email)              { showAuthError('forgotError', 'â  Please enter your email address.'); return; }
-  if (!validateEmail(email)) { showAuthError('forgotError', 'â  Enter a valid email address.'); return; }
+  if (!email)              { showAuthError('forgotError', '⚠ Please enter your email address.'); return; }
+  if (!validateEmail(email)) { showAuthError('forgotError', '⚠ Enter a valid email address.'); return; }
   setLoading('forgotLoading', true);
   if (typeof NativeAuth !== 'undefined' && NativeAuth.sendPasswordReset) {
     NativeAuth.sendPasswordReset(email);
   } else {
-    setTimeout(() => {
-      setLoading('forgotLoading', false);
-      showAuthSuccess('forgotSuccess', 'â Reset link sent. Check your inbox.');
-    }, 800);
+    setLoading('forgotLoading', false);
+    showAuthError('forgotError', '⚠ Password reset unavailable. Please try again later.');
   }
 }
 
 function NativeAuth_onPasswordResetResult(success, errorMsg) {
   setLoading('forgotLoading', false);
   if (success) {
-    showAuthSuccess('forgotSuccess', 'â Reset link sent â check your inbox (and spam folder).');
+    showAuthSuccess('forgotSuccess', '✓ Reset link sent — check your inbox (and spam folder).');
     document.getElementById('forgotEmail').value = '';
   } else {
-    showAuthError('forgotError', 'â  ' + friendlyError(errorMsg || ''));
+    showAuthError('forgotError', '⚠ ' + friendlyError(errorMsg || ''));
   }
 }
 
@@ -387,7 +404,7 @@ function toggleChangePassword() {
   const btn   = document.getElementById('changePwToggleBtn');
   const open  = panel.style.display === 'block';
   panel.style.display = open ? 'none' : 'block';
-  btn.textContent     = open ? 'â¶ CHANGE' : 'â¼ CANCEL';
+  btn.textContent     = open ? '▶ CHANGE' : '▼ CANCEL';
   if (open) {
     document.getElementById('cpCurrent').value = '';
     document.getElementById('cpNew').value     = '';
@@ -401,17 +418,17 @@ function handleChangePassword() {
   const current = document.getElementById('cpCurrent').value;
   const newPw   = document.getElementById('cpNew').value;
   const confirm = document.getElementById('cpConfirm').value;
-  if (!current || !newPw || !confirm) { showAuthError('cpError', 'â  Please fill in all fields.'); return; }
-  if (newPw.length < 6)               { showAuthError('cpError', 'â  New password must be at least 6 characters.'); return; }
-  if (newPw !== confirm)              { showAuthError('cpError', 'â  New passwords do not match.'); return; }
-  if (newPw === current)              { showAuthError('cpError', 'â  New password must be different from current.'); return; }
+  if (!current || !newPw || !confirm) { showAuthError('cpError', '⚠ Please fill in all fields.'); return; }
+  if (newPw.length < 6)               { showAuthError('cpError', '⚠ New password must be at least 6 characters.'); return; }
+  if (newPw !== confirm)              { showAuthError('cpError', '⚠ New passwords do not match.'); return; }
+  if (newPw === current)              { showAuthError('cpError', '⚠ New password must be different from current.'); return; }
   document.getElementById('cpLoading').style.display = 'block';
   if (typeof NativeAuth !== 'undefined' && NativeAuth.changePassword) {
     NativeAuth.changePassword(current, newPw);
   } else {
     setTimeout(() => {
       document.getElementById('cpLoading').style.display = 'none';
-      showAuthSuccess('cpSuccess', 'â Password updated successfully.');
+      showAuthSuccess('cpSuccess', '✓ Password updated successfully.');
     }, 800);
   }
 }
@@ -419,12 +436,12 @@ function handleChangePassword() {
 function NativeAuth_onChangePasswordResult(success, errorMsg) {
   document.getElementById('cpLoading').style.display = 'none';
   if (success) {
-    showAuthSuccess('cpSuccess', 'â Password updated successfully.');
+    showAuthSuccess('cpSuccess', '✓ Password updated successfully.');
     document.getElementById('cpCurrent').value = '';
     document.getElementById('cpNew').value     = '';
     document.getElementById('cpConfirm').value = '';
   } else {
-    showAuthError('cpError', 'â  ' + friendlyError(errorMsg || ''));
+    showAuthError('cpError', '⚠ ' + friendlyError(errorMsg || ''));
   }
 }
 
@@ -467,7 +484,7 @@ function NativeLocation_onPromptSetting(enabled) {
   const statusEl = document.getElementById('geoPromptStatusText');
   const btnEl    = document.getElementById('geoPromptToggleBtn');
   if (statusEl) statusEl.textContent = enabled ? 'ON' : 'OFF';
-  if (btnEl)    btnEl.textContent    = enabled ? 'â¶ DISABLE' : 'â¶ ENABLE';
+  if (btnEl)    btnEl.textContent    = enabled ? '▶ DISABLE' : '▶ ENABLE';
 }
 
 function maybeShowGeoPrompt() {
@@ -480,13 +497,13 @@ function maybeShowGeoPrompt() {
 /** Called back by Kotlin after checkPermissionState() or requestLocationPermission() */
 function NativeLocation_onPermissionState(state) {
   if (state === 'granted') {
-    // Already have permission â make sure overlay is hidden
+    // Already have permission — make sure overlay is hidden
     document.getElementById('geoPermOverlay').classList.add('hidden');
   } else if (state === 'not_asked') {
     // Show our custom prompt so the user understands why we need it
     document.getElementById('geoPermOverlay').classList.remove('hidden');
   }
-  // 'denied' â don't pester the user; overlay stays hidden
+  // 'denied' — don't pester the user; overlay stays hidden
 }
 
 function geoPermAllow() {
@@ -515,7 +532,7 @@ function launchApp() {
 
   // Character card
   document.getElementById('charCardName').textContent = name.toUpperCase();
-  document.getElementById('charCardDob').textContent  = String(m).padStart(2,'0') + ' Â· ' + String(d).padStart(2,'0') + ' Â· ' + y;
+  document.getElementById('charCardDob').textContent  = String(m).padStart(2,'0') + ' · ' + String(d).padStart(2,'0') + ' · ' + y;
   buildCharCoreNumbers(lp, cl, ex);
   buildGifts(d, so, ou);
   loadSavedAvatar();
@@ -595,12 +612,12 @@ function switchMapSection(s) {
    ================================================ */
 
 const QUEST_TYPES = {
-  exploration: { label: 'ðº EXPLORE',  key: 'explore'  },
-  connection:  { label: 'â CONNECT',  key: 'connect'  },
-  achievement: { label: 'â² ACHIEVE',  key: 'achieve'  },
-  healing:     { label: 'â¦ HEAL',     key: 'heal'     },
-  creation:    { label: 'â CREATE',   key: 'create'   },
-  reflection:  { label: 'â REFLECT', key: 'reflect'  },
+  exploration: { label: '🗺 EXPLORE',  key: 'explore'  },
+  connection:  { label: '⚔ CONNECT',  key: 'connect'  },
+  achievement: { label: '▲ ACHIEVE',  key: 'achieve'  },
+  healing:     { label: '✦ HEAL',     key: 'heal'     },
+  creation:    { label: '◈ CREATE',   key: 'create'   },
+  reflection:  { label: '◇ REFLECT', key: 'reflect'  },
 };
 
 const MAP_THEMES = {
@@ -639,6 +656,18 @@ const MAP_THEMES = {
     popupFont: "'VT323', monospace",
     labelColor: (c) => c,
     subColor:   '#9c70b8',
+  },
+  diablo: {
+    tile: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    tileAttrib: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    // Mine = gold shield, ally = blood-red shield
+    pinMine:  { color: '#c8860a', border: '#2a1a04', glow: '#c8860a88', shape: 'shield' },
+    pinAlly:  { color: '#cc2200', border: '#2a0800', glow: '#cc220088', shape: 'shield' },
+    pinPlace: { color: '#c8860a', border: '#2a1a04', glow: '#c8860a88', shape: 'shield' },
+    popupBg:  '#12100c', popupText: '#d4c8a8', popupBorder: '1px solid #3a2810',
+    popupFont: "'IM Fell English', Georgia, serif",
+    labelColor: (c) => c,
+    subColor:   '#706050',
   },
 };
 
@@ -700,10 +729,10 @@ function _buildPopupHtml(q, type, cfg) {
   const qid    = q.id || q.questId || q.docId || '';
   // Reward line
   const rewardLine = q.rewardNum
-    ? `<div style="margin-top:6px;color:${cfg.subColor};font-size:9px;">â¦ ${q.rewardNum} Â· ${_esc(q.rewardXp || q.rewardName || '')}</div>`
+    ? `<div style="margin-top:6px;color:${cfg.subColor};font-size:9px;">✦ ${q.rewardNum} · ${_esc(q.rewardXp || q.rewardName || '')}</div>`
     : '';
   // Seeker type badge
-  const seekerIcons = { solo: 'â SOLO', partner: 'â PARTNER', group: 'â¦ GROUP' };
+  const seekerIcons = { solo: '◈ SOLO', partner: '⚔ PARTNER', group: '✦ GROUP' };
   const seekerLine = q.seekerType
     ? `<div style="display:inline-block;margin-top:6px;padding:2px 6px;border:1px solid ${color}44;color:${color};font-size:8px;font-family:'Press Start 2P',monospace;letter-spacing:0.5px;">${seekerIcons[q.seekerType] || q.seekerType}</div>`
     : '';
@@ -711,10 +740,10 @@ function _buildPopupHtml(q, type, cfg) {
   const objsHtml = (q.objectives && q.objectives.length)
     ? `<div style="margin-top:8px;border-top:1px solid ${color}22;padding-top:8px;">
         <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:${color};letter-spacing:1px;margin-bottom:5px;">OBJECTIVES</div>
-        ${q.objectives.map(o => `<div style="font-size:10px;color:${cfg.subColor};line-height:1.55;margin-bottom:3px;">â ${_esc(o)}</div>`).join('')}
+        ${q.objectives.map(o => `<div style="font-size:10px;color:${cfg.subColor};line-height:1.55;margin-bottom:3px;">◈ ${_esc(o)}</div>`).join('')}
        </div>`
     : '';
-  // Creator frequency signature â CL, LP, EX, Theme
+  // Creator frequency signature — CL, LP, EX, Theme
   const sigHtml = (q.creatorSig)
     ? `<div style="margin-top:8px;border-top:1px solid ${color}22;padding-top:7px;">
         <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:${cfg.subColor};letter-spacing:1px;margin-bottom:5px;">CREATOR FREQUENCIES</div>
@@ -730,13 +759,13 @@ function _buildPopupHtml(q, type, cfg) {
         </div>
        </div>`
     : '';
-  // Accept button â check if already accepted
+  // Accept button — check if already accepted
   const safeId = qid.replace(/'/g, '');
   const alreadyAccepted = (() => {
     try { return !!(JSON.parse(localStorage.getItem('scl_accepted_quests') || '{}')[safeId]); }
     catch(e) { return false; }
   })();
-  const acceptLabel = alreadyAccepted ? 'â ALREADY IN LOG' : 'â¶ ACCEPT QUEST';
+  const acceptLabel = alreadyAccepted ? '✓ ALREADY IN LOG' : '▶ ACCEPT QUEST';
   const acceptStyle = alreadyAccepted
     ? `background:rgba(212,168,67,0.06);border:1px solid #6b5220;color:#d4a843;cursor:default;`
     : `background:rgba(0,229,204,0.06);border:1px solid ${cfg.pinAlly.color}88;color:${cfg.pinAlly.color};cursor:pointer;`;
@@ -763,7 +792,7 @@ function _buildPopupHtml(q, type, cfg) {
     ${rewardLine}
     ${objsHtml}
     ${sigHtml}
-    ${q.playerName ? `<div style="margin-top:8px;color:${cfg.subColor};font-size:9px;opacity:0.6;">â ${_esc(q.playerName)}</div>` : ''}
+    ${q.playerName ? `<div style="margin-top:8px;color:${cfg.subColor};font-size:9px;opacity:0.6;">— ${_esc(q.playerName)}</div>` : ''}
     ${acceptBtn}
   </div>`;
 }
@@ -784,7 +813,7 @@ function initLeafletMap() {
   if (typeof NativeMap !== 'undefined') NativeMap.loadQuestMarkers();
 }
 
-// Backwards compat â native bridge still calls this
+// Backwards compat — native bridge still calls this
 function NativeMap_onApiKey(apiKey) { initLeafletMap(); }
 
 function NativeMap_onQuestsLoaded(questsJson) {
@@ -810,7 +839,7 @@ function NativeMap_onQuestsLoaded(questsJson) {
   });
 }
 
-/* Called from setTheme() â swaps tile layer + redraws all markers */
+/* Called from setTheme() — swaps tile layer + redraws all markers */
 function applyMapTheme() {
   const cfg = getMapTheme();
 
@@ -842,7 +871,7 @@ function applyMapTheme() {
   }
 }
 
-/* ââ Quest creation form âââââââââââââââââââââââââââ */
+/* ── Quest creation form ─────────────────────────── */
 let _selectedQuestType = 'exploration';
 let _questLat = null, _questLng = null;
 let _mqMiniMap = null, _mqMiniMarker = null;
@@ -856,15 +885,15 @@ function selectQuestType(btn) {
 
 let _selectedRewardNum = 1;
 const REWARD_LABELS = {
-  1: 'Leadership Â· Willpower Â· New Beginnings',
-  2: 'Partnership Â· Intuition Â· Balance',
-  3: 'Creativity Â· Joy Â· Communication',
-  4: 'Discipline Â· Stability Â· Mastery',
-  5: 'Adventure Â· Change Â· Experience',
-  6: 'Healing Â· Responsibility Â· Love',
-  7: 'Wisdom Â· Inner Work Â· Analysis',
-  8: 'Abundance Â· Authority Â· Legacy',
-  9: 'Completion Â· Compassion Â· Transcendence'
+  1: 'Leadership · Willpower · New Beginnings',
+  2: 'Partnership · Intuition · Balance',
+  3: 'Creativity · Joy · Communication',
+  4: 'Discipline · Stability · Mastery',
+  5: 'Adventure · Change · Experience',
+  6: 'Healing · Responsibility · Love',
+  7: 'Wisdom · Inner Work · Analysis',
+  8: 'Abundance · Authority · Legacy',
+  9: 'Completion · Compassion · Transcendence'
 };
 const REWARD_NAMES = {
   1:'INITIATION', 2:'UNION', 3:'EXPRESSION', 4:'FOUNDATION', 5:'FREEDOM',
@@ -958,7 +987,7 @@ function selectDifficulty(btn) {
   _selectedDifficulty = parseInt(btn.dataset.diff) || 1;
 }
 
-/* ââ Frequency Signature â reads playerData and populates the sig panel ââ */
+/* ── Frequency Signature — reads playerData and populates the sig panel ── */
 function _buildMqSignature() {
   const panel = document.getElementById('mqSigBody');
   if (!panel) return;
@@ -982,7 +1011,7 @@ function _buildMqSignature() {
   ).join('')}</div>`;
 }
 
-/* ââ Location autocomplete via NativeMap.searchLocations() ââ */
+/* ── Location autocomplete via NativeMap.searchLocations() ── */
 function onLocationInput(value) {
   _questLat = null;
   _questLng = null;
@@ -993,12 +1022,12 @@ function onLocationInput(value) {
   if (!value || value.length < 3) { suggestions.classList.add('hidden'); suggestions.innerHTML = ''; return; }
 
   _locationSearchTimer = setTimeout(() => {
-    suggestions.innerHTML = '<div class="mq-suggestion-item mq-suggestion-loading">â Searchingâ¦</div>';
+    suggestions.innerHTML = '<div class="mq-suggestion-item mq-suggestion-loading">◎ Searching…</div>';
     suggestions.classList.remove('hidden');
     if (typeof NativeMap !== 'undefined') {
       NativeMap.searchLocations(value);
     } else {
-      // Dev fallback â simulate empty results
+      // Dev fallback — simulate empty results
       NativeMap_onLocationSearchResults('[]');
     }
   }, 400);
@@ -1022,18 +1051,18 @@ function selectLocationSuggestion(lat, lng, label) {
   _questLat = parseFloat(lat);
   _questLng = parseFloat(lng);
   document.getElementById('mqLocation').value = label;
-  document.getElementById('mqLocationStatus').textContent = `â ${parseFloat(lat).toFixed(5)}, ${parseFloat(lng).toFixed(5)}`;
+  document.getElementById('mqLocationStatus').textContent = `✓ ${parseFloat(lat).toFixed(5)}, ${parseFloat(lng).toFixed(5)}`;
   document.getElementById('mqLocationSuggestions').classList.add('hidden');
   _showMiniMapPin(_questLat, _questLng);
 }
 
 function useMyLocation() {
   const statusEl = document.getElementById('mqLocationStatus');
-  statusEl.textContent = 'â Getting locationâ¦';
+  statusEl.textContent = '◎ Getting location…';
   if (typeof NativeMap !== 'undefined') {
     NativeMap.requestLocation();
   } else {
-    statusEl.textContent = 'â  Location not available in browser mode.';
+    statusEl.textContent = '⚠ Location not available in browser mode.';
   }
 }
 
@@ -1041,12 +1070,12 @@ function useMyLocation() {
 function NativeLocation_onLocationResult(success, lat, lng) {
   const statusEl = document.getElementById('mqLocationStatus');
   if (!success) {
-    statusEl.textContent = 'â  Could not get location. Search for an address above.';
+    statusEl.textContent = '⚠ Could not get location. Search for an address above.';
     return;
   }
   _questLat = parseFloat(lat);
   _questLng = parseFloat(lng);
-  statusEl.textContent = `â ${_questLat.toFixed(5)}, ${_questLng.toFixed(5)}`;
+  statusEl.textContent = `✓ ${_questLat.toFixed(5)}, ${_questLng.toFixed(5)}`;
   document.getElementById('mqLocation').value = `${_questLat.toFixed(5)}, ${_questLng.toFixed(5)}`;
   document.getElementById('mqLocationSuggestions').classList.add('hidden');
   _showMiniMapPin(_questLat, _questLng);
@@ -1078,8 +1107,8 @@ function submitQuest() {
   const errorEl = document.getElementById('mqError');
   errorEl.style.display = 'none';
   document.getElementById('mqSuccess').style.display = 'none';
-  if (!name)   { errorEl.textContent = 'â  Quest name is required.'; errorEl.style.display = 'block'; return; }
-  if (!locStr) { errorEl.textContent = 'â  Location is required.';   errorEl.style.display = 'block'; return; }
+  if (!name)   { errorEl.textContent = '⚠ Quest name is required.'; errorEl.style.display = 'block'; return; }
+  if (!locStr) { errorEl.textContent = '⚠ Location is required.';   errorEl.style.display = 'block'; return; }
 
   if (_questLat !== null && _questLng !== null) {
     _doSubmitQuest(name, desc, locStr, _questLat, _questLng);
@@ -1099,7 +1128,7 @@ function submitQuest() {
 function NativeMap_onGeocodeResult(success, lat, lng, formattedAddress) {
   document.getElementById('mqLoading').style.display = 'none';
   if (!success || !window._pendingQuestData) {
-    document.getElementById('mqError').textContent = 'â  Could not find that location. Try selecting from the search suggestions.';
+    document.getElementById('mqError').textContent = '⚠ Could not find that location. Try selecting from the search suggestions.';
     document.getElementById('mqError').style.display = 'block';
     window._pendingQuestData = null;
     return;
@@ -1107,7 +1136,7 @@ function NativeMap_onGeocodeResult(success, lat, lng, formattedAddress) {
   const { name, desc } = window._pendingQuestData;
   window._pendingQuestData = null;
   _questLat = lat; _questLng = lng;
-  document.getElementById('mqLocationStatus').textContent = `â ${formattedAddress}`;
+  document.getElementById('mqLocationStatus').textContent = `✓ ${formattedAddress}`;
   _showMiniMapPin(lat, lng);
   _doSubmitQuest(name, desc, formattedAddress, lat, lng);
 }
@@ -1147,7 +1176,7 @@ function _doSubmitQuest(name, desc, locationName, lat, lng) {
 function NativeMap_onQuestSaved(success, questId) {
   document.getElementById('mqLoading').style.display = 'none';
   if (success) {
-    document.getElementById('mqSuccess').textContent = 'â Quest marker placed on the map.';
+    document.getElementById('mqSuccess').textContent = '✓ Quest marker placed on the map.';
     document.getElementById('mqSuccess').style.display = 'block';
     document.getElementById('mqName').value = '';
     document.getElementById('mqDesc').value = '';
@@ -1180,7 +1209,7 @@ function NativeMap_onQuestSaved(success, questId) {
     loadMyQuests();
     if (window._mapInstance && typeof NativeMap !== 'undefined') NativeMap.loadQuestMarkers();
   } else {
-    document.getElementById('mqError').textContent = 'â  Failed to save quest. Try again.';
+    document.getElementById('mqError').textContent = '⚠ Failed to save quest. Try again.';
     document.getElementById('mqError').style.display = 'block';
   }
 }
@@ -1193,11 +1222,11 @@ function NativeMap_onMyQuestsLoaded(questsJson) {
   const quests = _parseJson(questsJson) || [];
   const listEl = document.getElementById('myQuestsList');
   if (!quests.length) { listEl.innerHTML = '<div class="allies-empty">No quests placed yet.</div>'; return; }
-  const seekerLabels = { solo: 'â SOLO', partner: 'â PARTNER', group: 'â¦ GROUP' };
+  const seekerLabels = { solo: '◈ SOLO', partner: '⚔ PARTNER', group: '✦ GROUP' };
   listEl.innerHTML = quests.map(q => {
     const type = QUEST_TYPES[q.type] || QUEST_TYPES.exploration;
     const objsHtml = (q.objectives && q.objectives.length)
-      ? `<div class="my-quest-objs">${q.objectives.map(o => `<div class="my-quest-obj-row">â ${_esc(o)}</div>`).join('')}</div>`
+      ? `<div class="my-quest-objs">${q.objectives.map(o => `<div class="my-quest-obj-row">◈ ${_esc(o)}</div>`).join('')}</div>`
       : '';
     const seekerHtml = (q.seekerType && q.seekerType !== '')
       ? `<span class="my-quest-seeker">${seekerLabels[q.seekerType] || q.seekerType}</span>`
@@ -1210,8 +1239,8 @@ function NativeMap_onMyQuestsLoaded(questsJson) {
       <div class="my-quest-name">${_esc(q.name)}</div>
       ${q.description ? `<div class="my-quest-desc">${_esc(q.description)}</div>` : ''}
       ${objsHtml}
-      <div class="my-quest-loc">ð ${_esc(q.location || '')}</div>
-      <button class="ally-remove-btn" onclick="deleteQuest('${_esc(q.id)}')">â REMOVE</button>
+      <div class="my-quest-loc">📍 ${_esc(q.location || '')}</div>
+      <button class="ally-remove-btn" onclick="deleteQuest('${_esc(q.id)}')">✕ REMOVE</button>
     </div>`;
   }).join('');
 }
@@ -1237,7 +1266,7 @@ function NativeMap_onQuestDeleted(success, questId) {
    ================================================ */
 
 // acceptQuest / cancelSideQuest / completeSideQuest / renderSideQuests
-// are defined in QuestEngine.js â do not redefine here.
+// are defined in QuestEngine.js — do not redefine here.
 
 function switchSection(section) {
   ['chart','journal','cycles'].forEach(s => {
@@ -1282,7 +1311,7 @@ function buildJournal() {
     const dimVar   = 'var(' + strip.cssVar + '-dim)';
     const displayNum = fmt(root, compound);
 
-    // ââ Position-specific core text âââââââââââââââââââââââââââââââââââââââ
+    // ── Position-specific core text ───────────────────────────────────────
     let coreText = '';
     if      (strip.id === 'lp') coreText = rData.lp   || '';
     else if (strip.id === 'ex') coreText = rData.ex   || '';
@@ -1292,45 +1321,45 @@ function buildJournal() {
     else if (strip.id === 'th') coreText = rData.theme|| '';
     else if (strip.id === 'cl') {
       const cData = CALLING[root] || CALLING[reduceToSimple(root)] || CALLING[9];
-      coreText = cData.summary + '\n\n' + cData.career + '\n\nâ¦ Gift: ' + cData.gift;
+      coreText = cData.summary + '\n\n' + cData.career + '\n\n✦ Gift: ' + cData.gift;
     }
 
-    // ââ Compound flavour (only when compound differs from root) âââââââââââ
+    // ── Compound flavour (only when compound differs from root) ───────────
     const hasCompound = compound && compound !== root && COMPOUND_DESC[compound];
     const compoundHtml = hasCompound ? `
       <div class="journal-section">
-        <div class="journal-section-label" style="color:${colorVar};">â COMPOUND â ${compound}/${root}</div>
+        <div class="journal-section-label" style="color:${colorVar};">◈ COMPOUND — ${compound}/${root}</div>
         <div class="journal-section-text">${COMPOUND_DESC[compound]}</div>
       </div>` : '';
 
-    // ââ Compound digit influence (lp / ex / cl only) ââââââââââââââââââââââ
+    // ── Compound digit influence (lp / ex / cl only) ──────────────────────
     const rawInfluence = ['lp','ex','cl'].includes(strip.id)
       ? buildCompoundInfluence(root, compound, strip.id) : '';
     const influenceHtml = rawInfluence
       ? `<div class="journal-section">${rawInfluence}</div>` : '';
 
-    // ââ Position description âââââââââââââââââââââââââââââââââââââââââââââââ
+    // ── Position description ───────────────────────────────────────────────
     const coreHtml = coreText ? `
       <div class="journal-section">
-        <div class="journal-section-label" style="color:${colorVar};">â ${strip.label.toUpperCase()}</div>
+        <div class="journal-section-label" style="color:${colorVar};">◈ ${strip.label.toUpperCase()}</div>
         <div class="journal-section-text">${coreText.replace(/\n\n/g,'<br><br>')}</div>
       </div>` : '';
 
-    // ââ Shadow ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // ── Shadow ────────────────────────────────────────────────────────────
     const shadowHtml = rData.shadow ? `
       <div class="journal-section journal-section-shadow">
-        <div class="journal-section-label" style="color:var(--rose);">â SHADOW</div>
+        <div class="journal-section-label" style="color:var(--rose);">◈ SHADOW</div>
         <div class="journal-section-text">${rData.shadow}</div>
       </div>` : '';
 
-    // ââ Integration âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // ── Integration ───────────────────────────────────────────────────────
     const integrationHtml = rData.integration ? `
       <div class="journal-section journal-section-integration">
-        <div class="journal-section-label" style="color:${colorVar};">â INTEGRATION</div>
+        <div class="journal-section-label" style="color:${colorVar};">◈ INTEGRATION</div>
         <div class="journal-section-text">${rData.integration}</div>
       </div>` : '';
 
-    // ââ Affirmation âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // ── Affirmation ───────────────────────────────────────────────────────
     const affHtml = rData.aff ? `
       <div class="journal-affirmation" style="color:${colorVar};border-color:${dimVar};">${rData.aff}</div>` : '';
 
@@ -1350,7 +1379,7 @@ function buildJournal() {
             <div class="strip-name" style="color:${colorVar};opacity:0.7;">${rData.name || ''}</div>
           </div>
         </div>
-        <div class="strip-chevron">â¶</div>
+        <div class="strip-chevron">▶</div>
       </div>
       <div class="strip-body">
         <div class="strip-content">
@@ -1372,7 +1401,7 @@ function toggleStrip(strip) {
 
 /* ================================================
    CHART BUILDER
-   (STAT_NAMES, ELECTRIC/MAGNETIC/AETHER_NUMS, POLARITY_COLORS/CONFIGS, AETHER_TIERS â data.js)
+   (STAT_NAMES, ELECTRIC/MAGNETIC/AETHER_NUMS, POLARITY_COLORS/CONFIGS, AETHER_TIERS → data.js)
    ================================================ */
 function getPolarity(n) {
   if (AETHER_NUMS.has(n))   return 'aether';
@@ -1390,7 +1419,7 @@ function countNums0to9(arr) {
 function buildCharts() {
   const { lp, ex, cl, so, ou, ac, th, name, m, d, y } = playerData;
 
-  // Keep zeros for aether counting â include 0s from birthdate
+  // Keep zeros for aether counting — include 0s from birthdate
   const bdDigitsAll = [...String(m), ...String(d), ...String(y)].map(Number);
   const bdCounts    = countNums0to9(bdDigitsAll);
 
@@ -1406,7 +1435,7 @@ function buildCharts() {
 
   const maxTot = Math.max(...Object.values(combined), 1);
 
-  // Primary frequency highlights â CL, LP, EX roots drive main quest/life path/expression
+  // Primary frequency highlights — CL, LP, EX roots drive main quest/life path/expression
   const primaryStats = new Set([
     cl.root > 9 ? (cl.root === 11 ? 2 : cl.root === 22 ? 4 : 6) : cl.root,
     lp.root > 9 ? (lp.root === 11 ? 2 : lp.root === 22 ? 4 : 6) : lp.root,
@@ -1439,13 +1468,13 @@ function buildCharts() {
         </div>
         <div class="stat-fill-bar"><div class="stat-fill-inner" style="width:${fillPct}%;background:${accent};"></div></div>
       </div>
-      <div class="stat-col-box" style="color:var(--amber);border-color:${bq > 0 ? 'rgba(180,120,40,0.35)' : 'var(--border)'};">${bq || 'â'}</div>
-      <div class="stat-col-box" style="color:var(--sage);border-color:${nq > 0 ? 'rgba(100,160,100,0.35)' : 'var(--border)'};">${nq || 'â'}</div>
-      <div class="stat-col-box" id="statQU_${i}" style="color:var(--text-dim);">â</div>
+      <div class="stat-col-box" style="color:var(--amber);border-color:${bq > 0 ? 'rgba(180,120,40,0.35)' : 'var(--border)'};">${bq || '—'}</div>
+      <div class="stat-col-box" style="color:var(--sage);border-color:${nq > 0 ? 'rgba(100,160,100,0.35)' : 'var(--border)'};">${nq || '—'}</div>
+      <div class="stat-col-box" id="statQU_${i}" style="color:var(--text-dim);">—</div>
       <div class="stat-col-box stat-col-total" id="statTOT_${i}"
            data-base="${base}" data-accent="${accent}" data-dim="${dim}"
            style="color:${base > 0 ? accent : 'var(--text-dim)'};border-color:${base > 0 ? dim : 'var(--border)'};"
-      >${base || 'â'}</div>`;
+      >${base || '—'}</div>`;
     // Hook QuestEngine after DOM is ready
     setTimeout(() => { if (typeof QuestEngine_setStatBase === 'function') QuestEngine_setStatBase(i, base, accent, dim); }, 0);
     return row;
@@ -1501,7 +1530,7 @@ function buildPolarityCard() {
       <div class="polarity-badge-row">
         ${aetherTier ? `
         <div class="polarity-badge" style="color:var(--gold);border-color:var(--gold-dim);">
-          <span class="polarity-icon">â¦</span>
+          <span class="polarity-icon">✦</span>
           <span class="polarity-type" style="color:var(--gold);">AETHERIC</span>
         </div>` : ''}
         <div class="polarity-badge" style="color:${cfg.color};border-color:${cfg.dim};">
@@ -1518,16 +1547,16 @@ function buildPolarityCard() {
         </div>
       </div>
       <div class="polarity-counts">
-        <span style="color:var(--teal);">â¡ ${elec}</span>
-        <span style="color:var(--border-glow);">Â·</span>
-        <span style="color:var(--purple);">â ${mag}</span>
-        <span style="color:var(--border-glow);">Â·</span>
-        <span style="color:var(--gold);">â¦ ${aeth}</span>
+        <span style="color:var(--teal);">⚡ ${elec}</span>
+        <span style="color:var(--border-glow);">·</span>
+        <span style="color:var(--purple);">◉ ${mag}</span>
+        <span style="color:var(--border-glow);">·</span>
+        <span style="color:var(--gold);">✦ ${aeth}</span>
       </div>
       <div class="polarity-legend">
-        <span style="color:var(--teal);">â¡ ELECTRIC</span>
-        <span style="color:var(--purple);">â MAGNETIC</span>
-        <span style="color:var(--gold);">â¦ AETHER</span>
+        <span style="color:var(--teal);">⚡ ELECTRIC</span>
+        <span style="color:var(--purple);">◉ MAGNETIC</span>
+        <span style="color:var(--gold);">✦ AETHER</span>
       </div>
       ${aetherTier ? `
       <div class="aether-tier-banner">
@@ -1541,10 +1570,10 @@ function buildPolarityCard() {
     </div>`;
 }
 
-function renderStackedBarChart() {} // stub â kept so any old calls don't throw
+function renderStackedBarChart() {} // stub — kept so any old calls don't throw
 
 /* ================================================
-   CHARACTER CARD â CORE NUMBERS
+   CHARACTER CARD — CORE NUMBERS
    ================================================ */
 function buildCharCoreNumbers(lp, cl, ex) {
   const container = document.getElementById('charCoreNumbers');
@@ -1559,11 +1588,11 @@ function buildCharCoreNumbers(lp, cl, ex) {
       <div class="core-num-value" style="color:${n.color};">${n.num}</div>
       <div class="core-num-label">${n.label}</div>
     </div>`
-  ).join('<div class="core-num-sep">â</div>');
+  ).join('<div class="core-num-sep">◈</div>');
 }
 
 /* ================================================
-   CHARACTER CARD â AVATAR UPLOAD
+   CHARACTER CARD — AVATAR UPLOAD
    ================================================ */
 const LS_AVATAR = 'scl_avatar';
 
@@ -1601,7 +1630,7 @@ function loadSavedAvatar() {
 }
 
 /* ================================================
-   CHARACTER CARD â GIFTS / SKILLS
+   CHARACTER CARD — GIFTS / SKILLS
    Sources: day of birth (d), soul (so), outer (ou)
    ================================================ */
 function buildGifts(d, so, ou) {
@@ -1680,7 +1709,7 @@ function toggleGiftInfo(index, event) {
   // Fill content
   const g = gifts[index];
   document.getElementById('giftPopupTitle').innerHTML  = `<span style="color:${g.color}">${g.glyph} ${g.word}</span>`;
-  document.getElementById('giftPopupSource').innerHTML = `<span style="color:${g.color}">SOURCE: ${g.sourceLabel} Â· ${g.root}</span>`;
+  document.getElementById('giftPopupSource').innerHTML = `<span style="color:${g.color}">SOURCE: ${g.sourceLabel} · ${g.root}</span>`;
   document.getElementById('giftPopupDesc').textContent = g.desc;
 
   // Show offscreen first to measure height
@@ -1715,12 +1744,12 @@ function toggleGiftInfo(index, event) {
    into the quest description.
    ================================================ */
 
-// (FIELD_LABELS, ROOT_INFLUENCE, DIGIT_INFLUENCE â data.js)
+// (FIELD_LABELS, ROOT_INFLUENCE, DIGIT_INFLUENCE → data.js)
 
 /**
  * Resolve a compound number into its 2-digit form and constituent digits.
  * Returns { twoDigit, digitA, digitB } where twoDigit is the displayable
- * 2-digit compound and digitA/digitB are its constituent digits (0â9).
+ * 2-digit compound and digitA/digitB are its constituent digits (0–9).
  */
 function resolveCompoundDigits(root, compound) {
   // If compound is already 2 digits, use directly
@@ -1761,19 +1790,19 @@ function buildCompoundInfluence(root, compound, field) {
     : false;
 
   let html = `<div class="compound-influence">`;
-  html += `<div class="ci-header">â COMPOUND INFLUENCE â ${twoDigit !== root ? twoDigit + '/' + root : root}</div>`;
+  html += `<div class="ci-header">◈ COMPOUND INFLUENCE — ${twoDigit !== root ? twoDigit + '/' + root : root}</div>`;
 
   // Digit A influence
   if (infA) html += `<div class="ci-digit"><span class="ci-digit-num">${digitA}</span><span class="ci-digit-text">${infA}</span></div>`;
-  // Digit B influence (skip if same digit as A â e.g. 77 â merge into one statement)
+  // Digit B influence (skip if same digit as A — e.g. 77 — merge into one statement)
   if (infB && digitB !== digitA) {
     html += `<div class="ci-digit"><span class="ci-digit-num">${digitB}</span><span class="ci-digit-text">${infB}</span></div>`;
   } else if (digitB === digitA && infA) {
-    // doubled digit â already covered, add emphasis note
-    html += `<div class="ci-doubled">Both digits are ${digitA} â this frequency is doubled in intensity, not split between two qualities.</div>`;
+    // doubled digit — already covered, add emphasis note
+    html += `<div class="ci-doubled">Both digits are ${digitA} — this frequency is doubled in intensity, not split between two qualities.</div>`;
   }
 
-  // Root influence â only show when root is different from the digits
+  // Root influence — only show when root is different from the digits
   if (rootIsHidden && rootInfluence) {
     html += `<div class="ci-root"><span class="ci-root-label">ROOT ${reduceToSimple(root)}</span><span class="ci-root-text">${rootInfluence}</span></div>`;
   }
@@ -1792,7 +1821,7 @@ function getQuestData(root, compound, field) {
     ? (MASTER_QUESTS[root] || MASTER_QUESTS[11])
     : (NUM_QUESTS[root] || NUM_QUESTS[9]);
 
-  // Look up compound flavour â use compound if it exists, otherwise fall back to root
+  // Look up compound flavour — use compound if it exists, otherwise fall back to root
   const compoundKey = (compound && compound !== root) ? compound : root;
   const flavour = COMPOUND_DESC[compoundKey] || COMPOUND_DESC[root] || '';
 
@@ -1872,7 +1901,7 @@ function calcFourMonthCycle(m, d) {
 
 /* ================================================
    CYCLES BUILDER
-   (MONTH_NAMES, CYCLE_MEANINGS â data.js)
+   (MONTH_NAMES, CYCLE_MEANINGS → data.js)
    ================================================ */
 function makeCycleStrip({ colorVar, number, label, role, theme, summary, detail }) {
   const el = document.createElement('div');
@@ -1888,7 +1917,7 @@ function makeCycleStrip({ colorVar, number, label, role, theme, summary, detail 
           <div class="strip-name" style="color:${colorVar};opacity:0.7;">${theme}</div>
         </div>
       </div>
-      <div class="strip-chevron">â¶</div>
+      <div class="strip-chevron">▶</div>
     </div>
     <div class="strip-body">
       <div class="strip-content">
@@ -1923,7 +1952,7 @@ function buildCycles() {
 
   const fmc     = calcFourMonthCycle(m, d);
   const fmcData = CYCLE_MEANINGS.fourMonthCycle[fmc.root] || CYCLE_MEANINGS.fourMonthCycle[9];
-  const fmcRange = MONTH_NAMES[fmc.startMonthIdx] + 'â' + MONTH_NAMES[fmc.endMonthIdx];
+  const fmcRange = MONTH_NAMES[fmc.startMonthIdx] + '–' + MONTH_NAMES[fmc.endMonthIdx];
 
   const pm     = calcPersonalMonth(m, d);
   const pmData = CYCLE_MEANINGS.personalMonth[pm.root] || CYCLE_MEANINGS.personalMonth[9];
@@ -1931,8 +1960,8 @@ function buildCycles() {
   const pd     = calcPersonalDay(m, d);
   const pdData = CYCLE_MEANINGS.personalDay[pd.root] || CYCLE_MEANINGS.personalDay[9];
 
-  container.appendChild(makeCycleStrip({ colorVar:'var(--teal)',   number:String(py.root),          label:'PERSONAL YEAR '+cycleStartYear+'â'+cycleEndYear, role:'Your 9-year cycle frequency', theme:pyData.theme, summary:pyData.summary, detail:`Your personal year runs ${m}/${d}/${cycleStartYear} â ${m}/${d}/${cycleEndYear}.` }));
-  container.appendChild(makeCycleStrip({ colorVar:'var(--gold)',   number:String(currentPinn.root), label:'PINNACLE '+pinnIndex+' â ACTIVE', role:(currentPinn.endAge?`Ages ${currentPinn.startAge}â${currentPinn.endAge}`:`Age ${currentPinn.startAge}+`)+' Â· Your major life chapter', theme:pinnData.theme, summary:pinnData.summary, detail:`All four pinnacles: ${pinnacles.map((p,i)=>`P${i+1}=${p.root}`).join('  Â·  ')}` }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--teal)',   number:String(py.root),          label:'PERSONAL YEAR '+cycleStartYear+'–'+cycleEndYear, role:'Your 9-year cycle frequency', theme:pyData.theme, summary:pyData.summary, detail:`Your personal year runs ${m}/${d}/${cycleStartYear} → ${m}/${d}/${cycleEndYear}.` }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--gold)',   number:String(currentPinn.root), label:'PINNACLE '+pinnIndex+' — ACTIVE', role:(currentPinn.endAge?`Ages ${currentPinn.startAge}–${currentPinn.endAge}`:`Age ${currentPinn.startAge}+`)+' · Your major life chapter', theme:pinnData.theme, summary:pinnData.summary, detail:`All four pinnacles: ${pinnacles.map((p,i)=>`P${i+1}=${p.root}`).join('  ·  ')}` }));
 
   // All four pinnacles breakdown
   const allPinnEl = document.createElement('div');
@@ -1942,25 +1971,25 @@ function buildCycles() {
     <div class="strip-trigger" onclick="toggleStrip(this.closest('.journal-strip'))">
       <div class="strip-accent-bar" style="background:var(--gold-dim);"></div>
       <div class="strip-main">
-        <div class="strip-number" style="color:var(--gold-dim);font-size:14px;line-height:1.3;">P1Â·P2<br>P3Â·P4</div>
+        <div class="strip-number" style="color:var(--gold-dim);font-size:14px;line-height:1.3;">P1·P2<br>P3·P4</div>
         <div class="strip-info">
           <div class="strip-label" style="color:var(--gold);">ALL FOUR PINNACLES</div>
           <div class="strip-role">Your full major chapter map</div>
-          <div class="strip-name" style="color:var(--gold-dim);opacity:0.8;">${pinnacles.map((p,i)=>`P${i+1}: ${p.root}`).join('  Â·  ')}</div>
+          <div class="strip-name" style="color:var(--gold-dim);opacity:0.8;">${pinnacles.map((p,i)=>`P${i+1}: ${p.root}`).join('  ·  ')}</div>
         </div>
       </div>
-      <div class="strip-chevron">â¶</div>
+      <div class="strip-chevron">▶</div>
     </div>
     <div class="strip-body"><div class="strip-content">
       ${pinnacles.map((p,i) => {
         const pd2  = CYCLE_MEANINGS.pinnacle[p.root] || CYCLE_MEANINGS.pinnacle[9];
-        const ages = p.endAge ? `Ages ${p.startAge}â${p.endAge}` : `Age ${p.startAge}+`;
+        const ages = p.endAge ? `Ages ${p.startAge}–${p.endAge}` : `Age ${p.startAge}+`;
         return `<div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
             <span style="font-family:'VT323',monospace;font-size:28px;color:${pinnColors[i]};">${p.root}</span>
             <div>
-              <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:${pinnColors[i]};letter-spacing:1px;">PINNACLE ${i+1}${p===currentPinn?' â ACTIVE':''}</div>
-              <div style="font-size:10px;color:var(--text-dim);margin-top:2px;">${ages} Â· ${pd2.theme}</div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:${pinnColors[i]};letter-spacing:1px;">PINNACLE ${i+1}${p===currentPinn?' ◈ ACTIVE':''}</div>
+              <div style="font-size:10px;color:var(--text-dim);margin-top:2px;">${ages} · ${pd2.theme}</div>
             </div>
           </div>
           <div style="font-size:12px;color:var(--text);line-height:1.8;">${pd2.summary}</div>
@@ -1969,15 +1998,15 @@ function buildCycles() {
     </div></div>`;
   container.appendChild(allPinnEl);
 
-  container.appendChild(makeCycleStrip({ colorVar:'var(--purple)', number:String(fmc.root), label:'FOUR-MONTH CYCLE '+fmc.cycleNum, role:'Personal months '+((fmc.cycleNum-1)*4+1)+'â'+(fmc.cycleNum*4)+' Â· '+fmcRange+' (approx)', theme:fmcData.theme, summary:fmcData.summary, detail:`Cycle ${fmc.cycleNum} of 3 Â· Personal months ${(fmc.cycleNum-1)*4+1}â${fmc.cycleNum*4} of your year` }));
-  container.appendChild(makeCycleStrip({ colorVar:'var(--rose)',   number:String(pm.root),  label:'PERSONAL MONTH '+pm.monthNum+' â '+MONTH_NAMES[now.getMonth()], role:'Month '+pm.monthNum+' of your personal year', theme:pmData.theme, summary:pmData.summary, detail:`Personal months count from your birthday. Month ${pm.monthNum} runs until next month's birthday date.` }));
-  container.appendChild(makeCycleStrip({ colorVar:'var(--sage)',   number:String(pd.root),  label:'PERSONAL DAY '+pd.dayNum+' â '+MONTH_NAMES[now.getMonth()]+' '+now.getDate(), role:'Day '+pd.dayNum+' of personal month '+pm.monthNum, theme:pdData.theme, summary:pdData.summary, detail:'The personal day resets each calendar day at midnight.' }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--purple)', number:String(fmc.root), label:'FOUR-MONTH CYCLE '+fmc.cycleNum, role:'Personal months '+((fmc.cycleNum-1)*4+1)+'–'+(fmc.cycleNum*4)+' · '+fmcRange+' (approx)', theme:fmcData.theme, summary:fmcData.summary, detail:`Cycle ${fmc.cycleNum} of 3 · Personal months ${(fmc.cycleNum-1)*4+1}–${fmc.cycleNum*4} of your year` }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--rose)',   number:String(pm.root),  label:'PERSONAL MONTH '+pm.monthNum+' — '+MONTH_NAMES[now.getMonth()], role:'Month '+pm.monthNum+' of your personal year', theme:pmData.theme, summary:pmData.summary, detail:`Personal months count from your birthday. Month ${pm.monthNum} runs until next month's birthday date.` }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--sage)',   number:String(pd.root),  label:'PERSONAL DAY '+pd.dayNum+' — '+MONTH_NAMES[now.getMonth()]+' '+now.getDate(), role:'Day '+pd.dayNum+' of personal month '+pm.monthNum, theme:pdData.theme, summary:pdData.summary, detail:'The personal day resets each calendar day at midnight.' }));
 }
 
 /* ================================================
    CURRENT QUESTS BUILDER
    ================================================ */
-// (CURRENT_QUEST_OBJECTIVES â data.js)
+// (CURRENT_QUEST_OBJECTIVES → data.js)
 
 function buildCurrentQuests() {
   const { lp, th, m, d, y } = playerData;
@@ -1998,14 +2027,14 @@ function buildCurrentQuests() {
   const fmc         = calcFourMonthCycle(m, d);
   const pm          = calcPersonalMonth(m, d);
   const pd          = calcPersonalDay(m, d);
-  const fmcRange    = MONTH_NAMES[fmc.startMonthIdx] + 'â' + MONTH_NAMES[fmc.endMonthIdx];
+  const fmcRange    = MONTH_NAMES[fmc.startMonthIdx] + '–' + MONTH_NAMES[fmc.endMonthIdx];
 
   function getCycleObjs(type, root) {
     const map = CURRENT_QUEST_OBJECTIVES[type];
     return (map && map[root]) ? map[root] : ['Stay present to the energy of this cycle.','Act in alignment with the theme of this period.','Reflect on what this cycle is asking you to release or begin.'];
   }
 
-  // Theme Quest â always first in current (your fixed life curriculum colour)
+  // Theme Quest — always first in current (your fixed life curriculum colour)
   {
     const root = th.root, compound = th.compound;
     const qData = getQuestData(root, compound);
@@ -2013,11 +2042,11 @@ function buildCurrentQuests() {
   }
 
   const cycles = [
-    { type:'personalYear',   num:py.root,         title:'PERSONAL YEAR '+cycleStartYear+'â'+cycleEndYear+' QUEST', sub:(CYCLE_MEANINGS.personalYear[py.root]||CYCLE_MEANINGS.personalYear[9]).theme+' Â· Birthday to Birthday', archetype:'Year '+cycleStartYear+'â'+cycleEndYear+' Â· 9-Year Cycle', desc:(CYCLE_MEANINGS.personalYear[py.root]||CYCLE_MEANINGS.personalYear[9]).summary, objs:getCycleObjs('personalYear',py.root), aff:'I am aligned with my personal year frequency. I move with my cycle\'s design.', typeLabel:'YEAR QUEST' },
-    { type:'pinnacle',       num:currentPinn.root, title:'PINNACLE '+pinnIndex+' QUEST â ACTIVE', sub:(CYCLE_MEANINGS.pinnacle[currentPinn.root]||CYCLE_MEANINGS.pinnacle[9]).theme+' Â· '+(currentPinn.endAge?`Ages ${currentPinn.startAge}â${currentPinn.endAge}`:`Age ${currentPinn.startAge}+`), archetype:'Major Life Chapter Â· Pinnacle '+pinnIndex+' of 4', desc:(CYCLE_MEANINGS.pinnacle[currentPinn.root]||CYCLE_MEANINGS.pinnacle[9]).summary, objs:getCycleObjs('pinnacle',currentPinn.root), aff:'I meet this chapter with full presence. I learn what it is here to teach.', typeLabel:'PINNACLE QUEST' },
-    { type:'fourMonthCycle', num:fmc.root,         title:'FOUR-MONTH CYCLE '+fmc.cycleNum+' QUEST', sub:(CYCLE_MEANINGS.fourMonthCycle[fmc.root]||CYCLE_MEANINGS.fourMonthCycle[9]).theme+' Â· Personal months '+((fmc.cycleNum-1)*4+1)+'â'+(fmc.cycleNum*4), archetype:'Seasonal Chapter Â· Cycle '+fmc.cycleNum+' of 3', desc:(CYCLE_MEANINGS.fourMonthCycle[fmc.root]||CYCLE_MEANINGS.fourMonthCycle[9]).summary, objs:getCycleObjs('fourMonthCycle',fmc.root), aff:'I work with the energy of this season. I do not resist what it is asking.', typeLabel:'SEASON QUEST' },
-    { type:'personalMonth',  num:pm.root,          title:'PERSONAL MONTH '+pm.monthNum+' QUEST', sub:(CYCLE_MEANINGS.personalMonth[pm.root]||CYCLE_MEANINGS.personalMonth[9]).theme+' Â· Month '+pm.monthNum+' of your personal year', archetype:'Monthly Frequency Â· Month '+pm.monthNum+' of 12', desc:(CYCLE_MEANINGS.personalMonth[pm.root]||CYCLE_MEANINGS.personalMonth[9]).summary, objs:getCycleObjs('personalMonth',pm.root), aff:'This month I act in alignment with what is most alive in me right now.', typeLabel:'MONTH QUEST' },
-    { type:'personalDay',    num:pd.root,          title:'PERSONAL DAY '+pd.dayNum+' QUEST â '+MONTH_NAMES[now.getMonth()]+' '+now.getDate(), sub:(CYCLE_MEANINGS.personalDay[pd.root]||CYCLE_MEANINGS.personalDay[9]).theme+' Â· Day '+pd.dayNum+' of month '+pm.monthNum, archetype:'Daily Frequency Â· Resets at Midnight', desc:(CYCLE_MEANINGS.personalDay[pd.root]||CYCLE_MEANINGS.personalDay[9]).summary, objs:getCycleObjs('personalDay',pd.root), aff:'Today I act with full intention. Each day is a complete cycle.', typeLabel:'DAY QUEST' },
+    { type:'personalYear',   num:py.root,         title:'PERSONAL YEAR '+cycleStartYear+'–'+cycleEndYear+' QUEST', sub:(CYCLE_MEANINGS.personalYear[py.root]||CYCLE_MEANINGS.personalYear[9]).theme+' · Birthday to Birthday', archetype:'Year '+cycleStartYear+'–'+cycleEndYear+' · 9-Year Cycle', desc:(CYCLE_MEANINGS.personalYear[py.root]||CYCLE_MEANINGS.personalYear[9]).summary, objs:getCycleObjs('personalYear',py.root), aff:'I am aligned with my personal year frequency. I move with my cycle\'s design.', typeLabel:'YEAR QUEST' },
+    { type:'pinnacle',       num:currentPinn.root, title:'PINNACLE '+pinnIndex+' QUEST — ACTIVE', sub:(CYCLE_MEANINGS.pinnacle[currentPinn.root]||CYCLE_MEANINGS.pinnacle[9]).theme+' · '+(currentPinn.endAge?`Ages ${currentPinn.startAge}–${currentPinn.endAge}`:`Age ${currentPinn.startAge}+`), archetype:'Major Life Chapter · Pinnacle '+pinnIndex+' of 4', desc:(CYCLE_MEANINGS.pinnacle[currentPinn.root]||CYCLE_MEANINGS.pinnacle[9]).summary, objs:getCycleObjs('pinnacle',currentPinn.root), aff:'I meet this chapter with full presence. I learn what it is here to teach.', typeLabel:'PINNACLE QUEST' },
+    { type:'fourMonthCycle', num:fmc.root,         title:'FOUR-MONTH CYCLE '+fmc.cycleNum+' QUEST', sub:(CYCLE_MEANINGS.fourMonthCycle[fmc.root]||CYCLE_MEANINGS.fourMonthCycle[9]).theme+' · Personal months '+((fmc.cycleNum-1)*4+1)+'–'+(fmc.cycleNum*4), archetype:'Seasonal Chapter · Cycle '+fmc.cycleNum+' of 3', desc:(CYCLE_MEANINGS.fourMonthCycle[fmc.root]||CYCLE_MEANINGS.fourMonthCycle[9]).summary, objs:getCycleObjs('fourMonthCycle',fmc.root), aff:'I work with the energy of this season. I do not resist what it is asking.', typeLabel:'SEASON QUEST' },
+    { type:'personalMonth',  num:pm.root,          title:'PERSONAL MONTH '+pm.monthNum+' QUEST', sub:(CYCLE_MEANINGS.personalMonth[pm.root]||CYCLE_MEANINGS.personalMonth[9]).theme+' · Month '+pm.monthNum+' of your personal year', archetype:'Monthly Frequency · Month '+pm.monthNum+' of 12', desc:(CYCLE_MEANINGS.personalMonth[pm.root]||CYCLE_MEANINGS.personalMonth[9]).summary, objs:getCycleObjs('personalMonth',pm.root), aff:'This month I act in alignment with what is most alive in me right now.', typeLabel:'MONTH QUEST' },
+    { type:'personalDay',    num:pd.root,          title:'PERSONAL DAY '+pd.dayNum+' QUEST — '+MONTH_NAMES[now.getMonth()]+' '+now.getDate(), sub:(CYCLE_MEANINGS.personalDay[pd.root]||CYCLE_MEANINGS.personalDay[9]).theme+' · Day '+pd.dayNum+' of month '+pm.monthNum, archetype:'Daily Frequency · Resets at Midnight', desc:(CYCLE_MEANINGS.personalDay[pd.root]||CYCLE_MEANINGS.personalDay[9]).summary, objs:getCycleObjs('personalDay',pd.root), aff:'Today I act with full intention. Each day is a complete cycle.', typeLabel:'DAY QUEST' },
   ];
 
   cycles.forEach(c => {
@@ -2074,13 +2103,13 @@ function buildLifeQuests() {
   mqCard.innerHTML = `
     <div class="mq-banner" style="position:relative;overflow:hidden;">
       <div class="sparkle-field">
-        <span class="sparkle">â¦</span>
-        <span class="sparkle">â§</span>
-        <span class="sparkle">â¦</span>
-        <span class="sparkle">â§</span>
-        <span class="sparkle">â¦</span>
+        <span class="sparkle">✦</span>
+        <span class="sparkle">✧</span>
+        <span class="sparkle">✦</span>
+        <span class="sparkle">✧</span>
+        <span class="sparkle">✦</span>
       </div>
-      <div class="mq-banner-label">â MAIN QUEST â LIFE CALLING</div>
+      <div class="mq-banner-label">★ MAIN QUEST — LIFE CALLING</div>
       <div class="mq-banner-badge">${isMasterCl ? 'MASTER NUMBER' : 'PRIMARY MISSION'}</div>
     </div>
     <div class="mq-body">
@@ -2091,7 +2120,7 @@ function buildLifeQuests() {
         </div>
       </div>
       <div class="mq-objectives">
-        <div class="mq-obj-title">â¶ MISSION OBJECTIVES</div>
+        <div class="mq-obj-title">▶ MISSION OBJECTIVES</div>
         ${makeLifeTieredObjsHtml('cl', cl.root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1)}
       </div>
     </div>`;
@@ -2106,7 +2135,7 @@ function buildLifeQuests() {
     lifeEl.appendChild(makeQuestCard({ num: fmt(root, compound), color: qData.color, colorDim: qData.colorDim, title: 'LIFE PATH QUEST', sub: 'What You Learn', freqTag: 'LIFE PATH', typeLabel: 'LIFE QUEST', archetype: qData.archetype, desc: qData.desc, objectives: [], affirmation: qData.affirmation, abundance, abundancePct, isMaster: MASTERS.has(root), tieredObjsHtml: makeLifeTieredObjsHtml('lp', root, typeof _freqLevel !== 'undefined' ? _freqLevel : 1) }));
   }
 
-  // Expression quest â Soul + Outer roots shown as subsection before objectives
+  // Expression quest — Soul + Outer roots shown as subsection before objectives
   {
     const root = ex.root, compound = ex.compound;
     const qData  = getQuestData(root, compound, 'ex');
@@ -2120,12 +2149,12 @@ function buildLifeQuests() {
       <div class="quest-subsection">
         <div class="quest-subsection-row">
           <span class="quest-subsection-num" style="color:${soCol};">${soNum}</span>
-          <span class="quest-subsection-label" style="color:${soCol};">SOUL Â· ${soRoot.name}</span>
+          <span class="quest-subsection-label" style="color:${soCol};">SOUL · ${soRoot.name}</span>
         </div>
         <div class="quest-subsection-text">${soRoot.soul}</div>
         <div class="quest-subsection-row" style="margin-top:10px;">
           <span class="quest-subsection-num" style="color:${ouCol};">${ouNum}</span>
-          <span class="quest-subsection-label" style="color:${ouCol};">OUTER Â· ${ouRoot.name}</span>
+          <span class="quest-subsection-label" style="color:${ouCol};">OUTER · ${ouRoot.name}</span>
         </div>
         <div class="quest-subsection-text">${ouRoot.outer}</div>
       </div>`;
@@ -2169,7 +2198,7 @@ function buildLifeQuests() {
   if (bonusNums.length > 0) {
     const header = document.createElement('div');
     header.style.cssText = 'font-family:"Press Start 2P",monospace;font-size:6px;color:var(--text-dim);letter-spacing:2px;padding:6px 0 10px;margin-top:4px;border-top:1px solid var(--border);';
-    header.textContent = 'â ABUNDANCE QUESTS â UNLOCKED BY YOUR NUMBER FREQUENCY';
+    header.textContent = '◈ ABUNDANCE QUESTS — UNLOCKED BY YOUR NUMBER FREQUENCY';
     sideEl.appendChild(header);
 
     bonusNums.forEach(([numStr, count]) => {
@@ -2179,7 +2208,7 @@ function buildLifeQuests() {
       sideEl.appendChild(makeQuestCard({
         num: String(n), color: qData.color, colorDim: qData.colorDim,
         title: numStr + ' ABUNDANCE QUEST',
-        sub: `High frequency â appears ${count}Ã in your code`,
+        sub: `High frequency — appears ${count}× in your code`,
         freqTag: qData.archetype, typeLabel: 'BONUS QUEST',
         archetype: qData.archetype,
         desc: `The number ${n} appears ${count} times across your birthdate, name, and frequencies.\n\n${qData.desc}`,
@@ -2200,11 +2229,11 @@ function makeQuestCard({ num, color, colorDim, title, sub, freqTag, typeLabel, a
   el.innerHTML = `
     <div class="quest-trigger" onclick="toggleQuestCard('${uid}')">
       <div class="sparkle-field">
-        <span class="sparkle">â¦</span>
-        <span class="sparkle">â§</span>
-        <span class="sparkle">â¦</span>
-        <span class="sparkle">â§</span>
-        <span class="sparkle">â¦</span>
+        <span class="sparkle">✦</span>
+        <span class="sparkle">✧</span>
+        <span class="sparkle">✦</span>
+        <span class="sparkle">✧</span>
+        <span class="sparkle">✦</span>
       </div>
       <div class="quest-accent-bar" style="background:${colorVar};color:${colorVar};"></div>
       <div class="quest-main">
@@ -2220,14 +2249,14 @@ function makeQuestCard({ num, color, colorDim, title, sub, freqTag, typeLabel, a
       </div>
       <div class="quest-meta">
         <div class="quest-type-badge" style="color:${colorVar};">${typeLabel}</div>
-        <div class="quest-chevron">â¶</div>
+        <div class="quest-chevron">▶</div>
       </div>
     </div>
     <div class="quest-body">
       <div class="quest-content">
-        <div class="quest-section-title">â¶ OBJECTIVES</div>
+        <div class="quest-section-title">▶ OBJECTIVES</div>
         ${extraHtml}
-        ${tieredObjsHtml || `<div class="quest-objectives-list">${objectives.map(o => `<div class="quest-obj-row"><span class="quest-obj-dot" style="color:${colorVar};">â</span><span>${o}</span></div>`).join('')}</div>`}
+        ${tieredObjsHtml || `<div class="quest-objectives-list">${objectives.map(o => `<div class="quest-obj-row"><span class="quest-obj-dot" style="color:${colorVar};">◈</span><span>${o}</span></div>`).join('')}</div>`}
       </div>
     </div>`;
   return el;
@@ -2242,7 +2271,7 @@ function toggleQuestCard(id) {
    ALLIES SYSTEM
    ================================================ */
 
-/* ââ Kotlin bridge callbacks (called by Kotlin â JS) ââââââââââââââââââââ */
+/* ── Kotlin bridge callbacks (called by Kotlin → JS) ──────────────────── */
 
 /** Called by Kotlin after NativeAllies.searchByEmail() */
 function NativeAllies_onSearchResult(found, uid, name, lp, cl, ex) {
@@ -2275,9 +2304,9 @@ function NativeAllies_onSearchResult(found, uid, name, lp, cl, ex) {
       </div>
       <div class="ally-card-info">
         <div class="ally-card-name">${_esc(name)}</div>
-        <div class="ally-card-role">LP Â· ${lp}  Â·  Calling Â· ${cl}  Â·  Ex Â· ${ex}</div>
+        <div class="ally-card-role">LP · ${lp}  ·  Calling · ${cl}  ·  Ex · ${ex}</div>
       </div>
-      <button class="settings-btn" onclick="sendAllyRequest('${_esc(uid)}', '${_esc(name)}')">â¶ REQUEST</button>
+      <button class="settings-btn" onclick="sendAllyRequest('${_esc(uid)}', '${_esc(name)}')">▶ REQUEST</button>
     </div>`;
 }
 
@@ -2288,7 +2317,7 @@ function NativeAllies_onRequestSent(success, errorMsg) {
   document.getElementById('allySearchResult').style.display = 'none';
   document.getElementById('allySearchInput').value = '';
   if (success) {
-    _allyMsg(successEl, 'â Ally request sent.');
+    _allyMsg(successEl, '✓ Ally request sent.');
   } else {
     _allyMsg(errorEl, errorMsg || 'Could not send request.');
   }
@@ -2317,8 +2346,8 @@ function NativeAllies_onRequestsLoaded(requestsJson) {
         <div class="ally-card-role">Wants to ally with you</div>
       </div>
       <div class="ally-request-btns">
-        <button class="settings-btn" onclick="respondAllyRequest('${_esc(r.uid)}', true)">â¶ ACCEPT</button>
-        <button class="settings-btn ally-btn-decline" onclick="respondAllyRequest('${_esc(r.uid)}', false)">â¶ DECLINE</button>
+        <button class="settings-btn" onclick="respondAllyRequest('${_esc(r.uid)}', true)">▶ ACCEPT</button>
+        <button class="settings-btn ally-btn-decline" onclick="respondAllyRequest('${_esc(r.uid)}', false)">▶ DECLINE</button>
       </div>
     </div>`).join('');
 }
@@ -2341,9 +2370,9 @@ function NativeAllies_onAlliesLoaded(alliesJson) {
       </div>
       <div class="ally-card-info">
         <div class="ally-card-name">${_esc(a.name)}</div>
-        <div class="ally-card-role">LP Â· ${a.lp}  Â·  Calling Â· ${a.cl}  Â·  Ex Â· ${a.ex}</div>
+        <div class="ally-card-role">LP · ${a.lp}  ·  Calling · ${a.cl}  ·  Ex · ${a.ex}</div>
       </div>
-      <button class="ally-remove-btn" onclick="removeAlly('${_esc(a.uid)}')">â</button>
+      <button class="ally-remove-btn" onclick="removeAlly('${_esc(a.uid)}')">✕</button>
     </div>`).join('');
 }
 
@@ -2364,7 +2393,7 @@ function NativeAllies_onAllyRemoved(uid) {
   }
 }
 
-/* ââ JS â Kotlin bridge calls âââââââââââââââââââââââââââââââââââââââââââ */
+/* ── JS → Kotlin bridge calls ─────────────────────────────────────────── */
 
 function searchAlly() {
   const input   = document.getElementById('allySearchInput');
@@ -2382,7 +2411,7 @@ function searchAlly() {
   if (typeof NativeAllies !== 'undefined') {
     NativeAllies.searchByEmail(email);
   } else {
-    // Dev/browser fallback â simulate a result
+    // Dev/browser fallback — simulate a result
     NativeAllies_onSearchResult(true, 'mock-uid-123', 'Test Player', '7', '11', '3');
   }
 }
@@ -2428,12 +2457,12 @@ function shareInviteLink() {
     navigator.share({ title: 'Source Code Life', text: 'Join me on Source Code Life!', url: link });
   } else {
     navigator.clipboard?.writeText(link).then(() => {
-      _allyMsg(document.getElementById('allySuccess'), 'â Invite link copied to clipboard.');
+      _allyMsg(document.getElementById('allySuccess'), '✓ Invite link copied to clipboard.');
     });
   }
 }
 
-/* ââ Helpers ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* ── Helpers ──────────────────────────────────────────────────────────── */
 
 function _esc(str) {
   return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -2469,8 +2498,8 @@ function getDailyNotifPayload() {
   const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
   const objective = objList[dayOfYear % objList.length] || objList[0];
 
-  const title = `â¦ Personal Day ${root} Â· ${dayData.theme}`;
-  const body  = `${dayData.summary}\n\nâ ${objective}`;
+  const title = `✦ Personal Day ${root} · ${dayData.theme}`;
+  const body  = `${dayData.summary}\n\n◈ ${objective}`;
 
   return { title, body, root };
 }
@@ -2496,19 +2525,19 @@ function sendTestNotification() {
   if (typeof NativeNotif !== 'undefined' && NativeNotif.sendNow) {
     NativeNotif.sendNow(title, body);
   } else {
-    // Browser fallback â show as alert in dev mode
+    // Browser fallback — show as alert in dev mode
     alert(title + '\n\n' + body);
   }
 }
 
-/* ââ Settings UI ââââââââââââââââââââââââââââââââââ */
+/* ── Settings UI ────────────────────────────────── */
 
 const LS_NOTIF_ENABLED = 'scl_notif_enabled';
 const LS_NOTIF_HOUR    = 'scl_notif_hour';
 const LS_NOTIF_MINUTE  = 'scl_notif_minute';
 
 function initNotifUI() {
-  // Populate hour select (1â12 AM/PM display, stored as 0â23)
+  // Populate hour select (1–12 AM/PM display, stored as 0–23)
   const hourSel = document.getElementById('notifHour');
   const minSel  = document.getElementById('notifMinute');
   if (!hourSel || !minSel) return;
@@ -2551,7 +2580,7 @@ function _setNotifEnabled(on) {
 
   document.getElementById('notifStatusText').textContent = on ? 'ON' : 'OFF';
   document.getElementById('notifStatusText').style.color = on ? 'var(--sage)' : 'var(--text-dim)';
-  document.getElementById('notifToggleBtn').textContent  = on ? 'â¶ DISABLE' : 'â¶ ENABLE';
+  document.getElementById('notifToggleBtn').textContent  = on ? '▶ DISABLE' : '▶ ENABLE';
   document.getElementById('notifTimeRow').style.display  = on ? '' : 'none';
 
   if (on) {
@@ -2578,12 +2607,12 @@ function saveNotifTime() {
   // Brief visual confirmation
   const btn = event.target;
   const orig = btn.textContent;
-  btn.textContent = 'â SAVED';
+  btn.textContent = '✓ SAVED';
   setTimeout(() => { btn.textContent = orig; }, 1500);
 }
 
 /* ================================================
-   DEEP LINK â called by Kotlin when notification is tapped
+   DEEP LINK — called by Kotlin when notification is tapped
    ================================================ */
 function Native_onOpenTab(tab) {
   // Wait until the app shell is visible before switching
@@ -2634,7 +2663,7 @@ function _setQuestNotifMode(mode, save) {
   }
 }
 
-/* ââ Restore quest notif listener on app launch ââ */
+/* ── Restore quest notif listener on app launch ── */
 function restoreQuestNotifListener() {
   try {
     const mode = localStorage.getItem(LS_QUEST_NOTIF) || 'off';
@@ -2652,7 +2681,7 @@ function setTheme(theme) {
   try { localStorage.setItem(LS_THEME, theme); } catch(e) {}
 
   // Update chip active state
-  ['scifi','fantasy','unicorn'].forEach(t => {
+  ['scifi','fantasy','unicorn','diablo'].forEach(t => {
     const el = document.getElementById('themeOpt' + t.charAt(0).toUpperCase() + t.slice(1));
     if (el) el.classList.toggle('active', t === theme);
   });
@@ -2664,7 +2693,7 @@ function setTheme(theme) {
 function loadSavedTheme() {
   try {
     const saved = localStorage.getItem(LS_THEME);
-    if (saved === 'fantasy' || saved === 'scifi' || saved === 'unicorn') setTheme(saved);
+    if (saved === 'fantasy' || saved === 'scifi' || saved === 'unicorn' || saved === 'diablo') setTheme(saved);
   } catch(e) {}
 }
 
@@ -2674,16 +2703,6 @@ function loadSavedTheme() {
 window.addEventListener('DOMContentLoaded', () => {
   loadSavedTheme();
   initGeoPromptUI();
-
-  // --- START: Auth Bypass for Testing ---
-  if (BYPASS_AUTH_FOR_TESTING) {
-    console.log('--- AUTH BYPASS ENABLED ---');
-    currentUser = { email: 'test@player.com' };
-    document.getElementById('authOverlay').classList.add('hidden');
-    document.getElementById('charCreateOverlay').classList.remove('hidden');
-    return;
-  }
-  // --- END: Auth Bypass for Testing ---
 
   if (typeof NativeAuth !== 'undefined') {
     NativeAuth.checkSession();

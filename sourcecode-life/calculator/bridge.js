@@ -1,92 +1,151 @@
-/**
- * bridge.js — Web polyfills for Android native bridge interfaces
- * Implements NativeAuth, NativeMap, NativeAllies, NativeNotif
- * using browser APIs and localStorage in place of Kotlin/Firebase.
+﻿/**
+ * bridge.js — Web Firebase bridge for Source Code: Life
+ * Mirrors the Kotlin FirebaseBridge / NativeAuth interface exactly.
+ * Uses Firebase Auth + Firestore for real accounts, localStorage for
+ * map quests, allies, and XP (features that require the mobile app).
  */
 
-/* ─── Storage keys ─────────────────────────────────────── */
-const _LS_USER    = 'scl_user';
-const _LS_PLAYER  = 'scl_player';
-const _LS_QUESTS  = 'scl_quests_web';
-const _LS_GEO     = 'scl_geo_prompt';
-const _LS_XP      = 'scl_xp';
+/* ================================================
+   FIREBASE INIT
+   ================================================ */
+const _FB_CONFIG = {
+  apiKey:            'AIzaSyBA82OFYJm47yRF59DuQSoo8_piOyP1hZs',
+  authDomain:        'game-of-life-7b620.firebaseapp.com',
+  databaseURL:       'https://game-of-life-7b620-default-rtdb.firebaseio.com',
+  projectId:         'game-of-life-7b620',
+  storageBucket:     'game-of-life-7b620.firebasestorage.app',
+  messagingSenderId: '115903423480',
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(_FB_CONFIG);
+}
+const _auth = firebase.auth();
+const _db   = firebase.firestore();
+
+/* ================================================
+   LOCAL STORAGE (XP / map quests only)
+   ================================================ */
+const _LS_QUESTS = 'scl_quests_web';
+const _LS_GEO    = 'scl_geo_prompt';
+const _LS_XP     = 'scl_xp';
 
 function _save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {} }
 function _load(key)      { try { return JSON.parse(localStorage.getItem(key)); } catch(e) { return null; } }
 
-/* ─── NativeAuth ────────────────────────────────────────── */
+/* ================================================
+   NativeAuth  (real Firebase Auth + Firestore)
+   ================================================ */
 window.NativeAuth = {
+
   checkSession() {
-    const u = _load(_LS_USER);
-    if (u) {
-      setTimeout(() => NativeAuth_onSessionResult(true, u.uid || 'WEB_USER'), 0);
-    } else {
-      setTimeout(() => NativeAuth_onSessionResult(false, ''), 0);
-    }
+    const unsub = _auth.onAuthStateChanged(user => {
+      unsub();
+      if (user) {
+        setTimeout(() => NativeAuth_onSessionResult(true, user.uid), 0);
+      } else {
+        setTimeout(() => NativeAuth_onSessionResult(false, ''), 0);
+      }
+    });
   },
 
   login(email, password) {
-    // Web: treat any login as valid (real auth not available in browser)
-    const uid = 'WEB_' + btoa(email).replace(/=/g,'');
-    _save(_LS_USER, { email, uid });
-    setTimeout(() => NativeAuth_onLoginResult(true, uid, ''), 0);
+    _auth.signInWithEmailAndPassword(email.trim(), password)
+      .then(result => NativeAuth_onLoginResult(true, result.user.uid, ''))
+      .catch(e => NativeAuth_onLoginResult(false, '', _friendlyError(e.code)));
   },
 
   register(email, password) {
-    const uid = 'WEB_' + btoa(email).replace(/=/g,'');
-    _save(_LS_USER, { email, uid });
-    setTimeout(() => NativeAuth_onRegisterResult(true, uid, ''), 0);
+    const normalizedEmail = email.trim().toLowerCase();
+    _auth.createUserWithEmailAndPassword(normalizedEmail, password)
+      .then(result => {
+        const uid = result.user.uid;
+        _db.collection('players').doc(uid).set(
+          { email: normalizedEmail, created: Date.now() },
+          { merge: true }
+        ).finally(() => NativeAuth_onRegisterResult(true, uid, ''));
+      })
+      .catch(e => NativeAuth_onRegisterResult(false, '', _friendlyError(e.code)));
   },
 
   sendPasswordReset(email) {
-    setTimeout(() => NativeAuth_onPasswordResetResult(true, ''), 0);
+    _auth.sendPasswordResetEmail(email.trim())
+      .then(() => NativeAuth_onPasswordResetResult(true, ''))
+      .catch(e => NativeAuth_onPasswordResetResult(false, _friendlyError(e.code)));
   },
 
   changePassword(current, newPw) {
-    setTimeout(() => NativeAuth_onChangePasswordResult(true, ''), 0);
+    const user = _auth.currentUser;
+    if (!user || !user.email) { NativeAuth_onChangePasswordResult(false, 'Not signed in.'); return; }
+    const credential = firebase.auth.EmailAuthProvider.credential(user.email, current);
+    user.reauthenticateWithCredential(credential)
+      .then(() => user.updatePassword(newPw))
+      .then(() => NativeAuth_onChangePasswordResult(true, ''))
+      .catch(e => NativeAuth_onChangePasswordResult(false, _friendlyError(e.code)));
   },
 
   savePlayer(name, dob, lp, cl, ex) {
-    const existing = _load(_LS_PLAYER) || {};
-    _save(_LS_PLAYER, { ...existing, name, dob, lp, cl, ex });
-    setTimeout(() => NativeAuth_onSavePlayerResult(true, ''), 0);
+    const user = _auth.currentUser;
+    if (!user) { NativeAuth_onSavePlayerResult(false, 'Not signed in.'); return; }
+    const email = (user.email || '').trim().toLowerCase();
+    _db.collection('players').doc(user.uid).set(
+      { name, dob, lp, cl, ex, email, updated: Date.now() },
+      { merge: true }
+    )
+      .then(() => NativeAuth_onSavePlayerResult(true, ''))
+      .catch(e => NativeAuth_onSavePlayerResult(false, e.message || 'Save failed.'));
   },
 
   loadPlayer() {
-    const u = _load(_LS_USER);
-    const p = _load(_LS_PLAYER);
-    if (p && p.name) {
-      const uid   = u ? (u.uid || 'WEB_USER') : 'WEB_USER';
-      const email = u ? (u.email || '') : '';
-      setTimeout(() => {
-        NativeAuth_onLoadPlayerResult(true, uid, p.name, p.dob || '', email);
-        const xp = _load(_LS_XP) || {};
-        NativeQuest_onXPLoaded(
-          xp.charXP    || 0,
-          xp.charLevel || 1,
-          xp.freqXP    || 0,
-          xp.freqLevel || 1,
-          JSON.stringify(xp.statXP  || {}),
-          JSON.stringify(xp.freqLog || {})
-        );
-      }, 0);
-    } else {
-      setTimeout(() => NativeAuth_onLoadPlayerResult(false, '', '', '', ''), 0);
-    }
+    const user = _auth.currentUser;
+    if (!user) { NativeAuth_onLoadPlayerResult(false, '', '', '', ''); return; }
+    const uid       = user.uid;
+    const authEmail = (user.email || '').trim().toLowerCase();
+    _db.collection('players').doc(uid).get()
+      .then(snap => {
+        if (snap.exists) {
+          const d = snap.data();
+          NativeAuth_onLoadPlayerResult(true, uid, d.name || '', d.dob || '', authEmail);
+          const charXP    = d.charXP    || 0;
+          const charLevel = d.charLevel || 1;
+          const freqXP    = d.freqXP    || 0;
+          const freqLevel = d.freqLevel || 1;
+          const statXP    = d.statXP    || '{}';
+          const freqLog   = d.freqLog   || '{}';
+          NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel,
+            JSON.stringify(statXP), JSON.stringify(freqLog));
+        } else {
+          NativeAuth_onLoadPlayerResult(false, uid, '', '', authEmail);
+        }
+      })
+      .catch(() => NativeAuth_onLoadPlayerResult(false, '', '', '', ''));
   },
 
   signOut() {
-    localStorage.removeItem(_LS_USER);
-    localStorage.removeItem(_LS_PLAYER);
-    localStorage.removeItem(_LS_XP);
+    _auth.signOut();
   },
 
   deleteAccount(password) {
-    localStorage.removeItem(_LS_USER);
-    localStorage.removeItem(_LS_PLAYER);
-    localStorage.removeItem(_LS_QUESTS);
-    localStorage.removeItem(_LS_XP);
-    setTimeout(() => NativeAuth_onDeleteResult(true, ''), 0);
+    const user = _auth.currentUser;
+    if (!user || !user.email) { NativeAuth_onDeleteResult(false, 'Not signed in.'); return; }
+    const uid        = user.uid;
+    const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+    user.reauthenticateWithCredential(credential)
+      .then(() => {
+        const subs = ['confirmed', 'received', 'sent'];
+        return Promise.all(subs.map(sub =>
+          _db.collection('allies/' + uid + '/' + sub).get()
+            .then(snap => {
+              const batch = _db.batch();
+              snap.docs.forEach(d => batch.delete(d.ref));
+              return snap.docs.length ? batch.commit() : Promise.resolve();
+            })
+        ));
+      })
+      .then(() => _db.collection('players').doc(uid).delete())
+      .then(() => _auth.currentUser.delete())
+      .then(() => NativeAuth_onDeleteResult(true, ''))
+      .catch(e => NativeAuth_onDeleteResult(false, _friendlyError(e.code)));
   },
 
   reloadApp() {
@@ -94,21 +153,38 @@ window.NativeAuth = {
   }
 };
 
-/* ─── NativeMap ─────────────────────────────────────────── */
+/* ================================================
+   FRIENDLY ERROR MESSAGES  (mirrors Kotlin)
+   ================================================ */
+function _friendlyError(code) {
+  switch (code) {
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':  return 'Incorrect email or password.';
+    case 'auth/email-already-in-use': return 'An account with that email already exists.';
+    case 'auth/weak-password':        return 'Password must be at least 6 characters.';
+    case 'auth/invalid-email':        return 'Please enter a valid email address.';
+    case 'auth/too-many-requests':    return 'Too many attempts. Please try again later.';
+    case 'auth/network-request-failed': return 'Network error. Check your connection.';
+    case 'auth/requires-recent-login':  return 'Please sign in again before doing this.';
+    default: return code || 'Something went wrong. Please try again.';
+  }
+}
+
+/* ================================================
+   NativeMap  (localStorage — map quests are
+   local-only on web; full sync needs mobile app)
+   ================================================ */
 window.NativeMap = {
   getMapsApiKey() {
     setTimeout(() => NativeMap_onApiKey('LEAFLET_MODE'), 0);
   },
 
   checkPermissionState() {
-    if (!navigator.geolocation) {
-      setTimeout(() => NativeLocation_onPermissionState('denied'), 0);
-      return;
-    }
+    if (!navigator.geolocation) { setTimeout(() => NativeLocation_onPermissionState('denied'), 0); return; }
     if (navigator.permissions) {
-      navigator.permissions.query({ name: 'geolocation' }).then(result => {
-        const state = result.state === 'granted' ? 'granted' : result.state === 'denied' ? 'denied' : 'not_asked';
-        NativeLocation_onPermissionState(state);
+      navigator.permissions.query({ name: 'geolocation' }).then(r => {
+        NativeLocation_onPermissionState(r.state === 'granted' ? 'granted' : r.state === 'denied' ? 'denied' : 'not_asked');
       }).catch(() => NativeLocation_onPermissionState('not_asked'));
     } else {
       setTimeout(() => NativeLocation_onPermissionState('not_asked'), 0);
@@ -118,20 +194,17 @@ window.NativeMap = {
   requestLocationPermission() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        pos => NativeLocation_onPermissionState('granted'),
-        err => NativeLocation_onPermissionState('denied')
+        () => NativeLocation_onPermissionState('granted'),
+        () => NativeLocation_onPermissionState('denied')
       );
     }
   },
 
   requestLocation() {
-    if (!navigator.geolocation) {
-      setTimeout(() => NativeLocation_onLocationResult(false, 0, 0), 0);
-      return;
-    }
+    if (!navigator.geolocation) { setTimeout(() => NativeLocation_onLocationResult(false, 0, 0), 0); return; }
     navigator.geolocation.getCurrentPosition(
       pos => NativeLocation_onLocationResult(true, pos.coords.latitude, pos.coords.longitude),
-      err => NativeLocation_onLocationResult(false, 0, 0),
+      ()  => NativeLocation_onLocationResult(false, 0, 0),
       { enableHighAccuracy: true, timeout: 10000 }
     );
   },
@@ -148,10 +221,9 @@ window.NativeMap = {
 
   searchLocations(query) {
     if (!query || query.trim().length < 3) return;
-    const url = 'https://nominatim.openstreetmap.org/search?q=' +
-      encodeURIComponent(query.trim()) +
-      '&format=json&limit=5&addressdetails=0&accept-language=en';
-    fetch(url, { headers: { 'Accept': 'application/json' } })
+    fetch('https://nominatim.openstreetmap.org/search?q=' +
+      encodeURIComponent(query.trim()) + '&format=json&limit=5&addressdetails=0&accept-language=en',
+      { headers: { 'Accept': 'application/json' } })
       .then(r => r.json())
       .then(data => NativeMap_onLocationSearchResults(JSON.stringify(data)))
       .catch(() => NativeMap_onLocationSearchResults('[]'));
@@ -159,14 +231,13 @@ window.NativeMap = {
 
   geocodeAddress(address) {
     if (!address) return;
-    const url = 'https://nominatim.openstreetmap.org/search?q=' +
-      encodeURIComponent(address.trim()) + '&format=json&limit=1';
-    fetch(url, { headers: { 'Accept': 'application/json' } })
+    fetch('https://nominatim.openstreetmap.org/search?q=' +
+      encodeURIComponent(address.trim()) + '&format=json&limit=1',
+      { headers: { 'Accept': 'application/json' } })
       .then(r => r.json())
       .then(data => {
-        if (data && data.length > 0) {
-          const r = data[0];
-          NativeMap_onGeocodeResult(true, parseFloat(r.lat), parseFloat(r.lon), r.display_name || '');
+        if (data && data.length) {
+          NativeMap_onGeocodeResult(true, parseFloat(data[0].lat), parseFloat(data[0].lon), data[0].display_name || '');
         } else {
           NativeMap_onGeocodeResult(false, 0, 0, '');
         }
@@ -176,53 +247,57 @@ window.NativeMap = {
 
   saveQuest(questJson) {
     try {
-      const q = JSON.parse(questJson);
-      const quests = _load(_LS_QUESTS) || [];
-      const id = 'WQ_' + Date.now();
-      q.id = id;
-      q.uid = 'WEB_USER';
-      q.ts = Date.now();
-      quests.push(q);
-      _save(_LS_QUESTS, quests);
-      setTimeout(() => NativeMap_onQuestSaved(true, id), 0);
+      const q  = JSON.parse(questJson);
+      const qs = _load(_LS_QUESTS) || [];
+      q.id  = 'WQ_' + Date.now();
+      q.uid = _auth.currentUser ? _auth.currentUser.uid : 'WEB_USER';
+      q.ts  = Date.now();
+      qs.push(q);
+      _save(_LS_QUESTS, qs);
+      setTimeout(() => NativeMap_onQuestSaved(true, q.id), 0);
     } catch(e) {
       setTimeout(() => NativeMap_onQuestSaved(false, ''), 0);
     }
   },
 
   loadQuestMarkers() {
-    const quests = _load(_LS_QUESTS) || [];
-    setTimeout(() => NativeMap_onQuestsLoaded(JSON.stringify(quests)), 0);
+    const qs = _load(_LS_QUESTS) || [];
+    setTimeout(() => NativeMap_onQuestsLoaded(JSON.stringify(qs)), 0);
   },
 
   loadMyQuests() {
-    const quests = (_load(_LS_QUESTS) || []).filter(q => q.uid === 'WEB_USER');
-    setTimeout(() => NativeMap_onMyQuestsLoaded(JSON.stringify(quests)), 0);
+    const uid = _auth.currentUser ? _auth.currentUser.uid : 'WEB_USER';
+    const qs  = (_load(_LS_QUESTS) || []).filter(q => q.uid === uid);
+    setTimeout(() => NativeMap_onMyQuestsLoaded(JSON.stringify(qs)), 0);
   },
 
   deleteQuest(questId) {
-    let quests = _load(_LS_QUESTS) || [];
-    quests = quests.filter(q => q.id !== questId);
-    _save(_LS_QUESTS, quests);
+    let qs = (_load(_LS_QUESTS) || []).filter(q => q.id !== questId);
+    _save(_LS_QUESTS, qs);
     setTimeout(() => NativeMap_onQuestDeleted(true, questId), 0);
   },
 
   savePlayerXP(charXP, charLevel, freqXP, freqLevel, statXPJson) {
     try {
       const existing = _load(_LS_XP) || {};
-      _save(_LS_XP, {
-        ...existing,
-        charXP, charLevel, freqXP, freqLevel,
-        statXP: JSON.parse(statXPJson || '{}')
-      });
+      _save(_LS_XP, { ...existing, charXP, charLevel, freqXP, freqLevel,
+        statXP: JSON.parse(statXPJson || '{}') });
     } catch(e) {}
+    const user = _auth.currentUser;
+    if (user) {
+      _db.collection('players').doc(user.uid).set(
+        { charXP, charLevel, freqXP, freqLevel, statXP: statXPJson, updated: Date.now() },
+        { merge: true }
+      ).catch(() => {});
+    }
   }
 };
 
-/* ─── NativeAllies ──────────────────────────────────────── */
+/* ================================================
+   NativeAllies  (localStorage stub)
+   ================================================ */
 window.NativeAllies = {
   searchByEmail(email) {
-    // No backend available in web — return not found
     setTimeout(() => NativeAllies_onSearchResult(false, '', '', '', '', ''), 0);
   },
   sendRequest(targetUid) {
@@ -248,29 +323,30 @@ window.NativeAllies = {
     }
   },
   getPlayerName(uid) {
-    setTimeout(() => NativeAllies_onPlayerName('Web Player'), 0);
+    _db.collection('players').doc(uid).get()
+      .then(snap => NativeAllies_onPlayerName(snap.exists ? (snap.data().name || 'An ally') : 'An ally'))
+      .catch(() => NativeAllies_onPlayerName('An ally'));
   },
   startQuestNotifListener(mode) {},
   stopQuestNotifListener() {},
   getQuestNotifMode() { return 'off'; }
 };
 
-/* ─── NativeNotif ───────────────────────────────────────── */
+/* ================================================
+   NativeNotif  (Web Notifications API)
+   ================================================ */
 window.NativeNotif = {
   scheduleDaily(hour, minute, title, body) {
-    // Request Web Notification permission and show a test notification
     if ('Notification' in window && Notification.permission !== 'denied') {
       Notification.requestPermission().then(perm => {
-        if (perm === 'granted') {
-          new Notification(title, { body, icon: '/favicon-32.png' });
-        }
+        if (perm === 'granted') new Notification(title, { body });
       });
     }
   },
   cancelDaily() {},
   sendNow(title, body) {
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(title, { body, icon: '/favicon-32.png' });
+      new Notification(title, { body });
     }
   }
 };
