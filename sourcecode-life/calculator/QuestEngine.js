@@ -165,8 +165,8 @@ function _xpToLevel(xp) {
   for (let i = 1; i <= MAX_LEVEL; i++) { if (xp >= LEVEL_XP_TABLE[i]) l = i; else break; }
   return Math.min(l, MAX_LEVEL);
 }
-function _xpInLevel(xp, lvl) { return xp - LEVEL_XP_TABLE[lvl]; }
-function _xpForNext(lvl) { return lvl >= MAX_LEVEL ? 0 : LEVEL_XP_TABLE[lvl + 1] - LEVEL_XP_TABLE[lvl]; }
+function _xpInLevel(xp, lvl) { return xp - (lvl > 1 ? LEVEL_XP_TABLE[lvl] : 0); }
+function _xpForNext(lvl) { return lvl >= MAX_LEVEL ? 0 : LEVEL_XP_TABLE[lvl + 1] - (lvl > 1 ? LEVEL_XP_TABLE[lvl] : 0); }
 
 /* ─────────────────────────────────────────────────────────────
    EARN XP — public API
@@ -291,7 +291,7 @@ function _renderBar(wrapperId, trackId, label, lvl, xp, fillCls, color) {
   const maxed  = lvl >= MAX_LEVEL;
   const xpIn   = _xpInLevel(xp, lvl);
   const xpNext = _xpForNext(lvl);
-  const pct    = maxed ? 100 : Math.round((xpIn / xpNext) * 100);
+  const pct    = maxed ? 100 : (xpNext > 0 ? Math.round((xpIn / xpNext) * 100) : 0);
   wrap.innerHTML = `
     <div class="lvl-bar-header">
       <span class="lvl-bar-label">${label}</span>
@@ -538,23 +538,25 @@ function QuestEngine_completeDailyQuest() {
   try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
 
   // If today's objective belongs to a life quest, mark that objective done
-  if (d.dayObjMeta) {
-    const { questKey, tier, objIdx } = d.dayObjMeta;
-    const result = _markLQPObjective(questKey, tier, objIdx);
-    if (result.tierAdvanced) {
-      _showLifeTierAdvance(questKey, result.newTier);
+  try {
+    if (d.dayObjMeta) {
+      const { questKey, tier, objIdx } = d.dayObjMeta;
+      const result = _markLQPObjective(questKey, tier, objIdx);
+      if (result.tierAdvanced) _showLifeTierAdvance(questKey, result.newTier);
+      if (typeof buildLifeQuests === 'function') buildLifeQuests();
     }
-    if (typeof buildLifeQuests === 'function') buildLifeQuests();
-  }
+  } catch(e) { console.error('completeDailyQuest life-obj:', e); }
 
   // Stat XP — based on personal day root number
-  const pd = typeof playerData !== 'undefined' ? playerData : null;
-  if (pd) {
-    const pday = calcPersonalDay(pd.m, pd.d);
-    const root = pday.root;
-    const statNum = root > 9 ? (root === 11 ? 2 : root === 22 ? 4 : 6) : root;
-    earnStatXP(statNum, STAT_XP_PER_QUEST[root] || 1);
-  }
+  try {
+    const pd = typeof playerData !== 'undefined' ? playerData : null;
+    if (pd) {
+      const pday = calcPersonalDay(pd.m, pd.d);
+      const root = pday.root;
+      const statNum = root > 9 ? (root === 11 ? 2 : root === 22 ? 4 : 6) : root;
+      earnStatXP(statNum, STAT_XP_PER_QUEST[root] || 1);
+    }
+  } catch(e) { console.error('completeDailyQuest stat:', e); }
 
   earnFreqXP(XP_AWARDS.daily);
   _renderDailyQuest(d);
@@ -714,14 +716,15 @@ function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
     NativeMap.saveFreqLog(JSON.stringify(log));
   }
   earnFreqXP(parseInt(xpAmount));
-  // Stat XP — based on the root number of the frequency being completed
-  if (rootNum) {
-    const rn = parseInt(rootNum);
-    const statNum = rn > 9 ? (rn === 11 ? 2 : rn === 22 ? 4 : 6) : rn;
-    earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || 1);
-  }
-  _buildFreqQuestList();
-  if (typeof buildLifeQuests === 'function') buildLifeQuests();
+  try {
+    if (rootNum) {
+      const rn = parseInt(rootNum);
+      const statNum = rn > 9 ? (rn === 11 ? 2 : rn === 22 ? 4 : 6) : rn;
+      earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || 1);
+    }
+    _buildFreqQuestList();
+    if (typeof buildLifeQuests === 'function') buildLifeQuests();
+  } catch(e) { console.error('completeFreqQuest post-xp:', e); }
 }
 
 
@@ -780,6 +783,7 @@ function _buildDailyFreqList() {
             ? `<div class="fq-done-label">✓ COMPLETE</div>`
             : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;"
                  onclick="QuestEngine_completeFreqQuest('${dailyKey}', ${pos.xp}, ${root})">▶ COMPLETE</button>`}
+
         </div>`;
     });
   } catch(e) { console.error('_buildDailyFreqList:', e); }
@@ -916,7 +920,7 @@ function _fqCard({ key, xp, done, badge, color, period, title, objs, rootNum }) 
       ${objsHtml}
       ${done
         ? `<div class="fq-done-label">✓ COMPLETE</div>`
-        : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;"
+        : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:10px;width:100%;"
              onclick="QuestEngine_completeFreqQuest('${key}', ${xp}${rootArg})">▶ COMPLETE</button>`}
     </div>`;
 }
