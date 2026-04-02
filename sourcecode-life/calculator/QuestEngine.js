@@ -86,6 +86,16 @@ let _statXP = {};
    ───────────────────────────────────────────────────────────── */
 function QuestEngine_init() {
   _loadFromStorage();
+  // Auto-fix: if freqXP is 0 but today's dfreq keys exist (stale from broken prior session), clear them
+  if (_freqXP === 0) {
+    try {
+      const log = _getFreqLog();
+      const today = _todayStr();
+      let fixed = false;
+      Object.keys(log).forEach(k => { if (k.startsWith('dfreq_') && k.endsWith(today)) { delete log[k]; fixed = true; } });
+      if (fixed) localStorage.setItem(LS_FREQ_Q, JSON.stringify(log));
+    } catch(e) {}
+  }
   _renderCharLevelBar();
   _renderFreqLevelBar();
   _renderStatXP();
@@ -124,6 +134,29 @@ function QuestEngine_reset() {
       NativeMap.saveFreqLog('{}');
     }
   }
+}
+
+/* Reset only today's daily freq quest completions so XP can be re-earned */
+function QuestEngine_resetTodayFreq() {
+  try {
+    const log = _getFreqLog();
+    const today = _todayStr();
+    let cleared = 0;
+    Object.keys(log).forEach(k => {
+      if (k.startsWith('dfreq_') && k.endsWith(today)) { delete log[k]; cleared++; }
+    });
+    // Also clear today's main daily quest
+    const d = JSON.parse(localStorage.getItem(LS_DAILY_Q) || 'null');
+    if (d && d.date === today && d.completed) {
+      d.completed = false;
+      localStorage.setItem(LS_DAILY_Q, JSON.stringify(d));
+    }
+    localStorage.setItem(LS_FREQ_Q, JSON.stringify(log));
+    try { _buildFreqQuestList(); } catch(e) {}
+    try { _initDailyQuest(); } catch(e) {}
+    const msg = cleared > 0 ? 'Today\'s quests reset. You can complete them again.' : 'No completed quests found for today.';
+    alert(msg);
+  } catch(e) { console.error('resetTodayFreq:', e); }
 }
 
 /* ─────────────────────────────────────────────────────────────
