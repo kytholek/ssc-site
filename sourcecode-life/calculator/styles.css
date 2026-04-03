@@ -4318,6 +4318,281 @@ body::after {
   box-shadow: 6px 0 18px rgba(192,48,24,0.7), 0 0 8px rgba(192,48,24,0.4);
 }
 
+/* ================================================
+   UNICORN THEME — AVATAR PAGE RPG ENHANCEMENTS
+   Holographic fairy-tale treatment for the character
+   card and stat panels. All under [data-theme="unicorn"]
+   so other themes are untouched.
+   ================================================ */
+
+@keyframes unicorn-sparkle-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 1.0; }
+}
+@keyframes unicorn-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ── Soft chamfered panel corners ── */
+[data-theme="unicorn"] .rpg-panel {
+  border-width: 2px;
+  border-color: var(--border);
+  clip-path: polygon(
+    8px 0%, calc(100% - 8px) 0%,
+    100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0% calc(100% - 8px), 0% 8px
+  );
+  box-shadow:
+    0 0 0 1px rgba(224,64,251,0.10) inset,
+    0 0 22px rgba(192,80,255,0.10),
+    0 4px 24px rgba(180,100,255,0.08);
+  margin-bottom: 16px;
+}
+[data-theme="unicorn"] .rpg-panel::before { display: none; }
+
+/* Prismatic shimmer top-edge on every panel */
+[data-theme="unicorn"] .rpg-panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    #ff6eb4, #c060d0, #7c4dff, #00bcd4, #ff6eb4
+  );
+  background-size: 200% auto;
+  animation: unicorn-shimmer 4s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.65;
+}
+
+/* ── Panel labels ── */
+[data-theme="unicorn"] .panel-label {
+  padding: 13px 18px 11px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg, rgba(192,96,208,0.07) 0%, transparent 70%);
+  letter-spacing: 2px;
+}
+[data-theme="unicorn"] .panel-label::before {
+  content: '✦';
+  font-size: 8px;
+  opacity: 0.7;
+  margin-right: 8px;
+  vertical-align: middle;
+  color: var(--gold);
+  animation: unicorn-sparkle-pulse 2.4s ease-in-out infinite;
+}
+
+/* ── Character card — iridescent holographic frame ── */
+[data-theme="unicorn"] .char-card {
+  border-width: 2px !important;
+  border-color: var(--border) !important;
+  background: linear-gradient(135deg,
+    rgba(254,247,255,0.98) 0%,
+    rgba(243,220,255,0.80) 50%,
+    rgba(237,224,255,0.90) 100%
+  ) !important;
+  box-shadow:
+    0 0 0 1px rgba(224,64,251,0.10) inset,
+    0 0 30px rgba(192,80,255,0.12),
+    0 6px 28px rgba(0,0,0,0.08) !important;
+  clip-path: polygon(
+    8px 0%, calc(100% - 8px) 0%,
+    100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0% calc(100% - 8px), 0% 8px
+  );
+}
+/* Iridescent rainbow sweep strip */
+[data-theme="unicorn"] .char-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    #ff6eb4 0%, #c060d0 20%, #7c4dff 40%,
+    #00bcd4 60%, #ff80ab 80%, #ff6eb4 100%
+  );
+  background-size: 200% auto;
+  animation: unicorn-shimmer 5s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.75;
+}
+
+/* Soft pearlescent inner texture */
+[data-theme="unicorn"] .char-card-inner {
+  background-image: radial-gradient(
+    ellipse at 30% 20%,
+    rgba(255,110,180,0.06) 0%,
+    transparent 60%
+  ), radial-gradient(
+    ellipse at 80% 80%,
+    rgba(124,77,255,0.05) 0%,
+    transparent 55%
+  );
+}
+
+/* ── Avatar frame — sparkle corner ✦ brackets ── */
+[data-theme="unicorn"] .char-avatar-frame {
+  border-right: 2px solid var(--border) !important;
+  box-shadow: 0 0 24px rgba(192,96,208,0.30), inset 0 0 18px rgba(224,64,251,0.06);
+  position: relative;
+  background: rgba(250,238,255,0.5);
+}
+/* Top-left sparkle */
+[data-theme="unicorn"] .char-avatar-frame::before {
+  content: '✦';
+  position: absolute;
+  top: 5px; left: 7px;
+  font-size: 12px;
+  color: var(--gold);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 3;
+  animation: unicorn-sparkle-pulse 2.0s ease-in-out infinite;
+}
+/* Bottom-right sparkle */
+[data-theme="unicorn"] .char-avatar-frame::after {
+  content: '✦';
+  position: absolute;
+  bottom: 5px; right: 7px;
+  font-size: 12px;
+  color: var(--teal);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 3;
+  animation: unicorn-sparkle-pulse 2.0s ease-in-out infinite 1s;
+}
+
+/* ── Core number blocks — pastel gem cells ── */
+[data-theme="unicorn"] .core-num-block {
+  border-width: 2px;
+  border-color: var(--border);
+  background: rgba(240,220,255,0.5);
+  box-shadow:
+    0 0 10px rgba(192,96,208,0.12) inset,
+    0 1px 0 rgba(255,255,255,0.7);
+}
+[data-theme="unicorn"] .core-num-value {
+  font-size: 36px;
+  text-shadow: 0 0 14px currentColor, 0 1px 2px rgba(255,255,255,0.5);
+}
+
+/* ── Identity name — pink glow ── */
+[data-theme="unicorn"] .char-identity-name {
+  text-shadow:
+    0 0 20px rgba(192,96,208,0.6),
+    0 0 6px rgba(255,110,180,0.4);
+}
+
+/* ── Identity divider — rainbow gradient ── */
+[data-theme="unicorn"] .char-identity-divider {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #ff6eb4 20%, #c060d0 50%, #7c4dff 80%,
+    transparent 100%
+  );
+  opacity: 0.55;
+}
+
+/* ── Skills/Gifts panel ── */
+[data-theme="unicorn"] .char-gifts-panel {
+  border-width: 2px !important;
+  border-color: var(--border) !important;
+  clip-path: polygon(
+    8px 0%, calc(100% - 8px) 0%,
+    100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0% calc(100% - 8px), 0% 8px
+  );
+}
+[data-theme="unicorn"] .char-gifts-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Stat polarity dividers — flanking sparkles ── */
+[data-theme="unicorn"] .stat-polarity-divider {
+  padding: 8px 8px 6px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 2px;
+  font-size: 6px;
+}
+[data-theme="unicorn"] .stat-polarity-divider::before,
+[data-theme="unicorn"] .stat-polarity-divider::after {
+  content: '✦ ✦';
+  opacity: 0.45;
+  font-size: 8px;
+  vertical-align: middle;
+  margin: 0 8px;
+}
+
+/* ── Stat chart rows — pastel cell tints ── */
+[data-theme="unicorn"] .stat-chart-row {
+  padding: 7px 6px;
+  border-bottom: 1px solid rgba(224,184,245,0.4);
+}
+[data-theme="unicorn"] .stat-chart-row:hover {
+  background: rgba(192,96,208,0.05);
+}
+[data-theme="unicorn"] .stat-col-box {
+  border-width: 2px;
+  border-color: var(--border);
+  font-size: 19px;
+  background: rgba(240,220,255,0.35);
+  box-shadow: 0 1px 4px rgba(192,96,208,0.12) inset;
+}
+[data-theme="unicorn"] .stat-col-total {
+  border-width: 2px;
+  font-size: 21px;
+  background: rgba(224,180,255,0.30);
+  box-shadow: 0 1px 4px rgba(192,96,208,0.15) inset;
+}
+[data-theme="unicorn"] .stat-col-num { font-size: 24px; }
+[data-theme="unicorn"] .stat-col-hdr { font-size: 6px; letter-spacing: 1px; }
+
+/* Primary stat row — pink left accent ── */
+[data-theme="unicorn"] .stat-row-primary {
+  border-left-width: 3px;
+  border-left-color: var(--rose);
+}
+
+/* ── Stat benefits panel — frosted glass ── */
+[data-theme="unicorn"] .stat-benefits-panel {
+  background: rgba(254,247,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: var(--border) !important;
+}
+[data-theme="unicorn"] .sb-section-label {
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(192,96,208,0.4);
+}
+[data-theme="unicorn"] .sb-row:nth-child(odd) {
+  background: rgba(224,184,245,0.10);
+}
+
+/* ── Level bars — pastel rainbow fill ── */
+[data-theme="unicorn"] .lvl-bar-track {
+  height: 10px;
+  border: 2px solid var(--border);
+  background: rgba(240,220,255,0.5);
+}
+[data-theme="unicorn"] .char-bar-fill {
+  background: linear-gradient(90deg, #ff6eb4, #c060d0, #7c4dff);
+  box-shadow: 6px 0 18px rgba(192,96,208,0.6), 0 0 8px rgba(255,110,180,0.4);
+}
+[data-theme="unicorn"] .freq-bar-fill {
+  background: linear-gradient(90deg, #7c4dff, #00bcd4, #c060d0);
+  box-shadow: 6px 0 18px rgba(124,77,255,0.6), 0 0 8px rgba(0,188,212,0.4);
+}
+
 /* ── Polarity card — purple-dim accent ── */
 [data-theme="diablo"] .polarity-card {
   border-color: var(--purple-dim) !important;
@@ -4344,4 +4619,516 @@ body::after {
 /* ── Stat chart panel top accent ── */
 [data-theme="diablo"] #rpgStatChart .panel-label {
   background: linear-gradient(90deg, rgba(200,144,26,0.09) 0%, transparent 75%);
+}
+
+/* ================================================
+   SCI-FI THEME — AVATAR PAGE RPG ENHANCEMENTS
+   Holographic HUD: scan-line panels, cyan wire-
+   frame corners, neon glow fills.
+   All scoped to [data-theme="scifi"].
+   ================================================ */
+
+@keyframes scifi-scan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+@keyframes scifi-flicker {
+  0%, 100% { opacity: 1; }
+  92%       { opacity: 1; }
+  93%       { opacity: 0.7; }
+  94%       { opacity: 1; }
+  97%       { opacity: 0.85; }
+  98%       { opacity: 1; }
+}
+@keyframes scifi-corner-pulse {
+  0%, 100% { opacity: 0.5; box-shadow: none; }
+  50%       { opacity: 1.0; box-shadow: 0 0 8px rgba(0,255,220,0.8); }
+}
+
+/* ── Panels: hard-cut corners + scan-line overlay ── */
+[data-theme="scifi"] .rpg-panel {
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%,
+    100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%,
+    0% calc(100% - 12px), 0% 12px
+  );
+  border-width: 1px;
+  border-color: rgba(0,220,200,0.45);
+  box-shadow:
+    0 0 0 1px rgba(0,255,220,0.08) inset,
+    0 0 24px rgba(0,180,200,0.18),
+    0 4px 32px rgba(0,0,0,0.6);
+  margin-bottom: 16px;
+  animation: scifi-flicker 8s infinite;
+}
+/* Animated scan-line sweep */
+[data-theme="scifi"] .rpg-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(0,255,220,0.04) 50%,
+    transparent 100%
+  );
+  animation: scifi-scan 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Top edge cyan hairline */
+[data-theme="scifi"] .rpg-panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 12px; right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,220,0.7), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Panel labels ── */
+[data-theme="scifi"] .panel-label::before {
+  content: '▶';
+  font-size: 6px;
+  margin-right: 8px;
+  vertical-align: middle;
+  color: rgba(0,255,220,0.7);
+}
+
+/* ── Character card — HUD terminal frame ── */
+[data-theme="scifi"] .char-card {
+  border-width: 1px !important;
+  border-color: rgba(0,220,200,0.5) !important;
+  background: rgba(0,10,18,0.92) !important;
+  box-shadow:
+    0 0 0 1px rgba(0,255,220,0.08) inset,
+    0 0 40px rgba(0,180,200,0.18),
+    0 6px 32px rgba(0,0,0,0.7) !important;
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%,
+    100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%,
+    0% calc(100% - 12px), 0% 12px
+  );
+}
+/* Cyan top data-stripe */
+[data-theme="scifi"] .char-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 12px; right: 12px;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(0,255,220,0.9) 30%,
+    rgba(0,180,255,0.9) 70%, transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Inner grid scan texture */
+[data-theme="scifi"] .char-card-inner {
+  background-image:
+    linear-gradient(rgba(0,220,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,220,200,0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ── Avatar frame — wireframe L-corner brackets ── */
+[data-theme="scifi"] .char-avatar-frame {
+  border-right: 1px solid rgba(0,220,200,0.5) !important;
+  box-shadow: 0 0 20px rgba(0,200,180,0.25), inset 0 0 20px rgba(0,0,0,0.6);
+  position: relative;
+}
+[data-theme="scifi"] .char-avatar-frame::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px;
+  width: 14px; height: 14px;
+  border-top: 1px solid rgba(0,255,220,0.9);
+  border-left: 1px solid rgba(0,255,220,0.9);
+  pointer-events: none;
+  z-index: 3;
+  animation: scifi-corner-pulse 3s ease-in-out infinite;
+}
+[data-theme="scifi"] .char-avatar-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 6px; right: 6px;
+  width: 14px; height: 14px;
+  border-bottom: 1px solid rgba(0,255,220,0.9);
+  border-right: 1px solid rgba(0,255,220,0.9);
+  pointer-events: none;
+  z-index: 3;
+  animation: scifi-corner-pulse 3s ease-in-out infinite 1.5s;
+}
+
+/* ── Core number blocks — neon cell ── */
+[data-theme="scifi"] .core-num-block {
+  border-color: rgba(0,220,200,0.3);
+  background: rgba(0,30,40,0.6);
+  box-shadow: 0 0 8px rgba(0,200,180,0.12) inset;
+}
+[data-theme="scifi"] .core-num-value {
+  font-size: 36px;
+  text-shadow: 0 0 14px currentColor, 0 0 4px rgba(0,255,220,0.3);
+}
+
+/* ── Identity name ── */
+[data-theme="scifi"] .char-identity-name {
+  text-shadow:
+    0 0 20px rgba(0,220,200,0.6),
+    0 0 6px rgba(0,255,220,0.4);
+  animation: scifi-flicker 10s infinite;
+}
+
+/* ── Identity divider — cyan hairline ── */
+[data-theme="scifi"] .char-identity-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0,220,200,0.6) 25%,
+    rgba(0,180,255,0.6) 75%,
+    transparent 100%
+  );
+}
+
+/* ── Skills/Gifts panel ── */
+[data-theme="scifi"] .char-gifts-panel {
+  border-width: 1px !important;
+  border-color: rgba(0,200,180,0.4) !important;
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%,
+    100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%,
+    0% calc(100% - 12px), 0% 12px
+  );
+}
+
+/* ── Stat polarity dividers — data-tag style ── */
+[data-theme="scifi"] .stat-polarity-divider {
+  padding: 8px 8px 6px;
+  border-bottom: 1px solid rgba(0,200,180,0.25);
+  letter-spacing: 3px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 6px;
+}
+[data-theme="scifi"] .stat-polarity-divider::before {
+  content: '◀ ';
+  font-family: monospace;
+  opacity: 0.5;
+  font-size: 7px;
+  vertical-align: middle;
+}
+[data-theme="scifi"] .stat-polarity-divider::after {
+  content: ' ▶';
+  font-family: monospace;
+  opacity: 0.5;
+  font-size: 7px;
+  vertical-align: middle;
+}
+
+/* ── Stat chart cells — HUD readout ── */
+[data-theme="scifi"] .stat-chart-row {
+  border-bottom: 1px solid rgba(0,200,180,0.12);
+}
+[data-theme="scifi"] .stat-chart-row:hover {
+  background: rgba(0,220,200,0.04);
+}
+[data-theme="scifi"] .stat-col-box {
+  border-color: rgba(0,200,180,0.35);
+  font-size: 19px;
+  background: rgba(0,30,40,0.5);
+  box-shadow: 0 0 6px rgba(0,200,180,0.10) inset;
+}
+[data-theme="scifi"] .stat-col-total {
+  border-color: rgba(0,220,200,0.5);
+  font-size: 21px;
+  background: rgba(0,40,50,0.6);
+  box-shadow: 0 0 8px rgba(0,220,200,0.14) inset;
+}
+[data-theme="scifi"] .stat-col-num  { font-size: 24px; }
+[data-theme="scifi"] .stat-col-hdr  { font-size: 6px; letter-spacing: 1px; }
+[data-theme="scifi"] .stat-row-primary { border-left-color: rgba(0,255,220,0.6); border-left-width: 2px; }
+
+/* ── Stat benefits panel — terminal glass ── */
+[data-theme="scifi"] .stat-benefits-panel {
+  background: rgba(0,15,25,0.85) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(0,200,180,0.4) !important;
+}
+[data-theme="scifi"] .sb-section-label {
+  color: rgba(0,255,220,0.85);
+  text-shadow: 0 0 8px rgba(0,220,200,0.5);
+}
+[data-theme="scifi"] .sb-row:nth-child(odd) {
+  background: rgba(0,200,180,0.04);
+}
+
+/* ── Level bars — neon cyan/blue fills ── */
+[data-theme="scifi"] .lvl-bar-track {
+  height: 10px;
+  border: 1px solid rgba(0,200,180,0.35);
+  background: rgba(0,20,30,0.7);
+}
+[data-theme="scifi"] .char-bar-fill {
+  background: linear-gradient(90deg, rgba(0,160,140,1), rgba(0,255,220,1));
+  box-shadow: 6px 0 18px rgba(0,220,200,0.7), 0 0 8px rgba(0,255,220,0.4);
+}
+[data-theme="scifi"] .freq-bar-fill {
+  background: linear-gradient(90deg, rgba(0,80,180,1), rgba(0,200,255,1));
+  box-shadow: 6px 0 18px rgba(0,180,255,0.7), 0 0 8px rgba(0,200,255,0.4);
+}
+
+/* ================================================
+   FANTASY THEME — AVATAR PAGE RPG ENHANCEMENTS
+   Aged parchment + illuminated manuscript feel:
+   ink-bordered panels, quill-stroke dividers,
+   candlelight glows.
+   All scoped to [data-theme="fantasy"].
+   ================================================ */
+
+@keyframes fantasy-candle {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1.0; }
+}
+
+/* ── Panels: thick ink border, parchment shadow ── */
+[data-theme="fantasy"] .rpg-panel {
+  border-width: 2px;
+  border-color: var(--border);
+  box-shadow:
+    0 0 0 1px rgba(200,170,100,0.15) inset,
+    2px 4px 16px rgba(80,40,0,0.18),
+    0 1px 0 rgba(255,240,190,0.5);
+  margin-bottom: 16px;
+}
+[data-theme="fantasy"] .rpg-panel::before { display: none; }
+/* Parchment worn-edge top stroke */
+[data-theme="fantasy"] .rpg-panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-dim) 15%,
+    var(--border-glow) 50%,
+    var(--gold-dim) 85%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.7;
+}
+
+/* ── Panel labels — illuminated header ── */
+[data-theme="fantasy"] .panel-label {
+  padding: 13px 18px 11px;
+  border-bottom: 2px solid var(--border);
+  background: linear-gradient(90deg, rgba(160,120,40,0.07) 0%, transparent 70%);
+  letter-spacing: 2px;
+}
+[data-theme="fantasy"] .panel-label::before {
+  content: '❧';
+  font-size: 12px;
+  opacity: 0.6;
+  margin-right: 8px;
+  vertical-align: middle;
+  color: var(--gold-dim);
+  animation: fantasy-candle 3s ease-in-out infinite;
+}
+
+/* ── Character card — illuminated codex frame ── */
+[data-theme="fantasy"] .char-card {
+  border-width: 2px !important;
+  border-color: var(--gold-dim) !important;
+  background: linear-gradient(160deg,
+    #fdf6e3 0%, #f9f0d0 60%, #f5edd8 100%
+  ) !important;
+  box-shadow:
+    0 0 0 1px rgba(200,170,100,0.2) inset,
+    0 0 0 4px rgba(201,170,114,0.12),
+    3px 6px 20px rgba(80,40,0,0.18),
+    0 1px 0 rgba(255,240,190,0.6) !important;
+}
+/* Gold ruled top stripe */
+[data-theme="fantasy"] .char-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-dim) 10%,
+    var(--border-glow) 50%,
+    var(--gold-dim) 90%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Vellum parchment grain texture */
+[data-theme="fantasy"] .char-card-inner {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ── Avatar frame — corner ornaments ── */
+[data-theme="fantasy"] .char-avatar-frame {
+  border-right: 2px solid var(--border) !important;
+  box-shadow: 2px 0 12px rgba(80,40,0,0.15), inset 0 0 12px rgba(200,170,100,0.06);
+  position: relative;
+  background: rgba(253,246,227,0.6);
+}
+[data-theme="fantasy"] .char-avatar-frame::before {
+  content: '✦';
+  position: absolute;
+  top: 5px; left: 7px;
+  font-size: 11px;
+  color: var(--gold-dim);
+  opacity: 0.65;
+  pointer-events: none;
+  z-index: 3;
+  animation: fantasy-candle 4s ease-in-out infinite;
+}
+[data-theme="fantasy"] .char-avatar-frame::after {
+  content: '✦';
+  position: absolute;
+  bottom: 5px; right: 7px;
+  font-size: 11px;
+  color: var(--border-glow);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 3;
+  animation: fantasy-candle 4s ease-in-out infinite 2s;
+}
+
+/* ── Core number blocks — embossed vellum cells ── */
+[data-theme="fantasy"] .core-num-block {
+  border-width: 2px;
+  border-color: var(--border);
+  background: rgba(240,225,180,0.4);
+  box-shadow:
+    0 2px 6px rgba(80,40,0,0.12) inset,
+    0 1px 0 rgba(255,240,190,0.6);
+}
+[data-theme="fantasy"] .core-num-value {
+  font-size: 36px;
+  text-shadow: 1px 1px 2px rgba(80,40,0,0.25);
+}
+
+/* ── Identity name ── */
+[data-theme="fantasy"] .char-identity-name {
+  text-shadow:
+    0 0 16px rgba(140,90,20,0.4),
+    1px 1px 0 rgba(200,160,60,0.2);
+}
+
+/* ── Identity divider — ink ruling ── */
+[data-theme="fantasy"] .char-identity-divider {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-dim) 20%,
+    var(--border-glow) 50%,
+    var(--gold-dim) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Skills/Gifts panel ── */
+[data-theme="fantasy"] .char-gifts-panel {
+  border-width: 2px !important;
+  border-color: var(--border) !important;
+}
+[data-theme="fantasy"] .char-gifts-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  padding: 12px 16px 8px;
+  border-bottom: 2px solid var(--border);
+}
+
+/* ── Stat polarity dividers — quill-stroke rule ── */
+[data-theme="fantasy"] .stat-polarity-divider {
+  padding: 9px 8px 7px;
+  border-bottom: 2px solid var(--border);
+  letter-spacing: 2px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 6px;
+}
+[data-theme="fantasy"] .stat-polarity-divider::before,
+[data-theme="fantasy"] .stat-polarity-divider::after {
+  content: '— —';
+  font-family: 'IM Fell English', Georgia, serif;
+  opacity: 0.45;
+  font-size: 10px;
+  vertical-align: middle;
+  margin: 0 8px;
+}
+
+/* ── Stat chart cells — vellum inset ── */
+[data-theme="fantasy"] .stat-chart-row {
+  padding: 7px 6px;
+  border-bottom: 1px solid rgba(200,170,100,0.35);
+}
+[data-theme="fantasy"] .stat-chart-row:hover {
+  background: rgba(160,120,40,0.05);
+}
+[data-theme="fantasy"] .stat-col-box {
+  border-width: 2px;
+  border-color: var(--border);
+  font-size: 19px;
+  background: rgba(240,225,180,0.35);
+  box-shadow: 0 2px 4px rgba(80,40,0,0.12) inset;
+}
+[data-theme="fantasy"] .stat-col-total {
+  border-width: 2px;
+  font-size: 21px;
+  background: rgba(220,200,140,0.4);
+  box-shadow: 0 2px 4px rgba(80,40,0,0.15) inset;
+}
+[data-theme="fantasy"] .stat-col-num { font-size: 24px; }
+[data-theme="fantasy"] .stat-col-hdr { font-size: 6px; letter-spacing: 1px; }
+[data-theme="fantasy"] .stat-row-primary { border-left-width: 3px; border-left-color: var(--gold-dim); }
+
+/* ── Stat benefits panel — parchment scroll ── */
+[data-theme="fantasy"] .stat-benefits-panel {
+  background: linear-gradient(160deg, #fdf6e3, #f9f0d0) !important;
+  border-color: var(--border) !important;
+  box-shadow: 2px 4px 12px rgba(80,40,0,0.12) !important;
+}
+[data-theme="fantasy"] .sb-section-label {
+  color: var(--gold);
+  font-family: 'Cinzel', Georgia, serif;
+}
+[data-theme="fantasy"] .sb-label {
+  font-family: 'Cinzel', Georgia, serif;
+}
+[data-theme="fantasy"] .sb-kw {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 11px;
+}
+[data-theme="fantasy"] .sb-row:nth-child(odd) {
+  background: rgba(200,170,100,0.08);
+}
+
+/* ── Level bars — aged ink gradient fills ── */
+[data-theme="fantasy"] .lvl-bar-track {
+  height: 10px;
+  border: 2px solid var(--border);
+  background: rgba(200,170,100,0.15);
+}
+[data-theme="fantasy"] .char-bar-fill {
+  background: linear-gradient(90deg, var(--gold-dim), var(--border-glow));
+  box-shadow: 4px 0 14px rgba(160,120,40,0.5);
+}
+[data-theme="fantasy"] .freq-bar-fill {
+  background: linear-gradient(90deg, var(--teal-dim), var(--teal));
+  box-shadow: 4px 0 14px rgba(58,107,74,0.5);
 }

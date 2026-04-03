@@ -24,10 +24,19 @@
    ───────────────────────────────────────────────────────────── */
 const LEVEL_XP_TABLE = (() => {
   const t = [0];
+  // Steeper curve — early levels reward quick wins, mid/high levels need sustained effort
   const cost = l =>
-    l <= 10 ? 50  : l <= 20 ? 100 : l <= 30 ? 150 :
-    l <= 40 ? 200 : l <= 50 ? 300 : l <= 60 ? 400 :
-    l <= 70 ? 500 : l <= 80 ? 650 : l <= 90 ? 800 : 1000;
+    l <= 5  ? 80    :   // 1-5:   80 XP each  = 400 XP to lvl 5
+    l <= 10 ? 150   :   // 6-10:  150 XP each = 1150 XP to lvl 10
+    l <= 20 ? 300   :   // 11-20: 300 XP each = 4150 XP to lvl 20
+    l <= 30 ? 500   :   // 21-30: 500 XP each = 9150 XP to lvl 30
+    l <= 40 ? 800   :   // 31-40: 800 XP each = 17150 XP to lvl 40
+    l <= 50 ? 1200  :   // 41-50: 1200 XP each = 29150 XP to lvl 50
+    l <= 60 ? 1800  :   // 51-60: 1800 XP each = 47150 XP to lvl 60
+    l <= 70 ? 2500  :   // 61-70: 2500 XP each = 72150 XP to lvl 70
+    l <= 80 ? 3500  :   // 71-80: 3500 XP each = 107150 XP to lvl 80
+    l <= 90 ? 5000  :   // 81-90: 5000 XP each = 157150 XP to lvl 90
+              7500;     // 91-100: 7500 XP each = 232150 XP to lvl 100
   for (let i = 1; i <= 100; i++) t.push(t[i - 1] + cost(i));
   return t;
 })();
@@ -45,17 +54,17 @@ const XP_AWARDS = {
   // TRACK B — Frequency (numerology quests)
   daily:          5,    // FIXED — shown in UI, don't change without updating copy
   personal_day:   10,
-  personal_month: 25,
-  personal_year:  50,
-  pinnacle:       75,
-  four_month:     30,
-  life_path:      60,
-  expression:     60,
-  life_calling:   80,
-  theme:          60,
-  soul:           40,
-  outer:          40,
-  achievement:    40,
+  personal_month: 40,
+  personal_year:  120,
+  pinnacle:       150,
+  four_month:     60,
+  life_path:      8,    // daily dfreq — small, repeatable
+  expression:     8,
+  life_calling:   10,
+  theme:          8,
+  soul:           6,
+  outer:          6,
+  achievement:    6,
 };
 
 // Stat growth points per completed quest (1 point = one step toward unlocking innate score)
