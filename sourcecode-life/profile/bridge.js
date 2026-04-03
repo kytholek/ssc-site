@@ -121,11 +121,22 @@ window.NativeAuth = {
           const freqLog   = (typeof d.freqLog === 'object' && d.freqLog !== null) ? d.freqLog : {};
           NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel,
             JSON.stringify(statXP), JSON.stringify(freqLog));
-          // Restore achievements + founder status from cloud to localStorage
+          // Restore achievements + all progress keys from cloud to localStorage
           try {
-            if (d.achievements) localStorage.setItem('scl_achievements', typeof d.achievements === 'string' ? d.achievements : JSON.stringify(d.achievements));
+            if (d.achievements)  localStorage.setItem('scl_achievements',  typeof d.achievements === 'string' ? d.achievements : JSON.stringify(d.achievements));
             if (d.founder === true) localStorage.setItem('scl_founder', 'true');
-            if (d.dailyStreak) localStorage.setItem('scl_daily_streak', typeof d.dailyStreak === 'string' ? d.dailyStreak : JSON.stringify(d.dailyStreak));
+            if (d.dailyStreak)   localStorage.setItem('scl_daily_streak', typeof d.dailyStreak === 'string' ? d.dailyStreak : JSON.stringify(d.dailyStreak));
+            if (d.lqp)           localStorage.setItem('scl_lqp',           typeof d.lqp === 'string' ? d.lqp : JSON.stringify(d.lqp));
+            if (d.irlCompleted)  localStorage.setItem('scl_irl_completed',  String(d.irlCompleted));
+            if (d.questsCreated) localStorage.setItem('scl_quests_created', String(d.questsCreated));
+            if (d.inviteAllies)  localStorage.setItem('scl_invite_allies',  String(d.inviteAllies));
+            if (d.thirtyDayDone) localStorage.setItem('scl_30day_done',     String(d.thirtyDayDone));
+            if (Array.isArray(d.quests) && d.quests.length) {
+              const local = _load(_LS_QUESTS) || [];
+              const localIds = new Set(local.map(q => q.id));
+              const merged  = [...local, ...d.quests.filter(q => !localIds.has(q.id))];
+              _save(_LS_QUESTS, merged);
+            }
           } catch(e) {}
         } else {
           console.log('[bridge] loadPlayer: no doc, sending to char create');
@@ -268,6 +279,12 @@ window.NativeMap = {
       q.ts  = Date.now();
       qs.push(q);
       _save(_LS_QUESTS, qs);
+      const user = _auth.currentUser;
+      if (user) {
+        _db.collection('players').doc(user.uid).set(
+          { quests: qs, questsUpdated: Date.now() }, { merge: true }
+        ).catch(() => {});
+      }
       setTimeout(() => NativeMap_onQuestSaved(true, q.id), 0);
     } catch(e) {
       setTimeout(() => NativeMap_onQuestSaved(false, ''), 0);
@@ -288,6 +305,12 @@ window.NativeMap = {
   deleteQuest(questId) {
     let qs = (_load(_LS_QUESTS) || []).filter(q => q.id !== questId);
     _save(_LS_QUESTS, qs);
+    const user = _auth.currentUser;
+    if (user) {
+      _db.collection('players').doc(user.uid).set(
+        { quests: qs, questsUpdated: Date.now() }, { merge: true }
+      ).catch(() => {});
+    }
     setTimeout(() => NativeMap_onQuestDeleted(true, questId), 0);
   },
 
@@ -317,21 +340,33 @@ window.NativeMap = {
     } catch(e) {}
   },
 
-  /** Sync achievements + founder status to Firestore. Called from achievements.js. */
+  /** Sync achievements + all progress keys to Firestore. Called from achievements.js. */
   saveAchievements() {
     const user = _auth.currentUser;
     if (!user) return;
     try {
-      const achievements = localStorage.getItem('scl_achievements') || '{}';
-      const founder      = localStorage.getItem('scl_founder') === 'true';
-      const dailyStreak  = localStorage.getItem('scl_daily_streak') || '{}';
+      const achievements  = localStorage.getItem('scl_achievements')  || '{}';
+      const founder       = localStorage.getItem('scl_founder') === 'true';
+      const dailyStreak   = localStorage.getItem('scl_daily_streak')  || '{}';
+      const lqp           = localStorage.getItem('scl_lqp')           || '{}';
+      const irlCompleted  = parseInt(localStorage.getItem('scl_irl_completed')  || '0') || 0;
+      const questsCreated = parseInt(localStorage.getItem('scl_quests_created') || '0') || 0;
+      const inviteAllies  = parseInt(localStorage.getItem('scl_invite_allies')  || '0') || 0;
+      const thirtyDayDone = parseInt(localStorage.getItem('scl_30day_done')     || '0') || 0;
       _db.collection('players').doc(user.uid).set(
-        { achievements, founder, dailyStreak, achievementsUpdated: Date.now() },
+        { achievements, founder, dailyStreak, lqp,
+          irlCompleted, questsCreated, inviteAllies, thirtyDayDone,
+          achievementsUpdated: Date.now() },
         { merge: true }
       ).catch(() => {});
     } catch(e) {}
-    setTimeout(() => NativeAllies_onSearchResult(false, '', '', '', '', ''), 0);
-  },
+  }
+};
+
+/* ================================================
+   NativeAllies  (localStorage stub)
+   ================================================ */
+window.NativeAllies = {
   sendRequest(targetUid) {
     setTimeout(() => NativeAllies_onRequestSent(false, 'Allies require the mobile app.'), 0);
   },
