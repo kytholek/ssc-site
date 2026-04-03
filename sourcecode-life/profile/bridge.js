@@ -131,6 +131,7 @@ window.NativeAuth = {
             if (d.questsCreated) localStorage.setItem('scl_quests_created', String(d.questsCreated));
             if (d.inviteAllies)  localStorage.setItem('scl_invite_allies',  String(d.inviteAllies));
             if (d.thirtyDayDone) localStorage.setItem('scl_30day_done',     String(d.thirtyDayDone));
+            if (d.realmQuests)   localStorage.setItem('scl_realm_quests',    typeof d.realmQuests === 'string' ? d.realmQuests : JSON.stringify(d.realmQuests));
             if (Array.isArray(d.quests) && d.quests.length) {
               const local = _load(_LS_QUESTS) || [];
               const localIds = new Set(local.map(q => q.id));
@@ -353,9 +354,10 @@ window.NativeMap = {
       const questsCreated = parseInt(localStorage.getItem('scl_quests_created') || '0') || 0;
       const inviteAllies  = parseInt(localStorage.getItem('scl_invite_allies')  || '0') || 0;
       const thirtyDayDone = parseInt(localStorage.getItem('scl_30day_done')     || '0') || 0;
+      const realmQuests    = localStorage.getItem('scl_realm_quests')           || '{}';
       _db.collection('players').doc(user.uid).set(
         { achievements, founder, dailyStreak, lqp,
-          irlCompleted, questsCreated, inviteAllies, thirtyDayDone,
+          irlCompleted, questsCreated, inviteAllies, thirtyDayDone, realmQuests,
           achievementsUpdated: Date.now() },
         { merge: true }
       ).catch(() => {});

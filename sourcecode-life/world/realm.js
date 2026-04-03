@@ -142,7 +142,12 @@ function _autoCheckWorldQuests() {
       updated = true;
     }
   });
-  if (updated) _lsSet(LS_REALM_Q, realmQ);
+  if (updated) {
+    _lsSet(LS_REALM_Q, realmQ);
+    if (typeof NativeMap !== 'undefined' && typeof NativeMap.saveAchievements === 'function') {
+      NativeMap.saveAchievements();
+    }
+  }
   return updated;
 }
 
@@ -675,6 +680,11 @@ function Realm_tapComplete(questId) {
   // Award 20 XP
   const xp = parseInt(_ls(LS_CHAR_XP, '0'), 10) + 20;
   _lsSet(LS_CHAR_XP, xp);
+
+  // Sync progress to Firestore
+  if (typeof NativeMap !== 'undefined' && typeof NativeMap.saveAchievements === 'function') {
+    NativeMap.saveAchievements();
+  }
 
   _refreshQuestRow(questId);
 }
