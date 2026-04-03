@@ -1706,7 +1706,17 @@ function buildJournal() {
 }
 
 function toggleStrip(strip) {
+  const opening = !strip.classList.contains('open');
   strip.classList.toggle('open');
+  if (opening) {
+    // Manually scroll so the strip trigger sits 116px below the viewport top,
+    // clearing both sticky bars (tab-bar ~49px + section-toggle ~46px + buffer)
+    setTimeout(() => {
+      const rect = strip.getBoundingClientRect();
+      const offset = rect.top + window.scrollY - 116;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }, 60);
+  }
 }
 
 /* ================================================
@@ -3155,10 +3165,12 @@ function _renderInviteModal() {
 
         <!-- Link display -->
         <div class="invite-link-label">YOUR INVITE LINK</div>
-        <div class="invite-link-row">
-          <input type="text" class="invite-link-input" id="inviteLinkInput" value="${_esc(link)}" readonly>
+        <div class="invite-link-display">
+          <div class="invite-link-domain">${_esc(window.location.hostname)}/…?ref=</div>
+          <div class="invite-link-ref">${code}</div>
           <button class="invite-copy-btn" onclick="_copyInviteLink('${_esc(link)}')">COPY</button>
         </div>
+        <input type="text" class="invite-link-input-hidden" id="inviteLinkInput" value="${_esc(link)}" readonly aria-hidden="true">
         <div id="inviteCopyStatus" class="invite-copy-status"></div>
 
         <div class="invite-share-row">

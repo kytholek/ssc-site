@@ -190,6 +190,7 @@ function World_switchTab(tab) {
       const sub = active.dataset.sub;
       if (sub === 'leaderboard') Ranks_build();
       else if (sub === 'allies') Allies_render();
+      else if (sub === 'chat')   Chat_init();
     }
   }
   if (tab === 'hub') {
@@ -205,17 +206,22 @@ function Hub_switchMap(type) {
   document.querySelectorAll('.section-btn[data-map]').forEach(b => {
     b.classList.toggle('active', b.dataset.map === type);
   });
-  const digitalView = document.getElementById('hubDigitalView');
-  const worldView   = document.getElementById('hubWorldView');
+  const digitalView   = document.getElementById('hubDigitalView');
+  const worldView     = document.getElementById('hubWorldView');
+  const makeQuestView = document.getElementById('hubMakeQuestView');
+  if (digitalView)   digitalView.classList.add('hidden');
+  if (worldView)     worldView.classList.add('hidden');
+  if (makeQuestView) makeQuestView.classList.add('hidden');
   if (type === 'digital') {
-    digitalView.classList.remove('hidden');
-    worldView.classList.add('hidden');
+    if (digitalView) digitalView.classList.remove('hidden');
     setTimeout(_initDigitalMap, 60);
-  } else {
-    digitalView.classList.add('hidden');
-    worldView.classList.remove('hidden');
+  } else if (type === 'world') {
+    if (worldView) worldView.classList.remove('hidden');
     _initWorldMap();
     _renderActiveQuests();
+  } else if (type === 'makequest') {
+    if (makeQuestView) makeQuestView.classList.remove('hidden');
+    MakeQuest_init();
   }
 }
 
@@ -690,7 +696,7 @@ function Social_switchSub(sub) {
   });
   if (sub === 'leaderboard') Ranks_build();
   if (sub === 'allies')      { Allies_render(); _renderWorldBoostStatus(); }
-  if (sub === 'makequest')   MakeQuest_init();
+  if (sub === 'chat')        Chat_init();
 }
 
 /* ═══════════════════════════════════════════════
@@ -716,9 +722,19 @@ function _buildRankCharCard(p, pos, t) {
     const lp     = parseInt(_ls(LS_CHAR_LVL, '1'), 10);
     const fl     = parseInt(_ls(LS_FREQ_LVL,  '1'), 10);
     const player = _lsJson(LS_PLAYER, {});
-    const lePath = player.lifePath   || '—';
-    const soul   = player.soulUrge   || '—';
-    const expr   = player.expression || '—';
+    // If frequencies weren't in localStorage yet, compute them now from stored m/d/y/name
+    let lePath = player.lifePath   || null;
+    let soul   = player.soulUrge   || null;
+    let expr   = player.expression || null;
+    if ((!lePath || !soul || !expr) && player.m && player.d && player.y && player.name && typeof computeAll === 'function') {
+      const computed = computeAll(player.m, player.d, player.y, player.name);
+      lePath = lePath || (computed.lp ? computed.lp.root : null);
+      soul   = soul   || (computed.so ? computed.so.root : null);
+      expr   = expr   || (computed.ex ? computed.ex.root : null);
+    }
+    lePath = lePath || '—';
+    soul   = soul   || '—';
+    expr   = expr   || '—';
     return `<div class="rcc-inner">
       <div class="rcc-header">
         <div class="rcc-name">${_founderTag(true)}${p.name}</div>
@@ -884,10 +900,12 @@ function World_shareInvite() {
           <div class="invite-char-code">CODE — <strong>${code}</strong></div>
         </div>
         <div class="invite-link-label">YOUR INVITE LINK</div>
-        <div class="invite-link-row">
-          <input type="text" class="invite-link-input" id="wInviteLinkInput" value="${link}" readonly>
+        <div class="invite-link-display">
+          <div class="invite-link-domain">${location.hostname}/…?ref=</div>
+          <div class="invite-link-ref">${code}</div>
           <button class="invite-copy-btn" onclick="_worldCopyInvite('${link}')">COPY</button>
         </div>
+        <input type="text" class="invite-link-input-hidden" id="wInviteLinkInput" value="${link}" readonly aria-hidden="true">
         <div id="wInviteCopyStatus" class="invite-copy-status"></div>
         <div class="invite-share-row">
           <button class="invite-share-btn" onclick="_worldNativeShare('${link}', '${player.name || 'PLAYER'}')">▶ SHARE LINK</button>
@@ -1121,6 +1139,109 @@ function _cancelMyQuest(questId) {
   if (m && window._realmMapInstance) { window._realmMapInstance.removeLayer(m); }
   _userQuestMarkers.delete(questId);
   _renderMyQuests();
+}
+
+/* ═══════════════════════════════════════════════
+   CHAT
+   ═══════════════════════════════════════════════ */
+const LS_CHAT_PREFIX = 'scl_chat_';
+let _chatActiveAllyId = null;
+
+function _esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function Chat_init() {
+  const allies     = _lsJson('scl_allies', []);
+  const bar        = document.getElementById('chatAllyBar');
+  const thread     = document.getElementById('chatThread');
+  const inputRow   = document.getElementById('chatInputRow');
+  const emptyEl    = document.getElementById('chatEmpty');
+  const allyNameEl = document.getElementById('chatAllyName');
+
+  if (!allies.length) {
+    if (bar)        bar.innerHTML = '';
+    if (thread)     thread.innerHTML = '';
+    if (allyNameEl) allyNameEl.textContent = '';
+    if (inputRow)   inputRow.classList.add('hidden');
+    if (emptyEl)    emptyEl.classList.remove('hidden');
+    return;
+  }
+  if (emptyEl)  emptyEl.classList.add('hidden');
+  if (inputRow) inputRow.classList.remove('hidden');
+
+  // Auto-select first ally if none selected or previous ally no longer exists
+  const ids = allies.map(a => a.uid || a.id || a.email);
+  if (!_chatActiveAllyId || !ids.includes(_chatActiveAllyId)) {
+    _chatActiveAllyId = ids[0];
+  }
+
+  if (bar) {
+    bar.innerHTML = allies.map(a => {
+      const id     = a.uid || a.id || a.email;
+      const active = id === _chatActiveAllyId ? ' chat-ally-chip--active' : '';
+      return `<button class="chat-ally-chip${active}"
+                onclick="Chat_selectAlly('${_esc(id)}','${_esc(a.name || a.email || id)}')"
+              >${_esc(a.name || a.email || id)}</button>`;
+    }).join('');
+  }
+
+  const activeAlly = allies.find(a => (a.uid || a.id || a.email) === _chatActiveAllyId);
+  if (allyNameEl && activeAlly) {
+    allyNameEl.textContent = activeAlly.name || activeAlly.email || _chatActiveAllyId;
+  }
+
+  Chat_renderThread();
+}
+
+function Chat_selectAlly(id, name) {
+  _chatActiveAllyId = id;
+  document.querySelectorAll('.chat-ally-chip').forEach(c => c.classList.remove('chat-ally-chip--active'));
+  // Re-find the chip by onclick attribute match
+  document.querySelectorAll('.chat-ally-chip').forEach(c => {
+    if (c.textContent.trim() === name) c.classList.add('chat-ally-chip--active');
+  });
+  const nameEl = document.getElementById('chatAllyName');
+  if (nameEl) nameEl.textContent = name;
+  Chat_renderThread();
+}
+
+function Chat_renderThread() {
+  const el = document.getElementById('chatThread');
+  if (!el || !_chatActiveAllyId) return;
+  const msgs = _lsJson(LS_CHAT_PREFIX + _chatActiveAllyId, []);
+  if (!msgs.length) {
+    el.innerHTML = '<div class="chat-no-msgs">No messages yet. Say hello!</div>';
+    return;
+  }
+  el.innerHTML = msgs.map(m => {
+    const isMe = m.from === 'me';
+    const time = new Date(m.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `<div class="chat-bubble${isMe ? ' chat-bubble--me' : ' chat-bubble--ally'}">
+      <div class="chat-bubble-text">${_esc(m.text)}</div>
+      <div class="chat-bubble-time">${time}</div>
+    </div>`;
+  }).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function Chat_send() {
+  if (!_chatActiveAllyId) return;
+  const input = document.getElementById('chatInput');
+  const text  = input ? input.value.trim() : '';
+  if (!text) return;
+  const msgs = _lsJson(LS_CHAT_PREFIX + _chatActiveAllyId, []);
+  msgs.push({ from: 'me', text, ts: Date.now() });
+  _lsSet(LS_CHAT_PREFIX + _chatActiveAllyId, msgs);
+  if (input) input.value = '';
+  Chat_renderThread();
+  // Native bridge hook (wired when backend is ready):
+  // if (typeof NativeAllies !== 'undefined') NativeAllies.sendMessage(_chatActiveAllyId, text);
 }
 
 /* ═══════════════════════════════════════════════

@@ -62,13 +62,15 @@
 
   <!-- ════ HUB TAB ════ -->
   <div class="tab-panel active" id="wPanel_hub">
-    <div class="content-area">
 
-      <!-- Map / zone toggle -->
-      <div class="section-toggle">
-        <button class="section-btn active" data-map="digital" onclick="Hub_switchMap('digital')">◈ THE DIGITAL</button>
-        <button class="section-btn"        data-map="world"   onclick="Hub_switchMap('world')">🗺 THE WORLD</button>
-      </div>
+    <!-- Map / zone toggle (direct child so sticky works) -->
+    <div class="section-toggle">
+      <button class="section-btn active" data-map="digital"   onclick="Hub_switchMap('digital')">◈ THE DIGITAL</button>
+      <button class="section-btn"        data-map="world"     onclick="Hub_switchMap('world')">🗺 THE WORLD</button>
+      <button class="section-btn"        data-map="makequest" onclick="Hub_switchMap('makequest')">◈ MAKE QUEST</button>
+    </div>
+
+    <div class="content-area">
 
       <!-- ─ DIGITAL VIEW ─ -->
       <div id="hubDigitalView">
@@ -113,72 +115,8 @@
 
       </div><!-- /hubWorldView -->
 
-    </div>
-  </div><!-- /wPanel_hub -->
-
-  <!-- ════ SOCIAL TAB ════ -->
-  <div class="tab-panel" id="wPanel_social">
-
-    <!-- Sub-nav -->
-    <div class="section-toggle">
-      <button class="section-btn active" data-sub="leaderboard" onclick="Social_switchSub('leaderboard')">✦ RANKS</button>
-      <button class="section-btn"        data-sub="allies"      onclick="Social_switchSub('allies')">⚔ ALLIES</button>
-      <button class="section-btn"        data-sub="makequest"   onclick="Social_switchSub('makequest')">◈ MAKE QUEST</button>
-    </div>
-
-    <!-- ─ LEADERBOARD ─ -->
-    <div class="social-sub-panel" data-sub="leaderboard">
-      <div class="content-area">
-
-        <!-- Player card -->
-        <div class="rpg-panel">
-          <div class="panel-label c-gold">◈ YOUR STANDING</div>
-          <div class="panel-body" id="playerRankCard">
-            <!-- populated by Ranks_build() -->
-          </div>
-        </div>
-
-        <div class="rpg-panel">
-          <div class="panel-label c-silver">◈ TOP PLAYERS</div>
-          <div class="panel-body panel-body--tight" id="ranksList">
-            <!-- populated by Ranks_build() -->
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ─ ALLIES ─ -->
-    <div class="social-sub-panel hidden" data-sub="allies">
-      <div class="content-area">
-        <!-- Invite modal (rendered by JS) -->
-        <div id="worldInviteModal" class="hidden"></div>
-        <div class="rpg-panel">
-          <div class="panel-label c-teal">◈ INVITE AN ALLY</div>
-          <div class="panel-body">
-            <div id="worldBoostStatus" class="ally-boost-status" style="margin-bottom:12px;">
-              <span class="boost-chip">Invite an ally to earn 2× XP for 48 hours</span>
-            </div>
-            <button class="btn-primary" onclick="World_shareInvite()"
-                    style="border-color:var(--teal-dim);color:var(--teal)">
-              ◈ SHARE INVITE LINK
-            </button>
-          </div>
-        </div>
-        <div class="rpg-panel">
-          <div class="panel-label c-teal">◈ ALLIED PLAYERS</div>
-          <div class="panel-body">
-            <div class="allies-card-grid" id="alliesCardGrid">
-              <div class="allies-empty">No allies yet. Invite players using the link above.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─ MAKE A QUEST ─ -->
-    <div class="social-sub-panel hidden" data-sub="makequest">
-      <div class="content-area">
+      <!-- ─ MAKE QUEST VIEW ─ -->
+      <div id="hubMakeQuestView" class="hidden">
         <div class="rpg-panel">
           <div class="panel-label c-amber">◈ MAKE A QUEST</div>
           <div class="panel-body">
@@ -307,12 +245,102 @@
             <div class="aq-empty">No quests created yet.</div>
           </div>
         </div>
-      </div><!-- /content-area -->
+      </div><!-- /hubMakeQuestView -->
+
+    </div><!-- /content-area -->
+  </div><!-- /wPanel_hub -->
+
+  <!-- ════ SOCIAL TAB ════ -->
+  <div class="tab-panel" id="wPanel_social">
+
+    <!-- Sub-nav -->
+    <div class="section-toggle">
+      <button class="section-btn active" data-sub="leaderboard" onclick="Social_switchSub('leaderboard')">✦ RANKS</button>
+      <button class="section-btn"        data-sub="allies"      onclick="Social_switchSub('allies')">⚔ ALLIES</button>
+      <button class="section-btn"        data-sub="chat"        onclick="Social_switchSub('chat')">⚡ CHAT</button>
+    </div>
+
+    <!-- ─ LEADERBOARD ─ -->
+    <div class="social-sub-panel" data-sub="leaderboard">
+      <div class="content-area">
+
+        <!-- Player card -->
+        <div class="rpg-panel">
+          <div class="panel-label c-gold">◈ YOUR STANDING</div>
+          <div class="panel-body" id="playerRankCard">
+            <!-- populated by Ranks_build() -->
+          </div>
+        </div>
+
+        <div class="rpg-panel">
+          <div class="panel-label c-silver">◈ TOP PLAYERS</div>
+          <div class="panel-body panel-body--tight" id="ranksList">
+            <!-- populated by Ranks_build() -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─ ALLIES ─ -->
+    <div class="social-sub-panel hidden" data-sub="allies">
+      <div class="content-area">
+        <!-- Invite modal (rendered by JS) -->
+        <div id="worldInviteModal" class="hidden"></div>
+        <div class="rpg-panel">
+          <div class="panel-label c-teal">◈ INVITE AN ALLY</div>
+          <div class="panel-body">
+            <div id="worldBoostStatus" class="ally-boost-status" style="margin-bottom:12px;">
+              <span class="boost-chip">Invite an ally to earn 2× XP for 48 hours</span>
+            </div>
+            <button class="btn-primary" onclick="World_shareInvite()"
+                    style="border-color:var(--teal-dim);color:var(--teal)">
+              ◈ SHARE INVITE LINK
+            </button>
+          </div>
+        </div>
+        <div class="rpg-panel">
+          <div class="panel-label c-teal">◈ ALLIED PLAYERS</div>
+          <div class="panel-body">
+            <div class="allies-card-grid" id="alliesCardGrid">
+              <div class="allies-empty">No allies yet. Invite players using the link above.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ CHAT ─ -->
+    <div class="social-sub-panel hidden" data-sub="chat">
+      <div class="rpg-panel" style="margin:0;border-left:none;border-right:none;border-top:none;">
+        <div class="panel-label c-teal">⚡ ALLY CHAT</div>
+        <div class="panel-body" style="padding:0;">
+          <!-- Ally selector chips -->
+          <div class="chat-ally-bar" id="chatAllyBar"></div>
+          <!-- Active ally name -->
+          <div class="chat-ally-name" id="chatAllyName"></div>
+          <!-- Message thread -->
+          <div class="chat-thread" id="chatThread"></div>
+          <!-- No allies state -->
+          <div class="chat-empty hidden" id="chatEmpty">
+            No allies yet — invite one from the ALLIES tab to start chatting.
+          </div>
+          <!-- Input row -->
+          <div class="chat-input-row hidden" id="chatInputRow">
+            <input type="text" class="field-input" id="chatInput"
+                   placeholder="Type a message..." maxlength="500"
+                   onkeydown="if(event.key==='Enter')Chat_send()">
+            <button class="chat-send-btn" onclick="Chat_send()">▶ SEND</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div><!-- /wPanel_social -->
 
 </div><!-- /app-shell -->
 
+<script src="../profile/numerology.js"></script>
 <script src="realm.js"></script>
 </body>
 </html>

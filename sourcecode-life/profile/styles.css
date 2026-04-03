@@ -1500,6 +1500,8 @@ body::after {
 }
 /* Spacer so content below doesn't jump up under the sticky bar */
 .section-toggle + * { margin-top: 14px; }
+/* CHARACTER section — extra breathing room so first journal strip clears the sticky toggle */
+#sectionJournal { padding-top: 8px; }
 .section-btn {
   flex: 1; background: none; border: 1px solid transparent;
   color: var(--text-dim);
@@ -1516,6 +1518,8 @@ body::after {
 .journal-strip {
   border: 1px solid var(--border); margin-bottom: 10px;
   transition: border-color 0.2s;
+  /* ensure strip header clears both sticky bars when scrolled into view */
+  scroll-margin-top: 110px;
 }
 .journal-strip:hover { border-color: var(--border-glow); }
 .journal-strip.open  { border-color: var(--border-glow); }
@@ -1548,8 +1552,8 @@ body::after {
 .strip-body { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1); }
 .journal-strip.open .strip-body { max-height: 9999px; }
 
-.strip-content { padding: 0 14px 14px 30px; border-top: 1px solid var(--border); }
-.strip-text    { font-size: 14px; line-height: 1.9; color: var(--text); padding-top: 14px; }
+.strip-content { padding: 20px 14px 18px 30px; border-top: 1px solid var(--border); }
+.strip-text    { font-size: 14px; line-height: 1.9; color: var(--text); }
 .strip-affirmation {
   margin-top: 14px; padding: 10px 14px; font-size: 14px; font-style: italic;
   color: var(--text-mid); background: rgba(0,0,0,0.25);
@@ -6152,34 +6156,50 @@ body::after {
 /* Link section */
 .invite-link-label {
   font-size: 9px; color: var(--text-dim); letter-spacing: 1.5px;
-  text-transform: uppercase; margin-bottom: 5px;
+  text-transform: uppercase; margin-bottom: 6px;
 }
-.invite-link-row   { display: flex; gap: 0; margin-bottom: 6px; border: 1px solid var(--border); }
-.invite-link-input {
-  flex: 1; font-size: 12px;
-  background: var(--bg-inset); border: none; outline: none;
-  color: var(--text); padding: 9px 10px; min-width: 0;
-  font-family: 'Share Tech Mono', monospace;
+/* Hidden raw URL input — for clipboard copy only */
+.invite-link-input-hidden {
+  position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;
+}
+/* Styled display box */
+.invite-link-display {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--teal-dim, #2a5a5a);
+  background: var(--bg-inset); margin-bottom: 6px; overflow: hidden;
+}
+.invite-link-domain {
+  padding: 10px 10px; font-size: 10px; color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace; white-space: nowrap;
+  border-right: 1px solid var(--border); background: var(--bg-panel);
+  display: flex; align-items: center;
+}
+.invite-link-ref {
+  flex: 1; padding: 10px 10px; font-size: 14px;
+  font-family: 'VT323', monospace; color: var(--gold, #f0c060);
+  letter-spacing: 2px; display: flex; align-items: center;
+  text-shadow: 0 0 8px rgba(240,192,96,0.35);
 }
 .invite-copy-btn {
-  background: var(--bg-panel); border: none; border-left: 1px solid var(--border);
+  background: var(--bg-panel); border: none; border-left: 1px solid var(--teal-dim, #2a5a5a);
   color: var(--teal); font-family: var(--font-pixel); font-size: 10px;
-  padding: 0 12px; cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s;
+  padding: 0 14px; cursor: pointer; white-space: nowrap;
+  transition: background 0.15s, color 0.15s; letter-spacing: 0.5px;
 }
-.invite-copy-btn:hover { background: rgba(0,200,200,0.08); color: var(--teal-bright, var(--teal)); }
+.invite-copy-btn:hover { background: rgba(0,200,200,0.1); }
 .invite-copy-status { font-size: 10px; color: var(--teal); min-height: 14px; margin-bottom: 10px; text-align: center; }
 
 /* Share button */
-.invite-share-row { display: flex; justify-content: center; margin-top: 6px; }
+.invite-share-row { display: flex; justify-content: center; margin-top: 8px; }
 .invite-share-btn {
   background: linear-gradient(135deg, rgba(0,200,200,0.12) 0%, rgba(0,200,200,0.05) 100%);
   border: 1px solid var(--teal-dim, #2a5a5a);
   color: var(--teal); font-family: var(--font-pixel); font-size: 11px;
-  padding: 9px 28px; cursor: pointer; letter-spacing: 1.5px;
+  padding: 10px 32px; cursor: pointer; letter-spacing: 1.5px;
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .invite-share-btn:hover {
   background: rgba(0,200,200,0.18);
   border-color: var(--teal, #0cc);
-  box-shadow: 0 0 12px rgba(0,200,200,0.15);
+  box-shadow: 0 0 14px rgba(0,200,200,0.18);
 }
