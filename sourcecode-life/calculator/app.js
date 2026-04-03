@@ -537,8 +537,14 @@ function launchApp() {
   buildGifts(d, so, ou);
   loadSavedAvatar();
 
+  // Apply saved character alias (overrides real name in display)
+  const _savedAlias = localStorage.getItem(LS_CHAR_ALIAS);
+  if (_savedAlias) {
+    document.getElementById('charCardName').textContent = _savedAlias.toUpperCase();
+  }
+
   // Header
-  document.getElementById('headerName').textContent = name.toUpperCase();
+  document.getElementById('headerName').textContent = (_savedAlias || name).toUpperCase();
   document.getElementById('headerDob').textContent  = String(m).padStart(2,'0') + ' / ' + String(d).padStart(2,'0') + ' / ' + y;
 
   // Settings panel
@@ -1946,14 +1952,77 @@ function buildCharCoreNumbers(lp, cl, ex) {
 }
 
 /* ================================================
-   CHARACTER CARD — AVATAR UPLOAD
+   CHARACTER CARD — AVATAR + NAME
    ================================================ */
-const LS_AVATAR = 'scl_avatar';
+const LS_AVATAR     = 'scl_avatar';
+const LS_CHAR_ALIAS = 'scl_char_alias';
 
-function triggerAvatarUpload() {
-  document.getElementById('avatarFileInput').click();
+// ── Preset pools
+const AVATAR_PIXEL = [
+  { id:'p1', label:'WARRIOR',  art:'⚔️' },
+  { id:'p2', label:'MAGE',     art:'🔮' },
+  { id:'p3', label:'ROGUE',    art:'🗡️' },
+  { id:'p4', label:'RANGER',   art:'🏹' },
+  { id:'p5', label:'CLERIC',   art:'✨' },
+  { id:'p6', label:'BARD',     art:'🎵' },
+  { id:'p7', label:'DRUID',    art:'🌿' },
+  { id:'p8', label:'NECRO',    art:'💀' },
+  { id:'p9', label:'PALADIN',  art:'🛡️' },
+];
+const AVATAR_RPG = [
+  { id:'r1', label:'THE SEER',      art:'🧿' },
+  { id:'r2', label:'SHADOW WALK',   art:'🌑' },
+  { id:'r3', label:'FLAME KEEPER',  art:'🔥' },
+  { id:'r4', label:'STORM CALLER',  art:'⚡' },
+  { id:'r5', label:'VOID TOUCHED',  art:'🌀' },
+  { id:'r6', label:'LIGHT BEARER',  art:'☀️' },
+  { id:'r7', label:'IRON WILL',     art:'⚙️' },
+  { id:'r8', label:'BLOOD OATH',    art:'🩸' },
+  { id:'r9', label:'STAR CHILD',    art:'⭐' },
+];
+
+// ── Avatar picker modal
+function openAvatarPicker() {
+  _buildAvatarGrid('apGridPixel', AVATAR_PIXEL);
+  _buildAvatarGrid('apGridRpg',   AVATAR_RPG);
+  document.getElementById('avatarPickerOverlay').classList.remove('hidden');
+}
+function closeAvatarPicker(e) {
+  if (e && e.target !== document.getElementById('avatarPickerOverlay')) return;
+  document.getElementById('avatarPickerOverlay').classList.add('hidden');
+}
+function switchAvatarTab(tab) {
+  const tabs = { pixel: 'Pixel', rpg: 'Rpg', upload: 'Upload' };
+  Object.keys(tabs).forEach(t => {
+    document.getElementById('apGrid'  + tabs[t])?.classList.toggle('hidden', t !== tab);
+    document.getElementById('apTab'   + tabs[t])?.classList.toggle('active',  t === tab);
+  });
+}
+function _buildAvatarGrid(elId, items) {
+  const el = document.getElementById(elId);
+  if (!el || el.dataset.built) return;
+  el.dataset.built = '1';
+  const saved = localStorage.getItem(LS_AVATAR) || '';
+  el.innerHTML = items.map(a =>
+    `<div class="ap-preset${saved === a.id ? ' ap-preset--active' : ''}"
+          onclick="selectPresetAvatar('${a.id}','${a.art.replace(/'/g,"\\'")}')">
+       <div class="ap-preset-art">${a.art}</div>
+       <div class="ap-preset-label">${a.label}</div>
+     </div>`
+  ).join('');
+}
+function selectPresetAvatar(id, art) {
+  localStorage.setItem(LS_AVATAR, id);
+  _setAvatarEmoji(art);
+  // highlight active
+  document.querySelectorAll('.ap-preset').forEach(el => {
+    el.classList.toggle('ap-preset--active',
+      el.getAttribute('onclick').includes("'" + id + "'"));
+  });
+  document.getElementById('avatarPickerOverlay').classList.add('hidden');
 }
 
+// ── Upload
 function handleAvatarUpload(event) {
   const file = event.target.files[0];
   if (!file || !file.type.startsWith('image/')) return;
@@ -1962,25 +2031,85 @@ function handleAvatarUpload(event) {
     const dataUrl = e.target.result;
     setAvatarImage(dataUrl);
     try { localStorage.setItem(LS_AVATAR, dataUrl); } catch(err) {}
+    document.getElementById('avatarPickerOverlay').classList.add('hidden');
   };
   reader.readAsDataURL(file);
   event.target.value = '';
 }
-
 function setAvatarImage(dataUrl) {
   const img = document.getElementById('charAvatarImg');
   const ph  = document.getElementById('charAvatarPlaceholder');
   if (!img || !ph) return;
+  document.getElementById('charAvatarEmoji')?.remove();
   img.src = dataUrl;
   img.classList.remove('hidden');
   ph.classList.add('hidden');
 }
-
+function _setAvatarEmoji(art) {
+  const frame = document.querySelector('.char-avatar-frame');
+  const img   = document.getElementById('charAvatarImg');
+  const ph    = document.getElementById('charAvatarPlaceholder');
+  if (!frame) return;
+  img?.classList.add('hidden');
+  ph?.classList.add('hidden');
+  let emoji = document.getElementById('charAvatarEmoji');
+  if (!emoji) {
+    emoji = document.createElement('div');
+    emoji.id = 'charAvatarEmoji';
+    emoji.className = 'char-avatar-emoji';
+    frame.appendChild(emoji);
+  }
+  emoji.textContent = art;
+}
+function removeAvatar() {
+  localStorage.removeItem(LS_AVATAR);
+  document.getElementById('charAvatarEmoji')?.remove();
+  const img = document.getElementById('charAvatarImg');
+  const ph  = document.getElementById('charAvatarPlaceholder');
+  if (img) { img.src = ''; img.classList.add('hidden'); }
+  if (ph)  ph.classList.remove('hidden');
+  document.getElementById('avatarPickerOverlay').classList.add('hidden');
+}
 function loadSavedAvatar() {
   try {
     const saved = localStorage.getItem(LS_AVATAR);
-    if (saved) setAvatarImage(saved);
+    if (!saved) return;
+    if (saved.startsWith('data:')) {
+      setAvatarImage(saved);
+    } else {
+      const found = [...AVATAR_PIXEL, ...AVATAR_RPG].find(a => a.id === saved);
+      if (found) _setAvatarEmoji(found.art);
+    }
   } catch(e) {}
+}
+
+// ── Character name alias
+function openNameEdit() {
+  const alias = localStorage.getItem(LS_CHAR_ALIAS) || '';
+  const input = document.getElementById('charAliasInput');
+  if (input) input.value = alias;
+  document.getElementById('nameEditOverlay').classList.remove('hidden');
+  setTimeout(() => input?.focus(), 80);
+}
+function closeNameEdit(e) {
+  if (e && e.target !== document.getElementById('nameEditOverlay')) return;
+  document.getElementById('nameEditOverlay').classList.add('hidden');
+}
+function saveCharAlias() {
+  const val = document.getElementById('charAliasInput').value.trim();
+  if (val) {
+    localStorage.setItem(LS_CHAR_ALIAS, val);
+    document.getElementById('charCardName').textContent = val.toUpperCase();
+    document.getElementById('headerName').textContent   = val.toUpperCase();
+  }
+  document.getElementById('nameEditOverlay').classList.add('hidden');
+}
+function resetCharAlias() {
+  localStorage.removeItem(LS_CHAR_ALIAS);
+  const realName = (typeof playerData !== 'undefined' ? playerData.name : '') || '';
+  document.getElementById('charCardName').textContent = realName.toUpperCase();
+  document.getElementById('headerName').textContent   = realName.toUpperCase();
+  document.getElementById('nameEditOverlay').classList.add('hidden');
 }
 
 /* ================================================
@@ -2769,7 +2898,15 @@ function NativeAllies_onRequestResponded(uid, accepted) {
   document.getElementById('req_' + uid)?.remove();
   const section = document.getElementById('allyRequestsSection');
   if (section.querySelector('.ally-card') === null) section.style.display = 'none';
-  if (accepted) loadAllies(); // Refresh the full list
+  if (accepted) {
+    loadAllies(); // Refresh the full list
+    // Achievement hook — track ally acceptances for invite achievement
+    try {
+      const prev = parseInt(localStorage.getItem('scl_invite_allies') || '0') || 0;
+      localStorage.setItem('scl_invite_allies', prev + 1);
+      if (typeof Achievements_check === 'function') Achievements_check();
+    } catch(e) {}
+  }
 }
 
 /** Called by Kotlin after removing an ally */
@@ -2837,7 +2974,12 @@ function loadAllies() {
 }
 
 function shareInviteLink() {
-  const uid = currentUser?.uid || 'unknown';
+  const uid = currentUser?.uid;
+  if (!uid) {
+    _allyMsg(document.getElementById('allyError'), '⚠ Sign in first to share your invite link.');
+    return;
+  }
+  _allyMsg(document.getElementById('allyError'), '');
   const link = `https://sourcecodelife.app/invite?ref=${uid}`;
   if (typeof NativeAllies !== 'undefined' && NativeAllies.shareLink) {
     NativeAllies.shareLink(link, 'Join me on Source Code Life!');
@@ -2846,6 +2988,8 @@ function shareInviteLink() {
   } else {
     navigator.clipboard?.writeText(link).then(() => {
       _allyMsg(document.getElementById('allySuccess'), '✓ Invite link copied to clipboard.');
+    }).catch(() => {
+      _allyMsg(document.getElementById('allyError'), '⚠ Could not copy link. Try again.');
     });
   }
 }

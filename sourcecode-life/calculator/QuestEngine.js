@@ -415,11 +415,12 @@ const STAT_UNLOCK_THRESHOLD = 1; // quests needed to unlock a base-0 stat
 // level = how many full 'base' thresholds of XP have been crossed
 function _statLevel(base, xp) {
   if (base === 0) return Math.floor(xp / 5);   // void stats: 1 level per 5 XP
-  return Math.floor(xp / base);                // normal: 1 level per base XP
+  const threshold = Math.max(base, 10);         // min 10 XP per level so low-base stats don't balloon
+  return Math.floor(xp / threshold);
 }
 // XP progress within the current level (0.0–1.0)
 function _statLevelProgress(base, xp) {
-  const threshold = base > 0 ? base : 5;
+  const threshold = base > 0 ? Math.max(base, 10) : 5;
   return (xp % threshold) / threshold;
 }
 
@@ -429,9 +430,10 @@ function _statState(base, xp) {
     if (xp < 5)                 return 'awakening';
     return                             'void-master';
   }
+  const threshold = Math.max(base, 10);
   if (xp <= 0)                  return 'locked';
-  if (xp < base)                return 'unlocking';
-  if (xp < base * 2)            return 'unlocked';
+  if (xp < threshold)           return 'unlocking';
+  if (xp < threshold * 2)       return 'unlocked';
   return                                'ascending';
 }
 
@@ -496,14 +498,14 @@ function _renderStatXP() {
 
 function _statTooltip(state, base, xp) {
   const level = _statLevel(base, xp);
-  const threshold = base > 0 ? base : 5;
+  const threshold = base > 0 ? Math.max(base, 10) : 5;
   const nextIn = threshold - (xp % threshold);
   switch (state) {
     case 'absent':      return 'No innate presence. Complete quests to develop this stat.';
     case 'awakening':   return `Awakening — ${xp} XP earned. ${nextIn} more to reach Level 1.`;
     case 'void-master': return `Void Master — Level ${level}. Developed ${xp} XP with no innate score.`;
-    case 'locked':      return `Innate: ${base}. Earn ${base} XP to unlock. ${xp > 0 ? xp + ' earned so far.' : ''}`;
-    case 'unlocking':   return `Unlocking — ${xp}/${base} XP. ${nextIn} more to reach Level 1.`;
+    case 'locked':      return `Innate: ${base}. Earn ${threshold} XP to unlock. ${xp > 0 ? xp + ' earned so far.' : ''}`;
+    case 'unlocking':   return `Unlocking — ${xp}/${threshold} XP. ${nextIn} more to reach Level 1.`;
     case 'unlocked':    return `Level ${level} — Innate embodied. ${nextIn} XP to Level ${level + 1}.`;
     case 'ascending':   return `Ascending — Level ${level}. ${nextIn} XP to Level ${level + 1}.`;
     default:            return '';
@@ -919,6 +921,12 @@ function QuestEngine_complete30Day(key, xp, rootNum) {
   _save30Day(key, null);
   const multStr = mult.toFixed(1);
   _xpToast('\u26a1 ' + multStr + '\u00d7 COMBO \u00b7 +' + finalXp + ' XP', 'var(--gold)');
+  // Track 30-day completions for achievements
+  try {
+    const prev30 = parseInt(localStorage.getItem('scl_30day_done') || '0') || 0;
+    localStorage.setItem('scl_30day_done', prev30 + 1);
+    if (typeof Achievements_check === 'function') Achievements_check();
+  } catch(e) {}
   QuestEngine_completeFreqQuest(key, finalXp, rootNum);
 }
 

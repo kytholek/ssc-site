@@ -263,19 +263,19 @@
           <span class="freq-spike-icon">⚡</span>
         </div>
           <div class="char-card-inner">
-            <div class="char-avatar-wrap" onclick="triggerAvatarUpload()">
+            <div class="char-avatar-wrap" onclick="openAvatarPicker()">
               <div class="char-avatar-frame">
                 <img class="char-avatar-img hidden" id="charAvatarImg" alt="Character portrait">
                 <div class="char-avatar-placeholder" id="charAvatarPlaceholder">
                   <div class="char-avatar-icon">⚔</div>
-                  <div class="char-avatar-hint">TAP TO ADD<br>PORTRAIT</div>
+                  <div class="char-avatar-hint">TAP TO<br>CHOOSE</div>
                 </div>
-                <div class="char-avatar-overlay"><span>◈ UPLOAD</span></div>
+                <div class="char-avatar-overlay"><span>◈ PORTRAIT</span></div>
               </div>
               <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
             </div>
             <div class="char-identity">
-              <div class="char-identity-name" id="charCardName">—</div>
+              <div class="char-identity-name" id="charCardName" onclick="openNameEdit()" title="Tap to edit character name">—</div>
               <div class="char-identity-dob"  id="charCardDob">—</div>
               <div class="char-identity-divider"></div>
               <div class="char-core-numbers" id="charCoreNumbers"></div>
@@ -351,6 +351,50 @@
 
     </div>
   </div><!-- /panelStats -->
+
+  <!-- ══ AVATAR PICKER MODAL ══ -->
+  <div id="avatarPickerOverlay" class="ap-overlay hidden" onclick="closeAvatarPicker(event)">
+    <div class="ap-modal">
+      <div class="ap-header">
+        <span class="ap-title">◈ CHOOSE PORTRAIT</span>
+        <button class="ap-close" onclick="closeAvatarPicker()">✕</button>
+      </div>
+      <div class="ap-tabs">
+        <button class="ap-tab active" id="apTabPixel"  onclick="switchAvatarTab('pixel')">PIXEL</button>
+        <button class="ap-tab"        id="apTabRpg"    onclick="switchAvatarTab('rpg')">RPG</button>
+        <button class="ap-tab"        id="apTabUpload" onclick="switchAvatarTab('upload')">UPLOAD</button>
+      </div>
+      <div id="apGridPixel" class="ap-grid"></div>
+      <div id="apGridRpg"   class="ap-grid hidden"></div>
+      <div id="apGridUpload" class="ap-grid-upload hidden">
+        <p class="ap-upload-hint">Choose an image from your device to use as your character portrait.</p>
+        <button class="btn-primary" onclick="document.getElementById('avatarFileInput').click()" style="margin:0 auto;display:block;">▶ SELECT IMAGE</button>
+        <button class="ap-remove-btn" onclick="removeAvatar()">✕ REMOVE PORTRAIT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ NAME EDIT MODAL ══ -->
+  <div id="nameEditOverlay" class="ap-overlay hidden" onclick="closeNameEdit(event)">
+    <div class="ap-modal ap-modal--sm">
+      <div class="ap-header">
+        <span class="ap-title">◈ CHARACTER NAME</span>
+        <button class="ap-close" onclick="closeNameEdit()">✕</button>
+      </div>
+      <div style="padding:16px;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);margin-bottom:10px;">
+          Set a custom display name for your character card. Your real name is still used for numerology calculations.
+        </div>
+        <input id="charAliasInput" class="field-input" placeholder="Enter character name…" maxlength="30"
+               style="width:100%;box-sizing:border-box;margin-bottom:12px;font-size:16px;"
+               onkeydown="if(event.key==='Enter')saveCharAlias()">
+        <div style="display:flex;gap:8px;">
+          <button class="btn-primary" onclick="saveCharAlias()" style="flex:1;">▶ SAVE</button>
+          <button class="settings-btn" onclick="resetCharAlias()" style="flex:1;font-size:9px;">↺ RESET</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ════ QUESTS TAB ════ -->
   <div class="tab-panel" id="panelQuests">

@@ -104,6 +104,23 @@ const ACHIEVEMENTS = [
     title: 'SOCIALITE', desc: 'Reach Social Level 10 by completing IRL quests',
     check: function(d) { return d.socialLevel >= 10; },
     progress: function(d) { return { val: Math.min(d.socialLevel, 10), max: 10 }; } },
+  { id: 'ally_invite_1', group: 'Social',
+    tier: 'gold', medal: 'sun', color: 'var(--gold)',
+    title: 'SIGNAL BOOST', desc: 'Have your first friend join via your shared invite link',
+    check: function(d) { return d.inviteAllies >= 1; },
+    progress: function(d) { return { val: Math.min(d.inviteAllies, 1), max: 1 }; } },
+
+  // ── 30-Day Challenges ────────────────────────────────────
+  { id: 'thirty_first', group: '30-Day Challenges',
+    tier: 'silver', medal: 'shield', color: 'var(--purple)',
+    title: 'COMMITTED AF', desc: 'Complete your first 30-day challenge',
+    check: function(d) { return d.thirtyDayDone >= 1; },
+    progress: function(d) { return { val: Math.min(d.thirtyDayDone, 1), max: 1 }; } },
+  { id: 'thirty_five', group: '30-Day Challenges',
+    tier: 'gold', medal: 'diamond', color: 'var(--gold)',
+    title: 'I LIVE FOR THIS', desc: 'Complete 5 thirty-day challenges',
+    check: function(d) { return d.thirtyDayDone >= 5; },
+    progress: function(d) { return { val: Math.min(d.thirtyDayDone, 5), max: 5 }; } },
 
   // ── Individual Life Quest Mastery ────────────────────────
   { id: 'tier_lp', group: 'Life Mastery',
@@ -203,10 +220,15 @@ function _buildAchievementData() {
   const irlCompleted  = parseInt(localStorage.getItem('scl_irl_completed')  || '0') || 0;
   const questsCreated = parseInt(localStorage.getItem('scl_quests_created') || '0') || 0;
   const socialLevel   = irlCompleted; // 1 IRL quest = 1 social level
+  const inviteAllies  = parseInt(localStorage.getItem('scl_invite_allies')  || '0') || 0;
+
+  // 30-day challenge stats
+  const thirtyDayDone = parseInt(localStorage.getItem('scl_30day_done') || '0') || 0;
 
   return { maxDailyStreak: maxDailyStreak, charLevel: charLevel, freqLevel: freqLevel,
            tiersDone: tiersDone, tierProgress: tierProgress,
-           irlCompleted: irlCompleted, questsCreated: questsCreated, socialLevel: socialLevel };
+           irlCompleted: irlCompleted, questsCreated: questsCreated, socialLevel: socialLevel,
+           inviteAllies: inviteAllies, thirtyDayDone: thirtyDayDone };
 }
 
 /* ─────────────────────────────────────────────────────────────
