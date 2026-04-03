@@ -1,12 +1,12 @@
-﻿/* ================================================
-   SOURCE CODE: LIFE — realm.css
+/* ================================================
+   SOURCE CODE: LIFE � realm.css
    World-page OVERRIDES only.
    Base styles inherited from ../profile/styles.css
    ================================================ */
 
-/* ─── World-specific layout ─── */
+/* --- World-specific layout --- */
 
-/* ─── Matrix Rain Overlay ─── */
+/* --- Matrix Rain Overlay --- */
 #matrixOverlay {
   position: fixed;
   inset: 0;
@@ -37,7 +37,7 @@
 }
 #matrixTitle {
   font-family: var(--font-pixel);
-  font-size: 11px;
+  font-size: 14px;
   color: #00ff88;
   letter-spacing: 4px;
   text-shadow: 0 0 20px #00ff88, 0 0 40px #00cc66;
@@ -45,7 +45,7 @@
 }
 #matrixSub {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(0,229,160,0.7);
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -56,7 +56,7 @@
   border: 1px solid var(--border);
   color: var(--text-dim);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: 14px;
   padding: 5px 8px;
   cursor: pointer;
   letter-spacing: 1px;
@@ -74,15 +74,15 @@
 /* Panel body compact variant */
 .panel-body--tight { padding: 0; }
 
-/* ─── Map container ─── */
+/* --- Map container --- */
 .map-rpg-panel .panel-body { padding: 0; overflow: hidden; }
 #realmMapContainer { width: 100%; height: 240px; }
 #realmLeafletMap   { width: 100%; height: 100%; }
 
-/* ─── Active quests section ─── */
+/* --- Active quests section --- */
 #activeQuestsPanel .panel-body { padding: 0; }
 
-/* ─── Quest rows (digital + world) ─── */
+/* --- Quest rows (digital + world) --- */
 .realm-quest-row {
   display: flex;
   align-items: flex-start;
@@ -93,17 +93,17 @@
 .realm-quest-row:last-child { border-bottom: none; }
 .rqr-icon   { font-size: 18px; flex-shrink: 0; padding-top: 2px; }
 .rqr-body   { flex: 1; }
-.rqr-name   { font-family: var(--font-pixel); font-size: 7px; color: var(--text); letter-spacing: 1px; margin-bottom: 4px; }
-.rqr-desc   { font-size: 10px; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px; }
+.rqr-name   { font-family: var(--font-pixel); font-size: 16px; color: var(--text); letter-spacing: 1px; margin-bottom: 4px; }
+.rqr-desc   { font-size: 14px; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px; }
 .rqr-meta   { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.rqr-freq   { font-size: 9px; color: var(--gold); font-family: var(--font-mono); }
+.rqr-freq   { font-size: 14px; color: var(--gold); font-family: var(--font-mono); }
 .rqr-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
 .rqr-link-btn {
   background: var(--teal-muted);
   border: 1px solid var(--teal-dim);
   color: var(--teal);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: 14px;
   padding: 5px 9px;
   cursor: pointer;
   letter-spacing: 1px;
@@ -116,7 +116,7 @@
   border: 1px solid var(--gold-dim);
   color: var(--gold);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: 14px;
   padding: 5px 9px;
   cursor: pointer;
   letter-spacing: 1px;
@@ -129,46 +129,76 @@
   display: flex; align-items: center; gap: 8px;
   padding: 9px 16px;
   border-bottom: 1px solid var(--border);
-  font-size: 10px; color: var(--text);
+  font-size: 14px; color: var(--text);
 }
 .aq-row:last-child { border-bottom: none; }
+.aq-empty { padding: 10px 16px; font-size: 14px; color: var(--text-dim); }
 .aq-name { flex: 1; }
 .aq-complete-btn {
   background: var(--teal-muted); border: 1px solid var(--teal-dim); color: var(--teal);
-  font-family: var(--font-pixel); font-size: 5px; padding: 5px 8px; cursor: pointer;
+  font-family: var(--font-pixel); font-size: 14px; padding: 5px 8px; cursor: pointer;
 }
 
-/* ─── Rank rows ─── */
+/* --- Rank rows --- */
 .rank-row {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 9px 16px;
   border-bottom: 1px solid var(--border);
-  font-size: 11px;
+  font-size: 14px;
 }
 .rank-row:last-child { border-bottom: none; }
 .rank-row-you { background: var(--gold-muted); border-left: 2px solid var(--gold); color: var(--gold-bright); }
-.rank-pos   { font-family: var(--font-pixel); font-size: 6px; color: var(--text-dim); width: 26px; flex-shrink: 0; }
+.rank-pos   { font-family: var(--font-pixel); font-size: 10px; color: var(--text-dim); width: 26px; flex-shrink: 0; }
 .rank-name  { flex: 1; }
-.rank-score { font-family: var(--font-mono); font-size: 12px; color: var(--gold); }
+.rank-score { font-family: var(--font-mono); font-size: 14px; color: var(--gold); }
+.rank-expand-icon { font-size: 14px; color: var(--text-dim); margin-left: auto; transition: transform .2s; }
+.rank-row--open .rank-expand-icon { transform: rotate(180deg); }
+.rank-row { cursor: pointer; }
 
-/* ─── Player rank card ─── */
+/* --- Inline char card --- */
+.rank-char-card {
+  background: var(--bg-panel, #0a0c10);
+  border-left: 2px solid var(--gold-dim, #4a3a18);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px 10px;
+  margin-bottom: 2px;
+}
+.rcc-inner { display: flex; flex-direction: column; gap: 8px; }
+.rcc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.rcc-name { font-family: var(--font-pixel); font-size: 14px; color: var(--text); letter-spacing: 1px; display: flex; align-items: center; gap: 4px; }
+.rcc-badges { display: flex; align-items: center; gap: 6px; }
+.rcc-score { font-family: var(--font-mono); font-size: 12px; color: var(--gold-bright, #f0c842); }
+.rcc-numbers { display: flex; flex-wrap: wrap; gap: 6px; }
+.rcc-num { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 5px 9px; min-width: 44px; }
+.rcc-val { font-family: var(--font-pixel); font-size: 18px; color: var(--teal, #00e5cc); }
+.rcc-lbl { font-family: var(--font-pixel); font-size: 10px; color: var(--text-dim); letter-spacing: 1px; margin-top: 2px; }
+.rcc-you-tag { font-family: var(--font-pixel); font-size: 10px; color: var(--gold); letter-spacing: 2px; }
+.rcc-encrypted { font-size: 11px; color: var(--text-dim); letter-spacing: 2px; font-family: var(--font-mono); opacity: 0.5; }
+.rcc-arch { font-family: var(--font-pixel); font-size: 11px; color: var(--teal); letter-spacing: 2px; opacity: 0.75; margin-bottom: 2px; }
+.rcc-xpbar-wrap { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.rcc-xpbar-track { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.rcc-xpbar-fill  { height: 100%; background: linear-gradient(90deg, var(--teal, #00e5cc), rgba(0,229,204,0.4)); border-radius: 2px; transition: width 0.6s ease; }
+.rcc-xpbar-lbl   { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); white-space: nowrap; }
+
+/* --- Player rank card --- */
 #playerRankCard {
   display: flex; flex-direction: column; gap: 4px;
   padding: 12px 16px;
 }
-.prc-name      { font-family: var(--font-pixel); font-size: 8px; color: var(--gold); letter-spacing: 2px; }
+.prc-name      { font-family: var(--font-pixel); font-size: 14px; color: var(--gold); letter-spacing: 2px; }
 .prc-score-row { display: flex; align-items: baseline; gap: 10px; }
 .prc-score     { font-family: var(--font-pixel); font-size: 20px; color: var(--gold-bright); }
-.prc-breakdown { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
+.prc-breakdown { font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
 
-/* ─── Tier badges ─── */
-.tier-source { background: #1a0030; color: #e040fb; border: 1px solid #8000b0; padding: 2px 6px; font-family: var(--font-pixel); font-size: 5px; letter-spacing: 1px; }
-.tier-archon { background: var(--gold-muted); color: var(--gold); border: 1px solid var(--gold-dim); padding: 2px 6px; font-family: var(--font-pixel); font-size: 5px; letter-spacing: 1px; }
-.tier-adept  { background: var(--silver-dim); color: var(--silver); border: 1px solid var(--silver-dim); padding: 2px 6px; font-family: var(--font-pixel); font-size: 5px; letter-spacing: 1px; }
+/* --- Tier badges --- */
+.tier-source { background: #1a0030; color: #e040fb; border: 1px solid #8000b0; padding: 2px 6px; font-family: var(--font-pixel); font-size: 10px; letter-spacing: 1px; }
+.tier-archon { background: var(--gold-muted); color: var(--gold); border: 1px solid var(--gold-dim); padding: 2px 6px; font-family: var(--font-pixel); font-size: 10px; letter-spacing: 1px; }
+.tier-adept  { background: var(--silver-dim); color: var(--silver); border: 1px solid var(--silver-dim); padding: 2px 6px; font-family: var(--font-pixel); font-size: 10px; letter-spacing: 1px; }
 
-/* ─── Allies ─── */
+/* --- Allies --- */
 .allies-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .ally-card {
   background: var(--bg-panel2);
@@ -184,20 +214,20 @@
   font-size: 18px; color: var(--teal); overflow: hidden;
 }
 .ally-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.ally-name  { font-size: 10px; color: var(--text); }
-.ally-lvl   { font-size: 9px; color: var(--text-dim); }
-.allies-empty { color: var(--text-dim); font-size: 10px; line-height: 1.6; }
+.ally-name  { font-size: 14px; color: var(--text); }
+.ally-lvl   { font-size: 11px; color: var(--text-dim); }
+.allies-empty { color: var(--text-dim); font-size: 14px; line-height: 1.6; }
 
-/* ─── Make a Quest ─── */
-.mq-intro { font-size: 10px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.6; }
+/* --- Make a Quest --- */
+.mq-intro { font-size: 14px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.6; }
 .mq-field-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 6px; }
-.mq-char-count   { font-family: var(--font-pixel); font-size: 6px; color: var(--text-dim); }
+.mq-char-count   { font-family: var(--font-pixel); font-size: 11px; color: var(--text-dim); }
 .mq-textarea { min-height: 70px; resize: vertical; }
 
 .mq-type-grid, .mq-seeker-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .mq-type-btn, .mq-seeker-btn {
   background: var(--bg-inset); border: 1px solid var(--border);
-  color: var(--text-dim); font-family: var(--font-pixel); font-size: 6px;
+  color: var(--text-dim); font-family: var(--font-pixel); font-size: 14px;
   padding: 7px 10px; cursor: pointer; letter-spacing: 1px;
 }
 .mq-type-btn.active, .mq-seeker-btn.active { border-color: var(--gold-dim); color: var(--gold); background: var(--gold-muted); }
@@ -205,49 +235,67 @@
 .mq-reward-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-top: 6px; }
 .mq-reward-btn {
   background: var(--bg-inset); border: 1px solid var(--border);
-  color: var(--text-dim); font-family: var(--font-pixel); font-size: 6px;
+  color: var(--text-dim); font-family: var(--font-pixel); font-size: 14px;
   padding: 8px 4px; cursor: pointer;
   display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
 .mq-reward-btn.active { border-color: var(--gold-dim); color: var(--gold); background: var(--gold-muted); }
 .mq-reward-num  { font-size: 14px; font-family: var(--font-vt); }
-.mq-reward-name { font-size: 5px; letter-spacing: 1px; }
+.mq-reward-name { font-size: 14px; letter-spacing: 1px; }
 
 .mq-obj-inputs { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
 .mq-obj-input-row { display: flex; align-items: center; gap: 6px; }
-.mq-obj-bullet-label { font-size: 10px; color: var(--text-dim); flex-shrink: 0; }
+.mq-obj-bullet-label { font-size: 14px; color: var(--text-dim); flex-shrink: 0; }
 .mq-obj-hidden { display: none; }
 .mq-obj-input { flex: 1; }
 
 .mq-advanced-toggle {
   display: flex; align-items: center; gap: 8px; cursor: pointer;
-  font-family: var(--font-pixel); font-size: 6px; color: var(--text-dim);
+  font-family: var(--font-pixel); font-size: 14px; color: var(--text-dim);
   padding: 8px 0; margin-bottom: 8px;
   border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
 }
 .mq-adv-label { letter-spacing: 1px; }
-.mq-adv-arrow { font-size: 8px; transition: transform .2s; }
+.mq-adv-arrow { font-size: 11px; transition: transform .2s; }
 .mq-advanced-body { padding-bottom: 8px; }
 
 .mq-location-row { display: flex; gap: 6px; }
 .mq-gps-btn { flex-shrink: 0; }
-.mq-location-status { font-size: 9px; color: var(--teal); margin-top: 4px; }
+.mq-location-status { font-size: 14px; color: var(--teal); margin-top: 4px; }
 
 .mq-sig-panel {
   background: var(--bg-inset); border: 1px solid var(--border-glow);
   padding: 10px 12px; margin-bottom: 14px;
 }
 .mq-sig-body { margin-top: 6px; }
-.mq-sig-label  { font-family: var(--font-pixel); font-size: 6px; color: var(--teal); letter-spacing: 2px; margin-bottom: 6px; }
-.mq-sig-hint   { font-size: 10px; color: var(--text-dim); }
-.mq-sig-footer { font-size: 9px; color: var(--text-dim); margin-top: 6px; font-style: italic; }
+.mq-sig-label  { font-family: var(--font-pixel); font-size: 14px; color: var(--teal); letter-spacing: 2px; margin-bottom: 6px; }
+.mq-sig-hint   { font-size: 14px; color: var(--text-dim); }
+.mq-sig-footer { font-size: 14px; color: var(--text-dim); margin-top: 6px; font-style: italic; }
 
-/* ═════════════════════════════════════════════════════
+/* -----------------------------------------------------
    DIGITAL WORLD MAP
-   ═════════════════════════════════════════════════════ */
+   ----------------------------------------------------- */
 
 /* Map container inside the rpg-panel */
 .dmap-panel .panel-label { border-bottom: none; }
+
+@keyframes mapGlowPulse {
+  0%   { box-shadow: 0 0 16px rgba(0,229,204,0.08), inset 0 0 10px rgba(0,229,204,0.02); }
+  50%  { box-shadow: 0 0 52px rgba(0,229,204,0.40), inset 0 0 26px rgba(0,229,204,0.10); }
+  100% { box-shadow: 0 0 16px rgba(0,229,204,0.08), inset 0 0 10px rgba(0,229,204,0.02); }
+}
+@keyframes mapScan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  4%   { opacity: 1; }
+  92%  { opacity: 0.8; }
+  100% { transform: translateY(600%); opacity: 0; }
+}
+@keyframes mapVignette {
+  0%   { opacity: 0.60; }
+  50%  { opacity: 0.28; }
+  100% { opacity: 0.60; }
+}
+
 #digitalMapContainer {
   position: relative;
   width: 100%;
@@ -255,10 +303,30 @@
   background: #04121e;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
+  animation: mapGlowPulse 4s ease-in-out infinite;
+}
+#digitalMapContainer::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,229,204,0.7) 50%, transparent 100%);
+  z-index: 10;
+  pointer-events: none;
+  animation: mapScan 7s linear infinite;
+}
+#digitalMapContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(2,8,18,0.75) 100%);
+  z-index: 9;
+  pointer-events: none;
+  animation: mapVignette 5s ease-in-out infinite;
 }
 #digitalLeafletMap { width: 100%; height: 100%; }
 
-/* Leaflet overrides — keep dark RPG look */
+/* Leaflet overrides � keep dark RPG look */
 .leaflet-container {
   background: #04121e !important;
   font-family: var(--font-mono) !important;
@@ -275,7 +343,7 @@
   border: 1px solid var(--teal-dim);
   color: var(--teal);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: 14px;
   padding: 4px 10px;
   letter-spacing: 2px;
   pointer-events: none;
@@ -284,7 +352,7 @@
   transition: opacity 0.6s ease;
 }
 
-/* ─── Quest Marker Icon ─── */
+/* --- Quest Marker Icon --- */
 .dmap-marker {
   width: 36px;
   height: 36px;
@@ -325,7 +393,7 @@
   text-shadow: 0 0 8px var(--gold);
 }
 
-/* ─── RPG Popup ─── */
+/* --- RPG Popup --- */
 .dmap-leaflet-popup .leaflet-popup-content-wrapper {
   background: var(--bg-panel) !important;
   border: 1px solid var(--border-glow) !important;
@@ -345,21 +413,21 @@
 }
 .dmap-popup-loc {
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: 14px;
   color: var(--teal);
   letter-spacing: 2px;
   margin-bottom: 6px;
 }
 .dmap-popup-name {
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: 14px;
   color: var(--text);
   letter-spacing: 1px;
   margin-bottom: 5px;
   line-height: 1.5;
 }
 .dmap-popup-desc {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.5;
   margin-bottom: 6px;
@@ -370,7 +438,7 @@
   border: 1px solid var(--border);
   color: var(--text-dim);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: 10px;
   padding: 2px 6px;
   letter-spacing: 1px;
   margin-bottom: 10px;
@@ -378,7 +446,7 @@
 .dmap-popup-done {
   color: var(--gold);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: 14px;
   letter-spacing: 2px;
   padding: 4px 0;
 }
@@ -389,7 +457,7 @@
   border: 1px solid var(--teal-dim);
   color: var(--teal);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: 14px;
   padding: 8px 10px;
   cursor: pointer;
   letter-spacing: 2px;
@@ -404,7 +472,7 @@
 }
 .dmap-popup-btn--confirm:hover { background: var(--gold-dim); color: var(--bg-deep); }
 
-/* ─── Quest Legend (below map) ─── */
+/* --- Quest Legend (below map) --- */
 .dleg-row {
   display: flex;
   align-items: center;
@@ -419,7 +487,7 @@
 .dleg-row--done { opacity: 0.5; }
 .dleg-icon     { font-size: 14px; flex-shrink: 0; color: var(--teal); width: 18px; text-align: center; }
 .dleg-row--done .dleg-icon { color: var(--gold); }
-.dleg-loc      { font-family: var(--font-pixel); font-size: 5px; color: var(--teal); letter-spacing: 1px; width: 80px; flex-shrink: 0; }
+.dleg-loc      { font-family: var(--font-pixel); font-size: 11px; color: var(--teal); letter-spacing: 1px; width: 80px; flex-shrink: 0; }
 .dleg-row--done .dleg-loc  { color: var(--gold); }
-.dleg-name     { flex: 1; font-size: 10px; color: var(--text); }
-.dleg-platform { font-family: var(--font-pixel); font-size: 5px; color: var(--text-dim); flex-shrink: 0; }
+.dleg-name     { flex: 1; font-size: 14px; color: var(--text); }
+.dleg-platform { font-family: var(--font-pixel); font-size: 10px; color: var(--text-dim); flex-shrink: 0; }

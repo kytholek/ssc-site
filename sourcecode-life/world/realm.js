@@ -57,16 +57,16 @@ const REALM_ZONES = {
 
 /* ─── Mock leaderboard data ─── */
 const MOCK_PLAYERS = [
-  { name: 'AXIOM_7',    score: 187 },
-  { name: 'NOVA_III',   score: 142 },
-  { name: 'ZEPHYR',     score: 118 },
-  { name: 'CIPHER_9',   score: 97  },
-  { name: 'VELA_X',     score: 84  },
-  { name: 'CHRONOS',    score: 71  },
-  { name: 'SOLARA',     score: 55  },
-  { name: 'ECHO_4',     score: 43  },
-  { name: 'DRIFT',      score: 28  },
-  { name: 'GLITCH_1',   score: 14  },
+  { name: 'AXIOM_7',    score: 187, lp: 7, soul: 3, expr: 1,  arch: 'THE SEEKER'    },
+  { name: 'NOVA_III',   score: 142, lp: 3, soul: 9, expr: 6,  arch: 'THE CREATOR'   },
+  { name: 'ZEPHYR',     score: 118, lp: 5, soul: 1, expr: 8,  arch: 'THE WANDERER'  },
+  { name: 'CIPHER_9',   score: 97,  lp: 9, soul: 5, expr: 4,  arch: 'THE ARCHITECT' },
+  { name: 'VELA_X',     score: 84,  lp: 4, soul: 7, expr: 2,  arch: 'THE BUILDER'   },
+  { name: 'CHRONOS',    score: 71,  lp: 8, soul: 4, expr: 9,  arch: 'THE MASTER'    },
+  { name: 'SOLARA',     score: 55,  lp: 2, soul: 6, expr: 5,  arch: 'THE HEALER'    },
+  { name: 'ECHO_4',     score: 43,  lp: 6, soul: 2, expr: 7,  arch: 'THE GUIDE'     },
+  { name: 'DRIFT',      score: 28,  lp: 1, soul: 8, expr: 3,  arch: 'THE PIONEER'   },
+  { name: 'GLITCH_1',   score: 14,  lp: 5, soul: 5, expr: 5,  arch: 'THE CATALYST'  },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -581,6 +581,70 @@ function Social_switchSub(sub) {
 /* ═══════════════════════════════════════════════
    LEADERBOARD
    ═══════════════════════════════════════════════ */
+function Ranks_toggleCard(pos) {
+  const card = document.getElementById('rank-card-' + pos);
+  if (!card) return;
+  const isOpen = card.style.display !== 'none';
+  // Close all open cards first
+  document.querySelectorAll('.rank-char-card').forEach(c => { c.style.display = 'none'; });
+  document.querySelectorAll('.rank-row').forEach(r => r.classList.remove('rank-row--open'));
+  if (!isOpen) {
+    card.style.display = 'block';
+    const row = document.querySelector(`.rank-row[data-pos="${pos}"]`);
+    if (row) row.classList.add('rank-row--open');
+  }
+}
+
+function _buildRankCharCard(p, pos, t) {
+  if (p.isPlayer) {
+    const lp  = parseInt(_ls(LS_CHAR_LVL, '1'), 10);
+    const fl  = parseInt(_ls(LS_FREQ_LVL,  '1'), 10);
+    const player = _lsJson(LS_PLAYER, {});
+    const lePath = player.lifePath  || '—';
+    const soul   = player.soulUrge  || '—';
+    const expr   = player.expression|| '—';
+    return `<div class="rcc-inner">
+      <div class="rcc-header">
+        <div class="rcc-name">${_founderTag(true)}${p.name}</div>
+        <div class="rcc-badges">
+          <span class="rank-tier ${t.cls}">${t.label}</span>
+          <span class="rcc-score">${p.score} XP</span>
+        </div>
+      </div>
+      <div class="rcc-numbers">
+        <div class="rcc-num"><span class="rcc-val">${lp}</span><span class="rcc-lbl">CHAR LVL</span></div>
+        <div class="rcc-num"><span class="rcc-val">${fl}</span><span class="rcc-lbl">FREQ LVL</span></div>
+        <div class="rcc-num"><span class="rcc-val">${lePath}</span><span class="rcc-lbl">LIFE PATH</span></div>
+        <div class="rcc-num"><span class="rcc-val">${soul}</span><span class="rcc-lbl">SOUL</span></div>
+        <div class="rcc-num"><span class="rcc-val">${expr}</span><span class="rcc-lbl">EXPR</span></div>
+      </div>
+      <div class="rcc-you-tag">◄ YOUR PROFILE</div>
+    </div>`;
+  } else {
+    const maxScore = MOCK_PLAYERS[0].score || 187;
+    const xpPct = Math.round((p.score / maxScore) * 100);
+    return `<div class="rcc-inner">
+      <div class="rcc-header">
+        <div class="rcc-name">${p.name}</div>
+        <div class="rcc-badges">
+          <span class="rank-tier ${t.cls}">${t.label}</span>
+          <span class="rcc-score">${p.score} XP</span>
+        </div>
+      </div>
+      ${p.arch ? `<div class="rcc-arch">${p.arch}</div>` : ''}
+      <div class="rcc-numbers">
+        <div class="rcc-num"><span class="rcc-val">${p.lp  || '—'}</span><span class="rcc-lbl">LIFE PATH</span></div>
+        <div class="rcc-num"><span class="rcc-val">${p.soul || '—'}</span><span class="rcc-lbl">SOUL</span></div>
+        <div class="rcc-num"><span class="rcc-val">${p.expr || '—'}</span><span class="rcc-lbl">EXPR</span></div>
+      </div>
+      <div class="rcc-xpbar-wrap">
+        <div class="rcc-xpbar-track"><div class="rcc-xpbar-fill" style="width:${xpPct}%"></div></div>
+        <span class="rcc-xpbar-lbl">${xpPct}% FREQ</span>
+      </div>
+    </div>`;
+  }
+}
+
 function Ranks_build() {
   const el = document.getElementById('ranksList');
   if (!el) return;
@@ -593,13 +657,16 @@ function Ranks_build() {
     .sort((a, b) => b.score - a.score);
 
   el.innerHTML = all.map((p, i) => {
-    const t = getTier(p.score);
-    return `<div class="rank-row${p.isPlayer ? ' rank-row-you' : ''}">
-      <span class="rank-pos">#${(i + 1).toString().padStart(2, '0')}</span>
+    const t   = getTier(p.score);
+    const pos = (i + 1).toString().padStart(2, '0');
+    return `<div class="rank-row${p.isPlayer ? ' rank-row-you' : ''}" data-pos="${pos}" onclick="Ranks_toggleCard('${pos}')">
+      <span class="rank-pos">#${pos}</span>
       <span class="rank-name">${p.isPlayer ? _founderTag(true) : ''}${p.name}${p.isPlayer ? ' ◄' : ''}</span>
       <span class="rank-tier ${t.cls}">${t.label}</span>
       <span class="rank-score">${p.score}</span>
-    </div>`;
+      <span class="rank-expand-icon">▼</span>
+    </div>
+    <div class="rank-char-card" id="rank-card-${pos}" style="display:none;">${_buildRankCharCard(p, pos, t)}</div>`;
   }).join('');
 
   // Update player summary card

@@ -3730,4 +3730,667 @@ footer {
 @media (max-width: 640px) {
   .hiw-arrow { display: none; }
   .hiw-step { max-width: 100%; }
+}/* ══════════════════════════════════════════════════════════
+   SERVICES PAGE
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Hero ── */
+.services-hero {
+  text-align: center;
+  padding: 60px 24px 32px;
 }
+.services-hero-sigil {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 28px;
+  animation: rotateSlow 32s linear infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+  filter: drop-shadow(0 0 12px rgba(74,148,148,.45)) drop-shadow(0 0 28px rgba(201,168,76,.12));
+}
+.services-hero-sigil svg { width: 100%; height: 100%; }
+
+.services-hero-body {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--text-dim);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ── Divider ── */
+.svc-divider {
+  padding: 24px 24px 0;
+  opacity: 0.7;
+}
+
+/* ── Grid wrapper ── */
+.svc-grid-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* ── Card base ── */
+.svc-card {
+  background: rgba(13,11,24,.85);
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: transform .35s, box-shadow .35s, border-color .35s;
+  backdrop-filter: blur(6px);
+}
+
+/* Top gradient line */
+.svc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity: 0.5;
+}
+
+.svc-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px rgba(201,168,76,.08);
+}
+
+/* ── Written card — gold accent ── */
+.svc-card--written {
+  border-color: rgba(201,168,76,.18);
+  box-shadow: 0 0 28px rgba(201,168,76,.08), 0 0 60px rgba(201,168,76,.04);
+}
+.svc-card--written:hover {
+  border-color: rgba(201,168,76,.45);
+  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 40px rgba(201,168,76,.18), 0 0 80px rgba(201,168,76,.08);
+}
+
+/* ── Featured card (consultation) ── */
+.svc-card--featured {
+  border-color: rgba(169,110,212,.3);
+  background: rgba(17,11,28,.9);
+  box-shadow: 0 0 32px rgba(123,79,166,.18), 0 0 80px rgba(123,79,166,.08), inset 0 0 30px rgba(123,79,166,.03);
+}
+.svc-card--featured::before {
+  background: linear-gradient(90deg, transparent, var(--amethyst), transparent);
+  opacity: 0.4;
+}
+.svc-card--featured:hover {
+  border-color: rgba(169,110,212,.65);
+  box-shadow: 0 24px 64px rgba(0,0,0,.6), 0 0 60px rgba(123,79,166,.35), 0 0 120px rgba(123,79,166,.12);
+}
+
+/* Featured badge */
+.svc-featured-badge {
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: linear-gradient(135deg, var(--amethyst), var(--amethyst-light));
+  padding: 5px 18px;
+  border-radius: 0 0 6px 6px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* ── Membership card — teal accent ── */
+.svc-card--membership {
+  border-color: rgba(74,148,148,.22);
+  box-shadow: 0 0 28px rgba(74,148,148,.09), 0 0 60px rgba(74,148,148,.04);
+}
+.svc-card--membership:hover {
+  border-color: rgba(74,148,148,.5);
+  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 40px rgba(74,148,148,.22), 0 0 80px rgba(74,148,148,.08);
+}
+
+/* ── Coming Soon Banner ── */
+.svc-coming-soon-banner {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, rgba(74,148,148,.35), rgba(126,200,200,.25));
+  border-radius: 8px;
+  z-index: 10;
+  backdrop-filter: blur(1px);
+}
+.svc-coming-soon-text {
+  font-family: 'Cormorant SC', serif;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(126,200,200,.9);
+  text-shadow: 0 2px 12px rgba(0,0,0,.4);
+}
+
+/* ── Card header ── */
+.svc-card-header {
+  padding: 36px 28px 0;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.svc-card-glyph {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5,4,10,.8);
+  border: 1px solid var(--border-dim);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 12px rgba(201,168,76,.25)) drop-shadow(0 0 28px rgba(201,168,76,.08));
+  transition: filter .35s;
+}
+.svc-card-glyph svg { width: 56px; height: 56px; }
+.svc-card:hover .svc-card-glyph {
+  filter: drop-shadow(0 0 18px rgba(201,168,76,.42)) drop-shadow(0 0 40px rgba(201,168,76,.14));
+}
+.svc-card--featured .svc-card-glyph {
+  border-color: rgba(169,110,212,.25);
+  background: rgba(17,11,28,.9);
+  filter: drop-shadow(0 0 12px rgba(169,110,212,.32)) drop-shadow(0 0 28px rgba(169,110,212,.1));
+}
+.svc-card--featured:hover .svc-card-glyph {
+  filter: drop-shadow(0 0 18px rgba(169,110,212,.52)) drop-shadow(0 0 40px rgba(169,110,212,.18));
+}
+.svc-card--membership .svc-card-glyph {
+  border-color: rgba(74,148,148,.2);
+  filter: drop-shadow(0 0 12px rgba(74,148,148,.32)) drop-shadow(0 0 28px rgba(74,148,148,.1));
+}
+.svc-card--membership:hover .svc-card-glyph {
+  filter: drop-shadow(0 0 18px rgba(74,148,148,.52)) drop-shadow(0 0 40px rgba(74,148,148,.18));
+}
+
+.svc-card-tier {
+  font-family: 'Cinzel', serif;
+  font-size: 7.5px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 10px;
+}
+.svc-card--featured .svc-card-tier { color: var(--amethyst-light); }
+.svc-card--membership .svc-card-tier { color: var(--teal); }
+
+.svc-card-name {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--gold-light);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  letter-spacing: .04em;
+  font-variant: small-caps;
+}
+.svc-card--featured .svc-card-name { color: var(--amethyst-light); }
+.svc-card--membership .svc-card-name { color: var(--teal-light); }
+
+.svc-card-tagline {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ── Price block ── */
+.svc-card-price-wrap {
+  padding: 28px 28px 0;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.svc-card-price {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 2px;
+  color: var(--gold);
+}
+.svc-card-price--amethyst { color: var(--amethyst-light); }
+.svc-card-price--teal { color: var(--teal-light); }
+
+.svc-price-currency {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+.svc-price-amount {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.01em;
+  text-shadow: 0 0 40px rgba(201,168,76,.2);
+}
+.svc-card--featured .svc-price-amount { text-shadow: 0 0 40px rgba(169,110,212,.25); }
+.svc-card--membership .svc-price-amount { text-shadow: 0 0 40px rgba(74,148,148,.2); }
+
+.svc-price-cadence {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* ── Divider ── */
+.svc-card-divider {
+  height: 1px;
+  margin: 24px 28px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.18), transparent);
+  flex-shrink: 0;
+}
+.svc-card-divider--amethyst {
+  background: linear-gradient(90deg, transparent, rgba(169,110,212,.25), transparent);
+}
+.svc-card-divider--teal {
+  background: linear-gradient(90deg, transparent, rgba(74,148,148,.22), transparent);
+}
+
+/* ── Feature list ── */
+.svc-features {
+  list-style: none;
+  padding: 0 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.svc-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.svc-feature--muted {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
+.svc-feature-gem {
+  width: 6px;
+  height: 6px;
+  background: var(--gold-dim);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  margin-top: 4px;
+  box-shadow: 0 0 6px rgba(201,168,76,.3);
+}
+.svc-feature-gem--amethyst {
+  background: var(--amethyst);
+  box-shadow: 0 0 6px rgba(123,79,166,.4);
+}
+.svc-feature-gem--teal {
+  background: var(--teal);
+  box-shadow: 0 0 6px rgba(74,148,148,.4);
+}
+.svc-feature-gem--off {
+  background: var(--text-muted);
+  opacity: 0.3;
+}
+
+/* ── Card footer ── */
+.svc-card-footer {
+  padding: 24px 28px 32px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.svc-cta {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
+  text-decoration: none;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.svc-cta--gold {
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+  color: var(--void);
+  box-shadow: 0 4px 20px rgba(201,168,76,.2);
+}
+.svc-cta--gold:hover {
+  box-shadow: 0 4px 28px rgba(201,168,76,.4);
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.svc-cta--amethyst {
+  background: linear-gradient(135deg, var(--mystic), var(--amethyst));
+  color: var(--gold-light);
+  border: 1px solid rgba(169,110,212,.4);
+  box-shadow: 0 4px 20px rgba(123,79,166,.2);
+}
+.svc-cta--amethyst:hover {
+  box-shadow: 0 4px 32px rgba(123,79,166,.45);
+  transform: translateY(-2px);
+}
+
+.svc-cta--teal {
+  background: linear-gradient(135deg, rgba(24,64,64,.9), var(--teal));
+  color: var(--void);
+  box-shadow: 0 4px 20px rgba(74,148,148,.2);
+}
+.svc-cta--teal:hover {
+  box-shadow: 0 4px 28px rgba(74,148,148,.4);
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.svc-delivery-note {
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Bottom quote ── */
+.svc-quote-wrap {
+  padding: 0 24px 80px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .svc-grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .svc-card--featured {
+    order: -1;
+  }
+}
+@media (max-width: 480px) {
+  .svc-grid-wrap { padding: 32px 16px 64px; }
+  .svc-card-header { padding: 28px 20px 0; }
+  .svc-features { padding: 0 20px; }
+  .svc-card-footer { padding: 20px 20px 28px; }
+  .svc-price-amount { font-size: 42px; }
+}
+
+/* ── CSS Glyph Icons (replaces inline SVG to avoid innerHTML parser issues) ── */
+
+.svc-glyph-icon {
+  width: 52px;
+  height: 52px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Book icon */
+.svc-glyph-icon--book {
+  flex-direction: column;
+  gap: 3px;
+}
+.svc-glyph-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 32px;
+}
+.svc-glyph-lines span {
+  display: block;
+  height: 1px;
+  background: rgba(201,168,76,.7);
+  border-radius: 1px;
+  width: 100%;
+  box-shadow: 0 0 4px rgba(201,168,76,.5), 0 0 10px rgba(201,168,76,.2);
+}
+.svc-glyph-lines span.short { width: 60%; }
+.svc-glyph-cross {
+  font-size: 10px;
+  color: rgba(201,168,76,.65);
+  margin-top: 4px;
+  text-shadow: 0 0 6px rgba(201,168,76,.6), 0 0 14px rgba(201,168,76,.2);
+}
+
+/* Video icon */
+.svc-glyph-icon--video { gap: 6px; }
+.svc-glyph-screen {
+  display: block;
+  width: 28px;
+  height: 20px;
+  border: 1.5px solid rgba(169,110,212,.9);
+  border-radius: 3px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(169,110,212,.55), 0 0 20px rgba(169,110,212,.2), inset 0 0 6px rgba(169,110,212,.1);
+}
+.svc-glyph-camera {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid rgba(169,110,212,.8);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(169,110,212,.55));
+}
+
+/* Group / network icon */
+.svc-glyph-icon--group {
+  position: relative;
+  width: 52px;
+  height: 52px;
+}
+.svc-glyph-node {
+  display: block;
+  border-radius: 50%;
+  position: absolute;
+}
+.svc-glyph-node--centre {
+  width: 14px; height: 14px;
+  background: rgba(74,148,148,.2);
+  border: 1.5px solid rgba(74,148,148,.9);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(74,148,148,.65), 0 0 24px rgba(74,148,148,.25), inset 0 0 6px rgba(74,148,148,.15);
+}
+.svc-glyph-node--tl { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);top:6px;left:6px;   box-shadow:0 0 6px rgba(74,148,148,.45); }
+.svc-glyph-node--tr { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);top:6px;right:6px;  box-shadow:0 0 6px rgba(74,148,148,.45); }
+.svc-glyph-node--bl { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);bottom:6px;left:6px; box-shadow:0 0 6px rgba(74,148,148,.45); }
+.svc-glyph-node--br { width:9px;height:9px;background:rgba(74,148,148,.15);border:1px solid rgba(74,148,148,.75);bottom:6px;right:6px;box-shadow:0 0 6px rgba(74,148,148,.45); }
+
+/* ── Fix: ensure card content stacks above ::before pseudo-element ── */
+.svc-card-header,
+.svc-card-price-wrap,
+.svc-card-divider,
+.svc-features,
+.svc-card-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Pure CSS hero sigil for services page (no SVG) ── */
+.svc-hero-sigil-css {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  animation: rotateSlow 32s linear infinite;
+  will-change: transform;
+}
+
+/* Outer ring */
+.svc-sigil-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(201,168,76,.45);
+}
+.svc-sigil-ring--outer {
+  width: 100%; height: 100%;
+}
+.svc-sigil-ring--inner {
+  width: 82%; height: 82%;
+  border: 1px dashed rgba(201,168,76,.18);
+}
+
+/* Cross arms */
+.svc-sigil-arm {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform-origin: center;
+  background: rgba(74,148,148,.5);
+}
+
+/* Social Logo Image Styling */
+.social-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0.9);
+  transition: filter 0.2s;
+}
+
+.social-btn:hover .social-logo {
+  filter: brightness(1.2) drop-shadow(0 0 8px rgba(201,168,76,0.4));
+}
+.svc-sigil-arm--v {
+  width: 1px; height: 90%;
+  transform: translate(-50%, -50%);
+}
+.svc-sigil-arm--h {
+  width: 90%; height: 1px;
+  transform: translate(-50%, -50%);
+}
+
+/* Cardinal nodes */
+.svc-sigil-node {
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #03020a;
+  transform: translate(-50%, -50%);
+}
+.svc-sigil-node--n  { top: 5%;  left: 50%; border: 1px solid rgba(74,148,148,.9);   }
+.svc-sigil-node--e  { top: 50%; left: 95%; border: 1px solid rgba(74,148,148,.8); }
+.svc-sigil-node--s  { top: 95%; left: 50%; border: 1px solid rgba(74,148,148,.8); }
+.svc-sigil-node--w  { top: 50%; left: 5%;  border: 1px solid rgba(74,148,148,.9);   }
+.svc-sigil-node--nw { top: 16%; left: 16%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+.svc-sigil-node--ne { top: 16%; left: 84%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+.svc-sigil-node--sw { top: 84%; left: 16%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+.svc-sigil-node--se { top: 84%; left: 84%; border: 1px solid rgba(201,168,76,.7); width: 9px; height: 9px; }
+
+/* Teal dots inside cardinal nodes */
+.svc-sigil-node--n::after,
+.svc-sigil-node--e::after,
+.svc-sigil-node--s::after,
+.svc-sigil-node--w::after {
+  content: '';
+  display: block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #7ec8c8;
+  opacity: 0.9;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Centre ring */
+.svc-sigil-centre {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 24%; height: 24%;
+  border-radius: 50%;
+  background: #03020a;
+  border: 2px solid rgba(201,168,76,.8);
+  transform: translate(-50%, -50%);
+}
+
+/* Ambient pulse glow behind the whole sigil */
+.services-hero-sigil {
+  position: relative;
+}
+.svc-hero-sigil-css {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Pure CSS divider (replaces SVG divider) ── */
+.svc-divider-line {
+  display: flex;
+  align-items: center;
+  padding: 24px 40px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  gap: 0;
+}
+.svc-divider-line::before,
+.svc-divider-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent);
+}
+.svc-divider-gem {
+  width: 8px;
+  height: 8px;
+  background: #7a6330;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  margin: 0 12px;
+  box-shadow: 0 0 8px rgba(201,168,76,.3);
+}
+
+/* ── Simple quote at bottom (no quote-block class to avoid font conflicts) ── */
+.svc-quote-wrap {
+  padding: 40px 24px 80px;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(201,168,76,.08);
+}
+.svc-quote-text {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.svc-quote-attr {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+

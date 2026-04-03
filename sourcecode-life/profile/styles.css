@@ -174,18 +174,18 @@
   letter-spacing: 1px;
 }
 
-[data-theme="diablo"] .tab-btn       { font-size: 9px; letter-spacing: 0.5px; }
-[data-theme="diablo"] .section-btn   { font-size: 9px;  letter-spacing: 0.5px; }
-[data-theme="diablo"] .bar-chart-label { font-size: 9px; }
-[data-theme="diablo"] .panel-label   { font-size: 10px; }
-[data-theme="diablo"] .field-label   { font-size: 11px; }
-[data-theme="diablo"] .settings-row-key { font-size: 11px; }
-[data-theme="diablo"] .quest-section-title { font-size: 9px; }
-[data-theme="diablo"] .chart-section-title { font-size: 11px; }
-[data-theme="diablo"] .abundance-label     { font-size: 10px; }
-[data-theme="diablo"] .source-key          { font-size: 9px; }
-[data-theme="diablo"] .mq-obj-title        { font-size: 11px; }
-[data-theme="diablo"] .mq-reward-label     { font-size: 11px; }
+[data-theme="diablo"] .tab-btn       { font-size: 14px; letter-spacing: 0.5px; }
+[data-theme="diablo"] .section-btn   { font-size: 14px;  letter-spacing: 0.5px; }
+[data-theme="diablo"] .bar-chart-label { font-size: 14px; }
+[data-theme="diablo"] .panel-label   { font-size: 14px; }
+[data-theme="diablo"] .field-label   { font-size: 14px; }
+[data-theme="diablo"] .settings-row-key { font-size: 14px; }
+[data-theme="diablo"] .quest-section-title { font-size: 14px; }
+[data-theme="diablo"] .chart-section-title { font-size: 14px; }
+[data-theme="diablo"] .abundance-label     { font-size: 14px; }
+[data-theme="diablo"] .source-key          { font-size: 14px; }
+[data-theme="diablo"] .mq-obj-title        { font-size: 14px; }
+[data-theme="diablo"] .mq-reward-label     { font-size: 14px; }
 
 [data-theme="diablo"] .strip-number,
 [data-theme="diablo"] .mq-number,
@@ -546,18 +546,18 @@
 }
 
 /* Cinzel renders larger than Press Start 2P at the same px — scale down small UI elements */
-[data-theme="fantasy"] .tab-btn       { font-size: 9px; letter-spacing: 0.5px; }
-[data-theme="fantasy"] .section-btn   { font-size: 9px;   letter-spacing: 0.5px; }
-[data-theme="fantasy"] .bar-chart-label { font-size: 9px; }
-[data-theme="fantasy"] .panel-label   { font-size: 10px; }
-[data-theme="fantasy"] .field-label   { font-size: 11px; }
-[data-theme="fantasy"] .settings-row-key { font-size: 11px; }
-[data-theme="fantasy"] .quest-section-title { font-size: 9px; }
-[data-theme="fantasy"] .chart-section-title { font-size: 11px; }
-[data-theme="fantasy"] .abundance-label     { font-size: 10px; }
-[data-theme="fantasy"] .source-key          { font-size: 9px; }
-[data-theme="fantasy"] .mq-obj-title        { font-size: 11px; }
-[data-theme="fantasy"] .mq-reward-label     { font-size: 11px; }
+[data-theme="fantasy"] .tab-btn       { font-size: 14px; letter-spacing: 0.5px; }
+[data-theme="fantasy"] .section-btn   { font-size: 14px;   letter-spacing: 0.5px; }
+[data-theme="fantasy"] .bar-chart-label { font-size: 14px; }
+[data-theme="fantasy"] .panel-label   { font-size: 14px; }
+[data-theme="fantasy"] .field-label   { font-size: 14px; }
+[data-theme="fantasy"] .settings-row-key { font-size: 14px; }
+[data-theme="fantasy"] .quest-section-title { font-size: 14px; }
+[data-theme="fantasy"] .chart-section-title { font-size: 14px; }
+[data-theme="fantasy"] .abundance-label     { font-size: 14px; }
+[data-theme="fantasy"] .source-key          { font-size: 14px; }
+[data-theme="fantasy"] .mq-obj-title        { font-size: 14px; }
+[data-theme="fantasy"] .mq-reward-label     { font-size: 14px; }
 
 [data-theme="fantasy"] .strip-number,
 [data-theme="fantasy"] .mq-number,
@@ -713,25 +713,25 @@
 }
 .theme-option-name {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; letter-spacing: 1px;
+  font-size: 14px; letter-spacing: 1px;
   color: var(--text-dim); text-align: center; line-height: 1.5;
 }
 [data-theme="fantasy"] .theme-option-name {
   font-family: 'Cinzel', Georgia, serif;
-  font-size: 8px;
+  font-size: 14px;
 }
 .theme-option-desc {
-  font-size: 9px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   text-align: center; line-height: 1.5;
   opacity: 0.7;
 }
 [data-theme="fantasy"] .theme-option-desc {
   font-family: 'IM Fell English', Georgia, serif;
-  font-size: 10px;
+  font-size: 14px;
 }
 .theme-option-check {
   position: absolute; top: 6px; right: 8px;
-  font-size: 10px; color: var(--teal); opacity: 0;
+  font-size: 14px; color: var(--teal); opacity: 0;
   font-family: monospace;
 }
 .theme-option.selected .theme-option-check { opacity: 1; }
@@ -818,18 +818,18 @@ body::after {
 }
 .boot-logo {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; color: var(--teal, #00e5cc);
+  font-size: 14px; color: var(--teal, #00e5cc);
   letter-spacing: 2px; margin-bottom: 4px;
   text-shadow: 0 0 16px rgba(0,229,204,0.6);
 }
 .boot-sub {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; color: var(--text-dim, #4a6060);
+  font-size: 14px; color: var(--text-dim, #4a6060);
   letter-spacing: 3px; margin-bottom: 24px;
 }
 .boot-lines { min-height: 90px; }
 .boot-line {
-  font-size: 13px; color: var(--teal, #00e5cc);
+  font-size: 14px; color: var(--teal, #00e5cc);
   line-height: 1.9; opacity: 0;
   animation: bootLineIn 0.18s ease forwards;
 }
@@ -869,7 +869,7 @@ body::after {
   border: 1px solid var(--border-glow, var(--teal-dim));
   color: var(--text);
   font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
+  font-size: 14px;
   white-space: nowrap;
   padding: 4px 8px;
   pointer-events: none;
@@ -906,11 +906,11 @@ body::after {
 }
 .freq-spike-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; color: var(--teal); letter-spacing: 1px;
+  font-size: 14px; color: var(--teal); letter-spacing: 1px;
 }
 .freq-spike-sub {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 12px; color: var(--text-mid);
+  font-size: 14px; color: var(--text-mid);
   margin-top: 2px;
 }
 
@@ -943,7 +943,7 @@ body::after {
 .auth-header   { padding: 28px 28px 20px; border-bottom: 1px solid var(--border); }
 .auth-logo {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px; color: var(--teal);
+  font-size: 14px; color: var(--teal);
   text-shadow: 0 0 20px rgba(0,229,204,0.6);
   letter-spacing: 2px; margin-bottom: 6px;
   animation: flicker 6s infinite;
@@ -953,7 +953,7 @@ body::after {
 .auth-tabs { display: flex; border-bottom: 1px solid var(--border); }
 .auth-tab {
   flex: 1; padding: 14px; text-align: center;
-  font-family: 'Press Start 2P', monospace; font-size: 12px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--text-dim); cursor: pointer; letter-spacing: 1px;
   transition: color 0.2s, background 0.2s;
   border-bottom: 2px solid transparent; margin-bottom: -1px;
@@ -967,7 +967,7 @@ body::after {
 
 .field-group  { margin-bottom: 16px; }
 .field-label {
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 2px; display: block; margin-bottom: 8px;
 }
 .field-input {
@@ -985,12 +985,12 @@ body::after {
 .field-input::placeholder { color: var(--text-dim); }
 
 .date-row   { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 8px; }
-.field-hint { font-size: 10px; color: var(--text-dim); margin-top: 5px; padding-left: 2px; }
+.field-hint { font-size: 14px; color: var(--text-dim); margin-top: 5px; padding-left: 2px; }
 
 .btn-primary {
   width: 100%; padding: 14px; background: transparent;
   border: 1px solid var(--teal-dim); color: var(--teal);
-  font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 2px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 2px;
   cursor: pointer; transition: all 0.2s; margin-top: 8px;
   text-shadow: 0 0 10px rgba(0,229,204,0.5);
   box-shadow: 0 0 20px rgba(0,229,204,0.05), inset 0 0 20px rgba(0,229,204,0.03);
@@ -1000,21 +1000,21 @@ body::after {
 .btn-primary:active { transform: scale(0.99); opacity: 0.8; }
 
 .auth-error {
-  font-size: 10px; color: var(--red); padding: 8px 10px;
+  font-size: 14px; color: var(--red); padding: 8px 10px;
   border: 1px solid rgba(255,58,58,0.3); background: rgba(255,58,58,0.05);
   margin-top: 10px; display: none; line-height: 1.6;
 }
 .auth-error.show { display: block; }
 
 .auth-success {
-  font-size: 10px; color: var(--teal); padding: 8px 10px;
+  font-size: 14px; color: var(--teal); padding: 8px 10px;
   border: 1px solid rgba(0,200,180,0.3); background: rgba(0,200,180,0.05);
   margin-top: 10px; display: none; line-height: 1.6;
 }
 .auth-success.show { display: block; }
 
 .auth-link {
-  font-family: 'Press Start 2P', monospace; font-size: 12px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--text-dim); cursor: pointer; letter-spacing: 0.5px;
   text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s;
 }
@@ -1050,10 +1050,10 @@ body::after {
 
 .char-header { padding: 24px 28px 18px; border-bottom: 1px solid var(--border); }
 .char-title {
-  font-family: 'Press Start 2P', monospace; font-size: 8px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--gold); text-shadow: 0 0 12px rgba(212,168,67,0.5); margin-bottom: 6px;
 }
-.char-desc { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+.char-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
 .char-body { padding: 24px 28px; }
 
 /* Theme picker inside character creation */
@@ -1072,7 +1072,7 @@ body::after {
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -1134,17 +1134,17 @@ body::after {
 }
 .quest-tile-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.3px;
   line-height: 1.6;
 }
 .quest-tile-type {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--text-dim);
   letter-spacing: 1px;
 }
 .quest-tile-master {
-  font-size: 9px;
+  font-size: 14px;
   padding: 1px 3px;
   border: 1px solid currentColor;
   opacity: 0.7;
@@ -1182,17 +1182,17 @@ body::after {
 .quest-detail-titles { flex: 1; min-width: 0; }
 .quest-detail-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
 }
 .quest-detail-sub {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-dim);
   margin-top: 3px;
 }
 .quest-detail-badge {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   flex-shrink: 0;
 }
@@ -1201,7 +1201,7 @@ body::after {
   border: 1px solid var(--border);
   color: var(--text-dim);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   padding: 4px 8px;
   flex-shrink: 0;
   line-height: 1;
@@ -1226,7 +1226,7 @@ body::after {
 }
 .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .header-wordmark {
-  font-family: 'Press Start 2P', monospace; font-size: 9px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--teal); letter-spacing: 2px;
   text-shadow: 0 0 16px rgba(0,229,204,0.5);
   animation: flicker 8s infinite; line-height: 1.4;
@@ -1237,7 +1237,7 @@ body::after {
   font-family: 'VT323', monospace; font-size: 22px;
   color: var(--gold); text-shadow: 0 0 8px rgba(212,168,67,0.4); line-height: 1;
 }
-.header-player-dob { font-size: 10px; color: var(--text-dim); margin-top: 3px; }
+.header-player-dob { font-size: 14px; color: var(--text-dim); margin-top: 3px; }
 .header-divider {
   height: 1px;
   background: linear-gradient(90deg, var(--teal-dim), var(--border), transparent);
@@ -1256,7 +1256,7 @@ body::after {
   flex: 1; background: none; border: none;
   border-right: 1px solid var(--border);
   color: var(--text-dim);
-  font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 1px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 1px;
   cursor: pointer; transition: color 0.2s, background 0.2s;
   position: relative; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 5px; padding: 10px 4px;
@@ -1287,7 +1287,7 @@ body::after {
   border: 1px solid rgba(255,255,255,0.025); pointer-events: none;
 }
 .panel-label {
-  font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 2px;
+  font-family: 'Press Start 2P', monospace; font-size: 16px; letter-spacing: 2px;
   padding: 12px 16px 10px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; gap: 10px;
 }
@@ -1507,7 +1507,7 @@ body::after {
 .section-btn {
   flex: 1; background: none; border: 1px solid transparent;
   color: var(--text-dim);
-  font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 1px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 1px;
   padding: 10px 8px; cursor: pointer; transition: all 0.2s; text-align: center;
   user-select: none; -webkit-tap-highlight-color: transparent;
 }
@@ -1540,9 +1540,9 @@ body::after {
   min-width: 56px; text-align: center; text-shadow: 0 0 14px currentColor; flex-shrink: 0;
 }
 .strip-info   { flex: 1; min-width: 0; }
-.strip-label  { font-family: 'Press Start 2P', monospace; font-size: 12px; letter-spacing: 1px; margin-bottom: 3px; }
-.strip-role   { font-size: 10px; color: var(--text-dim); margin-bottom: 2px; }
-.strip-name   { font-size: 12px; font-style: italic; opacity: 0.85; }
+.strip-label  { font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 1px; margin-bottom: 3px; }
+.strip-role   { font-size: 14px; color: var(--text-dim); margin-bottom: 2px; }
+.strip-name   { font-size: 14px; font-style: italic; opacity: 0.85; }
 .strip-chevron {
   font-family: 'VT323', monospace; font-size: 22px; color: var(--text-dim);
   padding-right: 14px; transition: transform 0.25s; flex-shrink: 0;
@@ -1553,14 +1553,14 @@ body::after {
 .journal-strip.open .strip-body { max-height: 9999px; }
 
 .strip-content { padding: 0 14px 14px 30px; border-top: 1px solid var(--border); }
-.strip-text    { font-size: 12px; line-height: 1.9; color: var(--text); padding-top: 14px; }
+.strip-text    { font-size: 14px; line-height: 1.9; color: var(--text); padding-top: 14px; }
 .strip-affirmation {
-  margin-top: 14px; padding: 10px 14px; font-size: 11px; font-style: italic;
+  margin-top: 14px; padding: 10px 14px; font-size: 14px; font-style: italic;
   color: var(--text-mid); background: rgba(0,0,0,0.25);
   border-left: 3px solid currentColor; line-height: 1.6;
 }
 .strip-master-badge {
-  display: inline-block; font-family: 'Press Start 2P', monospace; font-size: 10px;
+  display: inline-block; font-family: 'Press Start 2P', monospace; font-size: 14px;
   padding: 3px 6px; border: 1px solid currentColor; letter-spacing: 1px;
   margin-left: 6px; vertical-align: middle; opacity: 0.8;
 }
@@ -1606,7 +1606,7 @@ body::after {
   color: var(--gold-dim); line-height: 1;
 }
 .char-avatar-hint {
-  font-family: 'Press Start 2P', monospace; font-size: 9px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 1px; line-height: 2;
   text-align: center;
 }
@@ -1617,7 +1617,7 @@ body::after {
   opacity: 0; transition: opacity 0.2s;
 }
 .char-avatar-overlay span {
-  font-family: 'Press Start 2P', monospace; font-size: 10px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--teal); letter-spacing: 2px;
   text-shadow: 0 0 8px rgba(0,229,204,0.8);
 }
@@ -1630,12 +1630,12 @@ body::after {
   min-width: 0;
 }
 .char-identity-name {
-  font-family: 'VT323', monospace; font-size: 26px;
+  font-family: 'VT323', monospace; font-size: 36px;
   color: var(--gold); text-shadow: 0 0 12px rgba(212,168,67,0.4);
   line-height: 1.1; word-break: break-word;
 }
 .char-identity-dob {
-  font-family: 'Share Tech Mono', monospace; font-size: 10px;
+  font-family: 'Share Tech Mono', monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 2px;
 }
 .char-identity-divider {
@@ -1662,12 +1662,12 @@ body::after {
   line-height: 1; white-space: nowrap;
 }
 .core-num-label {
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 10px;
   color: var(--text-dim); letter-spacing: 1px; text-align: center;
   line-height: 1.4;
 }
 .core-num-sep {
-  font-family: 'VT323', monospace; font-size: 12px;
+  font-family: 'VT323', monospace; font-size: 14px;
   color: var(--gold-dim); opacity: 0.5; flex-shrink: 0;
 }
 
@@ -1691,7 +1691,7 @@ body::after {
 [data-theme="scifi"] .core-num-label,
 [data-theme="unicorn"] .core-num-label,
 [data-theme="fantasy"] .core-num-label {
-  font-size: 9px;
+  font-size: 10px;
 }
 
 /* Fantasy theme overrides for char card */
@@ -1708,10 +1708,10 @@ body::after {
 }
 [data-theme="fantasy"] .char-avatar-hint {
   font-family: 'Cinzel', Georgia, serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="fantasy"] .char-avatar-overlay span {
-  font-family: 'Cinzel', Georgia, serif; font-size: 12px;
+  font-family: 'Cinzel', Georgia, serif; font-size: 14px;
   color: var(--gold); text-shadow: none;
 }
 [data-theme="fantasy"] .char-identity-name {
@@ -1732,7 +1732,7 @@ body::after {
 
 @media (max-width: 500px) {
   .char-avatar-frame { width: 96px; min-height: 130px; }
-  .char-identity-name { font-size: 20px; }
+  .char-identity-name { font-size: 28px; }
   .core-num-value { font-size: 26px; }
   .core-num-block { padding: 5px 7px; min-width: 44px; }
 }
@@ -1747,7 +1747,7 @@ body::after {
   border: 1px solid var(--border-glow) !important;
 }
 .char-gifts-label {
-  font-family: "Press Start 2P", monospace; font-size: 11px;
+  font-family: "Press Start 2P", monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 2px;
   padding: 10px 14px 6px;
   border-bottom: 1px solid var(--border);
@@ -1782,12 +1782,12 @@ body::after {
   transform: scale(1.15);
 }
 .gift-glyph-word {
-  font-family: "Press Start 2P", monospace; font-size: 10px;
+  font-family: "Press Start 2P", monospace; font-size: 14px;
   letter-spacing: 1px; text-align: center;
   line-height: 1.5;
 }
 .gift-glyph-source {
-  font-family: "Share Tech Mono", monospace; font-size: 8px;
+  font-family: "Share Tech Mono", monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 1px;
   margin-top: 3px;
 }
@@ -1815,11 +1815,11 @@ body::after {
   line-height: 1; margin-bottom: 4px;
 }
 .gift-info-source {
-  font-family: "Press Start 2P", monospace; font-size: 10px;
+  font-family: "Press Start 2P", monospace; font-size: 14px;
   letter-spacing: 1px; margin-bottom: 10px; opacity: 0.7;
 }
 .gift-info-desc {
-  font-family: "Share Tech Mono", monospace; font-size: 10px;
+  font-family: "Share Tech Mono", monospace; font-size: 14px;
   color: var(--text-mid); line-height: 1.7;
 }
 
@@ -1829,21 +1829,21 @@ body::after {
 }
 [data-theme="fantasy"] .gift-glyph-word {
   font-family: "Cinzel", Georgia, serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="fantasy"] .gift-info-title {
   font-family: "IM Fell English", Georgia, serif;
 }
 [data-theme="fantasy"] .gift-info-desc {
   font-family: "IM Fell English", Georgia, serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 /* ================================================
    STAT CHARTS
    ================================================ */
 .chart-section-title {
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 16px;
   color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px;
   display: flex; align-items: center; gap: 8px;
 }
@@ -1860,7 +1860,7 @@ body::after {
 .bar-count { font-family: 'VT323', monospace; font-size: 15px; line-height: 1; margin-top: 14px; }
 
 .bar-chart-labels { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; margin-top: 6px; margin-bottom: 18px; }
-.bar-chart-label  { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--text-dim); text-align: center; line-height: 1.4; }
+.bar-chart-label  { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--text-dim); text-align: center; line-height: 1.4; }
 
 .chart-legend       { display: flex; justify-content: center; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
 .chart-legend-item  { display: flex; align-items: center; gap: 5px; }
@@ -1870,10 +1870,10 @@ body::after {
 .freq-detail-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 11px; }
 .freq-detail-cell { background: var(--bg-inset); border: 1px solid var(--border); padding: 6px 3px; text-align: center; }
 .freq-detail-num  { font-family: 'VT323', monospace; font-size: 22px; color: var(--teal); line-height: 1; }
-.freq-detail-counts { font-size: 9px; color: var(--text-dim); margin-top: 8px; line-height: 1.4; }
+.freq-detail-counts { font-size: 14px; color: var(--text-dim); margin-top: 8px; line-height: 1.4; }
 .freq-detail-counts span { display: block; }
 
-.source-breakdown { margin-top: 14px; font-size: 11px; color: var(--text-dim); line-height: 2; padding: 10px 14px; background: var(--bg-inset); border: 1px solid var(--border); }
+.source-breakdown { margin-top: 14px; font-size: 14px; color: var(--text-dim); line-height: 2; padding: 10px 14px; background: var(--bg-inset); border: 1px solid var(--border); }
 .source-row  { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .source-key  { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 1px; min-width: 100px; flex-shrink: 0; }
 .source-nums { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -1933,7 +1933,7 @@ body::after {
 }
 .stat-primary-pip {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px; letter-spacing: 0.5px;
+  font-size: 10px; letter-spacing: 0.5px;
   margin-left: 5px;
   opacity: 0.8;
   vertical-align: middle;
@@ -2007,7 +2007,7 @@ body::after {
   position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-20px);
   z-index: 9999; pointer-events: none;
   background: var(--bg-panel); padding: 12px 22px;
-  font-family: 'Press Start 2P', monospace; font-size: 12px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   letter-spacing: 1.5px; text-align: center; line-height: 1.9;
   opacity: 0;
   transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
@@ -2041,10 +2041,10 @@ body::after {
 }
 .polarity-type {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px; letter-spacing: 2px;
+  font-size: 14px; letter-spacing: 2px;
 }
 .polarity-desc {
-  font-size: 11px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   line-height: 1.8;
 }
 .polarity-bar-wrap {
@@ -2068,12 +2068,12 @@ body::after {
 .polarity-counts {
   display: flex; gap: 10px; align-items: center; justify-content: center;
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; letter-spacing: 0.5px;
+  font-size: 14px; letter-spacing: 0.5px;
 }
 .polarity-legend {
   display: flex; gap: 12px; align-items: center; justify-content: center;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px; letter-spacing: 0.5px;
+  font-size: 14px; letter-spacing: 0.5px;
   opacity: 0.6; padding-top: 2px;
 }
 
@@ -2088,7 +2088,7 @@ body::after {
 }
 .ci-header {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px; letter-spacing: 1px;
+  font-size: 14px; letter-spacing: 1px;
   color: var(--text-dim);
   margin-bottom: 10px;
 }
@@ -2103,11 +2103,11 @@ body::after {
   min-width: 16px; text-align: center;
 }
 .ci-digit-text {
-  font-size: 11px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   line-height: 1.7;
 }
 .ci-doubled {
-  font-size: 10px; color: var(--gold-dim);
+  font-size: 14px; color: var(--gold-dim);
   font-style: italic; margin-bottom: 8px;
   padding-left: 24px;
 }
@@ -2118,12 +2118,12 @@ body::after {
 }
 .ci-root-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px; letter-spacing: 0.5px;
+  font-size: 14px; letter-spacing: 0.5px;
   color: var(--teal-dim); flex-shrink: 0;
   padding-top: 3px;
 }
 .ci-root-text {
-  font-size: 11px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   line-height: 1.7;
 }
 
@@ -2142,15 +2142,15 @@ body::after {
 }
 .aether-tier-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; letter-spacing: 1.5px;
+  font-size: 14px; letter-spacing: 1.5px;
   flex: 1;
 }
 .aether-tier-count {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px; letter-spacing: 0.5px;
+  font-size: 14px; letter-spacing: 0.5px;
 }
 .aether-tier-desc {
-  font-size: 11px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   line-height: 1.9;
 }
 
@@ -2170,20 +2170,20 @@ body::after {
   border-bottom: 1px solid var(--gold-dim); padding: 10px 18px;
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
-.mq-banner-label { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--gold); letter-spacing: 3px; text-shadow: 0 0 10px rgba(212,168,67,0.5); }
+.mq-banner-label { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--gold); letter-spacing: 3px; text-shadow: 0 0 10px rgba(212,168,67,0.5); }
 .mq-banner-badge { font-family: 'VT323', monospace; font-size: 14px; color: var(--gold-bright); border: 1px solid var(--gold-dim); padding: 1px 10px; letter-spacing: 2px; background: rgba(212,168,67,0.06); }
 
 .mq-body   { padding: 18px 18px 16px; }
 .mq-top    { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
 .mq-number { font-family: 'VT323', monospace; font-size: 72px; color: var(--gold); text-shadow: 0 0 24px rgba(212,168,67,0.45); line-height: 1; min-width: 70px; text-align: center; flex-shrink: 0; }
 .mq-info   { flex: 1; }
-.mq-title  { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--gold-bright); letter-spacing: 1px; line-height: 1.7; margin-bottom: 5px; }
+.mq-title  { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--gold-bright); letter-spacing: 1px; line-height: 1.7; margin-bottom: 5px; }
 .mq-archetype { font-family: 'VT323', monospace; font-size: 20px; color: var(--gold); opacity: 0.75; margin-bottom: 3px; }
-.mq-essence   { font-size: 11px; color: var(--text-dim); font-style: italic; }
-.mq-desc      { font-size: 12px; line-height: 1.9; color: var(--text); margin-bottom: 14px; }
+.mq-essence   { font-size: 14px; color: var(--text-dim); font-style: italic; }
+.mq-desc      { font-size: 14px; line-height: 1.9; color: var(--text); margin-bottom: 14px; }
 
 .mq-objectives { border: 1px solid var(--gold-dim); background: rgba(212,168,67,0.025); padding: 12px 14px; margin-bottom: 14px; }
-.mq-obj-title  { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px; }
+.mq-obj-title  { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px; }
 
 /* ── Life Quest Tiered Objectives ── */
 .life-tiers { display: flex; flex-direction: column; gap: 12px; }
@@ -2193,21 +2193,21 @@ body::after {
 .life-tier-locked { opacity: 0.4; }
 .life-tier-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; letter-spacing: 1.5px;
+  font-size: 14px; letter-spacing: 1.5px;
   display: flex; align-items: center; gap: 8px;
   margin-bottom: 8px;
 }
 .life-tier-tag {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px; padding: 2px 5px;
+  font-size: 14px; padding: 2px 5px;
   border: 1px solid currentColor; opacity: 0.8;
 }
 .life-tier-progress {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 11px; margin-left: auto;
+  font-size: 14px; margin-left: auto;
 }
 .life-tier-locked-msg {
-  font-size: 11px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   font-style: italic; padding: 2px 0;
 }
 .life-tier-objs { display: flex; flex-direction: column; gap: 8px; }
@@ -2219,17 +2219,17 @@ body::after {
 .life-obj-done { opacity: 0.5; text-decoration: line-through; }
 .life-obj-next-tag {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px; padding: 2px 4px;
+  font-size: 14px; padding: 2px 4px;
   border: 1px solid var(--teal-dim); color: var(--teal);
   flex-shrink: 0; align-self: center; margin-left: 4px;
 }
-.mq-obj-item   { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 9px; font-size: 11px; line-height: 1.75; color: var(--text-mid); }
+.mq-obj-item   { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 9px; font-size: 14px; line-height: 1.75; color: var(--text-mid); }
 .mq-obj-item:last-child { margin-bottom: 0; }
 .mq-obj-bullet { font-family: 'VT323', monospace; font-size: 18px; color: var(--gold); flex-shrink: 0; line-height: 1.3; }
 
 .mq-reward       { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--gold-muted); background: rgba(0,0,0,0.18); }
-.mq-reward-label { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--gold); letter-spacing: 2px; flex-shrink: 0; white-space: nowrap; }
-.mq-reward-text  { font-size: 11px; color: var(--gold); font-style: italic; line-height: 1.5; }
+.mq-reward-label { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--gold); letter-spacing: 2px; flex-shrink: 0; white-space: nowrap; }
+.mq-reward-text  { font-size: 14px; color: var(--gold); font-style: italic; line-height: 1.5; }
 
 /* ================================================
    QUEST CARDS
@@ -2247,11 +2247,11 @@ body::after {
 .quest-main  { flex: 1; padding: 11px 12px; display: flex; align-items: center; gap: 11px; min-width: 0; }
 .quest-num   { font-family: 'VT323', monospace; font-size: 38px; line-height: 1; min-width: 46px; text-align: center; text-shadow: 0 0 10px currentColor; flex-shrink: 0; }
 .quest-info  { flex: 1; min-width: 0; }
-.quest-title { font-family: 'Press Start 2P', monospace; font-size: 11px; letter-spacing: 1px; margin-bottom: 3px; line-height: 1.6; }
-.quest-sub   { font-size: 10px; color: var(--text-dim); margin-bottom: 2px; }
-.quest-frequency-tag { font-size: 9px; font-style: italic; }
+.quest-title { font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 1px; margin-bottom: 3px; line-height: 1.6; }
+.quest-sub   { font-size: 14px; color: var(--text-dim); margin-bottom: 2px; }
+.quest-frequency-tag { font-size: 14px; font-style: italic; }
 .quest-meta        { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; padding-right: 12px; flex-shrink: 0; }
-.quest-type-badge  { font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 3px 6px; border: 1px solid currentColor; letter-spacing: 1px; opacity: 0.65; }
+.quest-type-badge  { font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 3px 6px; border: 1px solid currentColor; letter-spacing: 1px; opacity: 0.65; }
 .quest-chevron     { font-family: 'VT323', monospace; font-size: 20px; color: var(--text-dim); transition: transform 0.25s; }
 .quest-card.open .quest-chevron { transform: rotate(90deg); }
 
@@ -2259,7 +2259,7 @@ body::after {
 .quest-card.open .quest-body { max-height: 9999px; }
 
 .quest-content        { padding: 0 14px 16px 20px; border-top: 1px solid var(--border); }
-.quest-section-title  { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 2px; margin: 18px 0 10px; }
+.quest-section-title  { font-family: 'Press Start 2P', monospace; font-size: 16px; color: var(--text-dim); letter-spacing: 2px; margin: 18px 0 10px; }
 .quest-desc-text      { font-size: 14px; line-height: 1.9; color: var(--text); }
 .quest-objectives-list { margin-top: 6px; }
 .quest-obj-row   { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 12px; font-size: 14px; line-height: 1.75; color: var(--text-mid); }
@@ -2269,8 +2269,8 @@ body::after {
 .abundance-row   { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
 .abundance-bar   { flex: 1; height: 3px; background: var(--border); overflow: hidden; }
 .abundance-fill  { height: 100%; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
-.abundance-label { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 1px; white-space: nowrap; }
-.quest-intro-panel { background: var(--bg-panel); border: 1px solid var(--border); padding: 13px 16px; margin-bottom: 14px; font-size: 11px; color: var(--text-dim); line-height: 1.8; }
+.abundance-label { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--text-dim); letter-spacing: 1px; white-space: nowrap; }
+.quest-intro-panel { background: var(--bg-panel); border: 1px solid var(--border); padding: 13px 16px; margin-bottom: 14px; font-size: 14px; color: var(--text-dim); line-height: 1.8; }
 
 /* ================================================
    SPARKLES
@@ -2303,7 +2303,7 @@ body::after {
 /* Individual sparkle node */
 .sparkle {
   position: absolute; bottom: 6px;
-  font-size: 10px; line-height: 1;
+  font-size: 14px; line-height: 1;
   opacity: 0; pointer-events: none;
   animation: none; user-select: none;
 }
@@ -2322,7 +2322,7 @@ body::after {
   animation-timing-function: ease-out;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  font-size: 12px;
+  font-size: 14px;
 }
 [data-theme="unicorn"] .sparkle:nth-child(1) { color: #e040fb; animation-duration: 2.0s; }
 [data-theme="unicorn"] .sparkle:nth-child(2) { color: #7c4dff; animation-duration: 1.7s; }
@@ -2337,15 +2337,15 @@ body::after {
    ================================================ */
 .placeholder-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 340px; text-align: center; padding: 40px 20px; }
 .placeholder-icon  { font-family: 'VT323', monospace; font-size: 64px; color: var(--border-glow); margin-bottom: 16px; line-height: 1; }
-.placeholder-title { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px; }
-.placeholder-text  { font-size: 11px; color: var(--text-dim); max-width: 260px; line-height: 1.8; opacity: 0.6; }
+.placeholder-title { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px; }
+.placeholder-text  { font-size: 14px; color: var(--text-dim); max-width: 260px; line-height: 1.8; opacity: 0.6; }
 .placeholder-blink { display: inline-block; animation: blink 1.2s step-end infinite; }
 
 .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-bottom: 1px solid var(--border); gap: 12px; }
 .settings-row:last-child { border-bottom: none; }
-.settings-row-key { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
-.settings-row-val { font-size: 12px; color: var(--teal); text-align: right; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.settings-btn { background: none; border: 1px solid var(--border-glow); color: var(--text-dim); font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 6px 14px; cursor: pointer; transition: all 0.2s; letter-spacing: 1px; -webkit-tap-highlight-color: transparent; }
+.settings-row-key { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--text-dim); letter-spacing: 1px; }
+.settings-row-val { font-size: 14px; color: var(--teal); text-align: right; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.settings-btn { background: none; border: 1px solid var(--border-glow); color: var(--text-dim); font-family: 'Share Tech Mono', monospace; font-size: 14px; padding: 6px 14px; cursor: pointer; transition: all 0.2s; letter-spacing: 1px; -webkit-tap-highlight-color: transparent; }
 .settings-btn:hover { border-color: var(--rose-dim); color: var(--rose); }
 .settings-btn-fixed { min-width: 110px; text-align: center; }
 
@@ -2358,7 +2358,7 @@ body::after {
 }
 .cfg-chip {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   padding: 5px 8px;
   border: 1px solid var(--border);
@@ -2394,10 +2394,10 @@ body::after {
    ================================================ */
 @media (max-width: 500px) {
   .auth-header, .auth-body, .char-header, .char-body { padding-left: 18px; padding-right: 18px; }
-  .auth-logo       { font-size: 12px; }
-  .header-wordmark { font-size: 12px; }
-  .tab-btn         { font-size: 10px; }
-  .bar-chart-label { font-size: 9px; }
+  .auth-logo       { font-size: 14px; }
+  .header-wordmark { font-size: 14px; }
+  .tab-btn         { font-size: 14px; }
+  .bar-chart-label { font-size: 14px; }
   .freq-detail-num { font-size: 17px; }
   .content-area    { padding: 12px 12px 40px; }
   .strip-main      { padding: 10px 10px; }
@@ -2421,7 +2421,7 @@ body::after {
 }
 .mq-freq-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 2px;
   margin-bottom: 10px;
   display: flex;
@@ -2436,7 +2436,7 @@ body::after {
   background: rgba(212,168,67,0.18);
 }
 .mq-freq-text {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.9;
   color: var(--text);
 }
@@ -2465,7 +2465,7 @@ body::after {
 }
 .quest-subsection-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 1px;
   opacity: 0.9;
 }
@@ -2488,13 +2488,13 @@ body::after {
 }
 .journal-section-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 1.5px;
   margin-bottom: 8px;
   opacity: 0.9;
 }
 .journal-section-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text);
   line-height: 1.85;
 }
@@ -2504,7 +2504,7 @@ body::after {
   gap: 8px;
 }
 .journal-section-obj {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   line-height: 1.7;
   display: flex;
@@ -2593,7 +2593,7 @@ body::after {
 }
 .aid-banner-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--gold);
   letter-spacing: 3px;
   text-shadow: 0 0 10px rgba(212,168,67,0.5);
@@ -2601,7 +2601,7 @@ body::after {
 }
 .aid-banner-badge {
   font-family: 'VT323', monospace;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--gold-bright);
   border: 1px solid var(--gold-dim);
   padding: 1px 10px;
@@ -2629,7 +2629,7 @@ body::after {
 }
 .aid-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 14px;
   color: var(--gold);
   letter-spacing: 1px;
   margin-bottom: 4px;
@@ -2641,7 +2641,7 @@ body::after {
   letter-spacing: 1px;
 }
 .aid-desc {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.8;
   margin-bottom: 18px;
@@ -2678,7 +2678,7 @@ body::after {
 }
 .aid-option-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   letter-spacing: 0.5px;
   margin-bottom: 3px;
@@ -2690,7 +2690,7 @@ body::after {
   letter-spacing: 0.5px;
 }
 .aid-option-desc {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.75;
   margin-bottom: 12px;
@@ -2700,7 +2700,7 @@ body::after {
 .aid-btn {
   display: inline-block;
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
   padding: 10px 18px;
   text-decoration: none;
@@ -2785,7 +2785,7 @@ body::after {
 }
 .danger-zone-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--rose-dim);
   letter-spacing: 2px;
   margin-bottom: 10px;
@@ -2812,7 +2812,7 @@ body::after {
   border: 1px solid var(--rose-dim);
   color: var(--rose);
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
   padding: 12px;
   cursor: pointer;
@@ -2852,7 +2852,7 @@ body::after {
   align-items: center;
   gap: 6px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   letter-spacing: 1px;
 }
@@ -2913,12 +2913,12 @@ body::after {
   padding: 16px 0;
 }
 .nearby-loc-hint {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   text-align: center;
 }
 .nearby-loc-btn {
-  font-size: 8px;
+  font-size: 14px;
   padding: 10px 16px;
 }
 
@@ -2948,14 +2948,14 @@ body::after {
 }
 .nearby-quest-dist {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--teal);
   white-space: nowrap;
   flex-shrink: 0;
 }
 .nearby-quest-type {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   letter-spacing: 1px;
   margin-bottom: 6px;
@@ -2976,7 +2976,7 @@ body::after {
 }
 .nearby-reward-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   letter-spacing: 0.5px;
 }
@@ -2984,7 +2984,7 @@ body::after {
   margin-bottom: 8px;
 }
 .nearby-obj-item {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.6;
   padding-left: 12px;
@@ -2995,13 +2995,13 @@ body::after {
   position: absolute;
   left: 0;
   color: var(--teal-dim, rgba(0,229,204,0.4));
-  font-size: 9px;
+  font-size: 14px;
 }
 .nearby-accept-btn {
   display: block;
   width: 100%;
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   padding: 9px;
   text-align: center;
@@ -3035,7 +3035,7 @@ body::after {
 .mq-field-header .field-label { margin-bottom: 0; }
 .mq-char-count {
   font-family: 'VT323', monospace;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-dim);
   letter-spacing: 0.5px;
   transition: color 0.2s;
@@ -3055,7 +3055,7 @@ body::after {
 }
 .mq-field-err-msg {
   font-family: 'VT323', monospace;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--red, #ff4444);
   margin-top: 4px;
   display: none;
@@ -3075,7 +3075,7 @@ body::after {
 }
 .mq-adv-arrow {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   transition: transform 0.2s;
   display: inline-block;
@@ -3083,7 +3083,7 @@ body::after {
 .mq-adv-arrow.open { transform: rotate(90deg); }
 .mq-adv-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 1px;
   color: var(--text-dim);
 }
@@ -3097,7 +3097,7 @@ body::after {
 
 /* Intro text */
 .mq-intro {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.8;
   margin: 0 0 18px;
@@ -3122,7 +3122,7 @@ body::after {
   border: 1px solid var(--border);
   color: var(--text-dim);
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   padding: 10px 4px;
   cursor: pointer;
@@ -3136,7 +3136,7 @@ body::after {
 
 /* ── Reward Frequency Selector ── */
 .mq-reward-intro {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.7;
   margin-bottom: 10px;
@@ -3179,7 +3179,7 @@ body::after {
 }
 .mq-reward-name {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   color: var(--text-mid);
   line-height: 1.5;
@@ -3192,13 +3192,13 @@ body::after {
   padding: 7px 10px;
   border: 1px solid var(--border);
   background: rgba(160,112,255,0.04);
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.5;
 }
 .mq-reward-preview-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--purple);
   letter-spacing: 1px;
   flex-shrink: 0;
@@ -3235,25 +3235,25 @@ body::after {
 .side-quest-info { flex: 1; min-width: 0; }
 .side-quest-type {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 1px;
   color: var(--teal);
   margin-bottom: 4px;
 }
 .side-quest-name {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   line-height: 1.6;
   margin-bottom: 4px;
 }
 .side-quest-xp {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--purple);
   font-style: italic;
 }
 .side-quest-desc {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.65;
   margin-bottom: 4px;
@@ -3271,7 +3271,7 @@ body::after {
 .side-quest-btn {
   flex: 1;
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 14px;
   letter-spacing: 1px;
   padding: 12px 8px;
   border: 1px solid;
@@ -3318,7 +3318,7 @@ body::after {
 }
 .mq-obj-input {
   flex: 1;
-  font-size: 11px;
+  font-size: 14px;
   padding: 8px 10px;
 }
 
@@ -3333,7 +3333,7 @@ body::after {
   border: 1px solid var(--border);
   color: var(--text-dim);
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   padding: 10px 4px;
   cursor: pointer;
@@ -3357,7 +3357,7 @@ body::after {
   border: 1px solid var(--border);
   color: var(--text-dim);
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   padding: 10px 4px;
   cursor: pointer;
@@ -3369,7 +3369,7 @@ body::after {
   gap: 5px;
   -webkit-tap-highlight-color: transparent;
 }
-.mq-difficulty-name { font-size: 10px; letter-spacing: 0.5px; }
+.mq-difficulty-name { font-size: 14px; letter-spacing: 0.5px; }
 .mq-difficulty-xp   { font-family: 'VT323', monospace; font-size: 14px; color: var(--text-dim); }
 .mq-difficulty-btn:hover  { border-color: var(--border-glow); color: var(--text); }
 .mq-difficulty-btn.active { border-color: var(--purple-dim); background: rgba(160,112,255,0.06); color: var(--purple); }
@@ -3388,13 +3388,13 @@ body::after {
 }
 .mq-sig-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 1.5px;
   color: var(--teal);
   margin-bottom: 10px;
 }
 .mq-sig-hint {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   font-style: italic;
 }
@@ -3420,7 +3420,7 @@ body::after {
 }
 .mq-sig-chip-key {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 0.3px;
   color: var(--text-dim);
   text-align: center;
@@ -3436,7 +3436,7 @@ body::after {
 }
 .side-quest-seeker-badge {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   color: var(--teal);
   border: 1px solid var(--teal-dim);
@@ -3456,7 +3456,7 @@ body::after {
 }
 .side-quest-sig-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 1px;
   color: var(--text-dim);
   margin-right: 2px;
@@ -3473,11 +3473,11 @@ body::after {
 }
 .side-quest-sig-key {
   font-family: monospace;
-  font-size: 8px;
+  font-size: 14px;
   color: var(--text-dim);
 }
 .mq-sig-footer {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.7;
   font-style: italic;
@@ -3496,7 +3496,7 @@ body::after {
 }
 .my-quest-seeker {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   color: var(--teal);
   border: 1px solid var(--teal-dim);
@@ -3507,7 +3507,7 @@ body::after {
   margin-bottom: 6px;
 }
 .my-quest-obj-row {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.65;
   padding-left: 2px;
@@ -3518,7 +3518,7 @@ body::after {
   margin-bottom: 6px;
 }
 .side-quest-obj-row {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.65;
   padding-left: 2px;
@@ -3541,7 +3541,7 @@ body::after {
 
 /* Location status text below the input */
 .mq-location-status {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.6;
   min-height: 0;
@@ -3580,19 +3580,19 @@ body::after {
 }
 .my-quest-type {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 1px;
   margin-bottom: 6px;
 }
 .my-quest-name {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 14px;
   color: var(--text);
   margin-bottom: 6px;
   line-height: 1.6;
 }
 .my-quest-desc {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.65;
   margin-bottom: 6px;
@@ -3609,7 +3609,7 @@ body::after {
   display: block;
   width: 100%;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   background: none;
   border: 1px solid var(--border);
@@ -3656,7 +3656,7 @@ body::after {
 .leaflet-control-attribution {
   background: rgba(5,5,10,0.7) !important;
   color: #333355 !important;
-  font-size: 9px !important;
+  font-size: 14px !important;
 }
 .leaflet-control-zoom a {
   background: #0d0d20 !important;
@@ -3683,7 +3683,7 @@ body::after {
 .mq-suggestion-item {
   padding: 8px 12px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-dim);
   cursor: pointer;
   border-bottom: 1px solid var(--border);
@@ -3698,7 +3698,7 @@ body::after {
 .mq-suggestion-loading,
 .mq-suggestion-empty {
   cursor: default;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-dim);
   font-style: italic;
 }
@@ -3741,7 +3741,7 @@ body::after {
 }
 .geo-perm-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--teal);
   letter-spacing: 1px;
   margin-bottom: 14px;
@@ -3749,7 +3749,7 @@ body::after {
 }
 .geo-perm-desc {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.7;
   margin-bottom: 20px;
@@ -3777,11 +3777,11 @@ body::after {
 }
 .lvl-bar-num {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; font-weight: bold;
+  font-size: 10px; font-weight: bold;
 }
 .lvl-bar-xp {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
 }
 .lvl-bar-track {
   height: 8px; background: var(--bg-inset);
@@ -3805,7 +3805,7 @@ body::after {
 .xp-float {
   position: absolute; right: 4px; top: -20px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; pointer-events: none;
+  font-size: 14px; pointer-events: none;
   animation: xpFloat 1.4s ease-out forwards;
   z-index: 99;
 }
@@ -3830,7 +3830,7 @@ body::after {
 }
 .lvlup-track {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
+  font-size: 14px; color: var(--text-dim); letter-spacing: 2px;
   margin-bottom: 6px;
 }
 .lvlup-num {
@@ -3841,7 +3841,7 @@ body::after {
 }
 .lvlup-sub {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; color: var(--teal); letter-spacing: 2px;
+  font-size: 14px; color: var(--teal); letter-spacing: 2px;
   margin-top: 6px;
 }
 .lvlup-in  { animation: lvlupIn  0.4s ease-out forwards; }
@@ -3866,26 +3866,26 @@ body::after {
 .daily-q-text { flex: 1; }
 .daily-q-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px; color: var(--teal); letter-spacing: 1px;
+  font-size: 14px; color: var(--teal); letter-spacing: 1px;
   margin-bottom: 8px; line-height: 1.7;
 }
 .daily-q-body {
-  font-size: 11px; color: var(--text-mid);
+  font-size: 14px; color: var(--text-mid);
   line-height: 1.7; margin-bottom: 8px;
 }
 .daily-q-foot {
   display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
 }
 .daily-q-xp {
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
 }
 .daily-q-reset {
-  font-family: 'Share Tech Mono', monospace; font-size: 10px;
+  font-family: 'Share Tech Mono', monospace; font-size: 14px;
   color: var(--text-dim);
 }
-.daily-q-btn { margin-top: 12px; width: 100%; font-size: 10px; padding: 14px; letter-spacing: 2px; }
+.daily-q-btn { margin-top: 12px; width: 100%; font-size: 14px; padding: 14px; letter-spacing: 2px; }
 .daily-q-complete-label {
-  font-family: 'Press Start 2P', monospace; font-size: 12px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--sage); letter-spacing: 2px;
   padding: 10px 0 4px; text-align: center;
 }
@@ -3895,7 +3895,7 @@ body::after {
    ================================================ */
 .fq-section-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
+  font-size: 14px; color: var(--text-dim); letter-spacing: 2px;
   padding: 14px 0 8px;
   border-top: 1px solid var(--border);
   margin-top: 8px;
@@ -3914,35 +3914,39 @@ body::after {
   margin-bottom: 6px;
 }
 .fq-badge {
-  font-family: 'Press Start 2P', monospace; font-size: 10px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   border: 1px solid; padding: 3px 6px; letter-spacing: 1px;
 }
 .fq-xp {
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
 }
 .fq-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; letter-spacing: 1px; line-height: 1.8;
+  font-size: 14px; letter-spacing: 1px; line-height: 1.8;
   margin-bottom: 4px;
 }
 .fq-period {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; color: var(--text-dim); margin-bottom: 8px;
+  font-size: 14px; color: var(--text-dim); margin-bottom: 8px;
 }
 .fq-objs { margin-bottom: 8px; }
 .fq-obj {
-  font-size: 11px; color: var(--text-mid);
+  font-size: 14px; color: var(--text-mid);
   line-height: 1.7; padding: 2px 0;
 }
 .fq-done-label {
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--sage); letter-spacing: 1px; padding-top: 6px;
 }
+.daily-q-obj { margin-top: 6px; }
+.daily-q-obj-row { display: flex; align-items: flex-start; gap: 6px; }
+.daily-q-obj-row span { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+.daily-q-obj-bullet { flex-shrink: 0; color: var(--teal); }
 
 /* side-quest-section-label (used in side quests) */
 .side-quest-section-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
+  font-size: 14px; color: var(--text-dim); letter-spacing: 2px;
   margin: 16px 0 8px;
 }
 
@@ -3990,7 +3994,7 @@ body::after {
   border: 1px solid var(--border-glow);
   color: var(--text);
   font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   line-height: 1.6;
   white-space: nowrap;
@@ -4004,19 +4008,19 @@ body::after {
 
 /* ── Bigger text on stat chart (all themes) ── */
 .stat-name-text {
-  font-size: 12px;
+  font-size: 10px;
   letter-spacing: 0.8px;
 }
 .stat-col-num   { font-size: 26px; }
 .stat-col-box   { font-size: 20px; }
 .stat-col-total { font-size: 22px; }
-.stat-col-hdr   { font-size: 12px; letter-spacing: 1px; }
+.stat-col-hdr   { font-size: 10px; letter-spacing: 1px; }
 .stat-polarity-divider {
-  font-size: 12px;
+  font-size: 10px;
   letter-spacing: 1.5px;
   padding: 9px 6px 6px;
 }
-.panel-label { font-size: 11px; }
+.panel-label { font-size: 16px; }
 
 /* ── Attributes / Benefits panel ── */
 .stat-benefits-list {
@@ -4024,7 +4028,7 @@ body::after {
 }
 .sb-section-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 2px;
   color: var(--text-dim);
   padding: 10px 14px 5px;
@@ -4062,7 +4066,7 @@ body::after {
 }
 .sb-kw {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.4;
   text-align: right;
@@ -4120,7 +4124,7 @@ body::after {
 }
 [data-theme="diablo"] .panel-label::before {
   content: '✦';
-  font-size: 8px;
+  font-size: 14px;
   opacity: 0.6;
   margin-right: 8px;
   vertical-align: middle;
@@ -4250,7 +4254,7 @@ body::after {
   );
 }
 [data-theme="diablo"] .char-gifts-label {
-  font-size: 8px;
+  font-size: 14px;
   letter-spacing: 3px;
   padding: 12px 16px 8px;
   border-bottom: 2px solid var(--border);
@@ -4262,14 +4266,14 @@ body::after {
   border-bottom: 2px solid var(--border);
   letter-spacing: 2px;
   font-family: 'Cinzel', Georgia, serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="diablo"] .stat-polarity-divider::before,
 [data-theme="diablo"] .stat-polarity-divider::after {
   content: '─ ─ ─';
   font-family: monospace;
   opacity: 0.35;
-  font-size: 8px;
+  font-size: 14px;
   vertical-align: middle;
   margin: 0 8px;
 }
@@ -4296,7 +4300,7 @@ body::after {
   box-shadow: 0 2px 6px rgba(0,0,0,0.6) inset;
 }
 [data-theme="diablo"] .stat-col-num { font-size: 24px; }
-[data-theme="diablo"] .stat-col-hdr { font-size: 11px; letter-spacing: 1px; }
+[data-theme="diablo"] .stat-col-hdr { font-size: 10px; letter-spacing: 1px; }
 
 /* Primary stat row — thicker blood accent ── */
 [data-theme="diablo"] .stat-row-primary {
@@ -4377,7 +4381,7 @@ body::after {
 }
 [data-theme="unicorn"] .panel-label::before {
   content: '✦';
-  font-size: 8px;
+  font-size: 14px;
   opacity: 0.7;
   margin-right: 8px;
   vertical-align: middle;
@@ -4447,7 +4451,7 @@ body::after {
   content: '✦';
   position: absolute;
   top: 5px; left: 7px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gold);
   opacity: 0.7;
   pointer-events: none;
@@ -4459,7 +4463,7 @@ body::after {
   content: '✦';
   position: absolute;
   bottom: 5px; right: 7px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--teal);
   opacity: 0.7;
   pointer-events: none;
@@ -4511,7 +4515,7 @@ body::after {
   );
 }
 [data-theme="unicorn"] .char-gifts-label {
-  font-size: 8px;
+  font-size: 14px;
   letter-spacing: 3px;
   padding: 12px 16px 8px;
   border-bottom: 1px solid var(--border);
@@ -4522,13 +4526,13 @@ body::after {
   padding: 8px 8px 6px;
   border-bottom: 1px solid var(--border);
   letter-spacing: 2px;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="unicorn"] .stat-polarity-divider::before,
 [data-theme="unicorn"] .stat-polarity-divider::after {
   content: '✦ ✦';
   opacity: 0.45;
-  font-size: 8px;
+  font-size: 14px;
   vertical-align: middle;
   margin: 0 8px;
 }
@@ -4555,7 +4559,7 @@ body::after {
   box-shadow: 0 1px 4px rgba(192,96,208,0.15) inset;
 }
 [data-theme="unicorn"] .stat-col-num { font-size: 24px; }
-[data-theme="unicorn"] .stat-col-hdr { font-size: 11px; letter-spacing: 1px; }
+[data-theme="unicorn"] .stat-col-hdr { font-size: 10px; letter-spacing: 1px; }
 
 /* Primary stat row — pink left accent ── */
 [data-theme="unicorn"] .stat-row-primary {
@@ -4693,7 +4697,7 @@ body::after {
 /* ── Panel labels ── */
 [data-theme="scifi"] .panel-label::before {
   content: '▶';
-  font-size: 11px;
+  font-size: 14px;
   margin-right: 8px;
   vertical-align: middle;
   color: rgba(0,255,220,0.7);
@@ -4814,20 +4818,20 @@ body::after {
   border-bottom: 1px solid rgba(0,200,180,0.25);
   letter-spacing: 3px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="scifi"] .stat-polarity-divider::before {
   content: '◀ ';
   font-family: monospace;
   opacity: 0.5;
-  font-size: 12px;
+  font-size: 14px;
   vertical-align: middle;
 }
 [data-theme="scifi"] .stat-polarity-divider::after {
   content: ' ▶';
   font-family: monospace;
   opacity: 0.5;
-  font-size: 12px;
+  font-size: 14px;
   vertical-align: middle;
 }
 
@@ -4851,7 +4855,7 @@ body::after {
   box-shadow: 0 0 8px rgba(0,220,200,0.14) inset;
 }
 [data-theme="scifi"] .stat-col-num  { font-size: 24px; }
-[data-theme="scifi"] .stat-col-hdr  { font-size: 11px; letter-spacing: 1px; }
+[data-theme="scifi"] .stat-col-hdr  { font-size: 10px; letter-spacing: 1px; }
 [data-theme="scifi"] .stat-row-primary { border-left-color: rgba(0,255,220,0.6); border-left-width: 2px; }
 
 /* ── Stat benefits panel — terminal glass ── */
@@ -4935,7 +4939,7 @@ body::after {
 }
 [data-theme="fantasy"] .panel-label::before {
   content: '❧';
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.6;
   margin-right: 8px;
   vertical-align: middle;
@@ -4990,7 +4994,7 @@ body::after {
   content: '✦';
   position: absolute;
   top: 5px; left: 7px;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--gold-dim);
   opacity: 0.65;
   pointer-events: none;
@@ -5001,7 +5005,7 @@ body::after {
   content: '✦';
   position: absolute;
   bottom: 5px; right: 7px;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--border-glow);
   opacity: 0.55;
   pointer-events: none;
@@ -5048,7 +5052,7 @@ body::after {
   border-color: var(--border) !important;
 }
 [data-theme="fantasy"] .char-gifts-label {
-  font-size: 8px;
+  font-size: 14px;
   letter-spacing: 3px;
   padding: 12px 16px 8px;
   border-bottom: 2px solid var(--border);
@@ -5060,14 +5064,14 @@ body::after {
   border-bottom: 2px solid var(--border);
   letter-spacing: 2px;
   font-family: 'Cinzel', Georgia, serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="fantasy"] .stat-polarity-divider::before,
 [data-theme="fantasy"] .stat-polarity-divider::after {
   content: '— —';
   font-family: 'IM Fell English', Georgia, serif;
   opacity: 0.45;
-  font-size: 10px;
+  font-size: 14px;
   vertical-align: middle;
   margin: 0 8px;
 }
@@ -5094,7 +5098,7 @@ body::after {
   box-shadow: 0 2px 4px rgba(80,40,0,0.15) inset;
 }
 [data-theme="fantasy"] .stat-col-num { font-size: 24px; }
-[data-theme="fantasy"] .stat-col-hdr { font-size: 11px; letter-spacing: 1px; }
+[data-theme="fantasy"] .stat-col-hdr { font-size: 10px; letter-spacing: 1px; }
 [data-theme="fantasy"] .stat-row-primary { border-left-width: 3px; border-left-color: var(--gold-dim); }
 
 /* ── Stat benefits panel — parchment scroll ── */
@@ -5112,7 +5116,7 @@ body::after {
 }
 [data-theme="fantasy"] .sb-kw {
   font-family: 'IM Fell English', Georgia, serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 [data-theme="fantasy"] .sb-row:nth-child(odd) {
   background: rgba(200,170,100,0.08);
@@ -5147,7 +5151,7 @@ body::after {
   border-radius: 3px;
   padding: 8px 10px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.6;
   resize: vertical;
   outline: none;
@@ -5157,7 +5161,7 @@ body::after {
   box-shadow: 0 0 6px var(--teal, #0ff)44;
 }
 .fq-reflection-hint {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--text-dim);
   text-align: right;
   margin-top: 3px;
@@ -5178,14 +5182,14 @@ body::after {
 }
 .strip-reflection-entry:last-child { margin-bottom: 0; }
 .strip-reflection-date {
-  font-size: 8px;
+  font-size: 14px;
   color: var(--text-dim);
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
   margin-bottom: 4px;
 }
 .strip-reflection-text {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text);
   line-height: 1.7;
   font-style: italic;
@@ -5199,7 +5203,7 @@ body::after {
   border: 1px solid var(--border-glow, #444);
   color: var(--text-dim);
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
   padding: 9px 0;
   cursor: pointer;
@@ -5240,12 +5244,12 @@ body::after {
 
 .fq-combo-badge {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
   margin-top: 4px;
 }
 .fq-multiplier-preview {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--text-dim);
   font-family: 'Share Tech Mono', monospace;
   margin-top: 3px;
@@ -5261,7 +5265,7 @@ body::after {
 /* ── Medals strip (full width below name) ───── */
 .char-medals-header {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 10px;
   color: var(--text-dim);
   letter-spacing: 2px;
   padding: 4px 0 2px;
@@ -5329,7 +5333,7 @@ body::after {
 }
 .ach-banner-tier {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 2px;
   margin-bottom: 6px;
   opacity: 0.8;
@@ -5341,12 +5345,12 @@ body::after {
 }
 .ach-banner-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 1px;
   margin-bottom: 6px;
 }
 .ach-banner-desc {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--text-dim);
   font-family: 'Share Tech Mono', monospace;
   line-height: 1.5;
@@ -5358,14 +5362,14 @@ body::after {
 }
 .ach-page-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--gold);
   letter-spacing: 2px;
   margin-bottom: 6px;
 }
 .ach-page-count {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
+  font-size: 14px;
   margin-bottom: 8px;
 }
 .ach-page-bar {
@@ -5382,7 +5386,7 @@ body::after {
 
 .ach-group-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 2px;
   color: var(--text-dim);
   padding: 14px 16px 6px;
@@ -5431,25 +5435,25 @@ body::after {
 }
 .ach-card-tier {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 1px;
   margin-bottom: 4px;
 }
 .ach-card-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   line-height: 1.5;
   margin-bottom: 4px;
 }
 .ach-card-desc {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--text-dim);
   font-family: 'Share Tech Mono', monospace;
   line-height: 1.5;
 }
 .ach-card-date {
-  font-size: 8px;
+  font-size: 14px;
   color: var(--text-dim);
   font-family: 'Share Tech Mono', monospace;
   margin-top: 4px;
@@ -5470,7 +5474,7 @@ body::after {
   transition: width 0.5s ease;
 }
 .ach-card-prog-label {
-  font-size: 8px;
+  font-size: 14px;
   color: var(--text-dim);
   font-family: 'Share Tech Mono', monospace;
   margin-top: 3px;
@@ -5513,7 +5517,7 @@ body::after {
 }
 .ap-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px; letter-spacing: 2px; color: var(--gold);
+  font-size: 14px; letter-spacing: 2px; color: var(--gold);
 }
 .ap-close {
   background: none; border: none;
@@ -5526,7 +5530,7 @@ body::after {
 .ap-tab {
   flex: 1; background: none; border: none; border-bottom: 2px solid transparent;
   padding: 10px 0;
-  font-family: 'Press Start 2P', monospace; font-size: 11px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 1px; cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
 }
@@ -5550,7 +5554,7 @@ body::after {
 }
 .ap-preset-art  { font-size: 38px; line-height: 1; }
 .ap-preset-label {
-  font-family: 'Press Start 2P', monospace; font-size: 10px;
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
   color: var(--text-dim); letter-spacing: 0.5px; text-align: center;
   line-height: 1.4;
 }
@@ -5559,14 +5563,14 @@ body::after {
   gap: 14px; align-items: stretch;
 }
 .ap-upload-hint {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  font-family: 'Share Tech Mono', monospace; font-size: 14px;
   color: var(--text-dim); text-align: center; margin: 0; line-height: 1.6;
 }
 .ap-remove-btn {
   background: none;
   border: 1px solid rgba(220,80,80,0.4);
   color: var(--rose, #e05); font-family: 'Press Start 2P', monospace;
-  font-size: 11px; padding: 10px; cursor: pointer; letter-spacing: 1px;
+  font-size: 14px; padding: 10px; cursor: pointer; letter-spacing: 1px;
   border-radius: 2px;
 }
 /* Large emoji in the avatar frame */
@@ -5578,7 +5582,7 @@ body::after {
 .char-identity-name { cursor: pointer; }
 .char-identity-name::after {
   content: ' ?';
-  font-size: 12px; color: var(--text-dim);
+  font-size: 14px; color: var(--text-dim);
   opacity: 0; transition: opacity 0.2s;
   vertical-align: middle;
 }
@@ -5606,11 +5610,11 @@ body::after {
   font-size: 20px;
 }
 .char-name-row .core-num-label {
-  font-size: 7px;
+  font-size: 14px;
   letter-spacing: 0;
 }
 .char-name-row .core-num-sep {
-  font-size: 10px;
+  font-size: 14px;
 }
 .founder-crown-medal {
   display: inline-flex;
@@ -5628,7 +5632,7 @@ body::after {
   border: 1px solid #c9a84c;
   color: #e8c96b;
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
+  font-size: 14px;
   padding: 4px 9px;
   letter-spacing: 2px;
   text-shadow: 0 0 8px rgba(232,201,107,0.6);
@@ -5636,13 +5640,13 @@ body::after {
   margin-bottom: 5px;
 }
 .founder-badge--sm {
-  font-size: 5px;
+  font-size: 14px;
   padding: 2px 6px;
   margin-bottom: 0;
   vertical-align: middle;
 }
 .founder-badge--active {
-  font-size: 7px;
+  font-size: 14px;
   padding: 6px 12px;
   display: block;
   text-align: center;
@@ -5722,7 +5726,7 @@ body::after {
 }
 .sim-teaser-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 14px;
   color: var(--gold);
   letter-spacing: 3px;
   text-align: center;
@@ -5743,8 +5747,8 @@ body::after {
 .sim-zone-card:hover              { border-color: var(--gold-dim); }
 .sim-zone-digital:hover           { border-color: var(--teal-dim); }
 .sim-zone-icon  { font-size: 22px; }
-.sim-zone-name  { font-family: 'Press Start 2P', monospace; font-size: 6px; color: var(--text); letter-spacing: 2px; }
-.sim-zone-sub   { font-size: 9px; color: var(--text-dim); text-align: center; }
+.sim-zone-name  { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--text); letter-spacing: 2px; }
+.sim-zone-sub   { font-size: 14px; color: var(--text-dim); text-align: center; }
 
 /* Top-3 preview strip */
 .sim-top3 {
@@ -5754,22 +5758,22 @@ body::after {
 }
 .sim-top3-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px; color: var(--text-dim); letter-spacing: 2px;
+  font-size: 14px; color: var(--text-dim); letter-spacing: 2px;
   margin-bottom: 8px;
 }
 .sim-top3-list { display: flex; flex-direction: column; gap: 4px; }
 .sim-top3-row {
   display: flex; align-items: center; gap: 8px;
-  font-size: 11px; padding: 4px 0;
+  font-size: 14px; padding: 4px 0;
   border-bottom: 1px solid var(--border);
 }
 .sim-top3-row:last-child { border-bottom: none; }
 .sim-top3-you  { color: var(--gold-bright); }
-.sim-top3-rank { font-family: 'Press Start 2P', monospace; font-size: 6px; color: var(--text-dim); width: 22px; flex-shrink: 0; }
-.sim-top3-name { flex: 1; font-size: 11px; }
-.sim-top3-score{ font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--gold); }
-.sim-top3-tier { padding: 2px 5px; font-family: 'Press Start 2P', monospace; font-size: 5px; }
-.sim-top3-loading { font-size: 10px; color: var(--text-dim); }
+.sim-top3-rank { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--text-dim); width: 22px; flex-shrink: 0; }
+.sim-top3-name { flex: 1; font-size: 14px; }
+.sim-top3-score{ font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--gold); }
+.sim-top3-tier { padding: 2px 5px; font-family: 'Press Start 2P', monospace; font-size: 14px; }
+.sim-top3-loading { font-size: 14px; color: var(--text-dim); }
 
 /* Tier colours (shared with world page) */
 .tier-source { background: #1a0030; color: #e040fb; border: 1px solid #8000b0; }
@@ -5779,11 +5783,95 @@ body::after {
 /* Enter simulation button */
 .sim-enter-btn { margin-top: 4px; }
 
+/* Split map preview */
+.sim-map-preview {
+  position: relative;
+  display: flex;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  animation: mapGlowPulse 4s ease-in-out infinite;
+}
+.sim-map-half {
+  flex: 1;
+  overflow: hidden;
+  background: #050810;
+  position: relative;
+}
+.sim-map-half::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,229,204,0.65) 50%, transparent 100%);
+  z-index: 10;
+  pointer-events: none;
+  animation: mapScan 7s linear infinite;
+}
+.sim-map-half:last-child::before {
+  animation-delay: 3.5s;
+}
+@keyframes mapGlowPulse {
+  0%   { box-shadow: 0 0 16px rgba(0,229,204,0.08), inset 0 0 10px rgba(0,229,204,0.02); }
+  50%  { box-shadow: 0 0 52px rgba(0,229,204,0.40), inset 0 0 26px rgba(0,229,204,0.10); }
+  100% { box-shadow: 0 0 16px rgba(0,229,204,0.08), inset 0 0 10px rgba(0,229,204,0.02); }
+}
+@keyframes mapScan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  4%   { opacity: 1; }
+  92%  { opacity: 0.8; }
+  100% { transform: translateY(600%); opacity: 0; }
+}
+.sim-map-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.sim-map-divider {
+  width: 1px;
+  flex-shrink: 0;
+  background: var(--border);
+  position: relative;
+  z-index: 2;
+}
+.sim-map-label {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.sim-map-digital { position: relative; }
+.sim-map-world   { position: relative; }
+.sim-map-cta {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(2,4,12,0.52);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  z-index: 3;
+}
+.sim-map-cta .sim-enter-btn {
+  pointer-events: all;
+  margin-top: 0;
+}
+
 /* Side Quest world quests list */
 .side-world-quest-row {
   display: flex; align-items: center; gap: 10px;
   padding: 8px 0; border-bottom: 1px solid var(--border);
-  font-size: 11px; color: var(--text);
+  font-size: 14px; color: var(--text);
 }
 .side-world-quest-icon { font-size: 14px; }
 .side-world-quest-id   { flex: 1; }

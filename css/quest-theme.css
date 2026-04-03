@@ -120,8 +120,8 @@ nav, .site-nav, #site-nav, [class*="nav-wrap"], [class*="navbar"] {
 
 nav a, .nav-link, [class*="nav-links"] a {
   font-family: 'Press Start 2P', monospace !important;
-  font-size: 6px !important;
-  letter-spacing: 2px !important;
+  font-size: 5px !important;
+  letter-spacing: 1.5px !important;
   color: var(--text-muted) !important;
   text-transform: uppercase;
 }

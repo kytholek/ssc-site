@@ -474,7 +474,7 @@
             </div>
             <div class="aid-divider">— OR —</div>
             <div class="aid-option">
-              <a class="aid-btn aid-btn-secondary" href="https://ko-fi.com/kytholek" target="_blank" rel="noopener">▶ GET THE BOOK</a>
+              <a class="aid-btn aid-btn-secondary" href="https://simulationsourcecode.com/services" target="_blank" rel="noopener">▶ GET PLAYER GUIDE</a>
             </div>
           </div>
         </div>
@@ -489,25 +489,30 @@
       <!-- ── SIMULATION TEASER ── -->
       <div class="sim-teaser">
         <div class="sim-teaser-label">◈ THE SIMULATION</div>
-        <div class="sim-teaser-zones">
-          <div class="sim-zone-card sim-zone-digital" onclick="location.href='../world/#digital'">
-            <div class="sim-zone-icon">◈</div>
-            <div class="sim-zone-name">THE DIGITAL</div>
-            <div class="sim-zone-sub">Social &amp; Community</div>
+
+        <!-- Split map preview -->
+        <div class="sim-map-preview">
+          <div class="sim-map-half sim-map-digital">
+            <img src="../Images/map-digital.png" alt="The Digital map" class="sim-map-img" onerror="this.style.display='none'">
+            <div class="sim-map-label">◈ THE DIGITAL</div>
           </div>
-          <div class="sim-zone-card sim-zone-world" onclick="location.href='../world/#worldmap'">
-            <div class="sim-zone-icon">🗺</div>
-            <div class="sim-zone-name">THE WORLD</div>
-            <div class="sim-zone-sub">Map &amp; IRL Quests</div>
+          <div class="sim-map-divider"></div>
+          <div class="sim-map-half sim-map-world">
+            <img src="../Images/map-world.png" alt="The World map" class="sim-map-img" onerror="this.style.display='none'">
+            <div class="sim-map-label">🗺 THE WORLD</div>
+          </div>
+          <!-- Centered CTA -->
+          <div class="sim-map-cta">
+            <button class="btn-primary sim-enter-btn" onclick="location.href='../world/'">▶ ENTER THE SIMULATION</button>
           </div>
         </div>
+
         <div class="sim-top3" id="simTop3">
           <div class="sim-top3-label">◈ TOP PLAYERS</div>
           <div id="simTop3List" class="sim-top3-list">
             <div class="sim-top3-loading">Loading...</div>
           </div>
         </div>
-        <button class="btn-primary sim-enter-btn" onclick="location.href='../world/'">▶ ENTER SIMULATION</button>
       </div>
 
       <!-- hidden legacy DOM stubs — required for JS compatibility, not displayed -->
