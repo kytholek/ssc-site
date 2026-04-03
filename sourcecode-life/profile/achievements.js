@@ -40,6 +40,8 @@ function redeemFounderCode(code) {
     return;
   }
   try { localStorage.setItem(LS_FOUNDER, 'true'); } catch(e) {}
+  // Sync founder status to cloud
+  try { if (typeof NativeMap !== 'undefined' && NativeMap.saveAchievements) NativeMap.saveAchievements(); } catch(e) {}
   if (okEl) okEl.textContent = '✦ FOUNDER STATUS UNLOCKED!';
   // Refresh badge display
   Achievements_render();
@@ -225,6 +227,8 @@ function _loadAchievements() {
 }
 function _saveAchievements(store) {
   try { localStorage.setItem(LS_ACHIEVEMENTS, JSON.stringify(store)); } catch(e) {}
+  // Sync to cloud so medals persist across devices
+  try { if (typeof NativeMap !== 'undefined' && NativeMap.saveAchievements) NativeMap.saveAchievements(); } catch(e) {}
 }
 
 /* ─────────────────────────────────────────────────────────────

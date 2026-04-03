@@ -121,6 +121,12 @@ window.NativeAuth = {
           const freqLog   = (typeof d.freqLog === 'object' && d.freqLog !== null) ? d.freqLog : {};
           NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel,
             JSON.stringify(statXP), JSON.stringify(freqLog));
+          // Restore achievements + founder status from cloud to localStorage
+          try {
+            if (d.achievements) localStorage.setItem('scl_achievements', typeof d.achievements === 'string' ? d.achievements : JSON.stringify(d.achievements));
+            if (d.founder === true) localStorage.setItem('scl_founder', 'true');
+            if (d.dailyStreak) localStorage.setItem('scl_daily_streak', typeof d.dailyStreak === 'string' ? d.dailyStreak : JSON.stringify(d.dailyStreak));
+          } catch(e) {}
         } else {
           console.log('[bridge] loadPlayer: no doc, sending to char create');
           NativeAuth_onLoadPlayerResult(false, uid, '', '', authEmail);
@@ -309,14 +315,21 @@ window.NativeMap = {
         { merge: true }
       ).catch(() => {});
     } catch(e) {}
-  }
-};
+  },
 
-/* ================================================
-   NativeAllies  (localStorage stub)
-   ================================================ */
-window.NativeAllies = {
-  searchByEmail(email) {
+  /** Sync achievements + founder status to Firestore. Called from achievements.js. */
+  saveAchievements() {
+    const user = _auth.currentUser;
+    if (!user) return;
+    try {
+      const achievements = localStorage.getItem('scl_achievements') || '{}';
+      const founder      = localStorage.getItem('scl_founder') === 'true';
+      const dailyStreak  = localStorage.getItem('scl_daily_streak') || '{}';
+      _db.collection('players').doc(user.uid).set(
+        { achievements, founder, dailyStreak, achievementsUpdated: Date.now() },
+        { merge: true }
+      ).catch(() => {});
+    } catch(e) {}
     setTimeout(() => NativeAllies_onSearchResult(false, '', '', '', '', ''), 0);
   },
   sendRequest(targetUid) {

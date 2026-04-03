@@ -882,7 +882,8 @@ function World_shareInvite() {
   // Standalone fallback — build minimal invite inline
   const player = _lsJson(LS_PLAYER, {});
   const code   = _worldGetReferCode(player);
-  const link   = `${location.origin}/sourcecode-life/profile/?ref=${code}`;
+  const myUid  = localStorage.getItem('scl_uid') || '';
+  const link   = `${location.origin}/sourcecode-life/profile/?ref=${code}${myUid ? '&uid=' + myUid : ''}`;
   const modal  = document.getElementById('worldInviteModal');
   if (!modal) return;
   modal.classList.remove('hidden');

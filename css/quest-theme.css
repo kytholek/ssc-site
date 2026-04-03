@@ -118,7 +118,8 @@ nav, .site-nav, #site-nav, [class*="nav-wrap"], [class*="navbar"] {
   92%      { opacity: 0.9; }
 }
 
-nav a, .nav-link, [class*="nav-links"] a {
+nav a, .nav-link, [class*="nav-links"] a,
+nav.nav-hero .nav-link, nav.nav-hero .nav-cta, nav.nav-hero a {
   font-family: 'Press Start 2P', monospace !important;
   font-size: 5px !important;
   letter-spacing: 1.5px !important;

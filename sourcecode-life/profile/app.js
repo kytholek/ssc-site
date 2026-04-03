@@ -141,9 +141,19 @@ function NativeAuth_onLoadPlayerResult(found, uid, name, dob, email) {
     const y = parseInt(parts[2], 10);
     currentUser = { uid, email };
     window._currentUid = uid;
+    try { localStorage.setItem('scl_uid', uid); } catch(e) {}
     playerData  = computeAll(m, d, y, name);
     saveLocalUser(email);
     saveLocalPlayer(playerData);
+    // Fire pending ally request for existing users who arrived via invite link
+    try {
+      const pendingUid = localStorage.getItem('scl_pending_inviter');
+      if (pendingUid && pendingUid !== uid && typeof NativeAllies !== 'undefined') {
+        localStorage.removeItem('scl_pending_inviter');
+        window._pendingInviterUid = null;
+        NativeAllies.sendRequest(pendingUid);
+      }
+    } catch(e) {}
     document.getElementById('authOverlay').classList.add('hidden');
     document.getElementById('charCreateOverlay').classList.add('hidden');
     setLoading('charLoading', false);
@@ -3061,26 +3071,43 @@ function _getReferCode() {
   return code;
 }
 
-/** Called on page load — activate 2× XP boost if ?ref= param present */
+/** Called on page load — activate 2× XP boost if ?ref= param present, store inviter UID */
 function _checkReferralParam() {
   try {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get('ref');
-    if (!ref) return;
-    // Don't let someone apply their own code
-    const myCode = localStorage.getItem(LS_REFER_CODE);
-    if (myCode && ref.toUpperCase() === myCode.toUpperCase()) return;
-    // Don't re-apply the same code
-    if (localStorage.getItem(LS_REFER_USED) === ref.toUpperCase()) return;
-    // Activate 48h boost
-    localStorage.setItem(_APP_XP_BOOST_KEY, String(Date.now() + 48 * 60 * 60 * 1000));
-    localStorage.setItem(LS_REFER_USED, ref.toUpperCase());
+    const inviterUid = params.get('uid');
+    if (!ref && !inviterUid) return;
+
+    // Store inviter UID so the ally request fires on login (new or existing user)
+    if (inviterUid) {
+      const myUid = localStorage.getItem('scl_uid');
+      if (!myUid || myUid !== inviterUid) {
+        localStorage.setItem('scl_pending_inviter', inviterUid);
+        window._pendingInviterUid = inviterUid;
+      }
+    }
+
+    if (ref) {
+      // Don't let someone apply their own code
+      const myCode = localStorage.getItem(LS_REFER_CODE);
+      if (myCode && ref.toUpperCase() === myCode.toUpperCase()) {
+        // Still clean URL
+      } else if (localStorage.getItem(LS_REFER_USED) === ref.toUpperCase()) {
+        // Already applied
+      } else {
+        // Activate 48h boost
+        localStorage.setItem(_APP_XP_BOOST_KEY, String(Date.now() + 48 * 60 * 60 * 1000));
+        localStorage.setItem(LS_REFER_USED, ref.toUpperCase());
+        setTimeout(() => _showBoostActivatedBanner(), 1800);
+      }
+    }
+
     // Clean URL without reload
     const url = new URL(window.location.href);
     url.searchParams.delete('ref');
+    url.searchParams.delete('uid');
     window.history.replaceState({}, '', url.toString());
-    // Show banner after a brief delay for the splash to clear
-    setTimeout(() => _showBoostActivatedBanner(), 1800);
   } catch(e) {}
 }
 
@@ -3132,7 +3159,8 @@ function _renderInviteModal() {
   const modal = document.getElementById('inviteModal');
   if (!modal) return;
   const code    = _getReferCode();
-  const link    = `${window.location.origin}/sourcecode-life/profile/?ref=${code}`;
+  const uid     = window._currentUid || localStorage.getItem('scl_uid') || '';
+  const link    = `${window.location.origin}/sourcecode-life/profile/?ref=${code}${uid ? '&uid=' + uid : ''}`;
   const p       = playerData;
   const name    = p?.name || localStorage.getItem('scl_player') && JSON.parse(localStorage.getItem('scl_player')).name || 'UNKNOWN';
   const lp      = p?.lp?.compound  ?? '?';
