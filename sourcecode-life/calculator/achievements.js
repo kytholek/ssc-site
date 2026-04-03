@@ -88,6 +88,23 @@ const ACHIEVEMENTS = [
     check: function(d) { return d.freqLevel >= 26; },
     progress: function(d) { return { val: Math.min(d.freqLevel, 26), max: 26 }; } },
 
+  // ── Social ───────────────────────────────────────────────
+  { id: 'irl_first', group: 'Social',
+    tier: 'bronze', medal: 'circle', color: 'var(--teal)',
+    title: 'I LIVE!',  desc: 'Complete your first IRL quest',
+    check: function(d) { return d.irlCompleted >= 1; },
+    progress: function(d) { return { val: Math.min(d.irlCompleted, 1), max: 1 }; } },
+  { id: 'quest_create_1', group: 'Social',
+    tier: 'bronze', medal: 'star5', color: 'var(--purple)',
+    title: 'NOT YOUR NORMAL NPC', desc: 'Create your first quest marker',
+    check: function(d) { return d.questsCreated >= 1; },
+    progress: function(d) { return { val: Math.min(d.questsCreated, 1), max: 1 }; } },
+  { id: 'social_10', group: 'Social',
+    tier: 'silver', medal: 'shield', color: 'var(--teal)',
+    title: 'SOCIALITE', desc: 'Reach Social Level 10 by completing IRL quests',
+    check: function(d) { return d.socialLevel >= 10; },
+    progress: function(d) { return { val: Math.min(d.socialLevel, 10), max: 10 }; } },
+
   // ── Individual Life Quest Mastery ────────────────────────
   { id: 'tier_lp', group: 'Life Mastery',
     tier: 'silver', medal: 'star5', color: 'var(--gold)',
@@ -182,7 +199,14 @@ function _buildAchievementData() {
     }
   } catch(e) {}
 
-  return { maxDailyStreak: maxDailyStreak, charLevel: charLevel, freqLevel: freqLevel, tiersDone: tiersDone, tierProgress: tierProgress };
+  // Social stats
+  const irlCompleted  = parseInt(localStorage.getItem('scl_irl_completed')  || '0') || 0;
+  const questsCreated = parseInt(localStorage.getItem('scl_quests_created') || '0') || 0;
+  const socialLevel   = irlCompleted; // 1 IRL quest = 1 social level
+
+  return { maxDailyStreak: maxDailyStreak, charLevel: charLevel, freqLevel: freqLevel,
+           tiersDone: tiersDone, tierProgress: tierProgress,
+           irlCompleted: irlCompleted, questsCreated: questsCreated, socialLevel: socialLevel };
 }
 
 /* ─────────────────────────────────────────────────────────────

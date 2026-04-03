@@ -1387,6 +1387,12 @@ function _doSubmitQuest(name, desc, locationName, lat, lng) {
 function NativeMap_onQuestSaved(success, questId) {
   document.getElementById('mqLoading').style.display = 'none';
   if (success) {
+    // Achievement hook — quest created
+    try {
+      const prev = parseInt(localStorage.getItem('scl_quests_created') || '0') || 0;
+      localStorage.setItem('scl_quests_created', prev + 1);
+      if (typeof Achievements_check === 'function') Achievements_check();
+    } catch(e) {}
     document.getElementById('mqSuccess').textContent = '✓ Quest marker placed on the map.';
     document.getElementById('mqSuccess').style.display = 'block';
     document.getElementById('mqName').value = '';

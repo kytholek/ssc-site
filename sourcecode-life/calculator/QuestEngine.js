@@ -1254,6 +1254,13 @@ function completeSideQuest(questId) {
     earnStatXP(statNum, STAT_XP_PER_QUEST[rn] || 5);
 
     renderSideQuests();
+
+    // Achievement hook — IRL quest completion
+    try {
+      const prev = parseInt(localStorage.getItem('scl_irl_completed') || '0') || 0;
+      localStorage.setItem('scl_irl_completed', prev + 1);
+      if (typeof Achievements_check === 'function') Achievements_check();
+    } catch(e) {}
   } catch(e) { console.error('completeSideQuest:', e); }
 }
 
