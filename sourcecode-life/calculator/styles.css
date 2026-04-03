@@ -5334,3 +5334,141 @@ body::after {
   font-family: 'Share Tech Mono', monospace;
   line-height: 1.5;
 }
+/* -- Achievements Page -------------------------------------- */
+.ach-page-header {
+  padding: 16px;
+  margin-bottom: 4px;
+}
+.ach-page-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.ach-page-count {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  margin-bottom: 8px;
+}
+.ach-page-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.ach-page-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.6s ease;
+}
+
+.ach-group-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  padding: 14px 16px 6px;
+}
+
+.ach-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 12px 8px;
+}
+
+.ach-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 3px;
+  background: var(--bg-alt, #0a0a0a);
+  transition: box-shadow 0.2s;
+}
+.ach-card--locked {
+  opacity: 0.5;
+}
+.ach-card--earned {
+  opacity: 1;
+}
+.ach-card--bronze { box-shadow: 0 0 6px var(--amber, #c8a028)18; }
+.ach-card--silver { box-shadow: 0 0 6px var(--silver, #888)18; }
+.ach-card--gold   { box-shadow: 0 0 8px var(--gold,   #c8a028)30; }
+.ach-card--platinum {
+  animation: ach-plat-shimmer 3s ease-in-out infinite;
+}
+
+.ach-card-medal {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+.ach-card-medal svg { display: block; }
+
+.ach-card-body {
+  flex: 1;
+  min-width: 0;
+}
+.ach-card-tier {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.ach-card-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.ach-card-desc {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace;
+  line-height: 1.5;
+}
+.ach-card-date {
+  font-size: 8px;
+  color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+/* Progress bar (for locked achievements) */
+.ach-card-prog-wrap {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.ach-card-prog-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+.ach-card-prog-label {
+  font-size: 8px;
+  color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace;
+  margin-top: 3px;
+}
+
+/* Banner SVG container */
+.ach-banner-svg {
+  margin: 4px auto 6px;
+  display: flex;
+  justify-content: center;
+}
+
+/* char-medal SVG sizing override */
+.ach-medal-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
