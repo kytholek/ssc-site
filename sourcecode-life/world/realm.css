@@ -76,7 +76,7 @@
 
 /* --- Map container --- */
 .map-rpg-panel .panel-body { padding: 0; overflow: hidden; }
-#realmMapContainer { width: 100%; height: 240px; }
+#realmMapContainer { width: 100%; height: 420px; }
 #realmLeafletMap   { width: 100%; height: 100%; }
 
 /* --- Active quests section --- */
@@ -126,18 +126,87 @@
 
 /* Active quest row */
 .aq-row {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: flex-start; gap: 8px;
   padding: 9px 16px;
   border-bottom: 1px solid var(--border);
   font-size: 14px; color: var(--text);
 }
 .aq-row:last-child { border-bottom: none; }
 .aq-empty { padding: 10px 16px; font-size: 14px; color: var(--text-dim); }
-.aq-name { flex: 1; }
+.aq-icon { flex-shrink: 0; padding-top: 1px; }
+.aq-info { flex: 1; min-width: 0; }
+.aq-name { font-size: 14px; color: var(--text); }
+.aq-desc { font-size: 11px; color: var(--text-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aq-cancel-btn {
+  flex-shrink: 0;
+  background: none; border: 1px solid var(--border); color: var(--text-dim);
+  font-size: 12px; padding: 2px 6px; cursor: pointer; border-radius: 2px;
+}
+.aq-cancel-btn:hover { border-color: var(--red); color: var(--red); }
 .aq-complete-btn {
   background: var(--teal-muted); border: 1px solid var(--teal-dim); color: var(--teal);
   font-family: var(--font-pixel); font-size: 14px; padding: 5px 8px; cursor: pointer;
 }
+
+/* --- Boost chip --- */
+.boost-chip {
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.boost-chip--active {
+  color: var(--gold, #f0c060);
+  background: rgba(240,192,96,0.08);
+  border: 1px solid rgba(240,192,96,0.25);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+/* --- Invite modal --- */
+.invite-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+.invite-modal-box {
+  background: var(--bg-panel); border: 1px solid var(--border-glow, var(--border));
+  padding: 24px; max-width: 340px; width: 92%; position: relative;
+}
+.invite-modal-title {
+  font-family: var(--font-pixel); font-size: 14px; color: var(--teal); margin-bottom: 6px;
+}
+.invite-modal-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 14px; }
+.invite-modal-close {
+  position: absolute; top: 10px; right: 12px; background: none; border: none;
+  color: var(--text-dim); cursor: pointer; font-size: 14px;
+}
+.invite-modal-close:hover { color: var(--text); }
+.invite-char-card {
+  background: var(--bg-inset); border: 1px solid var(--border);
+  padding: 14px; margin-bottom: 14px; text-align: center;
+}
+.invite-char-name {
+  font-family: var(--font-pixel); font-size: 16px; color: var(--text); margin-bottom: 4px;
+}
+.invite-char-arch { font-size: 10px; color: var(--text-dim); margin-bottom: 10px; letter-spacing: 1px; }
+.invite-char-nums { display: flex; justify-content: center; gap: 16px; margin-bottom: 10px; }
+.invite-num-cell { text-align: center; }
+.invite-num-val { font-family: 'VT323', monospace; font-size: 26px; color: var(--gold, #f0c060); line-height: 1; }
+.invite-num-lbl { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
+.invite-char-code { font-size: 11px; color: var(--teal); letter-spacing: 2px; }
+.invite-link-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.invite-link-input {
+  flex: 1; font-size: 11px; background: var(--bg-inset); border: 1px solid var(--border);
+  color: var(--text-dim); padding: 6px 8px; min-width: 0;
+}
+.invite-copy-btn {
+  background: var(--bg-inset); border: 1px solid var(--border); color: var(--teal);
+  font-family: var(--font-pixel); font-size: 11px; padding: 0 10px; cursor: pointer; white-space: nowrap;
+}
+.invite-copy-btn:hover { border-color: var(--teal); }
+.invite-copy-status { font-size: 10px; color: var(--teal); margin-bottom: 8px; min-height: 14px; }
+.invite-share-btn { width: 100%; margin-top: 4px; }
 
 /* --- Rank rows --- */
 .rank-row {
@@ -276,6 +345,10 @@
    DIGITAL WORLD MAP
    ----------------------------------------------------- */
 
+/* Space below sticky section-toggle so content doesn't hide under it on scroll */
+.tab-panel .section-toggle + * { margin-top: 22px; }
+#hubWorldView { margin-top: 22px; }
+
 /* Map container inside the rpg-panel */
 .dmap-panel .panel-label { border-bottom: none; }
 
@@ -299,7 +372,7 @@
 #digitalMapContainer {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 420px;
   background: #04121e;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
@@ -392,6 +465,14 @@
   color: var(--gold);
   text-shadow: 0 0 8px var(--gold);
 }
+/* User-created quest marker on the world (geo) map */
+.dmap-marker--user .dmap-pulse {
+  border-color: var(--rose);
+}
+.dmap-marker--user .dmap-icon {
+  color: var(--rose);
+  text-shadow: 0 0 8px var(--rose);
+}
 
 /* --- RPG Popup --- */
 .dmap-leaflet-popup .leaflet-popup-content-wrapper {
@@ -432,6 +513,13 @@
   line-height: 1.5;
   margin-bottom: 6px;
 }
+.dmap-popup-objs {
+  margin: 4px 0 8px;
+  padding-left: 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.dmap-popup-objs li { margin-bottom: 2px; }
 .dmap-popup-platform {
   display: inline-block;
   background: var(--bg-inset);

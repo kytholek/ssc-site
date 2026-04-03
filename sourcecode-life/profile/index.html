@@ -516,16 +516,20 @@
       </div>
 
       <!-- hidden legacy DOM stubs — required for JS compatibility, not displayed -->
+      <!-- Invite Modal -->
+      <div id="inviteModal" class="hidden"></div>
+
       <div id="sectionMapAllies"    class="hidden">
         <div class="rpg-panel" style="margin-bottom:14px;">
           <div class="panel-label c-teal">◈ ALLIES &amp; CONNECTIONS</div>
           <div class="panel-body">
-            <div style="font-size:10px;color:var(--text-dim);margin-bottom:12px;line-height:1.6;">
-              Connect with other players to see their frequencies and progress.
+            <!-- Boost status -->
+            <div id="allyBoostStatus" class="ally-boost-status" style="margin-bottom:12px;">
+              <span class="boost-chip">Invite an ally to earn 2× XP for 48 hours</span>
             </div>
             <button class="btn-primary" onclick="shareInviteLink()"
                     style="border-color:var(--teal-dim);color:var(--teal);margin-bottom:16px;">
-              ▶ SHARE YOUR INVITE LINK
+              ◈ INVITE AN ALLY
             </button>
             <div class="field-group">
               <label class="field-label">FIND ALLY BY EMAIL</label>

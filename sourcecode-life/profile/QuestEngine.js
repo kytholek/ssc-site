@@ -217,28 +217,42 @@ function _xpForNext(lvl) { return lvl >= MAX_LEVEL ? 0 : LEVEL_XP_TABLE[lvl + 1]
 /* ─────────────────────────────────────────────────────────────
    EARN XP — public API
    ───────────────────────────────────────────────────────────── */
+/* ── XP Boost (referral 2× for 48 h) ── */
+const LS_XP_BOOST = 'scl_xp_boost_until';
+function _getXpMultiplier() {
+  try {
+    const until = parseInt(localStorage.getItem(LS_XP_BOOST) || '0', 10);
+    return (until && Date.now() < until) ? 2 : 1;
+  } catch(e) { return 1; }
+}
+
 function earnCharXP(amount) {
   if (_charLevel >= MAX_LEVEL) return;
+  const mult   = _getXpMultiplier();
+  const boosted = Math.round(amount * mult);
   const prev = _charLevel;
-  _charXP    = Math.min(_charXP + amount, LEVEL_XP_TABLE[MAX_LEVEL]);
+  _charXP    = Math.min(_charXP + boosted, LEVEL_XP_TABLE[MAX_LEVEL]);
   _charLevel = _xpToLevel(_charXP);
   _saveToStorage(); _syncToFirestore();
   _renderCharLevelBar();
-  _floatXP(amount, 'charLevelTrack', 'var(--gold)');
+  _floatXP(boosted, 'charLevelTrack', 'var(--gold)');
+  if (mult > 1) _xpToast('+' + boosted + ' CHAR XP ✦ 2× BOOST', 'var(--gold)');
   if (_charLevel > prev) _levelUpBanner('CHARACTER', _charLevel);
   try { if (typeof Achievements_check === 'function') Achievements_check(); } catch(e) {}
 }
 
 function earnFreqXP(amount) {
   if (_freqLevel >= MAX_LEVEL) { console.warn('[QuestEngine] earnFreqXP blocked: MAX_LEVEL reached'); return; }
+  const mult    = _getXpMultiplier();
+  const boosted = Math.round(amount * mult);
   const prev = _freqLevel;
-  _freqXP    = Math.min(_freqXP + amount, LEVEL_XP_TABLE[MAX_LEVEL]);
+  _freqXP    = Math.min(_freqXP + boosted, LEVEL_XP_TABLE[MAX_LEVEL]);
   _freqLevel = _xpToLevel(_freqXP);
   _saveToStorage(); _syncToFirestore();
   _renderFreqLevelBar();
-  _floatXP(amount, 'freqLevelTrack', 'var(--teal)');
-  _floatXP(amount, 'questFreqLevelTrack', 'var(--teal)');
-  _xpToast('+' + amount + ' FREQ XP', 'var(--teal)');
+  _floatXP(boosted, 'freqLevelTrack', 'var(--teal)');
+  _floatXP(boosted, 'questFreqLevelTrack', 'var(--teal)');
+  _xpToast('+' + boosted + ' FREQ XP' + (mult > 1 ? ' ✦ 2× BOOST' : ''), 'var(--teal)');
   if (_freqLevel > prev) _levelUpBanner('FREQUENCY', _freqLevel);
   try { if (typeof Achievements_check === 'function') Achievements_check(); } catch(e) {}
 }

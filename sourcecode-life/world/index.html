@@ -65,7 +65,7 @@
     <div class="content-area">
 
       <!-- Map / zone toggle -->
-      <div class="section-toggle" style="margin-bottom:14px;">
+      <div class="section-toggle">
         <button class="section-btn active" data-map="digital" onclick="Hub_switchMap('digital')">◈ THE DIGITAL</button>
         <button class="section-btn"        data-map="world"   onclick="Hub_switchMap('world')">🗺 THE WORLD</button>
       </div>
@@ -151,11 +151,25 @@
     <!-- ─ ALLIES ─ -->
     <div class="social-sub-panel hidden" data-sub="allies">
       <div class="content-area">
+        <!-- Invite modal (rendered by JS) -->
+        <div id="worldInviteModal" class="hidden"></div>
+        <div class="rpg-panel">
+          <div class="panel-label c-teal">◈ INVITE AN ALLY</div>
+          <div class="panel-body">
+            <div id="worldBoostStatus" class="ally-boost-status" style="margin-bottom:12px;">
+              <span class="boost-chip">Invite an ally to earn 2× XP for 48 hours</span>
+            </div>
+            <button class="btn-primary" onclick="World_shareInvite()"
+                    style="border-color:var(--teal-dim);color:var(--teal)">
+              ◈ SHARE INVITE LINK
+            </button>
+          </div>
+        </div>
         <div class="rpg-panel">
           <div class="panel-label c-teal">◈ ALLIED PLAYERS</div>
           <div class="panel-body">
             <div class="allies-card-grid" id="alliesCardGrid">
-              <div class="allies-empty">No allies yet. Connect with players via the app.</div>
+              <div class="allies-empty">No allies yet. Invite players using the link above.</div>
             </div>
           </div>
         </div>
@@ -285,8 +299,15 @@
             <button class="btn-primary" onclick="wSubmitQuest()" style="margin-top:4px;">▶ DROP QUEST MARKER</button>
           </div>
         </div>
-      </div>
-    </div>
+
+        <!-- My Created Quests -->
+        <div class="rpg-panel" id="wMyQuestsPanel">
+          <div class="panel-label c-teal">◈ MY QUESTS</div>
+          <div class="panel-body" id="wMyQuestsList">
+            <div class="aq-empty">No quests created yet.</div>
+          </div>
+        </div>
+      </div><!-- /content-area -->
 
   </div><!-- /wPanel_social -->
 

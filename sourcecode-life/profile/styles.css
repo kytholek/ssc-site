@@ -44,12 +44,12 @@
    FANTASY THEME OVERRIDES
    ================================================ */
 [data-theme="fantasy"] {
-  --bg-deep:      #f5edd8;
-  --bg-panel:     #fdf6e3;
-  --bg-panel2:    #f9f0d0;
-  --bg-inset:     #ede0c0;
-  --border:       #c9aa72;
-  --border-glow:  #a07840;
+  --bg-deep:      #0c0d1e;
+  --bg-panel:     #e8d4a0;
+  --bg-panel2:    #dfc88e;
+  --bg-inset:     #d4b87a;
+  --border:       #c9943a;
+  --border-glow:  #e8c060;
   --gold:         #8b5e1a;
   --gold-bright:  #6b3e0a;
   --gold-dim:     #b08040;
@@ -84,11 +84,12 @@
 [data-theme="fantasy"] body::after  { display: none; }
 [data-theme="fantasy"] .scanline    { display: none; }
 
-/* Fantasy: parchment body texture */
+/* Fantasy: midnight backdrop with faint gold star-field */
 [data-theme="fantasy"] body {
   background: var(--bg-deep);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    radial-gradient(ellipse at 50% 10%, rgba(201,148,58,0.07) 0%, transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Ccircle cx='30' cy='25' r='1' fill='%23c9a84c' opacity='0.20'/%3E%3Ccircle cx='120' cy='10' r='0.8' fill='%23c9a84c' opacity='0.14'/%3E%3Ccircle cx='200' cy='45' r='1.2' fill='%23c9a84c' opacity='0.18'/%3E%3Ccircle cx='85' cy='80' r='0.7' fill='%23c9a84c' opacity='0.10'/%3E%3Ccircle cx='250' cy='70' r='1' fill='%23c9a84c' opacity='0.15'/%3E%3Ccircle cx='40' cy='150' r='0.9' fill='%23c9a84c' opacity='0.12'/%3E%3Ccircle cx='160' cy='130' r='1.1' fill='%23c9a84c' opacity='0.09'/%3E%3Ccircle cx='270' cy='160' r='0.8' fill='%23c9a84c' opacity='0.16'/%3E%3Ccircle cx='70' cy='220' r='1' fill='%23c9a84c' opacity='0.13'/%3E%3Ccircle cx='190' cy='250' r='0.9' fill='%23c9a84c' opacity='0.11'/%3E%3Ccircle cx='280' cy='280' r='1.1' fill='%23c9a84c' opacity='0.15'/%3E%3Ccircle cx='10' cy='280' r='0.8' fill='%23c9a84c' opacity='0.10'/%3E%3C/svg%3E");
   color: var(--text);
   font-family: 'IM Fell English', 'Palatino Linotype', Georgia, serif;
 }
@@ -344,10 +345,10 @@
    UNICORN THEME OVERRIDES
    ================================================ */
 [data-theme="unicorn"] {
-  --bg-deep:      #fdf0ff;
-  --bg-panel:     #fef7ff;
-  --bg-panel2:    #faeeff;
-  --bg-inset:     #f5e6ff;
+  --bg-deep:      #f7e8dc;
+  --bg-panel:     #fdf0e8;
+  --bg-panel2:    #fae4d8;
+  --bg-inset:     #f2d8cc;
   --border:       #e0b8f5;
   --border-glow:  #d090f0;
   --gold:         #c060d0;
@@ -384,14 +385,9 @@
 [data-theme="unicorn"] body::after  { display: none; }
 [data-theme="unicorn"] .scanline    { display: none; }
 
-/* Fairy: dreamy gradient background with sparkle texture */
+/* Fairy: solid warm beige-pink background for readability */
 [data-theme="unicorn"] body {
   background: var(--bg-deep);
-  background-image:
-    radial-gradient(ellipse at 20% 0%,   rgba(224,64,251,0.10) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 10%,  rgba(124,77,255,0.10) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, rgba(255,110,180,0.08) 0%, transparent 55%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='20'  cy='30'  r='1' fill='%23e040fb' opacity='0.4'/%3E%3Ccircle cx='80'  cy='10'  r='0.8' fill='%237c4dff' opacity='0.5'/%3E%3Ccircle cx='150' cy='60'  r='1.2' fill='%23ff6eb4' opacity='0.4'/%3E%3Ccircle cx='50'  cy='120' r='0.7' fill='%23e040fb' opacity='0.3'/%3E%3Ccircle cx='170' cy='140' r='1'   fill='%237c4dff' opacity='0.4'/%3E%3Ccircle cx='110' cy='80'  r='0.9' fill='%2300bcd4' opacity='0.35'/%3E%3Ccircle cx='30'  cy='170' r='1.1' fill='%23ff80ab' opacity='0.4'/%3E%3Ccircle cx='140' cy='190' r='0.8' fill='%23e040a0' opacity='0.3'/%3E%3C/svg%3E");
   color: var(--text);
   font-family: 'VT323', monospace;
 }
@@ -628,7 +624,7 @@
 
 /* Fantasy: field input */
 [data-theme="fantasy"] .field-input {
-  background: #fef8e8;
+  background: #e0c98a;
   border-color: var(--border);
   color: var(--text);
 }
@@ -4952,7 +4948,7 @@ body::after {
   border-width: 2px !important;
   border-color: var(--gold-dim) !important;
   background: linear-gradient(160deg,
-    #fdf6e3 0%, #f9f0d0 60%, #f5edd8 100%
+    #e8d4a0 0%, #dfc88e 60%, #d4b87a 100%
   ) !important;
   box-shadow:
     0 0 0 1px rgba(200,170,100,0.2) inset,
@@ -5103,7 +5099,7 @@ body::after {
 
 /* ── Stat benefits panel — parchment scroll ── */
 [data-theme="fantasy"] .stat-benefits-panel {
-  background: linear-gradient(160deg, #fdf6e3, #f9f0d0) !important;
+  background: linear-gradient(160deg, #e8d4a0, #d4b87a) !important;
   border-color: var(--border) !important;
   box-shadow: 2px 4px 12px rgba(80,40,0,0.12) !important;
 }
@@ -5875,3 +5871,234 @@ body::after {
 }
 .side-world-quest-icon { font-size: 14px; }
 .side-world-quest-id   { flex: 1; }
+/* ════════════════════════════════════════════════════════════
+   FF9 FANTASY — Dark Outer / Parchment Inner
+   Deep midnight backdrop; parchment lives inside the panels.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── App header — dark navy with gold border ── */
+[data-theme="fantasy"] .app-header {
+  background: linear-gradient(180deg, #0f1025 0%, #0c0d1e 100%);
+  border-bottom: 2px solid rgba(201,148,58,0.4);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+[data-theme="fantasy"] .header-wordmark {
+  color: var(--border-glow);
+  text-shadow: 0 0 20px rgba(232,192,96,0.35);
+}
+[data-theme="fantasy"] .header-sub {
+  color: rgba(201,148,58,0.5);
+}
+[data-theme="fantasy"] .header-divider { display: none; }
+
+/* ── Tab bar — dark with gold active indicator ── */
+[data-theme="fantasy"] .tab-bar {
+  background: #090a17;
+  border-bottom: 2px solid rgba(201,148,58,0.3);
+}
+[data-theme="fantasy"] .tab-btn {
+  color: rgba(201,148,58,0.42);
+  text-shadow: none;
+}
+[data-theme="fantasy"] .tab-btn:hover {
+  color: rgba(232,192,96,0.75);
+  background: rgba(201,148,58,0.05);
+}
+[data-theme="fantasy"] .tab-btn.active {
+  color: var(--border-glow);
+  background: rgba(201,148,58,0.07);
+  text-shadow: 0 0 14px rgba(232,192,96,0.3);
+}
+[data-theme="fantasy"] .tab-btn.active::after {
+  background: var(--border-glow);
+  box-shadow: 0 0 8px rgba(232,192,96,0.5);
+}
+
+/* ── Scrollbar — dark track, amber thumb ── */
+[data-theme="fantasy"] ::-webkit-scrollbar-track { background: #07080f; }
+[data-theme="fantasy"] ::-webkit-scrollbar-thumb {
+  background: rgba(201,148,58,0.38);
+  border-radius: 0;
+}
+[data-theme="fantasy"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(232,192,96,0.6);
+}
+
+/* ── Panels — FF9 double-border frame ── */
+[data-theme="fantasy"] .rpg-panel {
+  background: linear-gradient(160deg, #e8d4a0 0%, #dfc88e 60%, #d4b87a 100%);
+  border: 2px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(232,192,96,0.28) inset,
+    0 0 0 5px rgba(201,148,58,0.07) inset,
+    4px 8px 32px rgba(0,0,0,0.55),
+    0 1px 0 rgba(255,240,190,0.06);
+  margin-bottom: 16px;
+}
+/* Inner border frame — the second line of the FF9 double-border */
+[data-theme="fantasy"] .rpg-panel::before {
+  display: block;
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(201,148,58,0.2);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Auth / char-create modal — parchment lifted on dark ── */
+[data-theme="fantasy"] .auth-modal,
+[data-theme="fantasy"] .char-create-modal {
+  background: linear-gradient(160deg, #e8d4a0 0%, #dfc88e 70%, #d4b87a 100%);
+  border: 2px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(232,192,96,0.22) inset,
+    0 0 0 5px rgba(201,148,58,0.07) inset,
+    6px 14px 56px rgba(0,0,0,0.7),
+    0 0 80px rgba(201,148,58,0.05);
+}
+
+/* ── Main quest card — parchment scroll on dark ── */
+[data-theme="fantasy"] .main-quest-card {
+  background: linear-gradient(160deg, #e8d4a0 0%, #d4b87a 100%);
+  border: 2px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(232,192,96,0.2) inset,
+    4px 8px 28px rgba(0,0,0,0.5);
+}
+[data-theme="fantasy"] .main-quest-card::before { display: none; }
+
+/* ── Journal strips & quest cards ── */
+[data-theme="fantasy"] .journal-strip,
+[data-theme="fantasy"] .quest-card {
+  background: linear-gradient(160deg, #e8d4a0 0%, #d4b87a 100%);
+  border: 1px solid rgba(201,148,58,0.5);
+  box-shadow: 2px 4px 16px rgba(0,0,0,0.4);
+}
+
+/* ── Section toggle on dark content bg ── */
+[data-theme="fantasy"] .section-toggle {
+  background: rgba(201,148,58,0.07);
+  border-color: rgba(201,148,58,0.28);
+}
+
+/* ── Reflection textarea — parchment in dark ── */
+[data-theme="fantasy"] .fq-reflection-textarea {
+  background: #e0c98a;
+  border-color: var(--border);
+  color: var(--text);
+  font-family: 'IM Fell English', Georgia, serif;
+}
+[data-theme="fantasy"] .fq-reflection-textarea:focus {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 8px rgba(232,192,96,0.2);
+}
+[data-theme="fantasy"] .strip-reflection-entry {
+  background: rgba(253,246,227,0.05);
+  border-left-color: var(--border);
+}
+
+/* ── FF9: medals — transparent, show icon only ── */
+[data-theme="fantasy"] .ach-medal {
+  background: transparent;
+  backdrop-filter: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-theme="fantasy"] .ach-medal:hover {
+  background: rgba(201,148,58,0.08);
+}
+
+/* ── FF9: core frequency blocks — transparent, numbers only ── */
+[data-theme="fantasy"] .core-num-block {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Unicorn: medals — transparent, show icon only ── */
+[data-theme="unicorn"] .ach-medal {
+  background: transparent;
+  backdrop-filter: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-theme="unicorn"] .ach-medal:hover {
+  background: rgba(192,96,208,0.08);
+}
+
+/* ── Unicorn: core frequency blocks — transparent, numbers only ── */
+[data-theme="unicorn"] .core-num-block {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* -- Boost Banner -- */
+@keyframes boostSlideUp {
+  from { bottom: -80px; opacity: 0; }
+  to   { bottom: 24px;  opacity: 1; }
+}
+.boost-banner {
+  position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%);
+  background: var(--bg-panel); border: 1px solid var(--gold, #f0c060);
+  padding: 14px 24px; z-index: 600; text-align: center; white-space: nowrap;
+  font-family: var(--font-pixel); font-size: 13px; color: var(--gold, #f0c060);
+  pointer-events: none;
+}
+.boost-banner--visible {
+  animation: boostSlideUp 0.4s ease forwards;
+}
+
+/* -- Boost Chip (inline in allies panel) -- */
+.ally-boost-status { padding: 6px 0; }
+.boost-chip {
+  display: inline-block; font-family: var(--font-pixel); font-size: 10px;
+  color: var(--text-dim); letter-spacing: 0.5px;
+}
+.boost-chip--active {
+  color: var(--gold, #f0c060);
+  background: rgba(240,192,96,0.08);
+  border: 1px solid rgba(240,192,96,0.25);
+  padding: 3px 8px; border-radius: 2px;
+}
+
+/* -- Invite Modal -- */
+.invite-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+.invite-modal-box {
+  background: var(--bg-panel); border: 1px solid var(--border-glow, var(--border));
+  padding: 24px; max-width: 340px; width: 92%; position: relative;
+}
+.invite-modal-title { font-family: var(--font-pixel); font-size: 14px; color: var(--teal); margin-bottom: 6px; }
+.invite-modal-sub   { font-size: 11px; color: var(--text-dim); margin-bottom: 14px; }
+.invite-modal-close {
+  position: absolute; top: 10px; right: 12px; background: none; border: none;
+  color: var(--text-dim); cursor: pointer; font-size: 14px;
+}
+.invite-modal-close:hover { color: var(--text); }
+.invite-char-card {
+  background: var(--bg-inset); border: 1px solid var(--border);
+  padding: 14px; margin-bottom: 14px; text-align: center;
+}
+.invite-char-name  { font-family: var(--font-pixel); font-size: 16px; color: var(--text); margin-bottom: 4px; }
+.invite-char-arch  { font-size: 10px; color: var(--text-dim); margin-bottom: 10px; letter-spacing: 1px; }
+.invite-char-nums  { display: flex; justify-content: center; gap: 16px; margin-bottom: 10px; }
+.invite-num-cell   { text-align: center; }
+.invite-num-val    { font-family: 'VT323', monospace; font-size: 28px; color: var(--gold, #f0c060); line-height: 1; }
+.invite-num-lbl    { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
+.invite-char-code  { font-size: 11px; color: var(--teal); letter-spacing: 2px; }
+.invite-link-row   { display: flex; gap: 6px; margin-bottom: 6px; }
+.invite-link-input {
+  flex: 1; font-size: 11px; background: var(--bg-inset); border: 1px solid var(--border);
+  color: var(--text-dim); padding: 6px 8px; min-width: 0;
+}
+.invite-copy-btn {
+  background: var(--bg-inset); border: 1px solid var(--border); color: var(--teal);
+  font-family: var(--font-pixel); font-size: 11px; padding: 0 10px; cursor: pointer; white-space: nowrap;
+}
+.invite-copy-btn:hover { border-color: var(--teal); }
+.invite-copy-status { font-size: 10px; color: var(--teal); margin-bottom: 8px; min-height: 14px; }
+.invite-share-btn  { width: 100%; margin-top: 4px; }

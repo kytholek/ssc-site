@@ -131,6 +131,20 @@ function _questAutoComplete(q) {
 /* ═══════════════════════════════════════════════
    REALM INIT
    ═══════════════════════════════════════════════ */
+function _autoCheckWorldQuests() {
+  const realmQ = _lsJson(LS_REALM_Q, {});
+  let updated = false;
+  REALM_ZONES.world.quests.forEach(q => {
+    if (realmQ[q.id]) return;
+    if (!q.selfReport && _questAutoComplete(q)) {
+      realmQ[q.id] = true;
+      updated = true;
+    }
+  });
+  if (updated) _lsSet(LS_REALM_Q, realmQ);
+  return updated;
+}
+
 function Realm_init() {
   // Apply saved theme
   const theme = _ls(LS_THEME, 'scifi');
@@ -141,16 +155,7 @@ function Realm_init() {
   if (nameEl) nameEl.textContent = getPlayerName();
 
   // Auto-complete world quests based on existing counters
-  const realmQ = _lsJson(LS_REALM_Q, {});
-  let updated = false;
-  REALM_ZONES.world.quests.forEach(q => {
-    if (realmQ[q.id]) return; // already done
-    if (!q.selfReport && _questAutoComplete(q)) {
-      realmQ[q.id] = true;
-      updated = true;
-    }
-  });
-  if (updated) _lsSet(LS_REALM_Q, realmQ);
+  _autoCheckWorldQuests();
 
   // Handle hash navigation
   const hash = window.location.hash.replace('#', '');
@@ -493,15 +498,33 @@ function _renderActiveQuests() {
   const el = document.getElementById('activeQuestsList');
   if (!el) return;
   const accepted = _lsJson(LS_ACCEPTED, {});
-  const ids = Object.keys(accepted).filter(k => accepted[k]);
-  if (!ids.length) {
-    el.innerHTML = '<div class="aq-empty">No active quests. Create a quest below or accept one from the map.</div>';
+  const entries = Object.values(accepted).filter(v => v && v.status === 'active');
+  if (!entries.length) {
+    el.innerHTML = '<div class="aq-empty">No active quests. Accept one from the map markers below.</div>';
     return;
   }
-  el.innerHTML = ids.map(id => `<div class="aq-row">
-    <span class="aq-icon">🗺</span>
-    <span class="aq-name">${id}</span>
-  </div>`).join('');
+  const typeIcons = { exploration:'🗺', connection:'⚔', achievement:'▲', healing:'✦', creation:'◈', reflection:'◇' };
+  el.innerHTML = entries.map(q => {
+    const icon = typeIcons[q.type] || '◈';
+    const name = q.name || q.questId || q.id || 'Quest';
+    const desc = q.desc || q.description || '';
+    const id   = q.questId || q.id;
+    return `<div class="aq-row">
+      <span class="aq-icon">${icon}</span>
+      <div class="aq-info">
+        <div class="aq-name">${name}</div>
+        ${desc ? `<div class="aq-desc">${desc}</div>` : ''}
+      </div>
+      <button class="aq-cancel-btn" onclick="_cancelAcceptedQuest('${id}')" title="Remove from log">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function _cancelAcceptedQuest(questId) {
+  const accepted = _lsJson(LS_ACCEPTED, {});
+  delete accepted[questId];
+  _lsSet(LS_ACCEPTED, accepted);
+  _renderActiveQuests();
 }
 
 /* ─── Leaflet world map ─── */
@@ -514,6 +537,7 @@ const MAP_THEMES = {
 function _initWorldMap() {
   if (window._realmMapInstance) {
     setTimeout(() => window._realmMapInstance.invalidateSize(), 50);
+    _loadUserQuestMarkers(window._realmMapInstance);
     return;
   }
   const el = document.getElementById('realmLeafletMap');
@@ -523,7 +547,97 @@ function _initWorldMap() {
   const map = L.map('realmLeafletMap', { center: [20, 0], zoom: 3 });
   L.tileLayer(cfg.tile, { attribution: cfg.attrib, maxZoom: 19 }).addTo(map);
   window._realmMapInstance = map;
-  setTimeout(() => map.invalidateSize(), 100);
+  setTimeout(() => {
+    map.invalidateSize();
+    _loadUserQuestMarkers(map);
+  }, 100);
+}
+
+const _userQuestMarkers = new Map(); // id → Leaflet marker
+
+function _loadUserQuestMarkers(map) {
+  const quests = _lsJson('scl_my_quests', []);
+  quests.forEach(q => {
+    if (q.coords && !_userQuestMarkers.has(q.id)) {
+      _addUserQuestMarker(map, q);
+    }
+  });
+}
+
+function _addUserQuestMarker(map, q) {
+  if (!q.coords || !map) return;
+  const typeIcons = { exploration:'🗺', connection:'⚔', achievement:'▲', healing:'✦', creation:'◈', reflection:'◇' };
+  const icon = L.divIcon({
+    html: `<div class="dmap-marker dmap-marker--user" title="${q.name}">
+             <div class="dmap-pulse"></div>
+             <span class="dmap-icon">${typeIcons[q.type] || '◈'}</span>
+           </div>`,
+    className: '',
+    iconSize:  [36, 36],
+    iconAnchor:[18, 18],
+  });
+  const diffLabel = ['', 'APPRENTICE', 'ADEPT', 'MASTER'][q.diff] || '';
+  const objsHtml  = q.objs && q.objs.length
+    ? '<ul class="dmap-popup-objs">' + q.objs.map(o => `<li>${o}</li>`).join('') + '</ul>'
+    : '';
+  const safeId = q.id.replace(/'/g, '');
+  const popupHtml = _buildUserQuestPopup(q, safeId, objsHtml, diffLabel);
+  const m = L.marker([q.coords.lat, q.coords.lng], { icon })
+    .addTo(map)
+    .bindPopup(popupHtml, { maxWidth: 220, className: 'dmap-leaflet-popup', closeButton: false });
+  _userQuestMarkers.set(q.id, m);
+}
+
+function _buildUserQuestPopup(q, safeId, objsHtml, diffLabel) {
+  const accepted = _lsJson(LS_ACCEPTED, {});
+  const alreadyAccepted = !!(accepted[safeId] && accepted[safeId].status === 'active');
+  const acceptBtn = alreadyAccepted
+    ? '<div class="dmap-popup-done">✓ IN YOUR QUEST LOG</div>'
+    : `<button class="dmap-popup-btn" onclick="_worldAcceptUserQuest('${safeId}')">▶ ACCEPT QUEST</button>`;
+  return `
+    <div class="dmap-popup">
+      <div class="dmap-popup-loc">${q.location || ''}</div>
+      <div class="dmap-popup-name">${q.name}</div>
+      ${q.desc ? `<div class="dmap-popup-desc">${q.desc}</div>` : ''}
+      ${objsHtml || ''}
+      <div class="dmap-popup-platform">${diffLabel ? diffLabel + ' · ' : ''}${q.seeker ? q.seeker.toUpperCase() : ''}</div>
+      ${acceptBtn}
+    </div>`;
+}
+
+function _worldAcceptUserQuest(questId) {
+  const quests  = _lsJson('scl_my_quests', []);
+  const quest   = quests.find(q => q.id === questId) || { id: questId, name: questId, type: 'exploration' };
+  const accepted = _lsJson(LS_ACCEPTED, {});
+  if (accepted[questId]?.status === 'active') return;
+  accepted[questId] = { ...quest, questId, acceptedAt: Date.now(), status: 'active' };
+  _lsSet(LS_ACCEPTED, accepted);
+  // Refresh popup to show accepted state
+  const m = _userQuestMarkers.get(questId);
+  if (m) {
+    const typeIcons = { exploration:'🗺', connection:'⚔', achievement:'▲', healing:'✦', creation:'◈', reflection:'◇' };
+    const objsHtml = quest.objs && quest.objs.length
+      ? '<ul class="dmap-popup-objs">' + quest.objs.map(o => `<li>${o}</li>`).join('') + '</ul>'
+      : '';
+    const diffLabel = ['', 'APPRENTICE', 'ADEPT', 'MASTER'][quest.diff] || '';
+    m.setPopupContent(_buildUserQuestPopup(quest, questId, objsHtml, diffLabel));
+  }
+  _renderActiveQuests();
+  // Auto-complete world quest wq3 and refresh the quest list
+  _autoCheckWorldQuests();
+  _renderWorldQuestList();
+}
+
+function _showUserQuestMarker(quest) {
+  const map = window._realmMapInstance;
+  if (!map || !quest.coords) return;
+  if (!_userQuestMarkers.has(quest.id)) _addUserQuestMarker(map, quest);
+  map.invalidateSize();
+  map.setView([quest.coords.lat, quest.coords.lng], 13, { animate: true });
+  setTimeout(() => {
+    const m = _userQuestMarkers.get(quest.id);
+    if (m) m.openPopup();
+  }, 400);
 }
 
 /* ═══════════════════════════════════════════════
@@ -574,7 +688,7 @@ function Social_switchSub(sub) {
     p.classList.toggle('hidden', p.dataset.sub !== sub);
   });
   if (sub === 'leaderboard') Ranks_build();
-  if (sub === 'allies')      Allies_render();
+  if (sub === 'allies')      { Allies_render(); _renderWorldBoostStatus(); }
   if (sub === 'makequest')   MakeQuest_init();
 }
 
@@ -692,7 +806,7 @@ function Allies_render() {
   // Allies stored in scl_allies (if exists from profile)
   const allies = _lsJson('scl_allies', []);
   if (!allies.length) {
-    el.innerHTML = '<div class="allies-empty">No allies yet. Connect with players in the app.</div>';
+    el.innerHTML = '<div class="allies-empty">No allies yet. Invite players using the link above.</div>';
     return;
   }
   el.innerHTML = allies.map(a => {
@@ -707,11 +821,99 @@ function Allies_render() {
   }).join('');
 }
 
+function _renderWorldBoostStatus() {
+  const el = document.getElementById('worldBoostStatus');
+  if (!el) return;
+  try {
+    const until = parseInt(localStorage.getItem('scl_xp_boost_until') || '0', 10);
+    if (until && Date.now() < until) {
+      const ms = until - Date.now();
+      const h  = Math.floor(ms / 3600000);
+      const m  = Math.floor((ms % 3600000) / 60000);
+      el.innerHTML = `<span class="boost-chip boost-chip--active">✦ 2× XP BOOST ACTIVE — ${h}h ${m}m remaining</span>`;
+    } else {
+      el.innerHTML = `<span class="boost-chip">Invite an ally to earn 2× XP for 48 hours</span>`;
+    }
+  } catch(e) {}
+}
+
+function World_shareInvite() {
+  // Reuse profile's invite modal if profile app.js is available
+  if (typeof shareInviteLink === 'function') {
+    // Ensure modal container exists
+    const modal = document.getElementById('worldInviteModal');
+    if (modal) {
+      // Temporarily redirect invite modal to world container
+      const orig = document.getElementById('inviteModal');
+      if (!orig) {
+        modal.id = 'inviteModal';
+        if (typeof shareInviteLink === 'function') shareInviteLink();
+        modal.id = 'worldInviteModal';
+        return;
+      }
+    }
+    shareInviteLink();
+    return;
+  }
+  // Standalone fallback — build minimal invite inline
+  const player = _lsJson(LS_PLAYER, {});
+  const code   = _worldGetReferCode(player);
+  const link   = `${location.origin}/sourcecode-life/profile/?ref=${code}`;
+  const modal  = document.getElementById('worldInviteModal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  modal.innerHTML = `
+    <div class="invite-modal-overlay" onclick="if(event.target===this)this.parentElement.classList.add('hidden')">
+      <div class="invite-modal-box">
+        <button class="invite-modal-close" onclick="document.getElementById('worldInviteModal').classList.add('hidden')">✕</button>
+        <div class="invite-modal-title">◈ INVITE AN ALLY</div>
+        <p class="invite-modal-sub">They get 2× XP for 48 hours. So do you — once they join.</p>
+        <div class="invite-char-card">
+          <div class="invite-char-name">${player.name || 'PLAYER'}</div>
+          <div class="invite-char-code">REFER CODE — <strong>${code}</strong></div>
+        </div>
+        <div class="invite-link-row">
+          <input type="text" class="invite-link-input" id="wInviteLinkInput" value="${link}" readonly>
+          <button class="invite-copy-btn" onclick="_worldCopyInvite('${link}')">COPY</button>
+        </div>
+        <div id="wInviteCopyStatus" class="invite-copy-status"></div>
+        <button class="btn-primary invite-share-btn" onclick="_worldNativeShare('${link}', '${player.name || 'PLAYER'}')">▶ SHARE LINK</button>
+      </div>
+    </div>`;
+}
+
+function _worldGetReferCode(player) {
+  const stored = localStorage.getItem('scl_my_refer_code');
+  if (stored) return stored;
+  const seed = (player.name || 'PLAYER') + (player.lp || '') + (player.m || '') + (player.d || '') + (player.y || '');
+  let h = 5381;
+  for (let i = 0; i < seed.length; i++) h = ((h << 5) + h) ^ seed.charCodeAt(i);
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = ''; let n = Math.abs(h);
+  for (let i = 0; i < 6; i++) { code += chars[n % chars.length]; n = Math.floor(n / chars.length) || (n + 7919); }
+  localStorage.setItem('scl_my_refer_code', code);
+  return code;
+}
+
+function _worldCopyInvite(link) {
+  navigator.clipboard?.writeText(link).then(() => {
+    const s = document.getElementById('wInviteCopyStatus');
+    if (s) { s.textContent = '✓ Link copied!'; setTimeout(() => { s.textContent = ''; }, 3000); }
+  }).catch(() => {});
+}
+
+function _worldNativeShare(link, name) {
+  const text = `Join me on Simulation Source Code and decode your blueprint. You'll get 2× XP for 48 hours. — ${name}`;
+  if (navigator.share) { navigator.share({ title: 'Simulation Source Code', text, url: link }).catch(() => {}); }
+  else _worldCopyInvite(link);
+}
+
 /* ═══════════════════════════════════════════════
    MAKE A QUEST
    ═══════════════════════════════════════════════ */
 function MakeQuest_init() {
   _buildMqSignature();
+  _renderMyQuests();
 }
 
 function _buildMqSignature() {
@@ -787,8 +989,38 @@ function wSubmitQuest() {
   err.textContent = ''; ok.textContent = '';
 
   if (!name) { err.textContent = '⚠ Quest name is required.'; return; }
-  if (!loc && !_mqCoords) { err.textContent = '⚠ Location is required.'; return; }
+  if (!loc && !_mqCoords) { err.textContent = '⚠ Location is required. Enter an address or use GPS.'; return; }
 
+  // If we have GPS coords already, go straight to create
+  if (_mqCoords) { _wDoCreateQuest(name, desc, loc, _mqCoords, ok, err); return; }
+
+  // Try to parse as "lat, lng" string
+  const parsed = _parseCoordsFromString(loc);
+  if (parsed) { _wDoCreateQuest(name, desc, loc, parsed, ok, err); return; }
+
+  // Geocode via Nominatim
+  err.textContent = '⏳ Locating address...';
+  fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(loc) + '&format=json&limit=1')
+    .then(r => r.json())
+    .then(results => {
+      err.textContent = '';
+      if (!results || !results.length) {
+        err.textContent = '⚠ Could not find that location. Try a more specific address or use GPS.';
+        return;
+      }
+      const coords = { lat: parseFloat(results[0].lat), lng: parseFloat(results[0].lon) };
+      _mqCoords = coords;
+      _wDoCreateQuest(name, desc, loc, coords, ok, err);
+    })
+    .catch(() => { err.textContent = '⚠ Could not look up that location. Use GPS instead.'; });
+}
+
+function _parseCoordsFromString(str) {
+  const m = str.match(/^(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)$/);
+  return m ? { lat: parseFloat(m[1]), lng: parseFloat(m[2]) } : null;
+}
+
+function _wDoCreateQuest(name, desc, loc, coords, ok, err) {
   const quest = {
     id:       'q_' + Date.now(),
     name,
@@ -798,7 +1030,7 @@ function wSubmitQuest() {
     seeker:   _mqSelectedSeeker,
     diff:     _mqSelectedDiff,
     location: loc,
-    coords:   _mqCoords,
+    coords,
     objs:     [
       document.getElementById('wMqObj1').value.trim(),
       document.getElementById('wMqObj2').value.trim(),
@@ -817,9 +1049,11 @@ function wSubmitQuest() {
   _lsSet(LS_Q_CREATED, cnt);
 
   // Auto-check world quests
-  Realm_init();
+  _autoCheckWorldQuests();
+  _renderWorldQuestList();
 
-  ok.textContent = '✓ Quest created!';
+  ok.textContent = '✓ Quest marker dropped on the world map!';
+
   // Reset form
   document.getElementById('wMqName').value = '';
   document.getElementById('wMqDesc').value = '';
@@ -830,6 +1064,49 @@ function wSubmitQuest() {
   document.getElementById('wMqNameCount').textContent = '0/60';
   document.getElementById('wMqDescCount').textContent = '0/280';
   _mqCoords = null;
+
+  // Refresh my quests list
+  _renderMyQuests();
+
+  // Switch to world map and show the marker
+  World_switchTab('hub');
+  Hub_switchMap('world');
+  setTimeout(() => _showUserQuestMarker(quest), 450);
+}
+
+/* ─── My Created Quests ─── */
+function _renderMyQuests() {
+  const el = document.getElementById('wMyQuestsList');
+  if (!el) return;
+  const quests = _lsJson('scl_my_quests', []);
+  if (!quests.length) {
+    el.innerHTML = '<div class="aq-empty">No quests created yet.</div>';
+    return;
+  }
+  const typeIcons = { exploration:'🗺', connection:'⚔', achievement:'▲', healing:'✦', creation:'◈', reflection:'◇' };
+  el.innerHTML = quests.slice().reverse().map(q => {
+    const icon = typeIcons[q.type] || '◈';
+    const loc  = q.location ? `<div class="aq-desc">${q.location}</div>` : '';
+    return `<div class="aq-row">
+      <span class="aq-icon">${icon}</span>
+      <div class="aq-info">
+        <div class="aq-name">${q.name}</div>
+        ${q.desc ? `<div class="aq-desc">${q.desc}</div>` : ''}
+        ${loc}
+      </div>
+      <button class="aq-cancel-btn" onclick="_cancelMyQuest('${q.id.replace(/'/g,'')}')" title="Delete quest">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function _cancelMyQuest(questId) {
+  const quests = _lsJson('scl_my_quests', []).filter(q => q.id !== questId);
+  _lsSet('scl_my_quests', quests);
+  // Remove marker from map if visible
+  const m = _userQuestMarkers.get(questId);
+  if (m && window._realmMapInstance) { window._realmMapInstance.removeLayer(m); }
+  _userQuestMarkers.delete(questId);
+  _renderMyQuests();
 }
 
 /* ═══════════════════════════════════════════════

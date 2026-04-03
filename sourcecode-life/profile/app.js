@@ -576,6 +576,8 @@ function launchApp() {
   switchTab('stats');
   setTimeout(maybeShowGeoPrompt, 800);
   setTimeout(restoreQuestNotifListener, 1500); // slight delay so auth is settled
+  setTimeout(_renderBoostStatus, 400);
+  setTimeout(_getReferCode, 500); // pre-generate and cache refer code
 }
 
 function _checkFrequencySpike() {
@@ -3020,24 +3022,158 @@ function loadAllies() {
   }
 }
 
-function shareInviteLink() {
-  const uid = currentUser?.uid;
-  if (!uid) {
-    _allyMsg(document.getElementById('allyError'), '⚠ Sign in first to share your invite link.');
-    return;
-  }
-  _allyMsg(document.getElementById('allyError'), '');
-  const link = `https://sourcecodelife.app/invite?ref=${uid}`;
-  if (typeof NativeAllies !== 'undefined' && NativeAllies.shareLink) {
-    NativeAllies.shareLink(link, 'Join me on Source Code Life!');
-  } else if (navigator.share) {
-    navigator.share({ title: 'Source Code Life', text: 'Join me on Source Code Life!', url: link });
+/* ─────────────────────────────────────────────────────
+   REFERRAL SYSTEM
+   ───────────────────────────────────────────────────── */
+const LS_XP_BOOST   = 'scl_xp_boost_until';
+const LS_REFER_CODE = 'scl_my_refer_code';
+const LS_REFER_USED = 'scl_refer_used'; // code we joined with (don't self-apply)
+
+/** Deterministic 6-char alphanumeric code from player data */
+function _getReferCode() {
+  const stored = localStorage.getItem(LS_REFER_CODE);
+  if (stored) return stored;
+  const p = playerData;
+  const seed = (p?.name || 'PLAYER') + (p?.lp?.compound ?? '') + (p?.ex?.compound ?? '') + (p?.birthDate || '');
+  let h = 5381;
+  for (let i = 0; i < seed.length; i++) h = ((h << 5) + h) ^ seed.charCodeAt(i);
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  let n = Math.abs(h);
+  for (let i = 0; i < 6; i++) { code += chars[n % chars.length]; n = Math.floor(n / chars.length) || (n + 7919); }
+  localStorage.setItem(LS_REFER_CODE, code);
+  return code;
+}
+
+/** Called on page load — activate 2× XP boost if ?ref= param present */
+function _checkReferralParam() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (!ref) return;
+    // Don't let someone apply their own code
+    const myCode = localStorage.getItem(LS_REFER_CODE);
+    if (myCode && ref.toUpperCase() === myCode.toUpperCase()) return;
+    // Don't re-apply the same code
+    if (localStorage.getItem(LS_REFER_USED) === ref.toUpperCase()) return;
+    // Activate 48h boost
+    localStorage.setItem(LS_XP_BOOST, String(Date.now() + 48 * 60 * 60 * 1000));
+    localStorage.setItem(LS_REFER_USED, ref.toUpperCase());
+    // Clean URL without reload
+    const url = new URL(window.location.href);
+    url.searchParams.delete('ref');
+    window.history.replaceState({}, '', url.toString());
+    // Show banner after a brief delay for the splash to clear
+    setTimeout(() => _showBoostActivatedBanner(), 1800);
+  } catch(e) {}
+}
+
+function _showBoostActivatedBanner() {
+  const b = document.createElement('div');
+  b.className = 'boost-banner';
+  b.innerHTML = `<span class="boost-banner-icon">✦</span>
+    <div class="boost-banner-text">
+      <div class="boost-banner-title">2× XP BOOST ACTIVATED</div>
+      <div class="boost-banner-sub">All XP gains doubled for 48 hours</div>
+    </div>
+    <button class="boost-banner-close" onclick="this.parentElement.remove()">✕</button>`;
+  document.body.appendChild(b);
+  setTimeout(() => b.classList.add('boost-banner--visible'), 50);
+  setTimeout(() => { b.classList.remove('boost-banner--visible'); setTimeout(() => b.remove(), 600); }, 6000);
+}
+
+/** Returns remaining boost time as a display string, or '' if no boost */
+function _getBoostTimeRemaining() {
+  try {
+    const until = parseInt(localStorage.getItem(LS_XP_BOOST) || '0', 10);
+    if (!until || Date.now() >= until) return '';
+    const ms = until - Date.now();
+    const h  = Math.floor(ms / 3600000);
+    const m  = Math.floor((ms % 3600000) / 60000);
+    return `${h}h ${m}m`;
+  } catch(e) { return ''; }
+}
+
+/** Render the boost status chip in the allies panel */
+function _renderBoostStatus() {
+  const el = document.getElementById('allyBoostStatus');
+  if (!el) return;
+  const remaining = _getBoostTimeRemaining();
+  if (remaining) {
+    el.innerHTML = `<span class="boost-chip boost-chip--active">✦ 2× XP BOOST — ${remaining} remaining</span>`;
   } else {
-    navigator.clipboard?.writeText(link).then(() => {
-      _allyMsg(document.getElementById('allySuccess'), '✓ Invite link copied to clipboard.');
-    }).catch(() => {
-      _allyMsg(document.getElementById('allyError'), '⚠ Could not copy link. Try again.');
-    });
+    el.innerHTML = `<span class="boost-chip">Invite an ally to earn 2× XP for 48 hours</span>`;
+  }
+}
+
+/** Open the invite modal with character card preview */
+function shareInviteLink() {
+  _renderInviteModal();
+  document.getElementById('inviteModal').classList.remove('hidden');
+}
+
+function _renderInviteModal() {
+  const modal = document.getElementById('inviteModal');
+  if (!modal) return;
+  const code    = _getReferCode();
+  const link    = `${window.location.origin}/sourcecode-life/profile/?ref=${code}`;
+  const p       = playerData;
+  const name    = p?.name || localStorage.getItem('scl_player') && JSON.parse(localStorage.getItem('scl_player')).name || 'UNKNOWN';
+  const lp      = p?.lp?.compound  ?? '?';
+  const ex      = p?.ex?.compound  ?? '?';
+  const so      = p?.so?.compound  ?? '?';
+  const ARCHS   = { 1:'The Pioneer',2:'The Mediator',3:'The Creator',4:'The Builder',5:'The Explorer',6:'The Nurturer',7:'The Seeker',8:'The Achiever',9:'The Humanitarian',11:'The Intuitive',22:'The Master Builder',33:'The Master Teacher',44:'The Architect' };
+  const arch    = ARCHS[p?.lp?.root] || '';
+
+  modal.innerHTML = `
+    <div class="invite-modal-overlay" onclick="if(event.target===this)this.parentElement.classList.add('hidden')">
+      <div class="invite-modal-box">
+        <button class="invite-modal-close" onclick="document.getElementById('inviteModal').classList.add('hidden')">✕</button>
+        <div class="invite-modal-title">◈ INVITE AN ALLY</div>
+        <p class="invite-modal-sub">They get 2× XP for 48 hours. So do you — once they join.</p>
+
+        <!-- Mini character card -->
+        <div class="invite-char-card">
+          <div class="invite-char-name">${_esc(name)}</div>
+          ${arch ? `<div class="invite-char-arch">${_esc(arch)}</div>` : ''}
+          <div class="invite-char-nums">
+            <div class="invite-num-cell"><div class="invite-num-val">${lp}</div><div class="invite-num-lbl">LIFE PATH</div></div>
+            <div class="invite-num-cell"><div class="invite-num-val">${so}</div><div class="invite-num-lbl">SOUL</div></div>
+            <div class="invite-num-cell"><div class="invite-num-val">${ex}</div><div class="invite-num-lbl">EXPRESSION</div></div>
+          </div>
+          <div class="invite-char-code">REFER CODE — <strong>${code}</strong></div>
+        </div>
+
+        <!-- Link display -->
+        <div class="invite-link-row">
+          <input type="text" class="invite-link-input" id="inviteLinkInput" value="${_esc(link)}" readonly>
+          <button class="invite-copy-btn" onclick="_copyInviteLink('${_esc(link)}')">COPY</button>
+        </div>
+        <div id="inviteCopyStatus" class="invite-copy-status"></div>
+
+        <button class="btn-primary invite-share-btn" onclick="_nativeShareInvite('${_esc(link)}', '${_esc(name)}')">▶ SHARE LINK</button>
+      </div>
+    </div>`;
+}
+
+function _copyInviteLink(link) {
+  navigator.clipboard?.writeText(link).then(() => {
+    const s = document.getElementById('inviteCopyStatus');
+    if (s) { s.textContent = '✓ Link copied to clipboard!'; setTimeout(() => { s.textContent = ''; }, 3000); }
+  }).catch(() => {
+    const s = document.getElementById('inviteCopyStatus');
+    if (s) s.textContent = '⚠ Could not copy. Select and copy manually.';
+  });
+}
+
+function _nativeShareInvite(link, name) {
+  const text = `Join me on Simulation Source Code and decode your blueprint. You'll get 2× XP for 48 hours. — ${name}`;
+  if (typeof NativeAllies !== 'undefined' && NativeAllies.shareLink) {
+    NativeAllies.shareLink(link, text);
+  } else if (navigator.share) {
+    navigator.share({ title: 'Simulation Source Code', text, url: link }).catch(() => {});
+  } else {
+    _copyInviteLink(link);
   }
 }
 
@@ -3280,6 +3416,7 @@ function loadSavedTheme() {
    INIT
    ================================================ */
 window.addEventListener('DOMContentLoaded', () => {
+  _checkReferralParam();
   loadSavedTheme();
   initGeoPromptUI();
   _runBootSplash(() => {
