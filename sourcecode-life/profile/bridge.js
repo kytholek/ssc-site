@@ -91,9 +91,14 @@ window.NativeAuth = {
     const user = _auth.currentUser;
     if (!user) { console.error('[bridge] savePlayer: no currentUser'); NativeAuth_onSavePlayerResult(false, 'Not signed in.'); return; }
     const email = (user.email || '').trim().toLowerCase();
+    // Parse dob string (M/D/YYYY) into separate integer fields for cross-platform compatibility
+    const parts = (dob || '').split('/');
+    const dobM  = parseInt(parts[0], 10) || 0;
+    const dobD  = parseInt(parts[1], 10) || 0;
+    const dobY  = parseInt(parts[2], 10) || 0;
     console.log('[bridge] savePlayer uid=' + user.uid);
     _db.collection('players').doc(user.uid).set(
-      { name, dob, lp, cl, ex, email, updated: Date.now() },
+      { name, dob, dobM, dobD, dobY, lp, cl, ex, email, updated: Date.now() },
       { merge: true }
     )
       .then(() => { console.log('[bridge] savePlayer OK'); NativeAuth_onSavePlayerResult(true, ''); })
@@ -111,7 +116,13 @@ window.NativeAuth = {
         if (snap.exists) {
           console.log('[bridge] loadPlayer doc found');
           const d = snap.data();
-          NativeAuth_onLoadPlayerResult(true, uid, d.name || '', d.dob || '', authEmail);
+          // Prefer separate dobM/dobD/dobY fields (cross-platform safe);
+          // fall back to parsing the dob string for legacy docs
+          let dobStr = d.dob || '';
+          if (d.dobM && d.dobD && d.dobY) {
+            dobStr = d.dobM + '/' + d.dobD + '/' + d.dobY;
+          }
+          NativeAuth_onLoadPlayerResult(true, uid, d.name || '', dobStr, authEmail);
           const charXP    = d.charXP    || 0;
           const charLevel = d.charLevel || 1;
           const freqXP    = d.freqXP    || 0;

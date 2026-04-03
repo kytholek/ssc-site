@@ -135,10 +135,29 @@ function _renderInviteBanner(inviterName) {
 
 function NativeAuth_onLoadPlayerResult(found, uid, name, dob, email) {
   if (found && name && dob) {
-    const parts = dob.split('/');
-    const m = parseInt(parts[0], 10);
-    const d = parseInt(parts[1], 10);
-    const y = parseInt(parts[2], 10);
+    // Parse DOB robustly — support M/D/YYYY, D/M/YYYY detection, and ISO YYYY-MM-DD
+    let m, d, y;
+    if (dob.includes('-')) {
+      // ISO format: YYYY-MM-DD
+      const parts = dob.split('-');
+      y = parseInt(parts[0], 10);
+      m = parseInt(parts[1], 10);
+      d = parseInt(parts[2], 10);
+    } else {
+      const parts = dob.split('/');
+      const p0 = parseInt(parts[0], 10);
+      const p1 = parseInt(parts[1], 10);
+      const p2 = parseInt(parts[2], 10);
+      if (p2 > 31) {
+        // p2 is a 4-digit year → format is either M/D/YYYY or D/M/YYYY
+        // If p0 > 12, it must be the day (D/M/YYYY from mobile)
+        if (p0 > 12) { d = p0; m = p1; y = p2; }
+        else          { m = p0; d = p1; y = p2; }
+      } else {
+        // p0 is the year (YYYY/M/D)
+        y = p0; m = p1; d = p2;
+      }
+    }
     currentUser = { uid, email };
     window._currentUid = uid;
     try { localStorage.setItem('scl_uid', uid); } catch(e) {}
