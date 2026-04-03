@@ -1488,7 +1488,7 @@ function NativeMap_onQuestDeleted(success, questId) {
 // are defined in QuestEngine.js — do not redefine here.
 
 function switchSection(section) {
-  ['chart','journal','cycles'].forEach(s => {
+  ['chart','journal','achievements'].forEach(s => {
     const cap = s.charAt(0).toUpperCase() + s.slice(1);
     const el  = document.getElementById('section' + cap);
     const btn = document.getElementById('btn'     + cap);
@@ -1496,6 +1496,7 @@ function switchSection(section) {
     if (s === section) { el.classList.remove('hidden'); btn.classList.add('active'); }
     else               { el.classList.add('hidden');    btn.classList.remove('active'); }
   });
+  if (section === 'achievements' && typeof Achievements_renderPage === 'function') Achievements_renderPage();
 }
 
 function switchQuestSection(s) {

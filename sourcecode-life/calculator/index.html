@@ -243,8 +243,9 @@
 
       <!-- ── SECTION TOGGLE (Moved to Top) ── -->
       <div class="section-toggle">
-        <button class="section-btn active" id="btnChart"   onclick="switchSection('chart')">STATS</button>
-        <button class="section-btn"        id="btnJournal" onclick="switchSection('journal')">CHARACTER</button>
+        <button class="section-btn active" id="btnChart"        onclick="switchSection('chart')">STATS</button>
+        <button class="section-btn"        id="btnJournal"      onclick="switchSection('journal')">CHARACTER</button>
+        <button class="section-btn"        id="btnAchievements" onclick="switchSection('achievements')">✦ MEDALS</button>
       </div>
 
       <!-- Chart Section -->
@@ -281,6 +282,7 @@
               <div class="char-identity-divider" style="margin-top:10px;"></div>
               <div id="charLevelBar" class="lvl-bar-wrap"></div>
               <div id="freqLevelBar" class="lvl-bar-wrap" style="margin-top:6px;"></div>
+              <div id="charMedals" class="char-medals"></div>
             </div>
           </div>
         </div>
@@ -330,6 +332,11 @@
         <div id="journalStrips"></div>
         <div class="panel-label c-teal" id="cyclesHeader" style="margin:18px 16px 8px;font-size:7px;letter-spacing:2px;">🔄 CYCLES</div>
         <div id="cycleStrips"></div>
+      </div>
+
+      <!-- Achievements Page -->
+      <div id="sectionAchievements" class="hidden">
+        <div id="achievementsPage"></div>
       </div>
 
       <!-- Hidden stubs -->
@@ -719,6 +726,7 @@
 <script src="numerology.js"></script>
 <script src="data.js"></script>
 <script src="QuestEngine.js"></script>
+<script src="achievements.js"></script>
 <!-- Firebase SDK (compat v9) — must load before bridge.js -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>

@@ -114,6 +114,7 @@ function QuestEngine_init() {
   _buildFreqQuestList();
   renderSideQuests();
   QuestEngine_buildDailyRead();
+  try { if (typeof Achievements_init === 'function') Achievements_init(); } catch(e) {}
 }
 
 function QuestEngine_reset() {
@@ -225,6 +226,7 @@ function earnCharXP(amount) {
   _renderCharLevelBar();
   _floatXP(amount, 'charLevelTrack', 'var(--gold)');
   if (_charLevel > prev) _levelUpBanner('CHARACTER', _charLevel);
+  try { if (typeof Achievements_check === 'function') Achievements_check(); } catch(e) {}
 }
 
 function earnFreqXP(amount) {
@@ -238,6 +240,7 @@ function earnFreqXP(amount) {
   _floatXP(amount, 'questFreqLevelTrack', 'var(--teal)');
   _xpToast('+' + amount + ' FREQ XP', 'var(--teal)');
   if (_freqLevel > prev) _levelUpBanner('FREQUENCY', _freqLevel);
+  try { if (typeof Achievements_check === 'function') Achievements_check(); } catch(e) {}
 }
 
 function earnStatXP(statNum, amount) {
@@ -652,6 +655,7 @@ function QuestEngine_completeDailyQuest() {
 
   try { earnFreqXP(XP_AWARDS.daily); } catch(e) { console.error('completeDailyQuest xp:', e); }
   try { _renderDailyQuest(d); } catch(e) { console.error('completeDailyQuest render:', e); }
+  try { if (typeof Achievements_trackDailyAndCheck === 'function') Achievements_trackDailyAndCheck(); } catch(e) {}
 }
 
 function _showLifeTierAdvance(questKey, newTier) {
@@ -788,6 +792,7 @@ function _markLQPObjective(questKey, tier, objIdx) {
   if (allDone && tier < 3) {
     return { tierAdvanced: true, newTier: tier + 1 };
   }
+  try { if (typeof Achievements_check === 'function') Achievements_check(); } catch(e) {}
   return { tierAdvanced: false, newTier: tier };
 }
 function _questTierQE(lvl) { return lvl >= 67 ? 3 : lvl >= 34 ? 2 : 1; }

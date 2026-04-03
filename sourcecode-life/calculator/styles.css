@@ -5253,3 +5253,84 @@ body::after {
 .fq-checkin-row {
   margin-top: 4px;
 }
+/* --------------------------------------------------------------
+   ACHIEVEMENTS SYSTEM
+   -------------------------------------------------------------- */
+
+/* -- Medal row on character card ------------------------------- */
+.char-medals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 10px;
+}
+.ach-medal {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border: 1px solid;
+  border-radius: 2px;
+  background: var(--bg-alt, #0a0a0a);
+  cursor: default;
+  position: relative;
+}
+.ach-medal-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+.ach-medal-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Tier glows */
+.ach-medal--bronze { box-shadow: 0 0 4px var(--amber, #c8a028)22; }
+.ach-medal--silver { box-shadow: 0 0 4px var(--silver, #888)22; }
+.ach-medal--gold   { box-shadow: 0 0 6px var(--gold,   #c8a028)44; }
+.ach-medal--platinum {
+  box-shadow: 0 0 8px var(--gold, #c8a028)55;
+  animation: ach-plat-shimmer 3s ease-in-out infinite;
+}
+@keyframes ach-plat-shimmer {
+  0%, 100% { box-shadow: 0 0 8px var(--gold, #c8a028)55; }
+  50%       { box-shadow: 0 0 14px var(--teal, #0ff)55, 0 0 6px var(--rose, #f05)33; }
+}
+
+/* -- Achievement earned banner (bottom of screen) -------------- */
+.achievement-banner {
+  background: var(--bg-panel);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 12px 20px;
+  text-align: center;
+  min-width: 200px;
+  max-width: 280px;
+  box-shadow: 0 0 24px var(--gold, #c8a028)44;
+}
+.ach-banner-tier {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+.ach-banner-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+  display: block;
+}
+.ach-banner-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.ach-banner-desc {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace;
+  line-height: 1.5;
+}
