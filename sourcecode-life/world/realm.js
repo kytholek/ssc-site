@@ -111,9 +111,10 @@ function isFounder() {
 }
 function _founderTag(inline) {
   if (!isFounder()) return '';
-  return inline
-    ? '<span class="founder-badge founder-badge--sm">✦ FOUNDER</span> '
-    : '<span class="founder-badge">✦ FOUNDER</span>';
+  const sz = inline ? 18 : 26;
+  const c  = '#e8c96b';
+  const svg = `<svg width="${sz}" height="${sz}" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M6,27 L6,17 L13,24 L20,9 L27,24 L34,17 L34,27 Z" fill="${c}" opacity="0.18" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/><rect x="6" y="27" width="28" height="7" rx="1" fill="${c}" opacity="0.25" stroke="${c}" stroke-width="1.5"/><circle cx="20" cy="9" r="2.5" fill="${c}"/><circle cx="6" cy="17" r="1.8" fill="${c}" opacity="0.85"/><circle cx="34" cy="17" r="1.8" fill="${c}" opacity="0.85"/><circle cx="13" cy="30.5" r="1.5" fill="${c}"/><circle cx="20" cy="30.5" r="1.5" fill="${c}"/><circle cx="27" cy="30.5" r="1.5" fill="${c}"/></svg>`;
+  return `<span class="founder-crown-medal" title="Founder" style="vertical-align:middle;margin-right:4px;">${svg}</span>`;
 }
 
 /* ─── Check quest auto-completion ─── */
@@ -710,18 +711,19 @@ function Ranks_toggleCard(pos) {
 }
 
 function _buildRankCharCard(p, pos, t) {
+  const tierHtml = t ? `<span class="rank-tier ${t.cls}">${t.label}</span>` : '';
   if (p.isPlayer) {
-    const lp  = parseInt(_ls(LS_CHAR_LVL, '1'), 10);
-    const fl  = parseInt(_ls(LS_FREQ_LVL,  '1'), 10);
+    const lp     = parseInt(_ls(LS_CHAR_LVL, '1'), 10);
+    const fl     = parseInt(_ls(LS_FREQ_LVL,  '1'), 10);
     const player = _lsJson(LS_PLAYER, {});
-    const lePath = player.lifePath  || '—';
-    const soul   = player.soulUrge  || '—';
-    const expr   = player.expression|| '—';
+    const lePath = player.lifePath   || '—';
+    const soul   = player.soulUrge   || '—';
+    const expr   = player.expression || '—';
     return `<div class="rcc-inner">
       <div class="rcc-header">
         <div class="rcc-name">${_founderTag(true)}${p.name}</div>
         <div class="rcc-badges">
-          <span class="rank-tier ${t.cls}">${t.label}</span>
+          ${tierHtml}
           <span class="rcc-score">${p.score} XP</span>
         </div>
       </div>
@@ -741,13 +743,13 @@ function _buildRankCharCard(p, pos, t) {
       <div class="rcc-header">
         <div class="rcc-name">${p.name}</div>
         <div class="rcc-badges">
-          <span class="rank-tier ${t.cls}">${t.label}</span>
+          ${tierHtml}
           <span class="rcc-score">${p.score} XP</span>
         </div>
       </div>
       ${p.arch ? `<div class="rcc-arch">${p.arch}</div>` : ''}
       <div class="rcc-numbers">
-        <div class="rcc-num"><span class="rcc-val">${p.lp  || '—'}</span><span class="rcc-lbl">LIFE PATH</span></div>
+        <div class="rcc-num"><span class="rcc-val">${p.lp   || '—'}</span><span class="rcc-lbl">LIFE PATH</span></div>
         <div class="rcc-num"><span class="rcc-val">${p.soul || '—'}</span><span class="rcc-lbl">SOUL</span></div>
         <div class="rcc-num"><span class="rcc-val">${p.expr || '—'}</span><span class="rcc-lbl">EXPR</span></div>
       </div>
@@ -770,13 +772,19 @@ function Ranks_build() {
   const all = [...MOCK_PLAYERS, { name: playerName, score: playerScore, isPlayer: true }]
     .sort((a, b) => b.score - a.score);
 
+  const TIER_BY_POS = [
+    { label: 'SOURCE', cls: 'tier-source' },
+    { label: 'ARCHON', cls: 'tier-archon' },
+    { label: 'ADEPT',  cls: 'tier-adept'  },
+  ];
+
   el.innerHTML = all.map((p, i) => {
-    const t   = getTier(p.score);
+    const t   = i < 3 ? TIER_BY_POS[i] : null;
     const pos = (i + 1).toString().padStart(2, '0');
     return `<div class="rank-row${p.isPlayer ? ' rank-row-you' : ''}" data-pos="${pos}" onclick="Ranks_toggleCard('${pos}')">
       <span class="rank-pos">#${pos}</span>
       <span class="rank-name">${p.isPlayer ? _founderTag(true) : ''}${p.name}${p.isPlayer ? ' ◄' : ''}</span>
-      <span class="rank-tier ${t.cls}">${t.label}</span>
+      ${t ? `<span class="rank-tier ${t.cls}">${t.label}</span>` : ''}
       <span class="rank-score">${p.score}</span>
       <span class="rank-expand-icon">▼</span>
     </div>
@@ -865,19 +873,25 @@ function World_shareInvite() {
   modal.innerHTML = `
     <div class="invite-modal-overlay" onclick="if(event.target===this)this.parentElement.classList.add('hidden')">
       <div class="invite-modal-box">
-        <button class="invite-modal-close" onclick="document.getElementById('worldInviteModal').classList.add('hidden')">✕</button>
-        <div class="invite-modal-title">◈ INVITE AN ALLY</div>
-        <p class="invite-modal-sub">They get 2× XP for 48 hours. So do you — once they join.</p>
+        <div class="invite-modal-header">
+          <div class="invite-modal-title">◈ INVITE AN ALLY</div>
+          <button class="invite-modal-close" onclick="document.getElementById('worldInviteModal').classList.add('hidden')">✕</button>
+        </div>
+        <div class="invite-modal-divider"></div>
+        <p class="invite-modal-sub">Share your link. They get 2× XP for 48 hours — and so do you once they join.</p>
         <div class="invite-char-card">
           <div class="invite-char-name">${player.name || 'PLAYER'}</div>
-          <div class="invite-char-code">REFER CODE — <strong>${code}</strong></div>
+          <div class="invite-char-code">CODE — <strong>${code}</strong></div>
         </div>
+        <div class="invite-link-label">YOUR INVITE LINK</div>
         <div class="invite-link-row">
           <input type="text" class="invite-link-input" id="wInviteLinkInput" value="${link}" readonly>
           <button class="invite-copy-btn" onclick="_worldCopyInvite('${link}')">COPY</button>
         </div>
         <div id="wInviteCopyStatus" class="invite-copy-status"></div>
-        <button class="btn-primary invite-share-btn" onclick="_worldNativeShare('${link}', '${player.name || 'PLAYER'}')">▶ SHARE LINK</button>
+        <div class="invite-share-row">
+          <button class="invite-share-btn" onclick="_worldNativeShare('${link}', '${player.name || 'PLAYER'}')">▶ SHARE LINK</button>
+        </div>
       </div>
     </div>`;
 }

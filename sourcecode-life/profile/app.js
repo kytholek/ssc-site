@@ -23,7 +23,12 @@ function saveLocalUser(email) {
   try { localStorage.setItem(LS_USER, JSON.stringify({ email })); } catch(e) {}
 }
 function saveLocalPlayer(data) {
-  try { localStorage.setItem(LS_PLAYER, JSON.stringify({ name: data.name, m: data.m, d: data.d, y: data.y })); } catch(e) {}
+  try { localStorage.setItem(LS_PLAYER, JSON.stringify({
+    name: data.name, m: data.m, d: data.d, y: data.y,
+    lifePath:   data.lp ? data.lp.root   : undefined,
+    soulUrge:   data.so ? data.so.root   : undefined,
+    expression: data.ex ? data.ex.root   : undefined
+  })); } catch(e) {}
 }
 function loadLocalSaved() {
   try {
@@ -3025,9 +3030,10 @@ function loadAllies() {
 /* ─────────────────────────────────────────────────────
    REFERRAL SYSTEM
    ───────────────────────────────────────────────────── */
-const LS_XP_BOOST   = 'scl_xp_boost_until';
 const LS_REFER_CODE = 'scl_my_refer_code';
 const LS_REFER_USED = 'scl_refer_used'; // code we joined with (don't self-apply)
+// LS_XP_BOOST is declared in QuestEngine.js — reuse it here
+const _APP_XP_BOOST_KEY = 'scl_xp_boost_until';
 
 /** Deterministic 6-char alphanumeric code from player data */
 function _getReferCode() {
@@ -3057,7 +3063,7 @@ function _checkReferralParam() {
     // Don't re-apply the same code
     if (localStorage.getItem(LS_REFER_USED) === ref.toUpperCase()) return;
     // Activate 48h boost
-    localStorage.setItem(LS_XP_BOOST, String(Date.now() + 48 * 60 * 60 * 1000));
+    localStorage.setItem(_APP_XP_BOOST_KEY, String(Date.now() + 48 * 60 * 60 * 1000));
     localStorage.setItem(LS_REFER_USED, ref.toUpperCase());
     // Clean URL without reload
     const url = new URL(window.location.href);
@@ -3085,7 +3091,7 @@ function _showBoostActivatedBanner() {
 /** Returns remaining boost time as a display string, or '' if no boost */
 function _getBoostTimeRemaining() {
   try {
-    const until = parseInt(localStorage.getItem(LS_XP_BOOST) || '0', 10);
+    const until = parseInt(localStorage.getItem(_APP_XP_BOOST_KEY) || '0', 10);
     if (!until || Date.now() >= until) return '';
     const ms = until - Date.now();
     const h  = Math.floor(ms / 3600000);
@@ -3128,9 +3134,12 @@ function _renderInviteModal() {
   modal.innerHTML = `
     <div class="invite-modal-overlay" onclick="if(event.target===this)this.parentElement.classList.add('hidden')">
       <div class="invite-modal-box">
-        <button class="invite-modal-close" onclick="document.getElementById('inviteModal').classList.add('hidden')">✕</button>
-        <div class="invite-modal-title">◈ INVITE AN ALLY</div>
-        <p class="invite-modal-sub">They get 2× XP for 48 hours. So do you — once they join.</p>
+        <div class="invite-modal-header">
+          <div class="invite-modal-title">◈ INVITE AN ALLY</div>
+          <button class="invite-modal-close" onclick="document.getElementById('inviteModal').classList.add('hidden')">✕</button>
+        </div>
+        <div class="invite-modal-divider"></div>
+        <p class="invite-modal-sub">Share your link. They get 2× XP for 48 hours — and so do you once they join.</p>
 
         <!-- Mini character card -->
         <div class="invite-char-card">
@@ -3141,17 +3150,20 @@ function _renderInviteModal() {
             <div class="invite-num-cell"><div class="invite-num-val">${so}</div><div class="invite-num-lbl">SOUL</div></div>
             <div class="invite-num-cell"><div class="invite-num-val">${ex}</div><div class="invite-num-lbl">EXPRESSION</div></div>
           </div>
-          <div class="invite-char-code">REFER CODE — <strong>${code}</strong></div>
+          <div class="invite-char-code">CODE — <strong>${code}</strong></div>
         </div>
 
         <!-- Link display -->
+        <div class="invite-link-label">YOUR INVITE LINK</div>
         <div class="invite-link-row">
           <input type="text" class="invite-link-input" id="inviteLinkInput" value="${_esc(link)}" readonly>
           <button class="invite-copy-btn" onclick="_copyInviteLink('${_esc(link)}')">COPY</button>
         </div>
         <div id="inviteCopyStatus" class="invite-copy-status"></div>
 
-        <button class="btn-primary invite-share-btn" onclick="_nativeShareInvite('${_esc(link)}', '${_esc(name)}')">▶ SHARE LINK</button>
+        <div class="invite-share-row">
+          <button class="invite-share-btn" onclick="_nativeShareInvite('${_esc(link)}', '${_esc(name)}')">▶ SHARE LINK</button>
+        </div>
       </div>
     </div>`;
 }

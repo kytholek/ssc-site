@@ -165,48 +165,81 @@
 }
 
 /* --- Invite modal --- */
+@keyframes inviteModalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
 .invite-modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 500;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 500;
   display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(3px);
 }
 .invite-modal-box {
-  background: var(--bg-panel); border: 1px solid var(--border-glow, var(--border));
-  padding: 24px; max-width: 340px; width: 92%; position: relative;
+  background: var(--bg-panel);
+  border: 1px solid var(--teal-dim, #2a5a5a);
+  box-shadow: 0 0 32px rgba(0,200,200,0.08), 0 0 0 1px rgba(255,255,255,0.03) inset;
+  padding: 28px 24px 22px; max-width: 360px; width: 94%; position: relative;
+  animation: inviteModalIn 0.22s ease both;
 }
-.invite-modal-title {
-  font-family: var(--font-pixel); font-size: 14px; color: var(--teal); margin-bottom: 6px;
+.invite-modal-box::before,
+.invite-modal-box::after {
+  content: ''; position: absolute; width: 10px; height: 10px; border-color: var(--teal, #0cc); border-style: solid; opacity: 0.5;
 }
-.invite-modal-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 14px; }
+.invite-modal-box::before { top: 6px; left: 6px; border-width: 1.5px 0 0 1.5px; }
+.invite-modal-box::after  { bottom: 6px; right: 6px; border-width: 0 1.5px 1.5px 0; }
+.invite-modal-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.invite-modal-title { font-family: var(--font-pixel); font-size: 13px; color: var(--teal); letter-spacing: 1.5px; flex: 1; }
+.invite-modal-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--teal-dim, #2a5a5a), transparent); margin-bottom: 14px; }
+.invite-modal-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.6; }
 .invite-modal-close {
-  position: absolute; top: 10px; right: 12px; background: none; border: none;
-  color: var(--text-dim); cursor: pointer; font-size: 14px;
+  background: none; border: 1px solid transparent; color: var(--text-dim);
+  cursor: pointer; font-size: 13px; line-height: 1; padding: 3px 6px; transition: all 0.15s;
 }
-.invite-modal-close:hover { color: var(--text); }
+.invite-modal-close:hover { border-color: var(--border); color: var(--text); }
 .invite-char-card {
-  background: var(--bg-inset); border: 1px solid var(--border);
-  padding: 14px; margin-bottom: 14px; text-align: center;
+  background: linear-gradient(160deg, var(--bg-inset) 0%, var(--bg-panel) 100%);
+  border: 1px solid var(--border); border-top: 1px solid var(--teal-dim, #2a5a5a);
+  padding: 16px 14px 12px; margin-bottom: 18px; text-align: center; position: relative; overflow: hidden;
 }
-.invite-char-name {
-  font-family: var(--font-pixel); font-size: 16px; color: var(--text); margin-bottom: 4px;
+.invite-char-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,200,200,0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
-.invite-char-arch { font-size: 10px; color: var(--text-dim); margin-bottom: 10px; letter-spacing: 1px; }
-.invite-char-nums { display: flex; justify-content: center; gap: 16px; margin-bottom: 10px; }
-.invite-num-cell { text-align: center; }
-.invite-num-val { font-family: 'VT323', monospace; font-size: 26px; color: var(--gold, #f0c060); line-height: 1; }
-.invite-num-lbl { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
-.invite-char-code { font-size: 11px; color: var(--teal); letter-spacing: 2px; }
-.invite-link-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.invite-char-name { font-family: var(--font-pixel); font-size: 13px; color: var(--text); letter-spacing: 1px; margin-bottom: 4px; }
+.invite-char-arch { font-size: 10px; color: var(--teal); margin-bottom: 14px; letter-spacing: 2px; }
+.invite-char-nums { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
+.invite-num-cell { text-align: center; padding: 0 4px; }
+.invite-num-val { font-family: 'VT323', monospace; font-size: 36px; color: var(--gold, #f0c060); line-height: 1; text-shadow: 0 0 12px rgba(240,192,96,0.4); }
+.invite-num-lbl { font-size: 8px; color: var(--text-dim); letter-spacing: 1.5px; margin-top: 2px; }
+.invite-char-code {
+  display: inline-block; font-size: 11px; color: var(--teal); letter-spacing: 3px;
+  border: 1px solid var(--teal-dim, #2a5a5a); background: rgba(0,200,200,0.05); padding: 4px 10px;
+}
+.invite-char-code strong { color: var(--gold, #f0c060); }
+.invite-link-label { font-size: 9px; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.invite-link-row { display: flex; gap: 0; margin-bottom: 6px; border: 1px solid var(--border); }
 .invite-link-input {
-  flex: 1; font-size: 11px; background: var(--bg-inset); border: 1px solid var(--border);
-  color: var(--text-dim); padding: 6px 8px; min-width: 0;
+  flex: 1; font-size: 12px; background: var(--bg-inset); border: none; outline: none;
+  color: var(--text); padding: 9px 10px; min-width: 0; font-family: 'Share Tech Mono', monospace;
 }
 .invite-copy-btn {
-  background: var(--bg-inset); border: 1px solid var(--border); color: var(--teal);
-  font-family: var(--font-pixel); font-size: 11px; padding: 0 10px; cursor: pointer; white-space: nowrap;
+  background: var(--bg-panel); border: none; border-left: 1px solid var(--border); color: var(--teal);
+  font-family: var(--font-pixel); font-size: 10px; padding: 0 12px; cursor: pointer; white-space: nowrap; transition: background 0.15s;
 }
-.invite-copy-btn:hover { border-color: var(--teal); }
-.invite-copy-status { font-size: 10px; color: var(--teal); margin-bottom: 8px; min-height: 14px; }
-.invite-share-btn { width: 100%; margin-top: 4px; }
+.invite-copy-btn:hover { background: rgba(0,200,200,0.08); }
+.invite-copy-status { font-size: 10px; color: var(--teal); min-height: 14px; margin-bottom: 10px; text-align: center; }
+.invite-share-row { display: flex; justify-content: center; margin-top: 6px; }
+.invite-share-btn {
+  background: linear-gradient(135deg, rgba(0,200,200,0.12) 0%, rgba(0,200,200,0.05) 100%);
+  border: 1px solid var(--teal-dim, #2a5a5a); color: var(--teal);
+  font-family: var(--font-pixel); font-size: 11px; padding: 9px 28px;
+  cursor: pointer; letter-spacing: 1.5px; transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.invite-share-btn:hover {
+  background: rgba(0,200,200,0.18); border-color: var(--teal, #0cc);
+  box-shadow: 0 0 12px rgba(0,200,200,0.15);
+}
 
 /* --- Rank rows --- */
 .rank-row {
