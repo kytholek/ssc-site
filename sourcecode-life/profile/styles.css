@@ -5566,3 +5566,108 @@ body::after {
   vertical-align: middle;
 }
 .char-identity-name:hover::after { opacity: 1; }
+
+/* ── Founder Badge ───────────────────────────── */
+.founder-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #2a1f00, #1a1500);
+  border: 1px solid #c9a84c;
+  color: #e8c96b;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  padding: 4px 9px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(232,201,107,0.6);
+  box-shadow: 0 0 10px rgba(200,168,67,0.2), inset 0 0 6px rgba(232,201,107,0.05);
+  margin-bottom: 5px;
+}
+.founder-badge--sm {
+  font-size: 5px;
+  padding: 2px 6px;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.founder-badge--active {
+  font-size: 7px;
+  padding: 6px 12px;
+  display: block;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+/* ════════════════════════════════════════════════
+   SIMULATION TEASER (MAP TAB)
+   ════════════════════════════════════════════════ */
+.sim-teaser {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sim-teaser-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-align: center;
+}
+.sim-teaser-zones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sim-zone-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 18px 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.sim-zone-card:hover              { border-color: var(--gold-dim); }
+.sim-zone-digital:hover           { border-color: var(--teal-dim); }
+.sim-zone-icon  { font-size: 22px; }
+.sim-zone-name  { font-family: 'Press Start 2P', monospace; font-size: 6px; color: var(--text); letter-spacing: 2px; }
+.sim-zone-sub   { font-size: 9px; color: var(--text-dim); text-align: center; }
+
+/* Top-3 preview strip */
+.sim-top3 {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+}
+.sim-top3-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px; color: var(--text-dim); letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.sim-top3-list { display: flex; flex-direction: column; gap: 4px; }
+.sim-top3-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+.sim-top3-row:last-child { border-bottom: none; }
+.sim-top3-you  { color: var(--gold-bright); }
+.sim-top3-rank { font-family: 'Press Start 2P', monospace; font-size: 6px; color: var(--text-dim); width: 22px; flex-shrink: 0; }
+.sim-top3-name { flex: 1; font-size: 11px; }
+.sim-top3-score{ font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--gold); }
+.sim-top3-tier { padding: 2px 5px; font-family: 'Press Start 2P', monospace; font-size: 5px; }
+.sim-top3-loading { font-size: 10px; color: var(--text-dim); }
+
+/* Tier colours (shared with world page) */
+.tier-source { background: #1a0030; color: #e040fb; border: 1px solid #8000b0; }
+.tier-archon { background: var(--gold-muted); color: var(--gold); border: 1px solid var(--gold-dim); }
+.tier-adept  { background: var(--silver-muted); color: var(--silver); border: 1px solid var(--silver-dim); }
+
+/* Enter simulation button */
+.sim-enter-btn { margin-top: 4px; }
+
+/* Side Quest world quests list */
+.side-world-quest-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 11px; color: var(--text);
+}
+.side-world-quest-icon { font-size: 14px; }
+.side-world-quest-id   { flex: 1; }

@@ -7,6 +7,44 @@
 
 const LS_ACHIEVEMENTS  = 'scl_achievements';
 const LS_DAILY_STREAK  = 'scl_daily_streak';
+const LS_FOUNDER       = 'scl_founder';
+
+/* Valid founder redemption codes (one-time use, honour-system) */
+const FOUNDER_CODES = [
+  'SCL-FOUNDER-ALPHA',
+  'SCL-FOUNDER-BETA',
+  'SCL-FOUNDER-001',
+  'SCL-FOUNDER-002',
+  'SCL-FOUNDER-003',
+  'SCL-FOUNDER-004',
+  'SCL-FOUNDER-005',
+];
+
+function isFounder() {
+  try { return localStorage.getItem(LS_FOUNDER) === 'true'; } catch(e) { return false; }
+}
+
+function redeemFounderCode(code) {
+  const clean = (code || '').trim().toUpperCase();
+  const errEl = document.getElementById('founderCodeError');
+  const okEl  = document.getElementById('founderCodeSuccess');
+  if (errEl) errEl.textContent = '';
+  if (okEl)  okEl.textContent  = '';
+
+  if (isFounder()) {
+    if (okEl) okEl.textContent = '✦ FOUNDER STATUS ALREADY ACTIVE';
+    return;
+  }
+  if (!FOUNDER_CODES.includes(clean)) {
+    if (errEl) errEl.textContent = '⚠ INVALID CODE';
+    return;
+  }
+  try { localStorage.setItem(LS_FOUNDER, 'true'); } catch(e) {}
+  if (okEl) okEl.textContent = '✦ FOUNDER STATUS UNLOCKED!';
+  // Refresh badge display
+  Achievements_render();
+  _renderFounderBadge();
+}
 
 /* ─────────────────────────────────────────────────────────────
    ACHIEVEMENT DEFINITIONS
@@ -36,7 +74,11 @@ function _medalSvg(shape, color, locked) {
 }
 
 const ACHIEVEMENTS = [
-
+  // ── Founder ──────────────────────────────────────────────────────────
+  { id: 'founder',   group: 'Founder',
+    tier: 'platinum', medal: 'diamond', color: '#e8c96b',
+    title: 'FOUNDER',  desc: 'Early investor — helped bring the Simulation to life.',
+    check: function() { return isFounder(); } },
   // ── Daily Streak ─────────────────────────────────────────
   { id: 'streak_7',  group: 'Daily Streak',
     tier: 'bronze', medal: 'circle',  color: 'var(--amber)',
@@ -320,14 +362,34 @@ function _showAchievementBanner(a) {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   FOUNDER BADGE — rendered before the character name
+   ───────────────────────────────────────────────────────────── */
+function _renderFounderBadge() {
+  const el = document.getElementById('charFounderBadge');
+  const activeRow = document.getElementById('founderActiveRow');
+  const inputRow  = document.getElementById('founderInputRow');
+  if (isFounder()) {
+    if (el) { el.innerHTML = '<span class="founder-badge" title="Early Investor — helped bring the Simulation to life">✦ FOUNDER</span>'; el.style.display = 'block'; }
+    if (activeRow) activeRow.style.display = 'block';
+    if (inputRow)  inputRow.style.display  = 'none';
+  } else {
+    if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+    if (activeRow) activeRow.style.display = 'none';
+    if (inputRow)  inputRow.style.display  = 'block';
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
    RENDER — medals on character card
    Populates #charMedals with earned badge icons.
    ───────────────────────────────────────────────────────────── */
 function Achievements_render() {
+  _renderFounderBadge();
   const el = document.getElementById('charMedals');
   if (!el) return;
   const store = _loadAchievements();
-  const earned = ACHIEVEMENTS.filter(function(a) { return !!store[a.id]; });
+  // Exclude founder from the medals row — it shows above the name instead
+  const earned = ACHIEVEMENTS.filter(function(a) { return a.id !== 'founder' && !!store[a.id]; });
   if (!earned.length) { el.innerHTML = ''; return; }
 
   el.innerHTML = earned.map(function(a) {

@@ -122,8 +122,8 @@
     <div class="geo-perm-icon">◎</div>
     <div class="geo-perm-title">ALLOW LOCATION ACCESS?</div>
     <div class="geo-perm-desc">
-      SIMULATION SOURCE CODE: QUEST OF LIFE uses your location to place quest markers on the world map.
-      Your location is only used when you choose to create a quest.
+      SOURCE CODE: LIFE uses your location to place quest markers on the world map.
+      Your location is only used when you choose to create and complete quests that require you to be in specific places. We do not store or share your location data.
     </div>
     <div class="geo-perm-btns">
       <button class="btn-primary" onclick="geoPermAllow()" style="margin-bottom:8px;">
@@ -275,6 +275,7 @@
               <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
             </div>
             <div class="char-identity">
+              <div id="charFounderBadge" style="display:none;"></div>
               <div class="char-identity-name" id="charCardName" onclick="openNameEdit()" title="Tap to edit character name">—</div>
               <div class="char-identity-dob"  id="charCardDob">—</div>
               <div class="char-identity-divider"></div>
@@ -434,8 +435,15 @@
         </div>
       </div>
 
-      <!-- Side Quests (accepted map quests) -->
-      <div id="sectionSideQ" class="hidden"></div>
+      <!-- Side Quests (Soul/Outer quests + Accepted World Quests) -->
+      <div id="sectionSideQ" class="hidden">
+        <div class="rpg-panel" style="margin-bottom:14px;">
+          <div class="panel-label c-teal">◈ ACTIVE WORLD QUESTS</div>
+          <div class="panel-body">
+            <div id="sideQWorldList"><div class="allies-empty">No active world quests. <a href="../world/" style="color:var(--teal);">Open the Simulation</a> to accept quests.</div></div>
+          </div>
+        </div>
+      </div>
 
       <!-- Quest detail panel — populated when a quest tile is clicked -->
       <div id="questDetailPanel" class="quest-detail-panel hidden"></div>
@@ -476,12 +484,33 @@
   <!-- ════ MAP TAB ════ -->
   <div class="tab-panel" id="panelMap">
     <div class="content-area">
-      <div class="section-toggle">
-        <button class="section-btn active" id="btnMapMap"       onclick="switchMapSection('map')">🗺 MAP</button>
-        <button class="section-btn"        id="btnMapMakequest" onclick="switchMapSection('makequest')">✦ MAKE QUEST</button>
-        <button class="section-btn"        id="btnMapAllies"    onclick="switchMapSection('allies')">⚔ ALLIES</button>
+
+      <!-- ── SIMULATION TEASER ── -->
+      <div class="sim-teaser">
+        <div class="sim-teaser-label">◈ THE SIMULATION</div>
+        <div class="sim-teaser-zones">
+          <div class="sim-zone-card sim-zone-digital" onclick="location.href='../world/#digital'">
+            <div class="sim-zone-icon">◈</div>
+            <div class="sim-zone-name">THE DIGITAL</div>
+            <div class="sim-zone-sub">Social &amp; Community</div>
+          </div>
+          <div class="sim-zone-card sim-zone-world" onclick="location.href='../world/#worldmap'">
+            <div class="sim-zone-icon">🗺</div>
+            <div class="sim-zone-name">THE WORLD</div>
+            <div class="sim-zone-sub">Map &amp; IRL Quests</div>
+          </div>
+        </div>
+        <div class="sim-top3" id="simTop3">
+          <div class="sim-top3-label">◈ TOP PLAYERS</div>
+          <div id="simTop3List" class="sim-top3-list">
+            <div class="sim-top3-loading">Loading...</div>
+          </div>
+        </div>
+        <button class="btn-primary sim-enter-btn" onclick="location.href='../world/'">▶ ENTER SIMULATION</button>
       </div>
-      <div id="sectionMapAllies" class="hidden">
+
+      <!-- hidden legacy DOM stubs — required for JS compatibility, not displayed -->
+      <div id="sectionMapAllies"    class="hidden">
         <div class="rpg-panel" style="margin-bottom:14px;">
           <div class="panel-label c-teal">◈ ALLIES &amp; CONNECTIONS</div>
           <div class="panel-body">
@@ -515,7 +544,11 @@
           </div>
         </div>
       </div>
-      <div id="sectionMapMap">
+      <!-- hidden nav stubs for switchMapSection JS compatibility -->
+      <button id="btnMapMap"       class="hidden"></button>
+      <button id="btnMapMakequest" class="hidden"></button>
+      <button id="btnMapAllies"    class="hidden"></button>
+      <div id="sectionMapMap" class="hidden">
         <div class="rpg-panel map-rpg-panel">
           <div class="panel-label c-gold">◈ WORLD MAP</div>
           <div class="panel-body map-legend-body">
@@ -742,9 +775,27 @@
         </div>
         <div style="font-size:10px;color:var(--text-dim);padding:6px 0 2px;line-height:1.7;">Daily briefing: personal day frequency + objective. Quest alerts: notify when quests are placed on the map.</div>
       </div>
-      <div class="rpg-panel">
-        <div class="panel-label c-silver">◈ ACCOUNT</div>
-        <div class="settings-row"><div class="settings-row-key">SIGN OUT</div><button class="settings-btn settings-btn-fixed" onclick="handleSignOut()">▶ SIGN OUT</button></div>
+      <div class="rpg-panel" style="margin-bottom:14px;" id="founderCodePanel">
+        <div class="panel-label c-gold">✦ FOUNDER CODE</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);padding:10px 16px 0;line-height:1.7;">
+          Early investors received a unique code. Enter it here to unlock the Founder badge on your character card, leaderboard standing, and all quests you create.
+        </div>
+        <div id="founderActiveRow" style="display:none;padding:10px 16px;">
+          <div class="founder-badge founder-badge--active">✦ FOUNDER STATUS ACTIVE</div>
+        </div>
+        <div id="founderInputRow" style="padding:10px 16px;">
+          <div style="display:flex;gap:8px;margin-bottom:8px;">
+            <input type="text" class="field-input" id="founderCodeInput"
+                   placeholder="SCL-FOUNDER-XXXXX" maxlength="24"
+                   style="flex:1;text-transform:uppercase;letter-spacing:2px;"
+                   oninput="this.value=this.value.toUpperCase()">
+            <button class="settings-btn settings-btn-fixed" onclick="redeemFounderCode(document.getElementById('founderCodeInput').value)">▶ REDEEM</button>
+          </div>
+          <div class="auth-error"   id="founderCodeError"></div>
+          <div class="auth-success" id="founderCodeSuccess"></div>
+        </div>
+      </div>
+      <div class="rpg-panel"><button class="settings-btn settings-btn-fixed" onclick="handleSignOut()">▶ SIGN OUT</button></div>
         <div class="settings-row"><div class="settings-row-key">RESET CHARACTER</div><button class="settings-btn settings-btn-fixed" onclick="handleResetChar()">▶ RESET</button></div>
         <div class="settings-row" style="cursor:pointer;" onclick="toggleChangePassword()"><div class="settings-row-key">CHANGE PASSWORD</div><div class="settings-btn settings-btn-fixed" id="changePwToggleBtn">▶ CHANGE</div></div>
         <div id="changePwPanel" style="display:none;padding:10px 0 4px;"><div class="field-group" style="margin-bottom:8px;"><label class="field-label">CURRENT PASSWORD</label><input type="password" class="field-input" id="cpCurrent" placeholder="••••••••••" autocomplete="current-password"></div><div class="field-group" style="margin-bottom:8px;"><label class="field-label">NEW PASSWORD</label><input type="password" class="field-input" id="cpNew" placeholder="min. 6 characters" autocomplete="new-password"></div><div class="field-group" style="margin-bottom:10px;"><label class="field-label">CONFIRM NEW PASSWORD</label><input type="password" class="field-input" id="cpConfirm" placeholder="••••••••••" autocomplete="new-password"></div><div class="auth-error" id="cpError"></div><div class="auth-success" id="cpSuccess"></div><div class="auth-loading" id="cpLoading" style="display:none;"><div class="loading-dots">UPDATING PASSWORD...</div></div><button class="btn-primary" style="margin-top:4px;" onclick="handleChangePassword()">▶ UPDATE PASSWORD</button></div>

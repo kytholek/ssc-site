@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="scifi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SIMULATION WORLD — SOURCE CODE: LIFE</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- Profile base styles + world-specific overrides -->
+  <link rel="stylesheet" href="../profile/styles.css">
+  <link rel="stylesheet" href="realm.css">
+</head>
+<body>
+
+<!-- ─── MATRIX RAIN TRANSITION ─── -->
+<div id="matrixOverlay">
+  <canvas id="matrixCanvas"></canvas>
+  <div id="matrixLabel">
+    <div id="matrixTitle">SIMULATION WORLD</div>
+    <div id="matrixSub">ENTERING THE MATRIX...</div>
+  </div>
+</div>
+
+<!-- CRT scanline -->
+<div class="scanline"></div>
+
+<!-- ─── APP SHELL ─── -->
+<div class="app-shell" id="appShell">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-top">
+      <div>
+        <div class="header-wordmark">SIMULATION WORLD</div>
+        <div class="header-sub">THE QUEST OF LIFE</div>
+      </div>
+      <div class="header-player">
+        <div class="header-player-name" id="worldPlayerName">PLAYER</div>
+        <div class="header-player-dob">
+          <button class="world-menu-back" onclick="matrixExit('../profile/')">◄ BACK TO APP</button>
+        </div>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="wTabBtn_hub"    onclick="World_switchTab('hub')">
+      <span class="tab-icon">🗺</span>HUB
+    </button>
+    <button class="tab-btn"        id="wTabBtn_social" onclick="World_switchTab('social')">
+      <span class="tab-icon">⚔</span>SOCIAL
+    </button>
+  </div>
+
+  <!-- ════ HUB TAB ════ -->
+  <div class="tab-panel active" id="wPanel_hub">
+    <div class="content-area">
+
+      <!-- Map / zone toggle -->
+      <div class="section-toggle" style="margin-bottom:14px;">
+        <button class="section-btn active" data-map="digital" onclick="Hub_switchMap('digital')">◈ THE DIGITAL</button>
+        <button class="section-btn"        data-map="world"   onclick="Hub_switchMap('world')">🗺 THE WORLD</button>
+      </div>
+
+      <!-- ─ DIGITAL VIEW ─ -->
+      <div id="hubDigitalView">
+        <div class="rpg-panel dmap-panel">
+          <div class="panel-label c-teal">◈ THE DIGITAL — Quest World</div>
+          <div id="digitalMapContainer">
+            <div id="digitalLeafletMap"></div>
+            <div class="dmap-tap-hint" id="dmapHint">TAP A QUEST MARKER</div>
+          </div>
+        </div>
+        <div class="rpg-panel">
+          <div class="panel-label c-gold">◈ QUEST LOG</div>
+          <div class="panel-body panel-body--tight" id="digitalQuestLegend">
+            <!-- populated by realm.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ WORLD VIEW ─ -->
+      <div id="hubWorldView" class="hidden">
+
+        <div class="rpg-panel map-rpg-panel">
+          <div class="panel-label c-gold">◈ WORLD MAP</div>
+          <div id="realmMapContainer">
+            <div id="realmLeafletMap"></div>
+          </div>
+        </div>
+
+        <div class="rpg-panel" id="activeQuestsPanel">
+          <div class="panel-label c-teal">◈ ACTIVE QUESTS</div>
+          <div class="panel-body" id="activeQuestsList">
+            <div class="allies-empty">No active quests. Create one below or accept one from the map.</div>
+          </div>
+        </div>
+
+        <div class="rpg-panel">
+          <div class="panel-label c-amber">◈ WORLD REALM QUESTS</div>
+          <div class="panel-body" id="hubWorldQuestList">
+            <!-- populated by realm.js -->
+          </div>
+        </div>
+
+      </div><!-- /hubWorldView -->
+
+    </div>
+  </div><!-- /wPanel_hub -->
+
+  <!-- ════ SOCIAL TAB ════ -->
+  <div class="tab-panel" id="wPanel_social">
+
+    <!-- Sub-nav -->
+    <div class="section-toggle">
+      <button class="section-btn active" data-sub="leaderboard" onclick="Social_switchSub('leaderboard')">✦ RANKS</button>
+      <button class="section-btn"        data-sub="allies"      onclick="Social_switchSub('allies')">⚔ ALLIES</button>
+      <button class="section-btn"        data-sub="makequest"   onclick="Social_switchSub('makequest')">◈ MAKE QUEST</button>
+    </div>
+
+    <!-- ─ LEADERBOARD ─ -->
+    <div class="social-sub-panel" data-sub="leaderboard">
+      <div class="content-area">
+
+        <!-- Player card -->
+        <div class="rpg-panel">
+          <div class="panel-label c-gold">◈ YOUR STANDING</div>
+          <div class="panel-body" id="playerRankCard">
+            <!-- populated by Ranks_build() -->
+          </div>
+        </div>
+
+        <div class="rpg-panel">
+          <div class="panel-label c-silver">◈ TOP PLAYERS</div>
+          <div class="panel-body panel-body--tight" id="ranksList">
+            <!-- populated by Ranks_build() -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─ ALLIES ─ -->
+    <div class="social-sub-panel hidden" data-sub="allies">
+      <div class="content-area">
+        <div class="rpg-panel">
+          <div class="panel-label c-teal">◈ ALLIED PLAYERS</div>
+          <div class="panel-body">
+            <div class="allies-card-grid" id="alliesCardGrid">
+              <div class="allies-empty">No allies yet. Connect with players via the app.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ MAKE A QUEST ─ -->
+    <div class="social-sub-panel hidden" data-sub="makequest">
+      <div class="content-area">
+        <div class="rpg-panel">
+          <div class="panel-label c-amber">◈ MAKE A QUEST</div>
+          <div class="panel-body">
+            <p class="mq-intro">Drop a quest marker on the world map. Your allies can see it.</p>
+
+            <div class="field-group">
+              <div class="mq-field-header">
+                <label class="field-label" for="wMqName">QUEST NAME</label>
+                <span class="mq-char-count" id="wMqNameCount">0/60</span>
+              </div>
+              <input type="text" class="field-input" id="wMqName" placeholder="Name this quest..."
+                     maxlength="60" oninput="_wMqCharCount('wMqName','wMqNameCount',60)">
+            </div>
+
+            <div class="field-group">
+              <div class="mq-field-header">
+                <label class="field-label" for="wMqDesc">DESCRIPTION</label>
+                <span class="mq-char-count" id="wMqDescCount">0/280</span>
+              </div>
+              <textarea class="field-input mq-textarea" id="wMqDesc"
+                        placeholder="What is this quest about?" rows="3" maxlength="280"
+                        oninput="_wMqCharCount('wMqDesc','wMqDescCount',280)"></textarea>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">QUEST TYPE</label>
+              <div class="mq-type-grid">
+                <button class="mq-type-btn active" data-type="exploration" onclick="wSelectQuestType(this)">🗺 EXPLORE</button>
+                <button class="mq-type-btn"        data-type="connection"  onclick="wSelectQuestType(this)">⚔ CONNECT</button>
+                <button class="mq-type-btn"        data-type="achievement" onclick="wSelectQuestType(this)">▲ ACHIEVE</button>
+                <button class="mq-type-btn"        data-type="healing"     onclick="wSelectQuestType(this)">✦ HEAL</button>
+                <button class="mq-type-btn"        data-type="creation"    onclick="wSelectQuestType(this)">◈ CREATE</button>
+                <button class="mq-type-btn"        data-type="reflection"  onclick="wSelectQuestType(this)">◇ REFLECT</button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">REWARD FREQUENCY</label>
+              <div class="mq-reward-grid" id="wMqRewardGrid">
+                <button class="mq-reward-btn active" data-num="1" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">1</span><span class="mq-reward-name">INITIATION</span></button>
+                <button class="mq-reward-btn"        data-num="2" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">2</span><span class="mq-reward-name">UNION</span></button>
+                <button class="mq-reward-btn"        data-num="3" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">3</span><span class="mq-reward-name">EXPRESSION</span></button>
+                <button class="mq-reward-btn"        data-num="4" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">4</span><span class="mq-reward-name">FOUNDATION</span></button>
+                <button class="mq-reward-btn"        data-num="5" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">5</span><span class="mq-reward-name">FREEDOM</span></button>
+                <button class="mq-reward-btn"        data-num="6" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">6</span><span class="mq-reward-name">HARMONY</span></button>
+                <button class="mq-reward-btn"        data-num="7" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">7</span><span class="mq-reward-name">TRUTH</span></button>
+                <button class="mq-reward-btn"        data-num="8" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">8</span><span class="mq-reward-name">POWER</span></button>
+                <button class="mq-reward-btn"        data-num="9" onclick="wSelectRewardNum(this)"><span class="mq-reward-num">9</span><span class="mq-reward-name">MASTERY</span></button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">OBJECTIVES</label>
+              <div class="mq-obj-inputs">
+                <div class="mq-obj-input-row">
+                  <span class="mq-obj-bullet-label">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="wMqObj1"
+                         placeholder="First thing to do or experience..." maxlength="120"
+                         oninput="_wMqObjReveal()">
+                </div>
+                <div class="mq-obj-input-row mq-obj-hidden" id="wMqObj2Row">
+                  <span class="mq-obj-bullet-label" style="opacity:0.4">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="wMqObj2"
+                         placeholder="Second objective (optional)..." maxlength="120"
+                         oninput="_wMqObjReveal()">
+                </div>
+                <div class="mq-obj-input-row mq-obj-hidden" id="wMqObj3Row">
+                  <span class="mq-obj-bullet-label" style="opacity:0.4">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="wMqObj3"
+                         placeholder="Third objective (optional)..." maxlength="120">
+                </div>
+              </div>
+            </div>
+
+            <div class="mq-advanced-toggle" onclick="_wMqToggleAdvanced()" id="wMqAdvancedToggle">
+              <span class="mq-adv-arrow" id="wMqAdvArrow">▶</span>
+              <span class="mq-adv-label">ADVANCED OPTIONS</span>
+            </div>
+            <div class="mq-advanced-body hidden" id="wMqAdvancedBody">
+              <div class="field-group">
+                <label class="field-label">SEEKER TYPE</label>
+                <div class="mq-seeker-grid">
+                  <button class="mq-seeker-btn active" data-seeker="solo"    onclick="wSelectSeekerType(this)">◈ SOLO</button>
+                  <button class="mq-seeker-btn"        data-seeker="partner" onclick="wSelectSeekerType(this)">⚔ PARTNER</button>
+                  <button class="mq-seeker-btn"        data-seeker="group"   onclick="wSelectSeekerType(this)">✦ GROUP</button>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">DIFFICULTY</label>
+                <div class="mq-seeker-grid">
+                  <button class="mq-seeker-btn active" data-diff="1" onclick="wSelectDifficulty(this)">◈ APPRENTICE</button>
+                  <button class="mq-seeker-btn"        data-diff="2" onclick="wSelectDifficulty(this)">⚔ ADEPT</button>
+                  <button class="mq-seeker-btn"        data-diff="3" onclick="wSelectDifficulty(this)">★ MASTER</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">LOCATION</label>
+              <div class="mq-location-row">
+                <input type="text" class="field-input" id="wMqLocation"
+                       placeholder="Search for a place or address..." autocomplete="off">
+                <button class="settings-btn mq-gps-btn" onclick="wUseMyLocation()">◎ GPS</button>
+              </div>
+              <div id="wMqLocationStatus" class="mq-location-status"></div>
+            </div>
+
+            <div class="mq-sig-panel" id="wMqSigPanel">
+              <div class="mq-sig-label">◈ YOUR FREQUENCY SIGNATURE</div>
+              <div id="wMqSigBody" class="mq-sig-body">
+                <div class="mq-sig-hint">Sign in via the app to attach your frequencies.</div>
+              </div>
+              <div class="mq-sig-footer">This signature is embedded in every quest you create.</div>
+            </div>
+
+            <div class="auth-error"   id="wMqError"></div>
+            <div class="auth-success" id="wMqSuccess"></div>
+            <button class="btn-primary" onclick="wSubmitQuest()" style="margin-top:4px;">▶ DROP QUEST MARKER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /wPanel_social -->
+
+</div><!-- /app-shell -->
+
+<script src="realm.js"></script>
+</body>
+</html>

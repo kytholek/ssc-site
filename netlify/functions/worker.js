@@ -56,7 +56,7 @@ export default {
 
     // ── app subdomain → redirect to web app ────────────────────────────
     if (url.hostname === 'app.simulationsourcecode.com') {
-      const appPath = url.pathname === '/' ? '/sourcecode-life/calculator/' : url.pathname;
+      const appPath = url.pathname === '/' ? '/sourcecode-life/profile/' : url.pathname;
       return Response.redirect('https://simulationsourcecode.com' + appPath + url.search, 301);
     }
 

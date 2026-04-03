@@ -610,10 +610,7 @@ function switchTab(tab) {
   document.getElementById('btn' + cap).classList.add('active');
   document.getElementById('panel' + cap).classList.add('active');
   if (tab === 'map') {
-    loadAllies();
-    // Map section is default — init Leaflet if not yet done
-    if (!window._mapInstance) initLeafletMap();
-    else setTimeout(() => window._mapInstance.invalidateSize(), 50);
+    _renderSimTop3();
   }
 }
 
@@ -629,11 +626,62 @@ function switchMapSection(s) {
     if (key === s) { el.classList.remove('hidden'); btn.classList.add('active'); }
     else           { el.classList.add('hidden');    btn.classList.remove('active'); }
   });
-  if (s === 'map') {
-    if (!window._mapInstance) initLeafletMap();
-    else setTimeout(() => window._mapInstance.invalidateSize(), 50);
+}
+
+/* ================================================
+   SIMULATION TEASER — top-3 preview & side quest world list
+   ================================================ */
+function _calcSimScore() {
+  const charLvl  = parseInt(localStorage.getItem('scl_char_level')  || '1', 10);
+  const freqLvl  = parseInt(localStorage.getItem('scl_freq_level')  || '1', 10);
+  const streak   = parseInt(localStorage.getItem('scl_daily_streak')|| '0', 10);
+  const realmRaw = localStorage.getItem('scl_realm_quests');
+  const realmDone = realmRaw ? Object.values(JSON.parse(realmRaw)).filter(Boolean).length : 0;
+  const freqRaw  = localStorage.getItem('scl_freq_quests');
+  const freqDone = freqRaw  ? Object.values(JSON.parse(freqRaw )).filter(Boolean).length : 0;
+  return charLvl + freqLvl + realmDone + streak + Math.floor(freqDone / 5);
+}
+function _getTier(score) {
+  if (score >= 100) return { label: 'SOURCE',  cls: 'tier-source'  };
+  if (score >= 50)  return { label: 'ARCHON',  cls: 'tier-archon'  };
+  return              { label: 'ADEPT',   cls: 'tier-adept'   };
+}
+function _renderSimTop3() {
+  const listEl = document.getElementById('simTop3List');
+  if (!listEl) return;
+  const playerName  = (() => { try { return JSON.parse(localStorage.getItem('scl_player') || '{}').name || 'YOU'; } catch(e) { return 'YOU'; } })();
+  const playerScore = _calcSimScore();
+  const playerTier  = _getTier(playerScore);
+  const mock = [
+    { name: 'AXIOM_7',   score: 187 },
+    { name: 'NOVA_III',  score: 142 },
+    { name: 'ZEPHYR',    score: 118 },
+  ];
+  // Insert player into rankings
+  const all = [...mock, { name: playerName, score: playerScore, isPlayer: true }]
+    .sort((a, b) => b.score - a.score);
+  const top3 = all.slice(0, 3);
+  listEl.innerHTML = top3.map((p, i) => {
+    const t = _getTier(p.score);
+    return `<div class="sim-top3-row${p.isPlayer ? ' sim-top3-you' : ''}">
+      <span class="sim-top3-rank">#${i + 1}</span>
+      <span class="sim-top3-name">${p.name}</span>
+      <span class="sim-top3-tier ${t.cls}">${t.label}</span>
+      <span class="sim-top3-score">${p.score}</span>
+    </div>`;
+  }).join('');
+}
+
+function _renderSideQWorldQuests() {
+  const el = document.getElementById('sideQWorldList');
+  if (!el) return;
+  const accepted = (() => { try { return JSON.parse(localStorage.getItem('scl_accepted_quests') || '{}'); } catch(e) { return {}; } })();
+  const ids = Object.keys(accepted).filter(k => accepted[k]);
+  if (!ids.length) {
+    el.innerHTML = '<div class="allies-empty">No active world quests. <a href="../world/" style="color:var(--teal);">Open the Simulation</a> to accept quests.</div>';
+    return;
   }
-  if (s === 'makequest') { loadMyQuests(); _buildMqSignature(); }
+  el.innerHTML = ids.map(id => `<div class="side-world-quest-row"><span class="side-world-quest-icon">🗺</span><span class="side-world-quest-id">${id}</span><a href="../world/#worldmap" class="settings-btn" style="padding:2px 8px;font-size:9px;">VIEW</a></div>`).join('');
 }
 
 /* ================================================
@@ -1524,7 +1572,7 @@ function switchQuestSection(s) {
   const dp = document.getElementById('questDetailPanel');
   if (dp) { dp.classList.add('hidden'); dp.dataset.activeId = ''; }
   document.querySelectorAll('.quest-tile-inner.active-tile').forEach(el => el.classList.remove('active-tile'));
-  if (s === 'side') renderSideQuests();
+  if (s === 'side') { renderSideQuests(); _renderSideQWorldQuests(); }
   if (s === 'daily') {
     if (typeof QuestEngine_buildDailyRead === 'function') QuestEngine_buildDailyRead();
     if (typeof _buildFreqQuestList === 'function') try { _buildFreqQuestList(); } catch(e) {}
@@ -3152,7 +3200,7 @@ function Native_onOpenTab(tab) {
     const shell = document.getElementById('appShell');
     if (shell && !shell.classList.contains('hidden')) {
       switchTab(tab);
-      if (tab === 'map') switchMapSection('map');
+      if (tab === 'map') _renderSimTop3();
       if (tab === 'quests') switchQuestSection('daily');
     } else {
       setTimeout(trySwitch, 300);
