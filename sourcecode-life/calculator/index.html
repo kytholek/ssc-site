@@ -224,7 +224,7 @@
   <!-- Tab Bar -->
   <div class="tab-bar">
     <button class="tab-btn active" id="btnStats"    onclick="switchTab('stats')">
-      <span class="tab-icon">◈</span>STATS
+      <span class="tab-icon">◈</span>AVATAR
     </button>
     <button class="tab-btn"        id="btnQuests"   onclick="switchTab('quests')">
       <span class="tab-icon">⚔</span>QUESTS
@@ -243,8 +243,8 @@
 
       <!-- ── SECTION TOGGLE (Moved to Top) ── -->
       <div class="section-toggle">
-        <button class="section-btn active" id="btnChart"   onclick="switchSection('chart')">📊  STAT CHART</button>
-        <button class="section-btn"        id="btnJournal" onclick="switchSection('journal')">📖  JOURNAL</button>
+        <button class="section-btn active" id="btnChart"   onclick="switchSection('chart')">STATS</button>
+        <button class="section-btn"        id="btnJournal" onclick="switchSection('journal')">LIFE QUESTS</button>
       </div>
 
       <!-- Chart Section -->
@@ -291,46 +291,37 @@
           <div class="char-gifts-grid" id="charGifts"></div>
         </div>
 
-        <!-- RPG Stat Chart -->
-        <div class="rpg-panel" id="rpgStatChart">
-          <div class="panel-label c-gold">◈ STAT CHART</div>
-          <div class="panel-body">
-            <div class="frequency-legend">
-              <span><strong>LE</strong> = Learned Through Life</span>
-              <span><strong>IN</strong> = Inherited at Birth</span>
-              <span><strong>QU</strong> = Quest Growth · ◈ Unlocked · ▲ Ascending</span>
-              <span><strong>TTL</strong> = Total Stat Potential</span>
+        <!-- RPG Stat Chart + Attributes side panel -->
+        <div class="stat-page-wrapper">
+
+          <div class="rpg-panel stat-chart-panel" id="rpgStatChart">
+            <div class="panel-label c-gold">◈ STAT CHART</div>
+            <div class="panel-body">
+              <div class="stat-chart-header">
+                <div class="stat-col-num"></div>
+                <div class="stat-col-name"></div>
+                <div class="stat-col-box stat-col-hdr stat-col-hdr-tip" style="color:var(--amber);" data-tip="Learned Through Life · birthdate digit count">LE</div>
+                <div class="stat-col-box stat-col-hdr stat-col-hdr-tip" style="color:var(--sage);" data-tip="Inherited at Birth · name letter values">IN</div>
+                <div class="stat-col-box stat-col-hdr stat-col-hdr-tip" style="color:var(--purple);" data-tip="Quest Growth · ◈ Unlocked · ▲ Ascending">QU</div>
+                <div class="stat-col-box stat-col-hdr stat-col-hdr-tip stat-col-total-hdr" data-tip="Total Stat Potential · LE + IN + QU">TTL</div>
+              </div>
+              <div class="stat-polarity-divider electric">⚡ ELECTRIC  ·  1  3  5  7</div>
+              <div id="statRowsElectric"></div>
+              <div class="stat-polarity-divider magnetic">◉ MAGNETIC  ·  2  4  6  8</div>
+              <div id="statRowsMagnetic"></div>
+              <div class="stat-polarity-divider aether">✦ AETHER  ·  0  9</div>
+              <div id="statRowsAether"></div>
             </div>
-            <div class="stat-chart-header">
-              <div class="stat-col-num"></div>
-              <div class="stat-col-name"></div>
-              <div class="stat-col-box stat-col-hdr" style="color:var(--amber);">LE</div>
-              <div class="stat-col-box stat-col-hdr" style="color:var(--sage);">IN</div>
-              <div class="stat-col-box stat-col-hdr" style="color:var(--purple);">QU</div>
-              <div class="stat-col-box stat-col-hdr stat-col-total-hdr">TTL</div>
-            </div>
-            <div class="stat-polarity-divider electric">⚡ ELECTRIC  ·  1  3  5  7</div>
-            <div id="statRowsElectric"></div>
-            <div class="stat-polarity-divider magnetic">◉ MAGNETIC  ·  2  4  6  8</div>
-            <div id="statRowsMagnetic"></div>
-            <div class="stat-polarity-divider aether">✦ AETHER  ·  0  9</div>
-            <div id="statRowsAether"></div>
           </div>
+
+          <div class="rpg-panel stat-benefits-panel" id="statBenefitsPanel">
+            <div class="panel-label c-silver">◈ ATTRIBUTES</div>
+            <div id="statBenefitsList" class="stat-benefits-list"></div>
+          </div>
+
         </div>
 
         <div class="polarity-card rpg-panel" id="polarityCard"></div>
-
-        <!-- Frequencies reference panel — all 7 numbers at a glance -->
-        <div class="rpg-panel" style="margin-bottom:14px;">
-          <div class="panel-label c-silver">◈ FREQUENCIES</div>
-          <div class="settings-row"><div class="settings-row-key">LIFE PATH</div><div class="settings-row-val" id="settingLp">—</div></div>
-          <div class="settings-row"><div class="settings-row-key">EXPRESSION</div><div class="settings-row-val" id="settingEx">—</div></div>
-          <div class="settings-row"><div class="settings-row-key">LIFE CALLING</div><div class="settings-row-val" id="settingCl">—</div></div>
-          <div class="settings-row"><div class="settings-row-key">SOUL</div><div class="settings-row-val" id="settingSo">—</div></div>
-          <div class="settings-row"><div class="settings-row-key">OUTER</div><div class="settings-row-val" id="settingOu">—</div></div>
-          <div class="settings-row"><div class="settings-row-key">ACHIEVEMENT</div><div class="settings-row-val" id="settingAc">—</div></div>
-          <div class="settings-row"><div class="settings-row-key">THEME</div><div class="settings-row-val" id="settingTh">—</div></div>
-        </div>
 
       </div><!-- /sectionChart -->
 
@@ -346,6 +337,9 @@
         <div id="chartCombined"></div><div id="chartLabels"></div><div id="chartFreq"></div>
         <div id="chartBirth"></div><div id="chartName"></div><div id="sourcePills"></div>
         <div id="freqDetailGrid"></div>
+        <div id="settingLp"></div><div id="settingEx"></div><div id="settingCl"></div>
+        <div id="settingSo"></div><div id="settingOu"></div><div id="settingAc"></div>
+        <div id="settingTh"></div>
       </div>
 
     </div>
@@ -432,11 +426,11 @@
   <div class="tab-panel" id="panelMap">
     <div class="content-area">
       <div class="section-toggle">
-        <button class="section-btn active" id="btnMapAllies"    onclick="switchMapSection('allies')">⚔ ALLIES</button>
-        <button class="section-btn"        id="btnMapMap"       onclick="switchMapSection('map')">🗺 MAP</button>
+        <button class="section-btn active" id="btnMapMap"       onclick="switchMapSection('map')">🗺 MAP</button>
         <button class="section-btn"        id="btnMapMakequest" onclick="switchMapSection('makequest')">✦ MAKE QUEST</button>
+        <button class="section-btn"        id="btnMapAllies"    onclick="switchMapSection('allies')">⚔ ALLIES</button>
       </div>
-      <div id="sectionMapAllies">
+      <div id="sectionMapAllies" class="hidden">
         <div class="rpg-panel" style="margin-bottom:14px;">
           <div class="panel-label c-teal">◈ ALLIES &amp; CONNECTIONS</div>
           <div class="panel-body">
@@ -470,7 +464,7 @@
           </div>
         </div>
       </div>
-      <div id="sectionMapMap" class="hidden">
+      <div id="sectionMapMap">
         <div class="rpg-panel map-rpg-panel">
           <div class="panel-label c-gold">◈ WORLD MAP</div>
           <div class="panel-body map-legend-body">
@@ -486,6 +480,16 @@
             <div id="leafletMap"></div>
           </div>
         </div>
+        <!-- NEARBY QUESTS PANEL -->
+        <div class="rpg-panel nearby-quests-panel" id="nearbyQuestsPanel">
+          <div class="panel-label c-teal">◈ NEARBY QUESTS <span id="nearbyQuestsRadius" class="nearby-radius-label">— 30 MI RADIUS</span></div>
+          <div class="panel-body" id="nearbyQuestsList">
+            <div class="nearby-quests-empty" id="nearbyQuestsEmpty">
+              <div class="nearby-loc-hint">◎ Enable location to see quests near you.</div>
+              <button class="settings-btn nearby-loc-btn" onclick="_nearbyRequestLocation()">◎ USE MY LOCATION</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="sectionMapMakequest" class="hidden">
         <div class="rpg-panel" style="margin-bottom:14px;">
@@ -493,12 +497,19 @@
           <div class="panel-body">
             <p class="mq-intro">Drop a quest marker on the world map. Your allies can see it.</p>
             <div class="field-group">
-              <label class="field-label">QUEST NAME</label>
-              <input type="text" class="field-input" id="mqName" placeholder="Name this quest..." maxlength="60">
+              <div class="mq-field-header">
+                <label class="field-label">QUEST NAME</label>
+                <span class="mq-char-count" id="mqNameCount">0/60</span>
+              </div>
+              <input type="text" class="field-input" id="mqName" placeholder="Name this quest..." maxlength="60" oninput="_mqCharCount('mqName','mqNameCount',60)" onfocus="_mqClearFieldError('mqName')">
+              <div class="mq-field-err-msg" id="mqNameErr">⚠ Quest name is required.</div>
             </div>
             <div class="field-group">
-              <label class="field-label">DESCRIPTION</label>
-              <textarea class="field-input mq-textarea" id="mqDesc" placeholder="What is this quest about? What are you pursuing here?" rows="3" maxlength="280"></textarea>
+              <div class="mq-field-header">
+                <label class="field-label">DESCRIPTION</label>
+                <span class="mq-char-count" id="mqDescCount">0/280</span>
+              </div>
+              <textarea class="field-input mq-textarea" id="mqDesc" placeholder="What is this quest about? What are you pursuing here?" rows="3" maxlength="280" oninput="_mqCharCount('mqDesc','mqDescCount',280)"></textarea>
             </div>
             <div class="field-group">
               <label class="field-label">QUEST TYPE</label>
@@ -562,40 +573,48 @@
               <div class="mq-obj-inputs">
                 <div class="mq-obj-input-row">
                   <span class="mq-obj-bullet-label">◈</span>
-                  <input type="text" class="field-input mq-obj-input" id="mqObj1" placeholder="First thing to do or experience..." maxlength="120">
+                  <input type="text" class="field-input mq-obj-input" id="mqObj1" placeholder="First thing to do or experience..." maxlength="120" oninput="_mqObjReveal()">
                 </div>
-                <div class="mq-obj-input-row">
-                  <span class="mq-obj-bullet-label">◈</span>
-                  <input type="text" class="field-input mq-obj-input" id="mqObj2" placeholder="Second objective (optional)..." maxlength="120">
+                <div class="mq-obj-input-row mq-obj-hidden" id="mqObj2Row">
+                  <span class="mq-obj-bullet-label" style="opacity:0.4">◈</span>
+                  <input type="text" class="field-input mq-obj-input" id="mqObj2" placeholder="Second objective (optional)..." maxlength="120" oninput="_mqObjReveal()">
                 </div>
-                <div class="mq-obj-input-row">
-                  <span class="mq-obj-bullet-label">◈</span>
+                <div class="mq-obj-input-row mq-obj-hidden" id="mqObj3Row">
+                  <span class="mq-obj-bullet-label" style="opacity:0.4">◈</span>
                   <input type="text" class="field-input mq-obj-input" id="mqObj3" placeholder="Third objective (optional)..." maxlength="120">
                 </div>
               </div>
             </div>
-            <div class="field-group">
-              <label class="field-label">SEEKER TYPE</label>
-              <div class="mq-seeker-grid">
-                <button class="mq-seeker-btn active" data-seeker="solo"    onclick="selectSeekerType(this)">◈ SOLO</button>
-                <button class="mq-seeker-btn"        data-seeker="partner" onclick="selectSeekerType(this)">⚔ PARTNER</button>
-                <button class="mq-seeker-btn"        data-seeker="group"   onclick="selectSeekerType(this)">✦ GROUP</button>
-              </div>
+            <div class="mq-advanced-toggle" onclick="_mqToggleAdvanced()" id="mqAdvancedToggle">
+              <span class="mq-adv-arrow" id="mqAdvArrow">▶</span>
+              <span class="mq-adv-label">ADVANCED OPTIONS</span>
+              <span class="mq-adv-hint" id="mqAdvHint">Solo · Apprentice</span>
             </div>
-            <div class="field-group">
-              <label class="field-label">DIFFICULTY</label>
-              <div class="mq-seeker-grid">
-                <button class="mq-seeker-btn active" data-diff="1" onclick="selectDifficulty(this)">◈ APPRENTICE</button>
-                <button class="mq-seeker-btn"        data-diff="2" onclick="selectDifficulty(this)">⚔ ADEPT</button>
-                <button class="mq-seeker-btn"        data-diff="3" onclick="selectDifficulty(this)">★ MASTER</button>
+            <div class="mq-advanced-body hidden" id="mqAdvancedBody">
+              <div class="field-group">
+                <label class="field-label">SEEKER TYPE</label>
+                <div class="mq-seeker-grid">
+                  <button class="mq-seeker-btn active" data-seeker="solo"    onclick="selectSeekerType(this)">◈ SOLO</button>
+                  <button class="mq-seeker-btn"        data-seeker="partner" onclick="selectSeekerType(this)">⚔ PARTNER</button>
+                  <button class="mq-seeker-btn"        data-seeker="group"   onclick="selectSeekerType(this)">✦ GROUP</button>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">DIFFICULTY</label>
+                <div class="mq-seeker-grid">
+                  <button class="mq-seeker-btn active" data-diff="1" onclick="selectDifficulty(this)">◈ APPRENTICE</button>
+                  <button class="mq-seeker-btn"        data-diff="2" onclick="selectDifficulty(this)">⚔ ADEPT</button>
+                  <button class="mq-seeker-btn"        data-diff="3" onclick="selectDifficulty(this)">★ MASTER</button>
+                </div>
               </div>
             </div>
             <div class="field-group">
               <label class="field-label">LOCATION</label>
               <div class="mq-location-row">
-                <input type="text" class="field-input" id="mqLocation" placeholder="Search for a place or address..." oninput="onLocationInput(this.value)" autocomplete="off">
+                <input type="text" class="field-input" id="mqLocation" placeholder="Search for a place or address..." oninput="onLocationInput(this.value)" onfocus="_mqClearFieldError('mqLocation')" autocomplete="off">
                 <button class="settings-btn mq-gps-btn" onclick="useMyLocation()">◎ GPS</button>
               </div>
+              <div class="mq-field-err-msg" id="mqLocErr">⚠ Location is required.</div>
               <div id="mqLocationSuggestions" class="mq-suggestions hidden"></div>
               <div id="mqLocationStatus" class="mq-location-status"></div>
               <div id="mqMapPreview" class="mq-map-preview hidden"><div id="mqMiniMap"></div></div>

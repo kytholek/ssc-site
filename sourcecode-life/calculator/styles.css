@@ -2893,8 +2893,207 @@ body::after {
 .gm-style-iw-chr { display: none !important; }
 
 /* ================================================
+   MAP TAB — NEARBY QUESTS PANEL
+   ================================================ */
+.nearby-quests-panel { margin-top: 14px; }
+
+.nearby-radius-label {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 0;
+  font-weight: normal;
+}
+
+.nearby-quests-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+}
+.nearby-loc-hint {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: center;
+}
+.nearby-loc-btn {
+  font-size: 8px;
+  padding: 10px 16px;
+}
+
+/* Individual quest card in the nearby panel */
+.nearby-quest-card {
+  border: 1px solid var(--border);
+  background: var(--bg-inset);
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.nearby-quest-card:last-child { margin-bottom: 0; }
+
+.nearby-quest-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+.nearby-quest-name {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: var(--gold);
+  line-height: 1.1;
+  flex: 1;
+}
+.nearby-quest-dist {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--teal);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nearby-quest-type {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.nearby-quest-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px 2px 5px;
+  border: 1px solid var(--amber-dim, rgba(212,168,67,0.3));
+  margin-bottom: 8px;
+}
+.nearby-reward-num {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--amber);
+  line-height: 1;
+}
+.nearby-reward-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.nearby-quest-objs {
+  margin-bottom: 8px;
+}
+.nearby-obj-item {
+  font-size: 10px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding-left: 12px;
+  position: relative;
+}
+.nearby-obj-item::before {
+  content: '◈';
+  position: absolute;
+  left: 0;
+  color: var(--teal-dim, rgba(0,229,204,0.4));
+  font-size: 9px;
+}
+.nearby-accept-btn {
+  display: block;
+  width: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 0.5px;
+  padding: 9px;
+  text-align: center;
+  background: rgba(0,229,204,0.06);
+  border: 1px solid rgba(0,229,204,0.4);
+  color: var(--teal);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.15s;
+}
+.nearby-accept-btn:active { background: rgba(0,229,204,0.14); }
+.nearby-accept-btn.accepted {
+  background: rgba(212,168,67,0.06);
+  border-color: rgba(212,168,67,0.25);
+  color: var(--gold);
+  cursor: default;
+}
+
+/* ================================================
    MAP TAB — MAKE QUEST SECTION
    ================================================ */
+
+/* ── Quest Maker UX enhancements ── */
+/* Field header row: label left, char count right */
+.mq-field-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.mq-field-header .field-label { margin-bottom: 0; }
+.mq-char-count {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.mq-char-count.mq-char-warn { color: var(--amber); }
+.mq-char-count.mq-char-full { color: var(--red, #ff4444); }
+
+/* Progressive objective rows — hidden until unlocked */
+.mq-obj-hidden {
+  display: none;
+}
+
+/* Inline field error highlight */
+.field-input.mq-field-error {
+  border-color: var(--red, #ff4444) !important;
+  box-shadow: 0 0 0 1px var(--red, #ff4444);
+}
+.mq-field-err-msg {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  color: var(--red, #ff4444);
+  margin-top: 4px;
+  display: none;
+}
+.mq-field-err-msg.visible { display: block; }
+
+/* Advanced options accordion toggle */
+.mq-advanced-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0 10px;
+  border-top: 1px solid var(--border);
+  margin: 4px 0 2px;
+  cursor: pointer;
+  user-select: none;
+}
+.mq-adv-arrow {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--text-dim);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.mq-adv-arrow.open { transform: rotate(90deg); }
+.mq-adv-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+.mq-adv-hint {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--amber);
+  margin-left: auto;
+}
+.mq-advanced-body { padding-top: 4px; }
 
 /* Intro text */
 .mq-intro {
@@ -3749,3 +3948,400 @@ body::after {
 
 /* c-purple panel label */
 .c-purple { color: var(--purple); }
+
+/* ================================================
+   STAT PAGE — TWO-COLUMN WRAPPER
+   ================================================ */
+.stat-page-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.stat-chart-panel {
+  flex: 1.4;
+  min-width: 0;
+  margin-bottom: 0 !important;
+}
+.stat-benefits-panel {
+  flex: 1;
+  min-width: 120px;
+  margin-bottom: 0 !important;
+}
+
+/* On very narrow screens collapse to single column */
+@media (max-width: 420px) {
+  .stat-page-wrapper { flex-direction: column; }
+  .stat-chart-panel, .stat-benefits-panel { flex: none; width: 100%; }
+}
+
+/* ── Header-cell hover tooltips (replaces static legend) ── */
+.stat-col-hdr-tip {
+  position: relative;
+  cursor: default;
+}
+.stat-col-hdr-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  white-space: nowrap;
+  padding: 5px 9px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 999;
+  transition: opacity 0.15s;
+}
+.stat-col-hdr-tip:hover::after { opacity: 1; }
+
+/* ── Bigger text on stat chart (all themes) ── */
+.stat-name-text {
+  font-size: 7px;
+  letter-spacing: 0.8px;
+}
+.stat-col-num   { font-size: 26px; }
+.stat-col-box   { font-size: 20px; }
+.stat-col-total { font-size: 22px; }
+.stat-col-hdr   { font-size: 7px; letter-spacing: 1px; }
+.stat-polarity-divider {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  padding: 9px 6px 6px;
+}
+.panel-label { font-size: 11px; }
+
+/* ── Attributes / Benefits panel ── */
+.stat-benefits-list {
+  padding: 4px 0 8px;
+}
+.sb-section-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  padding: 10px 14px 5px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.sb-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 5px 14px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  line-height: 1.4;
+}
+.sb-row:last-child { border-bottom: none; }
+.sb-row:nth-child(odd) { background: rgba(255,255,255,0.012); }
+.sb-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5.5px;
+  letter-spacing: 0.5px;
+  color: var(--text-mid);
+  flex-shrink: 0;
+  min-width: 64px;
+}
+.sb-num {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.sb-root {
+  font-size: 14px;
+  opacity: 0.7;
+}
+.sb-kw {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  line-height: 1.4;
+  text-align: right;
+  flex: 1;
+  min-width: 0;
+}
+.sb-bonus {
+  gap: 5px;
+}
+.sb-bonus-icon {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.sb-status {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+/* ================================================
+   DIABLO THEME — AVATAR PAGE RPG ENHANCEMENTS
+   Heavy Gothic-frame treatment for the character
+   card and stat panels. All under [data-theme="diablo"]
+   so other themes are untouched.
+   ================================================ */
+
+/* ── Notched panel corners — angled Diablo/PoE frame ── */
+[data-theme="diablo"] .rpg-panel {
+  border-width: 2px;
+  border-color: var(--border);
+  clip-path: polygon(
+    10px 0%, calc(100% - 10px) 0%,
+    100% 10px, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 10px 100%,
+    0% calc(100% - 10px), 0% 10px
+  );
+  box-shadow:
+    0 0 0 1px rgba(200,144,26,0.08) inset,
+    0 0 20px rgba(192,48,24,0.12),
+    0 4px 28px rgba(0,0,0,0.7);
+  margin-bottom: 16px;
+}
+/* No ::before pseudo on diablo panels — keep it already disabled */
+[data-theme="diablo"] .rpg-panel::before { display: none; }
+
+/* ── Panel labels — gothic serif + ornament gem ── */
+[data-theme="diablo"] .panel-label {
+  padding: 13px 18px 11px;
+  border-bottom: 2px solid var(--border);
+  background: linear-gradient(90deg, rgba(200,144,26,0.07) 0%, transparent 70%);
+  letter-spacing: 2px;
+}
+[data-theme="diablo"] .panel-label::before {
+  content: '✦';
+  font-size: 8px;
+  opacity: 0.6;
+  margin-right: 8px;
+  vertical-align: middle;
+  color: var(--gold-dim);
+}
+[data-theme="diablo"] .panel-label::after {
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ── Character card — heavy iron + blood-gold frame ── */
+[data-theme="diablo"] .char-card {
+  border-width: 2px !important;
+  border-color: var(--gold-dim) !important;
+  background: #1a1816 !important;
+  box-shadow:
+    0 0 0 1px rgba(200,144,26,0.10) inset,
+    0 0 0 3px rgba(0,0,0,0.8),
+    0 0 40px rgba(192,48,24,0.15),
+    0 6px 32px rgba(0,0,0,0.7) !important;
+  clip-path: polygon(
+    10px 0%, calc(100% - 10px) 0%,
+    100% 10px, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 10px 100%,
+    0% calc(100% - 10px), 0% 10px
+  );
+}
+/* Ornamental top-edge gold sweep */
+[data-theme="diablo"] .char-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-dim) 15%,
+    var(--gold) 50%,
+    var(--gold-dim) 85%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Scandinavian stonework scanlines behind the card */
+[data-theme="diablo"] .char-card-inner {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 5px,
+    rgba(0,0,0,0.18) 5px,
+    rgba(0,0,0,0.18) 6px
+  );
+}
+
+/* ── Avatar frame — corner rivet brackets ── */
+[data-theme="diablo"] .char-avatar-frame {
+  border-right: 2px solid var(--border-glow) !important;
+  box-shadow: 0 0 20px rgba(192,48,24,0.28), inset 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+  background: #131110;
+}
+/* Top-left L-bracket */
+[data-theme="diablo"] .char-avatar-frame::before {
+  content: '';
+  position: absolute;
+  top: 7px; left: 7px;
+  width: 16px; height: 16px;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 3;
+}
+/* Bottom-right L-bracket */
+[data-theme="diablo"] .char-avatar-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 7px; right: 7px;
+  width: 16px; height: 16px;
+  border-bottom: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Core number blocks — embossed stone cells ── */
+[data-theme="diablo"] .core-num-block {
+  border-width: 2px;
+  border-color: var(--border-glow);
+  background: rgba(0,0,0,0.35);
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.7) inset,
+    0 1px 0 rgba(200,144,26,0.08);
+}
+[data-theme="diablo"] .core-num-value {
+  font-size: 36px;
+  text-shadow: 0 0 18px currentColor, 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* ── Identity name — bolder glow ── */
+[data-theme="diablo"] .char-identity-name {
+  text-shadow: 0 0 22px rgba(200,144,26,0.7), 0 0 6px rgba(200,144,26,0.35), 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* ── Identity divider — full symmetric gold gradient ── */
+[data-theme="diablo"] .char-identity-divider {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-dim) 20%,
+    rgba(200,144,26,0.7) 50%,
+    var(--gold-dim) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Skills / Gifts panel — thick iron border ── */
+[data-theme="diablo"] .char-gifts-panel {
+  border-width: 2px !important;
+  border-color: var(--border-glow) !important;
+  clip-path: polygon(
+    10px 0%, calc(100% - 10px) 0%,
+    100% 10px, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 10px 100%,
+    0% calc(100% - 10px), 0% 10px
+  );
+}
+[data-theme="diablo"] .char-gifts-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  padding: 12px 16px 8px;
+  border-bottom: 2px solid var(--border);
+}
+
+/* ── Stat polarity dividers — flanking dashes ── */
+[data-theme="diablo"] .stat-polarity-divider {
+  padding: 10px 8px 7px;
+  border-bottom: 2px solid var(--border);
+  letter-spacing: 2px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 6px;
+}
+[data-theme="diablo"] .stat-polarity-divider::before,
+[data-theme="diablo"] .stat-polarity-divider::after {
+  content: '─ ─ ─';
+  font-family: monospace;
+  opacity: 0.35;
+  font-size: 8px;
+  vertical-align: middle;
+  margin: 0 8px;
+}
+
+/* ── Stat chart rows — deeper cell emboss ── */
+[data-theme="diablo"] .stat-chart-row {
+  padding: 7px 6px;
+  border-bottom: 1px solid rgba(74,64,56,0.8);
+}
+[data-theme="diablo"] .stat-chart-row:hover {
+  background: rgba(200,144,26,0.04);
+}
+[data-theme="diablo"] .stat-col-box {
+  border-width: 2px;
+  border-color: var(--border);
+  font-size: 19px;
+  background: rgba(0,0,0,0.35);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6) inset;
+}
+[data-theme="diablo"] .stat-col-total {
+  border-width: 2px;
+  font-size: 21px;
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6) inset;
+}
+[data-theme="diablo"] .stat-col-num { font-size: 24px; }
+[data-theme="diablo"] .stat-col-hdr { font-size: 6px; letter-spacing: 1px; }
+
+/* Primary stat row — thicker blood accent ── */
+[data-theme="diablo"] .stat-row-primary {
+  border-left-width: 3px;
+}
+
+/* ── Level bars — taller + fire glow ── */
+[data-theme="diablo"] .lvl-bar-track {
+  height: 10px;
+  border: 2px solid var(--border);
+  background: #0e0c0a;
+}
+[data-theme="diablo"] .char-bar-fill {
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  box-shadow: 6px 0 18px rgba(200,144,26,0.7), 0 0 8px rgba(200,144,26,0.4);
+}
+[data-theme="diablo"] .freq-bar-fill {
+  background: linear-gradient(90deg, var(--teal-dim), var(--teal));
+  box-shadow: 6px 0 18px rgba(192,48,24,0.7), 0 0 8px rgba(192,48,24,0.4);
+}
+
+/* ── Polarity card — purple-dim accent ── */
+[data-theme="diablo"] .polarity-card {
+  border-color: var(--purple-dim) !important;
+  box-shadow: 0 0 16px rgba(120,48,96,0.10);
+}
+[data-theme="diablo"] .polarity-bar {
+  height: 10px;
+  border: 2px solid var(--border);
+}
+
+/* ── Frequencies reference rows — alternating shade + gold hover ── */
+[data-theme="diablo"] .settings-row:nth-child(odd) {
+  background: rgba(0,0,0,0.15);
+}
+[data-theme="diablo"] .settings-row {
+  border-left: 3px solid transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+[data-theme="diablo"] .settings-row:hover {
+  border-left-color: var(--gold-dim);
+  background: rgba(200,144,26,0.05);
+}
+
+/* ── Stat chart panel top accent ── */
+[data-theme="diablo"] #rpgStatChart .panel-label {
+  background: linear-gradient(90deg, rgba(200,144,26,0.09) 0%, transparent 75%);
+}

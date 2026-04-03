@@ -117,7 +117,8 @@ window.NativeAuth = {
           const freqXP    = d.freqXP    || 0;
           const freqLevel = d.freqLevel || 1;
           const statXP    = d.statXP    || '{}';
-          const freqLog   = d.freqLog   || '{}';
+          // d.freqLog is an object from Firestore or undefined — avoid double-stringify
+          const freqLog   = (typeof d.freqLog === 'object' && d.freqLog !== null) ? d.freqLog : {};
           NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel,
             JSON.stringify(statXP), JSON.stringify(freqLog));
         } else {
@@ -297,6 +298,17 @@ window.NativeMap = {
         { merge: true }
       ).catch(() => {});
     }
+  },
+
+  saveFreqLog(freqLogJson) {
+    const user = _auth.currentUser;
+    if (!user) return;
+    try {
+      _db.collection('players').doc(user.uid).set(
+        { freqLog: JSON.parse(freqLogJson || '{}'), freqLogUpdated: Date.now() },
+        { merge: true }
+      ).catch(() => {});
+    } catch(e) {}
   }
 };
 

@@ -605,6 +605,9 @@ function switchTab(tab) {
   document.getElementById('panel' + cap).classList.add('active');
   if (tab === 'map') {
     loadAllies();
+    // Map section is default — init Leaflet if not yet done
+    if (!window._mapInstance) initLeafletMap();
+    else setTimeout(() => window._mapInstance.invalidateSize(), 50);
   }
 }
 
@@ -835,6 +838,14 @@ function initLeafletMap() {
   if (loadEl) loadEl.style.display = 'none';
 
   if (typeof NativeMap !== 'undefined') NativeMap.loadQuestMarkers();
+
+  // Try browser geolocation as web fallback for nearby quests
+  if (typeof NativeMap === 'undefined' && navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => { window._playerLat = pos.coords.latitude; window._playerLng = pos.coords.longitude; _buildNearbyQuestsList(); },
+      () => {}
+    );
+  }
 }
 
 // Backwards compat — native bridge still calls this
@@ -845,6 +856,8 @@ function NativeMap_onQuestsLoaded(questsJson) {
   if (!map) return;
   window._lastQuestsJson = questsJson; // cache for theme switches
   const quests = _parseJson(questsJson) || [];
+  // Refresh nearby panel
+  setTimeout(_buildNearbyQuestsList, 50);
   const myUid  = window._currentUid || '';
   const cfg    = getMapTheme();
 
@@ -861,6 +874,99 @@ function NativeMap_onQuestsLoaded(questsJson) {
     marker.bindPopup(_buildPopupHtml(q, type, cfg), { className: 'leaflet-theme-popup' });
     window._questMarkerLayer.addLayer(marker);
   });
+}
+
+/* ── Nearby Quests Panel ── */
+function _haversineMi(lat1, lng1, lat2, lng2) {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+            Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+            Math.sin(dLng/2)*Math.sin(dLng/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function _nearbyRequestLocation() {
+  if (typeof NativeMap !== 'undefined') {
+    NativeMap.requestLocation();
+  } else if (navigator.geolocation) {
+    const btn = document.querySelector('.nearby-loc-btn');
+    if (btn) { btn.textContent = '◎ GETTING LOCATION…'; btn.disabled = true; }
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        window._playerLat = pos.coords.latitude;
+        window._playerLng = pos.coords.longitude;
+        _buildNearbyQuestsList();
+      },
+      err => {
+        const msgs = { 1: 'Location permission denied.', 2: 'Position unavailable.', 3: 'Location request timed out.' };
+        const hint = document.querySelector('.nearby-loc-hint');
+        if (hint) hint.textContent = '⚠ ' + (msgs[err.code] || 'Location error: ' + err.message);
+        const btn2 = document.querySelector('.nearby-loc-btn');
+        if (btn2) { btn2.textContent = '◎ USE MY LOCATION'; btn2.disabled = false; }
+        console.warn('Geolocation error', err.code, err.message);
+      },
+      { timeout: 10000, maximumAge: 60000, enableHighAccuracy: false }
+    );
+  }
+}
+
+function _buildNearbyQuestsList() {
+  const listEl = document.getElementById('nearbyQuestsList');
+  if (!listEl) return;
+  const lat = window._playerLat;
+  const lng = window._playerLng;
+  if (lat == null || lng == null) return; // keep the 'Enable location' prompt
+
+  const RADIUS_MI = 30;
+  const quests = _parseJson(window._lastQuestsJson) || [];
+  const nearby = quests
+    .filter(q => q.lat && q.lng)
+    .map(q => ({ ...q, _dist: _haversineMi(lat, lng, parseFloat(q.lat), parseFloat(q.lng)) }))
+    .filter(q => q._dist <= RADIUS_MI)
+    .sort((a, b) => a._dist - b._dist);
+
+  if (!nearby.length) {
+    listEl.innerHTML = '<div class="nearby-quests-empty"><div class="nearby-loc-hint">No quests found within 30 miles of your location.</div></div>';
+    return;
+  }
+
+  const REWARD_NAMES_LOCAL = { 1:'INITIATION',2:'UNION',3:'EXPRESSION',4:'FOUNDATION',5:'FREEDOM',6:'HARMONY',7:'TRUTH',8:'POWER',9:'MASTERY' };
+  const TYPE_LABELS = { exploration:'🗺 EXPLORE',connection:'⚔ CONNECT',achievement:'▲ ACHIEVE',healing:'✦ HEAL',creation:'◈ CREATE',reflection:'◇ REFLECT' };
+  const accepted = (() => { try { return JSON.parse(localStorage.getItem('scl_accepted_quests') || '{}'); } catch(e) { return {}; } })();
+
+  listEl.innerHTML = nearby.map(q => {
+    const qid = (q.id || q.questId || q.docId || '').replace(/'/g,'');
+    const isAccepted = !!accepted[qid];
+    const distStr = q._dist < 1 ? '<1 mi' : Math.round(q._dist) + ' mi';
+    const typeLabel = TYPE_LABELS[q.type] || q.type || '';
+    const rewardNum = q.rewardNum || '';
+    const rewardName = REWARD_NAMES_LOCAL[rewardNum] || q.rewardName || '';
+    const objsHtml = (q.objectives && q.objectives.length)
+      ? '<div class="nearby-quest-objs">' + q.objectives.map(o => `<div class="nearby-obj-item">${_esc(o)}</div>`).join('') + '</div>'
+      : '';
+    const rewardHtml = rewardNum
+      ? `<div class="nearby-quest-reward"><span class="nearby-reward-num">${rewardNum}</span><span class="nearby-reward-label">${_esc(rewardName)}<br>XP FREQ</span></div>`
+      : '';
+    return `<div class="nearby-quest-card">
+      <div class="nearby-quest-header">
+        <div class="nearby-quest-name">${_esc(q.name)}</div>
+        <div class="nearby-quest-dist">${distStr}</div>
+      </div>
+      <div class="nearby-quest-type">${_esc(typeLabel)}</div>
+      ${rewardHtml}
+      ${objsHtml}
+      <button class="nearby-accept-btn${isAccepted ? ' accepted' : ''}" onclick="_nearbyAcceptQuest('${qid}', this)">${isAccepted ? '✓ IN YOUR LOG' : '▶ ACCEPT QUEST'}</button>
+    </div>`;
+  }).join('');
+}
+
+function _nearbyAcceptQuest(questId, btn) {
+  if (!questId) return;
+  if (btn && btn.classList.contains('accepted')) return;
+  acceptQuest(questId);
+  if (btn) { btn.textContent = '✓ IN YOUR LOG'; btn.classList.add('accepted'); }
 }
 
 /* Called from setTheme() — swaps tile layer + redraws all markers */
@@ -1004,6 +1110,7 @@ function selectSeekerType(btn) {
   document.querySelectorAll('.mq-seeker-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   _selectedSeekerType = btn.dataset.seeker;
+  _mqUpdateAdvHint();
 }
 
 let _selectedDifficulty = 1;
@@ -1013,6 +1120,51 @@ function selectDifficulty(btn) {
   if (grid) grid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   _selectedDifficulty = parseInt(btn.dataset.diff) || 1;
+  _mqUpdateAdvHint();
+}
+
+/* ── Quest Maker UX helpers ── */
+function _mqCharCount(inputId, countId, max) {
+  const el = document.getElementById(inputId);
+  const cnt = document.getElementById(countId);
+  if (!el || !cnt) return;
+  const len = el.value.length;
+  cnt.textContent = len + '/' + max;
+  cnt.classList.toggle('mq-char-warn', len >= max * 0.8 && len < max);
+  cnt.classList.toggle('mq-char-full', len >= max);
+}
+
+function _mqObjReveal() {
+  const v1 = (document.getElementById('mqObj1')?.value || '').trim();
+  const v2 = (document.getElementById('mqObj2')?.value || '').trim();
+  const r2 = document.getElementById('mqObj2Row');
+  const r3 = document.getElementById('mqObj3Row');
+  if (r2) r2.classList.toggle('mq-obj-hidden', !v1);
+  if (r3) r3.classList.toggle('mq-obj-hidden', !v2);
+}
+
+function _mqToggleAdvanced() {
+  const body = document.getElementById('mqAdvancedBody');
+  const arrow = document.getElementById('mqAdvArrow');
+  if (!body) return;
+  const open = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', open);
+  if (arrow) arrow.classList.toggle('open', !open);
+}
+
+function _mqUpdateAdvHint() {
+  const hint = document.getElementById('mqAdvHint');
+  if (!hint) return;
+  const seekerLabel = { solo: 'Solo', partner: 'Partner', group: 'Group' }[_selectedSeekerType] || 'Solo';
+  const diffLabel = { 1: 'Apprentice', 2: 'Adept', 3: 'Master' }[_selectedDifficulty] || 'Apprentice';
+  hint.textContent = seekerLabel + ' · ' + diffLabel;
+}
+
+function _mqClearFieldError(inputId) {
+  const el = document.getElementById(inputId);
+  if (el) el.classList.remove('mq-field-error');
+  const msg = el?.parentElement?.querySelector('.mq-field-err-msg');
+  if (msg) msg.classList.remove('visible');
 }
 
 /* ── Frequency Signature — reads playerData and populates the sig panel ── */
@@ -1055,8 +1207,14 @@ function onLocationInput(value) {
     if (typeof NativeMap !== 'undefined') {
       NativeMap.searchLocations(value);
     } else {
-      // Dev fallback — simulate empty results
-      NativeMap_onLocationSearchResults('[]');
+      // Web fallback — query Nominatim directly
+      const query = encodeURIComponent(value);
+      fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=5&addressdetails=1`, {
+        headers: { 'Accept-Language': 'en' }
+      })
+        .then(r => r.json())
+        .then(data => NativeMap_onLocationSearchResults(JSON.stringify(data)))
+        .catch(() => NativeMap_onLocationSearchResults('[]'));
     }
   }, 400);
 }
@@ -1103,10 +1261,14 @@ function NativeLocation_onLocationResult(success, lat, lng) {
   }
   _questLat = parseFloat(lat);
   _questLng = parseFloat(lng);
+  // Also store as player location for nearby quests
+  window._playerLat = _questLat;
+  window._playerLng = _questLng;
   statusEl.textContent = `✓ ${_questLat.toFixed(5)}, ${_questLng.toFixed(5)}`;
   document.getElementById('mqLocation').value = `${_questLat.toFixed(5)}, ${_questLng.toFixed(5)}`;
   document.getElementById('mqLocationSuggestions').classList.add('hidden');
   _showMiniMapPin(_questLat, _questLng);
+  _buildNearbyQuestsList();
 }
 
 function _showMiniMapPin(lat, lng) {
@@ -1135,8 +1297,29 @@ function submitQuest() {
   const errorEl = document.getElementById('mqError');
   errorEl.style.display = 'none';
   document.getElementById('mqSuccess').style.display = 'none';
-  if (!name)   { errorEl.textContent = '⚠ Quest name is required.'; errorEl.style.display = 'block'; return; }
-  if (!locStr) { errorEl.textContent = '⚠ Location is required.';   errorEl.style.display = 'block'; return; }
+  // Inline field errors
+  let hasErr = false;
+  const nameEl = document.getElementById('mqName');
+  const nameErrEl = document.getElementById('mqNameErr');
+  const locEl = document.getElementById('mqLocation');
+  const locErrEl = document.getElementById('mqLocErr');
+  if (!name) {
+    nameEl?.classList.add('mq-field-error');
+    if (nameErrEl) nameErrEl.classList.add('visible');
+    hasErr = true;
+  } else {
+    nameEl?.classList.remove('mq-field-error');
+    if (nameErrEl) nameErrEl.classList.remove('visible');
+  }
+  if (!locStr) {
+    locEl?.classList.add('mq-field-error');
+    if (locErrEl) locErrEl.classList.add('visible');
+    hasErr = true;
+  } else {
+    locEl?.classList.remove('mq-field-error');
+    if (locErrEl) locErrEl.classList.remove('visible');
+  }
+  if (hasErr) return;
 
   if (_questLat !== null && _questLng !== null) {
     _doSubmitQuest(name, desc, locStr, _questLat, _questLng);
@@ -1225,6 +1408,14 @@ function NativeMap_onQuestSaved(success, questId) {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
+    // Reset objective reveal
+    ['mqObj2Row','mqObj3Row'].forEach(id => {
+      const r = document.getElementById(id);
+      if (r) r.classList.add('mq-obj-hidden');
+    });
+    // Reset char counters
+    _mqCharCount('mqName','mqNameCount',60);
+    _mqCharCount('mqDesc','mqDescCount',280);
     // Reset seeker type
     _selectedSeekerType = 'solo';
     document.querySelectorAll('.mq-seeker-btn').forEach(b => b.classList.remove('active'));
@@ -1521,6 +1712,89 @@ function buildCharts() {
   if (elEl) { elEl.innerHTML = ''; [1,3,5,7].forEach(i => elEl.appendChild(makeStatRow(i))); }
   if (mgEl) { mgEl.innerHTML = ''; [2,4,6,8].forEach(i => mgEl.appendChild(makeStatRow(i))); }
   if (aeEl) { aeEl.innerHTML = ''; [0,9].forEach(i => aeEl.appendChild(makeStatRow(i))); }
+
+  try { buildStatBenefits(); } catch(e) { console.error('buildStatBenefits:', e); }
+}
+
+function buildStatBenefits() {
+  const el = document.getElementById('statBenefitsList');
+  if (!el || !playerData) return;
+  const pd = playerData;
+
+  const FREQ_KEYWORDS = {
+    1:'Leadership · Courage',    2:'Sensitivity · Partnership',
+    3:'Creativity · Expression', 4:'Discipline · Structure',
+    5:'Freedom · Adaptability',  6:'Service · Harmony',
+    7:'Wisdom · Introspection',  8:'Authority · Abundance',
+    9:'Compassion · Completion', 11:'Illumination · Intuition',
+    22:'Master Builder',         33:'Healing · Devotion',
+    44:'Foundation · Legacy',
+  };
+
+  const freqs = [
+    { label:'LIFE PATH',    obj:pd.lp, color:'var(--gold)'    },
+    { label:'EXPRESSION',   obj:pd.ex, color:'var(--purple)'  },
+    { label:'LIFE CALLING', obj:pd.cl, color:'var(--teal)'    },
+    { label:'SOUL',         obj:pd.so, color:'var(--rose)'    },
+    { label:'OUTER',        obj:pd.ou, color:'var(--silver)'  },
+    { label:'ACHIEVEMENT',  obj:pd.ac, color:'var(--amber)'   },
+    { label:'THEME',        obj:pd.th, color:'var(--text-mid)'},
+  ];
+
+  let html = '<div class="sb-section-label">◈ FREQUENCIES</div>';
+  freqs.forEach(f => {
+    if (!f.obj) return;
+    const num = (f.obj.compound && f.obj.compound !== f.obj.root)
+      ? f.obj.compound + '<span class="sb-root">/' + f.obj.root + '</span>'
+      : String(f.obj.root);
+    const kw = FREQ_KEYWORDS[f.obj.root] || '';
+    html += `<div class="sb-row">
+      <span class="sb-label">${f.label}</span>
+      <span class="sb-num" style="color:${f.color};">${num}</span>
+      <span class="sb-kw">${kw}</span>
+    </div>`;
+  });
+
+  // Unlocked / ascending stats
+  const bonuses = [];
+  for (let i = 0; i <= 9; i++) {
+    const totEl = document.getElementById('statTOT_' + i);
+    if (!totEl) continue;
+    const state  = totEl.dataset.statState;
+    if (state === 'ascending' || state === 'unlocked' || state === 'void-master') {
+      const accent   = totEl.dataset.accent || 'var(--gold)';
+      const sName    = i === 0 ? 'VOID' : (typeof STAT_NAMES !== 'undefined' ? STAT_NAMES[i] : String(i));
+      const icon     = state === 'ascending' ? '▲' : state === 'void-master' ? '✦' : '◈';
+      const stateStr = state === 'void-master' ? 'VOID MASTER' : state.toUpperCase();
+      bonuses.push(`<div class="sb-row sb-bonus">
+        <span class="sb-bonus-icon" style="color:${accent};">${icon}</span>
+        <span class="sb-label">${sName}</span>
+        <span class="sb-status" style="color:${accent};">${stateStr}</span>
+      </div>`);
+    }
+  }
+  if (bonuses.length) {
+    html += '<div class="sb-section-label">◈ UNLOCKED</div>' + bonuses.join('');
+  }
+
+  // Polarity breakdown
+  try {
+    const bdAll   = [...String(pd.m), ...String(pd.d), ...String(pd.y)].map(Number);
+    const bdC     = countNums0to9(bdAll);
+    const nVals   = pd.name.toUpperCase().replace(/[^A-Z]/g,'').split('').map(l => reduceLetterVal(LV[l]||0)).filter(n=>n>0);
+    const nC      = countNums1to9(nVals);
+    let elec=0, mag=0, aeth=0;
+    [1,3,5,7].forEach(i=>{ elec+=(bdC[i]||0)+(nC[i]||0); });
+    [2,4,6,8].forEach(i=>{ mag +=(bdC[i]||0)+(nC[i]||0); });
+    [0,9].forEach(i=>    { aeth+=(bdC[i]||0)+(nC[i]||0); });
+    const tot = elec+mag+aeth || 1;
+    html += '<div class="sb-section-label">◈ POLARITY</div>';
+    html += `<div class="sb-row"><span class="sb-label" style="color:var(--teal);">⚡ ELECTRIC</span><span class="sb-num" style="color:var(--teal);">${elec}</span><span class="sb-kw">${Math.round(elec/tot*100)}%</span></div>`;
+    html += `<div class="sb-row"><span class="sb-label" style="color:var(--purple);">◉ MAGNETIC</span><span class="sb-num" style="color:var(--purple);">${mag}</span><span class="sb-kw">${Math.round(mag/tot*100)}%</span></div>`;
+    html += `<div class="sb-row"><span class="sb-label" style="color:var(--gold);">✦ AETHER</span><span class="sb-num" style="color:var(--gold);">${aeth}</span><span class="sb-kw">${Math.round(aeth/tot*100)}%</span></div>`;
+  } catch(e) {}
+
+  el.innerHTML = html;
 }
 
 function buildPolarityCard() {

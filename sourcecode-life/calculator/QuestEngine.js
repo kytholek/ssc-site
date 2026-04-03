@@ -165,12 +165,13 @@ function QuestEngine_resetTodayFreq() {
 function _loadFromStorage() {
   try {
     _charXP    = parseInt(localStorage.getItem(LS_CHAR_XP)   || 0);
-    _charLevel = parseInt(localStorage.getItem(LS_CHAR_LVL)  || 1);
     _freqXP    = parseInt(localStorage.getItem(LS_FREQ_XP)   || 0);
-    _freqLevel = parseInt(localStorage.getItem(LS_FREQ_LVL)  || 1);
     const raw  = localStorage.getItem(LS_STAT_XP);
     _statXP    = raw ? JSON.parse(raw) : {};
   } catch(e) {}
+  // Always derive levels from XP so a corrupt localStorage level can never block earnXP
+  _charLevel = _xpToLevel(_charXP);
+  _freqLevel = _xpToLevel(_freqXP);
   for (let i = 0; i <= 9; i++) if (!_statXP[i]) _statXP[i] = 0;
 }
 
@@ -216,7 +217,7 @@ function earnCharXP(amount) {
 }
 
 function earnFreqXP(amount) {
-  if (_freqLevel >= MAX_LEVEL) return;
+  if (_freqLevel >= MAX_LEVEL) { console.warn('[QuestEngine] earnFreqXP blocked: MAX_LEVEL reached'); return; }
   const prev = _freqLevel;
   _freqXP    = Math.min(_freqXP + amount, LEVEL_XP_TABLE[MAX_LEVEL]);
   _freqLevel = _xpToLevel(_freqXP);
@@ -224,6 +225,7 @@ function earnFreqXP(amount) {
   _renderFreqLevelBar();
   _floatXP(amount, 'freqLevelTrack', 'var(--teal)');
   _floatXP(amount, 'questFreqLevelTrack', 'var(--teal)');
+  _xpToast('+' + amount + ' FREQ XP', 'var(--teal)');
   if (_freqLevel > prev) _levelUpBanner('FREQUENCY', _freqLevel);
 }
 
@@ -292,6 +294,40 @@ function _levelUpBanner(track, lvl) {
   el.classList.add('lvlup-in');
   setTimeout(() => { el.classList.remove('lvlup-in'); el.classList.add('lvlup-out'); }, 3200);
   setTimeout(() => el.classList.add('hidden'), 3800);
+}
+
+/* Quick XP earned toast — pops up briefly near bottom of screen */
+function _xpToast(msg, color) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style, {
+    position: 'fixed',
+    bottom: '80px',
+    left: '50%',
+    transform: 'translateX(-50%) translateY(20px)',
+    background: 'var(--bg-panel)',
+    border: '1px solid ' + color,
+    color: color,
+    fontFamily: "'Press Start 2P', monospace",
+    fontSize: '8px',
+    letterSpacing: '1.5px',
+    padding: '9px 18px',
+    zIndex: '9998',
+    opacity: '0',
+    pointerEvents: 'none',
+    transition: 'opacity 0.2s, transform 0.3s',
+    whiteSpace: 'nowrap',
+  });
+  document.body.appendChild(t);
+  requestAnimationFrame(() => {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(() => {
+      t.style.opacity = '0';
+      t.style.transform = 'translateX(-50%) translateY(-16px)';
+      setTimeout(() => t.remove(), 350);
+    }, 1800);
+  });
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -637,7 +673,18 @@ function QuestEngine_setDailyFromNotif(title, body) {
    These are the numerology-derived quests shown in the Quest tab.
    Each has a complete button; completion awards Freq XP.
    ───────────────────────────────────────────────────────────── */
-function _getFreqLog() { try { return JSON.parse(localStorage.getItem(LS_FREQ_Q) || '{}'); } catch(e) { return {}; } }
+function _getFreqLog() {
+  try {
+    let v = JSON.parse(localStorage.getItem(LS_FREQ_Q) || '{}');
+    // Guard against double-stringify: JSON.parse('"{}"') returns the string '{}'
+    if (typeof v === 'string') v = JSON.parse(v);
+    if (typeof v !== 'object' || v === null || Array.isArray(v)) {
+      localStorage.removeItem(LS_FREQ_Q); // wipe corrupt entry
+      return {};
+    }
+    return v;
+  } catch(e) { return {}; }
+}
 
 /* ─────────────────────────────────────────────────────────────
    LIFE QUEST OBJECTIVE PROGRESS
@@ -738,14 +785,15 @@ function _isFreqDone(key) {
   const log = _getFreqLog();
   if (!log[key]) return false;
   const n = new Date();
-  if (key.startsWith('dfreq_'))   return key.endsWith(_todayStr()) && !!log[key]; // daily freq positions
-  if (key.startsWith('day_'))     return key === 'day_'   + _todayStr();
-  if (key.startsWith('month_'))   return key === 'month_' + n.getFullYear() + '-' + (n.getMonth()+1) && !!log[key];
-  if (key.startsWith('year_'))    return key === 'year_'  + calcPersonalYear(
+  if (key.startsWith('dfreq_'))     return key.endsWith(_todayStr()) && !!log[key];
+  if (key.startsWith('day_'))       return key === 'day_' + _todayStr();
+  if (key.startsWith('month_'))     return key === 'month_' + n.getFullYear() + '-' + (n.getMonth()+1) && !!log[key];
+  if (key.startsWith('year_'))      return key === 'year_' + calcPersonalYear(
     (typeof playerData !== 'undefined' ? playerData : {m:1,d:1}).m || 1,
     (typeof playerData !== 'undefined' ? playerData : {m:1,d:1}).d || 1
   ).cycleStartYear && !!log[key];
-  if (key.startsWith('fourmonth_')) return !!log[key]; // cycle advances when new period starts
+  if (key.startsWith('fourmonth_')) return !!log[key];
+  if (key.startsWith('pinnacle_'))  return !!log[key] && log[key] === _quarterKey();
   return !!log[key] && log[key] === _quarterKey(); // life quests — quarterly reset
 }
 
@@ -761,15 +809,18 @@ function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
     btns.forEach(b => { b.textContent = '✓ DONE'; b.style.opacity = '0.5'; b.disabled = true; });
   } catch(e) {}
   const log = _getFreqLog();
-  // Life quest keys use quarter string for 3-month reset; everything else uses timestamp
-  const lifeBaseKeys = ['lp','cl','ex','so','ou','ac','th'];
-  log[key] = lifeBaseKeys.includes(key) ? _quarterKey() : Date.now();
+  // Life quest keys and pinnacle use quarter string for 3-month reset; everything else uses timestamp
+  const quarterKeys = ['lp','cl','ex','so','ou','ac','th'];
+  const useQuarter  = quarterKeys.includes(key) || key.startsWith('pinnacle_');
+  log[key] = useQuarter ? _quarterKey() : Date.now();
   try { localStorage.setItem(LS_FREQ_Q, JSON.stringify(log)); } catch(e) {}
   // Persist to Firestore so reset can zero it reliably
   if (typeof NativeMap !== 'undefined' && NativeMap.saveFreqLog) {
     NativeMap.saveFreqLog(JSON.stringify(log));
   }
+  console.log('[QuestEngine] completeFreqQuest key=' + key + ' xp=' + xpAmount + ' freqXP_before=' + _freqXP + ' freqLevel=' + _freqLevel);
   earnFreqXP(parseInt(xpAmount));
+  console.log('[QuestEngine] completeFreqQuest after earn: freqXP=' + _freqXP + ' freqLevel=' + _freqLevel);
   try {
     if (rootNum) {
       const rn = parseInt(rootNum);
@@ -1124,15 +1175,23 @@ function NativeQuest_onXPLoaded(charXP, charLevel, freqXP, freqLevel, statXPJson
     if (rFX > _freqXP) { _freqXP = rFX; _freqLevel = rFL; }
     for (let i = 0; i <= 9; i++) if ((rSX[i]||0) > (_statXP[i]||0)) _statXP[i] = rSX[i];
     _saveToStorage();
-    // Restore freq quest log from Firestore — this is the authoritative source after reset
+    // Restore freq quest log from Firestore — MERGE: only add keys not in local
     if (freqLogJson !== undefined && freqLogJson !== null) {
       try {
         const remote = JSON.parse(freqLogJson);
-        localStorage.setItem(LS_FREQ_Q, JSON.stringify(remote));
+        const local  = JSON.parse(localStorage.getItem(LS_FREQ_Q) || '{}');
+        // Only write keys from remote that don't already exist locally
+        // This avoids clobbering completions done this session before Firestore replied
+        let changed = false;
+        Object.keys(remote).forEach(k => {
+          if (!(k in local)) { local[k] = remote[k]; changed = true; }
+        });
+        if (changed) localStorage.setItem(LS_FREQ_Q, JSON.stringify(local));
         _buildFreqQuestList();
       } catch(e) {}
     }
     _renderCharLevelBar(); _renderFreqLevelBar(); _renderStatXP();
+    try { if (typeof buildStatBenefits === 'function') buildStatBenefits(); } catch(e) {}
   } catch(e) { console.error('NativeQuest_onXPLoaded:', e); }
 }
 
