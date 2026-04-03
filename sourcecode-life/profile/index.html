@@ -275,15 +275,16 @@
               <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
             </div>
             <div class="char-identity">
-              <div id="charFounderBadge" style="display:none;"></div>
-              <div class="char-identity-name" id="charCardName" onclick="openNameEdit()" title="Tap to edit character name">—</div>
-              <div class="char-identity-dob"  id="charCardDob">—</div>
+              <div class="char-name-row">
+                <div id="charFounderBadge" style="display:none;"></div>
+                <div class="char-identity-name" id="charCardName" onclick="openNameEdit()" title="Tap to edit character name">—</div>
+                <div class="char-core-numbers" id="charCoreNumbers"></div>
+              </div>
               <div class="char-identity-divider"></div>
-              <div class="char-core-numbers" id="charCoreNumbers"></div>
-              <div class="char-identity-divider" style="margin-top:10px;"></div>
+              <div class="char-medals-header">&#9670; AWARDS</div>
+              <div id="charMedals" class="char-medals"></div>
               <div id="charLevelBar" class="lvl-bar-wrap"></div>
               <div id="freqLevelBar" class="lvl-bar-wrap" style="margin-top:6px;"></div>
-              <div id="charMedals" class="char-medals"></div>
             </div>
           </div>
         </div>
@@ -795,7 +796,9 @@
           <div class="auth-success" id="founderCodeSuccess"></div>
         </div>
       </div>
-      <div class="rpg-panel"><button class="settings-btn settings-btn-fixed" onclick="handleSignOut()">▶ SIGN OUT</button></div>
+      <div class="rpg-panel">
+        <div class="panel-label c-silver">◈ ACCOUNT</div>
+        <div class="settings-row"><div class="settings-row-key">SIGN OUT</div><button class="settings-btn settings-btn-fixed" onclick="handleSignOut()">▶ SIGN OUT</button></div>
         <div class="settings-row"><div class="settings-row-key">RESET CHARACTER</div><button class="settings-btn settings-btn-fixed" onclick="handleResetChar()">▶ RESET</button></div>
         <div class="settings-row" style="cursor:pointer;" onclick="toggleChangePassword()"><div class="settings-row-key">CHANGE PASSWORD</div><div class="settings-btn settings-btn-fixed" id="changePwToggleBtn">▶ CHANGE</div></div>
         <div id="changePwPanel" style="display:none;padding:10px 0 4px;"><div class="field-group" style="margin-bottom:8px;"><label class="field-label">CURRENT PASSWORD</label><input type="password" class="field-input" id="cpCurrent" placeholder="••••••••••" autocomplete="current-password"></div><div class="field-group" style="margin-bottom:8px;"><label class="field-label">NEW PASSWORD</label><input type="password" class="field-input" id="cpNew" placeholder="min. 6 characters" autocomplete="new-password"></div><div class="field-group" style="margin-bottom:10px;"><label class="field-label">CONFIRM NEW PASSWORD</label><input type="password" class="field-input" id="cpConfirm" placeholder="••••••••••" autocomplete="new-password"></div><div class="auth-error" id="cpError"></div><div class="auth-success" id="cpSuccess"></div><div class="auth-loading" id="cpLoading" style="display:none;"><div class="loading-dots">UPDATING PASSWORD...</div></div><button class="btn-primary" style="margin-top:4px;" onclick="handleChangePassword()">▶ UPDATE PASSWORD</button></div>

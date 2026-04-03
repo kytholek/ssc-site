@@ -68,6 +68,14 @@ function _medalSvg(shape, color, locked) {
                 var r=a*Math.PI/180, x1=20+11*Math.cos(r), y1=20+11*Math.sin(r), x2=20+16*Math.cos(r), y2=20+16*Math.sin(r);
                 return '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="'+c+'" stroke-width="2"/>';
               }).join(''),
+    crown:    '<path d="M6,27 L6,17 L13,24 L20,9 L27,24 L34,17 L34,27 Z" fill="' + c + '" opacity="0.18" stroke="' + c + '" stroke-width="1.5" stroke-linejoin="round"/>' +
+              '<rect x="6" y="27" width="28" height="7" rx="1" fill="' + c + '" opacity="0.25" stroke="' + c + '" stroke-width="1.5"/>' +
+              '<circle cx="20" cy="9" r="2.5" fill="' + c + '"/>' +
+              '<circle cx="6" cy="17" r="1.8" fill="' + c + '" opacity="0.85"/>' +
+              '<circle cx="34" cy="17" r="1.8" fill="' + c + '" opacity="0.85"/>' +
+              '<circle cx="13" cy="30.5" r="1.5" fill="' + c + '"/>' +
+              '<circle cx="20" cy="30.5" r="1.5" fill="' + c + '"/>' +
+              '<circle cx="27" cy="30.5" r="1.5" fill="' + c + '"/>',
   };
   return '<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">' +
          (shapes[shape] || shapes.circle) + '</svg>';
@@ -76,7 +84,7 @@ function _medalSvg(shape, color, locked) {
 const ACHIEVEMENTS = [
   // ── Founder ──────────────────────────────────────────────────────────
   { id: 'founder',   group: 'Founder',
-    tier: 'platinum', medal: 'diamond', color: '#e8c96b',
+    tier: 'platinum', medal: 'crown', color: '#e8c96b',
     title: 'FOUNDER',  desc: 'Early investor — helped bring the Simulation to life.',
     check: function() { return isFounder(); } },
   // ── Daily Streak ─────────────────────────────────────────
@@ -365,15 +373,22 @@ function _showAchievementBanner(a) {
    FOUNDER BADGE — rendered before the character name
    ───────────────────────────────────────────────────────────── */
 function _renderFounderBadge() {
-  const el = document.getElementById('charFounderBadge');
+  const el        = document.getElementById('charFounderBadge');
+  const card      = document.getElementById('charCard');
   const activeRow = document.getElementById('founderActiveRow');
   const inputRow  = document.getElementById('founderInputRow');
   if (isFounder()) {
-    if (el) { el.innerHTML = '<span class="founder-badge" title="Early Investor — helped bring the Simulation to life">✦ FOUNDER</span>'; el.style.display = 'block'; }
+    const crownSvg = _medalSvg('crown', '#e8c96b', false);
+    if (el) {
+      el.innerHTML = '<span class="founder-crown-medal" title="Founder — Early Investor">' + crownSvg + '</span>';
+      el.style.display = 'inline-flex';
+    }
+    if (card) card.classList.add('char-card--founder');
     if (activeRow) activeRow.style.display = 'block';
     if (inputRow)  inputRow.style.display  = 'none';
   } else {
     if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+    if (card) card.classList.remove('char-card--founder');
     if (activeRow) activeRow.style.display = 'none';
     if (inputRow)  inputRow.style.display  = 'block';
   }
@@ -398,7 +413,6 @@ function Achievements_render() {
     return '<div class="ach-medal ach-medal--' + a.tier + '" style="border-color:' + color + '44;" ' +
            'title="' + a.title + '\n' + a.desc + (dateStr ? '\nEarned: ' + dateStr : '') + '">' +
            '<span class="ach-medal-icon" style="color:' + color + ';">' + _medalSvg(a.medal || 'circle', color, false) + '</span>' +
-           '<span class="ach-medal-title" style="color:' + color + ';">' + a.title + '</span>' +
            '</div>';
   }).join('');
 }

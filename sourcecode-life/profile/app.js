@@ -532,7 +532,6 @@ function launchApp() {
 
   // Character card
   document.getElementById('charCardName').textContent = name.toUpperCase();
-  document.getElementById('charCardDob').textContent  = String(m).padStart(2,'0') + ' · ' + String(d).padStart(2,'0') + ' · ' + y;
   buildCharCoreNumbers(lp, cl, ex);
   buildGifts(d, so, ou);
   loadSavedAvatar();
@@ -1967,9 +1966,9 @@ function buildCharCoreNumbers(lp, cl, ex) {
   if (!container) return;
   const ARCHETYPES = { 1:'The Pioneer', 2:'The Mediator', 3:'The Creator', 4:'The Builder', 5:'The Explorer', 6:'The Nurturer', 7:'The Seeker', 8:'The Achiever', 9:'The Humanitarian', 11:'The Intuitive', 22:'The Master Builder', 33:'The Master Teacher', 44:'The Architect' };
   const nums = [
-    { label: 'CALLING',    num: fmt(cl.root, cl.compound), root: cl.root, color: 'var(--gold)'   },
-    { label: 'LIFE PATH',  num: fmt(lp.root, lp.compound), root: lp.root, color: 'var(--purple)' },
-    { label: 'EXPRESSION', num: fmt(ex.root, ex.compound), root: ex.root, color: 'var(--teal)'   }
+    { label: 'Soul',  num: fmt(cl.root, cl.compound), root: cl.root, color: 'var(--gold)'   },
+    { label: 'LP',    num: fmt(lp.root, lp.compound), root: lp.root, color: 'var(--purple)' },
+    { label: 'DE',    num: fmt(ex.root, ex.compound), root: ex.root, color: 'var(--teal)'   }
   ];
   container.innerHTML = nums.map(n => {
     const tip = ARCHETYPES[n.root] || '';
