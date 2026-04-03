@@ -364,24 +364,122 @@ window.NativeMap = {
 };
 
 /* ================================================
-   NativeAllies  (localStorage stub)
+   NativeAllies  (Firestore implementation)
    ================================================ */
 window.NativeAllies = {
+
+  /** Search players collection by email, return profile fields to UI */
+  searchByEmail(email) {
+    _db.collection('players').where('email', '==', email.trim().toLowerCase()).limit(1).get()
+      .then(snap => {
+        if (snap.empty) { NativeAllies_onSearchResult(false, '', '', '', '', ''); return; }
+        const d   = snap.docs[0].data();
+        const uid = snap.docs[0].id;
+        NativeAllies_onSearchResult(true, uid, d.name || '', d.lp || '?', d.cl || '?', d.ex || '?');
+      })
+      .catch(() => NativeAllies_onSearchResult(false, '', '', '', '', ''));
+  },
+
+  /** Send an ally request — creates doc in ally_requests collection */
   sendRequest(targetUid) {
-    setTimeout(() => NativeAllies_onRequestSent(false, 'Allies require the mobile app.'), 0);
+    const user = _auth.currentUser;
+    if (!user) { NativeAllies_onRequestSent(false, 'Not signed in.'); return; }
+    const myUid = user.uid;
+    // Check for duplicate outgoing request
+    _db.collection('ally_requests')
+      .where('from', '==', myUid).where('to', '==', targetUid).where('status', '==', 'pending')
+      .limit(1).get()
+      .then(snap => {
+        if (!snap.empty) { NativeAllies_onRequestSent(false, 'Request already sent.'); return; }
+        // Check if they already sent one to us — if so, auto-accept both
+        return _db.collection('ally_requests')
+          .where('from', '==', targetUid).where('to', '==', myUid).where('status', '==', 'pending')
+          .limit(1).get()
+          .then(reverseSnap => {
+            if (!reverseSnap.empty) {
+              const reverseId = reverseSnap.docs[0].id;
+              return _db.collection('ally_requests').doc(reverseId).update({ status: 'accepted' })
+                .then(() => _linkAllies(myUid, targetUid))
+                .then(() => NativeAllies_onRequestSent(true, ''));
+            }
+            // Get my own profile data to embed in request
+            return _db.collection('players').doc(myUid).get().then(mySnap => {
+              const me = mySnap.exists ? mySnap.data() : {};
+              return _db.collection('ally_requests').add({
+                from: myUid, to: targetUid,
+                fromName: me.name || '', fromLp: me.lp || '?', fromCl: me.cl || '?', fromEx: me.ex || '?',
+                status: 'pending', ts: Date.now()
+              }).then(() => NativeAllies_onRequestSent(true, ''));
+            });
+          });
+      })
+      .catch(e => NativeAllies_onRequestSent(false, e.message || 'Could not send request.'));
   },
+
+  /** Accept or decline an incoming ally request */
   respondRequest(senderUid, accept) {
-    setTimeout(() => NativeAllies_onRequestResponded(senderUid, false), 0);
+    const user = _auth.currentUser;
+    if (!user) { NativeAllies_onRequestResponded(senderUid, false); return; }
+    const myUid = user.uid;
+    _db.collection('ally_requests')
+      .where('from', '==', senderUid).where('to', '==', myUid).where('status', '==', 'pending')
+      .limit(1).get()
+      .then(snap => {
+        if (snap.empty) { NativeAllies_onRequestResponded(senderUid, false); return; }
+        const reqId = snap.docs[0].id;
+        if (!accept) {
+          return _db.collection('ally_requests').doc(reqId).update({ status: 'declined' })
+            .then(() => NativeAllies_onRequestResponded(senderUid, false));
+        }
+        return _db.collection('ally_requests').doc(reqId).update({ status: 'accepted' })
+          .then(() => _linkAllies(myUid, senderUid))
+          .then(() => NativeAllies_onRequestResponded(senderUid, true));
+      })
+      .catch(() => NativeAllies_onRequestResponded(senderUid, false));
   },
+
+  /** Load confirmed allies from subcollection */
   loadAllies() {
-    setTimeout(() => NativeAllies_onAlliesLoaded('[]'), 0);
+    const user = _auth.currentUser;
+    if (!user) { NativeAllies_onAlliesLoaded('[]'); return; }
+    _db.collection('players').doc(user.uid).collection('allies').get()
+      .then(snap => {
+        const allies = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+        NativeAllies_onAlliesLoaded(JSON.stringify(allies));
+      })
+      .catch(() => NativeAllies_onAlliesLoaded('[]'));
   },
+
+  /** Load pending incoming requests for current user */
   loadPendingRequests() {
-    setTimeout(() => NativeAllies_onRequestsLoaded('[]'), 0);
+    const user = _auth.currentUser;
+    if (!user) { NativeAllies_onRequestsLoaded('[]'); return; }
+    _db.collection('ally_requests')
+      .where('to', '==', user.uid).where('status', '==', 'pending')
+      .orderBy('ts', 'desc').get()
+      .then(snap => {
+        const reqs = snap.docs.map(d => {
+          const r = d.data();
+          return { uid: r.from, name: r.fromName || '', lp: r.fromLp || '?', cl: r.fromCl || '?', ex: r.fromEx || '?' };
+        });
+        NativeAllies_onRequestsLoaded(JSON.stringify(reqs));
+      })
+      .catch(() => NativeAllies_onRequestsLoaded('[]'));
   },
+
+  /** Remove an ally from both sides */
   removeAlly(uid) {
-    setTimeout(() => NativeAllies_onAllyRemoved(uid), 0);
+    const user = _auth.currentUser;
+    if (!user) { NativeAllies_onAllyRemoved(uid); return; }
+    const myUid = user.uid;
+    Promise.all([
+      _db.collection('players').doc(myUid).collection('allies').doc(uid).delete(),
+      _db.collection('players').doc(uid).collection('allies').doc(myUid).delete()
+    ])
+      .then(() => NativeAllies_onAllyRemoved(uid))
+      .catch(() => NativeAllies_onAllyRemoved(uid));
   },
+
   shareLink(link, message) {
     if (navigator.share) {
       navigator.share({ title: 'Source Code: Life', text: message, url: link }).catch(() => {});
@@ -389,15 +487,34 @@ window.NativeAllies = {
       navigator.clipboard.writeText(message + '\n' + link).catch(() => {});
     }
   },
+
   getPlayerName(uid) {
     _db.collection('players').doc(uid).get()
       .then(snap => NativeAllies_onPlayerName(snap.exists ? (snap.data().name || 'An ally') : 'An ally'))
       .catch(() => NativeAllies_onPlayerName('An ally'));
   },
+
   startQuestNotifListener(mode) {},
   stopQuestNotifListener() {},
   getQuestNotifMode() { return 'off'; }
 };
+
+/** Write ally entries on both sides */
+function _linkAllies(uidA, uidB) {
+  return Promise.all([
+    _db.collection('players').doc(uidB).get().then(snap => {
+      const d = snap.exists ? snap.data() : {};
+      return _db.collection('players').doc(uidA).collection('allies').doc(uidB)
+        .set({ name: d.name || '', lp: d.lp || '?', cl: d.cl || '?', ex: d.ex || '?', ts: Date.now() }, { merge: true });
+    }),
+    _db.collection('players').doc(uidA).get().then(snap => {
+      const d = snap.exists ? snap.data() : {};
+      return _db.collection('players').doc(uidB).collection('allies').doc(uidA)
+        .set({ name: d.name || '', lp: d.lp || '?', cl: d.cl || '?', ex: d.ex || '?', ts: Date.now() }, { merge: true });
+    })
+  ]);
+}
+
 
 /* ================================================
    NativeNotif  (Web Notifications API)
