@@ -1617,6 +1617,23 @@ function buildJournal() {
           ${affHtml}
         </div>
       </div>`;
+    // Append stored daily reflections for this position
+    try {
+      const reflStore = JSON.parse(localStorage.getItem('scl_reflections') || '{}');
+      const posRefs = Object.entries(reflStore)
+        .filter(function(e) { return e[0].startsWith('dfreq_' + strip.id + '_'); })
+        .sort(function(a, b) { return b[1].date - a[1].date; })
+        .slice(0, 5);
+      if (posRefs.length) {
+        const content = el.querySelector('.strip-content');
+        if (content) content.insertAdjacentHTML('beforeend',
+          '<div class="strip-reflections"><div class="journal-section-label" style="color:' + colorVar + ';">◈ MY REFLECTIONS</div>' +
+          posRefs.map(function(e) {
+            const r = e[1];
+            return '<div class="strip-reflection-entry"><div class="strip-reflection-date">' + new Date(r.date).toLocaleDateString() + '</div><div class="strip-reflection-text">' + (r.text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div></div>';
+          }).join('') + '</div>');
+      }
+    } catch(e) {}
     container.appendChild(el);
   });
 }
@@ -2233,9 +2250,17 @@ function calcFourMonthCycle(m, d) {
    CYCLES BUILDER
    (MONTH_NAMES, CYCLE_MEANINGS → data.js)
    ================================================ */
-function makeCycleStrip({ colorVar, number, label, role, theme, summary, detail }) {
+function makeCycleStrip({ colorVar, number, label, role, theme, summary, detail, reflectionKey }) {
   const el = document.createElement('div');
   el.className = 'journal-strip';
+  let reflHtml = '';
+  if (reflectionKey) {
+    try {
+      const s = JSON.parse(localStorage.getItem('scl_reflections') || '{}');
+      const r = s[reflectionKey];
+      if (r) reflHtml = `<div class="strip-reflections"><div class="journal-section-label" style="color:${colorVar};">◈ MY REFLECTION</div><div class="strip-reflection-entry"><div class="strip-reflection-date">${new Date(r.date).toLocaleDateString()}</div><div class="strip-reflection-text">${(r.text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div></div>`;
+    } catch(e) {}
+  }
   el.innerHTML = `
     <div class="strip-trigger" onclick="toggleStrip(this.closest('.journal-strip'))">
       <div class="strip-accent-bar" style="background:${colorVar};"></div>
@@ -2253,6 +2278,7 @@ function makeCycleStrip({ colorVar, number, label, role, theme, summary, detail 
       <div class="strip-content">
         <div class="strip-text">${summary}</div>
         ${detail ? `<div class="strip-affirmation" style="color:${colorVar};border-color:${colorVar};">${detail}</div>` : ''}
+        ${reflHtml}
       </div>
     </div>`;
   return el;
@@ -2290,8 +2316,8 @@ function buildCycles() {
   const pd     = calcPersonalDay(m, d);
   const pdData = CYCLE_MEANINGS.personalDay[pd.root] || CYCLE_MEANINGS.personalDay[9];
 
-  container.appendChild(makeCycleStrip({ colorVar:'var(--teal)',   number:String(py.root),          label:'PERSONAL YEAR '+cycleStartYear+'–'+cycleEndYear, role:'Your 9-year cycle frequency', theme:pyData.theme, summary:pyData.summary, detail:`Your personal year runs ${m}/${d}/${cycleStartYear} → ${m}/${d}/${cycleEndYear}.` }));
-  container.appendChild(makeCycleStrip({ colorVar:'var(--gold)',   number:String(currentPinn.root), label:'PINNACLE '+pinnIndex+' — ACTIVE', role:(currentPinn.endAge?`Ages ${currentPinn.startAge}–${currentPinn.endAge}`:`Age ${currentPinn.startAge}+`)+' · Your major life chapter', theme:pinnData.theme, summary:pinnData.summary, detail:`All four pinnacles: ${pinnacles.map((p,i)=>`P${i+1}=${p.root}`).join('  ·  ')}` }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--teal)',   number:String(py.root),          label:'PERSONAL YEAR '+cycleStartYear+'–'+cycleEndYear, role:'Your 9-year cycle frequency', theme:pyData.theme, summary:pyData.summary, detail:`Your personal year runs ${m}/${d}/${cycleStartYear} → ${m}/${d}/${cycleEndYear}.`, reflectionKey:'year_'+cycleStartYear }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--gold)',   number:String(currentPinn.root), label:'PINNACLE '+pinnIndex+' — ACTIVE', role:(currentPinn.endAge?`Ages ${currentPinn.startAge}–${currentPinn.endAge}`:`Age ${currentPinn.startAge}+`)+' · Your major life chapter', theme:pinnData.theme, summary:pinnData.summary, detail:`All four pinnacles: ${pinnacles.map((p,i)=>`P${i+1}=${p.root}`).join('  ·  ')}`, reflectionKey:'pinnacle_'+currentPinn.root+'_s'+currentPinn.startAge }));
 
   // All four pinnacles breakdown
   const allPinnEl = document.createElement('div');
@@ -2328,8 +2354,8 @@ function buildCycles() {
     </div></div>`;
   container.appendChild(allPinnEl);
 
-  container.appendChild(makeCycleStrip({ colorVar:'var(--purple)', number:String(fmc.root), label:'FOUR-MONTH CYCLE '+fmc.cycleNum, role:'Personal months '+((fmc.cycleNum-1)*4+1)+'–'+(fmc.cycleNum*4)+' · '+fmcRange+' (approx)', theme:fmcData.theme, summary:fmcData.summary, detail:`Cycle ${fmc.cycleNum} of 3 · Personal months ${(fmc.cycleNum-1)*4+1}–${fmc.cycleNum*4} of your year` }));
-  container.appendChild(makeCycleStrip({ colorVar:'var(--rose)',   number:String(pm.root),  label:'PERSONAL MONTH '+pm.monthNum+' — '+MONTH_NAMES[now.getMonth()], role:'Month '+pm.monthNum+' of your personal year', theme:pmData.theme, summary:pmData.summary, detail:`Personal months count from your birthday. Month ${pm.monthNum} runs until next month's birthday date.` }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--purple)', number:String(fmc.root), label:'FOUR-MONTH CYCLE '+fmc.cycleNum, role:'Personal months '+((fmc.cycleNum-1)*4+1)+'–'+(fmc.cycleNum*4)+' · '+fmcRange+' (approx)', theme:fmcData.theme, summary:fmcData.summary, detail:`Cycle ${fmc.cycleNum} of 3 · Personal months ${(fmc.cycleNum-1)*4+1}–${fmc.cycleNum*4} of your year`, reflectionKey:'fourmonth_'+cycleStartYear+'_'+fmc.cycleNum }));
+  container.appendChild(makeCycleStrip({ colorVar:'var(--rose)',   number:String(pm.root),  label:'PERSONAL MONTH '+pm.monthNum+' — '+MONTH_NAMES[now.getMonth()], role:'Month '+pm.monthNum+' of your personal year', theme:pmData.theme, summary:pmData.summary, detail:`Personal months count from your birthday. Month ${pm.monthNum} runs until next month's birthday date.`, reflectionKey:'month_'+now.getFullYear()+'-'+(now.getMonth()+1) }));
   container.appendChild(makeCycleStrip({ colorVar:'var(--sage)',   number:String(pd.root),  label:'PERSONAL DAY '+pd.dayNum+' — '+MONTH_NAMES[now.getMonth()]+' '+now.getDate(), role:'Day '+pd.dayNum+' of personal month '+pm.monthNum, theme:pdData.theme, summary:pdData.summary, detail:'The personal day resets each calendar day at midnight.' }));
 }
 

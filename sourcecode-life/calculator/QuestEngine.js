@@ -80,6 +80,8 @@ const LS_FREQ_XP  = 'scl_freq_xp';
 const LS_FREQ_LVL = 'scl_freq_level';
 const LS_STAT_XP  = 'scl_stat_xp';
 const LS_DAILY_Q  = 'scl_daily_quest';
+const LS_REFLECTIONS = 'scl_reflections';
+const LS_30DAY       = 'scl_30day';
 const LS_FREQ_Q   = 'scl_freq_quests';
 const LS_ACCEPTED = 'scl_accepted_quests';
 
@@ -841,6 +843,136 @@ function QuestEngine_completeFreqQuest(key, xpAmount, rootNum) {
   try { if (typeof buildLifeQuests === 'function') buildLifeQuests(); } catch(e) { console.error('completeFreqQuest lifeQuests:', e); }
 }
 
+function _saveReflection(questKey, text, title) {
+  try {
+    const store = JSON.parse(localStorage.getItem(LS_REFLECTIONS) || '{}');
+    store[questKey] = { text: text, date: Date.now(), title: title || questKey };
+    localStorage.setItem(LS_REFLECTIONS, JSON.stringify(store));
+  } catch(e) { console.error('_saveReflection:', e); }
+}
+
+function QuestEngine_openReflection(key, xp, rootNum) {
+  const cardEl = document.querySelector('[data-reflect-key="' + key + '"]');
+  if (!cardEl) return;
+  const box = cardEl.querySelector('.fq-reflection-box');
+  if (box) box.style.display = 'block';
+  const btn = cardEl.querySelector('.fq-open-reflect-btn');
+  if (btn) btn.style.display = 'none';
+}
+
+/* ─────────────────────────────────────────────────────────────
+   30-DAY CHALLENGE SYSTEM
+   Triggered manually per-quest when the active objective contains
+   a 30-day commitment. No XP until all 30 days are checked in.
+   Consecutive-day streak → combo multiplier at payout.
+   ───────────────────────────────────────────────────────────── */
+function _get30Day(key) {
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_30DAY) || '{}');
+    return s[key] || null;
+  } catch(e) { return null; }
+}
+function _save30Day(key, state) {
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_30DAY) || '{}');
+    if (state === null) delete s[key];
+    else s[key] = state;
+    localStorage.setItem(LS_30DAY, JSON.stringify(s));
+  } catch(e) {}
+}
+
+function QuestEngine_start30Day(key) {
+  if (_get30Day(key)) return; // already active
+  _save30Day(key, { started: Date.now(), checkins: [], currentStreak: 0, maxStreak: 0 });
+  try { _buildFreqQuestList(); } catch(e) {}
+}
+
+function QuestEngine_checkin30Day(key, xp, rootNum) {
+  const state = _get30Day(key);
+  if (!state) return;
+  const today = _todayStr();
+  if (state.checkins.includes(today)) return;
+  // Calc streak
+  const prev = state.checkins[state.checkins.length - 1];
+  let consecutive = false;
+  if (prev) {
+    const d = new Date(); d.setDate(d.getDate() - 1);
+    const yesterday = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+    consecutive = prev === yesterday;
+  }
+  state.currentStreak = consecutive ? state.currentStreak + 1 : 1;
+  state.maxStreak = Math.max(state.maxStreak, state.currentStreak);
+  state.checkins.push(today);
+  _save30Day(key, state);
+  try { _buildFreqQuestList(); } catch(e) {}
+}
+
+function QuestEngine_complete30Day(key, xp, rootNum) {
+  const state = _get30Day(key);
+  const mult  = state ? (1 + state.maxStreak / 30) : 1;
+  const finalXp = Math.round(xp * mult);
+  _save30Day(key, null);
+  const multStr = mult.toFixed(1);
+  _xpToast('\u26a1 ' + multStr + '\u00d7 COMBO \u00b7 +' + finalXp + ' XP', 'var(--gold)');
+  QuestEngine_completeFreqQuest(key, finalXp, rootNum);
+}
+
+function _build30DayHtml(key, xp, rootNum, color) {
+  const state = _get30Day(key);
+  if (!state) return '';
+  const checkins   = state.checkins || [];
+  const today      = _todayStr();
+  const checkedIn  = checkins.includes(today);
+  const total      = checkins.length;
+  const allDone    = total >= 30;
+  const rootArg    = rootNum ? ', ' + rootNum : '';
+
+  let dotsHtml = '';
+  for (let i = 0; i < 30; i++) {
+    const filled  = i < total;
+    const isCurr  = !checkedIn && i === total && !allDone;
+    dotsHtml += '<div class="fq-30day-cell' + (filled ? ' checked' : '') + (isCurr ? ' today' : '') + '"></div>';
+  }
+
+  const mult      = (1 + state.maxStreak / 30).toFixed(1);
+  const finalXp   = Math.round(xp * parseFloat(mult));
+  const streakTxt = state.currentStreak > 1 ? '\u25c8 COMBO \u00d7' + state.currentStreak : '';
+
+  if (allDone) {
+    return `<div class="fq-30day-grid">${dotsHtml}</div>
+      <div class="fq-combo-badge" style="color:var(--gold);">\u2726 30 DAYS COMPLETE \u00b7 ${mult}\u00d7 MULTIPLIER</div>
+      <div class="fq-multiplier-preview" style="color:var(--teal);">\u26a1 +${finalXp} XP at ${mult}\u00d7 combo</div>
+      <button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;width:100%;"
+        onclick="QuestEngine_complete30Day('${key}', ${xp}${rootArg})">\u2726 CLAIM REWARD</button>`;
+  }
+
+  return `<div class="fq-30day-grid">${dotsHtml}</div>
+    <div class="fq-checkin-row">
+      ${streakTxt ? `<div class="fq-combo-badge" style="color:${color};">${streakTxt}</div>` : ''}
+      <div class="fq-multiplier-preview">\u26a1 ${mult}\u00d7 \u00b7 +${finalXp} XP at 30 days</div>
+      ${checkedIn
+        ? `<div class="fq-done-label" style="margin-top:8px;">\u2713 CHECKED IN \u00b7 ${total}/30</div>`
+        : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:8px;width:100%;"
+            onclick="QuestEngine_checkin30Day('${key}', ${xp}${rootArg})">\u25c8 CHECK IN \u00b7 ${total}/30</button>`}
+    </div>`;
+}
+
+function QuestEngine_submitReflection(key, xp, rootNum) {
+  const cardEl = document.querySelector('[data-reflect-key="' + key + '"]');
+  if (!cardEl) return;
+  const ta = cardEl.querySelector('.fq-reflection-textarea');
+  const text = ta ? ta.value.trim() : '';
+  if (text.length < 30) {
+    const hint = cardEl.querySelector('.fq-reflection-hint');
+    if (hint) hint.textContent = 'Please write at least 30 characters (' + text.length + '/30 min)';
+    return;
+  }
+  const titleEl = cardEl.querySelector('.fq-title');
+  const title = titleEl ? titleEl.textContent : key;
+  _saveReflection(key, text, title);
+  QuestEngine_completeFreqQuest(key, xp, rootNum);
+}
+
 
 function _buildFreqQuestList() {
   try { _buildDailyFreqList(); } catch(e) { console.error('_buildDailyFreqList:', e); }
@@ -885,7 +1017,7 @@ function _buildDailyFreqList() {
       const tierLabel = { 1:'APPRENTICE', 2:'ADEPT', 3:'MASTER' }[tier] || '';
 
       html += `
-        <div class="freq-quest-card${done ? ' fq-done' : ''}">
+        <div class="freq-quest-card${done ? ' fq-done' : ''}" data-reflect-key="${dailyKey}">
           <div class="fq-header">
             <span class="fq-badge" style="color:${pos.color};border-color:${pos.color}44;">${pos.badge} <span style="opacity:0.7;font-size:8px;">${displayNum}</span></span>
             <span class="fq-xp" style="color:${done ? 'var(--sage)' : pos.color};">${done ? '✓ DONE' : '+' + pos.xp + ' XP'}</span>
@@ -895,8 +1027,15 @@ function _buildDailyFreqList() {
           ${obj ? `<div class="fq-objs"><div class="fq-obj">◈ ${obj}</div></div>` : ''}
           ${done
             ? `<div class="fq-done-label">✓ COMPLETE</div>`
-            : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:10px;width:100%;"
-                 onclick="QuestEngine_completeFreqQuest('${dailyKey}', ${pos.xp}, ${root})">▶ COMPLETE</button>`}
+            : `<button class="side-quest-btn side-quest-btn-complete fq-open-reflect-btn" style="margin-top:10px;width:100%;"
+                 onclick="QuestEngine_openReflection('${dailyKey}', ${pos.xp}, ${root})">✎ JOURNAL + COMPLETE</button>
+               <div class="fq-reflection-box" style="display:none;margin-top:8px;">
+                 <textarea class="fq-reflection-textarea" placeholder="Reflect on today's practice... (30 chars min)" rows="3"
+                   oninput="var h=this.closest('.fq-reflection-box').querySelector('.fq-reflection-hint');h.textContent=this.value.trim().length+'/30 min';"></textarea>
+                 <div class="fq-reflection-hint">0/30 min</div>
+                 <button class="side-quest-btn side-quest-btn-complete" style="margin-top:6px;width:100%;"
+                   onclick="QuestEngine_submitReflection('${dailyKey}', ${pos.xp}, ${root})">▶ SUBMIT & COMPLETE</button>
+               </div>`}
         </div>`;
     });
   } catch(e) { console.error('_buildDailyFreqList build:', e); }
@@ -929,7 +1068,7 @@ function _buildCycleQuestList() {
     html += _fqCard({ key: yrKey, xp: XP_AWARDS.personal_year, done: _isFreqDone(yrKey),
       badge: 'YEARLY', color: 'var(--teal)', period: 'Resets on your birthday · Year ' + py.cycleStartYear,
       title: 'PERSONAL YEAR ' + py.cycleStartYear + (yrMeta.theme ? ' · ' + yrMeta.theme.toUpperCase() : ''),
-      objs: yrObj ? [yrObj] : [], rootNum: py.root });
+      objs: yrObj ? [yrObj] : [], rootNum: py.root, thirtyDay: true });
 
     // ── Pinnacle ──────────────────────────────────────────────
     if (typeof calcPinnacles === 'function') {
@@ -945,7 +1084,7 @@ function _buildCycleQuestList() {
           html += _fqCard({ key: pinKey, xp: XP_AWARDS.pinnacle, done: _isFreqDone(pinKey),
             badge: 'PINNACLE', color: 'var(--gold)', period: 'Long-cycle · Ages ' + activePinnacle.startAge + (activePinnacle.endAge ? '–' + activePinnacle.endAge : '+'),
             title: 'PINNACLE ' + activePinnacle.num + (pinMeta.theme ? ' · ' + pinMeta.theme.toUpperCase() : ''),
-            objs: pinObj ? [pinObj] : [], rootNum: activePinnacle.num });
+            objs: pinObj ? [pinObj] : [], rootNum: activePinnacle.num, thirtyDay: true });
         }
       } catch(e2) {}
     }
@@ -961,7 +1100,7 @@ function _buildCycleQuestList() {
       html += _fqCard({ key: fcKey, xp: XP_AWARDS.four_month, done: _isFreqDone(fcKey),
         badge: '4-MONTH', color: 'var(--purple)', period: 'Resets every 4 months',
         title: '4-MONTH CYCLE ' + fc.cycleNum + (fcMeta.theme ? ' · ' + fcMeta.theme.toUpperCase() : ''),
-        objs: fcObj ? [fcObj] : [], rootNum: fc.root });
+        objs: fcObj ? [fcObj] : [], rootNum: fc.root, thirtyDay: true });
     }
 
     // ── Personal Month ────────────────────────────────────────
@@ -974,7 +1113,7 @@ function _buildCycleQuestList() {
     html += _fqCard({ key: monKey, xp: XP_AWARDS.personal_month, done: _isFreqDone(monKey),
       badge: 'MONTHLY', color: 'var(--rose)', period: 'Resets each month',
       title: 'PERSONAL MONTH ' + pm.monthNum + (monMeta.theme ? ' · ' + monMeta.theme.toUpperCase() : ''),
-      objs: monObj ? [monObj] : [], rootNum: pm.root });
+      objs: monObj ? [monObj] : [], rootNum: pm.root, thirtyDay: true });
 
     // ── Life Frequency Quests — separate header ───────────────
     const lifeQ = [
@@ -1004,7 +1143,7 @@ function _buildCycleQuestList() {
       const tierLabel = { 1:'APPRENTICE', 2:'ADEPT', 3:'MASTER' }[qTier] || 'APPRENTICE';
       const tierColor = { 1:'var(--sage)', 2:'var(--teal)', 3:'var(--gold)' }[qTier] || 'var(--sage)';
       const periodStr = `Resets quarterly · <span style="color:${tierColor};">${tierLabel}</span>`;
-      html += _fqCard({ ...q, done: _isFreqDone(q.key), period: periodStr, objs: qObjs, rootNum: qRoot });
+      html += _fqCard({ ...q, done: _isFreqDone(q.key), period: periodStr, objs: qObjs, rootNum: qRoot, thirtyDay: q.key === 'cl' });
     });
 
   } catch(e) { console.error('_buildCycleQuestList:', e); }
@@ -1018,12 +1157,38 @@ function _fmtN(numObj) {
     ? numObj.compound + '/' + numObj.root : String(numObj.root);
 }
 
-function _fqCard({ key, xp, done, badge, color, period, title, objs, rootNum }) {
+function _fqCard({ key, xp, done, badge, color, period, title, objs, rootNum, thirtyDay }) {
   const objsHtml = objs.length
     ? `<div class="fq-objs">${objs.slice(0, 3).map(o => `<div class="fq-obj">◈ ${o}</div>`).join('')}</div>` : '';
   const rootArg = rootNum ? `, ${rootNum}` : '';
+
+  let actionHtml;
+  if (done) {
+    actionHtml = `<div class="fq-done-label">✓ COMPLETE</div>`;
+  } else {
+    const has30 = thirtyDay && /30.?day/i.test(objs.join(' '));
+    const active30 = has30 ? _get30Day(key) : null;
+    if (active30) {
+      actionHtml = _build30DayHtml(key, xp, rootNum, color);
+    } else {
+      actionHtml = `<button class="side-quest-btn side-quest-btn-complete fq-open-reflect-btn" style="margin-top:10px;width:100%;"
+           onclick="QuestEngine_openReflection('${key}', ${xp}${rootArg})">✎ JOURNAL + COMPLETE</button>
+         <div class="fq-reflection-box" style="display:none;margin-top:8px;">
+           <textarea class="fq-reflection-textarea" placeholder="Reflect on this quest... (30 chars min)" rows="3"
+             oninput="var h=this.closest('.fq-reflection-box').querySelector('.fq-reflection-hint');h.textContent=this.value.trim().length+'/30 min';"></textarea>
+           <div class="fq-reflection-hint">0/30 min</div>
+           <button class="side-quest-btn side-quest-btn-complete" style="margin-top:6px;width:100%;"
+             onclick="QuestEngine_submitReflection('${key}', ${xp}${rootArg})">▶ SUBMIT & COMPLETE</button>
+         </div>`;
+      if (has30) {
+        actionHtml += `\n<button class="fq-challenge-start-btn" style="margin-top:8px;width:100%;"
+           onclick="QuestEngine_start30Day('${key}')">◈ START 30-DAY CHALLENGE</button>`;
+      }
+    }
+  }
+
   return `
-    <div class="freq-quest-card${done ? ' fq-done' : ''}">
+    <div class="freq-quest-card${done ? ' fq-done' : ''}" data-reflect-key="${key}">
       <div class="fq-header">
         <span class="fq-badge" style="color:${color};border-color:${color}44;">${badge}</span>
         <span class="fq-xp" style="color:${done ? 'var(--sage)' : color};">${done ? '✓ DONE' : '+' + xp + ' XP'}</span>
@@ -1031,10 +1196,7 @@ function _fqCard({ key, xp, done, badge, color, period, title, objs, rootNum }) 
       <div class="fq-title" style="color:${color};">${title}</div>
       <div class="fq-period">${period}</div>
       ${objsHtml}
-      ${done
-        ? `<div class="fq-done-label">✓ COMPLETE</div>`
-        : `<button class="side-quest-btn side-quest-btn-complete" style="margin-top:10px;width:100%;"
-             onclick="QuestEngine_completeFreqQuest('${key}', ${xp}${rootArg})">▶ COMPLETE</button>`}
+      ${actionHtml}
     </div>`;
 }
 

@@ -5132,3 +5132,124 @@ body::after {
   background: linear-gradient(90deg, var(--teal-dim), var(--teal));
   box-shadow: 4px 0 14px rgba(58,107,74,0.5);
 }
+
+/* -- Quest Reflection Gate ------------------------------------ */
+.fq-reflection-box {
+  margin-top: 8px;
+  animation: fadeIn 0.2s ease;
+}
+.fq-reflection-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg-alt, #0a0a0a);
+  color: var(--text);
+  border: 1px solid var(--border-glow, #444);
+  border-radius: 3px;
+  padding: 8px 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+}
+.fq-reflection-textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 6px var(--teal, #0ff)44;
+}
+.fq-reflection-hint {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-align: right;
+  margin-top: 3px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* -- Journal Strip Reflection Display ------------------------- */
+.strip-reflections {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.strip-reflection-entry {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--border-glow, #444);
+  background: var(--bg-alt, #0a0a0a);
+}
+.strip-reflection-entry:last-child { margin-bottom: 0; }
+.strip-reflection-date {
+  font-size: 8px;
+  color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.strip-reflection-text {
+  font-size: 11px;
+  color: var(--text);
+  line-height: 1.7;
+  font-style: italic;
+}
+/* -- 30-Day Challenge System -------------------------------- */
+.fq-challenge-start-btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: 1px solid var(--border-glow, #444);
+  color: var(--text-dim);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  padding: 9px 0;
+  cursor: pointer;
+  text-align: center;
+  transition: color 0.2s, border-color 0.2s;
+}
+.fq-challenge-start-btn:hover {
+  color: var(--teal);
+  border-color: var(--teal);
+}
+
+.fq-30day-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+.fq-30day-cell {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: background 0.25s, border-color 0.25s;
+}
+.fq-30day-cell.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+.fq-30day-cell.today {
+  border-color: var(--teal);
+  animation: fq-today-pulse 1.4s ease-in-out infinite;
+}
+@keyframes fq-today-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--teal, #0ff)44; }
+  50%       { box-shadow: 0 0 0 4px transparent; }
+}
+
+.fq-combo-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+.fq-multiplier-preview {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace;
+  margin-top: 3px;
+}
+.fq-checkin-row {
+  margin-top: 4px;
+}
