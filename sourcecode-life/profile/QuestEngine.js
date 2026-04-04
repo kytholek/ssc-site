@@ -570,10 +570,12 @@ function _buildDailyText() {
   } catch(e) {}
   let dayObj     = '';
   let dayObjMeta = null; // { questKey, tier, objIdx } if this obj belongs to a life quest
+  let questRoot  = null;
   try {
     const pd2 = typeof playerData !== 'undefined' ? playerData : null;
     if (pd2 && typeof calcPersonalDay === 'function') {
       const pday2   = calcPersonalDay(pd2.m, pd2.d);
+      questRoot = pday2.root;
       // Check if today's personal day root matches any life quest root
       const matched = _matchedLifeQuest(pday2.root);
       if (matched && !matched.allDone) {
@@ -587,7 +589,7 @@ function _buildDailyText() {
       }
     }
   } catch(e2) {}
-  return { title, body, dayObj, dayObjMeta };
+  return { title, body, dayObj, dayObjMeta, questRoot };
 }
 
 function _initDailyQuest() {
@@ -595,8 +597,8 @@ function _initDailyQuest() {
   let d = null;
   try { d = JSON.parse(localStorage.getItem(LS_DAILY_Q)); } catch(e) {}
   if (!d || d.date !== today) {
-    const { title, body, dayObj, dayObjMeta } = _buildDailyText();
-    d = { date: today, completed: false, title, body, dayObj, dayObjMeta };
+    const { title, body, dayObj, dayObjMeta, questRoot } = _buildDailyText();
+    d = { date: today, completed: false, title, body, dayObj, dayObjMeta, questRoot };
     try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
   }
   _renderDailyQuest(d);
@@ -636,8 +638,8 @@ function QuestEngine_completeDailyQuest() {
   try { d = JSON.parse(localStorage.getItem(LS_DAILY_Q)); } catch(e) {}
   // If no record or it's stale, build a fresh one first
   if (!d || d.date !== today) {
-    const { title, body, dayObj, dayObjMeta } = _buildDailyText();
-    d = { date: today, completed: false, title, body, dayObj, dayObjMeta };
+    const { title, body, dayObj, dayObjMeta, questRoot } = _buildDailyText();
+    d = { date: today, completed: false, title, body, dayObj, dayObjMeta, questRoot };
     try { localStorage.setItem(LS_DAILY_Q, JSON.stringify(d)); } catch(e) {}
   }
   if (d.completed) {
@@ -658,12 +660,13 @@ function QuestEngine_completeDailyQuest() {
     }
   } catch(e) { console.error('completeDailyQuest life-obj:', e); }
 
-  // Stat XP — based on personal day root number
+  // Stat XP — based on the root number of the quest being completed
   try {
-    const pd = typeof playerData !== 'undefined' ? playerData : null;
-    if (pd) {
-      const pday = calcPersonalDay(pd.m, pd.d);
-      const root = pday.root;
+    const root = d.questRoot || (() => {
+      const pd = typeof playerData !== 'undefined' ? playerData : null;
+      return pd && typeof calcPersonalDay === 'function' ? calcPersonalDay(pd.m, pd.d).root : null;
+    })();
+    if (root) {
       const statNum = root > 9 ? (root === 11 ? 2 : root === 22 ? 4 : 6) : root;
       earnStatXP(statNum, STAT_XP_PER_QUEST[root] || 1);
     }

@@ -566,8 +566,8 @@ function launchApp() {
 
   // Character card
   document.getElementById('charCardName').textContent = name.toUpperCase();
-  buildCharCoreNumbers(lp, cl, ex);
-  buildGifts(d, so, ou);
+  try { buildCharCoreNumbers(lp, cl, ex, so); } catch(e) { console.error('buildCharCoreNumbers error:', e); }
+  try { buildGifts(d, so, ou); } catch(e) { console.error('buildGifts error:', e); }
   loadSavedAvatar();
 
   // Apply saved character alias (overrides real name in display)
@@ -592,11 +592,11 @@ function launchApp() {
   document.getElementById('settingAc').textContent    = fmt(ac.root, ac.compound);
   document.getElementById('settingTh').textContent    = fmt(th.root, th.compound);
 
-  buildJournal();
+  try { buildJournal(); } catch(e) { console.error('buildJournal error:', e); }
   try { buildCharts();       } catch(e) { console.error('buildCharts error:',       e); }
   try { buildPolarityCard(); } catch(e) { console.error('buildPolarityCard error:', e); }
   try { buildCycles();       } catch(e) { console.error('buildCycles error:',       e); }
-  buildLifeQuests();
+  try { buildLifeQuests();   } catch(e) { console.error('buildLifeQuests error:',   e); }
   try { buildCurrentQuests(); } catch(e) { console.error('buildCurrentQuests error:', e); }
   initNotifUI();
   initQuestNotifUI();
@@ -2022,12 +2022,13 @@ function renderStackedBarChart() {} // stub — kept so any old calls don't thro
 /* ================================================
    CHARACTER CARD — CORE NUMBERS
    ================================================ */
-function buildCharCoreNumbers(lp, cl, ex) {
+function buildCharCoreNumbers(lp, cl, ex, so) {
   const container = document.getElementById('charCoreNumbers');
   if (!container) return;
   const ARCHETYPES = { 1:'The Pioneer', 2:'The Mediator', 3:'The Creator', 4:'The Builder', 5:'The Explorer', 6:'The Nurturer', 7:'The Seeker', 8:'The Achiever', 9:'The Humanitarian', 11:'The Intuitive', 22:'The Master Builder', 33:'The Master Teacher', 44:'The Architect' };
+  const soSafe = so && so.root ? so : cl; // fallback to cl if so is missing
   const nums = [
-    { label: 'Soul',  num: fmt(cl.root, cl.compound), root: cl.root, color: 'var(--gold)'   },
+    { label: 'Soul',  num: fmt(soSafe.root, soSafe.compound), root: soSafe.root, color: 'var(--rose)'   },
     { label: 'LP',    num: fmt(lp.root, lp.compound), root: lp.root, color: 'var(--purple)' },
     { label: 'DE',    num: fmt(ex.root, ex.compound), root: ex.root, color: 'var(--teal)'   }
   ];
