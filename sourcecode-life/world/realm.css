@@ -376,6 +376,12 @@
 .mq-reward-num  { font-size: 14px; font-family: var(--font-vt); }
 .mq-reward-name { font-size: 14px; letter-spacing: 1px; }
 
+@media (max-width: 480px) {
+  .mq-reward-btn { padding: 7px 2px; }
+  .mq-reward-name { font-size: 8px; letter-spacing: 0; }
+  .mq-reward-num  { font-size: 20px; }
+}
+
 .mq-obj-inputs { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
 .mq-obj-input-row { display: flex; align-items: center; gap: 6px; }
 .mq-obj-bullet-label { font-size: 14px; color: var(--text-dim); flex-shrink: 0; }
