@@ -334,8 +334,15 @@ window.NativeMap = {
     } catch(e) {}
     const user = _auth.currentUser;
     if (user) {
+      // Compute simScore for leaderboard
+      const streak    = parseInt(localStorage.getItem('scl_daily_streak') || '0', 10);
+      const realmRaw  = localStorage.getItem('scl_realm_quests');
+      const realmDone = realmRaw ? Object.values(JSON.parse(realmRaw)).filter(Boolean).length : 0;
+      const freqRaw   = localStorage.getItem('scl_freq_quests');
+      const freqDone  = freqRaw  ? Object.values(JSON.parse(freqRaw )).filter(Boolean).length : 0;
+      const simScore  = charLevel + freqLevel + realmDone + streak + Math.floor(freqDone / 5);
       _db.collection('players').doc(user.uid).set(
-        { charXP, charLevel, freqXP, freqLevel, statXP: statXPJson, updated: Date.now() },
+        { charXP, charLevel, freqXP, freqLevel, statXP: statXPJson, simScore, updated: Date.now() },
         { merge: true }
       ).catch(() => {});
     }
@@ -528,6 +535,27 @@ function _linkAllies(uidA, uidB) {
   ]);
 }
 
+
+/* ================================================
+   NativeLeaderboard  (Firestore top-3 simScore)
+   ================================================ */
+window.NativeLeaderboard = {
+  fetchTop3(cb) {
+    _db.collection('players')
+      .orderBy('simScore', 'desc')
+      .limit(3)
+      .get()
+      .then(snap => {
+        const rows = snap.docs.map(d => ({
+          name:  d.data().name || 'PLAYER',
+          score: d.data().simScore || 0,
+          uid:   d.id
+        }));
+        cb(null, rows);
+      })
+      .catch(e => cb(e, []));
+  }
+};
 
 /* ================================================
    NativeNotif  (Web Notifications API)

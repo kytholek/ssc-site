@@ -667,9 +667,9 @@ function switchMapSection(s) {
    SIMULATION TEASER — top-3 preview & side quest world list
    ================================================ */
 function _calcSimScore() {
-  const charLvl  = parseInt(localStorage.getItem('scl_char_level')  || '1', 10);
-  const freqLvl  = parseInt(localStorage.getItem('scl_freq_level')  || '1', 10);
-  const streak   = parseInt(localStorage.getItem('scl_daily_streak')|| '0', 10);
+  const charLvl  = parseInt(localStorage.getItem('scl_char_level')  || '1', 10) || 1;
+  const freqLvl  = parseInt(localStorage.getItem('scl_freq_level')  || '1', 10) || 1;
+  const streak   = parseInt(localStorage.getItem('scl_daily_streak')|| '0', 10) || 0;
   const realmRaw = localStorage.getItem('scl_realm_quests');
   const realmDone = realmRaw ? Object.values(JSON.parse(realmRaw)).filter(Boolean).length : 0;
   const freqRaw  = localStorage.getItem('scl_freq_quests');
@@ -684,27 +684,38 @@ function _getTier(score) {
 function _renderSimTop3() {
   const listEl = document.getElementById('simTop3List');
   if (!listEl) return;
+  const playerUid   = (typeof firebase !== 'undefined' && firebase.auth().currentUser) ? firebase.auth().currentUser.uid : null;
   const playerName  = (() => { try { return JSON.parse(localStorage.getItem('scl_player') || '{}').name || 'YOU'; } catch(e) { return 'YOU'; } })();
   const playerScore = _calcSimScore();
-  const playerTier  = _getTier(playerScore);
-  const mock = [
-    { name: 'AXIOM_7',   score: 187 },
-    { name: 'NOVA_III',  score: 142 },
-    { name: 'ZEPHYR',    score: 118 },
-  ];
-  // Insert player into rankings
-  const all = [...mock, { name: playerName, score: playerScore, isPlayer: true }]
-    .sort((a, b) => b.score - a.score);
-  const top3 = all.slice(0, 3);
-  listEl.innerHTML = top3.map((p, i) => {
-    const t = _getTier(p.score);
-    return `<div class="sim-top3-row${p.isPlayer ? ' sim-top3-you' : ''}">
-      <span class="sim-top3-rank">#${i + 1}</span>
-      <span class="sim-top3-name">${p.name}</span>
-      <span class="sim-top3-tier ${t.cls}">${t.label}</span>
-      <span class="sim-top3-score">${p.score}</span>
-    </div>`;
-  }).join('');
+
+  function _renderRows(rows) {
+    // Merge current player in case their score isn't persisted yet
+    const all = [...rows];
+    const myIdx = playerUid ? all.findIndex(r => r.uid === playerUid) : -1;
+    if (myIdx >= 0) {
+      all[myIdx].isPlayer = true;
+    } else {
+      all.push({ name: playerName, score: playerScore, uid: playerUid, isPlayer: true });
+    }
+    all.sort((a, b) => b.score - a.score);
+    const top3 = all.slice(0, 3);
+    listEl.innerHTML = top3.map((p, i) => {
+      const t = _getTier(p.score);
+      return `<div class="sim-top3-row${p.isPlayer ? ' sim-top3-you' : ''}">
+        <span class="sim-top3-rank">#${i + 1}</span>
+        <span class="sim-top3-name">${p.name}</span>
+        <span class="sim-top3-tier ${t.cls}">${t.label}</span>
+        <span class="sim-top3-score">${p.score}</span>
+      </div>`;
+    }).join('');
+  }
+
+  if (typeof NativeLeaderboard !== 'undefined') {
+    listEl.innerHTML = '<div class="sim-top3-loading" style="font-size:9px;color:var(--teal);padding:6px 0;">LOADING...</div>';
+    NativeLeaderboard.fetchTop3((err, rows) => _renderRows(err ? [] : rows));
+  } else {
+    _renderRows([]);
+  }
 }
 
 function _renderSideQWorldQuests() {
@@ -1738,11 +1749,15 @@ function toggleStrip(strip) {
   const opening = !strip.classList.contains('open');
   strip.classList.toggle('open');
   if (opening) {
-    // Manually scroll so the strip trigger sits 116px below the viewport top,
-    // clearing both sticky bars (tab-bar ~49px + section-toggle ~46px + buffer)
     setTimeout(() => {
-      const rect = strip.getBoundingClientRect();
-      const offset = rect.top + window.scrollY - 116;
+      // Measure actual sticky bar heights so we clear them on any screen size
+      const tabBar     = document.querySelector('.tab-bar');
+      const secToggle  = document.querySelector('.section-toggle');
+      const stickyH    = (tabBar     ? tabBar.getBoundingClientRect().height     : 49)
+                       + (secToggle  ? secToggle.getBoundingClientRect().height  : 46)
+                       + 8; // small breathing gap
+      const rect   = strip.getBoundingClientRect();
+      const offset = rect.top + window.scrollY - stickyH;
       window.scrollTo({ top: offset, behavior: 'smooth' });
     }, 60);
   }

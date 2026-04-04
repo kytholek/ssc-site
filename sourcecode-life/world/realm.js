@@ -87,9 +87,9 @@ function _lsSet(key, val) {
 
 /* ─── Score formula ─── */
 function calcScore() {
-  const charLvl  = parseInt(_ls(LS_CHAR_LVL, '1'), 10);
-  const freqLvl  = parseInt(_ls(LS_FREQ_LVL, '1'), 10);
-  const streak   = parseInt(_ls(LS_STREAK,   '0'), 10);
+  const charLvl  = parseInt(_ls(LS_CHAR_LVL, '1'), 10) || 1;
+  const freqLvl  = parseInt(_ls(LS_FREQ_LVL, '1'), 10) || 1;
+  const streak   = parseInt(_ls(LS_STREAK,   '0'), 10) || 0;
   const realmQ   = _lsJson(LS_REALM_Q, {});
   const realmDone= Object.values(realmQ).filter(Boolean).length;
   const freqQ    = _lsJson(LS_FREQ_Q, {});
