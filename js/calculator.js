@@ -445,18 +445,47 @@ function calcOuter(full) {
 }
 
 function calculateReading() {
-  const month = parseInt(document.getElementById('calc-month').value);
-  const day   = parseInt(document.getElementById('calc-day').value);
-  const year  = parseInt(document.getElementById('calc-year').value);
-  const fullName = document.getElementById('calc-fullname').value.trim();
+  const monthEl = document.getElementById('calc-month');
+  const dayEl   = document.getElementById('calc-day');
+  const yearEl  = document.getElementById('calc-year');
+  const nameEl  = document.getElementById('calc-fullname');
 
-  if (!month || !day || !year || !fullName) {
-    const errMsg = _t('calc.results.error') || 'Please fill in all required fields';
-    document.getElementById('results-area').innerHTML =
-      `<div class="results-placeholder-icon" style="color:var(--rose)">⚠</div>
-       <div class="results-placeholder-text">${errMsg}</div>`;
+  const month = parseInt(monthEl.value);
+  const day   = parseInt(dayEl.value);
+  const year  = parseInt(yearEl.value);
+  const fullName = nameEl.value.trim();
+
+  // ── Inline validation ─────────────────────────────────────
+  var hasError = false;
+  [monthEl, dayEl, yearEl, nameEl].forEach(function(el) {
+    if (el) el.classList.remove('ssc-input-error');
+  });
+  if (!month) { monthEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!day)   { dayEl.classList.add('ssc-input-error');   hasError = true; }
+  if (!year)  { yearEl.classList.add('ssc-input-error');  hasError = true; }
+  if (!fullName) { nameEl.classList.add('ssc-input-error'); hasError = true; }
+
+  if (hasError) {
+    var firstErr = document.querySelector('.ssc-input-error');
+    if (firstErr) firstErr.focus();
     return;
   }
+
+  // ── Loading state ─────────────────────────────────────────
+  var btn = document.querySelector('.calc-btn') || document.getElementById('modal-calc-btn');
+  var origBtnText = btn ? btn.textContent : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '· Decoding ·';
+    btn.classList.add('ssc-btn-loading');
+  }
+
+  setTimeout(function() {
+    _doCalculateReading(month, day, year, fullName, btn, origBtnText);
+  }, 300);
+}
+
+function _doCalculateReading(month, day, year, fullName, btn, origBtnText) {
 
   const lp      = calcLifePath(month, day, year);
   const exp     = calcExpression(fullName);
@@ -523,6 +552,15 @@ function calculateReading() {
         .ssc-th  { padding: 18px 26px !important; }
         .ssc-tr  { border-radius: 14px !important; margin-bottom: 32px !important; }
       }
+      @media (max-width: 679px) {
+        .ssc-tg  { grid-template-columns: 1fr !important; }
+        .ssc-fc  { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .ssc-fc:last-child { border-bottom: none !important; }
+        .ssc-fn  { font-size: 36px !important; }
+        .ssc-fp  { font-size: 14px !important; }
+        .ssc-tr  { margin-bottom: 24px !important; }
+        .ssc-compound-p { font-size: 12px !important; }
+      }
     </style>
     <div class="ssc-rw">
       <div style="text-align:center;margin-bottom:40px;padding-bottom:32px;position:relative">
@@ -547,6 +585,19 @@ function calculateReading() {
     cta.style.display = 'block';
     cta.removeAttribute('aria-hidden');
   }
+
+  // ── Reset button state ─────────────────────────────────────
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = '⬡  Decode Another Reading ⬡';
+    btn.classList.remove('ssc-btn-loading');
+  }
+
+  // ── Auto-focus email field in CTA ──────────────────────────
+  setTimeout(function() {
+    var emailField = document.getElementById('unlock-email');
+    if (emailField) emailField.focus();
+  }, 600);
 }
 
 
@@ -593,8 +644,12 @@ function buildResultHook(firstName, lp, exp, calling) {
   const expression = expressionMap[exp] || 'encoded to express your unique frequency in the world';
 
   return `
-    <div style="
+    <div class="ssc-hook-wrap" style="
       margin-top: 36px;
+      opacity: 0;
+      animation: sscFadeIn 0.8s ease 1.6s forwards;
+    ">
+    <div style="
       background: linear-gradient(135deg, rgba(13,11,24,0.9), rgba(17,15,31,0.8));
       border: 1px solid rgba(201,168,76,0.18);
       border-left: 3px solid rgba(201,168,76,0.45);
@@ -643,7 +698,8 @@ function buildResultHook(firstName, lp, exp, calling) {
         letter-spacing: .25em;
         text-transform: uppercase;
         color: var(--text-muted);
-      ">What you see above is the map. The Blueprint shows you how to use it. &#8595;</div>
+      ">Your Complete Blueprint reveals the full story of each number above.</div>
+    </div>
     </div>
   `;
 }
@@ -815,8 +871,9 @@ function buildFreqChart(numbers) {
       @keyframes sscPulse2  { 0%,100% { r:148; opacity:0.08 } 50% { r:168; opacity:0.20 } }
       @keyframes sscPulse3  { 0%,100% { opacity:0.06 } 50% { opacity:0.18 } }
     </style>
-    <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"
-      style="max-width:100%;overflow:visible"
+    <div class="ssc-chart-wrap" style="max-width:${W}px;width:100%;margin:0 auto">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" height="100%"
+      style="overflow:visible;display:block"
       xmlns="http://www.w3.org/2000/svg">
 
       <defs>
@@ -847,7 +904,7 @@ function buildFreqChart(numbers) {
       ${outerNodes}
       ${aCenterNode(numbers[2], 0.1)}
 
-    </svg>`;
+    </svg></div>`;
 }
 
 function handleUnlockPayment() {

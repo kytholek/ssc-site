@@ -49,8 +49,49 @@
   display: flex;
   flex-direction: row;
   gap: 16px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
+}
+
+/* ── Primary CTA — gold dominant ── */
+.hp-cta-gold {
+  background: linear-gradient(135deg, var(--gold), #b8943a) !important;
+  border-color: var(--gold) !important;
+  color: var(--deep) !important;
+  font-weight: 600;
+}
+.hp-cta-gold:hover {
+  background: linear-gradient(135deg, #dab456, var(--gold)) !important;
+  box-shadow: 0 0 32px rgba(201,168,76,0.35) !important;
+  transform: translateY(-2px);
+}
+
+/* ── Secondary CTA — text link style ── */
+.hp-cta-text {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  padding-bottom: 2px;
+  transition: all .2s ease;
+  align-self: center;
+}
+.hp-cta-text:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* ── Trust line ── */
+.hp-trust-line {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-style: italic;
 }
 .hp-hero-img {
   flex: 1 1 0;
@@ -127,21 +168,21 @@
   margin-bottom: 36px;
 }
 .hp-freq-chip {
-  padding: 12px 16px;
+  padding: 14px 18px;
   border: 1px solid rgba(201,168,76,0.15);
   border-radius: 6px;
   font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: .2em;
+  font-size: 9px;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-dim);
   background: rgba(201,168,76,0.03);
 }
 .hp-freq-chip strong {
   display: block;
   color: var(--gold-light);
-  margin-bottom: 4px;
-  font-size: 9px;
+  margin-bottom: 5px;
+  font-size: 11px;
 }
 
 /* ── Articles Sidebar ── */
@@ -537,10 +578,12 @@
   min-width: 0;
   max-width: 520px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   will-change: transform;
+  cursor: pointer;
 }
 .hp-codex-svg {
   width: 100%;
@@ -551,6 +594,35 @@
 }
 .hp-codex-link:hover .hp-codex-svg {
   filter: drop-shadow(0 0 70px rgba(201,168,76,0.35));
+}
+.hp-codex-caption {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 12px;
+  text-align: center;
+  opacity: 0;
+  animation: sscFadeIn .6s ease 1.2s forwards;
+}
+.hp-scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: sscFadeIn .8s ease 1.5s forwards;
+}
+.hp-scroll-arrow {
+  display: block;
+  font-size: 22px;
+  color: rgba(201,168,76,0.2);
+  animation: sscBounce 2s ease-in-out infinite;
+}
+@keyframes sscBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
 /* Line draw */
@@ -712,6 +784,31 @@
 }
 .hp-freq-chip:hover .hp-freq-chip-read { color: var(--teal-light); }
 
+/* ── View All Articles ── */
+.hp-view-all {
+  padding: 0 0 100px;
+}
+.hp-view-all-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 22px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  text-decoration: none;
+  border-top: 1px solid rgba(201,168,76,0.08);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  background: rgba(201,168,76,0.02);
+  transition: background .25s, color .25s;
+}
+.hp-view-all-link:hover {
+  background: rgba(201,168,76,0.06);
+  color: var(--gold);
+}
+
 /* Life Calling — full row, prominent */
 .hp-freq-calling-wrap {
   display: block;
@@ -769,9 +866,14 @@
 .hp-freq-calling-glyph {
   font-family: 'Cinzel Decorative', serif;
   font-size: 48px;
-  color: rgba(201,168,76,0.15);
+  color: rgba(201,168,76,0.35);
   line-height: 1;
   flex-shrink: 0;
+  animation: sscGlow 3s ease-in-out infinite;
+}
+@keyframes sscGlow {
+  0%, 100% { color: rgba(201,168,76,0.35); }
+  50% { color: rgba(201,168,76,0.55); }
 }
 
 /* ── SCL boot animation ── */
@@ -787,6 +889,11 @@
   .hp-hero, .hp-main-row, .hp-scl-section { padding-left: 40px; padding-right: 40px; }
   .hp-scl-inner { gap: 40px; }
 }
+@media (max-width: 1024px) {
+  .hp-hero { padding: 80px 48px 80px; min-height: 80vh; }
+  .hp-hero-title { font-size: clamp(32px, 5vw, 52px); }
+  .hp-hero-sub { font-size: 18px; }
+}
 @media (max-width: 860px) {
   .hp-hero { flex-direction: column; min-height: auto; padding: 100px 40px 80px; text-align: center; }
   .hp-hero-content { max-width: 100%; }
@@ -794,10 +901,15 @@
   .hp-hero-actions { justify-content: center; flex-wrap: wrap; }
   .hp-hero-img { max-width: 360px; }
   .hp-codex-link { max-width: 360px; }
+  .hp-scroll-hint { bottom: 20px; }
   .hp-main-row { flex-direction: column; padding: 100px 40px 120px; }
   .hp-scl-inner { flex-direction: column; }
   .hp-scl-section { padding: 120px 40px; }
   .hp-ssc { padding: 40px 32px; }
+}
+@media (max-width: 700px) {
+  .hp-freq-row { grid-template-columns: 1fr; }
+  .hp-freq-connector { display: none; }
 }
 @media (max-width: 600px) {
   .hp-hero { padding: 90px 24px 72px; }
@@ -806,7 +918,6 @@
   .hp-scl-section { padding: 100px 24px; }
   .hp-frequencies { grid-template-columns: 1fr 1fr; }
   .hp-ssc { padding: 28px 20px; overflow: visible; }
-  .hp-freq-row { grid-template-columns: 1fr 1fr; }
   .hp-freq-chip { padding: 12px 12px; }
   .hp-freq-calling-wrap { padding: 14px 16px; }
   .hp-freq-calling-inner { gap: 12px; }
@@ -814,8 +925,6 @@
 }
 @media (max-width: 400px) {
   .hp-ssc { padding: 24px 16px; }
-  .hp-freq-row { grid-template-columns: 1fr; }
-  .hp-freq-connector::before { display: none; }
 }
 </style>
 
@@ -832,9 +941,10 @@
     <h1 class="hp-hero-title">Discover the <span>Quests</span> in Your Life</h1>
     <p class="hp-hero-sub">Your birth date and name encode 7 frequencies — each one a quest waiting to be played. The blueprint is already written. Start playing.</p>
     <div class="hp-hero-actions">
-      <a href="/calculator" class="btn-primary" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#9654;&nbsp;View Your Quests</a>
-      <a href="/sample-guidebook.html" class="btn-secondary">Sample Blueprint &#8594;</a>
+      <a href="/calculator" class="btn-primary hp-cta-gold" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#9654;&nbsp;View Your Quests</a>
+      <a href="/sample-guidebook.html" class="hp-cta-text">Sample Blueprint &#8594;</a>
     </div>
+    <p class="hp-trust-line">Your data stays private. We never store your personal information.</p>
   </div>
   <a href="/codex" class="hp-codex-link" aria-label="Explore the Codex" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('codex');}">
     <svg class="hp-codex-svg" viewBox="0 0 300 310" xmlns="http://www.w3.org/2000/svg">
@@ -891,7 +1001,11 @@
         </g>
       </g>
     </svg>
+    <p class="hp-codex-caption">Your 7-frequency quest map — tap to explore</p>
   </a>
+  <div class="hp-scroll-hint">
+    <span class="hp-scroll-arrow">&#8595;</span>
+  </div>
 </section>
 
 <!-- ═══════════════════════════════════════════
@@ -1024,8 +1138,8 @@
 </div>
 
 <!-- View All Articles -->
-<div style="padding:0 0 100px;">
-  <a href="/blog/" style="display:block;width:100%;text-align:center;padding:22px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);background:rgba(201,168,76,0.02);transition:background .25s,color .25s;">View All Articles &#8594;</a>
+<div class="hp-view-all">
+  <a href="/blog/" class="hp-view-all-link">View All Articles &#8594;</a>
 </div>
 
 <!-- ═══════════════════════════════════════════

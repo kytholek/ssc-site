@@ -12,7 +12,7 @@
         <div class="field">
           <label for="calc-month" data-i18n="calc.label.month">Month</label>
           <select id="calc-month">
-            <option value="">—</option>
+            <option value="" disabled selected data-i18n="calc.month.placeholder">Month</option>
             <option value="1"  data-i18n="calc.month.1">January</option>
             <option value="2"  data-i18n="calc.month.2">February</option>
             <option value="3"  data-i18n="calc.month.3">March</option>
@@ -88,6 +88,11 @@
           <li><span class="unlock-check" aria-hidden="true">◈</span> Delivered as a branded PDF to your inbox within minutes</li>
         </ul>
 
+        <!-- Sample preview link -->
+        <p class="unlock-sample-link">
+          <a href="/sample-guidebook.html" target="_blank" rel="noopener">See a sample guidebook &#8594;</a>
+        </p>
+
         <!-- Email field -->
         <div class="unlock-email-wrap">
           <label class="unlock-email-label" for="unlock-email">Where shall we send your guidebook?</label>
@@ -131,96 +136,6 @@
 
 <!-- ════ STRIPE PAYMENT SCRIPT ════ -->
 <script>
-/**
- * handleUnlockPayment()
- * Validates the email, stores the user's decoded data in sessionStorage
- * so the Netlify webhook can retrieve it, then redirects to Stripe.
- *
- * SETUP STEPS:
- *  1. Replace data-stripe-url on #unlock-pay-btn with your real Stripe Payment Link.
- *  2. In Stripe Dashboard → Payment Links → Advanced → add ?prefilled_email={email}
- *     to auto-fill the customer email on the Stripe page.
- *  3. Set your Stripe success_url to: https://yourdomain.com/?payment=success
- *     (the success banner logic is below)
- */
-function handleUnlockPayment() {
-  var emailInput = document.getElementById('unlock-email');
-  var errorEl   = document.getElementById('unlock-email-error');
-  var btn        = document.getElementById('unlock-pay-btn');
-  var email      = (emailInput ? emailInput.value : '').trim();
-
-  // Basic email validation
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    if (errorEl) {
-      errorEl.textContent = 'Please enter a valid email address.';
-      errorEl.style.color = 'var(--rose-light)';
-    }
-    if (emailInput) emailInput.focus();
-    return;
-  }
-  if (errorEl) errorEl.textContent = '';
-
-  // ── Gather the decoded data from the DOM ──────────────────────────────
-  var resultsArea = document.getElementById('results-area');
-  var userPayload = {
-    email:    email,
-    name:     (document.getElementById('calc-fullname') || {}).value || '',
-    month:    (document.getElementById('calc-month')    || {}).value || '',
-    day:      (document.getElementById('calc-day')      || {}).value || '',
-    year:     (document.getElementById('calc-year')     || {}).value || '',
-    results:  resultsArea ? resultsArea.innerText : ''
-  };
-
-  // Persist so the success page / webhook can read it
-  try {
-    sessionStorage.setItem('ssc_pending_order', JSON.stringify(userPayload));
-  } catch(e) {}
-
-  // Button loading state
-  btn.disabled    = true;
-  btn.textContent = '· Connecting to Stripe ·';
-
-  // ── Call Cloudflare Worker to create checkout session ────────────────
-  fetch('/api/session', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email:  email,
-      name:   userPayload.name,
-      month:  userPayload.month,
-      day:    userPayload.day,
-      year:   userPayload.year
-    })
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.json().then(data => {
-        throw new Error(data.error || `HTTP ${response.status}`);
-      }).catch(() => {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      });
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.url) {
-      // Redirect to Stripe checkout
-      window.location.href = data.url;
-    } else {
-      throw new Error(data.error || 'Failed to create checkout session');
-    }
-  })
-  .catch(err => {
-    console.error('Checkout error:', err);
-    if (errorEl) {
-      errorEl.textContent = 'Checkout failed: ' + err.message;
-      errorEl.style.color = 'var(--rose-light)';
-    }
-    btn.disabled    = false;
-    btn.textContent = 'Receive My Guidebook';
-  });
-}
-
 // ── Show success banner if returning from Stripe ──────────────────────────
 (function checkPaymentReturn() {
   var params = new URLSearchParams(window.location.search);

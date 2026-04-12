@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You · Simulation Source Code</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { padding-top: 64px; }
+    .page { display: block !important; opacity: 1 !important; }
+
+    .ty-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 100px 40px 160px;
+      text-align: center;
+    }
+    .ty-glyph {
+      font-size: 56px;
+      color: var(--gold);
+      margin-bottom: 24px;
+      opacity: 0.7;
+    }
+    .ty-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 16px;
+    }
+    .ty-title {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: clamp(28px, 4vw, 44px);
+      color: var(--gold);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .ty-body {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-dim);
+      margin-bottom: 36px;
+    }
+    .ty-detail {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 20px 0;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      margin-bottom: 36px;
+    }
+    .ty-detail span {
+      color: var(--gold-dim);
+    }
+    .ty-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .ty-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      background: transparent;
+      transition: all 0.25s;
+    }
+    .ty-btn:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 24px rgba(201,168,76,0.12);
+      background: rgba(201,168,76,0.04);
+    }
+    .ty-btn--secondary {
+      border-color: rgba(201,168,76,0.2);
+      color: var(--text-dim);
+    }
+
+    /* Google Reviews badge positioning */
+    .ty-google-badge {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(201,168,76,0.08);
+    }
+  </style>
+
+  <!-- Google Customer Reviews -->
+  <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+</head>
+<body>
+
+<nav id="main-nav"></nav>
+
+<main>
+  <div class="ty-wrap">
+    <div class="ty-glyph">&#10022;</div>
+    <div class="ty-eyebrow">Order Confirmed</div>
+    <h1 class="ty-title">Thank You</h1>
+
+    <p class="ty-body" id="tyMessage">
+      Your order has been received. If you purchased a Guidebook Report, it will arrive
+      in your inbox within minutes. For Live Sessions, scheduling details will follow
+      within 48 hours.
+    </p>
+
+    <div class="ty-detail">
+      Order reference: <span id="tyOrderId">&#8212;</span>
+    </div>
+
+    <div class="ty-actions">
+      <a href="/" class="ty-btn">Return Home</a>
+      <a href="/services/" class="ty-btn ty-btn--secondary">View Services</a>
+    </div>
+
+    <!-- Google Customer Reviews opt-in renders here -->
+    <div class="ty-google-badge" id="googleReviewsOptIn"></div>
+  </div>
+</main>
+
+<footer class="footer" id="footer"></footer>
+
+<script src="/js/translations.js"></script>
+<script src="/js/app.js"></script>
+<script>
+  if (typeof loadNav === 'function') loadNav();
+  if (typeof loadFooter === 'function') loadFooter();
+
+  // ── Parse URL params from Stripe redirect ──────────
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+
+    // Stripe can pass these via success_url query params:
+    //   /thank-you/?session_id={CHECKOUT_SESSION_ID}&email={CUSTOMER_EMAIL}&product={PRODUCT}
+    var sessionId = params.get('session_id') || '';
+    var email     = params.get('email')      || '';
+    var product   = params.get('product')    || '';
+
+    // Show order reference if available
+    var orderEl = document.getElementById('tyOrderId');
+    if (sessionId && orderEl) {
+      orderEl.textContent = sessionId.substring(0, 24) + '…';
+    }
+
+    // Customise message based on product
+    var msgEl = document.getElementById('tyMessage');
+    if (product === 'guidebook' && msgEl) {
+      msgEl.textContent = 'Your Guidebook Report is being generated and will arrive in your inbox within minutes. Keep it — it is yours to reference any time.';
+    } else if (product === 'consultation' && msgEl) {
+      msgEl.textContent = 'Your Personal Consultation has been booked. You will receive scheduling details and a calendar link within 48 hours.';
+    } else if (product === 'membership' && msgEl) {
+      msgEl.textContent = 'Welcome to Source Decoder. Your membership is now active — access details and group invite will arrive in your inbox within 24 hours.';
+    }
+
+    // ── Google Customer Reviews opt-in ─────────────
+    // Estimated delivery: guidebook = today, consultation = 3 days, membership = 1 day
+    var deliveryDays = product === 'consultation' ? 3 : product === 'membership' ? 1 : 0;
+    var deliveryDate = new Date();
+    deliveryDate.setDate(deliveryDate.getDate() + deliveryDays);
+    var yyyy = deliveryDate.getFullYear();
+    var mm   = String(deliveryDate.getMonth() + 1).padStart(2, '0');
+    var dd   = String(deliveryDate.getDate()).padStart(2, '0');
+
+    window.renderOptIn = function() {
+      if (!window.gapi || !email) return;
+      window.gapi.load('surveyoptin', function() {
+        window.gapi.surveyoptin.render({
+          "merchant_id":              5388315713,
+          "order_id":                 sessionId || ('SSC-' + Date.now()),
+          "email":                    email,
+          "delivery_country":         "US",
+          "estimated_delivery_date":  yyyy + '-' + mm + '-' + dd
+        });
+      });
+    };
+  })();
+</script>
+</body>
+</html>

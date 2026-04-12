@@ -3155,7 +3155,51 @@ footer {
   color: var(--text-muted);
   position: relative;
 }
- 
+
+/* ── Sample preview link ── */
+.unlock-sample-link {
+  text-align: center;
+  margin: 8px 0 0;
+}
+.unlock-sample-link a {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding-bottom: 1px;
+  transition: all .2s ease;
+}
+.unlock-sample-link a:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* ── Results placeholder — distinct from form card ── */
+.results-placeholder {
+  background: var(--deep);
+  border: 1px dashed rgba(201,168,76,0.12);
+  border-radius: 10px;
+  padding: 48px 24px;
+  text-align: center;
+  opacity: 0.5;
+  transition: opacity .3s ease;
+}
+
+/* ── Inline validation error ── */
+.ssc-input-error {
+  border-color: var(--rose-light) !important;
+  box-shadow: 0 0 0 2px rgba(255,85,128,0.15) !important;
+}
+
+/* ── Button loading state ── */
+.ssc-btn-loading {
+  opacity: 0.7;
+  cursor: wait !important;
+}
+
 /* ── Mobile tweaks ── */
 @media (max-width: 480px) {
   .unlock-card { padding: 32px 20px 36px; }
