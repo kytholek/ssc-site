@@ -3115,16 +3115,24 @@ footer {
   display: block;
   margin: 0 auto 16px;
 }
+.unlock-btn:focus {
+  outline: none;
+}
+.unlock-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 /* Shimmer sweep on hover */
 .unlock-btn::before {
   content: '';
   position: absolute;
   top: 0; left: -100%;
-  width: 60%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,.12), transparent);
-  transition: left .5s ease;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.08), transparent);
+  transition: left .6s ease;
+  pointer-events: none;
 }
-.unlock-btn:hover::before { left: 150%; }
+.unlock-btn:hover::before { left: 100%; }
 .unlock-btn:hover {
   background: linear-gradient(135deg, rgba(201,168,76,.22) 0%, rgba(201,168,76,.1) 100%);
   border-color: var(--gold);
