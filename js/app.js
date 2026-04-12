@@ -1375,16 +1375,16 @@ function calculateReadingModal() {
   document.getElementById('calc-day').value = document.getElementById('modal-calc-day').value;
   document.getElementById('calc-year').value = document.getElementById('modal-calc-year').value;
   document.getElementById('calc-fullname').value = document.getElementById('modal-calc-fullname').value;
-  
+
   // Call the global calculateReading function
   calculateReading();
-  
+
   // Copy results back to modal
   var mapContainer = document.getElementById('freq-map');
   if (mapContainer) {
     document.getElementById('modal-results-area').innerHTML = mapContainer.outerHTML;
   }
-  
+
   // Show unlock CTA in modal
   showUnlockCTAModal();
 }
@@ -1557,4 +1557,96 @@ window.openCalculatorModal = openCalculatorModal;
 window.closeCalculatorModal = closeCalculatorModal;
 window.calculateReadingModal = calculateReadingModal;
 window.handleUnlockPaymentModal = handleUnlockPaymentModal;
-window.handleEmailCapture = handleEmailCapture;
+
+// ────────────────────────────────────────────────────────────
+//  CALCULATOR ENTER KEY LISTENERS
+// ────────────────────────────────────────────────────────────
+(function() {
+  function _onCalcKeydown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (typeof calculateReading === 'function') calculateReading();
+    }
+  }
+
+  function _onModalKeydown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (typeof calculateReadingModal === 'function') calculateReadingModal();
+    }
+  }
+
+  function _onUnlockEmailKeydown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var btn = document.getElementById('unlock-pay-btn');
+      if (btn && !btn.disabled) btn.click();
+    }
+  }
+
+  function _onModalUnlockEmailKeydown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var btn = document.getElementById('modal-unlock-pay-btn');
+      if (btn && !btn.disabled) btn.click();
+    }
+  }
+
+  function _bindCalcInputs() {
+    var ids = ['calc-month', 'calc-day', 'calc-year', 'calc-fullname'];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.removeEventListener('keydown', _onCalcKeydown);
+        el.addEventListener('keydown', _onCalcKeydown);
+      }
+    });
+    var unlockEmail = document.getElementById('unlock-email');
+    if (unlockEmail) {
+      unlockEmail.removeEventListener('keydown', _onUnlockEmailKeydown);
+      unlockEmail.addEventListener('keydown', _onUnlockEmailKeydown);
+    }
+  }
+
+  function _bindModalInputs() {
+    var ids = ['modal-calc-month', 'modal-calc-day', 'modal-calc-year', 'modal-calc-fullname'];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.removeEventListener('keydown', _onModalKeydown);
+        el.addEventListener('keydown', _onModalKeydown);
+      }
+    });
+    var modalUnlockEmail = document.getElementById('modal-unlock-email');
+    if (modalUnlockEmail) {
+      modalUnlockEmail.removeEventListener('keydown', _onModalUnlockEmailKeydown);
+      modalUnlockEmail.addEventListener('keydown', _onModalUnlockEmailKeydown);
+    }
+  }
+
+  // Bind on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    _bindCalcInputs();
+    _bindModalInputs();
+  });
+
+  // Re-bind when calculator page is shown (SPA navigation)
+  var _origShowPage = window.showPage;
+  if (typeof _origShowPage === 'function') {
+    window.showPage = function(page) {
+      _origShowPage(page);
+      if (page === 'calculator') {
+        setTimeout(_bindCalcInputs, 100);
+      }
+    };
+  }
+
+  // Re-bind when modal is opened
+  var _origOpenModal = window.openCalculatorModal;
+  if (typeof _origOpenModal === 'function') {
+    window.openCalculatorModal = function() {
+      _origOpenModal();
+      setTimeout(_bindModalInputs, 100);
+    };
+  }
+})();

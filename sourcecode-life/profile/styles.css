@@ -1343,6 +1343,13 @@ body::after {
   animation: flicker 8s infinite; line-height: 1.4;
 }
 .header-sub { font-family: 'VT323', monospace; font-size: 15px; color: var(--text-dim); letter-spacing: 4px; margin-top: 3px; }
+.header-home-link {
+  font-family: 'Press Start 2P', monospace; font-size: 6px;
+  color: var(--text-dim); text-decoration: none;
+  letter-spacing: 2px; display: inline-block; margin-bottom: 8px;
+  transition: color 0.2s;
+}
+.header-home-link:hover { color: var(--teal); text-shadow: 0 0 10px rgba(0,229,204,0.4); }
 .header-player { text-align: right; }
 .header-player-name {
   font-family: 'VT323', monospace; font-size: 22px;

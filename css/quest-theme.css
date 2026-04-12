@@ -486,12 +486,7 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
 }
 
 
-/* ── Footer ───────────────────────────────────────────── */
-footer, .site-footer, [class*="footer"] {
-  background: var(--bg-panel) !important;
-  border-top: 1px solid var(--border) !important;
-  font-family: 'Share Tech Mono', monospace !important;
-}
+/* ── Footer — kept original serif/gold style ──────────── */
 
 
 /* ── Blog cards (quest pages only) ────────────────────── */

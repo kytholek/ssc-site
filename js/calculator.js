@@ -348,9 +348,14 @@ function buildFreqCard(n, rootKey, freqIndex, opts) {
     : '';
   var displayNum  = hasCompound ? compound + '/' + n : n;
   var compoundHtml = (hasCompound && COMPOUND_DESC[compound])
-    ? '<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)">'
-      + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.4em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:6px">Compound · ' + compound + '</div>'
-      + '<p style="font-family:\'EB Garamond\',serif;font-size:12px;color:rgba(255,255,255,0.38);margin:0;line-height:1.65;font-style:italic">' + COMPOUND_DESC[compound] + '</p>'
+    ? '<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);position:relative">'
+      + '<div style="font-family:\'Cinzel\',serif;font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:' + accentLight + ';margin-bottom:8px;text-shadow:0 0 12px rgba(201,168,76,0.2)">◈&nbsp;&nbsp;Compound Frequency · ' + compound + '&nbsp;&nbsp;◈</div>'
+      + '<div style="position:relative;overflow:hidden">'
+      + '<p style="font-family:\'EB Garamond\',serif;font-size:12px;color:rgba(255,255,255,0.38);margin:0;line-height:1.65;font-style:italic;filter:blur(4px);user-select:none;pointer-events:none">' + COMPOUND_DESC[compound] + '</p>'
+      + '<div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(5,4,10,0.3) 0%,rgba(5,4,10,0.6) 50%,rgba(5,4,10,0.3) 100%)">'
+      + '<div style="font-size:18px;opacity:.8">🔒</div>'
+      + '</div>'
+      + '</div>'
       + '</div>'
     : '';
 
