@@ -2,14 +2,14 @@
   "name": "SCL",
   "short_name": "SCL",
   "description": "SCL — RPG Life Tracker",
-  "start_url": "/",
+  "start_url": "/sourcecode-life/app/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0b0f",
   "theme_color": "#0a0b0f",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/sourcecode-life/app/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
