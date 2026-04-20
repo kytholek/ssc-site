@@ -10,7 +10,7 @@
   "description": "A multi-page numerology website with canvas animations, a numerology calculator, blog system, and a hidden admin CMS.",
   "main": "convert-translations.js",
   "scripts": {
-    "build": "cd sourcecode-life/app && npm run build && cp -r dist ../..",
+    "build": "cd sourcecode-life/app && npm ci --prefer-offline --no-audit && npm run build && cp -r dist ../..",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite"
   },
