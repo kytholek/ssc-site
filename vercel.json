@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd sourcecode-life/app && npm ci --prefer-offline --no-audit && npm run build && cp -r dist ../../",
-  "outputDirectory": "dist",
+  "buildCommand": "cd sourcecode-life/app && npm run build",
+  "outputDirectory": "sourcecode-life/app/dist",
   "framework": "vite"
 }
