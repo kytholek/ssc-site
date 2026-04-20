@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd sourcecode-life/app && npm run build && cp -r dist ../..",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite"
 }
