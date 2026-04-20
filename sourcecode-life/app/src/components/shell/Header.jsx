@@ -86,8 +86,9 @@ export default function Header({ onTabChange }) {
         {menuOpen && (
           <div className="app-header-menu">
             <button className="app-menu-item" onClick={handleResetChar}>↺ Reset Character</button>
-            <button className="app-menu-item app-menu-item-danger" onClick={handleSignOut}>⏏ Sign Out</button>
+            <button className="app-menu-item app-menu-item-danger" onClick={handleSignOut}>⏥ Sign Out</button>
             <button className="app-menu-item" onClick={() => { setMenuOpen(false); onTabChange && onTabChange('profile') }}>⚙ Profile</button>
+            <a href="/" className="app-menu-item">← Back to Site</a>
           </div>
         )}
       </header>
