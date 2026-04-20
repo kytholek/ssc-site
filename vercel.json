@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pwd && ls -la && ls -la sourcecode-life/ && echo 'About to npm install' && npm --prefix sourcecode-life/app install && echo 'About to npm run build' && npm --prefix sourcecode-life/app run build && echo 'About to copy' && cp -r sourcecode-life/app/dist . && echo 'Done'",
+  "buildCommand": "find . -name 'package.json' -type f | head -20",
   "outputDirectory": "dist",
   "nodeVersion": "24.x"
 }
