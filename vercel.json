@@ -1,5 +1,5 @@
 {
-  "buildCommand": "ls -la sourcecode-life/ && npm --prefix sourcecode-life/app install && npm --prefix sourcecode-life/app run build && cp -r sourcecode-life/app/dist .",
+  "buildCommand": "pwd && ls -la && ls -la sourcecode-life/ && echo 'About to npm install' && npm --prefix sourcecode-life/app install && echo 'About to npm run build' && npm --prefix sourcecode-life/app run build && echo 'About to copy' && cp -r sourcecode-life/app/dist . && echo 'Done'",
   "outputDirectory": "dist",
   "nodeVersion": "24.x"
 }
