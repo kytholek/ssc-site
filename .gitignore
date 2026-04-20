@@ -17,3 +17,7 @@ package.json
 
 # Keep wrangler.toml local only — Pages CI treats it as a Worker deployment config
 wrangler.toml
+
+.dev.vars*
+!.dev.vars.example
+!.env.example
