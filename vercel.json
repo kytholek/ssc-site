@@ -1,5 +1,0 @@
-{
-  "buildCommand": "find . -name 'package.json' -type f | head -20",
-  "outputDirectory": "dist",
-  "nodeVersion": "24.x"
-}
