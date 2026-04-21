@@ -64,7 +64,7 @@
     <div>
       <div class="footer-col-title" data-i18n="footer.legal.title">Legal</div>
       <div class="footer-links">
-        <button class="footer-link" onclick="showPage('privacy')" data-i18n="footer.legal.privacy">Privacy Policy</button>
+        <a class="footer-link" href="/privacy/" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('privacy');}" data-i18n="footer.legal.privacy">Privacy Policy</a>
       </div>
     </div>
     <div>

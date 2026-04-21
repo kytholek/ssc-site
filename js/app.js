@@ -572,7 +572,7 @@ function showPage(name, pushState = true) {
   if (navLink) navLink.classList.add('active');
 
   const meta = PAGE_META[name] || { title: name + SITE.titleSuffix, description: SITE.description };
-  const url  = name === 'home' ? '/' : '/' + name;
+  const url  = name === 'home' ? '/' : '/' + name + '/';
   setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + url);
   _clearJsonLd();
 
@@ -589,7 +589,7 @@ function _injectPageSchema(name) {
       '@context'   : 'https://schema.org',
       '@type'      : 'WebApplication',
       'name'       : 'SSC Numerology Calculator',
-      'url'        : 'https://simulationsourcecode.com/calculator',
+      'url'        : 'https://simulationsourcecode.com/calculator/',
       'description': 'Free numerology calculator. Enter your birth date and full name to calculate your seven core frequencies: Life Path, Expression, Life Calling, Soul Urge, Outer Persona, Achievement, and Theme.',
       'applicationCategory': 'UtilitiesApplication',
       'operatingSystem'    : 'Any',
@@ -606,7 +606,7 @@ function _injectPageSchema(name) {
       '@context': 'https://schema.org',
       '@type'   : 'Service',
       'name'    : 'Numerology Readings — Simulation Source Code',
-      'url'     : 'https://simulationsourcecode.com/services',
+      'url'     : 'https://simulationsourcecode.com/services/',
       'description': 'Personalised numerology guidebook PDF, live consultation, and group membership.',
       'provider': { '@type': 'Organization', 'name': 'Simulation Source Code' },
       'offers'  : [
@@ -620,7 +620,7 @@ function _injectPageSchema(name) {
       '@context'   : 'https://schema.org',
       '@type'      : 'AboutPage',
       'name'       : 'About Simulation Source Code',
-      'url'        : 'https://simulationsourcecode.com/about',
+      'url'        : 'https://simulationsourcecode.com/about/',
       'description': 'Simulation Source Code is a numerology framework built on Pythagorean principles, simulation theory, and consciousness research.',
       'author'     : { '@type': 'Organization', 'name': 'Simulation Source Code' }
     });
@@ -703,7 +703,7 @@ function closePosts(pushState = true) {
   setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + '/blog');
   _clearJsonLd();
 
-  if (pushState) history.pushState({ page: 'blog', post: null }, meta.title, '/blog');
+  if (pushState) history.pushState({ page: 'blog', post: null }, meta.title, '/blog/');
 }
 
 function filterBlog(category, btn) {
@@ -759,11 +759,11 @@ async function handleDeepLink() {
   } else if (pageId && PAGE_META[pageId]) {
     // Legacy ?page= URLs — rewrite to clean URL
     showPage(pageId, false);
-    history.replaceState({ page: pageId, post: null }, document.title, '/' + pageId);
+    history.replaceState({ page: pageId, post: null }, document.title, '/' + pageId + '/');
   } else if (pathname && PAGE_META[pathname]) {
     // Clean URL: /services, /calculator, /about, etc.
     showPage(pathname, false);
-    history.replaceState({ page: pathname, post: null }, document.title, '/' + pathname);
+    history.replaceState({ page: pathname, post: null }, document.title, '/' + pathname + '/');
   } else {
     showPage('home', false);
     history.replaceState({ page: 'home', post: null }, document.title, '/');
