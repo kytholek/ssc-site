@@ -543,6 +543,199 @@
 }
 .hp-tester-step:hover .hp-tester-step-arrow { opacity: 1; transform: translateX(4px); }
 
+/* ── How It Works Section ── */
+.hp-how-section {
+  background: rgba(201,168,76,0.02);
+  border-top: 1px solid rgba(201,168,76,0.12);
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+  padding: 80px 80px;
+  max-width: 100%;
+  position: relative;
+}
+.hp-how-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.35), transparent);
+  pointer-events: none;
+}
+.hp-how-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+.hp-how-step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hp-how-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 36px;
+  color: rgba(201,168,76,0.4);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.hp-how-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+}
+.hp-how-title {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.hp-how-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ── Stats Bar Section ── */
+.hp-stats-section {
+  padding: 60px 80px;
+  max-width: 100%;
+  text-align: center;
+  background: transparent;
+  border-top: 1px solid rgba(201,168,76,0.08);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+.hp-stats-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  align-items: center;
+}
+.hp-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hp-stat-num {
+  font-family: 'Cormorant SC', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.hp-stat-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Email Capture Section ── */
+.hp-email-section {
+  padding: 60px 80px;
+  max-width: 100%;
+  background: linear-gradient(135deg, rgba(74,148,148,0.04), rgba(201,168,76,0.02));
+  border-top: 1px solid rgba(201,168,76,0.12);
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+.hp-email-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hp-email-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 12px;
+}
+.hp-email-title {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
+  font-size: 28px;
+  color: var(--gold);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+.hp-email-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hp-email-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 14px 18px;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--text);
+  transition: border-color .2s, background .2s;
+}
+.hp-email-input::placeholder {
+  color: var(--text-muted);
+}
+.hp-email-input:focus {
+  outline: none;
+  border-color: rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.08);
+}
+.hp-email-submit {
+  padding: 14px 28px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.hp-email-submit:hover {
+  background: rgba(201,168,76,0.2);
+  border-color: rgba(201,168,76,0.5);
+}
+
+/* ── Hero dot-grid background ── */
+.hp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  animation: sscGridDrift 20s linear infinite;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 0;
+}
+@keyframes sscGridDrift {
+  0% { background-position: 0 0, 20px 20px; }
+  100% { background-position: 40px 40px, 60px 60px; }
+}
+.hp-hero-content,
+.hp-codex-link {
+  position: relative;
+  z-index: 1;
+}
+
 /* ── Scroll reveal ── */
 @media (min-width: 601px) {
   .hp-reveal {
@@ -888,8 +1081,10 @@
 
 /* ── Responsive ── */
 @media (max-width: 1100px) {
-  .hp-hero, .hp-main-row, .hp-scl-section { padding-left: 40px; padding-right: 40px; }
+  .hp-hero, .hp-main-row, .hp-scl-section, .hp-how-section, .hp-stats-section, .hp-email-section { padding-left: 40px; padding-right: 40px; }
   .hp-scl-inner { gap: 40px; }
+  .hp-how-inner { gap: 32px; }
+  .hp-stats-inner { gap: 60px; }
 }
 @media (max-width: 1024px) {
   .hp-hero { padding: 80px 48px 80px; min-height: 80vh; }
@@ -908,6 +1103,9 @@
   .hp-scl-inner { flex-direction: column; }
   .hp-scl-section { padding: 120px 40px; }
   .hp-ssc { padding: 40px 32px; }
+  .hp-how-inner { grid-template-columns: 1fr; gap: 24px; }
+  .hp-stats-inner { flex-direction: column; gap: 32px; }
+  .hp-email-form { flex-direction: column; }
 }
 @media (max-width: 700px) {
   .hp-freq-row { grid-template-columns: 1fr; }
@@ -924,6 +1122,9 @@
   .hp-freq-calling-wrap { padding: 14px 16px; }
   .hp-freq-calling-inner { gap: 12px; }
   .hp-freq-calling-glyph { font-size: 28px; }
+  .hp-how-section, .hp-stats-section, .hp-email-section { padding: 60px 24px; }
+  .hp-stat-num { font-size: clamp(28px, 3.5vw, 44px); }
+  .hp-email-title { font-size: 22px; }
 }
 @media (max-width: 400px) {
   .hp-ssc { padding: 24px 16px; }
@@ -939,11 +1140,11 @@
 ══════════════════════════════════════════════ -->
 <section class="hp-hero">
   <div class="hp-hero-content">
-    <div class="hp-hero-eyebrow">// QUEST SYSTEM INITIALIZED</div>
-    <h1 class="hp-hero-title">Discover the <span>Quests</span> in Your Life</h1>
-    <p class="hp-hero-sub">Your birth date and name encode 7 frequencies — each one a quest waiting to be played. The blueprint is already written. Start playing.</p>
+    <div class="hp-hero-eyebrow">// SEVEN FREQUENCIES ENCODED</div>
+    <h1 class="hp-hero-title">Decode the <span>Blueprint</span> Written in Your Birth</h1>
+    <p class="hp-hero-sub">Your birth date and name encode 7 frequencies — each one a lens on your life. The blueprint is already written in your numbers. Start reading it.</p>
     <div class="hp-hero-actions">
-      <a href="/calculator" class="btn-primary hp-cta-gold" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#9654;&nbsp;View Your Quests</a>
+      <a href="/calculator" class="btn-primary hp-cta-gold" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#9654;&nbsp;Decode Your Blueprint</a>
       <a href="/sample-guidebook.html" class="hp-cta-text">Sample Blueprint &#8594;</a>
     </div>
     <p class="hp-trust-line">Your data stays private. We never store your personal information.</p>
@@ -1003,10 +1204,56 @@
         </g>
       </g>
     </svg>
-    <p class="hp-codex-caption">Your 7-frequency quest map — tap to explore</p>
+    <p class="hp-codex-caption">Your 7-frequency blueprint — tap to explore</p>
   </a>
   <div class="hp-scroll-hint">
     <span class="hp-scroll-arrow">&#8595;</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════ -->
+<section class="hp-how-section hp-reveal">
+  <div class="hp-how-inner">
+    <div class="hp-how-step">
+      <div class="hp-how-num">01</div>
+      <div class="hp-how-label">Step One</div>
+      <div class="hp-how-title">Enter Your Blueprint</div>
+      <p class="hp-how-desc">Share your birth date and name. That's all we need — we never store your data.</p>
+    </div>
+    <div class="hp-how-step">
+      <div class="hp-how-num">02</div>
+      <div class="hp-how-label">Step Two</div>
+      <div class="hp-how-title">Decode 7 Frequencies</div>
+      <p class="hp-how-desc">Our algorithm calculates the seven frequencies encoded in your birth date and name.</p>
+    </div>
+    <div class="hp-how-step">
+      <div class="hp-how-num">03</div>
+      <div class="hp-how-label">Step Three</div>
+      <div class="hp-how-title">Read Your Blueprint</div>
+      <p class="hp-how-desc">Explore your seven frequencies, read your blueprint, and start understanding the patterns already running in your life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     STATS BAR
+══════════════════════════════════════════════ -->
+<section class="hp-stats-section hp-reveal">
+  <div class="hp-stats-inner">
+    <div class="hp-stat">
+      <div class="hp-stat-num">500+</div>
+      <div class="hp-stat-label">Blueprints Decoded</div>
+    </div>
+    <div class="hp-stat">
+      <div class="hp-stat-num">7</div>
+      <div class="hp-stat-label">Frequencies</div>
+    </div>
+    <div class="hp-stat">
+      <div class="hp-stat-num">60+</div>
+      <div class="hp-stat-label">Deep-Dive Articles</div>
+    </div>
   </div>
 </section>
 
@@ -1018,8 +1265,8 @@
   <!-- SSC Card -->
   <div class="hp-ssc">
     <div class="hp-ssc-eyebrow">// THE BLUEPRINT</div>
-    <h2 class="hp-ssc-title">Gamify Your Life — The Quest System</h2>
-    <p class="hp-ssc-body">Life is the game. The blueprint shows the quests. SSC decodes 7 frequencies from your birth date and name — each one a quest line already running in your simulation. Your External Circuit reveals the quests the game keeps giving you. Your Internal Circuit reveals how you are built to complete them. One blueprint. Seven quests. Start playing.</p>
+    <h2 class="hp-ssc-title">Your Seven-Frequency Blueprint</h2>
+    <p class="hp-ssc-body">SSC decodes 7 frequencies from your birth date and name — each one a layer of who you are and how your life is structured. Your External Circuit reflects the lessons and patterns the world brings you. Your Internal Circuit reveals the drives and tools you carry within. One blueprint. Seven frequencies. Start decoding.</p>
 
     <div class="hp-freq-block" id="hp-freq-block">
 
@@ -1200,6 +1447,20 @@
       <a href="https://portal.simulationsourcecode.com" class="hp-scl-cta">&gt; Try the Prototype</a>
     </div>
 
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     EMAIL CAPTURE
+══════════════════════════════════════════════ -->
+<section class="hp-email-section hp-reveal">
+  <div class="hp-email-inner">
+    <div class="hp-email-label">From the Codex</div>
+    <h2 class="hp-email-title">Get Weekly Frequency Insights</h2>
+    <form class="hp-email-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+      <input type="email" class="hp-email-input" placeholder="your.name@email.com" required>
+      <button type="submit" class="hp-email-submit">Subscribe</button>
+    </form>
   </div>
 </section>
 

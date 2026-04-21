@@ -137,21 +137,21 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
 }
 
 /* ── Section backgrounds ──────────────────────────────── */
-.page:not(#page-services):not(#page-calculator) section,
-.page:not(#page-services):not(#page-calculator) .section,
-.page:not(#page-services):not(#page-calculator) [class*="-section"] {
+.page:not(#page-services):not(#page-calculator):not(#page-home) section,
+.page:not(#page-services):not(#page-calculator):not(#page-home) .section,
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-section"] {
   background: var(--bg-deep) !important;
 }
 
 /* ── Animated grid on hero ────────────────────────────── */
-.page:not(#page-services):not(#page-calculator) .hp-hero,
-.page:not(#page-services):not(#page-calculator) .hero,
-.page:not(#page-services):not(#page-calculator) [class*="hero"] {
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hp-hero,
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hero,
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="hero"] {
   position: relative;
   overflow: hidden;
 }
-.page:not(#page-services):not(#page-calculator) .hp-hero::before,
-.page:not(#page-services):not(#page-calculator) .hero::before {
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hp-hero::before,
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hero::before {
   content: '' !important;
   position: absolute !important;
   inset: 0 !important;
@@ -165,7 +165,7 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
 }
 @keyframes qt-gridDrift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
 
-.page:not(#page-services):not(#page-calculator) .hp-hero::after {
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hp-hero::after {
   content: '' !important;
   position: absolute !important;
   inset: 0 !important;
@@ -173,17 +173,17 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
   pointer-events: none !important;
   z-index: 0 !important;
 }
-.page:not(#page-services):not(#page-calculator) .hp-hero > * { position: relative; z-index: 1; }
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hp-hero > * { position: relative; z-index: 1; }
 
 /* ── Typography ───────────────────────────────────────── */
-.page:not(#page-services):not(#page-calculator) h1,
-.page:not(#page-services):not(#page-calculator) h2,
-.page:not(#page-services):not(#page-calculator) h3,
-.page:not(#page-services):not(#page-calculator) h4,
-.page:not(#page-services):not(#page-calculator) h5,
-.page:not(#page-services):not(#page-calculator) h6,
-.page:not(#page-services):not(#page-calculator) [class*="-title"],
-.page:not(#page-services):not(#page-calculator) [class*="-heading"] {
+.page:not(#page-services):not(#page-calculator):not(#page-home) h1,
+.page:not(#page-services):not(#page-calculator):not(#page-home) h2,
+.page:not(#page-services):not(#page-calculator):not(#page-home) h3,
+.page:not(#page-services):not(#page-calculator):not(#page-home) h4,
+.page:not(#page-services):not(#page-calculator):not(#page-home) h5,
+.page:not(#page-services):not(#page-calculator):not(#page-home) h6,
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-title"],
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-heading"] {
   font-family: 'VT323', monospace !important;
   letter-spacing: 2px !important;
 }
@@ -201,8 +201,8 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
   text-shadow: 0 0 24px rgba(0,229,204,0.6) !important;
 }
 
-.page:not(#page-services):not(#page-calculator) [class*="-eyebrow"],
-.page:not(#page-services):not(#page-calculator) [class*="eyebrow"] {
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-eyebrow"],
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="eyebrow"] {
   font-family: 'Press Start 2P', monospace !important;
   font-size: 7px !important;
   color: var(--teal) !important;
@@ -210,9 +210,9 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
   letter-spacing: 3px !important;
 }
 
-.page:not(#page-services):not(#page-calculator) [class*="-sub"],
-.page:not(#page-services):not(#page-calculator) [class*="-body"],
-.page:not(#page-services):not(#page-calculator) p {
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-sub"],
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-body"],
+.page:not(#page-services):not(#page-calculator):not(#page-home) p {
   font-family: 'Share Tech Mono', monospace !important;
   color: var(--text-dim) !important;
 }
@@ -288,77 +288,21 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
 
 
 /* ── Cards / Panels ───────────────────────────────────── */
-.page:not(#page-services):not(#page-calculator) .hp-ssc,
-.page:not(#page-services):not(#page-calculator) [class*="card"],
-.page:not(#page-services):not(#page-calculator) [class*="-panel"],
-.page:not(#page-services):not(#page-calculator) [class*="-block"] {
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hp-ssc,
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="card"],
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-panel"],
+.page:not(#page-services):not(#page-calculator):not(#page-home) [class*="-block"] {
   background: var(--bg-panel) !important;
   border: 1px solid var(--border) !important;
   border-radius: 0 !important;
   box-shadow: 0 0 40px rgba(0,229,204,0.03) !important;
 }
-.page:not(#page-services):not(#page-calculator) .hp-ssc::before {
+.page:not(#page-services):not(#page-calculator):not(#page-home) .hp-ssc::before {
   background: linear-gradient(90deg, transparent, rgba(0,229,204,0.2), transparent) !important;
 }
 
 
 /* ── Home page specifics ──────────────────────────────── */
-
-/* Frequency chips */
-#page-home .hp-freq-chip {
-  background: rgba(0,229,204,0.03) !important;
-  border: 1px solid rgba(0,229,204,0.15) !important;
-  border-radius: 0 !important;
-}
-#page-home .hp-freq-chip:hover {
-  border-color: rgba(0,229,204,0.4) !important;
-  background: rgba(0,229,204,0.08) !important;
-  box-shadow: 0 0 20px rgba(0,229,204,0.1) !important;
-}
-#page-home .hp-freq-chip strong {
-  font-family: 'Press Start 2P', monospace !important;
-  font-size: 7px !important;
-  color: var(--teal) !important;
-  letter-spacing: 1px !important;
-}
-#page-home .hp-freq-chip span {
-  font-family: 'Share Tech Mono', monospace !important;
-  color: var(--text-muted) !important;
-}
-
-/* Life Calling */
-#page-home .hp-freq-calling-wrap {
-  background: rgba(0,229,204,0.03) !important;
-  border: 1px solid rgba(0,229,204,0.18) !important;
-  border-radius: 0 !important;
-}
-#page-home .hp-freq-calling-wrap::before {
-  background: linear-gradient(90deg, transparent, rgba(0,229,204,0.35), rgba(212,168,67,0.2), rgba(0,229,204,0.35), transparent) !important;
-}
-#page-home .hp-freq-calling-label {
-  font-family: 'Press Start 2P', monospace !important;
-  font-size: 7px !important;
-  color: var(--teal) !important;
-  text-shadow: 0 0 12px rgba(0,229,204,0.4) !important;
-}
-#page-home .hp-freq-calling-desc {
-  font-family: 'Share Tech Mono', monospace !important;
-  color: var(--text-muted) !important;
-  font-style: normal !important;
-}
-#page-home .hp-freq-calling-glyph { color: rgba(0,229,204,0.15) !important; }
-
-/* Circuit labels */
-#page-home .hp-freq-circuit-label {
-  font-family: 'Press Start 2P', monospace !important;
-  font-size: 6px !important;
-  color: var(--text-muted) !important;
-  letter-spacing: 2px !important;
-}
-#page-home .hp-freq-circuit-label::before,
-#page-home .hp-freq-circuit-label::after {
-  background: rgba(0,229,204,0.1) !important;
-}
 
 /* Articles sidebar */
 #page-home .hp-articles-title {

@@ -8,51 +8,51 @@
 /* Required for @apply in non-entry CSS files (Tailwind v4) */
 @reference "tailwindcss";
 
-/* ── Source-named CSS variables (default = scifi/dark palette) ─────────────
+/* ── Source-named CSS variables (default = mystical brand palette) ───────────
    These mirror our Tailwind @theme tokens so the theme overrides work
    without rewriting App.css.
    ─────────────────────────────────────────────────────────────── */
 :root {
   /* ── Backgrounds ─────────────────────────────────────────────── */
-  --bg-deep:      #050508;
-  --bg-panel:     #0b0b14;
-  --bg-panel2:    #0f0f1c;
-  --bg-inset:     #07070f;
+  --bg-deep:      #05040a;
+  --bg-panel:     #0d0b18;
+  --bg-panel2:    #110f1f;
+  --bg-inset:     #0a0816;
 
   /* ── Borders ─────────────────────────────────────────────────── */
-  --border:       #1c1c38;
-  --border-glow:  #252550;
+  --border:       rgba(201,168,76,0.14);
+  --border-glow:  rgba(201,168,76,0.22);
 
   /* ── Palette ─────────────────────────────────────────────────── */
-  --gold:         #d4a843;
-  --gold-bright:  #f0c060;
-  --gold-dim:     #6b5220;
-  --gold-muted:   #382b10;
-  --teal:         #00e5cc;
-  --teal-dim:     #007a6e;
-  --teal-muted:   #00332e;
-  --purple:       #a070ff;
-  --purple-dim:   #4a2d99;
-  --purple-muted: #1e0f40;
-  --rose:         #ff5580;
-  --rose-dim:     #7a1f3a;
-  --rose-muted:   #2a0815;
-  --amber:        #ff9930;
-  --amber-dim:    #7a4400;
-  --amber-muted:  #2a1500;
-  --sage:         #60d080;
-  --sage-dim:     #1e6030;
-  --sage-muted:   #091a0e;
-  --silver:       #90a8c8;
-  --silver-dim:   #384858;
-  --silver-muted: #101820;
-  --red:          #ff3a3a;
+  --gold:         #c9a84c;
+  --gold-bright:  #e8c96b;
+  --gold-dim:     #7a6330;
+  --gold-muted:   #3a2e14;
+  --teal:         #4a9494;
+  --teal-dim:     #2d5c5c;
+  --teal-muted:   #142828;
+  --purple:       #7b4fa6;
+  --purple-dim:   #4a2d6b;
+  --purple-muted: #1e1030;
+  --rose:         #a04070;
+  --rose-dim:     #5c2545;
+  --rose-muted:   #2a1225;
+  --amber:        #d4a843;
+  --amber-dim:    #7a6330;
+  --amber-muted:  #3a2e14;
+  --sage:         #4a9494;
+  --sage-dim:     #2d5c5c;
+  --sage-muted:   #142828;
+  --silver:       #9b9080;
+  --silver-dim:   #5c5448;
+  --silver-muted: #2a2620;
+  --red:          #a04070;
 
   /* ── Typography ─────────────────────────────────────────────── */
-  --text:         #c8d8f0;
-  --text-dim:     #a1a1aa;
-  --text-mid:     #aabfd0;
-  --white:        #e8f0ff;
+  --text:         #e8dfc8;
+  --text-dim:     #9b9080;
+  --text-mid:     #b8a898;
+  --white:        #e8dfc8;
 
   /* ── Spacing (8px base) ─────────────────────────────────────── */
   --space-xs:  4px;
@@ -87,6 +87,45 @@
 .btn-primary,
 .field-input {
   @apply transition-all duration-200 ease-out;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SCIFI THEME (neon/electric palette — legacy default)
+   ════════════════════════════════════════════════════════════════ */
+[data-theme="scifi"] {
+  --bg-deep:      #050508;
+  --bg-panel:     #0b0b14;
+  --bg-panel2:    #0f0f1c;
+  --bg-inset:     #07070f;
+  --border:       #1c1c38;
+  --border-glow:  #252550;
+  --gold:         #d4a843;
+  --gold-bright:  #f0c060;
+  --gold-dim:     #6b5220;
+  --gold-muted:   #382b10;
+  --teal:         #00e5cc;
+  --teal-dim:     #007a6e;
+  --teal-muted:   #00332e;
+  --purple:       #a070ff;
+  --purple-dim:   #4a2d99;
+  --purple-muted: #1e0f40;
+  --rose:         #ff5580;
+  --rose-dim:     #7a1f3a;
+  --rose-muted:   #2a0815;
+  --amber:        #ff9930;
+  --amber-dim:    #7a4400;
+  --amber-muted:  #2a1500;
+  --sage:         #60d080;
+  --sage-dim:     #1e6030;
+  --sage-muted:   #091a0e;
+  --silver:       #90a8c8;
+  --silver-dim:   #384858;
+  --silver-muted: #101820;
+  --red:          #ff3a3a;
+  --text:         #c8d8f0;
+  --text-dim:     #a1a1aa;
+  --text-mid:     #aabfd0;
+  --white:        #e8f0ff;
 }
 
 /* ════════════════════════════════════════════════════════════════
