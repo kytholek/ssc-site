@@ -875,7 +875,8 @@ function hudShow(node) {
   var plane   = node.dataset.plane;
   var card    = document.getElementById('node-card');
   var numEl   = document.getElementById('nc-number');
-  if (!card || !numEl) return;
+  if (!card || !numEl) { console.log('NO CARD OR NUBEL'); return; }
+  if (!tip) { console.log('NO TOOLTIP FOUND'); }
   var color   = PLANE_COLORS_CDX[plane] || '#e8c96b';
   numEl.textContent   = num || '—';
   numEl.style.color      = color;
@@ -898,6 +899,7 @@ function hudShow(node) {
     }
   }
   card.classList.add('visible');
+  console.log('HUDSOW CALLED - num:', num, 'plane:', plane, 'tipExists:', !!tip);
 }
 
 function hudReset() {
@@ -955,6 +957,9 @@ function initCodexPage() {
       document.querySelectorAll('#page-codex .axis-sum').forEach(function(el) { el.classList.remove('revealed'); });
     }
   });
+
+  // Auto-initiate codex canvas animation (gate button removed)
+  if (window._initiateCodex) window._initiateCodex();
 
   _codexInited = true;
 }

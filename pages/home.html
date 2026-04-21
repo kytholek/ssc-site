@@ -3,6 +3,15 @@
 <style>
 /* ── New Home Page ─────────────────────────────────────── */
 
+/* Home page fade out on transition */
+#page-home:not(.active) {
+  animation: homePageOut 0.35s ease-in forwards;
+}
+@keyframes homePageOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* Hero */
 .hp-hero {
   min-height: 96vh;
@@ -790,6 +799,11 @@
 .hp-codex-link:hover .hp-codex-svg {
   filter: drop-shadow(0 0 70px rgba(201,168,76,0.35));
 }
+.hp-codex-link.hp-codex-expanding .hp-codex-svg {
+  transform: scale(14);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1), opacity 0.5s ease 0.15s;
+}
 .hp-codex-caption {
   font-family: 'Cinzel', serif;
   font-size: 9px;
@@ -1149,7 +1163,7 @@
     </div>
     <p class="hp-trust-line">Your data stays private. We never store your personal information.</p>
   </div>
-  <a href="/codex" class="hp-codex-link" aria-label="Explore the Codex" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('codex');}">
+  <a href="/codex" class="hp-codex-link" aria-label="Explore the Codex" onclick="if(document.getElementById('page-home')){event.preventDefault();var lnk=this;lnk.classList.add('hp-codex-expanding');setTimeout(function(){showPage('codex');},350);setTimeout(function(){lnk.classList.remove('hp-codex-expanding');},700);}">
     <svg class="hp-codex-svg" viewBox="0 0 300 310" xmlns="http://www.w3.org/2000/svg">
 
       <!-- Lines — staggered draw -->
