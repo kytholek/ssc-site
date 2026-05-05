@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * build.js — Zero-dependency Markdown-to-HTML blog post generator
+ * build.js â€” Zero-dependency Markdown-to-HTML blog post generator
  * Usage: node build.js
  * Reads:  content/*.md
  * Writes: blog/{slug}/index.html  (only if .md is newer than existing HTML)
@@ -13,7 +13,7 @@
 const fs   = require('fs');
 const path = require('path');
 
-// ─── Paths ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Paths â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ROOT         = __dirname;
 const CONTENT_DIR  = path.join(ROOT, 'content');
 const BLOG_DIR     = path.join(ROOT, 'blog');
@@ -21,7 +21,7 @@ const BLOG_INDEX   = path.join(BLOG_DIR, 'index.html');
 const POSTS_JSON   = path.join(CONTENT_DIR, 'posts.json');
 const SITE_ORIGIN  = 'https://simulationsourcecode.com';
 
-// ─── Frontmatter Parser ──────────────────────────────────────────────────────
+// â”€â”€â”€ Frontmatter Parser â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function parseFrontmatter(raw) {
   const fm = {};
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -51,7 +51,7 @@ function parseFrontmatter(raw) {
   return { meta: fm, body };
 }
 
-// ─── Markdown → HTML ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Markdown â†’ HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function mdToHtml(md) {
   const lines  = md.split(/\r?\n/);
   const output = [];
@@ -117,7 +117,7 @@ function mdToHtml(md) {
   return output.join('\n');
 }
 
-// ─── Related Posts HTML ──────────────────────────────────────────────────────
+// â”€â”€â”€ Related Posts HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function buildRelatedPostsHtml(related) {
   if (!related || !related.length) return '';
   const cards = related.map(entry => {
@@ -125,7 +125,7 @@ function buildRelatedPostsHtml(related) {
     const [href, title, linkText] = entry.split('|');
     return `    <a href="${href}" class="related-post-card">
       <div class="related-post-title">${title}</div>
-      <span class="related-post-link">${linkText || 'Read Deep Dive'} →</span>
+      <span class="related-post-link">${linkText || 'Read Deep Dive'} â†’</span>
     </a>`;
   }).join('\n');
 
@@ -138,7 +138,7 @@ ${cards}
 </div>`;
 }
 
-// ─── Full Post HTML Template ─────────────────────────────────────────────────
+// â”€â”€â”€ Full Post HTML Template â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function buildPostHtml(meta, bodyHtml, relatedHtml) {
   const slug        = meta.slug;
   const title       = meta.title       || '';
@@ -146,7 +146,7 @@ function buildPostHtml(meta, bodyHtml, relatedHtml) {
   const date        = meta.date        || '2026-01-01';
   const glyph       = meta.glyph       || '';
   const eyebrow     = meta.eyebrow     || '';
-  const ctaText     = meta.cta         || 'The complete blueprint — including your Expression, Soul Urge, Life Calling, and the compound story behind each number — is what the Full Blueprint Reading reveals.';
+  const ctaText     = meta.cta         || 'The complete blueprint â€” including your Expression, Soul Urge, Life Calling, and the compound story behind each number â€” is what the Full Blueprint Reading reveals.';
   const breadcrumbName = meta['breadcrumb-name'] || title;
   const canonicalUrl   = `${SITE_ORIGIN}/blog/${slug}/`;
   const fontUrl = 'https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
@@ -227,7 +227,7 @@ function buildPostHtml(meta, bodyHtml, relatedHtml) {
     .post-body p strong { color: var(--text); }
     .post-body ul { margin: 16px 0 20px 0; padding: 0; list-style: none; }
     .post-body ul li { font-size: 17px; line-height: 1.75; color: var(--text-dim); padding: 10px 0 10px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
-    .post-body ul li::before { content: "◆"; position: absolute; left: 0; top: 11px; font-size: 9px; color: var(--gold-dim); }
+    .post-body ul li::before { content: "â—†"; position: absolute; left: 0; top: 11px; font-size: 9px; color: var(--gold-dim); }
     .post-body blockquote { border-left: 2px solid var(--gold-dim); padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: var(--text); line-height: 1.75; }
     .post-cta-block { margin-top: 56px; padding: 36px 28px; background: linear-gradient(135deg,rgba(13,11,24,0.9),rgba(24,21,48,0.8)); border: 1px solid rgba(201,168,76,0.2); border-radius: 10px; text-align: center; position: relative; overflow: hidden; }
     .post-cta-block::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent); }
@@ -316,16 +316,16 @@ ${relatedHtml}
 `;
 }
 
-// ─── Blog Index Card HTML ─────────────────────────────────────────────────────
+// â”€â”€â”€ Blog Index Card HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function buildCardHtml(meta) {
   const slug     = meta.slug;
   const title    = meta.title   || '';
   const excerpt  = meta.excerpt || '';
-  const glyph    = meta.glyph   || '✦';
+  const glyph    = meta.glyph   || 'âœ¦';
   const category = meta.category || 'system';
   const date     = meta.date     ? formatMonthYear(meta.date) : '';
 
-  // Category label → display text
+  // Category label â†’ display text
   const CAT_LABELS = {
     'life-path':   'Life Paths',
     'expression':  'Expressions',
@@ -342,7 +342,7 @@ function buildCardHtml(meta) {
           <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">${catLabel}</span><span class="blog-idx-date">${date}</span></div>
           <div class="blog-idx-card-title">${title}</div>
           <p class="blog-idx-card-excerpt">${excerpt}</p>
-          <span class="blog-idx-read">Read Article →</span>
+          <span class="blog-idx-read">Read Article â†’</span>
         </div>
       </a>`;
 }
@@ -353,13 +353,13 @@ function formatMonthYear(dateStr) {
   return `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-// ─── Blog Index Updater ───────────────────────────────────────────────────────
+// â”€â”€â”€ Blog Index Updater â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const START_MARKER = '<!-- GENERATED_POSTS_START -->';
 const END_MARKER   = '<!-- GENERATED_POSTS_END -->';
 
 function updateBlogIndex(posts) {
   if (!fs.existsSync(BLOG_INDEX)) {
-    console.warn('[build] blog/index.html not found — skipping index update');
+    console.warn('[build] blog/index.html not found â€” skipping index update');
     return;
   }
 
@@ -368,7 +368,7 @@ function updateBlogIndex(posts) {
   const startIdx = html.indexOf(START_MARKER);
   const endIdx   = html.indexOf(END_MARKER);
   if (startIdx === -1 || endIdx === -1) {
-    console.warn('[build] Markers not found in blog/index.html — skipping index update');
+    console.warn('[build] Markers not found in blog/index.html â€” skipping index update');
     console.warn('        Add <!-- GENERATED_POSTS_START --> and <!-- GENERATED_POSTS_END --> to blog/index.html');
     return;
   }
@@ -392,7 +392,7 @@ function updateBlogIndex(posts) {
   console.log(`[build] blog/index.html updated with ${posts.length} generated post(s)`);
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function main() {
   if (!fs.existsSync(CONTENT_DIR)) {
     console.error('[build] content/ directory not found. Create it and add .md files.');
@@ -416,8 +416,14 @@ function main() {
     const raw     = fs.readFileSync(srcPath, 'utf8');
     const { meta, body } = parseFrontmatter(raw);
 
+    // Allow content files to be kept in-repo but excluded from generation.
+    if (String(meta.draft || '').toLowerCase() === 'true') {
+      skipped++;
+      continue;
+    }
+
     if (!meta.slug) {
-      console.warn(`[build] ${file}: missing 'slug' in frontmatter — skipping`);
+      console.warn(`[build] ${file}: missing 'slug' in frontmatter â€” skipping`);
       continue;
     }
 
@@ -454,7 +460,8 @@ function main() {
   // Update blog/index.html
   if (allMeta.length) updateBlogIndex(allMeta);
 
-  console.log(`[build] Done — ${built} built, ${skipped} unchanged`);
+  console.log(`[build] Done â€” ${built} built, ${skipped} unchanged`);
 }
 
 main();
+

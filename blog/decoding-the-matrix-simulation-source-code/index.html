@@ -3,52 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System Article | Simulation Source Code</title>
+  <title> | Simulation Source Code</title>
   <meta name="description" content="Learn about decoding-the-matrix-simulation-source-code in Simulation Source Code.">
   <meta name="keywords" content="decoding matrix simulation, simulation source code, matrix numerology, SSC numerology">
   <link rel="canonical" href="https://simulationsourcecode.com/blog/decoding-the-matrix-simulation-source-code/">
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="Learn about decoding-the-matrix-simulation-source-code in Simulation Source Code.">
+  <meta property="og:url" content="https://simulationsourcecode.com/blog/decoding-the-matrix-simulation-source-code/">
+  <meta property="og:site_name" content="Simulation Source Code">
+  <meta property="og:image" content="https://simulationsourcecode.com/Images/ssc-og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="">
+  <meta name="twitter:description" content="Learn about decoding-the-matrix-simulation-source-code in Simulation Source Code.">
+
+  <!-- Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "",
+    "description": "Learn about decoding-the-matrix-simulation-source-code in Simulation Source Code.",
+    "url": "https://simulationsourcecode.com/blog/decoding-the-matrix-simulation-source-code/",
+    "datePublished": "2026-01-01",
+    "dateModified": "2026-01-01",
+    "author": {
+      "@type": "Person",
+      "name": "Kytholek",
+      "url": "https://simulationsourcecode.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Simulation Source Code",
+      "url": "https://simulationsourcecode.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://simulationsourcecode.com/Images/Codex Sigil.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://simulationsourcecode.com/blog/decoding-the-matrix-simulation-source-code/"
+    }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
+    /* Standalone post overrides */
     body { padding-top: 64px; }
     .post-wrap { max-width: 740px; margin: 0 auto; padding: 48px 24px 100px; position: relative; z-index: 1; }
-    .blog-post { display: block !important; }
-    .blog-post-back { background: none; border: none; font-family: "Cinzel", serif; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #7cb8a8; cursor: pointer; margin-bottom: 12px; padding: 0; transition: color .2s; }
-    .blog-post-back:hover { color: #c9a84c; }
-    .blog-post-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 12px; }
-    .blog-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 8px; letter-spacing: .15em; }
-    .blog-tag.gold { background: rgba(201,168,76,0.15); color: #c9a84c; }
-    .blog-post-title { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: #c9a84c; line-height: 1.2; margin-bottom: 16px; margin-top: 0; letter-spacing: .04em; }
-    .blog-post-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 28px; }
-    .blog-post-content { display: block; }
-    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #7a7a7a; margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
-    .breadcrumb a { color: #995f46; text-decoration: none; }
-    .breadcrumb a:hover { color: #c9a84c; }
-    .breadcrumb span { color: #7a7a7a; }
-    .blog-post-content h2 { font-family: "Cinzel", serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: #d4a96a; margin: 44px 0 16px; padding-top: 8px; border-top: 1px solid rgba(201,168,76,0.08); }
-    .blog-post-content h3 { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #7cb8a8; margin: 28px 0 12px; }
-    .blog-post-content p { font-size: 18px; line-height: 1.9; color: #c4c4c4; margin-bottom: 20px; }
-    .blog-post-content p strong { color: #ffffff; }
-    .blog-post-content ul { margin: 16px 0 20px 0; padding: 0; list-style: none; }
-    .blog-post-content ul li { font-size: 17px; line-height: 1.75; color: #c4c4c4; padding: 10px 0 10px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
-    .blog-post-content ul li::before { content: "?"; position: absolute; left: 0; top: 11px; font-size: 9px; color: #995f46; }
-    .blog-post-content blockquote { border-left: 2px solid #995f46; padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: #ffffff; line-height: 1.75; }
-    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
-    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #c9a84c; margin-bottom: 28px; }
-    .related-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
-    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
-    .related-post-title { font-size: 15px; color: #ffffff; margin-bottom: 12px; line-height: 1.4; }
-    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: #7cb8a8; display: inline-block; }
-    .related-post-card:hover .related-post-link { color: #c9a84c; }
-      .post-cta-block { margin-top: 56px; padding: 36px 28px; background: linear-gradient(135deg,rgba(13,11,24,0.9),rgba(24,21,48,0.8)); border: 1px solid rgba(201,168,76,0.2); border-radius: 10px; text-align: center; position: relative; overflow: hidden; }
+    .post-hero { text-align: center; padding: 56px 24px 40px; border-bottom: 1px solid rgba(201,168,76,0.1); margin-bottom: 48px; }
+    .post-hero-glyph { font-family: "Cinzel Decorative", serif; font-size: 72px; color: #d0c890; margin-bottom: 16px; display: block; text-shadow: 0 0 60px #d0c89055; }
+    .post-hero-eyebrow { font-family: "Cinzel", serif; font-size: 9px; letter-spacing: .4em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 16px; }
+    .post-hero h1 { font-family: "Cormorant SC", serif; font-weight: 300; font-size: clamp(22px, 4vw, 38px); color: var(--gold); line-height: 1.2; margin-bottom: 16px; letter-spacing: .04em; }
+    .post-hero-meta { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--text-muted); }
+    .post-body h2 { font-family: "Cinzel", serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); margin: 44px 0 16px; padding-top: 8px; border-top: 1px solid rgba(201,168,76,0.08); }
+    .post-body h3 { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--teal-light); margin: 28px 0 12px; }
+    .post-body h4 { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin: 20px 0 10px; }
+    .post-body p { font-size: 18px; line-height: 1.9; color: var(--text-dim); margin-bottom: 20px; }
+    .post-body p strong { color: var(--text); }
+    .post-body ul { margin: 16px 0 20px 0; padding: 0; list-style: none; }
+    .post-body ul li { font-size: 17px; line-height: 1.75; color: var(--text-dim); padding: 10px 0 10px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
+    .post-body ul li::before { content: "â—†"; position: absolute; left: 0; top: 11px; font-size: 9px; color: var(--gold-dim); }
+    .post-body blockquote { border-left: 2px solid var(--gold-dim); padding: 8px 0 8px 22px; margin: 28px 0; font-size: 19px; font-style: italic; color: var(--text); line-height: 1.75; }
+    .post-cta-block { margin-top: 56px; padding: 36px 28px; background: linear-gradient(135deg,rgba(13,11,24,0.9),rgba(24,21,48,0.8)); border: 1px solid rgba(201,168,76,0.2); border-radius: 10px; text-align: center; position: relative; overflow: hidden; }
     .post-cta-block::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent); }
     .post-cta-block p { font-size: 16px; line-height: 1.8; color: var(--text-dim); margin-bottom: 20px; max-width: 520px; margin-left: auto; margin-right: auto; }
     .post-cta-block a { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; padding: 16px 32px; border-radius: 5px; cursor: pointer; background: rgba(74,148,148,.25); border: 1px solid rgba(126,200,200,.4); color: var(--teal-light); text-decoration: none; display: inline-block; transition: all .3s; }
-    .post-cta-block a:hover { box-shadow: 0 0 32px rgba(74,148,148,.4); transform: translateY(-2px); border-color: rgba(126,200,200,.6); }</style>
+    .post-cta-block a:hover { box-shadow: 0 0 32px rgba(74,148,148,.4); transform: translateY(-2px); border-color: rgba(126,200,200,.6); }
+    .related-posts { margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .related-posts-title { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .related-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .related-post-card { display: block; padding: 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all .3s; background: transparent; }
+    .related-post-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.05); transform: translateY(-4px); }
+    .related-post-title { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+    .related-post-link { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--teal-light); display: inline-block; transition: color .2s; }
+    .related-post-card:hover .related-post-link { color: var(--gold); }
+    .breadcrumb { font-family: "Cinzel", serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+    .breadcrumb a { color: var(--gold-dim); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--text-muted); }
+    @media (max-width: 640px) { .post-hero-glyph { font-size: 52px; } .related-posts-grid { grid-template-columns: 1fr; } }
+  </style>
 
+  <!-- BreadcrumbList Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -70,7 +118,6 @@
 <div class="post-wrap">
 
   <!-- Breadcrumb -->
-
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">Home</a>
     <span>&#8250;</span>
@@ -79,127 +126,104 @@
     <span>Decoding the Matrix — Simulation Source Code</span>
   </nav>
 
+  <!-- Hero -->
+  <div class="post-hero">
+    <span class="post-hero-glyph">✦</span>
+    
+    <h1></h1>
+    <div class="post-hero-meta">By Kytholek &nbsp;&#183;&nbsp; Simulation Source Code</div>
+  </div>
 
   <!-- Body -->
   <div class="post-body">
 
-<!-- Loaded dynamically by app.js when openPost('post-decoding-matrix') is called -->
-<!-- Edit freely: this file is self-contained. -->
-<!-- ----------------------------------------------------------- -->
+<p>‹ Back to Blog</p>
+<p>    The System</p>
+<p>    Decoding the Matrix: The Complete Architecture of Simulation Source Code</p>
+<p>    March 2026 — 18 min read</p>
+<p>The numbers encoded in your birth date and name are not symbolic but actual parameters governing your Simulated Experience within Holographic Perception. A "code" that is the source code of the simulation you are living?</p>
+<p>This is the central premise of Simulation Source Code. Not only as a philosophical perspective to be debated, but as practical framework to be practiced and lived. A lens that, once you look through it, makes the recurring patterns of your life suddenly legible.</p>
+<p>This post is a summerization of the architecture for thesystem. The philosophical foundation. The Codex. The nine symbols for frequencies, and the seven-number blueprint that maps the specific simulation you are running. By the end, you will have a basic understanding of the entire system — and a reason to go deeper.</p>
+<h3>Part I — The Philosophical Foundation</h3>
+<p>We start with perception. Not the philosophical concept — your actual, right-now experience of reading these words.</p>
+<p>The light reflecting off this screen enters your eyes and is converted into electrical signals. Those signals travel through your nervous system to your brain, where they are translated into the experience of sight — the colours, shapes, and letters you are currently perceiving. None of that experience happens <em>out there</em>. It happens inside your nervous system. The screen is real. But the experience of the screen is constructed within you.</p>
+<p>This is not "woo-woo" or some radical claim — it is basic neuroscience mixed with quantum physics. What Simulation Source Code does is take it seriously as a framework for understanding everything else, and providing a practical approach to numerology and our simulated life itself.</p>
+<p>If perception is a four-step process — reception, transduction, translation, projection — then what you call reality is always a projected internal reconstruction of sensory data. Your consciousness generates its experience of the world from the signals your senses provide; the world <em>appears</em> external because the projection is immersive. But it is being built, continuously and forever, inside you.</p>
+<p>A hologram works by recording interference patterns of light waves and then reconstructing a three-dimensional image when light passes through the recording. The image appears to be "out there" — but it is a projection of encoded information. Your perception works the same way. Your senses capture interference patterns from the field of energy around you (The Aether) and your consciousness reconstructs a three-dimensional experiential reality. The projected reality appears external — but it is an entirely internal translation of data. A mirror for self-correction.</p>
+<p>This is the Holographic Simulation.</p>
+<h3>Why Numbers?</h3>
+<p>If reality is information — if the apparently solid world is constructed from frequencies, vibrations, and energetic patterns — then it has a code. And codes can be read.</p>
+<p>Numbers are not human constructs projected onto a neutral reality. They are the structure of reality itself. Physics, geometry, biology, music, chemistry; it is all measured with numerical structure. Wherever we look closely enough, mathematics is what is happening.</p>
+<p>The atom is 99.99% empty space. What fills that space is energy — vibration — information. You are not solid matter perceiving solid matter. You are concentrated light perceiving concentrated light. The appearance of solidity is a perceptual construct.</p>
+<p>Our number system of 0—9 represents the nine distinct states through which energy expresses itself in creation — not the simple on/off of binary, but an intricate mesh of frequencies that blend and interact to produce the infinite variations of experienced reality. Each digit is not a quantity. It is a frequency. A mode of expression. A quality of being.</p>
+<p>And the three categories those frequencies organise into are:</p>
+<p><strong>Electric (1, 3, 5, 7)</strong> — active, initiating, outward. The masculine principle. <strong>Magnetic (2, 4, 6, 8)</strong> — receptive, sustaining, inward. The feminine principle. <strong>Aether (0 and 9)</strong> — the void before initiation and the void after completion. The container and the return.</p>
+<h3>The Purpose of Forgetting</h3>
+<p>There is an obvious question: if we are each a point of intelligent light that has generated this holographic experience for its own growth and understanding — why don't we remember that? Why does the simulation feel so real, so external, so inescapable?</p>
+<p>Because it has to.</p>
+<p>The forgetting is not a mistake. It is the essential design feature that makes immersive experience possible. You cannot lose yourself in a film if you are constantly aware you are sitting in a cinema. Fear requires believing the threat is real. Love requires believing in separation. Growth requires not already knowing the answer. Discovery requires genuine surprise and, if you already know, how can you be surprised?</p>
+<p>Forgetting is what sets the stage. The work of a lifetime — the Great Work of the simulation — is the process of re-membering. Piecing back together who you actually are, beneath the layers of conditioning, programming, and mistaken identity that were built up as you moved through the world.</p>
+<p>Numerology is one tool for that re-membering. The numbers in your birth date and name are not random. They are the parameters set at the moment your simulation was initialised — a map of the specific frequencies you came here to work with, encoded in the most basic data of your existence.</p>
+<h3>Part II — The Codex: A 3—3 Map of Consciousness</h3>
+<p>Hidden in plain sight on every phone and keyboard is a 3—3 grid of numbers: 1 through 9. Simulation Source Code treats this layout not as an accident but as a structural map — a blueprint for how consciousness evolves, organises, and transforms.</p>
+<p>I call it The Codex.</p>
+<p>The Codex organises the nine digits across two simultaneous axes. The rows describe the three planes of consciousness — Mind, Body, and Spirit. The columns describe three developmental modes — Witness, Actor, and Sage. Every position in the grid is the intersection of a plane and a mode, and the number at that position describes what consciousness is doing when it operates at that intersection.</p>
+<p>At the centre of the entire grid sits the number 5. This is not coincidental, as there are no coincidences. Five is the pivot or hub for experience — the interface point through which all transformation must pass. Mind becomes Body at 5. Potential becomes actual at 5. Everything you understand must eventually be tested in lived experience, and lived experience is position 5.</p>
+<h3>The Three Planes (Rows)</h3>
+<p>The <strong>Mind Row (1—2—3)</strong> is the plane of perception and meaning. Position 1 is undifferentiated awareness — pure perception before any story is attached. Position 2 is the moment consciousness encounters itself through contrast, when the observer and observed split apart and duality appears. Position 3 is meaning-making — where experience is processed into narrative, language, and identity. The shadow risk of this row is living inside the narrative instead of the signal. You don't just think — you encode reality from the story you tell yourself.</p>
+<p>The <strong>Body Row (4—5—6)</strong> is where consciousness becomes flesh. Position 4 brings mental patterns into physical structure — habits, disciplines, routines. Position 5 is pure exploration, the translation of potential into actual lived experience. Position 6 is integration: responsibility, care, the incorporation of what was learned into how you live. The shadow risk here is oscillating endlessly between rigidity (4) and chaos (5) without ever committing to the integration of 6.</p>
+<p>The <strong>Spirit Row (7—8—9)</strong> is the domain of mastery and release. Position 7 turns awareness back on itself — the most refined knowledge is self-knowledge. Position 8 is the embodiment of that knowledge as power — but specifically self-power, the discipline of governing one's own inner world rather than seeking control over the outer. Position 9 is completion: releasing everything learned back into the collective, dissolving individual fixation into service. The shadow is spiritual inflation — attempting to access the wisdom of 8 or 9 before doing the foundational work.</p>
+<h3>The Three Columns (Modes)</h3>
+<p>Reading the grid vertically, each column describes a mode of engaging with reality.</p>
+<p>The <strong>Witness Column (1—4—7)</strong> is the observational stance. It moves from pure perception to structured habit to the awareness that observes its own awareness — meta-cognition. This column establishes the system's baseline orientation. When it is unstable, nothing else holds together.</p>
+<p>The <strong>Actor Column (2—5—8)</strong> is the dynamic engine. Tension (2) generates action (5) which produces transformation and, ultimately, embodied power (8). The central placement of 5 in this column confirms the law of the entire system: reality responds through embodied engagement. Thought initiates possibility. Action of will actualises it.</p>
+<p>The <strong>Sage Column (3—6—9)</strong> is integration and output. Understanding matures into stewardship, and stewardship resolves into release. The culmination of experience is transmission — what you have learned becomes a gift that moves beyond you.</p>
+<h3>Part III — Your Seven Frequencies: The Holographic Blueprint</h3>
+<p>The individual numerological map — what SSC calls the Holographic Blueprint — is composed of seven calculated frequencies drawn from two sources: your birth date and your birth name. These two sources represent the two circuits of the simulation as it runs for you specifically.</p>
+<p>Your <strong>birth date</strong> is the external circuit — the curriculum the simulation has set for you. The lessons, themes, and classes you will encounter regardless of what you choose. You did not pick your birthday. These numbers describe what the hologram will present to you.</p>
+<p>Your <strong>birth name</strong> is the internal circuit — the expression that was encoded within you at the same moment. The potential that lies beneath the conditioning. The frequency your nervous system was designed to express.</p>
+<p>The friction between these two circuits is not a "problem" as many of us come to think but is the source of the energy that powers the whole system. The push/pull between the external lesson and the internal potential generates the charge that drives growth. Diamonds form under pressure. The simulation applies pressure precisely where it needs to.</p>
+<h3>The Seven Frequencies</h3>
+<p><strong>01 — Theme.</strong> Calculated from the digits of your birth year summed and reduced. The atmospheric frequency you were born into — the background energy of your era. The recurring undercurrent woven through everything.</p>
+<p><strong>02 — Life Path.</strong> All digits of your full birth date summed and reduced. Your primary frequency. The core lesson your simulation is enrolled in. Not what you will achieve — what you are here to learn. The Life Path is the primary curriculum, and it often manifests first as the area of greatest friction and confusion.</p>
+<p><strong>03 — Achievement.</strong> Your birth month plus birth day, reduced. How you naturally move toward goals. Your instinctive method. Not what you achieve but the energy with which you approach achievement.</p>
+<p><strong>04 — Expression.</strong> All letters of your full birth name, converted to values and reduced. Your innate gifts and energies — the frequencies you naturally carry and radiate into the world. This is the Destined Expression: the authentic self beneath all conditioning, the station your nervous system was built to tune into.</p>
+<p><strong>05 — Soul.</strong> The vowels of your full birth name, reduced. Your inner world. The private desires, yearnings, and motivations that drive everything you do, often below the level of conscious awareness. What you actually want.</p>
+<p><strong>06 — Outer.</strong> The consonants of your full birth name, reduced. Your social face — how others experience you before they know you well. The personality you project into the world, the energy of first contact.</p>
+<p><strong>07 — Life Calling.</strong> Calculated by combining the root digit of your Expression with the root digit of your Life Path, then reducing. The synthesis frequency — the specific mission that emerges when your innate gifts meet your core lesson. This is the most actionable number in a reading: it describes not just who you are, but what you are here to do with that.</p>
+<h3>The Triune Trinity</h3>
+<p>The seven frequencies organise into three interlocking trinities — a structure that itself resolves to the number 7, the first level of the Spirit row in the Codex.</p>
+<p>The <strong>Trinity of Lessons</strong> (Achievement — Theme — Life Path) describes the external curriculum — the classes the simulation has enrolled you in.</p>
+<p>The <strong>Trinity of Self</strong> (Soul — Outer — Expression) describes the internal architecture — the three faces of who you are: the private, the social, and the full.</p>
+<p>The <strong>Trinity of Purpose</strong> (Life Path — Expression — Life Calling) is the apex — the synthesis of lesson and gift into mission.</p>
+<p>Together they form a complete picture. Not a personality profile. Not a fixed fate. A map — precise enough to be genuinely useful, open enough to honour the freedom that makes the simulation worth playing.</p>
+<h3>What To Do With This</h3>
+<p>The map is not the territory. You still have to walk it.</p>
+<p>Understanding your numbers does not grant you anything. Insight that is not embodied remains unrealised — that is one of the core laws of the Codex. The knowledge has to pass through position 5. It has to become action, experience, consequence, integration.</p>
+<p>What the system offers is orientation. When you know the terrain, you stop wasting energy fighting the landscape and start working with it. You recognise the recurring themes for what they are — not random suffering, but curriculum. You see the gap between the external pressure and the internal potential, and instead of being crushed by the friction, you use it as fuel.</p>
+<p>The simulation is designed for this. It wants you to figure it out. The clues are everywhere — including in the numbers encoded in the most basic facts of your existence.</p>
+<p>You left yourself the map. The question is whether you are ready to read it.</p>
+<p>Every number in this article is one piece of a larger architecture. Your complete blueprint — seven frequencies calculated from your birth date and name — is what the Full Blueprint Reading reveals.</p>
+<p>       Get Your Full Blueprint — $22</p>
 
-<div class="blog-post" id="post-decoding-matrix">
-    <button class="blog-post-back" onclick="history.back()">‹ Back to Blog</button>
-    <div class="blog-post-eyebrow"><span class="blog-tag gold">The System</span></div>
-    <h1 class="blog-post-title">Decoding the Matrix: The Complete Architecture of Simulation Source Code</h1>
-    <div class="blog-post-meta">March 2026 — 18 min read</div>
-    <div class="blog-post-content">
-      <p>The numbers encoded in your birth date and name are not symbolic&nbsp; but actual parameters governing your Simulated Experience within Holographic Perception. A "code" that is the source code of the simulation you are living?</p>
-      <p>This is the central premise of Simulation Source Code. Not only as a philosophical perspective to be debated, but as&nbsp; practical framework to be practiced and lived. A lens that, once you look through it, makes the recurring patterns of your life suddenly legible.</p>
-      <p>This post is a summerization of the architecture for thesystem. The philosophical foundation. The Codex. The nine symbols for frequencies, and the seven-number blueprint that maps the specific simulation you are running. By the end, you will have a basic understanding of the entire system — and a reason to go deeper.</p>
-      <h3>Part I — The Philosophical Foundation</h3>
-      <p>We start with perception. Not the philosophical concept — your actual, right-now experience of reading these words.</p>
-      <p>The light reflecting off this screen enters your eyes and is converted into electrical signals. Those signals travel through your nervous system to your brain, where they are translated into the experience of sight — the colours, shapes, and letters you are currently perceiving. None of that experience happens <em>out there</em>. It happens inside your nervous system. The screen is real. But the experience of the screen is constructed within you.</p>
-      <p>This is not "woo-woo" or some radical claim — it is basic neuroscience mixed with quantum physics. What Simulation Source Code does is take it seriously as a framework for understanding everything else, and providing a practical approach to numerology and our simulated life itself.</p>
-      <p>If perception is a four-step process — reception, transduction, translation, projection — then what you call reality is always a projected internal reconstruction of sensory data. Your consciousness generates its experience of the world from the signals your senses provide; the world <em>appears</em> external because the projection is immersive. But it is being built, continuously and forever, inside you.</p>
-      <blockquote>"You are not observing reality. You are generating reality from the data your senses provide."</blockquote>
-      <p>A hologram works by recording interference patterns of light waves and then reconstructing a three-dimensional image when light passes through the recording. The image appears to be "out there" — but it is a projection of encoded information. Your perception works the same way. Your senses capture interference patterns from the field of energy around you (The Aether) and your consciousness reconstructs a three-dimensional experiential reality. The projected reality appears external — but it is an entirely internal translation of data. A mirror for self-correction.</p>
-      <p>This is the Holographic Simulation.</p>
-      <h3>Why Numbers?</h3>
-      <p>If reality is information — if the apparently solid world is constructed from frequencies, vibrations, and energetic patterns — then it has a code. And codes can be read.</p>
-      <p>Numbers are not human constructs projected onto a neutral reality. They are the structure of reality itself. Physics, geometry, biology, music, chemistry; it is all measured with numerical structure. Wherever we look closely enough, mathematics is what is happening.</p>
-      <p>The atom is 99.99% empty space. What fills that space is energy — vibration — information. You are not solid matter perceiving solid matter. You are concentrated light perceiving concentrated light. The appearance of solidity is a perceptual construct.</p>
-      <p>Our number system of 0—9 represents the nine distinct states through which energy expresses itself in creation — not the simple on/off of binary, but an intricate mesh of frequencies that blend and interact to produce the infinite variations of experienced reality. Each digit is not a quantity. It is a frequency. A mode of expression. A quality of being.</p>
-      <p>And the three categories those frequencies organise into are:</p>
-      <p><strong>Electric (1, 3, 5, 7)</strong> — active, initiating, outward. The masculine principle.<br>
-      <strong>Magnetic (2, 4, 6, 8)</strong> — receptive, sustaining, inward. The feminine principle.<br>
-      <strong>Aether (0 and 9)</strong> — the void before initiation and the void after completion. The container and the return.</p>
-      <h3>The Purpose of Forgetting</h3>
-      <p>There is an obvious question: if we are each a point of intelligent light that has generated this holographic experience for its own growth and understanding — why don't we remember that? Why does the simulation feel so real, so external, so inescapable?</p>
-      <p>Because it has to.</p>
-      <p>The forgetting is not a mistake. It is the essential design feature that makes immersive experience possible. You cannot lose yourself in a film if you are constantly aware you are sitting in a cinema. Fear requires believing the threat is real. Love requires believing in separation. Growth requires not already knowing the answer. Discovery requires genuine surprise and, if you already know, how can you be surprised?</p>
-      <p>Forgetting is what sets the stage. The work of a lifetime — the Great Work of the simulation — is the process of re-membering. Piecing back together who you actually are, beneath the layers of conditioning, programming, and mistaken identity that were built up as you moved through the world.</p>
-      <p>Numerology is one tool for that re-membering. The numbers in your birth date and name are not random. They are the parameters set at the moment your simulation was initialised — a map of the specific frequencies you came here to work with, encoded in the most basic data of your existence.</p>
-      <h3>Part II — The Codex: A 3—3 Map of Consciousness</h3>
-      <p>Hidden in plain sight on every phone and keyboard is a 3—3 grid of numbers: 1 through 9. Simulation Source Code treats this layout not as an accident but as a structural map — a blueprint for how consciousness evolves, organises, and transforms.</p>
-      <p>I call it The Codex.</p>
-      <p>The Codex organises the nine digits across two simultaneous axes. The rows describe the three planes of consciousness — Mind, Body, and Spirit. The columns describe three developmental modes — Witness, Actor, and Sage. Every position in the grid is the intersection of a plane and a mode, and the number at that position describes what consciousness is doing when it operates at that intersection.</p>
-      <p>At the centre of the entire grid sits the number 5. This is not coincidental, as there are no coincidences. Five is the pivot or hub for experience — the interface point through which all transformation must pass. Mind becomes Body at 5. Potential becomes actual at 5. Everything you understand must eventually be tested in lived experience, and lived experience is position 5.</p>
-      <h3>The Three Planes (Rows)</h3>
-      <p>The <strong>Mind Row (1—2—3)</strong> is the plane of perception and meaning. Position 1 is undifferentiated awareness — pure perception before any story is attached. Position 2 is the moment consciousness encounters itself through contrast, when the observer and observed split apart and duality appears. Position 3 is meaning-making — where experience is processed into narrative, language, and identity. The shadow risk of this row is living inside the narrative instead of the signal. You don't just think — you encode reality from the story you tell yourself.</p>
-      <p>The <strong>Body Row (4—5—6)</strong> is where consciousness becomes flesh. Position 4 brings mental patterns into physical structure — habits, disciplines, routines. Position 5 is pure exploration, the translation of potential into actual lived experience. Position 6 is integration: responsibility, care, the incorporation of what was learned into how you live. The shadow risk here is oscillating endlessly between rigidity (4) and chaos (5) without ever committing to the integration of 6.</p>
-      <p>The <strong>Spirit Row (7—8—9)</strong> is the domain of mastery and release. Position 7 turns awareness back on itself — the most refined knowledge is self-knowledge. Position 8 is the embodiment of that knowledge as power — but specifically self-power, the discipline of governing one's own inner world rather than seeking control over the outer. Position 9 is completion: releasing everything learned back into the collective, dissolving individual fixation into service. The shadow is spiritual inflation — attempting to access the wisdom of 8 or 9 before doing the foundational work.</p>
-      <h3>The Three Columns (Modes)</h3>
-      <p>Reading the grid vertically, each column describes a mode of engaging with reality.</p>
-      <p>The <strong>Witness Column (1—4—7)</strong> is the observational stance. It moves from pure perception to structured habit to the awareness that observes its own awareness — meta-cognition. This column establishes the system's baseline orientation. When it is unstable, nothing else holds together.</p>
-      <p>The <strong>Actor Column (2—5—8)</strong> is the dynamic engine. Tension (2) generates action (5) which produces transformation and, ultimately, embodied power (8). The central placement of 5 in this column confirms the law of the entire system: reality responds through embodied engagement. Thought initiates possibility. Action of will actualises it.</p>
-      <p>The <strong>Sage Column (3—6—9)</strong> is integration and output. Understanding matures into stewardship, and stewardship resolves into release. The culmination of experience is transmission — what you have learned becomes a gift that moves beyond you.</p>
-      <h3>Part III — Your Seven Frequencies: The Holographic Blueprint</h3>
-      <p>The individual numerological map — what SSC calls the Holographic Blueprint — is composed of seven calculated frequencies drawn from two sources: your birth date and your birth name. These two sources represent the two circuits of the simulation as it runs for you specifically.</p>
-      <p>Your <strong>birth date</strong> is the external circuit — the curriculum the simulation has set for you. The lessons, themes, and classes you will encounter regardless of what you choose. You did not pick your birthday. These numbers describe what the hologram will present to you.</p>
-      <p>Your <strong>birth name</strong> is the internal circuit — the expression that was encoded within you at the same moment. The potential that lies beneath the conditioning. The frequency your nervous system was designed to express.</p>
-      <p>The friction between these two circuits is not a "problem" as many of us come to think but is the source of the energy that powers the whole system. The push/pull between the external lesson and the internal potential generates the charge that drives growth. Diamonds form under pressure. The simulation applies pressure precisely where it needs to.</p>
-      <h3>The Seven Frequencies</h3>
-      <p><strong>01 — Theme.</strong> Calculated from the digits of your birth year summed and reduced. The atmospheric frequency you were born into — the background energy of your era. The recurring undercurrent woven through everything.</p>
-      <p><strong>02 — Life Path.</strong> All digits of your full birth date summed and reduced. Your primary frequency. The core lesson your simulation is enrolled in. Not what you will achieve — what you are here to learn. The Life Path is the primary curriculum, and it often manifests first as the area of greatest friction and confusion.</p>
-      <p><strong>03 — Achievement.</strong> Your birth month plus birth day, reduced. How you naturally move toward goals. Your instinctive method. Not what you achieve but the energy with which you approach achievement.</p>
-      <p><strong>04 — Expression.</strong> All letters of your full birth name, converted to values and reduced. Your innate gifts and energies — the frequencies you naturally carry and radiate into the world. This is the Destined Expression: the authentic self beneath all conditioning, the station your nervous system was built to tune into.</p>
-      <p><strong>05 — Soul.</strong> The vowels of your full birth name, reduced. Your inner world. The private desires, yearnings, and motivations that drive everything you do, often below the level of conscious awareness. What you actually want.</p>
-      <p><strong>06 — Outer.</strong> The consonants of your full birth name, reduced. Your social face — how others experience you before they know you well. The personality you project into the world, the energy of first contact.</p>
-      <p><strong>07 — Life Calling.</strong> Calculated by combining the root digit of your Expression with the root digit of your Life Path, then reducing. The synthesis frequency — the specific mission that emerges when your innate gifts meet your core lesson. This is the most actionable number in a reading: it describes not just who you are, but what you are here to do with that.</p>
-      <h3>The Triune Trinity</h3>
-      <p>The seven frequencies organise into three interlocking trinities — a structure that itself resolves to the number 7, the first level of the Spirit row in the Codex.</p>
-      <p>The <strong>Trinity of Lessons</strong> (Achievement — Theme — Life Path) describes the external curriculum — the classes the simulation has enrolled you in.</p>
-      <p>The <strong>Trinity of Self</strong> (Soul — Outer — Expression) describes the internal architecture — the three faces of who you are: the private, the social, and the full.</p>
-      <p>The <strong>Trinity of Purpose</strong> (Life Path — Expression — Life Calling) is the apex — the synthesis of lesson and gift into mission.</p>
-      <p>Together they form a complete picture. Not a personality profile. Not a fixed fate. A map — precise enough to be genuinely useful, open enough to honour the freedom that makes the simulation worth playing.</p>
-      <h3>What To Do With This</h3>
-      <p>The map is not the territory. You still have to walk it.</p>
-      <p>Understanding your numbers does not grant you anything. Insight that is not embodied remains unrealised — that is one of the core laws of the Codex. The knowledge has to pass through position 5. It has to become action, experience, consequence, integration.</p>
-      <p>What the system offers is orientation. When you know the terrain, you stop wasting energy fighting the landscape and start working with it. You recognise the recurring themes for what they are — not random suffering, but curriculum. You see the gap between the external pressure and the internal potential, and instead of being crushed by the friction, you use it as fuel.</p>
-      <p>The simulation is designed for this. It wants you to figure it out. The clues are everywhere — including in the numbers encoded in the most basic facts of your existence.</p>
-      <blockquote>You are the reason for the simulation. In fact, you are the simulation. Experience is the play of light, passing through the prism that is you.</blockquote>
-      <p>You left yourself the map. The question is whether you are ready to read it.</p>
 
 
     <div class="post-cta-block">
-      <p>Every number in this article is one piece of a larger architecture. Your complete blueprint &#8212; seven frequencies calculated from your birth date and name &#8212; is what the Full Blueprint Reading reveals.</p>
-      <a href="/services/">&#11042;&nbsp;Get Your Full Blueprint &#8212; $22&nbsp;&#11042;</a>
+      <p>Every number in this article is one piece of a larger architecture. Your complete blueprint — seven frequencies calculated from your birth date and name — is what the Full Blueprint Reading reveals.</p>
+      <a href="/#calculator" onclick="if(typeof showPage==='function'){showPage('calculator');return false;}">&#11042;&nbsp;Calculate Your Full Blueprint</a>
     </div>
-  <div class="related-posts">
-    <div class="related-posts-title">Related Articles</div>
-    <div class="related-posts-grid">
-      <a href="/blog/codex-architecture-consciousness-matrix/" class="related-post-card">
-        <div class="related-post-title">Codex Architecture</div>
-        <span class="related-post-link">Read More</span>
-      </a>
-      <a href="/blog/simulation-theory-numerology-source-code/" class="related-post-card">
-        <div class="related-post-title">Simulation Theory</div>
-        <span class="related-post-link">Read More</span>
-      </a>
-      <a href="/blog/electric-magnetic-aether-three-natures-of-number/" class="related-post-card">
-        <div class="related-post-title">Electric & Magnetic</div>
-        <span class="related-post-link">Read More</span>
-      </a>
-    </div>
-  </div>
-
-    </div>
-  </div>
-
-
 
   </div>
 
 </div>
 
+<!-- FOOTER -->
 <footer id="main-footer"></footer>
+<script src="/js/app.js"></script>
+<script>
+  if (typeof loadNav === 'function') loadNav();
+  if (typeof loadFooter === 'function') loadFooter();
+</script>
 
-  <script src="/js/app.js"></script>
-  <script>
-    if (typeof loadNav === 'function') loadNav();
-    if (typeof loadFooter === 'function') loadFooter();
-  </script>
 </body>
 </html>
-
-

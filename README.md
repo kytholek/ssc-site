@@ -112,3 +112,29 @@ Update these in `pages/footer.html` and `pages/about.html`:
 - Instagram: `https://www.instagram.com/simulationsourcecode`
 - YouTube: `https://www.youtube.com/@kytholek`
 - Website: `https://www.kytholek.com`
+
+---
+
+## Decap CMS (Recommended)
+
+A Git-backed CMS is now configured at `/admin/`.
+
+Files added:
+- `admin/index.html`
+- `admin/config.yml`
+
+### One-time Netlify setup
+1. Deploy this repo on Netlify.
+2. In Netlify dashboard, enable **Identity**.
+3. Under Identity settings, enable **Git Gateway**.
+4. Invite your admin user email under Identity.
+5. Open `https://your-domain/admin/` and log in.
+
+### Blog editing flow
+1. Edit or create posts in Decap CMS (`content/*.md`).
+2. Commit changes from CMS.
+3. Run `node build.js --force` (locally or CI) to regenerate `blog/<slug>/index.html` and `content/posts.json`.
+
+Notes:
+- `related` entries must use: `/blog/slug/|Title|Link Text`
+- Custom-layout HTML posts can stay in `blog/` and be managed separately.

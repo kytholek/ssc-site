@@ -1,0 +1,44 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "Images/uploads"
+public_folder: "/Images/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "content"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    path: "{{slug}}"
+    summary: "{{title}} - {{date}}"
+    sortable_fields: ["date", "title"]
+    view_filters:
+      - label: "Drafts"
+        field: "draft"
+        pattern: true
+      - label: "Published"
+        field: "draft"
+        pattern: false
+    fields:
+      - { label: "Draft", name: "draft", widget: "boolean", required: false, default: false }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string", hint: "Must match filename and blog URL segment, e.g. life-path-1-numerology" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Category", name: "category", widget: "select", options: ["life-path", "expression", "soul-urge", "system", "philosophy", "trinity"] }
+      - { label: "Glyph", name: "glyph", widget: "string", required: false }
+      - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false }
+      - { label: "Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Keywords", name: "keywords", widget: "string", required: false }
+      - { label: "Breadcrumb Name", name: "breadcrumb-name", widget: "string", required: false }
+      - { label: "CTA", name: "cta", widget: "text", required: false }
+      - { label: "Related", name: "related", widget: "list", required: false, hint: "Use format: /blog/slug/|Title|Link Text" }
+      - { label: "Body", name: "body", widget: "markdown" }
