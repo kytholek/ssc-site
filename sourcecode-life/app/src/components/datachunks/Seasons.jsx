@@ -265,6 +265,15 @@ function YearSeasonCard({ playerData, lpRoot, m, d }) {
 export default function SeasonsSection({ playerData, lpRoot }) {
   if (!playerData) return null
   const { m, d, y, lp } = playerData
+  const [isDesktop, setIsDesktop] = useState(() => (
+    typeof window !== 'undefined' ? window.innerWidth >= 1024 : false
+  ))
+
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const pinnacles = calcPinnacles(m, d, y, lp)
   const now = new Date()
@@ -277,9 +286,15 @@ export default function SeasonsSection({ playerData, lpRoot }) {
   })
   const pinnacleColor = currentPinn ? CYCLE_QUEST_COLORS.pinnacle?.hex || '#c9a84c' : '#666'
   const pinnacleData = currentPinn ? CYCLE_MEANINGS.pinnacle?.[currentPinn.root] : null
+  const desktopSectionStyle = isDesktop
+    ? { maxWidth: '940px', margin: '8px auto 0', width: '100%', padding: '16px 8px 28px' }
+    : undefined
+  const desktopCardsStyle = isDesktop
+    ? { display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '16px' }
+    : undefined
 
   return (
-    <section className="seasons-section" aria-labelledby="seasons-heading">
+    <section className="seasons-section" aria-labelledby="seasons-heading" style={desktopSectionStyle}>
       <div className="seasons-header">
         <h2 id="seasons-heading" className="seasons-heading">
           <span className="seasons-heading-line" aria-hidden="true" />
@@ -304,7 +319,10 @@ export default function SeasonsSection({ playerData, lpRoot }) {
         </div>
       )}
 
-      <div className="seasons-cards-container" style={{ '--pinnacle-color': pinnacleColor }}>
+      <div
+        className="seasons-cards-container"
+        style={{ '--pinnacle-color': pinnacleColor, ...desktopCardsStyle }}
+      >
         <YearSeasonCard playerData={playerData} lpRoot={lpRoot} m={m} d={d} />
         <MonthSeasonCard playerData={playerData} lpRoot={lpRoot} m={m} d={d} />
       </div>

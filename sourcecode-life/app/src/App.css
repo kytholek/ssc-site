@@ -875,7 +875,9 @@
 .app-shell {
   display: flex; flex-direction: column;
   min-height: 100svh;
-  max-width: 500px; margin: 0 auto;
+  width: min(100vw, 500px);
+  max-width: 500px;
+  margin: 0 auto;
   /* safe area: status bar at top (notch / Dynamic Island) */
   padding-top: env(safe-area-inset-top);
   background:
@@ -982,7 +984,7 @@
 
 /* ── Tab Bar ─────────────────────────────────────────────────────────────── */
 .tab-bar {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 500px;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: min(100vw, 500px);
   height: calc(60px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   display: flex;
@@ -1040,7 +1042,7 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 /* Outer nav bar — same footprint as old tab-bar */
 .stt-bar {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 500px;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: min(100vw, 500px);
   height: calc(72px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: rgba(9,10,14,0.98);
@@ -1274,18 +1276,7 @@
   padding: 12px 14px 24px;
 }
 
-/* Full-width season banner on home */
-.seasons-section {
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  width: 100vw;
-  padding-left: 50vw;
-  padding-right: 50vw;
-}
-.seasons-pinnacle-banner,
-.seasons-cards-container {
-  width: 100%;
-}
+/* Legacy full-bleed seasons layout removed; seasons now follow panel width. */
 
 
 /* Blueprint mode: strip padding so chart sits flush */
@@ -16605,7 +16596,14 @@
 
 /* ── Seasons Section ── */
 .seasons-section {
+  width: auto;
+  margin-left: 0;
+  margin-right: 0;
   padding: 12px 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 /* NEW: Seasons runes - match daily 120px boxes, centered */
 .rune-node--season {
@@ -16649,10 +16647,6 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .seasons-header {
@@ -16745,6 +16739,9 @@
 
 .seasons-cards-container {
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
   padding: 20px;
   border-radius: 0 0 12px 12px;
   background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
@@ -16760,7 +16757,7 @@
   border: 1px solid color-mix(in srgb, var(--season-color, rgba(255,255,255,0.15)) 35%, transparent);
   border-radius: 12px;
   padding: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   box-shadow:
     0 0 20px color-mix(in srgb, var(--season-color, rgba(0,0,0,0)) 12%, transparent),
     0 8px 24px rgba(0,0,0,0.6),
@@ -16769,6 +16766,74 @@
   transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
               box-shadow 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   animation: seasons-card-float 5s ease-in-out infinite;
+}
+
+@media (min-width: 1100px) {
+  .app-shell {
+    width: min(96vw, 980px);
+    max-width: 980px;
+  }
+  .tab-bar,
+  .stt-bar {
+    width: min(96vw, 980px);
+  }
+  .tab-panel-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Explicit desktop rendering for Home > Seasons */
+@media (min-width: 1024px) {
+  .app-shell .app-main .tab-panel-content > .seasons-section {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 940px !important;
+    margin: 8px auto 0 !important;
+    padding: 16px 8px 28px !important;
+    gap: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-shell .app-main .tab-panel-content > .seasons-section .seasons-heading {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .app-shell .app-main .tab-panel-content > .seasons-section .seasons-heading-line {
+    max-width: 220px !important;
+  }
+
+  .app-shell .app-main .tab-panel-content > .seasons-section .seasons-pinnacle-banner {
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 18px 20px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-shell .app-main .tab-panel-content > .seasons-section .seasons-pinnacle-header {
+    flex-wrap: wrap !important;
+  }
+
+  .app-shell .app-main .tab-panel-content > .seasons-section .seasons-cards-container {
+    width: 100% !important;
+    max-width: none !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 18px !important;
+    align-items: start !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-shell .app-main .tab-panel-content > .seasons-section .seasons-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100% !important;
+    box-sizing: border-box !important;
+  }
 }
 
 .seasons-card:nth-child(2) {
