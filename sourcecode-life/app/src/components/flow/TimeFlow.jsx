@@ -1,7 +1,7 @@
 /**
  * TimeFlow — Current Cycles (premium SVG nodes)
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { reduceToSimple, getCycleAnchor, calcPersonalYear, calcPinnacles, calcPersonalMonth, calcPersonalDay, calcFourMonthCycle, todayStr } from '../../lib/numerology'
 import { useQuestEngine } from '../../hooks/useQuestEngine'
 import FlowDetailPanel from './FlowDetailPanel'
@@ -84,16 +84,13 @@ export default function TimeFlow({ playerData, sideQuests: sqProp }) {
   const [selected, setSelected] = useState(null)
   const [chartReady, setChartReady] = useState(false)
   const [dailyGlyphsDone, setDailyGlyphsDone] = useState(getDailyGlyphsDone)
-  const [monthSeasonState, setMonthSeasonState] = useState(null)
-  const [yearSeasonState, setYearSeasonState] = useState(null)
+  const [seasonRefreshTick, setSeasonRefreshTick] = useState(0)
   const [checkinPanelOpen, setCheckinPanelOpen] = useState(false)
   const { xp } = useQuestEngine()
   const freqLevel = xp?.freqLevel || 1
   const sideQuests = sqProp && typeof sqProp === 'object' ? sqProp : {}
 
-  if (!playerData) return null
-  const { lp, th, ex, cl, so, ou, ac, m, d, y } = playerData
-  if (!m || !d || !y || !lp?.root || !th?.root) return null
+  const { lp, th, ex, cl, so, ou, ac, m, d, y } = playerData || {}
 
   useEffect(() => {
     const timer = setTimeout(() => setChartReady(true), 100)
@@ -107,13 +104,22 @@ export default function TimeFlow({ playerData, sideQuests: sqProp }) {
     return () => window.removeEventListener('scl:daily_glyphs_updated', handler)
   }, [])
 
-  // Load month and year season state
-  useEffect(() => {
-    if (lp?.root && m && d) {
-      setMonthSeasonState(getMonthSeasonState(lp.root, m, d, freqLevel))
-      setYearSeasonState(getYearSeasonState(lp.root, m, d))
-    }
-  }, [lp?.root, m, d, freqLevel])
+  const monthSeasonState = useMemo(() => {
+    // Intentionally read to allow manual recompute after localStorage writes.
+    seasonRefreshTick
+    if (!lp?.root || !m || !d) return null
+    return getMonthSeasonState(lp.root, m, d, freqLevel)
+  }, [lp?.root, m, d, freqLevel, seasonRefreshTick])
+
+  const yearSeasonState = useMemo(() => {
+    // Intentionally read to allow manual recompute after localStorage writes.
+    seasonRefreshTick
+    if (!lp?.root || !m || !d) return null
+    return getYearSeasonState(lp.root, m, d)
+  }, [lp?.root, m, d, seasonRefreshTick])
+
+  if (!playerData) return null
+  if (!m || !d || !y || !lp?.root || !th?.root) return null
 
   const now = new Date()
   const currentYear = now.getFullYear()
@@ -137,8 +143,7 @@ export default function TimeFlow({ playerData, sideQuests: sqProp }) {
     const result = addMonthCheckin(lp.root, m, d, journal, objectiveIdx)
     if (result.ok) {
       setCheckinPanelOpen(false)
-      const newState = getMonthSeasonState(lp.root, m, d, freqLevel)
-      setMonthSeasonState(newState)
+      setSeasonRefreshTick(t => t + 1)
       return { ok: true }
     }
     return result
