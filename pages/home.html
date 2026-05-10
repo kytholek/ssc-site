@@ -104,6 +104,32 @@
   margin-bottom: 0;
   font-style: italic;
 }
+.hp-proof-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.hp-proof-pill {
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  background: rgba(201,168,76,0.04);
+}
+.hp-hero-micro {
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.62);
+}
 .hp-hero-img {
   flex: 1 1 0;
   min-width: 0;
@@ -1126,6 +1152,7 @@
   .hp-hero-content { max-width: 100%; }
   .hp-hero-sub { margin-left: auto; margin-right: auto; }
   .hp-hero-actions { justify-content: center; flex-wrap: wrap; }
+  .hp-proof-row { justify-content: center; }
   .hp-hero-img { max-width: 360px; }
   .hp-codex-link { max-width: 360px; }
   .hp-scroll-hint { bottom: 20px; }
@@ -1155,9 +1182,33 @@
   .hp-how-section, .hp-stats-section, .hp-email-section { padding: 60px 24px; }
   .hp-stat-num { font-size: clamp(28px, 3.5vw, 44px); }
   .hp-email-title { font-size: 22px; }
+  .hp-sticky-calc-cta { display: flex; }
 }
 @media (max-width: 400px) {
   .hp-ssc { padding: 24px 16px; }
+}
+
+.hp-sticky-calc-cta {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  z-index: 80;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--gold), #b8943a);
+  border: 1px solid var(--gold);
+  color: var(--deep);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.45), 0 0 24px rgba(201,168,76,0.28);
 }
 </style>
 
@@ -1171,11 +1222,16 @@
 <section class="hp-hero">
   <div class="hp-hero-content">
     <div class="hp-hero-eyebrow">// SEVEN FREQUENCIES ENCODED</div>
-    <h1 class="hp-hero-title">Decode the <span>Blueprint</span> Written in Your Birth</h1>
-    <p class="hp-hero-sub">Your birth date and name encode 7 frequencies â€” each one a lens on your life. The blueprint is already written in your numbers. Start reading it.</p>
+    <h1 class="hp-hero-title">Understand Your Life Pattern in <span>7 Numbers</span></h1>
+    <p class="hp-hero-sub">Enter your birth date and full name to decode the seven frequencies shaping your path, strengths, and repeating life lessons.</p>
     <div class="hp-hero-actions">
-      <a href="/calculator" class="btn-primary hp-cta-gold" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#9654;&nbsp;Decode Your Blueprint</a>
-      <a href="/sample-guidebook.html" class="hp-cta-text">Sample Blueprint &#8594;</a>
+      <a href="/calculator" class="btn-primary hp-cta-gold js-track-cta" data-cta="hero_decode" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">&#9654;&nbsp;Decode Your Blueprint</a>
+    </div>
+    <p class="hp-hero-micro">Free in 60 seconds · No email required</p>
+    <div class="hp-proof-row">
+      <div class="hp-proof-pill">Private by Design</div>
+      <div class="hp-proof-pill">7-Frequency System</div>
+      <div class="hp-proof-pill">Instant Results</div>
     </div>
     <p class="hp-trust-line">Your data stays private. We never store your personal information.</p>
   </div>
@@ -1434,14 +1490,14 @@
 
     <!-- Content -->
     <div class="hp-scl-content">
-      <div class="hp-scl-eyebrow">&gt; QUEST APP â€” LIVE IN BETA</div>
+      <div class="hp-scl-eyebrow">&gt; QUEST APP IS NOW LIVE IN BETA</div>
       <div class="hp-scl-title">Source Code: Life</div>
-      <p class="hp-scl-body">Your blueprint decoded as a full RPG character sheet. Discover the quests already running in your life â€” track them, journal them, level them. Seven frequencies. Nine quest lines. Start playing.</p>
+      <p class="hp-scl-body">Your blueprint decoded as a full RPG character sheet. Discover the quests already running in your life, now you track them, journal them, level through them. Seven frequencies. 21 Main Quest lines and infinite sidequests. Start playing.</p>
       <p class="hp-scl-body" style="color:#384858;font-size:12px;margin-top:-16px">Beta is live. Join the testers and start your quests now.</p>
 
       <div class="hp-scl-ph-badge">
-        <a href="https://www.producthunt.com/products/source-code-life/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-source&#0045;code&#0045;life" target="_blank" rel="noopener">
-          <img src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=1222062&theme=light" alt="Source&#0032;Code&#0058;&#0032;Life - Gamifying&#0032;Life&#0032;and&#0032;Personal&#0032;Growth | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+        <a href="https://www.producthunt.com/products/source-code-life?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-source-code-life" target="_blank" rel="noopener noreferrer">
+          <img alt="Source Code: Life - Gamifying Life and Personal Growth | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1143138&amp;theme=neutral&amp;t=1778442772225">
         </a>
       </div>
       <div class="hp-scl-stats">
@@ -1450,16 +1506,16 @@
           <span class="hp-scl-stat-label">Frequencies</span>
         </div>
         <div class="hp-scl-stat">
-          <span class="hp-scl-stat-num">9</span>
-          <span class="hp-scl-stat-label">Quests</span>
+          <span class="hp-scl-stat-num">21</span>
+          <span class="hp-scl-stat-label">Main Quests</span>
         </div>
         <div class="hp-scl-stat">
-          <span class="hp-scl-stat-num">PWA</span>
-          <span class="hp-scl-stat-label">Installable</span>
+          <span class="hp-scl-stat-num">∞</span>
+          <span class="hp-scl-stat-label">Sidequests</span>
         </div>
       </div>
 
-      <a href="https://portal.simulationsourcecode.com" class="hp-scl-cta">&gt; Try the Prototype</a>
+      <a href="https://portal.simulationsourcecode.com" class="hp-scl-cta js-track-cta" data-cta="scl_prototype">&gt; Try the Prototype</a>
     </div>
 
   </div>
@@ -1470,7 +1526,7 @@
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="hp-email-section hp-reveal">
   <div class="hp-email-inner">
-    <div class="hp-email-label">From the Codex</div>
+    <div class="hp-email-label">From the Void</div>
     <h2 class="hp-email-title">Get Weekly Frequency Insights</h2>
     <form class="hp-email-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
       <input type="email" class="hp-email-input" placeholder="your.name@email.com" required>
@@ -1516,6 +1572,28 @@
   </div>
 </section>
 
+<a href="/calculator" class="hp-sticky-calc-cta js-track-cta" data-cta="sticky_decode" onclick="if(document.getElementById('page-home')){event.preventDefault();showPage('calculator');}">
+  Decode Free
+</a>
+
 </div>
+
+<script>
+(function () {
+  function track(eventName, payload) {
+    if (window.dataLayer && typeof window.dataLayer.push === 'function') {
+      window.dataLayer.push(Object.assign({ event: eventName }, payload || {}));
+    }
+  }
+
+  document.querySelectorAll('.js-track-cta').forEach(function (el) {
+    el.addEventListener('click', function () {
+      track('home_cta_click', {
+        cta_id: el.getAttribute('data-cta') || 'unknown'
+      });
+    });
+  });
+})();
+</script>
 
 

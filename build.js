@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * build.js â€” Zero-dependency Markdown-to-HTML blog post generator
+ * build.js ? Zero-dependency Markdown-to-HTML blog post generator
  * Usage: node build.js
  * Reads:  content/*.md
  * Writes: blog/{slug}/index.html  (only if .md is newer than existing HTML)
@@ -51,7 +51,7 @@ function parseFrontmatter(raw) {
   return { meta: fm, body };
 }
 
-// â”€â”€â”€ Markdown â†’ HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€â”€ Markdown ? HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function mdToHtml(md) {
   const lines  = md.split(/\r?\n/);
   const output = [];
@@ -125,7 +125,7 @@ function buildRelatedPostsHtml(related) {
     const [href, title, linkText] = entry.split('|');
     return `    <a href="${href}" class="related-post-card">
       <div class="related-post-title">${title}</div>
-      <span class="related-post-link">${linkText || 'Read Deep Dive'} â†’</span>
+      <span class="related-post-link">${linkText || 'Read Deep Dive'} ?</span>
     </a>`;
   }).join('\n');
 
@@ -144,9 +144,9 @@ function buildPostHtml(meta, bodyHtml, relatedHtml) {
   const title       = meta.title       || '';
   const description = meta.description || meta.excerpt || '';
   const date        = meta.date        || '2026-01-01';
-  const glyph       = meta.glyph       || '';
+  const glyph    = meta.glyph   || '?';
   const eyebrow     = meta.eyebrow     || '';
-  const ctaText     = meta.cta         || 'The complete blueprint â€” including your Expression, Soul Urge, Life Calling, and the compound story behind each number â€” is what the Full Blueprint Reading reveals.';
+  const ctaText     = meta.cta         || 'The complete blueprint ? including your Expression, Soul Urge, Life Calling, and the compound story behind each number ? is what the Full Blueprint Reading reveals.';
   const breadcrumbName = meta['breadcrumb-name'] || title;
   const canonicalUrl   = `${SITE_ORIGIN}/blog/${slug}/`;
   const fontUrl = 'https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+SC:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap';
@@ -321,11 +321,11 @@ function buildCardHtml(meta) {
   const slug     = meta.slug;
   const title    = meta.title   || '';
   const excerpt  = meta.excerpt || '';
-  const glyph    = meta.glyph   || 'âœ¦';
+  const glyph    = meta.glyph   || '?';
   const category = meta.category || 'system';
   const date     = meta.date     ? formatMonthYear(meta.date) : '';
 
-  // Category label â†’ display text
+  // Category label ? display text
   const CAT_LABELS = {
     'life-path':   'Life Paths',
     'expression':  'Expressions',
@@ -342,7 +342,7 @@ function buildCardHtml(meta) {
           <div class="blog-idx-card-tags"><span class="blog-idx-tag gold">${catLabel}</span><span class="blog-idx-date">${date}</span></div>
           <div class="blog-idx-card-title">${title}</div>
           <p class="blog-idx-card-excerpt">${excerpt}</p>
-          <span class="blog-idx-read">Read Article â†’</span>
+          <span class="blog-idx-read">Read Article ?</span>
         </div>
       </a>`;
 }
@@ -359,7 +359,7 @@ const END_MARKER   = '<!-- GENERATED_POSTS_END -->';
 
 function updateBlogIndex(posts) {
   if (!fs.existsSync(BLOG_INDEX)) {
-    console.warn('[build] blog/index.html not found â€” skipping index update');
+    console.warn('[build] blog/index.html not found ? skipping index update');
     return;
   }
 
@@ -368,7 +368,7 @@ function updateBlogIndex(posts) {
   const startIdx = html.indexOf(START_MARKER);
   const endIdx   = html.indexOf(END_MARKER);
   if (startIdx === -1 || endIdx === -1) {
-    console.warn('[build] Markers not found in blog/index.html â€” skipping index update');
+    console.warn('[build] Markers not found in blog/index.html ? skipping index update');
     console.warn('        Add <!-- GENERATED_POSTS_START --> and <!-- GENERATED_POSTS_END --> to blog/index.html');
     return;
   }
@@ -423,7 +423,7 @@ function main() {
     }
 
     if (!meta.slug) {
-      console.warn(`[build] ${file}: missing 'slug' in frontmatter â€” skipping`);
+      console.warn(`[build] ${file}: missing 'slug' in frontmatter ? skipping`);
       continue;
     }
 
@@ -460,7 +460,7 @@ function main() {
   // Update blog/index.html
   if (allMeta.length) updateBlogIndex(allMeta);
 
-  console.log(`[build] Done â€” ${built} built, ${skipped} unchanged`);
+  console.log(`[build] Done ? ${built} built, ${skipped} unchanged`);
 }
 
 main();

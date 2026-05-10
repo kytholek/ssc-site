@@ -593,11 +593,7 @@ function _doCalculateReading(month, day, year, fullName, btn, origBtnText) {
     btn.classList.remove('ssc-btn-loading');
   }
 
-  // ── Auto-focus email field in CTA ──────────────────────────
-  setTimeout(function() {
-    var emailField = document.getElementById('unlock-email');
-    if (emailField) emailField.focus();
-  }, 600);
+  // Keep users on their reading; no auto-focus jump to purchase fields.
 }
 
 

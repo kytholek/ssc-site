@@ -1397,7 +1397,6 @@ function calculateReadingModal() {
 function showUnlockCTAModal() {
   document.getElementById('modal-unlock-cta').style.display = 'block';
   document.getElementById('modal-unlock-cta').setAttribute('aria-hidden', 'false');
-  document.getElementById('modal-unlock-cta').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function handleUnlockPaymentModal() {
