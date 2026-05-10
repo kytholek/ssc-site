@@ -1,11 +1,11 @@
 ---
-title: 
+title: Electric, Magnetic & Aether: The Three Natures of Number
 slug: electric-magnetic-aether-three-natures-of-number
 date: 2026-01-01
 category: philosophy
 glyph: ✦
-eyebrow: 
-excerpt: ‹ Back to Blog
+eyebrow: The System
+excerpt: Four Electric, four Magnetic, two Aetheric. The nine frequencies differ not just in quality but in fundamental nature.
 description: The nine frequencies are not equal in kind. Four are Electric, four are Magnetic, and two stand apart as Aetheric — the void before and after the cycle. Understanding this changes how you read every number.
 keywords: electric magnetic aether numerology, three natures of number, energy numerology, SSC numerology, simulation source code
 breadcrumb-name: Electric, Magnetic, Aether — Three Natures of Number

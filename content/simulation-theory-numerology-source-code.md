@@ -1,11 +1,11 @@
 ---
-title: 
+title: You Are Running on a Simulation ? And Your Numbers Are the Source Code
 slug: simulation-theory-numerology-source-code
 date: 2026-01-01
 category: philosophy
 glyph: ✦
-eyebrow: 
-excerpt: ‹ Back to Blog
+eyebrow: Philosophy
+excerpt: Modern physics increasingly suggests reality is information. If the universe is computational, then the numbers in your birth and name are literal parameters of your simulation.
 description: Modern physics increasingly suggests reality is information. If the universe is computational, the numbers encoded in your birth and name are literal parameters of your simulation.
 keywords: simulation theory numerology, numerology simulation, reality source code numerology, SSC numerology, simulation source code
 breadcrumb-name: Simulation Theory & Numerology

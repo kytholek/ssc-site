@@ -1,11 +1,11 @@
 ---
-title: 
+title: Your Birth Year's Hidden Frequency: The Theme Number
 slug: theme-number-birth-year-numerology
 date: 2026-01-01
 category: system
 glyph: ✦
-eyebrow: 
-excerpt: ‹ Back to Blog
+eyebrow: Numerology
+excerpt: The least understood of the seven frequencies ? it's not personal, it's atmospheric.
 description: Of the seven frequencies in your blueprint, the Theme number is the least understood. It's not personal — it's atmospheric. That distinction changes everything.
 keywords: theme number numerology, birth year numerology, numerology birth year meaning, SSC numerology, simulation source code
 breadcrumb-name: Theme Number — Birth Year Numerology

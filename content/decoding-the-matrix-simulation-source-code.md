@@ -1,11 +1,11 @@
 ---
-title: 
+title: Decoding the Matrix: The Complete Architecture of Simulation Source Code
 slug: decoding-the-matrix-simulation-source-code
 date: 2026-01-01
 category: philosophy
 glyph: ✦
-eyebrow: 
-excerpt: ‹ Back to Blog
+eyebrow: The System
+excerpt: The full picture ? holographic reality, the Codex, the nine frequencies, and the seven-number personal blueprint.
 description: Learn about decoding-the-matrix-simulation-source-code in Simulation Source Code.
 keywords: decoding matrix simulation, simulation source code, matrix numerology, SSC numerology
 breadcrumb-name: Decoding the Matrix — Simulation Source Code

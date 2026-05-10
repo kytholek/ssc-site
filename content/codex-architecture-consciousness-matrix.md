@@ -1,11 +1,11 @@
 ---
-title: 
+title: The Codex: Architecture of the Consciousness Matrix
 slug: codex-architecture-consciousness-matrix
 date: 2026-01-01
 category: philosophy
 glyph: ✦
-eyebrow: 
-excerpt: ‹ Back to Blog
+eyebrow: The System
+excerpt: A 3x3 map of how consciousness moves ? three planes, three columns, one central pivot that everything passes through.
 description: The 3×3 Codex is not a personality chart. It is a precise map of how consciousness moves — through three planes, three columns, and one central pivot that everything passes through.
 keywords: numerology codex, consciousness matrix numerology, architecture of consciousness, SSC numerology, simulation source code
 breadcrumb-name: Codex Architecture — The Consciousness Matrix
