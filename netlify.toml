@@ -10,3 +10,8 @@ publish = "."
 # Optional: port = 8888
 
 # Netlify Identity and Git Gateway do not require special config in netlify.toml, but this file ensures build settings are correct.
+
+[[redirects]]
+from = "/calculator"
+to = "/calculator/"
+status = 301
