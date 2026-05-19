@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4 Phase Alchemy | Body, Blood, Breath, Mind</title>
+  <meta name="description" content="Explore the 4 Phase Alchemy framework: a practical map of body, blood, breath, and mind for conscious self-optimization.">
+  <link rel="canonical" href="https://simulationsourcecode.com/4-phase-alchemy/">
+  <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="4 Phase Alchemy: Higher Self Activated">
+  <meta property="og:description" content="A practical four-layer framework to refine your physical vessel, fluid system, breath bridge, and mental field.">
+  <meta property="og:url" content="https://simulationsourcecode.com/4-phase-alchemy/">
+  <meta property="og:image" content="https://simulationsourcecode.com/ssc-og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "4 Phase Alchemy",
+    "url": "https://simulationsourcecode.com/4-phase-alchemy/",
+    "description": "A four-phase personal framework connecting solid, liquid, gas, and plasma to body, blood, breath, and mind.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Simulation Source Code",
+      "url": "https://simulationsourcecode.com/"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --alchemy-bg: #050910;
+      --alchemy-text: #eaf0f5;
+      --alchemy-dim: #a8b8c7;
+      --alchemy-gold: #d9bc74;
+      --alchemy-line: rgba(217, 188, 116, 0.24);
+      --alchemy-water: #6cbfe3;
+      --alchemy-air: #a6efe3;
+      --alchemy-fire: #ffb17a;
+      --alchemy-earth: #b8a78f;
+    }
+    body {
+      padding-top: 64px;
+      background:
+        radial-gradient(circle at 8% 15%, rgba(108, 191, 227, 0.16), transparent 35%),
+        radial-gradient(circle at 88% 12%, rgba(255, 177, 122, 0.14), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(166, 239, 227, 0.1), transparent 42%),
+        var(--alchemy-bg);
+      color: var(--alchemy-text);
+      font-family: 'Manrope', sans-serif;
+    }
+    .alchemy-wrap { max-width: 1160px; margin: 0 auto; padding: 40px 24px 84px; }
+    .alchemy-hero {
+      text-align: center;
+      margin-bottom: 34px;
+      border: 1px solid var(--alchemy-line);
+      border-radius: 24px;
+      padding: 42px 24px;
+      background: linear-gradient(180deg, rgba(7,12,18,.88), rgba(5,9,14,.75));
+      position: relative;
+      overflow: hidden;
+    }
+    .alchemy-hero::before {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      left: -60px;
+      top: -120px;
+      background: radial-gradient(circle, rgba(108,191,227,.22), transparent 68%);
+      pointer-events: none;
+    }
+    .alchemy-hero::after {
+      content: '';
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      right: -90px;
+      bottom: -180px;
+      background: radial-gradient(circle, rgba(255,177,122,.2), transparent 70%);
+      pointer-events: none;
+    }
+    .alchemy-kicker { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--alchemy-gold); }
+    .alchemy-title { margin: 12px 0 8px; font: 700 clamp(36px, 6vw, 66px)/1.02 'Cinzel', serif; }
+    .alchemy-subtitle { color: var(--alchemy-dim); max-width: 760px; margin: 0 auto; font-size: clamp(16px, 2.1vw, 20px); }
+
+    .alchemy-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 24px 0 36px; }
+    .alchemy-cell {
+      border: 1px solid var(--alchemy-line);
+      border-radius: 16px;
+      background: rgba(8, 13, 20, 0.76);
+      padding: 16px;
+      min-height: 156px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .alchemy-cell:hover { transform: translateY(-2px); border-color: rgba(217, 188, 116, 0.5); }
+    .alchemy-cell h2 { margin: 0 0 8px; font: 700 14px/1.25 'Cinzel', serif; letter-spacing: .08em; text-transform: uppercase; }
+    .alchemy-cell p { margin: 0; color: var(--alchemy-dim); font-size: 14px; line-height: 1.55; }
+    .earth h2 { color: var(--alchemy-earth); }
+    .water h2 { color: var(--alchemy-water); }
+    .air h2 { color: var(--alchemy-air); }
+    .fire h2 { color: var(--alchemy-fire); }
+
+    .alchemy-body { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; margin-bottom: 42px; }
+    .alchemy-panel {
+      border: 1px solid var(--alchemy-line);
+      border-radius: 18px;
+      padding: 24px;
+      background: rgba(5, 8, 12, 0.72);
+    }
+    .alchemy-panel h3 { margin: 0 0 10px; font: 600 24px/1.2 'Cinzel', serif; }
+    .alchemy-panel p { color: var(--alchemy-dim); line-height: 1.72; }
+    .alchemy-panel ul { margin: 12px 0 0 18px; color: var(--alchemy-dim); line-height: 1.8; }
+    .alchemy-cta {
+      margin-top: 18px;
+      display: inline-block;
+      border: 1px solid var(--alchemy-gold);
+      color: #111;
+      background: linear-gradient(135deg, #f3dfac, #d9bc74);
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+    .alchemy-note { font-size: 13px; color: #95a7b8; margin-top: 12px; }
+
+    .phase-list { display: grid; gap: 12px; }
+    .phase-item {
+      border: 1px solid var(--alchemy-line);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(12, 18, 25, 0.6);
+      position: relative;
+    }
+    .phase-item::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 16px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--alchemy-gold);
+      box-shadow: 0 0 14px rgba(217,188,116,.6);
+    }
+    .phase-item h4 { margin: 0 0 6px 16px; font-size: 15px; color: var(--alchemy-text); }
+    .phase-item p { margin: 0 0 0 16px; color: var(--alchemy-dim); font-size: 14px; }
+
+    .alchemy-footer-quote {
+      text-align: center;
+      color: var(--alchemy-dim);
+      font-size: 19px;
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 960px) {
+      .alchemy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .alchemy-body { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .alchemy-grid { grid-template-columns: 1fr; }
+      .alchemy-wrap { padding: 24px 16px 64px; }
+      .alchemy-hero { padding: 32px 18px; }
+    }
+  </style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<main class="alchemy-wrap">
+  <section class="alchemy-hero">
+    <div class="alchemy-kicker">Higher Self Activated</div>
+    <h1 class="alchemy-title">4 Phase Alchemy</h1>
+    <p class="alchemy-subtitle">A grounded framework for tuning your four core layers: physical vessel, fluid system, breath bridge, and mental field.</p>
+  </section>
+
+  <section class="alchemy-grid" aria-label="4 phases overview">
+    <article class="alchemy-cell earth">
+      <h2>Solid · Earth · Touch · Body</h2>
+      <p>Structure, nourishment, movement, and physical integrity.</p>
+    </article>
+    <article class="alchemy-cell water">
+      <h2>Liquid · Water · Taste · Blood/Lymph</h2>
+      <p>Hydration, mineral balance, conductivity, and purification.</p>
+    </article>
+    <article class="alchemy-cell air">
+      <h2>Gas · Air · Smell · Breath</h2>
+      <p>The conscious bridge between intent and biological state.</p>
+    </article>
+    <article class="alchemy-cell fire">
+      <h2>Plasma · Fire · Vision/Hearing · Mind</h2>
+      <p>The interface where perception, focus, and will shape reality.</p>
+    </article>
+  </section>
+
+  <section class="alchemy-body">
+    <article class="alchemy-panel">
+      <h3>What This Is</h3>
+      <p>The 4 Phase Alchemy model maps the classic phases of matter into a practical self-development sequence. Instead of treating body, blood, breath, and mind as separate worlds, it treats them as connected layers of one system.</p>
+      <p>Work each layer deliberately and your whole signal gets cleaner: better energy, better focus, better self-command.</p>
+
+      <h3>Core Practices</h3>
+      <ul>
+        <li>Refine your inputs: cleaner food choices, less processed load, steadier routines.</li>
+        <li>Upgrade hydration and mineral support to improve internal flow.</li>
+        <li>Train full-cycle breathing to regulate state and sharpen presence.</li>
+        <li>Build discipline through stillness, meditation, and conscious non-reaction.</li>
+      </ul>
+
+      <a class="alchemy-cta" href="https://www.skool.com/simulation-hackers-3132">Join the Group</a>
+      <p class="alchemy-note">Educational framework only. Not medical advice.</p>
+    </article>
+
+    <aside class="phase-list" aria-label="phase breakdown">
+      <article class="phase-item">
+        <h4>Phase 1: Physical Vessel</h4>
+        <p>Strength and flexibility practices, intentional nutrition, and removing obvious drains.</p>
+      </article>
+      <article class="phase-item">
+        <h4>Phase 2: Embodying Awareness</h4>
+        <p>Hydration quality, alkalinity awareness, and supportive daily concoctions.</p>
+      </article>
+      <article class="phase-item">
+        <h4>Phase 3: Breath Bridge</h4>
+        <p>Use breath to calm, energize, and direct attention with precision.</p>
+      </article>
+      <article class="phase-item">
+        <h4>Phase 4: Mental Interface</h4>
+        <p>Meditation and disciplined focus to shift from automatic reaction to conscious creation.</p>
+      </article>
+    </aside>
+  </section>
+
+  <p class="alchemy-footer-quote">"To optimize oneself is to tend each layer individually, then integrate them as one field of awareness."</p>
+</main>
+
+<footer class="footer" id="footer"></footer>
+
+<script src="/js/app.js"></script>
+<script>
+  if (typeof loadNav === 'function') loadNav();
+  if (typeof loadFooter === 'function') loadFooter();
+</script>
+</body>
+</html>
+

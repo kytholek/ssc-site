@@ -156,6 +156,58 @@ body { padding-top: 64px; }
 .nav-links {
   display: flex; align-items: center; gap: 4px;
 }
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.nav-dropdown-toggle::after {
+  content: '▾';
+  font-size: 10px;
+  margin-left: 6px;
+  opacity: .75;
+}
+.nav-submenu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  min-width: 220px;
+  background: rgba(10, 10, 16, .98);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(0,0,0,.45);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  z-index: 250;
+}
+.nav-dropdown:hover .nav-submenu,
+.nav-dropdown:focus-within .nav-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-submenu-link {
+  font-family: 'Cormorant SC', serif;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+.nav-submenu-link:hover {
+  color: var(--gold);
+  border-color: var(--border-mid);
+  background: rgba(201,168,76,.06);
+}
 .nav-link {
   font-family: 'Cormorant SC', serif; font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
   color: var(--text-dim); background: none; border: none; cursor: pointer;
@@ -190,6 +242,12 @@ body { padding-top: 64px; }
 }
 .nav-mobile.open { display: flex; }
 .nav-mobile .nav-link { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid var(--border-dim); border-radius: 0; }
+.nav-mobile .nav-link.nav-mobile-sub {
+  padding-left: 36px;
+  font-size: 12px;
+  letter-spacing: .18em;
+  color: var(--gold);
+}
 .nav-mobile .nav-cta { margin-top: 16px; text-align: center; }
 
 /* ═══════════════════════════════════════
@@ -4445,4 +4503,3 @@ footer {
   text-transform: uppercase;
   color: var(--gold-dim);
 }
-
