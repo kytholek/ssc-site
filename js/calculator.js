@@ -341,10 +341,10 @@ function buildFreqCard(n, rootKey, freqIndex, opts) {
   var hasCompound = compound && compound !== n && compound > 9;
   var borderStyle = isLast ? '' : 'border-right:1px solid rgba(255,255,255,0.06)';
   var codexHtml   = showCodex && getCodexPlacement(n)
-    ? '<div class="ssc-cdx" style="font-family:\'Cinzel\',serif;letter-spacing:.28em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:10px">' + getCodexPlacement(n) + '</div>'
+    ? '<div class="ssc-cdx" style="font-family:\'Cinzel\',serif;letter-spacing:.22em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:12px">' + getCodexPlacement(n) + '</div>'
     : '';
   var essenceHtml = displayEssence
-    ? '<div class="ssc-ess" style="font-family:\'Cinzel\',serif;letter-spacing:.2em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:8px">' + displayEssence + '</div>'
+    ? '<div class="ssc-ess" style="font-family:\'Cinzel\',serif;letter-spacing:.14em;text-transform:uppercase;color:' + accentDim + ';margin-bottom:10px">' + displayEssence + '</div>'
     : '';
   var displayNum  = hasCompound ? compound + '/' + n : n;
   var compoundHtml = (hasCompound && COMPOUND_DESC[compound])
@@ -362,10 +362,10 @@ function buildFreqCard(n, rootKey, freqIndex, opts) {
   return '<div class="ssc-fc" style="' + borderStyle + ';min-width:0;box-sizing:border-box">'
     + codexHtml
     + '<div class="ssc-fn" style="font-family:\'Cinzel Decorative\',serif;color:' + accent + ';line-height:1;margin-bottom:10px">' + displayNum + '</div>'
-    + '<div class="ssc-role" style="font-family:\'Cinzel\',serif;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">' + role + '</div>'
-    + '<div class="ssc-lbl" style="font-family:\'Cinzel\',serif;letter-spacing:.14em;text-transform:uppercase;color:' + accentLight + ';margin-bottom:5px">' + label + (displayName ? ' · ' + displayName : '') + '</div>'
+    + '<div class="ssc-role" style="font-family:\'Cinzel\',serif;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px">' + role + '</div>'
+    + '<div class="ssc-lbl" style="font-family:\'Cinzel\',serif;letter-spacing:.1em;text-transform:uppercase;color:' + accentLight + ';margin-bottom:8px">' + label + (displayName ? ' · ' + displayName : '') + '</div>'
     + essenceHtml
-    + '<p class="ssc-fp" style="font-family:\'EB Garamond\',serif;color:var(--text-dim);margin:0;line-height:1.75">' + interp + '</p>'
+    + '<p class="ssc-fp" style="font-family:\'EB Garamond\',serif;color:var(--text);margin:0;line-height:1.82">' + interp + '</p>'
     + compoundHtml
     + '</div>';
 }
@@ -389,9 +389,9 @@ function buildTrinitySection(titleSuffix, subtitle, borderColor, bgColor, cards,
   return '<div class="ssc-tr" style="margin-bottom:28px;border:1px solid ' + borderColor + ';border-radius:12px;overflow:hidden">'
     + '<div style="height:2px;background:linear-gradient(90deg,transparent,' + accentLight + ',' + accentLight + ',transparent);opacity:0.5"></div>'
     + '<div class="ssc-th" style="padding:14px 20px;background:' + bgColor + ';border-bottom:1px solid ' + borderColor + '">'
-    + '<div style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:4px">Trinity</div>'
-    + '<div style="font-family:\'Cinzel\',serif;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:' + accentLight + '">' + titleSuffix + '</div>'
-    + '<div style="font-family:\'EB Garamond\',serif;font-size:13px;color:rgba(255,255,255,0.42);margin-top:3px;font-style:italic;letter-spacing:.02em">' + subtitle + '</div>'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,0.32);margin-bottom:6px">Trinity</div>'
+    + '<div style="font-family:\'Cinzel\',serif;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:' + accentLight + '">' + titleSuffix + '</div>'
+    + '<div style="font-family:\'EB Garamond\',serif;font-size:15px;color:rgba(255,255,255,0.62);margin-top:6px;font-style:italic;letter-spacing:.01em">' + subtitle + '</div>'
     + '</div>'
     + '<div class="ssc-tg" style="display:grid;grid-template-columns:repeat(3,1fr)">'
     + cardHtml
@@ -533,43 +533,50 @@ function _doCalculateReading(month, day, year, fullName, btn, origBtnText) {
   document.getElementById('results-area').innerHTML = `
     <style>
       .ssc-rw { }
-      .ssc-fc  { padding: 20px 15px; }
-      .ssc-fn  { font-size: 30px; }
-      .ssc-fp  { font-size: 13px; }
-      .ssc-role{ font-size: 7px; }
-      .ssc-lbl { font-size: 9px; }
-      .ssc-ess { font-size: 7px; }
-      .ssc-cdx { font-size: 7px; }
+      .ssc-fc  { padding: 22px 18px; }
+      .ssc-fn  { font-size: 34px; }
+      .ssc-fp  { font-size: 16px; }
+      .ssc-role{ font-size: 10px; }
+      .ssc-lbl { font-size: 12px; }
+      .ssc-ess { font-size: 10px; }
+      .ssc-cdx { font-size: 10px; }
       @media (min-width: 680px) {
         .ssc-rw  { max-width: 1100px; margin: 0 auto; }
         .ssc-fc  { padding: 28px 22px !important; }
         .ssc-fn  { font-size: 48px !important; margin-bottom: 14px !important; }
-        .ssc-fp  { font-size: 15px !important; }
-        .ssc-role{ font-size: 8px !important; margin-bottom: 5px !important; }
-        .ssc-lbl { font-size: 10.5px !important; margin-bottom: 6px !important; }
-        .ssc-ess { font-size: 8px !important; margin-bottom: 10px !important; }
-        .ssc-cdx { font-size: 8px !important; margin-bottom: 12px !important; }
+        .ssc-fp  { font-size: 17px !important; line-height: 1.82 !important; }
+        .ssc-role{ font-size: 10px !important; margin-bottom: 7px !important; }
+        .ssc-lbl { font-size: 12px !important; margin-bottom: 8px !important; }
+        .ssc-ess { font-size: 10px !important; margin-bottom: 12px !important; }
+        .ssc-cdx { font-size: 10px !important; margin-bottom: 14px !important; }
         .ssc-th  { padding: 18px 26px !important; }
         .ssc-tr  { border-radius: 14px !important; margin-bottom: 32px !important; }
       }
       @media (max-width: 679px) {
+        .ssc-mobile-head { margin-bottom: 30px !important; padding-bottom: 24px !important; }
+        .ssc-mobile-chart { margin-bottom: 32px !important; }
         .ssc-tg  { grid-template-columns: 1fr !important; }
-        .ssc-fc  { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .ssc-fc  { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 26px 20px !important; }
         .ssc-fc:last-child { border-bottom: none !important; }
-        .ssc-fn  { font-size: 36px !important; }
-        .ssc-fp  { font-size: 14px !important; }
-        .ssc-tr  { margin-bottom: 24px !important; }
+        .ssc-fn  { font-size: 40px !important; margin-bottom: 12px !important; }
+        .ssc-fp  { font-size: 17px !important; line-height: 1.88 !important; }
+        .ssc-role{ font-size: 11px !important; margin-bottom: 8px !important; }
+        .ssc-lbl { font-size: 13px !important; margin-bottom: 10px !important; }
+        .ssc-ess { font-size: 11px !important; margin-bottom: 12px !important; }
+        .ssc-cdx { font-size: 11px !important; margin-bottom: 14px !important; }
+        .ssc-th  { padding: 16px 18px !important; }
+        .ssc-tr  { margin-bottom: 28px !important; border-radius: 14px !important; }
         .ssc-compound-p { font-size: 12px !important; }
       }
     </style>
     <div class="ssc-rw">
-      <div style="text-align:center;margin-bottom:40px;padding-bottom:32px;position:relative">
-        <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px">${readingFor}</div>
+      <div class="ssc-mobile-head" style="text-align:center;margin-bottom:40px;padding-bottom:32px;position:relative">
+        <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px">${readingFor}</div>
         <div style="font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold);letter-spacing:.04em;line-height:1.2">${fullName}</div>
-        <div style="font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;opacity:.75">Your Complete Frequency Blueprint</div>
+        <div style="font-family:'Cormorant SC',serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;opacity:.85">Your Complete Frequency Blueprint</div>
         <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
       </div>
-      <div style="display:flex;justify-content:center;margin-bottom:44px">
+      <div class="ssc-mobile-chart" style="display:flex;justify-content:center;margin-bottom:44px">
         ${buildFreqChart(numbers)}
       </div>
       ${lessonsBlock}
@@ -994,3 +1001,4 @@ document.addEventListener('click', function(e) {
     handleUnlockPayment();
   }
 });
+
