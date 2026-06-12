@@ -557,3 +557,132 @@ nav a:hover, [class*="nav-links"] a:hover { color: var(--teal) !important; }
   background: rgba(0,229,204,0.25);
   color: var(--white);
 }
+
+/* ==========================================================================
+   READABILITY OVERRIDES
+   Backup: css/backup-before-readable-charcoal-2026-06-12
+   Keep the RPG flavor while restoring readable shared navigation and text.
+   ========================================================================== */
+:root {
+  --bg-deep: #111214;
+  --bg-panel: #17191c;
+  --bg-panel2: #1d2024;
+  --bg-inset: #23272d;
+  --void: #111214;
+  --deep: #17191c;
+  --abyss: #1d2024;
+  --gold: #d8b75f;
+  --gold-bright: #f0d27a;
+  --gold-light: #f0d27a;
+  --gold-dim: #a98942;
+  --teal: #5aa6a4;
+  --teal-light: #8bd2cf;
+  --teal-dim: #3f7d7b;
+  --amethyst: #8f6bb3;
+  --mystic: #5f4784;
+  --text: #f2eee5;
+  --text-dim: #c8c0b3;
+  --text-muted: #a79f93;
+  --white: #f2eee5;
+  --border: rgba(242,238,229,0.16);
+  --border-glow: rgba(242,238,229,0.22);
+}
+
+body {
+  background: var(--bg-deep) !important;
+  color: var(--text) !important;
+}
+
+body::before {
+  opacity: 0.18;
+}
+
+body::after {
+  background: radial-gradient(ellipse at 50% 50%, transparent 66%, rgba(0,0,0,0.28) 100%);
+}
+
+nav,
+.site-nav,
+#site-nav,
+[class*="nav-wrap"],
+[class*="navbar"] {
+  background: rgba(17,18,20,0.96) !important;
+  border-bottom: 1px solid rgba(242,238,229,0.10) !important;
+  min-height: 72px !important;
+}
+
+.nav-logo,
+.site-logo,
+[class*="logo"] a,
+[class*="logo"] span {
+  font-family: 'Cinzel', serif !important;
+  font-size: 12px !important;
+  letter-spacing: 0.12em !important;
+  color: var(--gold-light) !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+nav a,
+.nav-link,
+[class*="nav-links"] a,
+nav.nav-hero .nav-link,
+nav.nav-hero .nav-cta,
+nav.nav-hero a {
+  font-family: 'Cormorant SC', serif !important;
+  font-size: 14px !important;
+  letter-spacing: 0.08em !important;
+  color: var(--text-dim) !important;
+  line-height: 1.2 !important;
+}
+
+nav a:hover,
+[class*="nav-links"] a:hover,
+.nav-link:hover,
+.nav-link.active {
+  color: var(--gold-light) !important;
+  background: rgba(216,183,95,0.10) !important;
+}
+
+.nav-cta,
+nav.nav-hero .nav-cta {
+  color: #111214 !important;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light)) !important;
+  border: 1px solid rgba(240,210,122,0.42) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.08em !important;
+  padding: 12px 18px !important;
+}
+
+.nav-mobile {
+  background: rgba(17,18,20,0.985) !important;
+}
+
+.nav-mobile .nav-link,
+.nav-mobile .nav-link.nav-mobile-sub {
+  font-size: 18px !important;
+  letter-spacing: 0.04em !important;
+  color: var(--text-dim) !important;
+  padding: 18px 16px !important;
+}
+
+.nav-mobile .nav-link.nav-mobile-sub {
+  color: var(--gold-light) !important;
+  font-size: 16px !important;
+}
+
+.page:not(#page-services):not(#page-calculator) [class*="-body"],
+.page:not(#page-services):not(#page-calculator) p,
+.page:not(#page-services):not(#page-calculator) li {
+  color: var(--text-dim) !important;
+  font-size: max(16px, 1rem) !important;
+  line-height: 1.72 !important;
+}
+
+.page:not(#page-services):not(#page-calculator) [class*="eyebrow"],
+.page:not(#page-services):not(#page-calculator) [class*="-meta"],
+.page:not(#page-services):not(#page-calculator) [class*="-label"] {
+  color: var(--text-muted) !important;
+  font-size: max(11px, 0.72rem) !important;
+  letter-spacing: 0.14em !important;
+}
