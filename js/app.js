@@ -775,6 +775,7 @@ async function handleDeepLink() {
 //  INIT
 // ────────────────────────────────────────────────────────────
 async function initApp() {
+  initTheme();
   await handleDeepLink();
   // Apply saved language preference on every load
   applyLanguage(getLang());
@@ -1235,10 +1236,13 @@ function _initNavHero() {
 //  EXPOSE to inline onclick attributes
 // ────────────────────────────────────────────────────────────
 window.toggleMenu = toggleMenu;
-window.showPage   = showPage;
-window.openPost   = openPost;
-window.closePosts = closePosts;
-window.filterBlog = filterBlog;
+window.toggleTheme = toggleTheme;
+window.setTheme    = setTheme;
+window.getTheme    = getTheme;
+window.showPage    = showPage;
+window.openPost    = openPost;
+window.closePosts  = closePosts;
+window.filterBlog  = filterBlog;
 
 
 // ────────────────────────────────────────────────────────────
@@ -1261,6 +1265,50 @@ const I18N_DEFAULT = 'en';
 // Returns the active language ('en' or 'es')
 function getLang() {
   return localStorage.getItem(I18N_KEY) || I18N_DEFAULT;
+}
+
+const THEME_KEY = 'ssc-theme';
+
+function getTheme() {
+  const stored = localStorage.getItem(THEME_KEY);
+  return stored === 'dark' ? 'dark' : 'light';
+}
+
+function _updateThemeToggle(theme) {
+  const label = theme === 'dark' ? 'Light' : 'Dark';
+  const aria = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+  const title = theme === 'dark' ? 'Switch theme to light' : 'Switch theme to dark';
+
+  ['theme-toggle', 'theme-toggle-mobile'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.textContent = label;
+    btn.setAttribute('aria-label', aria);
+    btn.setAttribute('title', title);
+  });
+}
+
+function setTheme(theme, save = true) {
+  theme = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = theme;
+
+  if (save) {
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (err) {
+      // ignore storage failures
+    }
+  }
+
+  _updateThemeToggle(theme);
+}
+
+function toggleTheme() {
+  setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+}
+
+function initTheme() {
+  setTheme(getTheme(), false);
 }
 
 // Swap to a language and re-render all keyed elements

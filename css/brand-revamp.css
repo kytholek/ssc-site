@@ -1085,6 +1085,7 @@
   margin-bottom: 10px;
 }
 .svc-card--featured .svc-card-tier { color: var(--amethyst-light); }
+.svc-card--consult .svc-card-tier { color: var(--teal) !important; }
 .svc-card--membership .svc-card-tier { color: var(--teal); }
 
 .svc-card-name {
@@ -1097,6 +1098,8 @@
   letter-spacing: .04em;
   font-variant: small-caps;
 }
+.svc-card--written .svc-card-name { color: var(--gold-light) !important; }
+.svc-card--consult .svc-card-name { color: var(--teal-light) !important; }
 .svc-card--featured .svc-card-name { color: var(--amethyst-light); }
 .svc-card--membership .svc-card-name { color: var(--teal-light); }
 
@@ -1174,6 +1177,311 @@
   flex-direction: column;
   gap: 12px;
 }
+
+/* ── LIGHT THEME OVERRIDES — last CSS loaded for theme switch */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --void: #fcfbf7;
+  --deep: #f4efe3;
+  --abyss: #e9e3d6;
+  --panel: #ffffff;
+  --surface: #faf3eb;
+  --gold: #8f7c4f;
+  --gold-light: #c5aa78;
+  --gold-dim: #7b6a49;
+  --amethyst: #7e6f9d;
+  --amethyst-light: #b39fc8;
+  --mystic: #5f5483;
+  --teal: #4c7f7f;
+  --teal-light: #85b6b4;
+  --rose: #9b627c;
+  --rose-light: #c58f9f;
+  --text: #1f1a14;
+  --text-dim: #5a5242;
+  --text-muted: #7e7568;
+  --border: rgba(0,0,0,0.1);
+  --border-dim: rgba(0,0,0,0.06);
+  --border-mid: rgba(0,0,0,0.08);
+}
+
+html[data-theme='light'] body {
+  background: var(--void) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] body::before {
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+html[data-theme='light'] nav,
+html[data-theme='light'] .nav-mobile {
+  background: rgba(255,255,255,0.95) !important;
+  border-color: rgba(0,0,0,0.08) !important;
+}
+
+html[data-theme='light'] nav.nav-hero:not(.breadcrumb) {
+  background: rgba(255,255,255,0.95) !important;
+  border-bottom-color: rgba(0,0,0,0.08) !important;
+}
+
+html[data-theme='light'] nav.nav-hero:not(.breadcrumb) .nav-link,
+html[data-theme='light'] nav.nav-hero:not(.breadcrumb) .nav-cta,
+html[data-theme='light'] nav.nav-hero:not(.breadcrumb) a {
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] .svc-card-tagline,
+html[data-theme='light'] .svc-feature,
+html[data-theme='light'] .svc-feature--muted {
+  color: #ffffff !important;
+}
+
+html[data-theme='light'] .nav-link,
+html[data-theme='light'] .nav-dropdown-toggle,
+html[data-theme='light'] .nav-logo-text,
+html[data-theme='light'] .nav-hamburger span,
+html[data-theme='light'] .lang-toggle,
+html[data-theme='light'] .theme-toggle {
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] a {
+  color: var(--gold) !important;
+}
+
+html[data-theme='light'] .nav-cta {
+  color: var(--void) !important;
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold)) !important;
+}
+
+/* Light theme — blog/card surfaces */
+html[data-theme='light'] .blog-idx-card,
+html[data-theme='light'] .about-card,
+html[data-theme='light'] .home-circuit,
+html[data-theme='light'] .freq-card,
+html[data-theme='light'] .testimonial-card,
+html[data-theme='light'] .modal-card {
+  background: rgba(255,255,255,0.98) !important;
+  border-color: rgba(0,0,0,0.06) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] .blog-idx-card a,
+html[data-theme='light'] .blog-idx-card-title,
+html[data-theme='light'] .blog-card-title {
+  color: var(--gold) !important;
+}
+
+html[data-theme='light'] .blog-idx-card-meta,
+html[data-theme='light'] .blog-card-meta,
+html[data-theme='light'] .section-eyebrow {
+  color: var(--text-dim) !important;
+}
+
+html[data-theme='light'] .nav-logo-text {
+  color: var(--gold-dim) !important;
+}
+
+html[data-theme='light'] h1,
+html[data-theme='light'] h2,
+html[data-theme='light'] h3,
+html[data-theme='light'] h4,
+html[data-theme='light'] h5,
+html[data-theme='light'] h6,
+html[data-theme='light'] .section-title,
+html[data-theme='light'] .hero-title,
+html[data-theme='light'] .hp-hero-title,
+html[data-theme='light'] .blog-post-title,
+html[data-theme='light'] .blog-idx-card-title,
+html[data-theme='light'] .blog-card-title,
+html[data-theme='light'] .system-section-title,
+html[data-theme='light'] .book-section-title,
+html[data-theme='light'] .books-section-title,
+html[data-theme='light'] .about-section-title,
+html[data-theme='light'] .privacy-section-title,
+html[data-theme='light'] .blog-section-title,
+html[data-theme='light'] .unlock-title,
+html[data-theme='light'] .svc-card-name,
+html[data-theme='light'] .calc-page-title,
+html[data-theme='light'] .home-circuit-title {
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] .page:not(#page-services):not(#page-calculator) .hp-hero-title {
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+html[data-theme='light'] .page:not(#page-services):not(#page-calculator) .hp-hero-title span {
+  color: var(--teal) !important;
+  text-shadow: none !important;
+}
+
+/* Ensure blog/article copy is dark in light theme */
+html[data-theme='light'] .post-body,
+html[data-theme='light'] .blog-post-content,
+html[data-theme='light'] .blog-post,
+html[data-theme='light'] .post-body p,
+html[data-theme='light'] .blog-post p,
+html[data-theme='light'] .post-body li,
+html[data-theme='light'] .blog-post li {
+  color: #000000 !important;
+}
+
+html[data-theme='light'] .post-body h2,
+html[data-theme='light'] .post-body h3,
+html[data-theme='light'] .blog-post h2,
+html[data-theme='light'] .blog-post h3 {
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] .section-eyebrow,
+html[data-theme='light'] .hero-eyebrow,
+html[data-theme='light'] .svc-card-tier,
+html[data-theme='light'] .svc-price-cadence,
+html[data-theme='light'] .unlock-eyebrow,
+html[data-theme='light'] .blog-idx-card-meta,
+html[data-theme='light'] .blog-card-meta,
+html[data-theme='light'] .form-section-label,
+html[data-theme='light'] .section-subtitle,
+html[data-theme='light'] .hero-body,
+html[data-theme='light'] .section-body,
+html[data-theme='light'] .blog-hero-body,
+html[data-theme='light'] .about-col-body,
+html[data-theme='light'] .home-circuit-body,
+html[data-theme='light'] .hiw-step-body,
+html[data-theme='light'] .unlock-body {
+  color: var(--text-dim) !important;
+}
+
+html[data-theme='light'] .post-body h2,
+html[data-theme='light'] .blog-post h2,
+html[data-theme='light'] article h2,
+html[data-theme='light'] .post-body h3,
+html[data-theme='light'] .blog-post h3,
+html[data-theme='light'] article h3 {
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] .home-circuit {
+  background: rgba(255,255,255,0.92) !important;
+  border-color: rgba(0,0,0,0.08) !important;
+}
+
+html[data-theme='light'] .home-circuit::before {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent) !important;
+}
+
+html[data-theme='light'] .home-circuit--external {
+  border-top-color: rgba(139,120,92,0.5) !important;
+}
+
+html[data-theme='light'] .home-circuit--internal {
+  border-top-color: rgba(76,127,127,0.5) !important;
+}
+
+html[data-theme='light'] .home-circuit-label {
+  color: var(--gold-dim) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme='light'] .home-circuit--internal .home-circuit-label {
+  color: var(--teal) !important;
+  opacity: 0.9 !important;
+}
+
+html[data-theme='light'] .home-circuit-name,
+html[data-theme='light'] .home-circuit--internal .home-circuit-name {
+  color: var(--text) !important;
+}
+
+html[data-theme='light'] .home-circuit-divider-line {
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.08), transparent) !important;
+}
+
+html[data-theme='light'] .home-circuit-divider-gem {
+  color: var(--gold-dim) !important;
+}
+
+html[data-theme='light'] #page-home .hp-hero,
+html[data-theme='light'] #page-home .hp-ssc,
+html[data-theme='light'] #page-home .hp-scl-section,
+html[data-theme='light'] #page-home .hp-tester-section,
+html[data-theme='light'] #page-home .hp-freq-calling-wrap,
+html[data-theme='light'] #page-home .hp-article-card,
+html[data-theme='light'] #page-home .hp-freq-chip,
+html[data-theme='light'] #page-home .hp-article-body {
+  background: rgba(255,255,255,0.96) !important;
+  border-color: rgba(0,0,0,0.08) !important;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.06) !important;
+}
+
+html[data-theme='light'] #page-home .hp-hero-title,
+html[data-theme='light'] #page-home .hp-scl-title,
+html[data-theme='light'] #page-home .hp-tester-title,
+html[data-theme='light'] #page-home .hp-article-title,
+html[data-theme='light'] #page-home .hp-how-title,
+html[data-theme='light'] #page-home .hp-stat-num,
+html[data-theme='light'] #page-home .hp-email-title {
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+html[data-theme='light'] #page-home .hp-hero-eyebrow,
+html[data-theme='light'] #page-home .hp-hero-sub,
+html[data-theme='light'] #page-home .hp-ssc-eyebrow,
+html[data-theme='light'] #page-home .hp-scl-eyebrow,
+html[data-theme='light'] #page-home .hp-tester-label,
+html[data-theme='light'] #page-home .hp-tester-sub,
+html[data-theme='light'] #page-home .hp-tester-body,
+html[data-theme='light'] #page-home .hp-tester-step-desc,
+html[data-theme='light'] #page-home .hp-article-tag,
+html[data-theme='light'] #page-home .hp-article-read,
+html[data-theme='light'] #page-home .hp-freq-chip strong,
+html[data-theme='light'] #page-home .hp-freq-chip span,
+html[data-theme='light'] #page-home .hp-freq-chip-read {
+  color: var(--text-dim) !important;
+  text-shadow: none !important;
+}
+
+html[data-theme='light'] #page-home .hp-tester-divider {
+  background: rgba(0,0,0,0.08) !important;
+}
+
+html[data-theme='light'] #page-home .hp-tester-btn {
+  background: var(--teal) !important;
+  color: var(--bg) !important;
+  box-shadow: 0 0 24px rgba(0,166,150,0.18) !important;
+}
+
+html[data-theme='light'] #page-home .hp-tester-step,
+html[data-theme='light'] #page-home .hp-article-card:hover .hp-article-title {
+  background: rgba(255,255,255,0.98) !important;
+}
+
+html[data-theme='light'] #page-home .hp-codex-node circle {
+  stroke: rgba(0,0,0,0.12) !important;
+  fill: rgba(255,255,255,0.96) !important;
+}
+
+html[data-theme='light'] #page-home .hp-codex-node text {
+  fill: var(--text-dim) !important;
+}
+
+html[data-theme='light'] #page-home .hp-codex-line {
+  stroke: rgba(0,0,0,0.1) !important;
+}
+
+html[data-theme='light'] #page-home .hp-codex-node--center circle {
+  stroke: var(--teal) !important;
+}
+
+html[data-theme='light'] #page-home .hp-codex-node--center text {
+  fill: var(--teal) !important;
+}
+
 
 .svc-feature {
   display: flex;
