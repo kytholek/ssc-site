@@ -495,6 +495,7 @@ async function loadNav() {
     // Replace placeholder with the actual nav
     if (newNav) {
       navPlaceholder.replaceWith(newNav);
+      _updateThemeToggle(getTheme());
       
       // Re-attach event listeners
       const hamburger = document.getElementById('hamburger');
@@ -512,8 +513,10 @@ window.loadNav = loadNav;
 
 async function loadFooter() {
   try {
-    const placeholder = document.getElementById('main-footer');
+    const placeholder = document.querySelector('#main-footer, #footer');
     if (!placeholder) return;
+    if (placeholder.innerHTML.trim().length > 0) return;
+
     const response = await fetch('/pages/footer.html');
     if (!response.ok) throw new Error('Failed to load footer');
     const html = await response.text();
@@ -1310,6 +1313,9 @@ function toggleTheme() {
 function initTheme() {
   setTheme(getTheme(), false);
 }
+
+document.addEventListener('DOMContentLoaded', initTheme);
+if (document.readyState !== 'loading') initTheme();
 
 // Swap to a language and re-render all keyed elements
 function setLang(lang) {
