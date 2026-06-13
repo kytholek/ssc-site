@@ -69,7 +69,7 @@ html[data-theme='light'] .field select:focus {
 }
 
 /* ══════════════════════════════════════════════════════════
-   NAV — upgrade sigil size + text refinement
+    — upgrade sigil size + text refinement
    ══════════════════════════════════════════════════════════ */
 .nav-logo-sigil {
   width: 36px;
@@ -1412,7 +1412,7 @@ html[data-theme='light'] .post-body h2,
 html[data-theme='light'] .post-body h3,
 html[data-theme='light'] .blog-post h2,
 html[data-theme='light'] .blog-post h3 {
-  color: var(--text) !important;
+  color: #000000 !important;
 }
 
 html[data-theme='light'] .section-eyebrow,
@@ -1440,7 +1440,7 @@ html[data-theme='light'] article h2,
 html[data-theme='light'] .post-body h3,
 html[data-theme='light'] .blog-post h3,
 html[data-theme='light'] article h3 {
-  color: var(--text) !important;
+  color: #000000 !important;
 }
 
 html[data-theme='light'] .home-circuit {
