@@ -1920,7 +1920,7 @@ footer {
   }
 }
 
-/* ═══�?/* ---- LAYER 4 � The Codex (matrix red-orange) ---- */
+/* ════ LAYER 4 - The Codex (matrix red-orange) ---- */
 .sim-layer-4 {
   background: linear-gradient(180deg, #000 0%, #020408 50%, #000 100%),
     radial-gradient(ellipse at 50% 20%, rgba(126,200,200,.12) 0%, transparent 50%),
@@ -2069,15 +2069,15 @@ footer {
   font-family: 'Cinzel', serif;
   font-size: clamp(20px, 5vw, 36px);
   font-weight: 700;
-  color: rgba(201,168,76,0.75);
+  color: rgba(255,223,115,1);
   line-height: 1;
-  text-shadow: 0 0 12px rgba(232,201,107,.3);
+  text-shadow: 0 0 22px rgba(255,223,115,.5);
   transition: all .3s;
 }
-.codex-node.pivot-plane .node-num { color: rgba(201,168,76,1); }
+.codex-node.pivot-plane .node-num { color: rgba(255,236,158,1); }
 .codex-node:hover .node-num {
-  text-shadow: 0 0 20px currentColor;
-  filter: brightness(1.3);
+  text-shadow: 0 0 26px currentColor;
+  filter: brightness(1.4);
 }
 
 /* Grid labels */
@@ -2105,7 +2105,7 @@ footer {
   .node-num { font-size: clamp(18px, 4vw, 28px); }
 }
 
-/* ---- LAYER 5 � CTA ---- */
+/* ---- LAYER 5 - CTA ---- */
 .sim-layer-5 {
   background: var(--void) !important;
   border-top: 1px solid var(--border-dim)!important;
@@ -2262,14 +2262,14 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   SSC BRAND REVAMP � v2 Additions
+   SSC BRAND REVAMP - v2 Additions
    Aligned with the new Codex Mark identity system.
    Import this AFTER style.css
    ---------------------------------------------------------- */
 
 
 /* ----------------------------------------------------------
-   NAV � upgrade sigil size + text refinement
+   NAV - upgrade sigil size + text refinement
    ---------------------------------------------------------- */
 .nav-logo-sigil {
   width: 36px;
@@ -2285,7 +2285,7 @@ footer {
   filter: drop-shadow(0 0 10px rgba(201,168,76,.5));
 }
 
-/* Pause rotation on hover � makes it feel intentional */
+/* Pause rotation on hover - makes it feel intentional */
 .nav-logo:hover .nav-logo-sigil {
   animation-play-state: paused;
 }
@@ -2303,7 +2303,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   HERO � Codex Mark sigil display
+   HERO - Codex Mark sigil display
    ---------------------------------------------------------- */
 .hero {
   padding-top: 100px;
@@ -2358,7 +2358,7 @@ footer {
   margin-bottom: 14px;
 }
 
-/* Hero title � Cormorant SC for gravitas */
+/* Hero title - Cormorant SC for gravitas */
 .hero-title {
   font-family: 'Cormorant SC', serif;
   font-weight: 400;
@@ -2390,7 +2390,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   CTA SIGIL � the mini sigil in layer 5
+   CTA SIGIL - the mini sigil in layer 5
    ---------------------------------------------------------- */
 .cta-sigil {
   width: 80px;
@@ -2441,7 +2441,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   SECTION TITLES � enforce Cormorant SC for hero-level
+   SECTION TITLES - enforce Cormorant SC for hero-level
    ---------------------------------------------------------- */
 .section-title {
   font-family: 'Cormorant SC', serif;
@@ -2454,7 +2454,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   BUTTONS � sharper contrast, brand-spec hierarchy
+   BUTTONS - sharper contrast, brand-spec hierarchy
    ---------------------------------------------------------- */
 .btn-primary {
   font-family: 'Cormorant SC', serif; font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
@@ -2482,7 +2482,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   FREQUENCY CARDS � richer brand-token theming
+   FREQUENCY CARDS - richer brand-token theming
    ---------------------------------------------------------- */
 .freq-card {
   background: rgba(13,11,24,.8);
@@ -2538,7 +2538,7 @@ footer {
   color: var(--text-dim);
 }
 
-/* Life Calling � the 5-pivot card */
+/* Life Calling - the 5-pivot card */
 .freq-card:nth-child(7) {
   background: linear-gradient(135deg, rgba(201,168,76,.07), rgba(123,79,166,.07));
   border: 1px solid rgba(201,168,76,.42);
@@ -2546,7 +2546,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   QUOTE BLOCK � enhanced frame
+   QUOTE BLOCK - enhanced frame
    ---------------------------------------------------------- */
 .quote-block {
   background: linear-gradient(135deg, rgba(17,15,31,.9), rgba(32,29,58,.8));
@@ -2588,7 +2588,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   FORM INPUTS � subtler refinement
+   FORM INPUTS - subtler refinement
    ---------------------------------------------------------- */
 .field select, .field input {
   background: rgba(5,4,10,.9);
@@ -2608,7 +2608,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   DIVIDER GEM � brand-spec golden diamond
+   DIVIDER GEM - brand-spec golden diamond
    ---------------------------------------------------------- */
 .divider-gem {
   width: 9px;
@@ -2621,7 +2621,7 @@ footer {
 }
 
 /* ----------------------------------------------------------
-   SCROLL INDICATOR � refined
+   SCROLL INDICATOR - refined
    ---------------------------------------------------------- */
 .scroll-indicator {
   font-family: 'Cormorant SC', serif;
@@ -2664,7 +2664,7 @@ footer {
    ABOUT PAGE
    ---------------------------------------------------------- */
 
-/* About hero � now uses same sigil size as hero but with amethyst glow */
+/* About hero - now uses same sigil size as hero but with amethyst glow */
 .about-avatar {
   width: 110px;
   height: 110px;
@@ -2706,7 +2706,7 @@ footer {
   margin: 0 auto;
 }
 
-/* About section title � replace the dot-surrounded style */
+/* About section title - replace the dot-surrounded style */
 .about-section-title {
   font-family: 'Cormorant SC', serif;
   font-size: 10px;
@@ -2739,7 +2739,7 @@ footer {
   display: block;
 }
 
-/* Pillars � richer brand feel */
+/* Pillars - richer brand feel */
 .pillars {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -2803,7 +2803,7 @@ footer {
    BLOG PAGE
    ---------------------------------------------------------- */
 
-/* Blog hero sigil � teal (Aether) themed since blog is the bridge */
+/* Blog hero sigil - teal (Aether) themed since blog is the bridge */
 .blog-hero-sigil {
   width: 80px;
   height: 80px;
@@ -2855,7 +2855,7 @@ footer {
   border: none;
 }
 
-/* Blog card � enhanced hover, tighter brand feel */
+/* Blog card - enhanced hover, tighter brand feel */
 .blog-card {
   background: rgba(13,11,24,.85);
   border: 1px solid var(--border-dim);
@@ -2880,7 +2880,7 @@ footer {
   box-shadow: 0 18px 52px rgba(0,0,0,.55), 0 0 0 1px rgba(201,168,76,.06);
 }
 
-/* Card banner � system cards get extra depth */
+/* Card banner - system cards get extra depth */
 .blog-card-banner-system {
   background: linear-gradient(135deg, #05040a 0%, #0d0a1a 50%, #050810 100%);
   position: relative;
@@ -2904,7 +2904,7 @@ footer {
   50%      { opacity: 1; }
 }
 
-/* System glyph � gold/teal/teal gradient text */
+/* System glyph - gold/teal/teal gradient text */
 .system-glyph {
   font-family: 'Cormorant SC', serif;
   font-size: 28px !important;
