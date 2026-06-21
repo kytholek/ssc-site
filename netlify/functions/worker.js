@@ -952,7 +952,7 @@ async function handleCreateCheckout(request, env, origin) {
       'mode':                                           'payment',
       'customer_email':                                 email,
       'line_items[0][price_data][currency]':            'usd',
-      'line_items[0][price_data][unit_amount]':         '2200',
+      'line_items[0][price_data][unit_amount]':         '1100',
       'line_items[0][price_data][product_data][name]':  'SSC Guidebook Report',
       'line_items[0][price_data][product_data][description]': 'Your complete personalised frequency guidebook — all 7 frequencies decoded, shadow work, and Life Calling directive. Delivered as a PDF.',
       'line_items[0][quantity]':                        '1',
@@ -975,7 +975,7 @@ async function handleCreateCheckout(request, env, origin) {
     const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method:  'POST',
       headers: {
-        'Authorization': `Bearer ${env.STRIPE_SECRET}`,
+        'Authorization': `Bearer ${env.STRIPE_SECRET || env.STRIPE_SECRET_KEY}`,
         'Content-Type':  'application/x-www-form-urlencoded',
       },
       body: params.toString(),

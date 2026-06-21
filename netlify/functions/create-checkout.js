@@ -68,7 +68,15 @@ exports.handler = async (event) => {
 
   let stripe;
   try {
-    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const stripeKey = process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET;
+    if (!stripeKey) {
+      return {
+        statusCode: 500,
+        headers: { ...getCorsHeaders(event.headers.origin), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: 'Stripe is not configured on the server' }),
+      };
+    }
+    stripe = require('stripe')(stripeKey);
   } catch(e) {
     return {
       statusCode: 500,

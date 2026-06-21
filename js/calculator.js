@@ -5,6 +5,8 @@
  * Required by: app.js (window.calculateReading, window.buildFreqChart)
  */
 
+var SSC_CHECKOUT_URL = '/.netlify/functions/create-checkout';
+
 /* ═══════════════════════════════════════════════════════════════
    i18n helper — reads from SSC_TRANSLATIONS if available,
    falls back to the English value stored in the data objects.
@@ -485,7 +487,9 @@ function calculateReading() {
   }, 300);
 }
 
-function _doCalculateReading(month, day, year, fullName, btn, origBtnText) {
+function _doCalculateReading(month, day, year, fullName, btn, origBtnText, resultsEl) {
+  var resultsTarget = resultsEl || document.getElementById('results-area');
+  if (!resultsTarget) return;
 
   const lp      = calcLifePath(month, day, year);
   const exp     = calcExpression(fullName);
@@ -530,7 +534,7 @@ function _doCalculateReading(month, day, year, fullName, btn, origBtnText) {
 
   const hookCopy = buildResultHook(firstName, lp.root, exp.root, calling.root);
 
-  document.getElementById('results-area').innerHTML = `
+  resultsTarget.innerHTML = `
     <style>
       .ssc-rw { }
       .ssc-fc  { padding: 22px 18px; }
@@ -947,7 +951,7 @@ function handleUnlockPayment() {
 
   console.log('Sending payload:', JSON.stringify(payload));
 
-  fetch('/api/session', {
+  fetch(SSC_CHECKOUT_URL, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(payload),

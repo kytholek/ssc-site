@@ -60,7 +60,7 @@
 #page-codex .codex-spirit-svg {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   pointer-events: none;
 }
 
@@ -68,22 +68,21 @@
   position: absolute;
   inset: 0;
   z-index: 2;
+  pointer-events: none;
 }
 
 #page-codex .codex-hit-node {
   position: absolute;
-  width: 13%;
-  aspect-ratio: 1;
-  min-width: 44px;
-  min-height: 44px;
-  max-width: 88px;
-  max-height: 88px;
+  width: 12.35%;
+  height: 12.35%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+  pointer-events: auto;
   border-radius: 50%;
   border: 2px solid transparent;
   background: transparent;
-  transition: border-color .25s, box-shadow .25s, transform .25s cubic-bezier(.34,1.56,.64,1);
+  box-sizing: border-box;
+  transition: border-color .25s, box-shadow .25s;
   z-index: 10;
 }
 
@@ -91,7 +90,6 @@
 #page-codex .codex-hit-node.pinned {
   border-color: rgba(245,200,66,.55);
   box-shadow: 0 0 28px rgba(245,200,66,.25);
-  transform: translate(-50%, -50%) scale(1.08);
   z-index: 20;
 }
 
@@ -101,6 +99,11 @@
   box-shadow: 0 0 28px rgba(55,138,221,.3);
 }
 
+#page-codex .codex-hit-node[data-nature="aetheric"] {
+  width: 14.71%;
+  height: 14.71%;
+}
+
 #page-codex .codex-hit-node[data-nature="aetheric"]:hover,
 #page-codex .codex-hit-node[data-nature="aetheric"].pinned {
   border-color: rgba(192,192,224,.75);
@@ -108,6 +111,8 @@
 }
 
 #page-codex .node-tooltip { display: none; }
+#page-codex .node-name,
+#page-codex .node-dot { display: none !important; }
 
 /* Spirit SVG animations */
 @keyframes cdxspirit-pulse-elec { 0%,100%{opacity:0.55} 50%{opacity:1} }
@@ -165,68 +170,12 @@
 #page-codex .master-note { margin-top:24px; font-family:'Cinzel',serif; font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:rgba(245,200,66,.35); text-align:center; padding:10px 20px; border:1px solid rgba(245,200,66,.08); border-radius:4px; cursor:pointer; transition:color .2s,border-color .2s; text-decoration:none; display:inline-block; }
 #page-codex .master-note:hover { color:rgba(245,200,66,.7); border-color:rgba(245,200,66,.25); }
 
-#page-codex .pattern-modal-backdrop { display:none; position:fixed; inset:0; z-index:500; background:rgba(5,4,10,.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:24px; }
-#page-codex .pattern-modal-backdrop.open { display:flex; }
-#page-codex .pattern-modal { position:relative; max-width:480px; width:100%; background:#0d0b18; border-radius:10px; padding:36px 32px 28px; text-align:center; animation:modalIn .25s cubic-bezier(.34,1.56,.64,1) both; }
-@keyframes modalIn { from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
-#page-codex .pattern-modal-close { position:absolute; top:12px; right:14px; background:none; border:none; color:#9b9080; font-size:18px; cursor:pointer; transition:color .2s; line-height:1; }
-#page-codex .pattern-modal-close:hover { color:#e8dfc8; }
-#page-codex .pattern-modal-eyebrow { font-family:'Cinzel',serif; font-size:8px; letter-spacing:.45em; text-transform:uppercase; margin-bottom:12px; opacity:.7; }
-#page-codex .pattern-modal.gold-modal { border:1px solid rgba(245,200,66,.3); }
-#page-codex .pattern-modal.gold-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,#F5C842,transparent); }
-#page-codex .pattern-modal.gold-modal .pattern-modal-eyebrow { color:#7a6330; }
-#page-codex .pattern-modal.teal-modal { border:1px solid rgba(55,138,221,.3); }
-#page-codex .pattern-modal.teal-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,#378ADD,transparent); }
-#page-codex .pattern-modal.teal-modal .pattern-modal-eyebrow { color:#378ADD; }
-#page-codex .pattern-modal-num { font-family:'Cinzel Decorative',serif; font-size:32px; letter-spacing:.15em; margin-bottom:16px; line-height:1; }
-#page-codex .gold-modal .pattern-modal-num { color:#F5C842; text-shadow:0 0 30px rgba(245,200,66,.4); }
-#page-codex .teal-modal .pattern-modal-num { color:#7ec8c8; text-shadow:0 0 30px rgba(55,138,221,.4); }
-#page-codex .pattern-modal-body { font-size:15px; line-height:1.8; color:#9b9080; margin-bottom:20px; text-align:left; }
-#page-codex .pattern-modal-body strong { color:#e8dfc8; }
-#page-codex .pattern-modal-link { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:.25em; text-transform:uppercase; padding:10px 22px; border-radius:4px; text-decoration:none; transition:all .2s; }
-#page-codex .gold-modal .pattern-modal-link { color:#F5C842; border:1px solid rgba(245,200,66,.3); background:rgba(245,200,66,.04); }
-#page-codex .gold-modal .pattern-modal-link:hover { background:rgba(245,200,66,.12); border-color:#F5C842; }
-#page-codex .teal-modal .pattern-modal-link { color:#7ec8c8; border:1px solid rgba(55,138,221,.3); background:rgba(55,138,221,.04); }
-#page-codex .teal-modal .pattern-modal-link:hover { background:rgba(55,138,221,.14); border-color:#7ec8c8; }
-
-#page-codex .node-card {
-  position:fixed; bottom:0; left:0; right:0;
-  display:flex; align-items:center; gap:24px;
-  padding:18px 32px;
-  background:rgba(7,7,15,0.97); border-top:1px solid rgba(55,138,221,0.2);
-  z-index:300; transform:translateY(100%);
-  transition:transform .3s cubic-bezier(.34,1.2,.64,1),border-color .3s;
-  pointer-events:none;
-}
-#page-codex .node-card.visible { transform:translateY(0); pointer-events:auto; }
-#page-codex .node-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(245,200,66,0.4),transparent); }
-#page-codex .nc-number { font-family:'Cinzel Decorative',serif; font-size:clamp(36px,5vw,56px); line-height:1; flex-shrink:0; min-width:60px; text-align:center; transition:color .2s,text-shadow .2s; }
-#page-codex .nc-divider { width:1px; height:60px; background:rgba(55,138,221,0.2); flex-shrink:0; }
-#page-codex .nc-info { flex:1; min-width:0; }
-#page-codex .nc-name { font-family:'Cinzel',serif; font-size:clamp(10px,1.4vw,13px); letter-spacing:.28em; text-transform:uppercase; color:#e8dfc8; margin-bottom:3px; }
-#page-codex .nc-position { font-family:'Cinzel',serif; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(192,192,216,0.55); margin-bottom:4px; }
-#page-codex .nc-essence  { font-family:'Cinzel',serif; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#7ec8c8; margin-bottom:6px; }
-#page-codex .nc-body { font-size:13px; line-height:1.6; color:#9b9080; max-width:480px; }
-#page-codex .nc-actions { display:flex; flex-direction:column; gap:8px; flex-shrink:0; }
-#page-codex .nc-btn { font-family:'Cinzel',serif; font-size:8px; letter-spacing:.22em; text-transform:uppercase; padding:8px 16px; border-radius:3px; text-decoration:none; text-align:center; transition:background .2s,border-color .2s; white-space:nowrap; }
-#page-codex .nc-btn-lp   { color:#F5C842; border:1px solid rgba(245,200,66,.3); }
-#page-codex .nc-btn-lp:hover   { background:rgba(245,200,66,.1); border-color:#F5C842; }
-#page-codex .nc-btn-calc { color:#7ec8c8; border:1px solid rgba(55,138,221,.3); }
-#page-codex .nc-btn-calc:hover { background:rgba(55,138,221,.1); border-color:#7ec8c8; }
-
 @media(max-width:768px) {
   #page-codex .cdx-revealed { padding: 60px 16px 120px; }
   #page-codex .codex-instruction { display:none; }
 }
 @media(max-width:640px) {
   #page-codex .cdx-revealed { padding: 50px 12px 100px; }
-  #page-codex .node-card { flex-wrap:wrap; gap:12px; padding:14px 20px; }
-  #page-codex .nc-divider { display:none; }
-  #page-codex .nc-body { display:none; }
-  #page-codex .nc-actions { flex-direction:row; }
-  #page-codex .pattern-modal-backdrop { align-items:flex-end; padding:0; }
-  #page-codex .pattern-modal { border-radius:12px 12px 0 0; max-width:100%; animation:slideUp .3s cubic-bezier(.34,1.56,.64,1) both; }
-  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 }
 @media(prefers-reduced-motion: reduce) {
   #page-codex .cdxspirit-spin-outer,
@@ -259,9 +208,8 @@
 
     <div class="matrix-hud">
       <div class="codex-spirit-wrap" id="codex-spirit-wrap">
-        <!DOCTYPE html>
-<div style="background:#07070F;border-radius:12px;overflow:hidden;display:flex;justify-content:center;">
-<svg class="codex-spirit-svg" width="100%" viewBox="0 0 680 760" role="presentation" aria-hidden="true" style="background:#07070F;">
+
+<svg class="codex-spirit-svg" viewBox="0 0 680 760" preserveAspectRatio="xMidYMid meet" role="presentation" aria-hidden="true">
 <title>Codex Spirit — Animated Sacred Geometry</title>
 
 <defs>
@@ -507,8 +455,7 @@
 
 </svg>
         <div class="codex-hit-layer" id="codex-grid">
-<div class="node codex-hit-node" style="left:50%;top:23.03%" data-num="3" data-plane="spirit" data-nature="electric">
-              <div class="node-name">Creator</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:50.0000%;top:23.0263%" data-num="3" data-plane="spirit" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">3</div><div class="tooltip-name">The Creator</div>
                 <div class="tooltip-position">Spirit Gate · Upper Centre</div>
@@ -519,8 +466,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:32.35%;top:34.87%" data-num="1" data-plane="mind" data-nature="electric">
-              <div class="node-name">Initiator</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:32.3529%;top:34.8684%" data-num="1" data-plane="mind" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">1</div><div class="tooltip-name">The Initiator</div>
                 <div class="tooltip-position">Mind Axis · Upper Left</div>
@@ -531,8 +477,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:67.65%;top:34.87%" data-num="2" data-plane="body" data-nature="magnetic">
-              <div class="node-name">Harmonizer</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:67.6471%;top:34.8684%" data-num="2" data-plane="body" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">2</div><div class="tooltip-name">The Harmonizer</div>
                 <div class="tooltip-position">Body Axis · Upper Right</div>
@@ -543,8 +488,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:32.35%;top:49.34%" data-num="4" data-plane="mind" data-nature="magnetic">
-              <div class="node-name">Builder</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:32.3529%;top:49.3421%" data-num="4" data-plane="mind" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">4</div><div class="tooltip-name">The Builder</div>
                 <div class="tooltip-position">Mind Axis · Left Meridian</div>
@@ -555,8 +499,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:50%;top:49.34%" data-num="9" data-plane="spirit" data-nature="aetheric">
-              <div class="node-name">Humanitarian</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:50.0000%;top:49.3421%" data-num="9" data-plane="spirit" data-nature="aetheric">
               <div class="node-tooltip">
                 <div class="tooltip-num">9</div><div class="tooltip-name">The Humanitarian</div>
                 <div class="tooltip-position">Aetheric Centre · Singularity</div>
@@ -567,8 +510,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:67.65%;top:49.34%" data-num="5" data-plane="body" data-nature="electric">
-              <div class="node-name">The Pivot</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:67.6471%;top:49.3421%" data-num="5" data-plane="body" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">5</div><div class="tooltip-name">The Explorer</div>
                 <div class="tooltip-position">Body Axis · Right Meridian</div>
@@ -579,8 +521,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:32.35%;top:63.82%" data-num="7" data-plane="mind" data-nature="electric">
-              <div class="node-name">Seeker</div><div class="node-dot"></div>
+<div class="node codex-hit-node" style="left:32.3529%;top:63.8158%" data-num="7" data-plane="mind" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">7</div><div class="tooltip-name">The Seeker</div>
                 <div class="tooltip-position">Mind Axis · Lower Left</div>
@@ -591,8 +532,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:67.65%;top:63.82%" data-num="8" data-plane="body" data-nature="magnetic">
-              <div class="node-name">Power Master</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:67.6471%;top:63.8158%" data-num="8" data-plane="body" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">8</div><div class="tooltip-name">The Power Master</div>
                 <div class="tooltip-position">Body Axis · Lower Right</div>
@@ -603,8 +543,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:50%;top:73.03%" data-num="6" data-plane="spirit" data-nature="magnetic">
-              <div class="node-name">Nurturer</div><div class="node-dot"></div></div>
+<div class="node codex-hit-node" style="left:50.0000%;top:73.0263%" data-num="6" data-plane="spirit" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">6</div><div class="tooltip-name">The Nurturer</div>
                 <div class="tooltip-position">Spirit Gate · Lower Centre</div>
@@ -657,52 +596,6 @@
     </div>
 
   </div>
-</div>
-
-<div class="node-card" id="node-card">
-  <div class="nc-number" id="nc-number">—</div>
-  <div class="nc-divider"></div>
-  <div class="nc-info">
-    <div class="nc-name"     id="nc-name"></div>
-    <div class="nc-position" id="nc-position"></div>
-    <div class="nc-essence"  id="nc-essence"></div>
-    <div class="nc-body"     id="nc-body"></div>
   </div>
-  <div class="nc-actions" id="nc-actions"></div>
-</div>
 
-<div class="pattern-modal-backdrop" id="modal-666" onclick="window.closeModal&&closeModal('modal-666',event)">
-  <div class="pattern-modal gold-modal">
-    <button class="pattern-modal-close" onclick="window.closeModal&&closeModal('modal-666')">&times;</button>
-    <div class="pattern-modal-eyebrow">The Structural Law</div>
-    <div class="pattern-modal-num">6 · 6 · 6</div>
-    <div class="pattern-modal-body">
-      Every row of the Codex reduces to <strong>6</strong>:<br>
-      &nbsp;&nbsp;Mind row: 1 + 2 + 3 = <strong>6</strong><br>
-      &nbsp;&nbsp;Body row: 4 + 5 + 6 = 15 → <strong>6</strong><br>
-      &nbsp;&nbsp;Spirit row: 7 + 8 + 9 = 24 → <strong>6</strong><br><br>
-      Both diagonals reduce to <strong>6</strong>:<br>
-      &nbsp;&nbsp;1 + 5 + 9 = 15 → <strong>6</strong><br>
-      &nbsp;&nbsp;3 + 5 + 7 = 15 → <strong>6</strong><br><br>
-      The outer ring of the matrix — every edge, every corner path — frames the entire system in 6. This is not a symbol of evil. It is the structural law of integration: <strong>6 is the number that holds everything together.</strong>
-    </div>
-    <a class="pattern-modal-link" href="/blog/666-numerology-meaning/">Read: 666 Is Not What You Think &#8594;</a>
-  </div>
-</div>
-
-<div class="pattern-modal-backdrop" id="modal-369" onclick="window.closeModal&&closeModal('modal-369',event)">
-  <div class="pattern-modal teal-modal">
-    <button class="pattern-modal-close" onclick="window.closeModal&&closeModal('modal-369')">&times;</button>
-    <div class="pattern-modal-eyebrow">Tesla's Key</div>
-    <div class="pattern-modal-num">3 · 6 · 9</div>
-    <div class="pattern-modal-body">
-      Each column of the Codex reduces to 3, 6, or 9:<br>
-      &nbsp;&nbsp;Mind column: 1 + 4 + 7 = 12 → <strong>3</strong><br>
-      &nbsp;&nbsp;Body column: 2 + 5 + 8 = 15 → <strong>6</strong><br>
-      &nbsp;&nbsp;Spirit column: 3 + 6 + 9 = 18 → <strong>9</strong><br><br>
-      Tesla said if you knew the magnificence of 3, 6 and 9 you would have a key to the universe. The Codex shows exactly why — <strong>every column reduces to 3, 6, or 9.</strong> They are the Aetheric axis running through the entire system.
-    </div>
-    <a class="pattern-modal-link" href="/blog/3-6-9-pattern-tesla-numerology/">Read: Why Tesla Was Right &#8594;</a>
-  </div>
-</div>
 </div>

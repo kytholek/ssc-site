@@ -557,6 +557,9 @@ function showPage(name, pushState = true) {
     const card = document.getElementById('node-card');
     if (card) card.classList.remove('visible');
     if (cdx) cdx.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
+    setTimeout(function() {
+      if (typeof _initiateCodex === 'function') _initiateCodex();
+    }, 50);
   }
 
   const page = document.getElementById('page-' + name);
@@ -914,34 +917,17 @@ function hudReset() {
 
 function initCodexPage() {
   var page = document.getElementById('page-codex');
-  if (!page || page.dataset.codexBound === '1') return;
+  if (!page) return;
   var grid = page.querySelector('#codex-grid');
   if (!grid || !grid.querySelectorAll('.node').length) return;
+  if (page.dataset.codexBound === '1') return;
 
   page.dataset.codexBound = '1';
 
+  var hideTimer = null;
   function hasPinned() { return !!page.querySelector('.node.pinned'); }
 
-  var hideTimer = null;
-  grid.addEventListener('mouseenter', function(e) {
-    var node = e.target.closest('.node');
-    if (!node || !grid.contains(node)) return;
-    if (hasPinned()) return;
-    clearTimeout(hideTimer);
-    hudShow(node);
-  }, true);
-
-  grid.addEventListener('mouseleave', function(e) {
-    var node = e.target.closest('.node');
-    if (!node || !grid.contains(node)) return;
-    if (hasPinned()) return;
-    hideTimer = setTimeout(hudReset, 200);
-  }, true);
-
-  grid.addEventListener('click', function(e) {
-    var node = e.target.closest('.node');
-    if (!node || !grid.contains(node)) return;
-    if (e.target.closest('.tooltip-link') || e.target.closest('.nc-btn')) return;
+  function togglePin(node) {
     var wasPinned = node.classList.contains('pinned');
     page.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
     if (!wasPinned) {
@@ -950,25 +936,60 @@ function initCodexPage() {
     } else {
       hudReset();
     }
+  }
+
+  grid.addEventListener('pointerover', function(e) {
+    var node = e.target.closest('.node');
+    if (!node || !grid.contains(node) || hasPinned()) return;
+    clearTimeout(hideTimer);
+    hudShow(node);
   });
 
-  document.addEventListener('click', function codexOutsideClick(e) {
-    if (!document.getElementById('page-codex')?.classList.contains('active')) return;
-    if (e.target.closest('#page-codex .node') || e.target.closest('#node-card')) return;
-    page.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
-    hudReset();
+  grid.addEventListener('pointerout', function(e) {
+    var node = e.target.closest('.node');
+    if (!node || !grid.contains(node) || hasPinned()) return;
+    if (node.contains(e.relatedTarget)) return;
+    hideTimer = setTimeout(hudReset, 200);
   });
 
-  document.addEventListener('keydown', function codexEscape(e) {
-    if (e.key !== 'Escape') return;
-    ['modal-666', 'modal-369'].forEach(function(id) {
-      var m = document.getElementById(id);
-      if (m) { m.classList.remove('open'); document.body.style.overflow = ''; }
+  grid.addEventListener('pointerup', function(e) {
+    var node = e.target.closest('.node');
+    if (!node || !grid.contains(node)) return;
+    if (e.target.closest('.tooltip-link') || e.target.closest('.nc-btn')) return;
+    togglePin(node);
+    page.dataset.codexTap = '1';
+    setTimeout(function() { delete page.dataset.codexTap; }, 50);
+  });
+
+  grid.addEventListener('click', function(e) {
+    var node = e.target.closest('.node');
+    if (!node || !grid.contains(node)) return;
+    if (e.target.closest('.tooltip-link') || e.target.closest('.nc-btn')) return;
+    e.preventDefault();
+  });
+
+  if (!window._codexOutsideBound) {
+    window._codexOutsideBound = true;
+    document.addEventListener('pointerup', function(e) {
+      var cdx = document.getElementById('page-codex');
+      if (!cdx || !cdx.classList.contains('active')) return;
+      if (cdx.dataset.codexTap === '1') return;
+      if (e.target.closest('#page-codex .node') || e.target.closest('#node-card')) return;
+      cdx.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
+      hudReset();
     });
-  });
+    document.addEventListener('keydown', function codexEscape(e) {
+      if (e.key !== 'Escape') return;
+      ['modal-666', 'modal-369'].forEach(function(id) {
+        var m = document.getElementById(id);
+        if (m) { m.classList.remove('open'); document.body.style.overflow = ''; }
+      });
+    });
+  }
 
   if (window._initiateCodex) window._initiateCodex();
 }
+window.initCodexPage = initCodexPage;
 
 function openModal(id) {
   var m = document.getElementById(id);
@@ -1257,23 +1278,47 @@ function resetCalculatorModal() {
 }
 
 function calculateReadingModal() {
-  // Copy values from modal inputs to global calculator inputs
-  document.getElementById('calc-month').value = document.getElementById('modal-calc-month').value;
-  document.getElementById('calc-day').value = document.getElementById('modal-calc-day').value;
-  document.getElementById('calc-year').value = document.getElementById('modal-calc-year').value;
-  document.getElementById('calc-fullname').value = document.getElementById('modal-calc-fullname').value;
+  var monthEl = document.getElementById('modal-calc-month');
+  var dayEl   = document.getElementById('modal-calc-day');
+  var yearEl  = document.getElementById('modal-calc-year');
+  var nameEl  = document.getElementById('modal-calc-fullname');
+  var btn     = document.getElementById('modal-calc-btn');
+  var modalResults = document.getElementById('modal-results-area');
+  if (!monthEl || !dayEl || !yearEl || !nameEl || !modalResults) return;
 
-  // Call the global calculateReading function
-  calculateReading();
+  var month = parseInt(monthEl.value);
+  var day   = parseInt(dayEl.value);
+  var year  = parseInt(yearEl.value);
+  var fullName = nameEl.value.trim();
 
-  // Copy results back to modal
-  var mapContainer = document.getElementById('freq-map');
-  if (mapContainer) {
-    document.getElementById('modal-results-area').innerHTML = mapContainer.outerHTML;
+  var hasError = false;
+  [monthEl, dayEl, yearEl, nameEl].forEach(function(el) { el.classList.remove('ssc-input-error'); });
+  if (!month) { monthEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!day)   { dayEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!year)  { yearEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!fullName) { nameEl.classList.add('ssc-input-error'); hasError = true; }
+  if (hasError) {
+    var firstErr = document.querySelector('#calculator-modal-overlay .ssc-input-error');
+    if (firstErr) firstErr.focus();
+    return;
   }
 
-  // Show unlock CTA in modal
-  showUnlockCTAModal();
+  var origBtnText = btn ? btn.textContent : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '· Decoding ·';
+    btn.classList.add('ssc-btn-loading');
+  }
+
+  setTimeout(function() {
+    _doCalculateReading(month, day, year, fullName, btn, origBtnText, modalResults);
+    showUnlockCTAModal();
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = origBtnText;
+      btn.classList.remove('ssc-btn-loading');
+    }
+  }, 300);
 }
 
 function showUnlockCTAModal() {
@@ -1335,73 +1380,12 @@ function handleUnlockPaymentModal() {
 
   console.log('Sending payload:', JSON.stringify(userPayload));
 
-  // ── Call Cloudflare Worker to create checkout session ────────────────
-  // Worker `/api/session` expects extra metadata fields.
-  // Compute the seven-frequency raw/roots client-side so we match the Worker’s expected payload.
-  // IMPORTANT: this mirrors the Worker’s own reduction logic.
-  function reduceToSingle(n) {
-    n = Number(n) || 0;
-    while (n > 9 && n !== 11 && n !== 22 && n !== 33 && n !== 44) {
-      n = String(n).split('').reduce((a, d) => a + Number(d), 0);
-    }
-    return n;
-  }
+  // ── Netlify function creates Stripe checkout (bypasses Cloudflare /api/session) ──
+  var checkoutUrl = (typeof SSC_CHECKOUT_URL !== 'undefined')
+    ? SSC_CHECKOUT_URL
+    : '/.netlify/functions/create-checkout';
 
-  const LETTER_VALUES = {
-    A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9,
-    J:1, K:11, L:3, M:4, N:5, O:6, P:7, Q:8, R:9,
-    S:1, T:2, U:3, V:22, W:5, X:6, Y:7, Z:8
-  };
-  const VOWELS = new Set(['A','E','I','O','U','Y']);
-
-  function letterValue(c) {
-    return LETTER_VALUES[c.toUpperCase()] || 0;
-  }
-
-  const cleanName = String(nameVal || '');
-  const chars = cleanName.toUpperCase().replace(/[^A-Z]/g, '').split('');
-
-  const birthMonth = Number(monthVal);
-  const birthDay   = Number(dayVal);
-  const birthYear  = Number(yearVal);
-
-  const rawLifePath = [...String(birthMonth), ...String(birthDay), ...String(birthYear)].reduce((a, c) => a + Number(c), 0);
-  const lifePath = reduceToSingle(rawLifePath);
-
-  const rawAchievement = '' + birthMonth + birthDay;
-  const achievement = reduceToSingle(rawAchievement);
-
-  const rawTheme = String(birthYear).split('').reduce((a, d) => a + Number(d), 0);
-  const theme = reduceToSingle(rawTheme);
-
-  const rawExpression = cleanName.trim().split(/\s+/).reduce((total, word) => {
-    const wordSum = word.toUpperCase().replace(/[^A-Z]/g, '').split('').reduce((a, c) => a + letterValue(c), 0);
-    return total + reduceToSingle(wordSum);
-  }, 0);
-  const expression = reduceToSingle(rawExpression);
-
-  const rawSoul = chars.filter(c => VOWELS.has(c)).reduce((a, c) => a + letterValue(c), 0);
-  const soul = reduceToSingle(rawSoul);
-
-  const rawPersona = chars.filter(c => !VOWELS.has(c)).reduce((a, c) => a + letterValue(c), 0);
-  const outer = reduceToSingle(rawPersona);
-
-  const rawDestiny = expression + lifePath;
-  const destiny = reduceToSingle(rawDestiny);
-
-  const payloadExtras = {
-    life_path: rawLifePath,
-    expression: rawExpression,
-    life_calling: rawDestiny,
-    soul: rawSoul,
-    outer: rawPersona,
-    achievement: rawAchievement,
-    theme: rawTheme,
-    // roots expected by worker’s metadata name? worker uses only metadata[...] = String(value)
-    // so we send compound/raw values as-is; worker will store them.
-  };
-
-  fetch('/api/session', {
+  fetch(checkoutUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -1409,15 +1393,7 @@ function handleUnlockPaymentModal() {
       name:   nameVal,
       month:  monthVal,
       day:    dayVal,
-      year:   yearVal,
-      // Keep existing minimal fields + add extras for Worker compatibility
-      life_path: payloadExtras.life_path,
-      expression: payloadExtras.expression,
-      life_calling: payloadExtras.life_calling,
-      soul: payloadExtras.soul,
-      outer: payloadExtras.outer,
-      achievement: payloadExtras.achievement,
-      theme: payloadExtras.theme
+      year:   yearVal
     })
   })
   .then(response => {
