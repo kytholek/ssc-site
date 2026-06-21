@@ -2,6 +2,7 @@
    ROOT VARIABLES & RESET
 ═══════════════════════════════════════ */
 :root {
+  color-scheme: dark;
   --void: #05040a;
   --deep: #0d0b18;
   --abyss: #110f1f;

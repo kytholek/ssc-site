@@ -8,6 +8,7 @@
    ROOT — tighten to exact brand palette
    ══════════════════════════════════════════════════════════ */
 :root {
+  color-scheme: dark;
   /* Exact brand spec colours */
   --void:            #05040a;    /* Background — the container */
   --deep:            #0d0b18;    /* Cards, panels */

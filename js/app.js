@@ -1274,7 +1274,7 @@ const THEME_KEY = 'ssc-theme';
 
 function getTheme() {
   const stored = localStorage.getItem(THEME_KEY);
-  return stored === 'dark' ? 'dark' : 'light';
+  return stored === 'light' ? 'light' : 'dark';
 }
 
 function _updateThemeToggle(theme) {
