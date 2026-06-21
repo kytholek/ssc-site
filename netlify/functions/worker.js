@@ -946,6 +946,17 @@ async function handleCreateCheckout(request, env, origin) {
     });
   }
 
+  const stripeKey = env.STRIPE_SECRET || env.STRIPE_SECRET_KEY;
+  if (!stripeKey) {
+    console.error('STRIPE_SECRET / STRIPE_SECRET_KEY not set in Worker environment');
+    return new Response(JSON.stringify({
+      error: 'Stripe is not configured on the server. Set STRIPE_SECRET in Cloudflare Worker settings.',
+    }), {
+      status: 500,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
     const params = new URLSearchParams({
       'payment_method_types[0]':                        'card',
@@ -975,7 +986,7 @@ async function handleCreateCheckout(request, env, origin) {
     const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method:  'POST',
       headers: {
-        'Authorization': `Bearer ${env.STRIPE_SECRET || env.STRIPE_SECRET_KEY}`,
+        'Authorization': `Bearer ${stripeKey}`,
         'Content-Type':  'application/x-www-form-urlencoded',
       },
       body: params.toString(),

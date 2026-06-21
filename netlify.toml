@@ -21,7 +21,7 @@ publish = "."
 
 # Netlify Identity and Git Gateway do not require special config in netlify.toml, but this file ensures build settings are correct.
 
-# Checkout API — proxy neutral path to Netlify function (bypasses broken Cloudflare /api/session route)
+# Checkout API — Netlify-only fallback (production uses Cloudflare Worker POST /api/session)
 [[redirects]]
 from = "/api/session"
 to = "/.netlify/functions/create-checkout"
@@ -50,50 +50,4 @@ status = 301
 [[redirects]]
 from = "/codex/"
 to = "/index.html"
-status = 200
-
-# SPA subpaths — assets must resolve from site root, not /codex/ or /services/
-[[redirects]]
-from = "/codex/js/*"
-to = "/js/:splat"
-status = 200
-
-[[redirects]]
-from = "/codex/css/*"
-to = "/css/:splat"
-status = 200
-
-[[redirects]]
-from = "/codex/pages/*"
-to = "/pages/:splat"
-status = 200
-
-[[redirects]]
-from = "/services/js/*"
-to = "/js/:splat"
-status = 200
-
-[[redirects]]
-from = "/services/css/*"
-to = "/css/:splat"
-status = 200
-
-[[redirects]]
-from = "/services/pages/*"
-to = "/pages/:splat"
-status = 200
-
-[[redirects]]
-from = "/calculator/js/*"
-to = "/js/:splat"
-status = 200
-
-[[redirects]]
-from = "/calculator/css/*"
-to = "/css/:splat"
-status = 200
-
-[[redirects]]
-from = "/calculator/pages/*"
-to = "/pages/:splat"
 status = 200

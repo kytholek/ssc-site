@@ -5,7 +5,8 @@
  * Required by: app.js (window.calculateReading, window.buildFreqChart)
  */
 
-var SSC_CHECKOUT_URL = '/.netlify/functions/create-checkout';
+// Cloudflare Worker route (production). Netlify deploys also rewrite /api/session → create-checkout.
+var SSC_CHECKOUT_URL = '/api/session';
 
 /* ═══════════════════════════════════════════════════════════════
    i18n helper — reads from SSC_TRANSLATIONS if available,
@@ -959,12 +960,12 @@ function handleUnlockPayment() {
   .then(function(res) {
     console.log('Fetch response status:', res.status);
     if (!res.ok) {
-      return res.json().then(function(data) {
-        console.error('Error response:', data);
-        throw new Error(data.error || 'HTTP ' + res.status);
-      }).catch(function(err) {
-        console.error('Error parsing error response:', err);
-        throw new Error('HTTP ' + res.status + ': ' + res.statusText);
+      return res.text().then(function(text) {
+        var data = {};
+        try { data = JSON.parse(text); } catch (_) {}
+        var msg = data.error || text || ('HTTP ' + res.status);
+        console.error('Error response:', msg);
+        throw new Error(msg);
       });
     }
     return res.json();

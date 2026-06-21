@@ -264,16 +264,15 @@
 
   <!-- Critical styles -->
   <link rel="icon" type="image/svg+xml" href="/Images/infinity codex_logo_outline.svg">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/brand-revamp.css">
-  <link rel="stylesheet" href="/css/codex-overlays.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/brand-revamp.css">
   <!-- Quest Theme — RPG aesthetic override -->
-  <link rel="stylesheet" href="/css/quest-theme.css">
+  <link rel="stylesheet" href="css/quest-theme.css">
 
   <!-- Non-critical styles — loaded async -->
-  <link rel="preload" as="style" href="/css/modal.css" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" as="style" href="/css/admin.css" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/css/modal.css"><link rel="stylesheet" href="/css/admin.css"></noscript>
+  <link rel="preload" as="style" href="css/modal.css" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" as="style" href="css/admin.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/modal.css"><link rel="stylesheet" href="css/admin.css"></noscript>
 
   <!-- Font Awesome — async -->
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" crossorigin>
@@ -308,84 +307,36 @@
   <!-- Toast notification (used by admin) -->
   <div id="admin-toast"></div>
 
-  <!-- Codex HUD + modals (on body so position:fixed always works) -->
-  <div class="node-card" id="node-card">
-    <div class="nc-number" id="nc-number">—</div>
-    <div class="nc-divider"></div>
-    <div class="nc-info">
-      <div class="nc-name" id="nc-name"></div>
-      <div class="nc-position" id="nc-position"></div>
-      <div class="nc-essence" id="nc-essence"></div>
-      <div class="nc-body" id="nc-body"></div>
-    </div>
-    <div class="nc-actions" id="nc-actions"></div>
-  </div>
-
-  <div class="pattern-modal-backdrop" id="modal-666" onclick="window.closeModal&&closeModal('modal-666',event)">
-    <div class="pattern-modal gold-modal">
-      <button class="pattern-modal-close" onclick="window.closeModal&&closeModal('modal-666')">&times;</button>
-      <div class="pattern-modal-eyebrow">The Structural Law</div>
-      <div class="pattern-modal-num">6 · 6 · 6</div>
-      <div class="pattern-modal-body">
-        Every row of the Codex reduces to <strong>6</strong>:<br>
-        &nbsp;&nbsp;Mind row: 1 + 2 + 3 = <strong>6</strong><br>
-        &nbsp;&nbsp;Body row: 4 + 5 + 6 = 15 → <strong>6</strong><br>
-        &nbsp;&nbsp;Spirit row: 7 + 8 + 9 = 24 → <strong>6</strong><br><br>
-        Both diagonals reduce to <strong>6</strong>:<br>
-        &nbsp;&nbsp;1 + 5 + 9 = 15 → <strong>6</strong><br>
-        &nbsp;&nbsp;3 + 5 + 7 = 15 → <strong>6</strong><br><br>
-        The outer ring of the matrix — every edge, every corner path — frames the entire system in 6. This is not a symbol of evil. It is the structural law of integration: <strong>6 is the number that holds everything together.</strong>
-      </div>
-      <a class="pattern-modal-link" href="/blog/666-numerology-meaning/">Read: 666 Is Not What You Think &#8594;</a>
-    </div>
-  </div>
-
-  <div class="pattern-modal-backdrop" id="modal-369" onclick="window.closeModal&&closeModal('modal-369',event)">
-    <div class="pattern-modal teal-modal">
-      <button class="pattern-modal-close" onclick="window.closeModal&&closeModal('modal-369')">&times;</button>
-      <div class="pattern-modal-eyebrow">Tesla's Key</div>
-      <div class="pattern-modal-num">3 · 6 · 9</div>
-      <div class="pattern-modal-body">
-        Each column of the Codex reduces to 3, 6, or 9:<br>
-        &nbsp;&nbsp;Mind column: 1 + 4 + 7 = 12 → <strong>3</strong><br>
-        &nbsp;&nbsp;Body column: 2 + 5 + 8 = 15 → <strong>6</strong><br>
-        &nbsp;&nbsp;Spirit column: 3 + 6 + 9 = 18 → <strong>9</strong><br><br>
-        Tesla said if you knew the magnificence of 3, 6 and 9 you would have a key to the universe. The Codex shows exactly why — <strong>every column reduces to 3, 6, or 9.</strong> They are the Aetheric axis running through the entire system.
-      </div>
-      <a class="pattern-modal-link" href="/blog/3-6-9-pattern-tesla-numerology/">Read: Why Tesla Was Right &#8594;</a>
-    </div>
-  </div>
-
   <!-- ════ SCRIPTS ════ -->
   <!-- Core scripts needed before app init — loaded normally so initApp is ready -->
-  <script src="/js/translations.js"></script>
-  <script src="/js/calculator.js"></script>
-  <script src="/js/app.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
   <!-- Non-critical scripts — deferred, don't block rendering -->
-  <script src="/js/simulation.js" defer></script>
-  <script src="/js/admin.js" defer></script>
+  <script src="js/simulation.js" defer></script>
+  <script src="js/admin.js" defer></script>
 
   <!-- ════ PAGE LOADER ════ -->
   <script>
     (function () {
       // Critical pages — fetched immediately, app boots when these are done
       var CRITICAL = [
-        { id: 'include-nav',      src: '/pages/nav.html'      },
-        { id: 'include-home',     src: '/pages/home.html'     },
-        { id: 'include-footer',   src: '/pages/footer.html'   },
-        { id: 'include-services', src: '/pages/services.html' },
-        { id: 'include-codex',    src: '/pages/codex.html'    },
+        { id: 'include-nav',      src: 'pages/nav.html'      },
+        { id: 'include-home',     src: 'pages/home.html'     },
+        { id: 'include-footer',   src: 'pages/footer.html'   },
+        { id: 'include-services', src: 'pages/services.html' },
+        { id: 'include-codex',    src: 'pages/codex.html'    },
       ];
 
       // Secondary pages — fetched in background, don't block app init
       var SECONDARY = [
-        { id: 'include-calculator', src: '/pages/calculator.html' },
-        { id: 'include-ssc',        src: '/pages/ssc.html'        },
-        { id: 'include-books',      src: '/pages/books.html'      },
-        { id: 'include-about',      src: '/pages/about.html'      },
-        { id: 'include-privacy',    src: '/pages/privacy.html'    },
-        { id: 'include-guidebook',  src: '/pages/guidebook-pdf-preview.html' },
-        { id: 'include-admin',      src: '/pages/admin.html'      },
+        { id: 'include-calculator', src: 'pages/calculator.html' },
+        { id: 'include-ssc',        src: 'pages/ssc.html'        },
+        { id: 'include-books',      src: 'pages/books.html'      },
+        { id: 'include-about',      src: 'pages/about.html'      },
+        { id: 'include-privacy',    src: 'pages/privacy.html'    },
+        { id: 'include-guidebook',  src: 'pages/guidebook-pdf-preview.html' },
+        { id: 'include-admin',      src: 'pages/admin.html'      },
       ];
 
       function loadPage(page) {
