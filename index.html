@@ -320,17 +320,17 @@
     (function () {
       // Critical pages — fetched immediately, app boots when these are done
       var CRITICAL = [
-        { id: 'include-nav',    src: 'pages/nav.html'    },
-        { id: 'include-home',   src: 'pages/home.html'   },
-        { id: 'include-footer', src: 'pages/footer.html' },
+        { id: 'include-nav',      src: 'pages/nav.html'      },
+        { id: 'include-home',     src: 'pages/home.html'     },
+        { id: 'include-footer',   src: 'pages/footer.html'   },
+        { id: 'include-services', src: 'pages/services.html' },
+        { id: 'include-codex',    src: 'pages/codex.html'    },
       ];
 
       // Secondary pages — fetched in background, don't block app init
       var SECONDARY = [
         { id: 'include-calculator', src: 'pages/calculator.html' },
-        { id: 'include-codex',      src: 'pages/codex.html'      },
         { id: 'include-ssc',        src: 'pages/ssc.html'        },
-        { id: 'include-services',   src: 'pages/services.html'   },
         { id: 'include-books',      src: 'pages/books.html'      },
         { id: 'include-about',      src: 'pages/about.html'      },
         { id: 'include-privacy',    src: 'pages/privacy.html'    },
@@ -344,6 +344,12 @@
           .then(function (html) {
             var el = document.getElementById(page.id);
             if (el && html) el.innerHTML = html;
+            if (page.id === 'include-services' && typeof initServicesPage === 'function') {
+              initServicesPage();
+            }
+            if (page.id === 'include-codex' && typeof initCodexPage === 'function') {
+              initCodexPage();
+            }
           })
           .catch(function () {});
       }

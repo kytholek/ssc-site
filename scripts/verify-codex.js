@@ -1,0 +1,15 @@
+'use strict';
+const fs = require('fs');
+const html = fs.readFileSync('pages/codex.html', 'utf8');
+const hitNodes = (html.match(/class="node codex-hit-node"/g) || []).length;
+const gridStart = html.indexOf('id="codex-grid"');
+const gridEnd = html.indexOf('class="plane-legend"');
+const grid = html.slice(gridStart, gridEnd);
+const tooltips = (grid.match(/class="node-tooltip"/g) || []).length;
+const nums = [...grid.matchAll(/data-num="(\d)"/g)].map((m) => m[1]);
+console.log('hit nodes:', hitNodes);
+console.log('tooltips in grid:', tooltips);
+console.log('nums:', nums.join(','));
+console.log('has canvas:', html.includes('codex-canvas'));
+console.log('has inf-legend:', html.includes('inf-legend'));
+console.log('ok:', hitNodes === 9 && tooltips === 9 && nums.length === 9);
