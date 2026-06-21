@@ -51,6 +51,11 @@ export default {
 
     // ── CORS preflight ──────────────────────────────────────────────────
     if (request.method === 'OPTIONS') {
+      // Ensure preflight succeeds for the checkout endpoints.
+      // Some edge cases/mismatches can otherwise return 405/"Method not allowed".
+      if (url.pathname === '/api/session' || url.pathname === '/submit-email') {
+        return new Response(null, { status: 204, headers: corsHeaders(origin) });
+      }
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 

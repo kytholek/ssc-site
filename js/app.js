@@ -1336,6 +1336,71 @@ function handleUnlockPaymentModal() {
   console.log('Sending payload:', JSON.stringify(userPayload));
 
   // ── Call Cloudflare Worker to create checkout session ────────────────
+  // Worker `/api/session` expects extra metadata fields.
+  // Compute the seven-frequency raw/roots client-side so we match the Worker’s expected payload.
+  // IMPORTANT: this mirrors the Worker’s own reduction logic.
+  function reduceToSingle(n) {
+    n = Number(n) || 0;
+    while (n > 9 && n !== 11 && n !== 22 && n !== 33 && n !== 44) {
+      n = String(n).split('').reduce((a, d) => a + Number(d), 0);
+    }
+    return n;
+  }
+
+  const LETTER_VALUES = {
+    A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9,
+    J:1, K:11, L:3, M:4, N:5, O:6, P:7, Q:8, R:9,
+    S:1, T:2, U:3, V:22, W:5, X:6, Y:7, Z:8
+  };
+  const VOWELS = new Set(['A','E','I','O','U','Y']);
+
+  function letterValue(c) {
+    return LETTER_VALUES[c.toUpperCase()] || 0;
+  }
+
+  const cleanName = String(nameVal || '');
+  const chars = cleanName.toUpperCase().replace(/[^A-Z]/g, '').split('');
+
+  const birthMonth = Number(monthVal);
+  const birthDay   = Number(dayVal);
+  const birthYear  = Number(yearVal);
+
+  const rawLifePath = [...String(birthMonth), ...String(birthDay), ...String(birthYear)].reduce((a, c) => a + Number(c), 0);
+  const lifePath = reduceToSingle(rawLifePath);
+
+  const rawAchievement = '' + birthMonth + birthDay;
+  const achievement = reduceToSingle(rawAchievement);
+
+  const rawTheme = String(birthYear).split('').reduce((a, d) => a + Number(d), 0);
+  const theme = reduceToSingle(rawTheme);
+
+  const rawExpression = cleanName.trim().split(/\s+/).reduce((total, word) => {
+    const wordSum = word.toUpperCase().replace(/[^A-Z]/g, '').split('').reduce((a, c) => a + letterValue(c), 0);
+    return total + reduceToSingle(wordSum);
+  }, 0);
+  const expression = reduceToSingle(rawExpression);
+
+  const rawSoul = chars.filter(c => VOWELS.has(c)).reduce((a, c) => a + letterValue(c), 0);
+  const soul = reduceToSingle(rawSoul);
+
+  const rawPersona = chars.filter(c => !VOWELS.has(c)).reduce((a, c) => a + letterValue(c), 0);
+  const outer = reduceToSingle(rawPersona);
+
+  const rawDestiny = expression + lifePath;
+  const destiny = reduceToSingle(rawDestiny);
+
+  const payloadExtras = {
+    life_path: rawLifePath,
+    expression: rawExpression,
+    life_calling: rawDestiny,
+    soul: rawSoul,
+    outer: rawPersona,
+    achievement: rawAchievement,
+    theme: rawTheme,
+    // roots expected by worker’s metadata name? worker uses only metadata[...] = String(value)
+    // so we send compound/raw values as-is; worker will store them.
+  };
+
   fetch('/api/session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1344,7 +1409,15 @@ function handleUnlockPaymentModal() {
       name:   nameVal,
       month:  monthVal,
       day:    dayVal,
-      year:   yearVal
+      year:   yearVal,
+      // Keep existing minimal fields + add extras for Worker compatibility
+      life_path: payloadExtras.life_path,
+      expression: payloadExtras.expression,
+      life_calling: payloadExtras.life_calling,
+      soul: payloadExtras.soul,
+      outer: payloadExtras.outer,
+      achievement: payloadExtras.achievement,
+      theme: payloadExtras.theme
     })
   })
   .then(response => {
