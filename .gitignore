@@ -12,11 +12,8 @@ node_modules/
 .env.local
 .dev.vars
 
-# Keep package.json local only — Pages must not see it (triggers npm install)
-package.json
-
-# Keep wrangler.toml local only — Pages CI treats it as a Worker deployment config
-wrangler.toml
+# Optional local-only overrides (wrangler.toml is committed for Cloudflare CI)
+# wrangler.local.toml
 
 .vercel
 .env*.local
