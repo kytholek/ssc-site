@@ -1,0 +1,16 @@
+{
+  "name": "ssc-site-dev",
+  "private": true,
+  "description": "Local dev dependencies — NOT used by Cloudflare deploy",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.5",
+    "@anthropic-ai/sdk": "^0.80.0",
+    "resend": "^6.9.4",
+    "stripe": "^20.4.1",
+    "vite": "^8.0.8"
+  },
+  "scripts": {
+    "build": "npm --prefix sourcecode-life/app install && npm --prefix sourcecode-life/app run build && cp -r sourcecode-life/app/dist .",
+    "dev": "vite"
+  }
+}

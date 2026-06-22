@@ -1,34 +1,12 @@
 {
-  "dependencies": {
-    "wrangler": "^4.77.0"
-  },
-  "devDependencies": {
-    "@11ty/eleventy": "^3.1.5",
-    "@anthropic-ai/sdk": "^0.80.0",
-    "resend": "^6.9.4",
-    "stripe": "^20.4.1",
-    "vite": "^8.0.8"
-  },
   "name": "ssc-site",
+  "private": true,
   "version": "1.0.0",
-  "description": "A multi-page numerology website with canvas animations, a numerology calculator, blog system, and a hidden admin CMS.",
-  "main": "convert-translations.js",
+  "description": "Simulation Source Code — Cloudflare deploy manifest (wrangler only)",
   "scripts": {
-    "build": "npm --prefix sourcecode-life/app install && npm --prefix sourcecode-life/app run build && cp -r sourcecode-life/app/dist .",
-    "deploy": "npx wrangler deploy --config wrangler.jsonc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vite"
+    "deploy": "wrangler deploy --config wrangler.jsonc"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kytholek/ssc-site.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Kytholek/ssc-site/issues"
-  },
-  "homepage": "https://github.com/Kytholek/ssc-site#readme"
+  "dependencies": {
+    "wrangler": "4.77.0"
+  }
 }
