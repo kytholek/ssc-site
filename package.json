@@ -1,9 +1,13 @@
 {
   "dependencies": {
+    "wrangler": "^4.77.0"
+  },
+  "devDependencies": {
     "@11ty/eleventy": "^3.1.5",
     "@anthropic-ai/sdk": "^0.80.0",
     "resend": "^6.9.4",
-    "stripe": "^20.4.1"
+    "stripe": "^20.4.1",
+    "vite": "^8.0.8"
   },
   "name": "ssc-site",
   "version": "1.0.0",
@@ -11,7 +15,7 @@
   "main": "convert-translations.js",
   "scripts": {
     "build": "npm --prefix sourcecode-life/app install && npm --prefix sourcecode-life/app run build && cp -r sourcecode-life/app/dist .",
-    "deploy": "node scripts/ensure-wrangler-config.js && wrangler deploy --config wrangler.jsonc",
+    "deploy": "npx wrangler deploy --config wrangler.jsonc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite"
   },
@@ -26,9 +30,5 @@
   "bugs": {
     "url": "https://github.com/Kytholek/ssc-site/issues"
   },
-  "homepage": "https://github.com/Kytholek/ssc-site#readme",
-  "devDependencies": {
-    "vite": "^8.0.8",
-    "wrangler": "^4.77.0"
-  }
+  "homepage": "https://github.com/Kytholek/ssc-site#readme"
 }
