@@ -11,6 +11,7 @@
   "main": "convert-translations.js",
   "scripts": {
     "build": "npm --prefix sourcecode-life/app install && npm --prefix sourcecode-life/app run build && cp -r sourcecode-life/app/dist .",
+    "deploy": "node scripts/ensure-wrangler-config.js && wrangler deploy --config wrangler.jsonc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite"
   },
