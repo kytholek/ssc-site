@@ -4,7 +4,7 @@
  *       (paid: Stripe checkout → webhook → queue)
  */
 
-const GUIDEBOOK_PRICE_CENTS = 0; // 0 = free, queue directly. Set to 1100 to use Stripe + webhook.
+const GUIDEBOOK_PRICE_CENTS = 1100;
 
 const ALLOWED_ORIGINS = [
   'https://simulationsourcecode.com',
@@ -1049,7 +1049,7 @@ async function handleCreateCheckout(request, env, origin) {
       'mode':                                           'payment',
       'customer_email':                                 email,
       'line_items[0][price_data][currency]':            'usd',
-      'line_items[0][price_data][unit_amount]':         '0',
+      'line_items[0][price_data][unit_amount]':         String(GUIDEBOOK_PRICE_CENTS),
       'line_items[0][price_data][product_data][name]':  'SSC Guidebook Report',
       'line_items[0][price_data][product_data][description]': 'Your complete personalised frequency guidebook — all 7 frequencies decoded, shadow work, and Life Calling directive. Delivered as a PDF.',
       'line_items[0][quantity]':                        '1',
