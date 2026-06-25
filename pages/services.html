@@ -215,8 +215,8 @@
       <button id="calculator-modal-close" aria-label="Close calculator" onclick="closeCalculatorModal()">&times;</button>
       
       <div class="modal-calculator-hero">
-        <div class="modal-calculator-title" data-i18n="calc.title">Frequency Decoder</div>
-        <p class="modal-calculator-subtitle" data-i18n="calc.subtitle">Enter your birth details to reveal your seven encoded frequencies.</p>
+        <div class="modal-calculator-title">Receive Your Guidebook</div>
+        <p class="modal-calculator-subtitle">Enter your birth details and email. Your complete personalised blueprint will be generated and delivered as a PDF.</p>
       </div>
 
       <div id="modal-form-card" class="form-card">
@@ -256,15 +256,7 @@
         </div>
       </div>
 
-      <button id="modal-calc-btn" class="calc-btn" onclick="calculateReadingModal()" data-i18n="calc.btn">⬡&nbsp;Decode My Map&nbsp;⬡</button>
-
-      <div id="modal-results-area" class="results-placeholder">
-        <div class="results-placeholder-icon">✦</div>
-        <div class="results-placeholder-text" data-i18n="calc.results.placeholder">Your reading will appear here</div>
-      </div>
-
-      <!-- ════ UNLOCK FULL BLUEPRINT CTA ════ -->
-      <div id="modal-unlock-cta" class="unlock-cta" style="display:none;" aria-hidden="true">
+      <div id="modal-unlock-cta" class="unlock-cta">
         <div class="unlock-divider">
           <span class="unlock-divider-line"></span>
           <span class="unlock-divider-sigil">✦</span>
@@ -274,15 +266,14 @@
         <div class="unlock-card">
           <div class="unlock-glow" aria-hidden="true"></div>
 
-          <div class="unlock-eyebrow">Your frequencies have been decoded</div>
+          <div class="unlock-eyebrow">Complete Blueprint Report</div>
 
-          <h2 class="unlock-title">Unlock Your Full Blueprint</h2>
+          <h2 class="unlock-title">Your Personal Guidebook</h2>
 
           <p class="unlock-body">
-            The numbers above show you <em>what</em> frequencies you carry.
-            Your <strong>Complete Blueprint</strong> shows you <em>what to do with them</em> —
-            the compound story behind each number, the shadow patterns running on autopilot,
-            and the specific directive your Life Calling encodes.
+            All seven frequencies decoded in depth — compound numbers, shadow patterns,
+            External &amp; Internal Circuit, Life Calling directive, and your Quest Directive.
+            Delivered as a branded PDF to your inbox within minutes.
           </p>
 
           <ul class="unlock-features" aria-label="What's included">
@@ -329,31 +320,5 @@
       </div>
     </div>
   </div>
-
-  <script>
-    // Initialize modal event listeners and close functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      var overlay = document.getElementById('calculator-modal-overlay');
-      
-      // Close on overlay background click (click outside the modal)
-      if (overlay) {
-        overlay.addEventListener('click', function(e) {
-          if (e.target === this) {
-            closeCalculatorModal();
-          }
-        });
-      }
-
-      // Close on Escape key
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          var modalOverlay = document.getElementById('calculator-modal-overlay');
-          if (modalOverlay && modalOverlay.classList.contains('open')) {
-            closeCalculatorModal();
-          }
-        }
-      });
-    });
-  </script>
 
 </div>

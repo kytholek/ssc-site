@@ -1249,64 +1249,41 @@ function initServicesPage() {
 }
 
 function resetCalculatorModal() {
-  document.getElementById('modal-calc-month').value = '';
-  document.getElementById('modal-calc-day').value = '';
-  document.getElementById('modal-calc-year').value = '';
-  document.getElementById('modal-calc-fullname').value = '';
-  document.getElementById('modal-results-area').innerHTML = '<div class="results-placeholder-icon">✦</div><div class="results-placeholder-text" data-i18n="calc.results.placeholder">Your reading will appear here</div>';
-  document.getElementById('modal-unlock-cta').style.display = 'none';
-  document.getElementById('modal-unlock-cta').setAttribute('aria-hidden', 'true');
-  document.getElementById('modal-unlock-email').value = '';
-  document.getElementById('modal-unlock-email-error').textContent = '';
+  var month = document.getElementById('modal-calc-month');
+  var day   = document.getElementById('modal-calc-day');
+  var year  = document.getElementById('modal-calc-year');
+  var name  = document.getElementById('modal-calc-fullname');
+  var email = document.getElementById('modal-unlock-email');
+  var err   = document.getElementById('modal-unlock-email-error');
+  if (month) month.value = '';
+  if (day)   day.value = '';
+  if (year)  year.value = '';
+  if (name)  name.value = '';
+  if (email) email.value = '';
+  if (err)   err.textContent = '';
+  [month, day, year, name].forEach(function(el) {
+    if (el) el.classList.remove('ssc-input-error');
+  });
 }
 
-function calculateReadingModal() {
+function validateModalGuidebookFields() {
   var monthEl = document.getElementById('modal-calc-month');
   var dayEl   = document.getElementById('modal-calc-day');
   var yearEl  = document.getElementById('modal-calc-year');
   var nameEl  = document.getElementById('modal-calc-fullname');
-  var btn     = document.getElementById('modal-calc-btn');
-  var modalResults = document.getElementById('modal-results-area');
-  if (!monthEl || !dayEl || !yearEl || !nameEl || !modalResults) return;
-
-  var month = parseInt(monthEl.value);
-  var day   = parseInt(dayEl.value);
-  var year  = parseInt(yearEl.value);
-  var fullName = nameEl.value.trim();
+  if (!monthEl || !dayEl || !yearEl || !nameEl) return false;
 
   var hasError = false;
   [monthEl, dayEl, yearEl, nameEl].forEach(function(el) { el.classList.remove('ssc-input-error'); });
-  if (!month) { monthEl.classList.add('ssc-input-error'); hasError = true; }
-  if (!day)   { dayEl.classList.add('ssc-input-error'); hasError = true; }
-  if (!year)  { yearEl.classList.add('ssc-input-error'); hasError = true; }
-  if (!fullName) { nameEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!parseInt(monthEl.value)) { monthEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!parseInt(dayEl.value))   { dayEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!parseInt(yearEl.value))  { yearEl.classList.add('ssc-input-error'); hasError = true; }
+  if (!nameEl.value.trim())     { nameEl.classList.add('ssc-input-error'); hasError = true; }
   if (hasError) {
     var firstErr = document.querySelector('#calculator-modal-overlay .ssc-input-error');
     if (firstErr) firstErr.focus();
-    return;
   }
-
-  var origBtnText = btn ? btn.textContent : '';
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = '· Decoding ·';
-    btn.classList.add('ssc-btn-loading');
-  }
-
-  setTimeout(function() {
-    _doCalculateReading(month, day, year, fullName, btn, origBtnText, modalResults);
-    showUnlockCTAModal();
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = origBtnText;
-      btn.classList.remove('ssc-btn-loading');
-    }
-  }, 300);
-}
-
-function showUnlockCTAModal() {
-  document.getElementById('modal-unlock-cta').style.display = 'block';
-  document.getElementById('modal-unlock-cta').setAttribute('aria-hidden', 'false');
+  return !hasError;
 }
 
 function handleUnlockPaymentModal() {
@@ -1329,12 +1306,7 @@ function handleUnlockPaymentModal() {
     return;
   }
 
-  var nameVal  = (document.getElementById('modal-calc-fullname') || {}).value || '';
-  var monthVal = (document.getElementById('modal-calc-month')    || {}).value || '';
-  var dayVal   = (document.getElementById('modal-calc-day')      || {}).value || '';
-  var yearVal  = (document.getElementById('modal-calc-year')     || {}).value || '';
-
-  if (!nameVal || !monthVal || !dayVal || !yearVal) {
+  if (!validateModalGuidebookFields()) {
     if (errorEl) {
       errorEl.textContent = 'Please fill in your birth date and full name before proceeding.';
       errorEl.style.color = 'var(--rose-light)';
@@ -1342,16 +1314,19 @@ function handleUnlockPaymentModal() {
     return;
   }
 
+  var nameVal  = (document.getElementById('modal-calc-fullname') || {}).value || '';
+  var monthVal = (document.getElementById('modal-calc-month')    || {}).value || '';
+  var dayVal   = (document.getElementById('modal-calc-day')      || {}).value || '';
+  var yearVal  = (document.getElementById('modal-calc-year')     || {}).value || '';
+
   if (errorEl) errorEl.textContent = '';
 
-  var resultsArea = document.getElementById('modal-results-area');
   var userPayload = {
     email:    email,
     name:     nameVal,
     month:    monthVal,
     day:      dayVal,
     year:     yearVal,
-    results:  resultsArea ? resultsArea.innerText : ''
   };
 
   try {
@@ -1481,7 +1456,7 @@ document.addEventListener('keydown', function(e) {
     closeCalculatorModal();
   }
 });
-window.calculateReadingModal = calculateReadingModal;
+window.calculateReadingModal = validateModalGuidebookFields;
 window.handleUnlockPaymentModal = handleUnlockPaymentModal;
 
 // ────────────────────────────────────────────────────────────
@@ -1496,10 +1471,15 @@ window.handleUnlockPaymentModal = handleUnlockPaymentModal;
   }
 
   function _onModalKeydown(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      if (typeof calculateReadingModal === 'function') calculateReadingModal();
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    var emailEl = document.getElementById('modal-unlock-email');
+    if (emailEl && document.activeElement !== emailEl) {
+      emailEl.focus();
+      return;
     }
+    var btn = document.getElementById('modal-unlock-pay-btn');
+    if (btn && !btn.disabled) btn.click();
   }
 
   function _onUnlockEmailKeydown(e) {
