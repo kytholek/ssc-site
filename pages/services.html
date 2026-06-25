@@ -86,7 +86,7 @@
         <div class="svc-card-price-wrap">
           <div class="svc-card-price svc-card-price--amethyst">
             <span class="svc-price-currency">$</span>
-            <span class="svc-price-amount">120</span>
+            <span class="svc-price-amount">55</span>
           </div>
           <div class="svc-price-cadence">per session</div>
         </div>
@@ -213,10 +213,10 @@
   <div id="calculator-modal-overlay">
     <div id="calculator-modal">
       <button id="calculator-modal-close" aria-label="Close calculator" onclick="closeCalculatorModal()">&times;</button>
-      
+
       <div class="modal-calculator-hero">
-        <div class="modal-calculator-title">Receive Your Guidebook</div>
-        <p class="modal-calculator-subtitle">Enter your birth details and email. Your complete personalised blueprint will be generated and delivered as a PDF.</p>
+        <div class="modal-calculator-title">Your Details</div>
+        <p class="modal-calculator-subtitle">We'll send your guidebook to your inbox.</p>
       </div>
 
       <div id="modal-form-card" class="form-card">
@@ -249,74 +249,36 @@
             <input type="number" id="modal-calc-year" placeholder="YYYY" min="1900" max="2099">
           </div>
         </div>
-        <div class="form-section-label" style="margin-top:28px" data-i18n="calc.label.fullname">· Full Birth Name ·</div>
+        <div class="form-section-label" style="margin-top:20px" data-i18n="calc.label.fullname">· Full Birth Name ·</div>
         <div class="field">
           <label data-i18n="calc.label.namehint">Full Name (as on birth certificate)</label>
           <input type="text" id="modal-calc-fullname" data-i18n-placeholder="calc.placeholder.name" placeholder="e.g. Jane Marie Smith" autocomplete="off">
         </div>
+        <div class="form-section-label" style="margin-top:20px">· Email ·</div>
+        <div class="field">
+          <label for="modal-unlock-email">Where shall we send your guidebook?</label>
+          <input
+            type="email"
+            id="modal-unlock-email"
+            placeholder="your@email.com"
+            autocomplete="email"
+            required
+          />
+          <div class="modal-email-error" id="modal-unlock-email-error" role="alert" aria-live="polite"></div>
+        </div>
       </div>
 
-      <div id="modal-unlock-cta" class="unlock-cta">
-        <div class="unlock-divider">
-          <span class="unlock-divider-line"></span>
-          <span class="unlock-divider-sigil">✦</span>
-          <span class="unlock-divider-line"></span>
-        </div>
-
-        <div class="unlock-card">
-          <div class="unlock-glow" aria-hidden="true"></div>
-
-          <div class="unlock-eyebrow">Complete Blueprint Report</div>
-
-          <h2 class="unlock-title">Your Personal Guidebook</h2>
-
-          <p class="unlock-body">
-            All seven frequencies decoded in depth — compound numbers, shadow patterns,
-            External &amp; Internal Circuit, Life Calling directive, and your Quest Directive.
-            Delivered as a branded PDF to your inbox within minutes.
-          </p>
-
-          <ul class="unlock-features" aria-label="What's included">
-            <li><span class="unlock-check" aria-hidden="true">◈</span> Full compound number interpretation for all 7 frequencies</li>
-            <li><span class="unlock-check" aria-hidden="true">◈</span> Shadow &amp; positive expression of each number</li>
-            <li><span class="unlock-check" aria-hidden="true">◈</span> Your personal star chart — all 7 nodes mapped</li>
-            <li><span class="unlock-check" aria-hidden="true">◈</span> External &amp; Internal Circuit fully decoded</li>
-            <li><span class="unlock-check" aria-hidden="true">◈</span> Life Calling directive &amp; Quest Directive</li>
-            <li><span class="unlock-check" aria-hidden="true">◈</span> Branded PDF delivered to your inbox within minutes</li>
-          </ul>
-
-          <div class="unlock-email-wrap">
-            <label class="unlock-email-label" for="modal-unlock-email">Where shall we send your guidebook?</label>
-            <input
-              type="email"
-              id="modal-unlock-email"
-              class="unlock-email-input"
-              placeholder="your@email.com"
-              autocomplete="email"
-              required
-            />
-            <div class="unlock-email-hint" id="modal-unlock-email-error" role="alert" aria-live="polite"></div>
-          </div>
-
-          <div class="unlock-price-row">
-            <div class="unlock-price">
-              <span class="unlock-price-amount">$11</span>
-              <span class="unlock-price-label">one-time · instant delivery</span>
-            </div>
-          </div>
-
-          <button
-            class="unlock-btn"
-            id="modal-unlock-pay-btn"
-            onclick="handleUnlockPaymentModal()"
-          >
-            Receive My Guidebook&nbsp
-          </button>
-
-          <p class="unlock-reassurance">
-            Secure payment via Stripe · No subscription · PDF delivered by email
-          </p>
-        </div>
+      <div id="modal-unlock-cta" class="modal-checkout-footer">
+        <button
+          class="modal-checkout-btn"
+          id="modal-unlock-pay-btn"
+          onclick="handleUnlockPaymentModal()"
+        >
+          Continue to Payment · $11
+        </button>
+        <p class="modal-checkout-reassurance">
+          Secure checkout via Stripe · PDF within minutes
+        </p>
       </div>
     </div>
   </div>

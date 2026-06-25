@@ -617,7 +617,7 @@ function _injectPageSchema(name) {
       'provider': { '@type': 'Organization', 'name': 'Simulation Source Code' },
       'offers'  : [
         { '@type': 'Offer', 'name': 'Holographic Blueprint PDF', 'price': '37', 'priceCurrency': 'USD' },
-        { '@type': 'Offer', 'name': 'Personal Consultation',     'price': '120','priceCurrency': 'USD' },
+        { '@type': 'Offer', 'name': 'Personal Consultation',     'price': '55','priceCurrency': 'USD' },
         { '@type': 'Offer', 'name': 'Monthly Membership',        'price': '20', 'priceCurrency': 'USD', 'priceSpecification': { '@type': 'RecurringCharges', 'billingPeriod': 'Month' } }
       ]
     });
@@ -1228,9 +1228,15 @@ window.applyLanguage = applyLanguage;
 //  Pop-up calculator overlay for guidebook purchase flow
 // ════════════════════════════════════════════════════════════
 
+var MODAL_CHECKOUT_BTN_LABEL = 'Continue to Payment · $11';
+
 function openCalculatorModal() {
   var overlay = document.getElementById('calculator-modal-overlay');
   if (overlay) overlay.classList.add('open');
+  setTimeout(function() {
+    var month = document.getElementById('modal-calc-month');
+    if (month) month.focus();
+  }, 100);
 }
 
 function closeCalculatorModal() {
@@ -1383,7 +1389,7 @@ function handleUnlockPaymentModal() {
       errorEl.style.color = 'var(--rose-light)';
     }
     btn.disabled    = false;
-    btn.textContent = '⬡&nbsp;&nbsp;Receive My Guidebook&nbsp;&nbsp;⬡';
+    btn.textContent = MODAL_CHECKOUT_BTN_LABEL;
   });
 }
 

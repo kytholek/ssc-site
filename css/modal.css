@@ -50,11 +50,11 @@ button.svc-cta {
   background: linear-gradient(135deg, rgba(17, 15, 31, 0.95), rgba(32, 29, 58, 0.9));
   border: 1px solid rgba(126, 200, 200, 0.4);
   border-radius: 10px;
-  max-width: 600px;
+  max-width: 480px;
   width: 90%;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
-  padding: 48px;
+  padding: 36px 32px 32px;
   margin: auto;
   box-shadow: 0 0 40px rgba(74, 148, 148, 0.25), 0 20px 80px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(126, 200, 200, 0.05);
   animation: slideUp 0.3s ease-out;
@@ -94,16 +94,16 @@ button.svc-cta {
 
 #calculator-modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   background: rgba(74, 148, 148, 0.15);
   border: 1px solid rgba(126, 200, 200, 0.3);
   border-radius: 50%;
   font-size: 24px;
   cursor: pointer;
   color: var(--teal-light);
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,18 +122,18 @@ button.svc-cta {
 
 .modal-calculator-hero {
   text-align: center;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(126, 200, 200, 0.2);
 }
 
 .modal-calculator-title {
   font-family: 'Cormorant SC', serif;
   font-weight: 300;
-  font-size: 28px;
+  font-size: 24px;
   font-variant: small-caps;
   letter-spacing: 0.04em;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   color: var(--teal-light);
   text-shadow: 0 0 20px rgba(126, 200, 200, 0.2);
 }
@@ -143,16 +143,17 @@ button.svc-cta {
   font-size: 14px;
   font-style: italic;
   color: var(--text-dim);
-  line-height: 1.6;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* Adjust calculator form styling for modal */
+/* Form card */
 #modal-form-card {
   background: linear-gradient(135deg, rgba(74, 148, 148, 0.08), rgba(126, 200, 200, 0.05));
   border: 1px solid rgba(126, 200, 200, 0.3);
   border-radius: 8px;
-  padding: 24px;
-  margin: 24px 0;
+  padding: 20px;
+  margin: 0;
   box-shadow: inset 0 0 16px rgba(126, 200, 200, 0.04);
 }
 
@@ -162,12 +163,16 @@ button.svc-cta {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--teal-light);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 #modal-form-card .date-row,
 #modal-form-card .field {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+#modal-form-card .field:last-child {
+  margin-bottom: 0;
 }
 
 #modal-form-card .field label {
@@ -191,6 +196,7 @@ button.svc-cta {
   border-radius: 5px;
   width: 100%;
   transition: all 0.3s;
+  box-sizing: border-box;
 }
 
 #modal-form-card .field input:focus,
@@ -201,73 +207,65 @@ button.svc-cta {
   box-shadow: 0 0 20px rgba(126, 200, 200, 0.15), inset 0 0 8px rgba(126, 200, 200, 0.04);
 }
 
-#modal-calc-btn {
-  width: 100%;
-  margin: 28px 0 20px;
-  background: linear-gradient(135deg, rgba(74, 148, 148, 0.35), rgba(126, 200, 200, 0.25)) !important;
-  border: 1px solid rgba(126, 200, 200, 0.4) !important;
-  color: var(--gold) !important;
-  box-shadow: 0 4px 24px rgba(74, 148, 148, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
-}
-
-#modal-calc-btn:hover {
-  box-shadow: 0 0 32px rgba(126, 200, 200, 0.35), inset 0 0 20px rgba(126, 200, 200, 0.08) !important;
-  border-color: rgba(126, 200, 200, 0.6) !important;
-}
-
-#modal-results-area {
-  margin-top: 28px;
-  padding: 16px;
-  background: rgba(5, 4, 10, 0.5);
-  border: 1px solid rgba(126, 200, 200, 0.15);
-  border-radius: 8px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-#modal-results-area::-webkit-scrollbar {
-  width: 6px;
-}
-
-#modal-results-area::-webkit-scrollbar-track {
-  background: rgba(126, 200, 200, 0.05);
-  border-radius: 3px;
-}
-
-#modal-results-area::-webkit-scrollbar-thumb {
-  background: rgba(126, 200, 200, 0.2);
-  border-radius: 3px;
-}
-
-#modal-results-area::-webkit-scrollbar-thumb:hover {
-  background: rgba(126, 200, 200, 0.4);
-}
-
-#modal-results-area .results-placeholder-icon {
-  font-size: 32px;
-  color: var(--teal-light);
-  opacity: 0.4;
-}
-
-#modal-results-area .results-placeholder-text {
-  color: var(--text-dim);
+.modal-email-error {
+  font-family: 'EB Garamond', serif;
   font-size: 13px;
-  margin-top: 8px;
+  margin-top: 6px;
+  min-height: 1.2em;
 }
 
-#modal-unlock-cta {
-  margin-top: 32px;
+/* Checkout footer */
+.modal-checkout-footer {
+  margin-top: 20px;
+}
+
+.modal-checkout-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: linear-gradient(135deg, rgba(74, 148, 148, 0.35), rgba(126, 200, 200, 0.25));
+  border: 1px solid rgba(126, 200, 200, 0.4);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 24px rgba(74, 148, 148, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.modal-checkout-btn:hover:not(:disabled) {
+  box-shadow: 0 0 32px rgba(126, 200, 200, 0.35), inset 0 0 20px rgba(126, 200, 200, 0.08);
+  border-color: rgba(126, 200, 200, 0.6);
+}
+
+.modal-checkout-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-checkout-reassurance {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 12px 0 0;
+  opacity: 0.75;
 }
 
 @media (max-width: 768px) {
   #calculator-modal {
-    padding: 32px 24px;
+    padding: 28px 20px 24px;
     width: 95%;
     border-radius: 8px;
   }
 
   .modal-calculator-title {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .modal-calculator-subtitle {
@@ -275,19 +273,14 @@ button.svc-cta {
   }
 
   #calculator-modal-close {
-    top: 16px;
-    right: 16px;
-    width: 44px;
-    height: 44px;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
     font-size: 20px;
   }
 
   #modal-form-card {
-    padding: 20px;
-    margin: 20px 0;
-  }
-
-  #modal-results-area {
-    max-height: 300px;
+    padding: 16px;
   }
 }
