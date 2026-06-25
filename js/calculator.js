@@ -5,7 +5,7 @@
  * Required by: app.js (window.calculateReading, window.buildFreqChart)
  */
 
-// Cloudflare Worker route (production). Netlify deploys also rewrite /api/session → create-checkout.
+// Checkout API — Cloudflare Worker POST /api/session (see wrangler.jsonc).
 var SSC_CHECKOUT_URL = '/api/session';
 
 /* ═══════════════════════════════════════════════════════════════

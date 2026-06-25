@@ -11,6 +11,5 @@ async function probe(url, method, body) {
   const base = 'https://simulationsourcecode.com';
   await probe(base + '/api/session', 'OPTIONS');
   await probe(base + '/api/session', 'POST', { email: 'test@example.com', name: 'Test', month: '1', day: '1', year: '1990' });
-  await probe(base + '/.netlify/functions/create-checkout', 'POST', { email: 'test@example.com', name: 'Test', month: '1', day: '1', year: '1990' });
-  console.log('\nProduction uses Cloudflare Worker → POST /api/session (not Netlify functions).');
+  console.log('\nProduction uses Cloudflare Worker → POST /api/session');
 })().catch(console.error);

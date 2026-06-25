@@ -1,31 +1,9 @@
 [build]
-# Set to "." if your site is at the repo root, or to a subfolder name (no leading slash) if needed
 base = "."
-# Set your build command if you have one, or remove if not needed
-# command = "npm run build"
-# Set your publish directory (e.g., "dist", "public", or repo root)
 publish = "."
 
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
-
-[functions."stripe-webhook"]
-  timeout = 60
-
-[functions."create-checkout"]
-  timeout = 15
-
-[dev]
-# Optional: port = 8888
-
-# Netlify Identity and Git Gateway do not require special config in netlify.toml, but this file ensures build settings are correct.
-
-# Checkout API — Netlify-only fallback (production uses Cloudflare Worker POST /api/session)
-[[redirects]]
-from = "/api/session"
-to = "/.netlify/functions/create-checkout"
-status = 200
+# Production API (checkout, webhook, email) runs on Cloudflare Worker — see wrangler.jsonc.
+# This file is kept for optional Netlify static hosting / Decap CMS (admin/) only.
 
 [[redirects]]
 from = "/calculator"
