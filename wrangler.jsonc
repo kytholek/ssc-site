@@ -21,6 +21,19 @@
       "custom_domain": true
     }
   ],
+  "queues": {
+    "producers": [
+      {
+        "queue": "ssc-readings",
+        "binding": "READINGS_QUEUE"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "ssc-readings"
+      }
+    ]
+  },
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
