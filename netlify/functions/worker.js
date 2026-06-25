@@ -1,16 +1,10 @@
 /**
  * SSC — Cloudflare Worker
- * Flow: Stripe webhook → verify → queue → Anthropic → PDFShift → Resend
- *
- * Environment variables (Cloudflare dashboard → Workers → Settings → Variables):
- *   STRIPE_SECRET              — sk_live_...
- *   STRIPE_WEBHOOK_SECRET      — whsec_...
- *   ANTHROPIC_API_KEY          — sk-ant-...
- *   PDFSHIFT_API_KEY           — your PDFShift API key
- *   RESEND_API_KEY             — re_...
- *   FROM_EMAIL                 — readings@simulationsourcecode.com
- *   REPLY_TO_EMAIL             — support@simulationsourcecode.com (optional)
+ * Flow: POST /api/session → queue → Anthropic → PDFShift → Resend
+ *       (paid: Stripe checkout → webhook → queue)
  */
+
+const GUIDEBOOK_PRICE_CENTS = 0; // 0 = free, queue directly. Set to 1100 to use Stripe + webhook.
 
 const ALLOWED_ORIGINS = [
   'https://simulationsourcecode.com',
@@ -30,16 +24,78 @@ function corsHeaders(requestOrigin) {
   };
 }
 
+/** Resend requires `email@domain.com` or `Name <email@domain.com>` — not double-wrapped. */
+function formatResendFrom(fromEnv, displayName = 'Simulation Source Code') {
+  const fallback = 'readings@simulationsourcecode.com';
+  const raw = String(fromEnv || fallback).trim().replace(/^["']|["']$/g, '');
+  if (/^[^<]+\s+<[^>@]+@[^>]+>$/.test(raw)) return raw;
+  const emailOnly = raw.match(/^<?([^<>\s]+@[^<>\s]+)>?$/);
+  if (emailOnly) return `${displayName} <${emailOnly[1]}>`;
+  return `${displayName} <${fallback}>`;
+}
+
+function formatResendReplyTo(replyEnv, fromEnv) {
+  const raw = String(replyEnv || fromEnv || 'readings@simulationsourcecode.com')
+    .trim()
+    .replace(/^["']|["']$/g, '');
+  const wrapped = raw.match(/<([^>]+)>/);
+  if (wrapped) return wrapped[1].trim();
+  if (/^[^\s<>]+@[^\s<>]+\.[^\s<>]+$/.test(raw)) return raw;
+  return 'readings@simulationsourcecode.com';
+}
+
+function buildUserDataFromBody({ email, name, month, day, year, full_name }) {
+  return {
+    name:       name || 'Seeker',
+    email,
+    birthMonth: parseInt(month, 10),
+    birthDay:   parseInt(day, 10),
+    birthYear:  parseInt(year, 10),
+    fullName:   full_name || name,
+  };
+}
+
+function validateUserData(userData) {
+  if (!userData.email) return 'Email required';
+  if (!userData.birthMonth || !userData.birthDay || !userData.birthYear) {
+    return 'Birth date and name required';
+  }
+  return null;
+}
+
+async function logPurchaseEmail(email) {
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbz_G8BxEgYBPpWNPO6vmGEPiITYUAH3px8TxyaSZCME4W_3y7MQ_IPdzdi2tdiX1X7w9w/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'purchase' }),
+    });
+  } catch (err) {
+    console.error('sheets-log error:', err);
+  }
+}
+
+async function enqueueGuidebook(userData, env) {
+  if (!env.READINGS_QUEUE) {
+    throw new Error('READINGS_QUEUE binding missing — redeploy wrangler.jsonc with queues.producers');
+  }
+  await env.READINGS_QUEUE.send(userData);
+  console.log('Queued guidebook for', userData.email);
+}
+
 export default {
 
   // ── Queue consumer — up to 15 min, no wall-clock pressure ──────────────
   async queue(batch, env) {
+    console.log(`Queue batch received: ${batch.messages.length} message(s)`);
     for (const message of batch.messages) {
       try {
+        console.log('Queue message body:', JSON.stringify(message.body));
         await processReading(message.body, env);
         message.ack();
+        console.log('Queue message acked for', message.body?.email);
       } catch (err) {
-        console.error('Queue consumer error — will retry:', err);
+        console.error('Queue consumer error — will retry:', err?.message || err, err?.stack);
         message.retry();
       }
     }
@@ -98,23 +154,48 @@ export default {
     }
 
     if (stripeEvent.type !== 'checkout.session.completed') {
+      console.log('Stripe webhook ignored event type:', stripeEvent.type);
       return new Response('Event type ignored', { status: 200 });
     }
 
     const session = stripeEvent.data.object;
+    console.log('Stripe checkout.session.completed:', session.id);
 
     const userData = {
       name:        session.metadata?.name         || session.customer_details?.name || 'Seeker',
-      email:       session.metadata?.email        || session.customer_details?.email,
-      birthMonth:  parseInt(session.metadata?.birth_month || session.metadata?.month),
-      birthDay:    parseInt(session.metadata?.birth_day   || session.metadata?.day),
-      birthYear:   parseInt(session.metadata?.birth_year  || session.metadata?.year),
+      email:       session.customer_email         || session.metadata?.email        || session.customer_details?.email,
+      birthMonth:  parseInt(session.metadata?.birth_month || session.metadata?.month, 10),
+      birthDay:    parseInt(session.metadata?.birth_day   || session.metadata?.day, 10),
+      birthYear:   parseInt(session.metadata?.birth_year  || session.metadata?.year, 10),
       fullName:    session.metadata?.full_name    || session.metadata?.name,
     };
 
+    console.log('Webhook userData:', JSON.stringify({
+      sessionId: session.id,
+      email: userData.email,
+      name: userData.name,
+      birthMonth: userData.birthMonth,
+      birthDay: userData.birthDay,
+      birthYear: userData.birthYear,
+    }));
+
     if (!userData.email) {
-      console.error('No customer email found in session:', session.id);
-      return new Response('Missing customer email', { status: 200 });
+      console.error('No customer email on session:', session.id, {
+        customer_email: session.customer_email,
+        metadata_email: session.metadata?.email,
+        customer_details_email: session.customer_details?.email,
+      });
+      return new Response('Missing customer email', { status: 400 });
+    }
+
+    if (!userData.birthMonth || !userData.birthDay || !userData.birthYear) {
+      console.error('Missing birth date metadata on session:', session.id, session.metadata);
+      return new Response('Missing birth date metadata', { status: 400 });
+    }
+
+    if (!env.READINGS_QUEUE) {
+      console.error('READINGS_QUEUE binding missing — redeploy wrangler.jsonc with queues.producers');
+      return new Response('Queue not configured', { status: 500 });
     }
 
     // Log purchase email to Google Sheet
@@ -128,7 +209,14 @@ export default {
       console.error('sheets-log error:', err);
     }
 
-    await env.READINGS_QUEUE.send(userData);
+    try {
+      await env.READINGS_QUEUE.send(userData);
+      console.log('Queued reading for', userData.email);
+    } catch (err) {
+      console.error('READINGS_QUEUE.send failed:', err);
+      return new Response(`Queue error: ${err.message}`, { status: 500 });
+    }
+
     return new Response('OK', { status: 200 });
   }
 };
@@ -283,20 +371,18 @@ function calculateFrequencies(name, month, day, year) {
 // ════════════════════════════════════════════════════════════
 
 async function processReading(userData, env) {
-  console.log(`Processing reading for ${userData.email}`);
+  console.log(`[1/4] Processing reading for ${userData.email}`);
 
-  // Calculate all frequencies including compound/raw values
   const name = userData.fullName || userData.name;
   const frequencies = calculateFrequencies(
     name, userData.birthMonth, userData.birthDay, userData.birthYear
   );
-  console.log('Frequencies:', JSON.stringify(frequencies));
+  console.log('[1/4] Frequencies:', JSON.stringify(frequencies));
 
-  // Step 1 — Generate guidebook body via Anthropic
+  console.log('[2/4] Calling Anthropic…');
   const guidebookBody = await generateReading(userData, frequencies, env);
-  console.log('Anthropic reading generated');
+  console.log('[2/4] Anthropic reading generated, length:', guidebookBody.length);
 
-  // Step 2 — Build full PDF HTML from template
   const pdfHtml = buildPdfHtml({
     name, frequencies, guidebookBody,
     month: userData.birthMonth,
@@ -304,13 +390,13 @@ async function processReading(userData, env) {
     year:  userData.birthYear,
   });
 
-  // Step 3 — Convert HTML to PDF via PDFShift
+  console.log('[3/4] Calling PDFShift…');
   const pdfBuffer = await convertToPDF(pdfHtml, env);
-  console.log('PDF generated, size:', pdfBuffer.byteLength);
+  console.log('[3/4] PDF generated, size:', pdfBuffer.byteLength);
 
-  // Step 4 — Send email with PDF via Resend
+  console.log('[4/4] Sending email via Resend…');
   await sendEmail(userData, name, frequencies, pdfBuffer, env);
-  console.log(`Email sent to ${userData.email}`);
+  console.log(`[4/4] Email sent to ${userData.email}`);
 }
 
 
@@ -482,9 +568,9 @@ async function sendEmail(userData, name, frequencies, pdfBuffer, env) {
       'Authorization': `Bearer ${env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from:     `Simulation Source Code <${env.FROM_EMAIL}>`,
+      from:     formatResendFrom(env.FROM_EMAIL),
       to:       [userData.email],
-      reply_to: env.REPLY_TO_EMAIL || env.FROM_EMAIL,
+      reply_to: formatResendReplyTo(env.REPLY_TO_EMAIL, env.FROM_EMAIL),
       subject:  `\u2746 Your Holographic Blueprint \u2014 ${name.split(' ')[0]}`,
       html:     buildNotificationEmail(name, userData.email, frequencies),
       attachments: [{
@@ -1059,7 +1145,7 @@ async function handleSubmitEmail(request, env, origin) {
         'Content-Type':  'application/json',
       },
       body: JSON.stringify({
-        from:    env.FROM_EMAIL || 'readings@simulationsourcecode.com',
+        from:    formatResendFrom(env.FROM_EMAIL),
         to:      [email],
         subject: 'Your Free Life Path Intro — Simulation Source Code',
         html:    `<p>Thanks for connecting. Your free Life Path intro is on its way.</p><p>— Kytholek</p>`,
