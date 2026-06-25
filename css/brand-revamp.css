@@ -18,7 +18,7 @@
 
   --gold:            #c9a84c;    /* Primary · Electric · Active */
   --gold-light:      #e8c96b;    /* Active states · key numbers · glow centres */
-  --gold-dim:        #7a6330;    /* Eyebrows · Labels · Subdued metadata */
+  --gold-dim:        #9a7f45;    /* Eyebrows · Labels · Subdued metadata */
 
   --amethyst:        #7b4fa6;    /* Secondary · Magnetic · Depth */
   --amethyst-light:  #a96ed4;    /* Subtitles · Secondary CTAs · Hover */
@@ -31,12 +31,14 @@
   --rose-light:      #d47aa0;
 
   --text:            #e8dfc8;    /* Parchment — body text */
-  --text-dim:        #9b9080;    /* Dust — descriptions, meta */
-  --text-muted:      #5c5448;
+  --text-dim:        #b8ad9c;    /* Dust — descriptions, meta */
+  --text-muted:      #8f8475;
+  --text-on-panel:   var(--text-dim);
 
   --border:          rgba(201,168,76, 0.22);
   --border-mid:      rgba(201,168,76, 0.14);
   --border-dim:      rgba(201,168,76, 0.08);
+  --border-subtle:   rgba(255,255,255, 0.08);
 }
 
 html[data-theme='light'] input,
@@ -1228,11 +1230,13 @@ html[data-theme='light'] .field select:focus {
   --rose: #9b627c;
   --rose-light: #c58f9f;
   --text: #1f1a14;
-  --text-dim: #5a5242;
-  --text-muted: #7e7568;
+  --text-dim: #4a4338;
+  --text-muted: #5f574d;
+  --text-on-panel: var(--text-dim);
   --border: rgba(0,0,0,0.1);
   --border-dim: rgba(0,0,0,0.06);
   --border-mid: rgba(0,0,0,0.08);
+  --border-subtle: rgba(0,0,0,0.08);
 }
 
 html[data-theme='light'] body {
@@ -1264,9 +1268,12 @@ html[data-theme='light'] nav.nav-hero:not(.breadcrumb) a {
 }
 
 html[data-theme='light'] .svc-card-tagline,
-html[data-theme='light'] .svc-feature,
+html[data-theme='light'] .svc-feature {
+  color: var(--text-dim) !important;
+}
+
 html[data-theme='light'] .svc-feature--muted {
-  color: #ffffff !important;
+  color: var(--text-muted) !important;
 }
 
 html[data-theme='light'] .nav-link,
@@ -1637,7 +1644,6 @@ html[data-theme='light'] #page-home .hp-codex-node--center text {
 
 .svc-feature--muted {
   color: var(--text-muted);
-  opacity: 0.55;
 }
 
 .svc-feature-gem {
