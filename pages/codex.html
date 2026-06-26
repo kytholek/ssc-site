@@ -45,16 +45,16 @@
 #page-codex .codex-title { font-family:'Cormorant SC',serif; font-weight:300; font-size:clamp(36px,6vw,68px); color:#F5C842; line-height:1.05; margin-bottom:14px; letter-spacing:.08em; text-shadow:0 0 60px rgba(245,200,66,.25); }
 #page-codex .codex-instruction { font-family:'Cinzel',serif; font-size:8px; letter-spacing:.3em; text-transform:uppercase; color:rgba(192,192,216,.45); margin-bottom:24px; text-align:center; }
 
-#page-codex .matrix-hud { position:relative; display:flex; flex-direction:column; align-items:center; width:100%; max-width:680px; }
+#page-codex .matrix-hud { position:relative; display:flex; flex-direction:column; align-items:center; width:100%; max-width:460px; }
 
 #page-codex .codex-spirit-wrap {
   position: relative;
   width: 100%;
-  max-width: 680px;
-  background: #07070F;
+  max-width: 460px;
+  background: #050510;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 680 / 760;
+  aspect-ratio: 460 / 500;
 }
 
 #page-codex .codex-spirit-svg {
@@ -114,31 +114,109 @@
 #page-codex .node-name,
 #page-codex .node-dot { display: none !important; }
 
-/* Spirit SVG animations */
-@keyframes cdxspirit-pulse-elec { 0%,100%{opacity:0.55} 50%{opacity:1} }
-@keyframes cdxspirit-pulse-mag  { 0%,100%{opacity:0.55} 50%{opacity:1} }
-@keyframes cdxspirit-pulse-aeth { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
-@keyframes cdxspirit-spin-slow  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-@keyframes cdxspirit-spin-rev   { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
-@keyframes cdxspirit-star-twinkle { 0%,100%{opacity:0.2} 50%{opacity:0.8} }
-@keyframes cdxspirit-moon-pulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
-@keyframes cdxspirit-seq-travel { 0%{stroke-dashoffset:2000} 100%{stroke-dashoffset:0} }
-@keyframes cdxspirit-inf-travel { 0%{stroke-dashoffset:1200} 100%{stroke-dashoffset:0} }
+/* Vortex field SVG */
+#page-codex .cdxfield-struct-line { stroke: #1e293b; stroke-width: 1; }
 
-#page-codex .cdxspirit-elec-halo { animation: cdxspirit-pulse-elec 3s ease-in-out infinite; }
-#page-codex .cdxspirit-mag-halo  { animation: cdxspirit-pulse-mag  3.4s ease-in-out infinite; }
-#page-codex .cdxspirit-aeth-halo { animation: cdxspirit-pulse-aeth 2.5s ease-in-out infinite; }
-#page-codex .cdxspirit-spin-outer { transform-origin:340px 375px; animation: cdxspirit-spin-slow 60s linear infinite; }
-#page-codex .cdxspirit-spin-inner { transform-origin:340px 375px; animation: cdxspirit-spin-rev 40s linear infinite; }
-#page-codex .cdxspirit-star1 { animation: cdxspirit-star-twinkle 2.3s ease-in-out infinite; }
-#page-codex .cdxspirit-star2 { animation: cdxspirit-star-twinkle 3.1s ease-in-out infinite 0.5s; }
-#page-codex .cdxspirit-star3 { animation: cdxspirit-star-twinkle 1.9s ease-in-out infinite 1.1s; }
-#page-codex .cdxspirit-star4 { animation: cdxspirit-star-twinkle 2.7s ease-in-out infinite 0.3s; }
-#page-codex .cdxspirit-moon-g { animation: cdxspirit-moon-pulse 4s ease-in-out infinite; }
-#page-codex .cdxspirit-seq-flow,
-#page-codex .cdxspirit-seq-glow { stroke-dasharray: 2000; animation: cdxspirit-seq-travel 8s ease-in-out infinite; }
-#page-codex .cdxspirit-inf-flow-up { stroke-dasharray: 1200; animation: cdxspirit-inf-travel 5s ease-in-out infinite 1s; }
-#page-codex .cdxspirit-inf-flow-dn { stroke-dasharray: 1200; animation: cdxspirit-inf-travel 5s ease-in-out infinite 3.5s; }
+#page-codex .cdxfield-mag-path {
+  fill: none;
+  stroke: #06b6d4;
+  stroke-width: 2.2;
+  stroke-dasharray: 10 5;
+  filter: url(#cdxfield-glow-cyan);
+  animation: cdxfield-flowElec 3s linear infinite;
+}
+#page-codex .cdxfield-elec-path {
+  fill: none;
+  stroke: #f59e0b;
+  stroke-width: 2.2;
+  stroke-dasharray: 120 0;
+  filter: url(#cdxfield-glow-amber);
+  animation: cdxfield-flowMag 4s linear infinite;
+}
+@keyframes cdxfield-flowElec { to { stroke-dashoffset: -45; } }
+@keyframes cdxfield-flowMag {
+  0%   { stroke-dasharray: 0 400; stroke-dashoffset: 0; }
+  50%  { stroke-dasharray: 200 400; }
+  100% { stroke-dasharray: 0 400; stroke-dashoffset: -400; }
+}
+
+#page-codex .cdxfield-node-ring { fill: #050510; stroke-width: 2; }
+#page-codex .cdxfield-node-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+#page-codex .cdxfield-node-electric .cdxfield-node-ring { stroke: #f59e0b; fill: #1a1100; }
+#page-codex .cdxfield-node-electric .cdxfield-node-label { fill: #fbbf24; }
+#page-codex .cdxfield-node-magnetic .cdxfield-node-ring { stroke: #06b6d4; fill: #001a1f; }
+#page-codex .cdxfield-node-magnetic .cdxfield-node-label { fill: #67e8f9; }
+#page-codex .cdxfield-node-aetheric .cdxfield-node-label { fill: #e9d5ff; font-size: 17px; }
+
+#page-codex .cdxfield-singularity-core { animation: cdxfield-pulse-core 2.5s ease-in-out infinite; }
+@keyframes cdxfield-pulse-core {
+  0%,100% { r: 18; opacity: 1; }
+  50%      { r: 22; opacity: 0.7; }
+}
+#page-codex .cdxfield-singularity-ring1 { animation: cdxfield-pulse-ring 2.5s ease-in-out infinite; }
+#page-codex .cdxfield-singularity-ring2 { animation: cdxfield-pulse-ring 2.5s ease-in-out infinite 0.4s; }
+#page-codex .cdxfield-singularity-ring3 { animation: cdxfield-pulse-ring 2.5s ease-in-out infinite 0.8s; }
+@keyframes cdxfield-pulse-ring {
+  0%   { r: 22; opacity: 0.5; stroke-width: 1.5; }
+  100% { r: 55; opacity: 0;   stroke-width: 0.2; }
+}
+
+#page-codex .cdxfield-torus-group {
+  transform-origin: 230px 250px;
+  animation: cdxfield-torusSpin 18s linear infinite;
+}
+@keyframes cdxfield-torusSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+#page-codex .cdxfield-field-halo { animation: cdxfield-haloBreath 4s ease-in-out infinite; }
+@keyframes cdxfield-haloBreath {
+  0%,100% { opacity: 0.12; }
+  50%     { opacity: 0.24; }
+}
+
+/* Toroidal field line flow */
+#page-codex .cdxfield-torus-line,
+#page-codex .cdxfield-torus-line-rev {
+  fill: none;
+  stroke-linecap: round;
+}
+#page-codex .cdxfield-torus-line {
+  animation: cdxfield-torusflow 14s linear infinite;
+}
+#page-codex .cdxfield-torus-line-rev {
+  animation: cdxfield-torusflowRev 14s linear infinite;
+}
+@keyframes cdxfield-torusflow    { to { stroke-dashoffset: -1200; } }
+@keyframes cdxfield-torusflowRev { to { stroke-dashoffset: 1200; } }
+
+#page-codex .cdxfield-waist-belt {
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Ring of Void (0) — outer boundary encircling the field */
+#page-codex .cdxfield-void-group {
+  transform-origin: 230px 250px;
+  animation: cdxfield-voidSpin 90s linear infinite;
+}
+@keyframes cdxfield-voidSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+#page-codex .cdxfield-void-ring-inner {
+  fill: none;
+  stroke: rgba(192, 192, 216, 0.22);
+  stroke-width: 0.8;
+  stroke-dasharray: 5 12;
+}
 
 #page-codex .plane-legend { margin-top:36px; display:flex; flex-direction:column; align-items:center; gap:20px; width:100%; max-width:680px; }
 #page-codex .legend-row { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; align-items:center; }
@@ -259,21 +337,17 @@
   @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 }
 @media(prefers-reduced-motion: reduce) {
-  #page-codex .cdxspirit-spin-outer,
-  #page-codex .cdxspirit-spin-inner,
-  #page-codex .cdxspirit-elec-halo,
-  #page-codex .cdxspirit-mag-halo,
-  #page-codex .cdxspirit-aeth-halo,
-  #page-codex .cdxspirit-star1,
-  #page-codex .cdxspirit-star2,
-  #page-codex .cdxspirit-star3,
-  #page-codex .cdxspirit-star4,
-  #page-codex .cdxspirit-moon-g,
-  #page-codex .cdxspirit-seq-flow,
-  #page-codex .cdxspirit-seq-glow,
-  #page-codex .cdxspirit-inf-flow-up,
-  #page-codex .cdxspirit-inf-flow-dn { animation: none !important; }
-  #page-codex animateTransform { display: none; }
+  #page-codex .cdxfield-torus-group,
+  #page-codex .cdxfield-void-group,
+  #page-codex .cdxfield-field-halo,
+  #page-codex .cdxfield-torus-line,
+  #page-codex .cdxfield-torus-line-rev,
+  #page-codex .cdxfield-singularity-core,
+  #page-codex .cdxfield-singularity-ring1,
+  #page-codex .cdxfield-singularity-ring2,
+  #page-codex .cdxfield-singularity-ring3,
+  #page-codex .cdxfield-elec-path,
+  #page-codex .cdxfield-mag-path { animation: none !important; }
 }
 </style>
 
@@ -290,253 +364,212 @@
     <div class="matrix-hud">
       <div class="codex-spirit-wrap" id="codex-spirit-wrap">
 
-<svg class="codex-spirit-svg" viewBox="0 0 680 760" preserveAspectRatio="xMidYMid meet" role="presentation" aria-hidden="true">
-<title>Codex Spirit — Animated Sacred Geometry</title>
+<svg class="codex-spirit-svg" preserveAspectRatio="xMidYMid meet" role="presentation" aria-hidden="true" viewBox="0 0 460 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Glow filters -->
+    <filter id="cdxfield-glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cdxfield-glow-amber" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cdxfield-glow-violet" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cdxfield-glow-soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
 
-<defs>
-  <radialGradient id="cdxspirit-elec" cx="50%" cy="38%" r="62%">
-    <stop offset="0%" stop-color="#FFFBE8"/>
-    <stop offset="60%" stop-color="#F5C842" stop-opacity="0.8"/>
-    <stop offset="100%" stop-color="#B8860B" stop-opacity="0.3"/>
-  </radialGradient>
-  <radialGradient id="cdxspirit-mag" cx="50%" cy="38%" r="62%">
-    <stop offset="0%" stop-color="#EBF6FF"/>
-    <stop offset="60%" stop-color="#378ADD" stop-opacity="0.8"/>
-    <stop offset="100%" stop-color="#0C3A6B" stop-opacity="0.3"/>
-  </radialGradient>
-  <radialGradient id="cdxspirit-aeth" cx="50%" cy="35%" r="65%">
-    <stop offset="0%" stop-color="#FFFFFF"/>
-    <stop offset="50%" stop-color="#D8D8F0" stop-opacity="0.9"/>
-    <stop offset="100%" stop-color="#7070A0" stop-opacity="0.3"/>
-  </radialGradient>
-  <radialGradient id="cdxspirit-eg" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#F5C842" stop-opacity="0.5"/>
-    <stop offset="100%" stop-color="#F5C842" stop-opacity="0"/>
-  </radialGradient>
-  <radialGradient id="cdxspirit-mg" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#378ADD" stop-opacity="0.5"/>
-    <stop offset="100%" stop-color="#378ADD" stop-opacity="0"/>
-  </radialGradient>
-  <radialGradient id="cdxspirit-ag" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#C0C0E8" stop-opacity="0.6"/>
-    <stop offset="100%" stop-color="#C0C0E8" stop-opacity="0"/>
-  </radialGradient>
-  <radialGradient id="cdxspirit-moon-fill" cx="60%" cy="35%" r="60%">
-    <stop offset="0%" stop-color="#E8E8F8"/>
-    <stop offset="100%" stop-color="#7070A0" stop-opacity="0.4"/>
-  </radialGradient>
+    <filter id="cdxfield-glow-pole" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
 
-  <!-- Doubling sequence path for animation -->
-  <path id="cdxspirit-dbl-path" d="M244,255 Q340,195 436,255 L440,277 L244,363 L244,387 L436,473 Q340,555 244,495 L244,473 L436,387 L436,363 L244,277 Z"/>
+    <!-- Radial gradient for singularity -->
+    <radialGradient id="cdxfield-singularity-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#c084fc" stop-opacity="1"/>
+      <stop offset="45%"  stop-color="#7c3aed" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#050510" stop-opacity="0"/>
+    </radialGradient>
 
-  <!-- Filters for glow -->
-  <filter id="cdxspirit-glow-gold" x="-50%" y="-50%" width="200%" height="200%">
-    <feGaussianBlur stdDeviation="4" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <filter id="cdxspirit-glow-blue" x="-50%" y="-50%" width="200%" height="200%">
-    <feGaussianBlur stdDeviation="4" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <filter id="cdxspirit-glow-silver" x="-60%" y="-60%" width="220%" height="220%">
-    <feGaussianBlur stdDeviation="6" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <filter id="cdxspirit-glow-emerald" x="-50%" y="-50%" width="200%" height="200%">
-    <feGaussianBlur stdDeviation="3.5" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-</defs>
+    <!-- Radial gradient for torus halo -->
+    <radialGradient id="cdxfield-halo-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#4f46e5" stop-opacity="0"/>
+      <stop offset="60%"  stop-color="#6366f1" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#050510" stop-opacity="0"/>
+    </radialGradient>
 
+    <!-- Polar glow at nodes 3 and 6 -->
+    <radialGradient id="cdxfield-glow-top" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#cc88ff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#050510" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cdxfield-glow-bot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#66eeff" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#050510" stop-opacity="0"/>
+    </radialGradient>
 
+    <clipPath id="cdxfield-void-clip">
+      <circle cx="230" cy="250" r="231"/>
+    </clipPath>
+  </defs>
 
-<!-- Star field — twinkling -->
-<circle class="cdxspirit-star1" cx="120" cy="80" r="1.2" fill="#fff"/>
-<circle class="cdxspirit-star2" cx="580" cy="120" r="1.5" fill="#fff"/>
-<circle class="cdxspirit-star3" cx="60" cy="300" r="1" fill="#fff"/>
-<circle class="cdxspirit-star4" cx="630" cy="250" r="1.2" fill="#fff"/>
-<circle class="cdxspirit-star1" cx="80" cy="600" r="1" fill="#fff"/>
-<circle class="cdxspirit-star2" cx="600" cy="580" r="1.2" fill="#fff"/>
-<circle class="cdxspirit-star3" cx="160" cy="680" r="1" fill="#fff"/>
-<circle class="cdxspirit-star4" cx="520" cy="700" r="1.5" fill="#fff"/>
-<circle class="cdxspirit-star2" cx="200" cy="150" r="0.8" fill="#fff"/>
-<circle class="cdxspirit-star3" cx="490" cy="160" r="1" fill="#fff"/>
-<circle class="cdxspirit-star1" cx="440" cy="50" r="0.8" fill="#fff"/>
-<circle class="cdxspirit-star4" cx="140" cy="430" r="1" fill="#fff"/>
+  <!--
+    NODE POSITIONS (centred in 460x500 canvas):
+    3  = (230, 60)    electric
+    1  = (150,130)    electric
+    2  = (310,130)    magnetic
+    4  = ( 80,250)    magnetic
+    9  = (230,250)    aetheric  ← center
+    5  = (380,250)    electric
+    7  = (150,370)    electric
+    8  = (310,370)    magnetic
+    6  = (230,440)    magnetic
+  -->
 
-<!-- Outer ring — slow spin -->
-<g class="cdxspirit-spin-outer">
-  <circle cx="340" cy="375" r="265" fill="none" stroke="#2A2A4A" stroke-width="1"/>
-  <!-- Degree markers -->
-  <circle cx="340" cy="110" r="2.5" fill="#3A3A6A" opacity="0.8"/>
-  <circle cx="340" cy="640" r="2.5" fill="#3A3A6A" opacity="0.8"/>
-  <circle cx="75"  cy="375" r="2.5" fill="#3A3A6A" opacity="0.8"/>
-  <circle cx="605" cy="375" r="2.5" fill="#3A3A6A" opacity="0.8"/>
-  <circle cx="153" cy="156" r="1.8" fill="#3A3A6A" opacity="0.6"/>
-  <circle cx="527" cy="156" r="1.8" fill="#3A3A6A" opacity="0.6"/>
-  <circle cx="153" cy="594" r="1.8" fill="#3A3A6A" opacity="0.6"/>
-  <circle cx="527" cy="594" r="1.8" fill="#3A3A6A" opacity="0.6"/>
-  <!-- tick marks at 12 positions -->
-  <line x1="340" y1="110" x2="340" y2="120" stroke="#3A3A6A" stroke-width="1" opacity="0.6"/>
-  <line x1="340" y1="630" x2="340" y2="640" stroke="#3A3A6A" stroke-width="1" opacity="0.6"/>
-  <line x1="75"  y1="375" x2="85"  y2="375" stroke="#3A3A6A" stroke-width="1" opacity="0.6"/>
-  <line x1="595" y1="375" x2="605" y2="375" stroke="#3A3A6A" stroke-width="1" opacity="0.6"/>
-</g>
-
-<!-- Inner dotted ring — reverse spin -->
-<g class="cdxspirit-spin-inner">
-  <circle cx="340" cy="375" r="205" fill="none" stroke="#222240" stroke-width="0.8" stroke-dasharray="3 8"/>
-</g>
-
-<!-- Axis lines -->
-<line x1="340" y1="110" x2="340" y2="640" stroke="#1E1E38" stroke-width="0.7"/>
-<line x1="75" y1="375" x2="605" y2="375" stroke="#1E1E38" stroke-width="0.7"/>
-
-<!-- ===== TOP STAR — pulsing gold ===== -->
-<g transform="translate(340,96)" filter="url(#cdxspirit-glow-gold)">
-  <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="20s" repeatCount="indefinite" additive="sum"/>
-  <line x1="0" y1="-20" x2="0" y2="20" stroke="#F5C842" stroke-width="1.3"/>
-  <line x1="-20" y1="0" x2="20" y2="0" stroke="#F5C842" stroke-width="1.3"/>
-  <line x1="-14" y1="-14" x2="14" y2="14" stroke="#F5C842" stroke-width="1"/>
-  <line x1="14" y1="-14" x2="-14" y2="14" stroke="#F5C842" stroke-width="1"/>
-  <circle cx="0" cy="0" r="4" fill="#F5C842"/>
-  <circle cx="0" cy="0" r="12" fill="#F5C842" opacity="0.1"/>
-</g>
-
-<!-- ===== LEFT STAR ===== -->
-<g transform="translate(75,375)" filter="url(#cdxspirit-glow-silver)">
-  <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="-360 0 0" dur="25s" repeatCount="indefinite" additive="sum"/>
-  <line x1="0" y1="-17" x2="0" y2="17" stroke="#C0C0E0" stroke-width="1.1"/>
-  <line x1="-17" y1="0" x2="17" y2="0" stroke="#C0C0E0" stroke-width="1.1"/>
-  <line x1="-12" y1="-12" x2="12" y2="12" stroke="#C0C0E0" stroke-width="0.8"/>
-  <line x1="12" y1="-12" x2="-12" y2="12" stroke="#C0C0E0" stroke-width="0.8"/>
-  <circle cx="0" cy="0" r="3" fill="#C0C0E0"/>
-</g>
-
-<!-- ===== RIGHT STAR ===== -->
-<g transform="translate(605,375)" filter="url(#cdxspirit-glow-silver)">
-  <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="25s" repeatCount="indefinite" additive="sum"/>
-  <line x1="0" y1="-17" x2="0" y2="17" stroke="#C0C0E0" stroke-width="1.1"/>
-  <line x1="-17" y1="0" x2="17" y2="0" stroke="#C0C0E0" stroke-width="1.1"/>
-  <line x1="-12" y1="-12" x2="12" y2="12" stroke="#C0C0E0" stroke-width="0.8"/>
-  <line x1="12" y1="-12" x2="-12" y2="12" stroke="#C0C0E0" stroke-width="0.8"/>
-  <circle cx="0" cy="0" r="3" fill="#C0C0E0"/>
-</g>
-
-<!-- ===== DOUBLING SEQUENCE — animated dash flow ===== -->
-<!-- Glow layer -->
-<path class="cdxspirit-seq-glow" d="M244,255 Q340,195 436,255" fill="none" stroke="#F5C842" stroke-width="8" opacity="0.08" stroke-linecap="round"/>
-<line class="cdxspirit-seq-glow" x1="440" y1="277" x2="244" y2="363" stroke="#F5C842" stroke-width="8" opacity="0.08" stroke-linecap="round"/>
-<line class="cdxspirit-seq-glow" x1="244" y1="387" x2="436" y2="473" stroke="#F5C842" stroke-width="8" opacity="0.08" stroke-linecap="round"/>
-<path class="cdxspirit-seq-glow" d="M436,495 Q340,555 244,495" fill="none" stroke="#F5C842" stroke-width="8" opacity="0.08" stroke-linecap="round"/>
-<line class="cdxspirit-seq-glow" x1="244" y1="473" x2="436" y2="387" stroke="#F5C842" stroke-width="8" opacity="0.08" stroke-linecap="round"/>
-<line class="cdxspirit-seq-glow" x1="436" y1="363" x2="244" y2="277" stroke="#F5C842" stroke-width="8" opacity="0.08" stroke-linecap="round"/>
-<!-- Core animated lines -->
-<path class="cdxspirit-seq-flow" d="M244,255 Q340,195 436,255" fill="none" stroke="#F5C842" stroke-width="1.8" opacity="0.95" stroke-linecap="round" filter="url(#cdxspirit-glow-gold)"/>
-<line class="cdxspirit-seq-flow" x1="440" y1="277" x2="244" y2="363" stroke="#F5C842" stroke-width="1.8" opacity="0.95" stroke-linecap="round" filter="url(#cdxspirit-glow-gold)"/>
-<line class="cdxspirit-seq-flow" x1="244" y1="387" x2="436" y2="473" stroke="#F5C842" stroke-width="1.8" opacity="0.95" stroke-linecap="round" filter="url(#cdxspirit-glow-gold)"/>
-<path class="cdxspirit-seq-flow" d="M436,495 Q340,555 244,495" fill="none" stroke="#F5C842" stroke-width="1.8" opacity="0.95" stroke-linecap="round" filter="url(#cdxspirit-glow-gold)"/>
-<line class="cdxspirit-seq-flow" x1="244" y1="473" x2="436" y2="387" stroke="#F5C842" stroke-width="1.8" opacity="0.95" stroke-linecap="round" filter="url(#cdxspirit-glow-gold)"/>
-<line class="cdxspirit-seq-flow" x1="436" y1="363" x2="244" y2="277" stroke="#F5C842" stroke-width="1.8" opacity="0.95" stroke-linecap="round" filter="url(#cdxspirit-glow-gold)"/>
-
-<!-- ===== INFINITY LOOP 3↔9↔6 — animated emerald ===== -->
-<!-- Glow -->
-<path d="M340,375 C285,355 262,230 340,162 C418,230 395,355 340,375" fill="none" stroke="#1DE99B" stroke-width="7" opacity="0.07" stroke-linecap="round"/>
-<path d="M340,375 C395,395 418,510 340,568 C262,510 285,395 340,375" fill="none" stroke="#1DE99B" stroke-width="7" opacity="0.07" stroke-linecap="round"/>
-<!-- Animated core -->
-<path class="cdxspirit-inf-flow-up" d="M340,375 C285,355 262,230 340,162 C418,230 395,355 340,375" fill="none" stroke="#1DE99B" stroke-width="1.8" opacity="0.9" stroke-linecap="round" filter="url(#cdxspirit-glow-emerald)"/>
-<path class="cdxspirit-inf-flow-dn" d="M340,375 C395,395 418,510 340,568 C262,510 285,395 340,375" fill="none" stroke="#1DE99B" stroke-width="1.8" opacity="0.9" stroke-linecap="round" filter="url(#cdxspirit-glow-emerald)"/>
-
-<!-- ===== NODES ===== -->
-
-<!-- Node 3 ELECTRIC -->
-<circle class="cdxspirit-elec-halo" cx="340" cy="175" r="42" fill="url(#cdxspirit-eg)"/>
-<circle cx="340" cy="175" r="26" fill="url(#cdxspirit-elec)" stroke="#F5C842" stroke-width="1.5" filter="url(#cdxspirit-glow-gold)"/>
-<circle cx="340" cy="175" r="21" fill="none" stroke="#F5C842" stroke-width="0.5" opacity="0.5"/>
-<text x="340" y="175" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#7A5000">3</text>
-
-<!-- Node 1 ELECTRIC -->
-<circle class="cdxspirit-elec-halo" cx="220" cy="265" r="42" fill="url(#cdxspirit-eg)"/>
-<circle cx="220" cy="265" r="26" fill="url(#cdxspirit-elec)" stroke="#F5C842" stroke-width="1.5" filter="url(#cdxspirit-glow-gold)"/>
-<circle cx="220" cy="265" r="21" fill="none" stroke="#F5C842" stroke-width="0.5" opacity="0.5"/>
-<text x="220" y="265" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#7A5000">1</text>
-
-<!-- Node 2 MAGNETIC -->
-<circle class="cdxspirit-mag-halo" cx="460" cy="265" r="42" fill="url(#cdxspirit-mg)"/>
-<circle cx="460" cy="265" r="26" fill="url(#cdxspirit-mag)" stroke="#378ADD" stroke-width="1.5" filter="url(#cdxspirit-glow-blue)"/>
-<circle cx="460" cy="265" r="21" fill="none" stroke="#378ADD" stroke-width="0.5" opacity="0.5"/>
-<text x="460" y="265" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#0C3060">2</text>
-
-<!-- Node 4 MAGNETIC -->
-<circle class="cdxspirit-mag-halo" cx="220" cy="375" r="42" fill="url(#cdxspirit-mg)"/>
-<circle cx="220" cy="375" r="26" fill="url(#cdxspirit-mag)" stroke="#378ADD" stroke-width="1.5" filter="url(#cdxspirit-glow-blue)"/>
-<circle cx="220" cy="375" r="21" fill="none" stroke="#378ADD" stroke-width="0.5" opacity="0.5"/>
-<text x="220" y="375" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#0C3060">4</text>
-
-<!-- Node 9 AETHERIC — sunburst spinning -->
-<g transform="translate(340,375)">
-  <g filter="url(#cdxspirit-glow-silver)">
-    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite"/>
-    <line x1="0" y1="-36" x2="0" y2="36" stroke="#C0C0E0" stroke-width="0.9" opacity="0.5"/>
-    <line x1="-36" y1="0" x2="36" y2="0" stroke="#C0C0E0" stroke-width="0.9" opacity="0.5"/>
-    <line x1="-25" y1="-25" x2="25" y2="25" stroke="#C0C0E0" stroke-width="0.7" opacity="0.4"/>
-    <line x1="25" y1="-25" x2="-25" y2="25" stroke="#C0C0E0" stroke-width="0.7" opacity="0.4"/>
+  <!-- RING OF VOID (0) — womb boundary encircling the vortex -->
+  <g class="cdxfield-void-group">
+    <circle class="cdxfield-void-ring-inner" cx="230" cy="250" r="218"/>
   </g>
-</g>
-<circle class="cdxspirit-aeth-halo" cx="340" cy="375" r="50" fill="url(#cdxspirit-ag)"/>
-<circle cx="340" cy="375" r="26" fill="url(#cdxspirit-aeth)" stroke="#C0C0E0" stroke-width="2" filter="url(#cdxspirit-glow-silver)"/>
-<circle cx="340" cy="375" r="21" fill="none" stroke="#C0C0E0" stroke-width="0.6" opacity="0.6"/>
-<text x="340" y="375" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#38385A">9</text>
 
-<!-- Node 5 ELECTRIC -->
-<circle class="cdxspirit-elec-halo" cx="460" cy="375" r="42" fill="url(#cdxspirit-eg)"/>
-<circle cx="460" cy="375" r="26" fill="url(#cdxspirit-elec)" stroke="#F5C842" stroke-width="1.5" filter="url(#cdxspirit-glow-gold)"/>
-<circle cx="460" cy="375" r="21" fill="none" stroke="#F5C842" stroke-width="0.5" opacity="0.5"/>
-<text x="460" y="375" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#7A5000">5</text>
+  <!-- OUTER TORUS HALO -->
+  <ellipse class="cdxfield-field-halo" cx="230" cy="250" rx="200" ry="180"
+    fill="url(#cdxfield-halo-grad)" stroke="none"/>
 
-<!-- Node 7 ELECTRIC -->
-<circle class="cdxspirit-elec-halo" cx="220" cy="485" r="42" fill="url(#cdxspirit-eg)"/>
-<circle cx="220" cy="485" r="26" fill="url(#cdxspirit-elec)" stroke="#F5C842" stroke-width="1.5" filter="url(#cdxspirit-glow-gold)"/>
-<circle cx="220" cy="485" r="21" fill="none" stroke="#F5C842" stroke-width="0.5" opacity="0.5"/>
-<text x="220" y="485" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#7A5000">7</text>
+  <!-- Polar glow halos — nodes 3 (top) and 6 (bottom) -->
+  <circle cx="230" cy="60"  r="55" fill="url(#cdxfield-glow-top)" filter="url(#cdxfield-glow-pole)" opacity="0.8"/>
+  <circle cx="230" cy="440" r="40" fill="url(#cdxfield-glow-bot)" filter="url(#cdxfield-glow-pole)" opacity="0.65"/>
 
-<!-- Node 8 MAGNETIC -->
-<circle class="cdxspirit-mag-halo" cx="460" cy="485" r="42" fill="url(#cdxspirit-mg)"/>
-<circle cx="460" cy="485" r="26" fill="url(#cdxspirit-mag)" stroke="#378ADD" stroke-width="1.5" filter="url(#cdxspirit-glow-blue)"/>
-<circle cx="460" cy="485" r="21" fill="none" stroke="#378ADD" stroke-width="0.5" opacity="0.5"/>
-<text x="460" y="485" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#0C3060">8</text>
+  <!-- TORUS FIELD LINES (rotating — dimmed, behind field loops) -->
+  <g class="cdxfield-torus-group" opacity="0.3">
+    <ellipse cx="230" cy="250" rx="195" ry="40" fill="none" stroke="#6366f1" stroke-width="0.7" opacity="0.4"/>
+    <ellipse cx="230" cy="250" rx="175" ry="70" fill="none" stroke="#6366f1" stroke-width="0.6" opacity="0.32"/>
+    <ellipse cx="230" cy="250" rx="145" ry="100" fill="none" stroke="#818cf8" stroke-width="0.5" opacity="0.26"/>
+    <ellipse cx="230" cy="250" rx="110" ry="130" fill="none" stroke="#818cf8" stroke-width="0.5" opacity="0.22"/>
+    <ellipse cx="230" cy="250" rx="70"  ry="155" fill="none" stroke="#a5b4fc" stroke-width="0.5" opacity="0.18"/>
+    <ellipse cx="230" cy="250" rx="30"  ry="170" fill="none" stroke="#c7d2fe" stroke-width="0.4" opacity="0.14"/>
+  </g>
 
-<!-- Node 6 MAGNETIC -->
-<circle class="cdxspirit-mag-halo" cx="340" cy="555" r="42" fill="url(#cdxspirit-mg)"/>
-<circle cx="340" cy="555" r="26" fill="url(#cdxspirit-mag)" stroke="#378ADD" stroke-width="1.5" filter="url(#cdxspirit-glow-blue)"/>
-<circle cx="340" cy="555" r="21" fill="none" stroke="#378ADD" stroke-width="0.5" opacity="0.5"/>
-<text x="340" y="555" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="19" fill="#0C3060">6</text>
+  <!-- TOROIDAL FIELD LINE LOOPS — 5 ellipses, clipped to void -->
+  <g class="cdxfield-field-loops" opacity="0.95" clip-path="url(#cdxfield-void-clip)">
+    <path class="cdxfield-torus-line" d="M230,60 A28,190 0 1,1 230,440 A28,190 0 1,1 230,60 Z" stroke="#7c6cf0" stroke-width="1.28" stroke-dasharray="24 7" opacity="0.72"/>
+    <path class="cdxfield-torus-line-rev" d="M230,60 A76,190 0 1,1 230,440 A76,190 0 1,1 230,60 Z" stroke="#5e58e0" stroke-width="1.20" stroke-dasharray="20 8" opacity="0.66"/>
+    <path class="cdxfield-torus-line" d="M230,60 A123,190 0 1,1 230,440 A123,190 0 1,1 230,60 Z" stroke="#4f7ed8" stroke-width="1.12" stroke-dasharray="16 9" opacity="0.60"/>
+    <path class="cdxfield-torus-line-rev" d="M230,60 A171,190 0 1,1 230,440 A171,190 0 1,1 230,60 Z" stroke="#44b4c8" stroke-width="1.04" stroke-dasharray="12 10" opacity="0.54"/>
+    <path class="cdxfield-torus-line" d="M230,60 A218,190 0 1,1 230,440 A218,190 0 1,1 230,60 Z" stroke="#44f0b0" stroke-width="0.96" stroke-dasharray="8 12" opacity="0.48"/>
+  </g>
 
-<!-- Moon -->
-<g class="cdxspirit-moon-g">
-  <path d="M340,650 C322,650 308,636 308,620 C308,604 322,590 340,590 C328,590 318,604 318,620 C318,636 328,650 340,650 Z" fill="url(#cdxspirit-moon-fill)" stroke="#C0C0E0" stroke-width="1.2" filter="url(#cdxspirit-glow-silver)"/>
-  <line x1="340" y1="590" x2="340" y2="572" stroke="#7070A0" stroke-width="0.8" opacity="0.7"/>
-  <line x1="340" y1="650" x2="340" y2="668" stroke="#7070A0" stroke-width="0.8" opacity="0.7"/>
-  <circle cx="340" cy="671" r="2" fill="#7070A0" opacity="0.7"/>
-</g>
+  <!-- Equatorial waist belt -->
+  <g class="cdxfield-waist-belt">
+    <ellipse cx="230" cy="250" rx="218" ry="48" fill="none" stroke="#66eeff" stroke-width="0.9" stroke-dasharray="8 7" opacity="0.22"/>
+    <ellipse cx="230" cy="250" rx="140" ry="30" fill="none" stroke="#66eeff" stroke-width="0.8" stroke-dasharray="10 4" opacity="0.28"/>
+    <ellipse cx="230" cy="250" rx="100" ry="20" fill="none" stroke="#4a4ae6" stroke-width="0.9" stroke-dasharray="14 3" opacity="0.34"/>
+  </g>
 
-<!-- Labels -->
-<text x="340" y="55" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="12" fill="#C0C0D8" letter-spacing="3" opacity="0.85">SPIRIT IN THE FLESH</text>
-<text x="220" y="232" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#C49A00" letter-spacing="2" opacity="0.7">MIND</text>
-<text x="340" y="138" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#C0C0D8" letter-spacing="2" opacity="0.7">SPIRIT</text>
-<text x="460" y="232" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#4488CC" letter-spacing="2" opacity="0.7">BODY</text>
+  <!-- Singularity aura rings (expanding outward from 9) -->
+  <circle class="cdxfield-singularity-ring3" cx="230" cy="250" r="22" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0"/>
+  <circle class="cdxfield-singularity-ring2" cx="230" cy="250" r="22" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0"/>
+  <circle class="cdxfield-singularity-ring1" cx="230" cy="250" r="22" fill="none" stroke="#c084fc" stroke-width="1.5" opacity="0"/>
 
-<!-- Legend -->
-<circle cx="52" cy="706" r="7" fill="url(#cdxspirit-elec)" stroke="#F5C842" stroke-width="1.2"/>
-<text x="66" y="706" dominant-baseline="central" font-family="Georgia,serif" font-size="11" fill="#C49A00">Electric — odd (1, 3, 5, 7)</text>
-<circle cx="52" cy="724" r="7" fill="url(#cdxspirit-mag)" stroke="#378ADD" stroke-width="1.2"/>
-<text x="66" y="724" dominant-baseline="central" font-family="Georgia,serif" font-size="11" fill="#4488CC">Magnetic — even (2, 4, 6, 8)</text>
-<circle cx="52" cy="742" r="7" fill="url(#cdxspirit-aeth)" stroke="#C0C0E0" stroke-width="1.2"/>
-<text x="66" y="742" dominant-baseline="central" font-family="Georgia,serif" font-size="11" fill="#C0C0D8">Aetheric — singularity (9)</text>
+  <!-- BASE STRUCTURE LINES (very subtle) -->
+  <g class="cdxfield-struct-line">
+    <line x1="230" y1="60"  x2="150" y2="130"/>
+    <line x1="230" y1="60"  x2="310" y2="130"/>
+    <line x1="150" y1="130" x2="230" y2="250"/>
+    <line x1="310" y1="130" x2="230" y2="250"/>
+    <line x1="230" y1="250" x2="80"  y2="250"/>
+    <line x1="230" y1="250" x2="380" y2="250"/>
+    <line x1="230" y1="250" x2="150" y2="370"/>
+    <line x1="230" y1="250" x2="310" y2="370"/>
+    <line x1="150" y1="370" x2="230" y2="440"/>
+    <line x1="310" y1="370" x2="230" y2="440"/>
+  </g>
+
+  <!-- MAGNETIC PATH — solid cyan — 2→4→8→6 -->
+  <polyline class="cdxfield-mag-path"
+    points="310,130 80,250 310,370 230,440"
+    filter="url(#cdxfield-glow-cyan)"/>
+
+  <!-- ELECTRIC PATH — dashed amber — 3→1→5→7 -->
+  <polyline class="cdxfield-elec-path"
+    points="230,60 150,130 380,250 150,370"
+    filter="url(#cdxfield-glow-amber)"/>
+
+  <!-- ═══════════════════════════════════
+       NODES
+  ════════════════════════════════════ -->
+
+  <!-- NODE 3 — electric — top -->
+  <g class="cdxfield-node-group cdxfield-node-electric">
+    <circle class="cdxfield-node-ring" cx="230" cy="60" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <circle cx="230" cy="60" r="18" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.4"/>
+    <text class="cdxfield-node-label" x="230" y="60" fill="#fbbf24">3</text>
+  </g>
+
+  <!-- NODE 1 — electric — mid-left -->
+  <g class="cdxfield-node-group cdxfield-node-electric">
+    <circle class="cdxfield-node-ring" cx="150" cy="130" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="150" y="130" fill="#fbbf24">1</text>
+  </g>
+
+  <!-- NODE 2 — magnetic — mid-right -->
+  <g class="cdxfield-node-group cdxfield-node-magnetic">
+    <circle class="cdxfield-node-ring" cx="310" cy="130" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="310" y="130" fill="#67e8f9">2</text>
+  </g>
+
+  <!-- NODE 4 — magnetic — far-left -->
+  <g class="cdxfield-node-group cdxfield-node-magnetic">
+    <circle class="cdxfield-node-ring" cx="80" cy="250" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="80" y="250" fill="#67e8f9">4</text>
+  </g>
+
+  <!-- NODE 5 — electric — far-right -->
+  <g class="cdxfield-node-group cdxfield-node-electric">
+    <circle class="cdxfield-node-ring" cx="380" cy="250" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="380" y="250" fill="#fbbf24">5</text>
+  </g>
+
+  <!-- NODE 7 — electric — lower-left -->
+  <g class="cdxfield-node-group cdxfield-node-electric">
+    <circle class="cdxfield-node-ring" cx="150" cy="370" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="150" y="370" fill="#fbbf24">7</text>
+  </g>
+
+  <!-- NODE 8 — magnetic — lower-right -->
+  <g class="cdxfield-node-group cdxfield-node-magnetic">
+    <circle class="cdxfield-node-ring" cx="310" cy="370" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="310" y="370" fill="#67e8f9">8</text>
+  </g>
+
+  <!-- NODE 6 — magnetic — bottom -->
+  <g class="cdxfield-node-group cdxfield-node-magnetic">
+    <circle class="cdxfield-node-ring" cx="230" cy="440" r="18" filter="url(#cdxfield-glow-soft)"/>
+    <text class="cdxfield-node-label" x="230" y="440" fill="#67e8f9">6</text>
+  </g>
+
+  <!-- NODE 9 — AETHERIC SINGULARITY — center -->
+  <g class="cdxfield-node-group cdxfield-node-aetheric" filter="url(#cdxfield-glow-violet)">
+    <!-- Soft radial glow behind -->
+    <circle cx="230" cy="250" r="50" fill="url(#cdxfield-singularity-grad)" opacity="0.5"/>
+    <!-- Segmented outer ring -->
+    <circle cx="230" cy="250" r="26" fill="#0d0020" stroke="#a855f7" stroke-width="2"
+      stroke-dasharray="13.6 3.4"/>
+    <!-- Pulsing core -->
+    <circle class="cdxfield-singularity-core" cx="230" cy="250" r="18"
+      fill="#1a0035" stroke="#c084fc" stroke-width="1.5"/>
+    <!-- Inner dot -->
+    <circle cx="230" cy="250" r="5" fill="#e9d5ff" opacity="0.9"/>
+    <text class="cdxfield-node-label" x="230" y="250" fill="#e9d5ff" font-size="17">9</text>
+  </g>
 
 </svg>
         <div class="codex-hit-layer" id="codex-grid">
-<div class="node codex-hit-node" style="left:50.0000%;top:23.0263%" data-num="3" data-plane="spirit" data-nature="electric">
+<div class="node codex-hit-node" style="left:50.0000%;top:12.0000%" data-num="3" data-plane="spirit" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">3</div><div class="tooltip-name">The Mental Child within the World</div>
                 <div class="tooltip-position">Spirit Gate · Upper Centre</div>
@@ -547,7 +580,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:32.3529%;top:34.8684%" data-num="1" data-plane="mind" data-nature="electric">
+<div class="node codex-hit-node" style="left:32.6087%;top:26.0000%" data-num="1" data-plane="mind" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">1</div><div class="tooltip-name">The Initiator</div>
                 <div class="tooltip-position">Mind Axis · Upper Left</div>
@@ -558,7 +591,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:67.6471%;top:34.8684%" data-num="2" data-plane="body" data-nature="magnetic">
+<div class="node codex-hit-node" style="left:67.3913%;top:26.0000%" data-num="2" data-plane="body" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">2</div><div class="tooltip-name">Duality</div>
                 <div class="tooltip-position">Body Axis · Upper Right</div>
@@ -569,7 +602,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:32.3529%;top:49.3421%" data-num="4" data-plane="mind" data-nature="magnetic">
+<div class="node codex-hit-node" style="left:17.3913%;top:50.0000%" data-num="4" data-plane="mind" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">4</div><div class="tooltip-name">TStructure</div>
                 <div class="tooltip-position">Mind Axis · Left Meridian</div>
@@ -580,7 +613,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:50.0000%;top:49.3421%" data-num="9" data-plane="spirit" data-nature="aetheric">
+<div class="node codex-hit-node" style="left:50.0000%;top:50.0000%" data-num="9" data-plane="spirit" data-nature="aetheric">
               <div class="node-tooltip">
                 <div class="tooltip-num">9</div><div class="tooltip-name">Dissolution of Temporal Self</div>
                 <div class="tooltip-position">Aetheric Centre · Singularity</div>
@@ -591,7 +624,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:67.6471%;top:49.3421%" data-num="5" data-plane="body" data-nature="electric">
+<div class="node codex-hit-node" style="left:82.6087%;top:50.0000%" data-num="5" data-plane="body" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">5</div><div class="tooltip-name">Vessal for Experience</div>
                 <div class="tooltip-position">Body Axis · Right Meridian</div>
@@ -602,7 +635,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:32.3529%;top:63.8158%" data-num="7" data-plane="mind" data-nature="electric">
+<div class="node codex-hit-node" style="left:32.6087%;top:74.0000%" data-num="7" data-plane="mind" data-nature="electric">
               <div class="node-tooltip">
                 <div class="tooltip-num">7</div><div class="tooltip-name">Knowledge</div>
                 <div class="tooltip-position">Mind Axis · Lower Left</div>
@@ -613,7 +646,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:67.6471%;top:63.8158%" data-num="8" data-plane="body" data-nature="magnetic">
+<div class="node codex-hit-node" style="left:67.3913%;top:74.0000%" data-num="8" data-plane="body" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">8</div><div class="tooltip-name">Self-Empowerment</div>
                 <div class="tooltip-position">Body Axis · Lower Right</div>
@@ -624,7 +657,7 @@
               </div>
             </div>
 
-<div class="node codex-hit-node" style="left:50.0000%;top:73.0263%" data-num="6" data-plane="spirit" data-nature="magnetic">
+<div class="node codex-hit-node" style="left:50.0000%;top:88.0000%" data-num="6" data-plane="spirit" data-nature="magnetic">
               <div class="node-tooltip">
                 <div class="tooltip-num">6</div><div class="tooltip-name">Integration</div>
                 <div class="tooltip-position">Spirit Gate · Lower Centre</div>
@@ -640,6 +673,14 @@
 
     <div class="plane-legend">
       <div class="void-item"><div class="void-ring"></div>0 · The Void — The ring of Void; The womb of creation</div>
+      <div style="text-align:center;width:100%">
+        <div class="legend-label">Natures of Energy</div>
+        <div class="legend-row">
+          <div class="plane-item"><div class="plane-dot" style="background:#F5C842"></div>Electric | 1·3·5·7</div>
+          <div class="plane-item"><div class="plane-dot" style="background:#378ADD"></div>Magnetic | 2·4·6·8</div>
+          <div class="plane-item"><div class="plane-dot" style="background:#C0C0E0"></div>Aetheric | 9·0</div>
+        </div>
+      </div>
       <div class="legend-divider"></div>
       <div style="text-align:center;width:100%">
         <div class="legend-label">Structural Patterns</div>
@@ -652,15 +693,6 @@
             <span class="tesla-trigger-num">3 · 6 · 9</span>
             <span class="tesla-trigger-label">The Spirit axis · Tesla's pattern</span>
           </button>
-        </div>
-      </div>
-      <div class="legend-divider"></div>
-      <div style="text-align:center;width:100%">
-        <div class="legend-label">Natures of Energy</div>
-        <div class="legend-row">
-          <div class="plane-item"><div class="plane-dot" style="background:#F5C842"></div>Electric | 1·3·5·7</div>
-          <div class="plane-item"><div class="plane-dot" style="background:#378ADD"></div>Magnetic | 2·4·6·8</div>
-          <div class="plane-item"><div class="plane-dot" style="background:#C0C0E0"></div>Aetheric | 9·0</div>
         </div>
       </div>
     </div>
