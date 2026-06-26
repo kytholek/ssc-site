@@ -1228,7 +1228,7 @@ window.applyLanguage = applyLanguage;
 //  Pop-up calculator overlay for guidebook purchase flow
 // ════════════════════════════════════════════════════════════
 
-var MODAL_CHECKOUT_BTN_LABEL = 'Continue to Payment · $11';
+var MODAL_CHECKOUT_BTN_LABEL = 'Continue · Free';
 
 function openCalculatorModal() {
   var overlay = document.getElementById('calculator-modal-overlay');
@@ -1340,7 +1340,7 @@ function handleUnlockPaymentModal() {
   } catch(e) {}
 
   btn.disabled    = true;
-  btn.textContent = '· Connecting to Stripe ·';
+  btn.textContent = '· Submitting ·';
 
   console.log('Sending payload:', JSON.stringify(userPayload));
 
@@ -1374,9 +1374,10 @@ function handleUnlockPaymentModal() {
   })
   .then(data => {
     console.log('Checkout response:', data);
-    if (data.url) {
+    if (data.success) {
+      window.location.href = '/?payment=success';
+    } else if (data.url) {
       console.log('Redirecting to:', data.url);
-      // Redirect to Stripe checkout
       window.location.href = data.url;
     } else {
       throw new Error(data.error || 'Failed to create checkout session');

@@ -2,9 +2,10 @@
  * SSC — Cloudflare Worker
  * Flow: POST /api/session → queue → Anthropic → PDFShift → Resend
  *       (paid: Stripe checkout → webhook → queue)
+ *       (free:  POST /api/session → queue directly)
  */
 
-const GUIDEBOOK_PRICE_CENTS = 1100;
+const GUIDEBOOK_PRICE_CENTS = 0; // 0 = free, queue directly. Set to 1100 to use Stripe + webhook.
 
 const ALLOWED_ORIGINS = [
   'https://simulationsourcecode.com',
@@ -1030,6 +1031,31 @@ async function handleCreateCheckout(request, env, origin) {
       status: 400,
       headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
     });
+  }
+
+  if (GUIDEBOOK_PRICE_CENTS === 0) {
+    const userData = buildUserDataFromBody({ email, name, month, day, year });
+    const validationError = validateUserData(userData);
+    if (validationError) {
+      return new Response(JSON.stringify({ error: validationError }), {
+        status: 400,
+        headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+      });
+    }
+    try {
+      await logPurchaseEmail(userData.email);
+      await enqueueGuidebook(userData, env);
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+      });
+    } catch (err) {
+      console.error('free guidebook queue error:', err);
+      return new Response(JSON.stringify({ error: err.message }), {
+        status: 500,
+        headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+      });
+    }
   }
 
   const stripeKey = env.STRIPE_SECRET || env.STRIPE_SECRET_KEY;

@@ -948,7 +948,7 @@ function handleUnlockPayment() {
   try { sessionStorage.setItem('ssc_pending_order', JSON.stringify(payload)); } catch(e) {}
 
   btn.disabled    = true;
-  btn.textContent = '· Connecting to Stripe ·';
+  btn.textContent = '· Submitting ·';
 
   console.log('Sending payload:', JSON.stringify(payload));
 
@@ -972,7 +972,9 @@ function handleUnlockPayment() {
   })
   .then(function(data) {
     console.log('Checkout response:', data);
-    if (data.url) {
+    if (data.success) {
+      window.location.href = '/?payment=success';
+    } else if (data.url) {
       console.log('Redirecting to:', data.url);
       window.location.href = data.url;
     } else {
