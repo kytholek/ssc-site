@@ -948,7 +948,7 @@ function handleUnlockPayment() {
   try { sessionStorage.setItem('ssc_pending_order', JSON.stringify(payload)); } catch(e) {}
 
   btn.disabled    = true;
-  btn.textContent = '· Submitting ·';
+  btn.textContent = '· Connecting to Stripe ·';
 
   console.log('Sending payload:', JSON.stringify(payload));
 

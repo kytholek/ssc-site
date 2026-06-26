@@ -5,7 +5,7 @@
  *       (free:  POST /api/session → queue directly)
  */
 
-const GUIDEBOOK_PRICE_CENTS = 0; // 0 = free, queue directly. Set to 1100 to use Stripe + webhook.
+const GUIDEBOOK_PRICE_CENTS = 1100; // 0 = free, queue directly. Set to 1100 to use Stripe + webhook.
 
 const ALLOWED_ORIGINS = [
   'https://simulationsourcecode.com',

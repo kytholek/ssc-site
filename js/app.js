@@ -1228,7 +1228,7 @@ window.applyLanguage = applyLanguage;
 //  Pop-up calculator overlay for guidebook purchase flow
 // ════════════════════════════════════════════════════════════
 
-var MODAL_CHECKOUT_BTN_LABEL = 'Continue · Free';
+var MODAL_CHECKOUT_BTN_LABEL = 'Continue to Payment · $11';
 
 function openCalculatorModal() {
   var overlay = document.getElementById('calculator-modal-overlay');
@@ -1340,7 +1340,7 @@ function handleUnlockPaymentModal() {
   } catch(e) {}
 
   btn.disabled    = true;
-  btn.textContent = '· Submitting ·';
+  btn.textContent = '· Connecting to Stripe ·';
 
   console.log('Sending payload:', JSON.stringify(userPayload));
 
