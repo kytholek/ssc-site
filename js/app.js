@@ -557,6 +557,7 @@ function showPage(name, pushState = true) {
     const card = document.getElementById('node-card');
     if (card) card.classList.remove('visible');
     if (cdx) cdx.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
+    if (typeof _codexSetActiveNode === 'function') _codexSetActiveNode(null);
     setTimeout(function() {
       if (typeof _initiateCodex === 'function') _initiateCodex();
     }, 50);
@@ -880,6 +881,22 @@ function _codexNodeColor(node) {
   return PLANE_COLORS_CDX[node.dataset.plane] || '#F5C842';
 }
 
+function _codexSetActiveNode(num) {
+  var page = document.getElementById('page-codex');
+  if (!page) return;
+  page.querySelectorAll('.cdxfield-node-group.is-active').forEach(function(g) {
+    g.classList.remove('is-active');
+  });
+  if (num) {
+    var group = page.querySelector('.cdxfield-node-group[data-num="' + num + '"]');
+    if (group) group.classList.add('is-active');
+    page.classList.add('codex-node-focus');
+  } else {
+    page.classList.remove('codex-node-focus');
+  }
+}
+window._codexSetActiveNode = _codexSetActiveNode;
+
 function hudShow(node) {
   var tip     = node.querySelector('.node-tooltip');
   var num     = node.dataset.num;
@@ -908,11 +925,13 @@ function hudShow(node) {
     }
   }
   card.classList.add('visible');
+  if (node && node.dataset.num) _codexSetActiveNode(node.dataset.num);
 }
 
 function hudReset() {
   var card = document.getElementById('node-card');
   if (card) card.classList.remove('visible');
+  _codexSetActiveNode(null);
 }
 
 function initCodexPage() {
@@ -939,7 +958,9 @@ function initCodexPage() {
     });
     node.addEventListener('mouseleave', function() {
       if (hasPinned()) return;
-      hideTimer = setTimeout(hudReset, 200);
+      hideTimer = setTimeout(function() {
+        hudReset();
+      }, 200);
     });
     node.addEventListener('click', function(e) {
       if (e.target.closest('.tooltip-link') || e.target.closest('.nc-btn')) return;

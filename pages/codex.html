@@ -73,41 +73,26 @@
 
 #page-codex .codex-hit-node {
   position: absolute;
-  width: 12.35%;
-  height: 12.35%;
+  width: 14%;
+  height: 14%;
   transform: translate(-50%, -50%);
   cursor: pointer;
   pointer-events: auto;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: none;
   background: transparent;
   box-sizing: border-box;
-  transition: border-color .25s, box-shadow .25s;
   z-index: 10;
 }
 
 #page-codex .codex-hit-node:hover,
 #page-codex .codex-hit-node.pinned {
-  border-color: rgba(245,200,66,.55);
-  box-shadow: 0 0 28px rgba(245,200,66,.25);
   z-index: 20;
 }
 
-#page-codex .codex-hit-node[data-nature="magnetic"]:hover,
-#page-codex .codex-hit-node[data-nature="magnetic"].pinned {
-  border-color: rgba(55,138,221,.65);
-  box-shadow: 0 0 28px rgba(55,138,221,.3);
-}
-
 #page-codex .codex-hit-node[data-nature="aetheric"] {
-  width: 14.71%;
-  height: 14.71%;
-}
-
-#page-codex .codex-hit-node[data-nature="aetheric"]:hover,
-#page-codex .codex-hit-node[data-nature="aetheric"].pinned {
-  border-color: rgba(192,192,224,.75);
-  box-shadow: 0 0 36px rgba(192,192,224,.35);
+  width: 16.5%;
+  height: 16.5%;
 }
 
 #page-codex .node-tooltip { display: none; }
@@ -123,7 +108,9 @@
   stroke-width: 2.2;
   stroke-dasharray: 10 5;
   filter: url(#cdxfield-glow-cyan);
+  opacity: 0.55;
   animation: cdxfield-flowElec 3s linear infinite;
+  transition: opacity .25s;
 }
 #page-codex .cdxfield-elec-path {
   fill: none;
@@ -131,8 +118,12 @@
   stroke-width: 2.2;
   stroke-dasharray: 120 0;
   filter: url(#cdxfield-glow-amber);
+  opacity: 0.55;
   animation: cdxfield-flowMag 4s linear infinite;
+  transition: opacity .25s;
 }
+#page-codex.codex-node-focus .cdxfield-elec-path,
+#page-codex.codex-node-focus .cdxfield-mag-path { opacity: 0.85; }
 @keyframes cdxfield-flowElec { to { stroke-dashoffset: -45; } }
 @keyframes cdxfield-flowMag {
   0%   { stroke-dasharray: 0 400; stroke-dashoffset: 0; }
@@ -140,31 +131,96 @@
   100% { stroke-dasharray: 0 400; stroke-dashoffset: -400; }
 }
 
+#page-codex .cdxfield-node-group {
+  opacity: 0.72;
+  transition: opacity .25s, filter .25s;
+}
 #page-codex .cdxfield-node-ring { fill: #050510; stroke-width: 2; }
 #page-codex .cdxfield-node-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: middle;
 }
 #page-codex .cdxfield-node-electric .cdxfield-node-ring { stroke: #f59e0b; fill: #1a1100; }
-#page-codex .cdxfield-node-electric .cdxfield-node-label { fill: #fbbf24; }
+#page-codex .cdxfield-node-electric .cdxfield-node-label { fill: rgba(251,191,36,0.75); }
 #page-codex .cdxfield-node-magnetic .cdxfield-node-ring { stroke: #06b6d4; fill: #001a1f; }
-#page-codex .cdxfield-node-magnetic .cdxfield-node-label { fill: #67e8f9; }
-#page-codex .cdxfield-node-aetheric .cdxfield-node-label { fill: #e9d5ff; font-size: 17px; }
+#page-codex .cdxfield-node-magnetic .cdxfield-node-label { fill: rgba(103,232,249,0.75); }
+#page-codex .cdxfield-node-aetheric .cdxfield-node-label { fill: rgba(233,213,255,0.75); font-size: 19px; }
 
-#page-codex .cdxfield-singularity-core { animation: cdxfield-pulse-core 2.5s ease-in-out infinite; }
-@keyframes cdxfield-pulse-core {
-  0%,100% { r: 18; opacity: 1; }
-  50%      { r: 22; opacity: 0.7; }
+/* ── Node 9 portal (dramatic) — balanced fallback notes at end of block ── */
+#page-codex .cdxfield-node-aetheric .cdxfield-portal-label {
+  opacity: 0;
+  transition: opacity .3s, fill .25s;
 }
+#page-codex .cdxfield-node-aetheric.is-active .cdxfield-portal-label { opacity: 1; }
+
+#page-codex .cdxfield-portal-spin {
+  transform-origin: 230px 250px;
+  animation: cdxfield-portalSpin 20s linear infinite;
+}
+#page-codex .cdxfield-portal-spin-rev {
+  transform-origin: 230px 250px;
+  animation: cdxfield-portalSpinRev 24s linear infinite;
+}
+@keyframes cdxfield-portalSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes cdxfield-portalSpinRev {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+#page-codex .cdxfield-portal-spiral {
+  fill: none;
+  stroke: #c084fc;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 3 5;
+  opacity: 0.55;
+}
+#page-codex .cdxfield-spiral-in  { animation: cdxfield-spiralIn 3s linear infinite; }
+#page-codex .cdxfield-spiral-in-rev { animation: cdxfield-spiralInRev 3.5s linear infinite; }
+@keyframes cdxfield-spiralIn    { to { stroke-dashoffset: -48; } }
+@keyframes cdxfield-spiralInRev { to { stroke-dashoffset: 48; } }
+
+#page-codex .cdxfield-portal-rim {
+  transition: opacity .25s, stroke-width .25s;
+}
+#page-codex .cdxfield-node-aetheric.is-active .cdxfield-portal-rim {
+  opacity: 1 !important;
+  stroke-width: 2;
+}
+#page-codex .cdxfield-node-aetheric.is-active .cdxfield-portal-spin  { animation-duration: 12s; }
+#page-codex .cdxfield-node-aetheric.is-active .cdxfield-portal-spin-rev { animation-duration: 14s; }
+
 #page-codex .cdxfield-singularity-ring1 { animation: cdxfield-pulse-ring 2.5s ease-in-out infinite; }
 #page-codex .cdxfield-singularity-ring2 { animation: cdxfield-pulse-ring 2.5s ease-in-out infinite 0.4s; }
 #page-codex .cdxfield-singularity-ring3 { animation: cdxfield-pulse-ring 2.5s ease-in-out infinite 0.8s; }
 @keyframes cdxfield-pulse-ring {
-  0%   { r: 22; opacity: 0.5; stroke-width: 1.5; }
+  0%   { r: 28; opacity: 0.55; stroke-width: 1.5; }
   100% { r: 55; opacity: 0;   stroke-width: 0.2; }
+}
+
+/* balanced fallback: hide spirals + second accretion; portal-spin 28s; label opacity .6 always;
+   void r=11 softer grad; pulse-ring max r=42; remove is-active animation-duration overrides */
+
+#page-codex .cdxfield-node-group.is-active { opacity: 1; }
+#page-codex .cdxfield-node-electric.is-active { filter: url(#cdxfield-glow-soft); }
+#page-codex .cdxfield-node-electric.is-active .cdxfield-node-label { fill: #fbbf24; }
+#page-codex .cdxfield-node-magnetic.is-active { filter: url(#cdxfield-glow-soft); }
+#page-codex .cdxfield-node-magnetic.is-active .cdxfield-node-label { fill: #67e8f9; }
+#page-codex .cdxfield-node-aetheric.is-active { filter: url(#cdxfield-glow-violet); }
+#page-codex .cdxfield-node-aetheric.is-active .cdxfield-node-label { fill: #e9d5ff; }
+
+#page-codex.codex-node-focus .cdxfield-node-group:not(.is-active) { opacity: 0.4; }
+
+#page-codex.codex-node-focus .cdxfield-field-loops,
+#page-codex.codex-node-focus .cdxfield-waist-belt {
+  opacity: 0.35;
+  transition: opacity .25s;
 }
 
 #page-codex .cdxfield-torus-group {
@@ -200,7 +256,9 @@
 #page-codex .cdxfield-waist-belt {
   fill: none;
   stroke-linecap: round;
+  transition: opacity .25s;
 }
+#page-codex .cdxfield-field-loops { transition: opacity .25s; }
 
 /* Ring of Void (0) — outer boundary encircling the field */
 #page-codex .cdxfield-void-group {
@@ -321,6 +379,8 @@
 }
 @media(max-width:640px) {
   #page-codex .cdx-revealed { padding: 50px 12px 100px; }
+  #page-codex .codex-hit-node { width: 16%; height: 16%; }
+  #page-codex .codex-hit-node[data-nature="aetheric"] { width: 18%; height: 18%; }
   #node-card { flex-wrap:wrap; gap:12px; padding:14px 20px; }
   #nc-divider,
   #page-codex .nc-divider { display:none; }
@@ -342,10 +402,13 @@
   #page-codex .cdxfield-field-halo,
   #page-codex .cdxfield-torus-line,
   #page-codex .cdxfield-torus-line-rev,
-  #page-codex .cdxfield-singularity-core,
   #page-codex .cdxfield-singularity-ring1,
   #page-codex .cdxfield-singularity-ring2,
   #page-codex .cdxfield-singularity-ring3,
+  #page-codex .cdxfield-portal-spin,
+  #page-codex .cdxfield-portal-spin-rev,
+  #page-codex .cdxfield-spiral-in,
+  #page-codex .cdxfield-spiral-in-rev,
   #page-codex .cdxfield-elec-path,
   #page-codex .cdxfield-mag-path { animation: none !important; }
 }
@@ -380,7 +443,7 @@
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
     <filter id="cdxfield-glow-soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
@@ -389,11 +452,24 @@
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
-    <!-- Radial gradient for singularity -->
+    <!-- Radial gradient for singularity halo -->
     <radialGradient id="cdxfield-singularity-grad" cx="50%" cy="50%" r="50%">
       <stop offset="0%"   stop-color="#c084fc" stop-opacity="1"/>
       <stop offset="45%"  stop-color="#7c3aed" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#050510" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Portal void + event horizon rim -->
+    <radialGradient id="cdxfield-portal-void" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#000000" stop-opacity="1"/>
+      <stop offset="55%"  stop-color="#0a0018" stop-opacity="1"/>
+      <stop offset="85%"  stop-color="#4c1d95" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cdxfield-portal-rim" cx="50%" cy="50%" r="50%">
+      <stop offset="70%"  stop-color="#c084fc" stop-opacity="0"/>
+      <stop offset="88%"  stop-color="#e9d5ff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#66eeff" stop-opacity="0.6"/>
     </radialGradient>
 
     <!-- Radial gradient for torus halo -->
@@ -470,11 +546,6 @@
     <ellipse cx="230" cy="250" rx="100" ry="20" fill="none" stroke="#4a4ae6" stroke-width="0.9" stroke-dasharray="14 3" opacity="0.34"/>
   </g>
 
-  <!-- Singularity aura rings (expanding outward from 9) -->
-  <circle class="cdxfield-singularity-ring3" cx="230" cy="250" r="22" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0"/>
-  <circle class="cdxfield-singularity-ring2" cx="230" cy="250" r="22" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0"/>
-  <circle class="cdxfield-singularity-ring1" cx="230" cy="250" r="22" fill="none" stroke="#c084fc" stroke-width="1.5" opacity="0"/>
-
   <!-- BASE STRUCTURE LINES (very subtle) -->
   <g class="cdxfield-struct-line">
     <line x1="230" y1="60"  x2="150" y2="130"/>
@@ -504,67 +575,91 @@
   ════════════════════════════════════ -->
 
   <!-- NODE 3 — electric — top -->
-  <g class="cdxfield-node-group cdxfield-node-electric">
-    <circle class="cdxfield-node-ring" cx="230" cy="60" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <circle cx="230" cy="60" r="18" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.4"/>
-    <text class="cdxfield-node-label" x="230" y="60" fill="#fbbf24">3</text>
+  <g class="cdxfield-node-group cdxfield-node-electric" data-num="3">
+    <circle class="cdxfield-node-ring" cx="230" cy="60" r="21"/>
+    <circle cx="230" cy="60" r="21" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.35"/>
+    <text class="cdxfield-node-label" x="230" y="60">3</text>
   </g>
 
   <!-- NODE 1 — electric — mid-left -->
-  <g class="cdxfield-node-group cdxfield-node-electric">
-    <circle class="cdxfield-node-ring" cx="150" cy="130" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="150" y="130" fill="#fbbf24">1</text>
+  <g class="cdxfield-node-group cdxfield-node-electric" data-num="1">
+    <circle class="cdxfield-node-ring" cx="150" cy="130" r="21"/>
+    <text class="cdxfield-node-label" x="150" y="130">1</text>
   </g>
 
   <!-- NODE 2 — magnetic — mid-right -->
-  <g class="cdxfield-node-group cdxfield-node-magnetic">
-    <circle class="cdxfield-node-ring" cx="310" cy="130" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="310" y="130" fill="#67e8f9">2</text>
+  <g class="cdxfield-node-group cdxfield-node-magnetic" data-num="2">
+    <circle class="cdxfield-node-ring" cx="310" cy="130" r="21"/>
+    <text class="cdxfield-node-label" x="310" y="130">2</text>
   </g>
 
   <!-- NODE 4 — magnetic — far-left -->
-  <g class="cdxfield-node-group cdxfield-node-magnetic">
-    <circle class="cdxfield-node-ring" cx="80" cy="250" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="80" y="250" fill="#67e8f9">4</text>
+  <g class="cdxfield-node-group cdxfield-node-magnetic" data-num="4">
+    <circle class="cdxfield-node-ring" cx="80" cy="250" r="21"/>
+    <text class="cdxfield-node-label" x="80" y="250">4</text>
   </g>
 
   <!-- NODE 5 — electric — far-right -->
-  <g class="cdxfield-node-group cdxfield-node-electric">
-    <circle class="cdxfield-node-ring" cx="380" cy="250" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="380" y="250" fill="#fbbf24">5</text>
+  <g class="cdxfield-node-group cdxfield-node-electric" data-num="5">
+    <circle class="cdxfield-node-ring" cx="380" cy="250" r="21"/>
+    <text class="cdxfield-node-label" x="380" y="250">5</text>
   </g>
 
   <!-- NODE 7 — electric — lower-left -->
-  <g class="cdxfield-node-group cdxfield-node-electric">
-    <circle class="cdxfield-node-ring" cx="150" cy="370" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="150" y="370" fill="#fbbf24">7</text>
+  <g class="cdxfield-node-group cdxfield-node-electric" data-num="7">
+    <circle class="cdxfield-node-ring" cx="150" cy="370" r="21"/>
+    <text class="cdxfield-node-label" x="150" y="370">7</text>
   </g>
 
   <!-- NODE 8 — magnetic — lower-right -->
-  <g class="cdxfield-node-group cdxfield-node-magnetic">
-    <circle class="cdxfield-node-ring" cx="310" cy="370" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="310" y="370" fill="#67e8f9">8</text>
+  <g class="cdxfield-node-group cdxfield-node-magnetic" data-num="8">
+    <circle class="cdxfield-node-ring" cx="310" cy="370" r="21"/>
+    <text class="cdxfield-node-label" x="310" y="370">8</text>
   </g>
 
   <!-- NODE 6 — magnetic — bottom -->
-  <g class="cdxfield-node-group cdxfield-node-magnetic">
-    <circle class="cdxfield-node-ring" cx="230" cy="440" r="18" filter="url(#cdxfield-glow-soft)"/>
-    <text class="cdxfield-node-label" x="230" y="440" fill="#67e8f9">6</text>
+  <g class="cdxfield-node-group cdxfield-node-magnetic" data-num="6">
+    <circle class="cdxfield-node-ring" cx="230" cy="440" r="21"/>
+    <text class="cdxfield-node-label" x="230" y="440">6</text>
   </g>
 
-  <!-- NODE 9 — AETHERIC SINGULARITY — center -->
-  <g class="cdxfield-node-group cdxfield-node-aetheric" filter="url(#cdxfield-glow-violet)">
-    <!-- Soft radial glow behind -->
-    <circle cx="230" cy="250" r="50" fill="url(#cdxfield-singularity-grad)" opacity="0.5"/>
-    <!-- Segmented outer ring -->
-    <circle cx="230" cy="250" r="26" fill="#0d0020" stroke="#a855f7" stroke-width="2"
-      stroke-dasharray="13.6 3.4"/>
-    <!-- Pulsing core -->
-    <circle class="cdxfield-singularity-core" cx="230" cy="250" r="18"
-      fill="#1a0035" stroke="#c084fc" stroke-width="1.5"/>
-    <!-- Inner dot -->
-    <circle cx="230" cy="250" r="5" fill="#e9d5ff" opacity="0.9"/>
-    <text class="cdxfield-node-label" x="230" y="250" fill="#e9d5ff" font-size="17">9</text>
+  <!-- NODE 9 — AETHERIC SINGULARITY / PORTAL — center -->
+  <g class="cdxfield-node-group cdxfield-node-aetheric" data-num="9">
+    <!-- Outer halo -->
+    <circle cx="230" cy="250" r="58" fill="url(#cdxfield-singularity-grad)" opacity="0.42"/>
+
+    <!-- Expanding pulse rings -->
+    <circle class="cdxfield-singularity-ring3" cx="230" cy="250" r="28" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0"/>
+    <circle class="cdxfield-singularity-ring2" cx="230" cy="250" r="28" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0"/>
+    <circle class="cdxfield-singularity-ring1" cx="230" cy="250" r="28" fill="none" stroke="#c084fc" stroke-width="1.5" opacity="0"/>
+
+    <!-- Accretion disks — counter-rotating -->
+    <g class="cdxfield-portal-spin">
+      <ellipse cx="230" cy="250" rx="34" ry="11" fill="none" stroke="#9333ea" stroke-width="0.9" opacity="0.5" transform="rotate(-35 230 250)"/>
+    </g>
+    <g class="cdxfield-portal-spin-rev">
+      <ellipse cx="230" cy="250" rx="34" ry="11" fill="none" stroke="#67e8f9" stroke-width="0.7" opacity="0.38" transform="rotate(35 230 250)"/>
+    </g>
+
+    <!-- Infall spirals -->
+    <path class="cdxfield-portal-spiral cdxfield-spiral-in"
+      d="M252,242 A30,30 0 0,0 238,256 A20,20 0 0,0 230,250"/>
+    <path class="cdxfield-portal-spiral cdxfield-spiral-in-rev"
+      d="M208,258 A30,30 0 0,0 222,244 A20,20 0 0,0 230,250"/>
+
+    <!-- Segmented outer portal ring -->
+    <circle cx="230" cy="250" r="32" fill="none" stroke="#a855f7" stroke-width="1.8"
+      stroke-dasharray="16.75 4.2" opacity="0.75"/>
+
+    <!-- Event horizon rim -->
+    <circle class="cdxfield-portal-rim" cx="230" cy="250" r="16" fill="none"
+      stroke="url(#cdxfield-portal-rim)" stroke-width="1.5" opacity="0.7"/>
+
+    <!-- Void singularity -->
+    <circle class="cdxfield-portal-void" cx="230" cy="250" r="13" fill="url(#cdxfield-portal-void)"/>
+
+    <!-- Label — revealed on hover / pin -->
+    <text class="cdxfield-node-label cdxfield-portal-label" x="230" y="250">9</text>
   </g>
 
 </svg>
@@ -604,7 +699,7 @@
 
 <div class="node codex-hit-node" style="left:17.3913%;top:50.0000%" data-num="4" data-plane="mind" data-nature="magnetic">
               <div class="node-tooltip">
-                <div class="tooltip-num">4</div><div class="tooltip-name">TStructure</div>
+                <div class="tooltip-num">4</div><div class="tooltip-name">Structure</div>
                 <div class="tooltip-position">Mind Axis · Left Meridian</div>
                 <div class="tooltip-essence">Magnetic · Structure &amp; Stability</div>
                 <div class="tooltip-body">The consciousness that manifests. Discipline, order, patient building of foundations that outlast their maker. The structuring of Imaginative Spirit into the physicality of the world.</div>
