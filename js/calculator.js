@@ -973,7 +973,7 @@ function handleUnlockPayment() {
   .then(function(data) {
     console.log('Checkout response:', data);
     if (data.success) {
-      window.location.href = '/?payment=success';
+      window.location.href = '/thank-you/?email=' + encodeURIComponent(email) + '&product=guidebook';
     } else if (data.url) {
       console.log('Redirecting to:', data.url);
       window.location.href = data.url;

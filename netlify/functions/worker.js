@@ -3,9 +3,12 @@
  * Flow: POST /api/session → queue → Anthropic → PDFShift → Resend
  *       (paid: Stripe checkout → webhook → queue)
  *       (free:  POST /api/session → queue directly)
+ *       GET /api/checkout-session, /api/google-reviews, /api/site-config
  */
 
 const GUIDEBOOK_PRICE_CENTS = 1100; // 0 = free, queue directly. Set to 1100 to use Stripe + webhook.
+
+let googleReviewsCache = { data: null, expires: 0 };
 
 const ALLOWED_ORIGINS = [
   'https://simulationsourcecode.com',
@@ -13,6 +16,12 @@ const ALLOWED_ORIGINS = [
   'http://localhost:5500',
   'http://localhost:3000',
 ];
+
+function getGoogleReviewUrl(env) {
+  const placeId = env.GOOGLE_PLACE_ID;
+  if (!placeId) return 'https://simulationsourcecode.com/services/';
+  return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeId)}`;
+}
 
 function corsHeaders(requestOrigin) {
   const origin = ALLOWED_ORIGINS.includes(requestOrigin)
@@ -125,6 +134,18 @@ export default {
     // ── Route dispatch ──────────────────────────────────────────────────
     if (request.method === 'POST' && url.pathname === '/api/session') {
       return handleCreateCheckout(request, env, origin);
+    }
+
+    if (request.method === 'GET' && url.pathname === '/api/checkout-session') {
+      return handleGetCheckoutSession(request, env, origin);
+    }
+
+    if (request.method === 'GET' && url.pathname === '/api/google-reviews') {
+      return handleGoogleReviews(request, env, origin);
+    }
+
+    if (request.method === 'GET' && url.pathname === '/api/site-config') {
+      return handleSiteConfig(request, env, origin);
     }
 
     if (request.method === 'POST' && url.pathname === '/submit-email') {
@@ -573,7 +594,7 @@ async function sendEmail(userData, name, frequencies, pdfBuffer, env) {
       to:       [userData.email],
       reply_to: formatResendReplyTo(env.REPLY_TO_EMAIL, env.FROM_EMAIL),
       subject:  `\u2746 Your Holographic Blueprint \u2014 ${name.split(' ')[0]}`,
-      html:     buildNotificationEmail(name, userData.email, frequencies),
+      html:     buildNotificationEmail(name, userData.email, frequencies, env),
       attachments: [{
         filename:     `SSC-Blueprint-${name.replace(/\s+/g, '-')}.pdf`,
         content:      pdfBase64,
@@ -925,9 +946,10 @@ html,body{background:#05040a;color:#e8dfc8;font-family:"EB Garamond",Georgia,ser
 //  EMAIL NOTIFICATION TEMPLATE
 // ════════════════════════════════════════════════════════════
 
-function buildNotificationEmail(name, email, frequencies) {
+function buildNotificationEmail(name, email, frequencies, env = {}) {
   const firstName = name.split(' ')[0];
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>body{margin:0;padding:0;background-color:#05040a;font-family:Georgia,serif;color:#e8dfc8}.wrap{max-width:560px;margin:0 auto;padding:48px 32px}.sigil{text-align:center;font-size:32px;color:#c9a84c;margin-bottom:24px}.eyebrow{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#4a9494;text-align:center;margin-bottom:12px}.title{font-size:26px;color:#e8c96b;font-weight:normal;text-align:center;margin-bottom:8px}.sub{font-size:14px;color:#9b9080;font-style:italic;text-align:center;margin-bottom:36px}.divider{height:1px;background:rgba(201,168,76,0.15);margin:32px 0}.body{font-size:16px;line-height:1.8;color:#9b9080;margin-bottom:20px}.body strong{color:#e8dfc8}.freqs{background:rgba(13,11,24,0.9);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:20px;margin:28px 0;text-align:center}.badge{display:inline-block;background:rgba(74,148,148,0.12);border:1px solid rgba(126,200,200,0.25);border-radius:4px;padding:4px 10px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#7ec8c8;margin:3px}.ft{font-family:Arial,sans-serif;font-size:10px;color:#5c5448;text-align:center;letter-spacing:.15em;text-transform:uppercase;line-height:1.8}.ft a{color:#7a6330;text-decoration:none}</style></head><body><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#05040a;"><tr><td align="center" style="padding:40px 16px;"><div class="wrap"><div class="sigil">&#10022;</div><div class="eyebrow">Simulation Source Code</div><div class="title">Your Blueprint is Ready</div><div class="sub">${firstName} &mdash; your complete frequency guidebook is attached</div><div class="divider"></div><p class="body">Your <strong>Holographic Blueprint Reading</strong> is attached as a PDF. Open it to access your complete analysis: both positive and shadow expressions of each frequency, quest objectives for each circuit, an action guide mapping your internal and external missions, and your final quest directive.</p><div class="freqs"><span class="badge">Theme &middot; ${frequencies.rawTheme}/${frequencies.theme}</span><span class="badge">Life Path &middot; ${frequencies.rawLifePath}/${frequencies.lifePath}</span><span class="badge">Achievement &middot; ${frequencies.rawAchievement}/${frequencies.achievement}</span><span class="badge">Expression &middot; ${frequencies.rawExpression}/${frequencies.expression}</span><span class="badge">Soul &middot; ${frequencies.rawSoul}/${frequencies.soul}</span><span class="badge">Persona &middot; ${frequencies.rawPersona}/${frequencies.persona}</span><span class="badge">Life Calling &middot; ${frequencies.rawDestiny}/${frequencies.destiny}</span></div><div class="divider"></div><div class="ft">Simulation Source Code &nbsp;&middot;&nbsp; <a href="https://simulationsourcecode.com">simulationsourcecode.com</a><br>Generated exclusively for ${email}</div></div></td></tr></table></body></html>`;
+  const reviewUrl = getGoogleReviewUrl(env);
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>body{margin:0;padding:0;background-color:#05040a;font-family:Georgia,serif;color:#e8dfc8}.wrap{max-width:560px;margin:0 auto;padding:48px 32px}.sigil{text-align:center;font-size:32px;color:#c9a84c;margin-bottom:24px}.eyebrow{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#4a9494;text-align:center;margin-bottom:12px}.title{font-size:26px;color:#e8c96b;font-weight:normal;text-align:center;margin-bottom:8px}.sub{font-size:14px;color:#9b9080;font-style:italic;text-align:center;margin-bottom:36px}.divider{height:1px;background:rgba(201,168,76,0.15);margin:32px 0}.body{font-size:16px;line-height:1.8;color:#9b9080;margin-bottom:20px}.body strong{color:#e8dfc8}.body a{color:#e8c96b}.freqs{background:rgba(13,11,24,0.9);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:20px;margin:28px 0;text-align:center}.badge{display:inline-block;background:rgba(74,148,148,0.12);border:1px solid rgba(126,200,200,0.25);border-radius:4px;padding:4px 10px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#7ec8c8;margin:3px}.ft{font-family:Arial,sans-serif;font-size:10px;color:#5c5448;text-align:center;letter-spacing:.15em;text-transform:uppercase;line-height:1.8}.ft a{color:#7a6330;text-decoration:none}</style></head><body><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#05040a;"><tr><td align="center" style="padding:40px 16px;"><div class="wrap"><div class="sigil">&#10022;</div><div class="eyebrow">Simulation Source Code</div><div class="title">Your Blueprint is Ready</div><div class="sub">${firstName} &mdash; your complete frequency guidebook is attached</div><div class="divider"></div><p class="body">Your <strong>Holographic Blueprint Reading</strong> is attached as a PDF. Open it to access your complete analysis: both positive and shadow expressions of each frequency, quest objectives for each circuit, an action guide mapping your internal and external missions, and your final quest directive.</p><div class="freqs"><span class="badge">Theme &middot; ${frequencies.rawTheme}/${frequencies.theme}</span><span class="badge">Life Path &middot; ${frequencies.rawLifePath}/${frequencies.lifePath}</span><span class="badge">Achievement &middot; ${frequencies.rawAchievement}/${frequencies.achievement}</span><span class="badge">Expression &middot; ${frequencies.rawExpression}/${frequencies.expression}</span><span class="badge">Soul &middot; ${frequencies.rawSoul}/${frequencies.soul}</span><span class="badge">Persona &middot; ${frequencies.rawPersona}/${frequencies.persona}</span><span class="badge">Life Calling &middot; ${frequencies.rawDestiny}/${frequencies.destiny}</span></div><div class="divider"></div><p class="body">Found this helpful? <a href="${reviewUrl}">Leave a review on Google</a> &mdash; it helps others find their blueprint.</p><div class="divider"></div><div class="ft">Simulation Source Code &nbsp;&middot;&nbsp; <a href="https://simulationsourcecode.com">simulationsourcecode.com</a><br>Generated exclusively for ${email}</div></div></td></tr></table></body></html>`;
 }
 
 
@@ -1091,7 +1113,8 @@ async function handleCreateCheckout(request, env, origin) {
       'metadata[outer]':                                String(outer        || ''),
       'metadata[achievement]':                          String(achievement  || ''),
       'metadata[theme]':                                String(theme        || ''),
-      'success_url':                                    'https://simulationsourcecode.com/?payment=success',
+      'metadata[product]':                              'guidebook',
+      'success_url':                                    'https://simulationsourcecode.com/thank-you/?session_id={CHECKOUT_SESSION_ID}&product=guidebook',
       'cancel_url':                                     'https://simulationsourcecode.com/?payment=cancelled',
     });
 
@@ -1185,4 +1208,160 @@ async function handleSubmitEmail(request, env, origin) {
     status: 200,
     headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
   });
+}
+
+
+// ════════════════════════════════════════════════════════════
+//  CHECKOUT SESSION — GET /api/checkout-session
+// ════════════════════════════════════════════════════════════
+
+async function handleGetCheckoutSession(request, env, origin) {
+  const url = new URL(request.url);
+  const sessionId = url.searchParams.get('session_id');
+
+  if (!sessionId) {
+    return new Response(JSON.stringify({ error: 'session_id required' }), {
+      status: 400,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+
+  const stripeKey = env.STRIPE_SECRET || env.STRIPE_SECRET_KEY;
+  if (!stripeKey) {
+    return new Response(JSON.stringify({ error: 'Stripe not configured' }), {
+      status: 500,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+
+  try {
+    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
+      headers: { Authorization: `Bearer ${stripeKey}` },
+    });
+    const session = await stripeRes.json();
+
+    if (!stripeRes.ok) {
+      return new Response(JSON.stringify({ error: session.error?.message || 'Session not found' }), {
+        status: stripeRes.status === 404 ? 404 : 500,
+        headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+      });
+    }
+
+    return new Response(JSON.stringify({
+      session_id: session.id,
+      email:      session.customer_email || session.customer_details?.email || session.metadata?.email || '',
+      product:    session.metadata?.product || 'guidebook',
+    }), {
+      status: 200,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  } catch (err) {
+    console.error('checkout-session error:', err);
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+}
+
+
+// ════════════════════════════════════════════════════════════
+//  SITE CONFIG — GET /api/site-config
+// ════════════════════════════════════════════════════════════
+
+function handleSiteConfig(request, env, origin) {
+  const placeId = env.GOOGLE_PLACE_ID || '';
+  return new Response(JSON.stringify({
+    googlePlaceId:   placeId,
+    googleReviewUrl: getGoogleReviewUrl(env),
+    googleMapsUrl:   env.GOOGLE_MAPS_URL || (placeId
+      ? `https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(placeId)}`
+      : ''),
+  }), {
+    status: 200,
+    headers: {
+      ...corsHeaders(origin),
+      'Content-Type':  'application/json',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
+}
+
+
+// ════════════════════════════════════════════════════════════
+//  GOOGLE REVIEWS — GET /api/google-reviews
+// ════════════════════════════════════════════════════════════
+
+async function handleGoogleReviews(request, env, origin) {
+  const jsonHeaders = {
+    ...corsHeaders(origin),
+    'Content-Type':  'application/json',
+    'Cache-Control': 'public, max-age=86400',
+  };
+
+  const placeId = env.GOOGLE_PLACE_ID;
+  const apiKey  = env.GOOGLE_PLACES_API_KEY;
+
+  if (!placeId || !apiKey) {
+    return new Response(JSON.stringify({ configured: false }), {
+      status: 200,
+      headers: jsonHeaders,
+    });
+  }
+
+  const now = Date.now();
+  if (googleReviewsCache.data && googleReviewsCache.expires > now) {
+    return new Response(JSON.stringify(googleReviewsCache.data), {
+      status: 200,
+      headers: jsonHeaders,
+    });
+  }
+
+  try {
+    const fields = 'rating,user_ratings_total,reviews,url';
+    const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${encodeURIComponent(placeId)}&fields=${fields}&key=${encodeURIComponent(apiKey)}`;
+    const apiRes = await fetch(apiUrl);
+    const data   = await apiRes.json();
+
+    if (data.status !== 'OK' || !data.result) {
+      console.error('Places API error:', data.status, data.error_message);
+      return new Response(JSON.stringify({
+        configured: true,
+        error:      data.error_message || data.status || 'Places API error',
+      }), {
+        status: 502,
+        headers: jsonHeaders,
+      });
+    }
+
+    const result = data.result;
+    const payload = {
+      configured:  true,
+      rating:      result.rating || 0,
+      total:       result.user_ratings_total || 0,
+      reviewUrl:   getGoogleReviewUrl(env),
+      mapsUrl:     result.url || env.GOOGLE_MAPS_URL || '',
+      attribution: 'Reviews from Google',
+      reviews:     (result.reviews || []).slice(0, 3).map(review => ({
+        author:          review.author_name,
+        rating:          review.rating,
+        text:            review.text,
+        relativeTime:    review.relative_time_description,
+        profilePhotoUrl: review.profile_photo_url || '',
+      })),
+    };
+
+    googleReviewsCache = { data: payload, expires: now + 24 * 60 * 60 * 1000 };
+
+    return new Response(JSON.stringify(payload), {
+      status: 200,
+      headers: jsonHeaders,
+    });
+  } catch (err) {
+    console.error('google-reviews error:', err);
+    return new Response(JSON.stringify({ configured: true, error: err.message }), {
+      status: 500,
+      headers: jsonHeaders,
+    });
+  }
 }

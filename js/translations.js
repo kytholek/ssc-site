@@ -73,7 +73,7 @@ var SSC_TRANSLATIONS = {
 
   // ── Calculator ─────────────────────────────────────
   'calc.btn' : { en: '⬡ Decode My Map ⬡', es: '⬡ Descifrar Mi Mapa ⬡' },
-  'calc.eyebrow' : { en: 'Simulation Source Code', es: 'Simulation Source Code' },
+  'calc.eyebrow' : { en: 'Source Decoder', es: 'Source Decoder' },
   'calc.label.birthdate' : { en: '· Birth Date ·', es: '· Fecha de Nacimiento ·' },
   'calc.label.day' : { en: 'Day', es: 'Día' },
   'calc.label.fullname' : { en: '· Full Birth Name ·', es: '· Nombre Completo de Nacimiento ·' },
@@ -94,8 +94,8 @@ var SSC_TRANSLATIONS = {
   'calc.month.9' : { en: 'September', es: 'Septiembre' },
   'calc.placeholder.name' : { en: 'e.g. Jane Marie Smith', es: 'ej. María Guadalupe López' },
   'calc.results.placeholder' : { en: 'Your reading will appear here', es: 'Tu lectura aparecerá aquí' },
-  'calc.subtitle' : { en: 'Enter your birth details to reveal your seven encoded frequencies.', es: 'Ingresa tus datos de nacimiento para revelar tus siete frecuencias codificadas.' },
-  'calc.title' : { en: 'Frequency Decoder', es: 'Decodificador de Frecuencias' },
+  'calc.subtitle' : { en: 'Enter your birth date and full name to calculate Life Path, Expression, Soul Urge, and all seven core frequencies.', es: 'Ingresa tu fecha de nacimiento y nombre completo para calcular el Camino de Vida, la Expresión, el Impulso del Alma y las siete frecuencias centrales.' },
+  'calc.title' : { en: 'Free Numerology Calculator', es: 'Calculadora de Numerología Gratis' },
 
 
   // ── Footer ─────────────────────────────────────────

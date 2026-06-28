@@ -22,7 +22,7 @@ const SITE = {
   name        : 'Simulation Source Code',
   titleSuffix : ' · SSC Numerology',
   description : 'Discover your seven numerology frequencies — Life Path, Expression, Life Calling, Soul, Outer, Achievement & Theme.',
-  ogImage     : 'https://simulationsourcecode.com/ssc-og.png',
+  ogImage     : 'https://simulationsourcecode.com/Images/ssc-og.png',
   baseUrl     : 'https://simulationsourcecode.com',
   blogPath    : './blog/',
 };
@@ -410,14 +410,14 @@ function _injectPostNav(id) {
 // ────────────────────────────────────────────────────────────
 //  META TAG HELPERS
 // ────────────────────────────────────────────────────────────
-function setMeta(title, description, ogImage, canonicalUrl) {
+function setMeta(title, description, ogImage, canonicalUrl, ogType) {
   document.title = title;
   _setMetaName('description',         description);
   _setOgTag   ('og:title',            title);
   _setOgTag   ('og:description',      description);
   _setOgTag   ('og:image',            ogImage      || SITE.ogImage);
   _setOgTag   ('og:url',              canonicalUrl || window.location.href);
-  _setOgTag   ('og:type',             'article');
+  _setOgTag   ('og:type',             ogType || 'website');
   _setMetaName('twitter:card',        'summary_large_image');
   _setMetaName('twitter:title',       title);
   _setMetaName('twitter:description', description);
@@ -580,8 +580,7 @@ function showPage(name, pushState = true) {
 
   const meta = PAGE_META[name] || { title: name + SITE.titleSuffix, description: SITE.description };
   const url  = name === 'home' ? '/' : '/' + name + '/';
-  setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + url);
-  _clearJsonLd();
+  setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + url, 'website');
 
   if (pushState) history.pushState({ page: name, post: null }, meta.title, url);
 
@@ -591,7 +590,7 @@ function showPage(name, pushState = true) {
 
 function _injectPageSchema(name) {
   _clearJsonLd();
-  if (name === 'calculator' || name === 'home') {
+  if (name === 'calculator') {
     _setJsonLd({
       '@context'   : 'https://schema.org',
       '@type'      : 'WebApplication',
@@ -689,7 +688,7 @@ async function openPost(id, pushState = true) {
   const canonicalUrl = SITE.baseUrl + '/?post=' + id;
 
   if (meta) {
-    setMeta(meta.title, meta.description, meta.ogImage, canonicalUrl);
+    setMeta(meta.title, meta.description, meta.ogImage, canonicalUrl, 'article');
     _setArticleSchema(meta);
   }
 
@@ -707,7 +706,7 @@ function closePosts(pushState = true) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const meta = PAGE_META.blog;
-  setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + '/blog');
+  setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + '/blog/', 'website');
   _clearJsonLd();
 
   if (pushState) history.pushState({ page: 'blog', post: null }, meta.title, '/blog/');
@@ -1268,11 +1267,68 @@ function closeCalculatorModal() {
 
 function initServicesPage() {
   var overlay = document.getElementById('calculator-modal-overlay');
-  if (!overlay || overlay.dataset.bound === '1') return;
-  overlay.dataset.bound = '1';
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) closeCalculatorModal();
-  });
+  if (overlay && overlay.dataset.bound !== '1') {
+    overlay.dataset.bound = '1';
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeCalculatorModal();
+    });
+  }
+  loadGoogleReviews();
+}
+
+function renderGoogleReviewStars(rating) {
+  var rounded = Math.round(rating || 5);
+  var stars = '';
+  for (var i = 0; i < 5; i++) {
+    stars += i < rounded ? '\u2605' : '\u2606';
+  }
+  return stars;
+}
+
+function escapeHtml(text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function loadGoogleReviews() {
+  var wrap = document.getElementById('svc-google-reviews');
+  var grid = document.getElementById('svc-google-reviews-grid');
+  var ratingEl = document.getElementById('svc-google-reviews-rating');
+  if (!wrap || !grid || !ratingEl) return;
+
+  fetch('/api/google-reviews')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (!data.configured || data.error || !data.reviews || !data.reviews.length) return;
+
+      wrap.hidden = false;
+      grid.innerHTML = data.reviews.map(function(review) {
+        return (
+          '<div class="svc-testimonial svc-testimonial--google">' +
+            '<div class="svc-testimonial-stars">' + renderGoogleReviewStars(review.rating) + '</div>' +
+            '<p class="svc-testimonial-text">&ldquo;' + escapeHtml(review.text) + '&rdquo;</p>' +
+            '<div class="svc-testimonial-author">' +
+              escapeHtml(review.author) + ' &nbsp;&#183;&nbsp; <span>Google Review</span>' +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+
+      var reviewLink = data.reviewUrl || data.mapsUrl || '#';
+      ratingEl.innerHTML =
+        '<span class="svc-rating-stars">' + renderGoogleReviewStars(data.rating) + '</span>' +
+        '<span class="svc-rating-text">' +
+          (data.rating || 0).toFixed(1) + ' &nbsp;&#183;&nbsp; ' +
+          (data.total || 0) + ' Reviews &nbsp;&#183;&nbsp; ' +
+          '<a href="' + escapeHtml(reviewLink) + '" class="svc-rating-link" target="_blank" rel="noopener noreferrer">Leave a review</a>' +
+        '</span>';
+    })
+    .catch(function(err) {
+      console.warn('Google reviews unavailable:', err);
+    });
 }
 
 function resetCalculatorModal() {
@@ -1396,7 +1452,7 @@ function handleUnlockPaymentModal() {
   .then(data => {
     console.log('Checkout response:', data);
     if (data.success) {
-      window.location.href = '/?payment=success';
+      window.location.href = '/thank-you/?email=' + encodeURIComponent(email) + '&product=guidebook';
     } else if (data.url) {
       console.log('Redirecting to:', data.url);
       window.location.href = data.url;

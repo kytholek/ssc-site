@@ -96,6 +96,13 @@
       padding-top: 32px;
       border-top: 1px solid rgba(201,168,76,0.08);
     }
+    .ty-review-note {
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 28px;
+      line-height: 1.6;
+    }
   </style>
 
   <!-- Google Customer Reviews -->
@@ -124,7 +131,13 @@
     <div class="ty-actions">
       <a href="/" class="ty-btn">Return Home</a>
       <a href="/services/" class="ty-btn ty-btn--secondary">View Services</a>
+      <a href="#" id="tyGoogleReview" class="ty-btn" style="display:none" target="_blank" rel="noopener noreferrer">Review on Google</a>
+      <a href="https://www.facebook.com/kytholek/reviews" class="ty-btn ty-btn--secondary" target="_blank" rel="noopener noreferrer">Share on Facebook</a>
     </div>
+
+    <p class="ty-review-note" id="tyReviewNote" style="display:none">
+      After you receive your guidebook, a short Google review helps others discover their blueprint.
+    </p>
 
     <!-- Google Customer Reviews opt-in renders here -->
     <div class="ty-google-badge" id="googleReviewsOptIn"></div>
@@ -139,34 +152,7 @@
   if (typeof loadNav === 'function') loadNav();
   if (typeof loadFooter === 'function') loadFooter();
 
-  // ── Parse URL params from Stripe redirect ──────────
-  (function() {
-    var params = new URLSearchParams(window.location.search);
-
-    // Stripe can pass these via success_url query params:
-    //   /thank-you/?session_id={CHECKOUT_SESSION_ID}&email={CUSTOMER_EMAIL}&product={PRODUCT}
-    var sessionId = params.get('session_id') || '';
-    var email     = params.get('email')      || '';
-    var product   = params.get('product')    || '';
-
-    // Show order reference if available
-    var orderEl = document.getElementById('tyOrderId');
-    if (sessionId && orderEl) {
-      orderEl.textContent = sessionId.substring(0, 24) + '…';
-    }
-
-    // Customise message based on product
-    var msgEl = document.getElementById('tyMessage');
-    if (product === 'guidebook' && msgEl) {
-      msgEl.textContent = 'Your Guidebook Report is being generated and will arrive in your inbox within minutes. Keep it — it is yours to reference any time.';
-    } else if (product === 'consultation' && msgEl) {
-      msgEl.textContent = 'Your Personal Consultation has been booked. You will receive scheduling details and a calendar link within 48 hours.';
-    } else if (product === 'membership' && msgEl) {
-      msgEl.textContent = 'Welcome to Source Decoder. Your membership is now active — access details and group invite will arrive in your inbox within 24 hours.';
-    }
-
-    // ── Google Customer Reviews opt-in ─────────────
-    // Estimated delivery: guidebook = today, consultation = 3 days, membership = 1 day
+  function setupGoogleOptIn(email, sessionId, product) {
     var deliveryDays = product === 'consultation' ? 3 : product === 'membership' ? 1 : 0;
     var deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + deliveryDays);
@@ -186,6 +172,62 @@
         });
       });
     };
+
+    if (window.gapi && typeof window.renderOptIn === 'function') {
+      window.renderOptIn();
+    }
+  }
+
+  (async function() {
+    var params = new URLSearchParams(window.location.search);
+    var sessionId = params.get('session_id') || '';
+    var email     = params.get('email')      || '';
+    var product   = params.get('product')    || 'guidebook';
+
+    if (sessionId && !email) {
+      try {
+        var sessionRes = await fetch('/api/checkout-session?session_id=' + encodeURIComponent(sessionId));
+        if (sessionRes.ok) {
+          var sessionData = await sessionRes.json();
+          email   = sessionData.email   || email;
+          product = sessionData.product || product;
+        }
+      } catch (err) {
+        console.warn('Could not load checkout session:', err);
+      }
+    }
+
+    var orderEl = document.getElementById('tyOrderId');
+    if (sessionId && orderEl) {
+      orderEl.textContent = sessionId.substring(0, 24) + '\u2026';
+    }
+
+    var msgEl = document.getElementById('tyMessage');
+    if (product === 'guidebook' && msgEl) {
+      msgEl.textContent = 'Your Guidebook Report is being generated and will arrive in your inbox within minutes. Keep it \u2014 it is yours to reference any time.';
+    } else if (product === 'consultation' && msgEl) {
+      msgEl.textContent = 'Your Personal Consultation has been booked. You will receive scheduling details and a calendar link within 48 hours.';
+    } else if (product === 'membership' && msgEl) {
+      msgEl.textContent = 'Welcome to Source Decoder. Your membership is now active \u2014 access details and group invite will arrive in your inbox within 24 hours.';
+    }
+
+    setupGoogleOptIn(email, sessionId, product);
+
+    try {
+      var configRes = await fetch('/api/site-config');
+      if (configRes.ok) {
+        var config = await configRes.json();
+        var reviewBtn = document.getElementById('tyGoogleReview');
+        var reviewNote = document.getElementById('tyReviewNote');
+        if (config.googleReviewUrl && reviewBtn) {
+          reviewBtn.href = config.googleReviewUrl;
+          reviewBtn.style.display = '';
+          if (reviewNote) reviewNote.style.display = '';
+        }
+      }
+    } catch (err) {
+      console.warn('Could not load site config:', err);
+    }
   })();
 </script>
 </body>

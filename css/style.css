@@ -3469,6 +3469,27 @@ footer {
   border-bottom-color: rgba(201,168,76,.55);
 }
 
+.svc-google-reviews-wrap {
+  padding-bottom: 0;
+}
+
+.svc-facebook-reviews-wrap {
+  padding-top: 48px;
+}
+
+.svc-google-attribution {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 8px 0 0;
+}
+
+.svc-testimonial--google .svc-testimonial-author span {
+  color: var(--text-muted);
+}
+
 /* ══════════════════════════════════════════════════════════
    HOME PAGE — HERO SOCIAL PROOF
 ══════════════════════════════════════════════════════════ */
