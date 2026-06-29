@@ -553,7 +553,11 @@ function showPage(name, pushState = true) {
   // Reset codex initiation state when navigating to it fresh
   if (name === 'codex') {
     const cdx = document.getElementById('page-codex');
-    if (cdx) { cdx.classList.remove('cdx-active'); cdx.classList.remove('cdx-settled'); }
+    if (cdx) {
+      cdx.classList.remove('cdx-active');
+      cdx.classList.remove('cdx-settled');
+      delete cdx.dataset.cdxActiveView;
+    }
     const card = document.getElementById('node-card');
     if (card) card.classList.remove('visible');
     if (cdx) cdx.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });
@@ -582,10 +586,20 @@ function showPage(name, pushState = true) {
   const url  = name === 'home' ? '/' : '/' + name + '/';
   setMeta(meta.title, meta.description, SITE.ogImage, SITE.baseUrl + url, 'website');
 
-  if (pushState) history.pushState({ page: name, post: null }, meta.title, url);
+  if (pushState && name !== 'codex') {
+    history.pushState({ page: name, post: null }, meta.title, url);
+  }
 
   // Inject page-specific structured data
   _injectPageSchema(name);
+
+  if (name === 'codex' && pushState) {
+    setTimeout(function() {
+      var params = new URLSearchParams(window.location.search);
+      var view = params.get('view') === 'spiral' ? 'spiral' : 'matrix';
+      setCodexView(view, true);
+    }, 0);
+  }
 }
 
 function _injectPageSchema(name) {
@@ -744,7 +758,12 @@ window.addEventListener('popstate', e => {
   const s = e.state;
   if (!s)        { showPage('home', false); return; }
   if (s.post)    { openPost(s.post, false); }
-  else if (s.page) showPage(s.page, false);
+  else if (s.page) {
+    showPage(s.page, false);
+    if (s.page === 'codex') {
+      setCodexView(s.codexView === 'spiral' ? 'spiral' : 'matrix', false);
+    }
+  }
   else             showPage('home', false);
 });
 
@@ -767,9 +786,18 @@ async function handleDeepLink() {
     showPage(pageId, false);
     history.replaceState({ page: pageId, post: null }, document.title, '/' + pageId + '/');
   } else if (pathname && PAGE_META[pathname]) {
-    // Clean URL: /services, /calculator, /about, etc.
     showPage(pathname, false);
-    history.replaceState({ page: pathname, post: null }, document.title, '/' + pathname + '/');
+    if (pathname === 'codex') {
+      const codexView = params.get('view') === 'spiral' ? 'spiral' : 'matrix';
+      setCodexView(codexView, false);
+      history.replaceState(
+        { page: 'codex', post: null, codexView: codexView },
+        document.title,
+        codexView === 'spiral' ? '/codex/?view=spiral' : '/codex/'
+      );
+    } else {
+      history.replaceState({ page: pathname, post: null }, document.title, '/' + pathname + '/');
+    }
   } else {
     showPage('home', false);
     history.replaceState({ page: 'home', post: null }, document.title, '/');
@@ -933,9 +961,124 @@ function hudReset() {
   _codexSetActiveNode(null);
 }
 
+function setCodexView(view, pushState) {
+  view = view === 'spiral' ? 'spiral' : 'matrix';
+  var page = document.getElementById('page-codex');
+  if (!page) return;
+  if (page.dataset.cdxActiveView === view) return;
+  page.dataset.cdxActiveView = view;
+
+  var matrixPanel = page.querySelector('.cdx-view-matrix');
+  var spiralPanel = page.querySelector('.cdx-view-spiral');
+  var instruction = document.getElementById('codex-instruction');
+
+  page.querySelectorAll('.cdx-view-tab').forEach(function(tab) {
+    tab.classList.toggle('is-active', tab.dataset.cdxView === view);
+  });
+
+  if (matrixPanel) {
+    matrixPanel.classList.toggle('is-active', view === 'matrix');
+    matrixPanel.hidden = view !== 'matrix';
+  }
+  if (spiralPanel) {
+    spiralPanel.classList.toggle('is-active', view === 'spiral');
+    spiralPanel.hidden = view !== 'spiral';
+  }
+
+  if (instruction) {
+    instruction.textContent = view === 'spiral'
+      ? 'Tracing 0\u219239 \u00b7 Unified 36\u00b0 grid'
+      : 'Hover to explore \u00b7 Click to pin';
+  }
+
+  if (view === 'matrix') {
+    var spiralRoot = page.querySelector('.cdx-spiral-root');
+    if (spiralRoot && typeof spiralRoot._stopSpiral === 'function') spiralRoot._stopSpiral();
+    hudReset();
+    requestAnimationFrame(function() {
+      _ensureCodexMatrix(page);
+      requestAnimationFrame(function() {
+        if (typeof triggerCodexMatrixConstruct === 'function') triggerCodexMatrixConstruct(page);
+      });
+    });
+  }
+
+  if (view === 'spiral') {
+    hudReset();
+    requestAnimationFrame(function() {
+      _ensureCodexSpiral(page);
+      requestAnimationFrame(function() {
+        if (typeof triggerCodexSpiralAutoPlay === 'function') triggerCodexSpiralAutoPlay(page);
+      });
+    });
+  }
+
+  if (pushState) {
+    var meta = PAGE_META.codex || { title: 'Codex' };
+    var url  = view === 'spiral' ? '/codex/?view=spiral' : '/codex/';
+    history.pushState({ page: 'codex', post: null, codexView: view }, meta.title, url);
+  }
+}
+window.setCodexView = setCodexView;
+
+function navigateCodex(view, e) {
+  var isSpa = !!document.getElementById('page-home');
+  if (!isSpa) return;
+  if (e) e.preventDefault();
+  showPage('codex', false);
+  setCodexView(view === 'spiral' ? 'spiral' : 'matrix', true);
+}
+window.navigateCodex = navigateCodex;
+
+function _ensureCodexMatrix(page, attempt) {
+  attempt = attempt || 0;
+  var wrap = page && page.querySelector('#codex-spirit-wrap');
+  if (!wrap) return;
+  if (typeof initCodexMatrix === 'function') {
+    initCodexMatrix(wrap);
+    return;
+  }
+  if (attempt < 40) {
+    setTimeout(function() { _ensureCodexMatrix(page, attempt + 1); }, 50);
+  }
+}
+
+function _ensureCodexSpiral(page, attempt) {
+  attempt = attempt || 0;
+  var root = page && page.querySelector('.cdx-spiral-root');
+  if (!root) return;
+  if (typeof initCodexSpiral === 'function') {
+    initCodexSpiral(root);
+    return;
+  }
+  if (attempt < 40) {
+    setTimeout(function() { _ensureCodexSpiral(page, attempt + 1); }, 50);
+  }
+}
+
+function _bindCodexViews(page) {
+  /* Tab clicks handled via document delegation below */
+}
+
+(function() {
+  if (document.documentElement.dataset.codexTabsDelegated === '1') return;
+  document.documentElement.dataset.codexTabsDelegated = '1';
+  document.addEventListener('click', function(e) {
+    var tab = e.target.closest && e.target.closest('.cdx-view-tab');
+    if (!tab || !tab.closest('#page-codex')) return;
+    var v = tab.dataset.cdxView;
+    if (v) {
+      e.preventDefault();
+      setCodexView(v, true);
+    }
+  });
+})();
+
 function initCodexPage() {
   var page = document.getElementById('page-codex');
-  if (!page || page.dataset.codexBound === '1') return;
+  if (!page) return;
+  _bindCodexViews(page);
+  if (page.dataset.codexBound === '1') return;
   if (!page.querySelectorAll('.node').length) return;
 
   page.dataset.codexBound = '1';
