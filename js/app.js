@@ -535,6 +535,13 @@ window.loadFooter = loadFooter;
 //  PAGE ROUTING
 // ────────────────────────────────────────────────────────────
 function showPage(name, pushState = true) {
+  if (name === 'codex' && !document.getElementById('page-codex') && typeof window.ensureCodexPageLoaded === 'function') {
+    window.ensureCodexPageLoaded().then(function () {
+      if (document.getElementById('page-codex')) showPage(name, pushState);
+    });
+    return;
+  }
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
@@ -782,10 +789,15 @@ async function handleDeepLink() {
     await openPost(postId, false);
     history.replaceState({ page: 'blog', post: postId }, document.title, '/?post=' + postId);
   } else if (pageId && PAGE_META[pageId]) {
-    // Legacy ?page= URLs — rewrite to clean URL
+    if (pageId === 'codex' && typeof window.ensureCodexPageLoaded === 'function') {
+      await window.ensureCodexPageLoaded();
+    }
     showPage(pageId, false);
     history.replaceState({ page: pageId, post: null }, document.title, '/' + pageId + '/');
   } else if (pathname && PAGE_META[pathname]) {
+    if (pathname === 'codex' && typeof window.ensureCodexPageLoaded === 'function') {
+      await window.ensureCodexPageLoaded();
+    }
     showPage(pathname, false);
     if (pathname === 'codex') {
       const codexView = params.get('view') === 'spiral' ? 'spiral' : 'matrix';
@@ -902,6 +914,99 @@ function initHomePage() {
 var NATURE_COLORS_CDX = { electric: '#F5C842', magnetic: '#378ADD', aetheric: '#C0C0E0' };
 var PLANE_COLORS_CDX  = { mind: '#7ec8c8', body: '#e8c96b', spirit: '#a96ed4', pivot: '#e8c96b' };
 
+var CODEX_NODES = {
+  '1': {
+    name: 'The Initiator',
+    position: 'Mind Axis · Upper Left',
+    essence: 'Electric · Original Force',
+    body: 'The spark that begins every cycle. Bold self-direction, pioneer instinct, original creative force.',
+    links: [
+      { href: '/blog/life-path-1-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-1-numerology/', label: 'Expression' }
+    ]
+  },
+  '2': {
+    name: 'Duality',
+    position: 'Body Axis · Upper Right',
+    essence: 'Magnetic · Bridge & Balance',
+    body: 'The consciousness that unifies opposites. The magnitism that brings things together Diplomacy, relational awareness, the art of genuine union. The bridge between the polarities of the world.',
+    links: [
+      { href: '/blog/life-path-2-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-2-numerology/', label: 'Expression' }
+    ]
+  },
+  '3': {
+    name: 'The Mental Child within the World',
+    position: 'Spirit Gate · Upper Centre',
+    essence: 'Electric · Expression & Joy',
+    body: 'Creative force finding its voice. Authentic self-expression, joy, and the courage to be heard without apology.',
+    links: [
+      { href: '/blog/life-path-3-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-3-numerology/', label: 'Expression' }
+    ]
+  },
+  '4': {
+    name: 'Structure',
+    position: 'Mind Axis · Left Meridian',
+    essence: 'Magnetic · Structure & Stability',
+    body: 'The consciousness that manifests. Discipline, order, patient building of foundations that outlast their maker. The structuring of Imaginative Spirit into the physicality of the world.',
+    links: [
+      { href: '/blog/life-path-4-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-4-numerology/', label: 'Expression' }
+    ]
+  },
+  '5': {
+    name: 'Vessal for Experience',
+    position: 'Body Axis · Right Meridian',
+    essence: 'Electric · Freedom Through Presence',
+    body: 'The explorer on the body meridian. Every path of transformation passes through 5. Freedom through full presence, not escape.',
+    links: [
+      { href: '/blog/life-path-5-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-5-numerology/', label: 'Expression' }
+    ]
+  },
+  '6': {
+    name: 'Integration',
+    position: 'Spirit Gate · Lower Centre',
+    essence: 'Magnetic · Service & Responsibility',
+    body: 'Integration through worldly action. Nothing completes until it reaches 6. Love requiring boundaries, service from wholeness.',
+    links: [
+      { href: '/blog/life-path-6-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-6-numerology/', label: 'Expression' }
+    ]
+  },
+  '7': {
+    name: 'Knowledge',
+    position: 'Mind Axis · Lower Left',
+    essence: 'Electric · Wisdom & Inner Knowing',
+    body: 'The questioner of all appearances. Truth through direct experience, the sacred quest beneath the noise of the world. The seeking of knowledge, and ultimate knowledge is knowledge of self.',
+    links: [
+      { href: '/blog/life-path-7-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-7-numerology/', label: 'Expression' }
+    ]
+  },
+  '8': {
+    name: 'Self-Empowerment',
+    position: 'Body Axis · Lower Right',
+    essence: 'Magnetic · Authority & Manifestation',
+    body: 'True power is self-mastery. Authority earned, not assumed. Manifestation through disciplined alignment of will and integrity.',
+    links: [
+      { href: '/blog/life-path-8-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-8-numerology/', label: 'Expression' }
+    ]
+  },
+  '9': {
+    name: 'Dissolution of Temporal Self',
+    position: 'Aetheric Centre · Singularity',
+    essence: 'Aetheric · Completion & Universal Service',
+    body: 'The aetheric singularity at the heart of the matrix. Completion, release, and universal compassion — the portal back to Void.',
+    links: [
+      { href: '/blog/life-path-9-numerology/', label: 'Life Path' },
+      { href: '/blog/expression-9-numerology/', label: 'Expression' }
+    ]
+  }
+};
+
 function _codexNodeColor(node) {
   var nature = node.dataset.nature;
   if (nature && NATURE_COLORS_CDX[nature]) return NATURE_COLORS_CDX[nature];
@@ -925,27 +1030,27 @@ function _codexSetActiveNode(num) {
 window._codexSetActiveNode = _codexSetActiveNode;
 
 function hudShow(node) {
-  var tip     = node.querySelector('.node-tooltip');
   var num     = node.dataset.num;
+  var meta    = CODEX_NODES[num];
   var card    = document.getElementById('node-card');
   var numEl   = document.getElementById('nc-number');
   if (!card || !numEl) return;
   var color   = _codexNodeColor(node);
-  numEl.textContent   = num || '—';
+  numEl.textContent      = num || '—';
   numEl.style.color      = color;
   numEl.style.textShadow = '0 0 30px ' + color;
-  document.getElementById('nc-name').textContent     = tip ? (tip.querySelector('.tooltip-name')?.textContent     || '') : '';
-  document.getElementById('nc-position').textContent = tip ? (tip.querySelector('.tooltip-position')?.textContent || '') : '';
-  document.getElementById('nc-essence').textContent  = tip ? (tip.querySelector('.tooltip-essence')?.textContent  || '') : '';
-  document.getElementById('nc-body').textContent     = tip ? (tip.querySelector('.tooltip-body')?.textContent     || '') : '';
-  var btnRow   = tip && tip.querySelector('.tooltip-btn-row');
+  document.getElementById('nc-name').textContent     = meta ? meta.name     : '';
+  document.getElementById('nc-position').textContent = meta ? meta.position : '';
+  document.getElementById('nc-essence').textContent  = meta ? meta.essence  : '';
+  document.getElementById('nc-body').textContent     = meta ? meta.body     : '';
   var actionsEl = document.getElementById('nc-actions');
   if (actionsEl) {
     actionsEl.innerHTML = '';
-    if (btnRow) {
-      btnRow.querySelectorAll('a').forEach(function(a, i) {
+    if (meta && meta.links) {
+      meta.links.forEach(function(link, i) {
         var btn = document.createElement('a');
-        btn.href = a.href; btn.textContent = a.textContent;
+        btn.href = link.href;
+        btn.textContent = link.label;
         btn.className = 'nc-btn ' + (i === 0 ? 'nc-btn-lp' : 'nc-btn-calc');
         actionsEl.appendChild(btn);
       });
@@ -1025,8 +1130,16 @@ function navigateCodex(view, e) {
   var isSpa = !!document.getElementById('page-home');
   if (!isSpa) return;
   if (e) e.preventDefault();
-  showPage('codex', false);
-  setCodexView(view === 'spiral' ? 'spiral' : 'matrix', true);
+  var v = view === 'spiral' ? 'spiral' : 'matrix';
+  var go = function() {
+    showPage('codex', false);
+    setCodexView(v, true);
+  };
+  if (!document.getElementById('page-codex') && typeof window.ensureCodexPageLoaded === 'function') {
+    window.ensureCodexPageLoaded().then(go);
+  } else {
+    go();
+  }
 }
 window.navigateCodex = navigateCodex;
 
@@ -1105,7 +1218,7 @@ function initCodexPage() {
       }, 200);
     });
     node.addEventListener('click', function(e) {
-      if (e.target.closest('.tooltip-link') || e.target.closest('.nc-btn')) return;
+      if (e.target.closest('.nc-btn')) return;
       e.stopPropagation();
       var wasPinned = node.classList.contains('pinned');
       page.querySelectorAll('.node.pinned').forEach(function(n) { n.classList.remove('pinned'); });

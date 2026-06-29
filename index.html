@@ -298,8 +298,10 @@
         { id: 'include-calculator', src: 'pages/calculator.html' },
         { id: 'include-footer',     src: 'pages/footer.html'     },
         { id: 'include-services',   src: 'pages/services.html'   },
-        { id: 'include-codex',      src: 'pages/codex.html'      },
       ];
+
+      var CODEX_PAGE = { id: 'include-codex', src: 'pages/codex.html' };
+      var codexLoadPromise = null;
 
       // Secondary pages — fetched in background, don't block app init
       var SECONDARY = [
@@ -326,6 +328,21 @@
           })
           .catch(function () {});
       }
+
+      window.ensureCodexPageLoaded = function () {
+        var host = document.getElementById('include-codex');
+        if (host && host.querySelector('#page-codex')) {
+          return Promise.resolve();
+        }
+        if (!codexLoadPromise) {
+          codexLoadPromise = loadPage(CODEX_PAGE).then(function () {
+            if (!host || !host.querySelector('#page-codex')) {
+              codexLoadPromise = null;
+            }
+          });
+        }
+        return codexLoadPromise;
+      };
 
       function onCriticalLoaded() {
         if (typeof initApp === 'function') initApp();
